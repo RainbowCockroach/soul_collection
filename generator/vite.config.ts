@@ -8,4 +8,9 @@ export default defineConfig({
   build: {
     outDir: "../docs",
   },
+  assetsInclude: ["**/*.json"],
+  json: {
+    stringify: true,
+  },
+  publicDir: "../",
 });
