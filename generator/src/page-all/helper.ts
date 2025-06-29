@@ -28,7 +28,7 @@ async function loadOcData(): Promise<OcData[]> {
 
     for (const fileName of ocFiles) {
       try {
-        const response = await fetch(`/data/oc/${fileName}`);
+        const response = await fetch(`./oc/${fileName}`);
         if (response.ok) {
           const ocData = (await response.json()) as OcData;
           ocDataArray.push(ocData);
@@ -48,7 +48,7 @@ async function loadOcData(): Promise<OcData[]> {
 // Load settings data using fetch
 async function loadSettingsData(): Promise<SettingsData> {
   try {
-    const response = await fetch("/data/settings.json");
+    const response = await fetch("./settings.json");
     if (response.ok) {
       const data = (await response.json()) as SettingsData;
       return data;
@@ -76,7 +76,7 @@ export async function loadAndGroupOcData(): Promise<OcGroupInfo[]> {
       const oc: OC = {
         id: (index + 1).toString(),
         name: ocData.name,
-        avatar: `/data/media/${ocData.avatar}`,
+        avatar: `./media/${ocData.avatar}`,
       };
 
       if (!groupMap.has(ocData.group)) {

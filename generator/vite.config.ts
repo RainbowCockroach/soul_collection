@@ -7,10 +7,18 @@ export default defineConfig({
   base: "./",
   build: {
     outDir: "../docs",
+    rollupOptions: {
+      external: [],
+    },
   },
   assetsInclude: ["**/*.json"],
   json: {
     stringify: true,
   },
-  publicDir: "../",
+  publicDir: "../data",
+  server: {
+    fs: {
+      allow: [".."],
+    },
+  },
 });
