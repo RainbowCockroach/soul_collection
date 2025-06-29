@@ -14,7 +14,7 @@
 
 .navbar-content {
   display: flex;
-  justify-content: flex-start; /* Changed from space-between */
+  justify-content: space-between;
   align-items: center;
   height: 4rem;
 }
@@ -37,9 +37,9 @@
 .nav-links-desktop {
   display: none;
   gap: 2rem;
-  position: absolute; /* Add absolute positioning */
-  left: 50%; /* Position at 50% of container width */
-  transform: translateX(-50%); /* Center the element */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-button {

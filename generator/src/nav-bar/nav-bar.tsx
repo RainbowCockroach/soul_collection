@@ -54,7 +54,7 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="menu-toggle"
               >
-                <svg className="menu-icon" fill="none" viewBox="0 0 24 24">
+                <svg className="menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {isMenuOpen ? (
                     <path
                       strokeLinecap="round"
@@ -83,7 +83,10 @@ const Navbar = () => {
                   <button
                     className="mobile-nav-button"
                     key={item.name}
-                    onClick={() => navigate(item.href)}
+                    onClick={() => {
+                      navigate(item.href);
+                      setIsMenuOpen(false);
+                    }}
                   >
                     {item.name}
                   </button>
