@@ -1,0 +1,20 @@
+{
+  "ocGroups": [
+    {
+      "name": "Li family",
+      "avatarFrameColor": "#31f613"
+    },
+    {
+      "name": "Gods",
+      "avatarFrameColor": "#dc13f6"
+    },
+    {
+      "name": "Outsiders",
+      "avatarFrameColor": "#f68813"
+    },
+    {
+      "name": "Others",
+      "avatarFrameColor": "#1390f6"
+    }
+  ]
+}

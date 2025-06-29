@@ -1,0 +1,39 @@
+/* Group layout */
+.oc-group {
+  margin-bottom: 2rem;
+}
+
+.group-header {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.oc-count {
+  padding: 0.25rem 0.5rem;
+}
+
+.chevron-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.oc-group-content {
+  padding: 1.5rem;
+}
+
+/* Grid layout */
+.oc-group-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}

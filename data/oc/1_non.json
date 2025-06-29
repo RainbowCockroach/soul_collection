@@ -1,6 +1,7 @@
 {
   "name": "Non",
-  "avatar": null,
+  "group": "Li family",
+  "avatar": "avatar_non.jpg",
   "description": "Non bites dicks off",
-  "gallery": []
+  "gallery": ["non_2.jpg", "non_3.jpg", "non.jpg"]
 }
