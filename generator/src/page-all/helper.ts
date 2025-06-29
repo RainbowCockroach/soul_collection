@@ -16,15 +16,17 @@ interface SettingsData {
     name: string;
     avatarFrameColor: string;
   }[];
+  ocFilesFullList: string[];
+  ocFilesSpotlight: string[];
 }
 
 // Load OC files using fetch
-async function loadOcData(): Promise<OcData[]> {
+async function loadOcData(settingsData: SettingsData): Promise<OcData[]> {
   try {
     const ocDataArray: OcData[] = [];
 
-    // Hardcoded list of OC files - in a real app you might get this list from an API
-    const ocFiles = ["1_non.json", "2_vhhz.json"];
+    // Get OC files list from settings
+    const ocFiles = settingsData.ocFilesFullList;
 
     for (const fileName of ocFiles) {
       try {
@@ -53,20 +55,19 @@ async function loadSettingsData(): Promise<SettingsData> {
       const data = (await response.json()) as SettingsData;
       return data;
     }
-    return { ocGroups: [] };
+    return { ocGroups: [], ocFilesFullList: [], ocFilesSpotlight: [] };
   } catch (error) {
     console.error("Error loading settings data:", error);
-    return { ocGroups: [] };
+    return { ocGroups: [], ocFilesFullList: [], ocFilesSpotlight: [] };
   }
 }
 
 // Convert OC data to OC interface and group them
 export async function loadAndGroupOcData(): Promise<OcGroupInfo[]> {
   try {
-    const [ocDataArray, settingsData] = await Promise.all([
-      loadOcData(),
-      loadSettingsData(),
-    ]);
+    // Load settings first to get the OC files list
+    const settingsData = await loadSettingsData();
+    const ocDataArray = await loadOcData(settingsData);
 
     // Create a map to group OCs by their group name
     const groupMap = new Map<string, OC[]>();

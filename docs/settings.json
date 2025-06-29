@@ -16,5 +16,7 @@
       "name": "Others",
       "avatarFrameColor": "#1390f6"
     }
-  ]
+  ],
+  "ocFilesFullList": ["non.json", "vhhz.json"],
+  "ocFilesSpotlight": ["non.json"]
 }
