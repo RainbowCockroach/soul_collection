@@ -15,8 +15,8 @@ const PageDetail: React.FC = () => {
         </div>
       </div>
       <div>
-        TODO: Additional info div, including a list of additional info, can be
-        image or text
+        TODO: Breadcrums div, including a list of additional info, can be image
+        or text
       </div>
       <div>TODO: List of tags</div>
     </div>
