@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./nav-bar/nav-bar";
 import PageOcList from "./page-all/page-all";
+import PageDetail from "./page-detail/page-detail";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<div>Main Page</div>} />
             <Route path="/ocs" element={<PageOcList />} />
+            <Route path="/oc/:slug" element={<PageDetail />} />
             <Route path="/lore" element={<div>Lore Page</div>} />
             <Route path="/search" element={<div>Search Page</div>} />
           </Routes>

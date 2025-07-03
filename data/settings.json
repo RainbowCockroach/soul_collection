@@ -1,18 +1,22 @@
 {
   "ocGroups": [
     {
+      "slug": "li-family",
       "name": "Li family",
       "avatarFrameColor": "#31f613"
     },
     {
+      "slug": "gods",
       "name": "Gods",
       "avatarFrameColor": "#dc13f6"
     },
     {
+      "slug": "outsiders",
       "name": "Outsiders",
       "avatarFrameColor": "#f68813"
     },
     {
+      "slug": "others",
       "name": "Others",
       "avatarFrameColor": "#1390f6"
     }

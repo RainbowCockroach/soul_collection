@@ -37,8 +37,8 @@ const OcGroup: React.FC<OcGroupProps> = ({
       {isExpanded && (
         <div className="oc-group-content">
           <div className="oc-group-grid">
-            {groupInfo.ocList.map((oc, index) => (
-              <OcSlot key={index} oc={oc} />
+            {groupInfo.ocList.map((oc) => (
+              <OcSlot key={oc.slug} oc={oc} />
             ))}
           </div>
         </div>

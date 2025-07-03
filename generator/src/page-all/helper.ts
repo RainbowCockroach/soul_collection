@@ -3,6 +3,7 @@ import type { OcGroupInfo } from "./group";
 
 // Interface for OC data from JSON files
 interface OcData {
+  slug: string;
   name: string;
   group: string;
   avatar: string;
@@ -13,6 +14,7 @@ interface OcData {
 // Interface for settings data
 interface SettingsData {
   ocGroups: {
+    slug: string;
     name: string;
     avatarFrameColor: string;
   }[];
@@ -73,9 +75,9 @@ export async function loadAndGroupOcData(): Promise<OcGroupInfo[]> {
     const groupMap = new Map<string, OC[]>();
 
     // Process each OC and group them
-    ocDataArray.forEach((ocData, index) => {
+    ocDataArray.forEach((ocData) => {
       const oc: OC = {
-        id: (index + 1).toString(),
+        slug: ocData.slug,
         name: ocData.name,
         avatar: `./media/${ocData.avatar}`,
       };
@@ -89,12 +91,12 @@ export async function loadAndGroupOcData(): Promise<OcGroupInfo[]> {
     // Create grouped data based on settings
     const groupedData: OcGroupInfo[] = [];
 
-    settingsData.ocGroups.forEach((groupSetting, index) => {
+    settingsData.ocGroups.forEach((groupSetting) => {
       const ocsInGroup = groupMap.get(groupSetting.name) || [];
 
       if (ocsInGroup.length > 0) {
         groupedData.push({
-          id: `group-${index}`,
+          id: groupSetting.slug,
           name: groupSetting.name,
           ocList: ocsInGroup,
         });
