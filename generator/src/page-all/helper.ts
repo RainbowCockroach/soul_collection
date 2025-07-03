@@ -18,17 +18,21 @@ interface SettingsData {
     name: string;
     avatarFrameColor: string;
   }[];
+}
+
+// Interface for filepaths data
+interface FilepathsData {
   ocFilesFullList: string[];
   ocFilesSpotlight: string[];
 }
 
 // Load OC files using fetch
-async function loadOcData(settingsData: SettingsData): Promise<OcData[]> {
+async function loadOcData(filepathsData: FilepathsData): Promise<OcData[]> {
   try {
     const ocDataArray: OcData[] = [];
 
-    // Get OC files list from settings
-    const ocFiles = settingsData.ocFilesFullList;
+    // Get OC files list from filepaths
+    const ocFiles = filepathsData.ocFilesFullList;
 
     for (const fileName of ocFiles) {
       try {
@@ -57,19 +61,35 @@ async function loadSettingsData(): Promise<SettingsData> {
       const data = (await response.json()) as SettingsData;
       return data;
     }
-    return { ocGroups: [], ocFilesFullList: [], ocFilesSpotlight: [] };
+    return { ocGroups: [] };
   } catch (error) {
     console.error("Error loading settings data:", error);
-    return { ocGroups: [], ocFilesFullList: [], ocFilesSpotlight: [] };
+    return { ocGroups: [] };
+  }
+}
+
+// Load filepaths data using fetch
+async function loadFilepathsData(): Promise<FilepathsData> {
+  try {
+    const response = await fetch("./filepaths.json");
+    if (response.ok) {
+      const data = (await response.json()) as FilepathsData;
+      return data;
+    }
+    return { ocFilesFullList: [], ocFilesSpotlight: [] };
+  } catch (error) {
+    console.error("Error loading filepaths data:", error);
+    return { ocFilesFullList: [], ocFilesSpotlight: [] };
   }
 }
 
 // Convert OC data to OC interface and group them
 export async function loadAndGroupOcData(): Promise<OcGroupInfo[]> {
   try {
-    // Load settings first to get the OC files list
+    // Load settings and filepaths
     const settingsData = await loadSettingsData();
-    const ocDataArray = await loadOcData(settingsData);
+    const filepathsData = await loadFilepathsData();
+    const ocDataArray = await loadOcData(filepathsData);
 
     // Create a map to group OCs by their group name
     const groupMap = new Map<string, OC[]>();
