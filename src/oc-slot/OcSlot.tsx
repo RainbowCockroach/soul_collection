@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../misc/constants";
 
 export interface OcSlotProps {
   slug: string;
@@ -11,7 +12,7 @@ const OcSlot: React.FC<OcSlotProps> = (oc: OcSlotProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/oc/${oc.slug}`);
+    navigate(`${baseUrl}/oc/${oc.slug}`);
   };
 
   return (
