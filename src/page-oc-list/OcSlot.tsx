@@ -1,18 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../misc/constants";
+import "./OcSlot.css";
 
-export interface OcSlotProps {
+export interface OC {
   slug: string;
   name: string;
   avatar: string;
 }
 
-const OcSlot: React.FC<OcSlotProps> = (oc: OcSlotProps) => {
+interface OcSlotProps {
+  oc: OC;
+}
+
+const OcSlot: React.FC<OcSlotProps> = ({ oc }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`${baseUrl}/oc/${oc.slug}`);
+    navigate(`${oc.slug}`);
   };
 
   return (

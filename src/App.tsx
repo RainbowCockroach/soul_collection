@@ -1,26 +1,29 @@
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
 import "./App.css";
-import OcSlot from "./oc-slot/OcSlot";
+import Navbar from "./nav-bar/NavBar";
+import PageOcList from "./page-oc-list/PageOcList";
+import { baseUrl } from "./misc/constants";
+import PageDetail from "./page-detail/PageDetail";
 
 function App() {
-  const dummyOCLists = [
-    {
-      slug: "dummy-oc",
-      name: "Dummy OC",
-      avatar: "https://placehold.co/200",
-    },
-    {
-      slug: "dummy-oc2",
-      name: "Dummy OC",
-      avatar: "https://placehold.co/200",
-    },
-  ];
   return (
     <>
-      <div>
-        <div>
-          {dummyOCLists.map((oc) => (
-            <OcSlot key={oc.slug} {...oc} />
-          ))}
+      <div className="page-container debug">
+        <div className="debug">
+          <Navbar />
+        </div>
+        <div className="debug">
+          <Routes>
+            <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
+            <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
+            <Route path={`${baseUrl}/lore`} element={<div>Lore Page</div>} />
+            <Route
+              path={`${baseUrl}/search`}
+              element={<div>Search Page</div>}
+            />
+            <Route path={`${baseUrl}/ocs/:ocSlug`} element={<PageDetail />} />
+          </Routes>
         </div>
       </div>
     </>

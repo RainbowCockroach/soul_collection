@@ -1,0 +1,153 @@
+/* Navbar Styles */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar-container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative; /* Add this for absolute positioning context */
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+}
+
+/* Logo Styles */
+.logo-container {
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Desktop Navigation */
+.nav-links-desktop {
+  display: none;
+  gap: 2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-button {
+  background: none;
+  border: solid 1px white;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+  display: block;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.menu-toggle:focus {
+  outline: none;
+}
+
+.menu-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: block;
+}
+
+.mobile-menu-content {
+  padding: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobile-nav-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 0.25rem;
+}
+
+/* Main Content */
+.main-content {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.hero-section {
+  margin-bottom: 3rem;
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.content-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.section-text {
+  margin-bottom: 1rem;
+}
+
+/* Tablet and Desktop Responsive */
+@media (min-width: 640px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .nav-links-desktop {
+    display: flex;
+  }
+
+  .mobile-menu-button {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+}
