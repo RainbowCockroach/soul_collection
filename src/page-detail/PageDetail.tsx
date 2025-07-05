@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
+import "./PageDetail.css";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -49,53 +50,47 @@ const PageDetail: React.FC = () => {
 
   return (
     <div className="page-detail">
-      <div>
-        {/* First row */}
-        <div className="detail-block-avatar">
-          <img src={oc.avatar} alt={oc.name} className="detail-avatar" />
+      {/* First row */}
+      <div className="detail-block-avatar">
+        <img src={oc.avatar} alt={oc.name} className="detail-avatar" />
+      </div>
+      {/* Second row */}
+      <div className="detail-block-gallery">
+        <div className="detail-gallery-grid">
+          {oc.gallery.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`${oc.name} gallery ${index + 1}`}
+              className="detail-gallery-image"
+            />
+          ))}
         </div>
       </div>
-      <div>
-        {/* Second row */}
-        <div className="detail-block-info">
-          <h1 className="detail-oc-name">{oc.name}</h1>
-          <p>{oc.info}</p>
-        </div>
-        <div className="detail-block-gallery">
-          <div className="detail-gallery-grid">
-            {oc.gallery.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`${oc.name} gallery ${index + 1}`}
-                className="detail-gallery-image"
-              />
-            ))}
-          </div>
-        </div>
+      <div className="detail-block-info">
+        <h1 className="detail-oc-name">{oc.name}</h1>
+        <p>{oc.info}</p>
       </div>
-      <div>
-        {/* Third row */}
-        <div className="detail-block-species">
-          <div className="detail-species-list">
-            {oc.speciesDetails.map((species) => (
-              <div key={species.slug} className="detail-species-item">
-                <span className="detail-species-name">{species.name}</span>
-                <p className="detail-species-description">
-                  {species.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="detail-block-breadcrumbs">
-          <div className="detail-breadcrumbs-list">
-            {oc.breadcrumbs.map((breadcrumb, index) => (
-              <p key={index} className="detail-breadcrumb-item">
-                {breadcrumb}
+      {/* Third row */}
+      <div className="detail-block-species">
+        <div className="detail-species-list">
+          {oc.speciesDetails.map((species) => (
+            <div key={species.slug} className="detail-species-item">
+              <span className="detail-species-name">{species.name}</span>
+              <p className="detail-species-description">
+                {species.description}
               </p>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="detail-block-breadcrumbs">
+        <div className="detail-breadcrumbs-list">
+          {oc.breadcrumbs.map((breadcrumb, index) => (
+            <p key={index} className="detail-breadcrumb-item">
+              {breadcrumb}
+            </p>
+          ))}
         </div>
       </div>
 
