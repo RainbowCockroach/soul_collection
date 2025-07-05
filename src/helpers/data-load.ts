@@ -35,20 +35,24 @@ export interface OcWithDetails extends OC {
   speciesDetails: Spieces[];
 }
 
-export async function loadOcBySlug(slug: string): Promise<OcWithDetails | null> {
+export async function loadOcBySlug(
+  slug: string
+): Promise<OcWithDetails | null> {
   const [ocs, groups, species] = await Promise.all([
     loadOCs(),
     loadGroups(),
     loadSpecies(),
   ]);
 
-  const oc = ocs.find(oc => oc.slug === slug);
+  const oc = ocs.find((oc) => oc.slug === slug);
   if (!oc) {
     return null;
   }
 
-  const groupDetails = groups.filter(group => oc.group.includes(group.slug));
-  const speciesDetails = species.filter(species => oc.spieces.includes(species.slug));
+  const groupDetails = groups.filter((group) => oc.group.includes(group.slug));
+  const speciesDetails = species.filter((species) =>
+    oc.spieces.includes(species.slug)
+  );
 
   return {
     ...oc,
