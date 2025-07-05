@@ -1,0 +1,10 @@
+{
+  "liFamily": {
+    "name": "Li Family",
+    "frameColour": "#000000"
+  },
+  "blackRing": {
+    "name": "Black Ring",
+    "frameColour": "#000000"
+  }
+}

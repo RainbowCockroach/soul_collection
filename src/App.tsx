@@ -3,7 +3,7 @@ import { Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./nav-bar/NavBar";
 import PageOcList from "./page-oc-list/PageOcList";
-import { baseUrl } from "./misc/constants";
+import { baseUrl } from "./helpers/constants";
 import PageDetail from "./page-detail/PageDetail";
 
 function App() {

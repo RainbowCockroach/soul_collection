@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from "react";
 import OcGroup from "./OcGroup";
 import type { OcGroupInfo } from "./OcGroup";
+import { loadAllData } from "../helpers/data-load";
+import type { OC, Group } from "../helpers/objects";
 import "./OcGroup.css";
 
 interface ExpandedGroups {
   [groupId: string]: boolean;
+}
+
+// Helper function to format data into required structure
+function formatDataForGroups(ocs: OC[], groups: Group[]): OcGroupInfo[] {
+  return groups.map((group) => {
+    const groupOCs = ocs.filter((oc) => oc.group.includes(group.slug));
+    return {
+      slug: group.slug,
+      name: group.name,
+      ocList: groupOCs.map((oc) => ({
+        slug: oc.slug,
+        name: oc.name,
+        avatar: oc.avatar,
+      })),
+    };
+  });
 }
 
 const PageOcList: React.FC = () => {
@@ -17,41 +35,14 @@ const PageOcList: React.FC = () => {
     const loadData = async () => {
       try {
         setIsLoading(true);
-        const data = [
-          {
-            slug: "1",
-            name: "Group 1",
-            ocList: [
-              {
-                slug: "1",
-                name: "OC 1",
-                avatar: "https://placehold.co/200",
-              },
-              {
-                slug: "2",
-                name: "OC 2",
-                avatar: "https://placehold.co/200",
-              },
-            ],
-          },
-          {
-            slug: "2",
-            name: "Group 2",
-            ocList: [
-              {
-                slug: "3",
-                name: "OC 3",
-                avatar: "https://placehold.co/200",
-              },
-            ],
-          },
-        ];
-        console.log(data);
-        setGroupWithOcsData(data);
+        const { ocs, groups } = await loadAllData();
+        const formattedData = formatDataForGroups(ocs, groups);
+        console.log(formattedData);
+        setGroupWithOcsData(formattedData);
 
         // Initialize all groups as expanded
         const initialState: ExpandedGroups = {};
-        data.forEach((group) => {
+        formattedData.forEach((group) => {
           initialState[group.slug] = true;
         });
         setExpandedGroups(initialState);

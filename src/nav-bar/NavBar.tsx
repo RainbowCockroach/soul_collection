@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
-import { baseUrl } from "../misc/constants";
+import { baseUrl } from "../helpers/constants";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

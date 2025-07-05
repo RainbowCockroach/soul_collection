@@ -4,12 +4,18 @@ export interface Group {
   frameColour: string; // Hex code
 }
 
+export interface Spieces {
+  slug: string;
+  name: string;
+  description: string;
+}
+
 export interface OC {
   slug: string;
   name: string;
   avatar: string; // Image URL
-  group: string[]; // Slugs
-  spieces: string[];
+  group: string[]; // Group slugs
+  spieces: string[]; // Species slugs
   info: string; // Rich text
   gallery: string[]; // Image URLs
   breadcrumbs: string[]; // Rich text

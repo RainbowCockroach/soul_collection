@@ -1,0 +1,22 @@
+{
+  "nonnon": {
+    "name": "Nonnon",
+    "avatar": "https://placehold.co/200",
+    "group": ["liFamily", "blackRing"],
+    "spieces": ["slimeNon"],
+    "info": "This is a placeholder for the character detail page.",
+    "gallery": ["https://placehold.co/200", "https://placehold.co/200"],
+    "breadcrumbs": ["This is a placeholder for the character detail page."],
+    "tags": ["tag1", "tag2"]
+  },
+  "vhhz": {
+    "name": "VHH",
+    "avatar": "https://placehold.co/200",
+    "group": ["blackRing"],
+    "spieces": ["vrev"],
+    "info": "This is a placeholder for the character detail page.",
+    "gallery": ["https://placehold.co/200", "https://placehold.co/200"],
+    "breadcrumbs": ["This is a placeholder for the character detail page."],
+    "tags": ["tag1", "tag2"]
+  }
+}
