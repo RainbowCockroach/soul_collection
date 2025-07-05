@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
+import DetailBlockGallery from "./DetailBlockGallery";
 import "./PageDetail.css";
 
 const PageDetail: React.FC = () => {
@@ -55,18 +56,7 @@ const PageDetail: React.FC = () => {
         <img src={oc.avatar} alt={oc.name} className="detail-avatar" />
       </div>
       {/* Second row */}
-      <div className="detail-block-gallery">
-        <div className="detail-gallery-grid">
-          {oc.gallery.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`${oc.name} gallery ${index + 1}`}
-              className="detail-gallery-image"
-            />
-          ))}
-        </div>
-      </div>
+      <DetailBlockGallery gallery={oc.gallery} characterName={oc.name} />
       <div className="detail-block-info">
         <h1 className="detail-oc-name">{oc.name}</h1>
         <p>{oc.info}</p>
