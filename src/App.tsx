@@ -22,7 +22,7 @@ function App() {
               path={`${baseUrl}/search`}
               element={<div>Search Page</div>}
             />
-            <Route path={`${baseUrl}/ocs/:ocSlug`} element={<PageDetail />} />
+            <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
           </Routes>
         </div>
       </div>

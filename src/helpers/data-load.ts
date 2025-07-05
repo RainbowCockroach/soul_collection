@@ -30,6 +30,33 @@ export async function loadSpecies(): Promise<Spieces[]> {
   }));
 }
 
+export interface OcWithDetails extends OC {
+  groupDetails: Group[];
+  speciesDetails: Spieces[];
+}
+
+export async function loadOcBySlug(slug: string): Promise<OcWithDetails | null> {
+  const [ocs, groups, species] = await Promise.all([
+    loadOCs(),
+    loadGroups(),
+    loadSpecies(),
+  ]);
+
+  const oc = ocs.find(oc => oc.slug === slug);
+  if (!oc) {
+    return null;
+  }
+
+  const groupDetails = groups.filter(group => oc.group.includes(group.slug));
+  const speciesDetails = species.filter(species => oc.spieces.includes(species.slug));
+
+  return {
+    ...oc,
+    groupDetails,
+    speciesDetails,
+  };
+}
+
 export async function loadAllData(): Promise<LoadedData> {
   const [ocs, groups, species] = await Promise.all([
     loadOCs(),
