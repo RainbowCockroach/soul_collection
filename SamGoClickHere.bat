@@ -1,0 +1,23 @@
+@echo off
+echo Starting development environment...
+
+echo Pulling latest code...
+git pull
+
+echo Installing/updating dependencies...
+npm install
+
+echo Starting development server...
+start "Dev Server" cmd /c "npm run dev"
+
+echo Waiting for server to start...
+timeout /t 5 /nobreak
+
+echo Opening browser...
+start "" "http://localhost:5173/soul_collection/editor"
+
+echo Opening VS Code...
+start "" "code" "."
+
+echo Development environment started!
+pause
