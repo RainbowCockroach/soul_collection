@@ -5,6 +5,7 @@ import Navbar from "./nav-bar/NavBar";
 import PageOcList from "./page-oc-list/PageOcList";
 import { baseUrl } from "./helpers/constants";
 import PageDetail from "./page-detail/PageDetail";
+import { Editor } from "./editor/Editor";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
               path={`${baseUrl}/search`}
               element={<div>Search Page</div>}
             />
-            <Route path={`${baseUrl}/ocs/:ocSlug`} element={<PageDetail />} />
+            <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
+            <Route path={`${baseUrl}/editor`} element={<Editor />} />
           </Routes>
         </div>
       </div>
