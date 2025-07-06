@@ -30,21 +30,5 @@ timeout /t 5 /nobreak
 echo Opening browser...
 start "" "http://localhost:5173/soul_collection/editor"
 
-echo Opening VS Code...
-REM Try common VS Code installation paths
-if exist "%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe" (
-    start "" "%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe" "."
-) else if exist "%PROGRAMFILES%\Microsoft VS Code\Code.exe" (
-    start "" "%PROGRAMFILES%\Microsoft VS Code\Code.exe" "."
-) else if exist "%PROGRAMFILES(X86)%\Microsoft VS Code\Code.exe" (
-    start "" "%PROGRAMFILES(X86)%\Microsoft VS Code\Code.exe" "."
-) else (
-    echo VS Code not found in common locations. Trying code command...
-    code "."
-    if errorlevel 1 (
-        echo VS Code launch failed. You can manually open VS Code in this directory.
-    )
-)
-
 echo Development environment started!
 pause
