@@ -2,21 +2,60 @@
   "nonnon": {
     "name": "Nonnon",
     "avatar": "https://placehold.co/200",
-    "group": ["liFamily", "blackRing"],
-    "spieces": ["slimeNon"],
+    "group": [
+      "liFamily",
+      "blackRing"
+    ],
+    "spieces": [
+      "slimeNon"
+    ],
     "info": "This is a placeholder for the character detail page.",
-    "gallery": ["https://placehold.co/200", "https://placehold.co/200"],
-    "breadcrumbs": ["This is a placeholder for the character detail page."],
-    "tags": ["tag1", "tag2"]
+    "gallery": [
+      "https://placehold.co/200",
+      "https://placehold.co/200"
+    ],
+    "breadcrumbs": [
+      "This is a placeholder for the character detail page."
+    ],
+    "tags": [
+      "tag1",
+      "tag2"
+    ]
   },
   "vhhz": {
     "name": "Vhhz",
     "avatar": "https://placehold.co/200",
-    "group": ["blackRing"],
-    "spieces": ["vrev"],
+    "group": [
+      "blackRing"
+    ],
+    "spieces": [
+      "vrev"
+    ],
     "info": "This is a placeholder for the character detail page.",
-    "gallery": ["https://placehold.co/200", "https://placehold.co/200"],
-    "breadcrumbs": ["This is a placeholder for the character detail page."],
-    "tags": ["tag1", "tag2"]
+    "gallery": [
+      "https://placehold.co/200",
+      "https://placehold.co/200"
+    ],
+    "breadcrumbs": [
+      "This is a placeholder for the character detail page."
+    ],
+    "tags": [
+      "tag1",
+      "tag2"
+    ]
+  },
+  "Naame": {
+    "name": "Bad name",
+    "avatar": "https://i.pinimg.com/736x/d2/12/52/d2125284d31a88d0a75365579d06626f.jpg",
+    "group": [
+      "liFamily"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "bad vrev",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": []
   }
 }
