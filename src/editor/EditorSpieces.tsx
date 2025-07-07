@@ -64,6 +64,7 @@ export const EditorSpieces: React.FC = () => {
         slug: newSlug,
         name: "",
         description: "",
+        gallery: [],
       });
       setSelectedSlug(newSlug);
       setIsEditing(true);
@@ -89,6 +90,32 @@ export const EditorSpieces: React.FC = () => {
       }
       alert("Species deleted! Use 'Copy to clipboard' to export.");
     }
+  };
+
+  const handleArrayFieldChange = (
+    field: "gallery",
+    index: number,
+    value: string
+  ) => {
+    if (!editingItem) return;
+
+    const updatedArray = [...editingItem[field]];
+    updatedArray[index] = value;
+    setEditingItem({ ...editingItem, [field]: updatedArray });
+  };
+
+  const handleAddArrayItem = (field: "gallery") => {
+    if (!editingItem) return;
+
+    const updatedArray = [...editingItem[field], ""];
+    setEditingItem({ ...editingItem, [field]: updatedArray });
+  };
+
+  const handleRemoveArrayItem = (field: "gallery", index: number) => {
+    if (!editingItem) return;
+
+    const updatedArray = editingItem[field].filter((_, i) => i !== index);
+    setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
   const handleSaveToClipboard = async () => {
@@ -189,6 +216,35 @@ export const EditorSpieces: React.FC = () => {
                   rows={4}
                   className="editor-species-textarea"
                 />
+              </div>
+
+              <div className="editor-species-field">
+                <label className="editor-species-label">Gallery:</label>
+                {editingItem.gallery.map((url, index) => (
+                  <div key={index} className="editor-species-array-item">
+                    <input
+                      type="text"
+                      value={url}
+                      onChange={(e) =>
+                        handleArrayFieldChange("gallery", index, e.target.value)
+                      }
+                      className="editor-species-array-input"
+                      placeholder="Image URL"
+                    />
+                    <button
+                      onClick={() => handleRemoveArrayItem("gallery", index)}
+                      className="editor-species-remove-button"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => handleAddArrayItem("gallery")}
+                  className="editor-species-add-button"
+                >
+                  Add Gallery Item
+                </button>
               </div>
 
               <div className="editor-species-form-buttons">
