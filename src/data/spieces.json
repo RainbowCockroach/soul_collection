@@ -1,7 +1,10 @@
 {
   "slimeNon": {
     "name": "Slime Non",
-    "description": "This is a placeholder for the spieces detail page."
+    "description": "This is a placeholder for the spieces detail page.",
+    "gallery": [
+      "https://png.pngtree.com/png-vector/20240315/ourmid/pngtree-chicken-hen-png-image_11968770.png"
+    ]
   },
   "vrev": {
     "name": "Vrev",
