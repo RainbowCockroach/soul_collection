@@ -1,27 +1,4 @@
 {
-  "nonnon": {
-    "name": "Nonnon",
-    "avatar": "https://placehold.co/200",
-    "group": [
-      "liFamily",
-      "blackRing"
-    ],
-    "spieces": [
-      "slimeNon"
-    ],
-    "info": "This is a placeholder for the character detail page.",
-    "gallery": [
-      "https://placehold.co/200",
-      "https://placehold.co/200"
-    ],
-    "breadcrumbs": [
-      "This is a placeholder for the character detail page."
-    ],
-    "tags": [
-      "tag1",
-      "tag2"
-    ]
-  },
   "vhhz": {
     "name": "Vhhz",
     "avatar": "https://placehold.co/200",
@@ -47,9 +24,7 @@
   "Naame": {
     "name": "Bad name",
     "avatar": "https://i.pinimg.com/736x/d2/12/52/d2125284d31a88d0a75365579d06626f.jpg",
-    "group": [
-      "liFamily"
-    ],
+    "group": [],
     "spieces": [
       "vrev"
     ],
@@ -57,5 +32,39 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": []
+  },
+  "non_li": {
+    "name": "Non Li",
+    "avatar": "https://i.pinimg.com/originals/71/d9/e8/71d9e8f66071f058dddc5614ffa61a7e.jpg",
+    "group": [
+      "liFamily"
+    ],
+    "spieces": [
+      "slimeNon"
+    ],
+    "info": "Non Li\nshe/her/it\nAge: 174\nHeight: 168cm\nWeight: 45kg\n_\nAlien child of the Li family\nCame from the stars\nEats corn\nWILD\nHave a bucket list\nCan BITE and might BITE",
+    "gallery": [
+      "https://i.pinimg.com/originals/ab/b4/78/abb47828a417358f39f9fa90311d0094.png",
+      "https://i.pinimg.com/originals/85/34/dd/8534dd413b0e5a565c27f97b9f55cb6d.png",
+      "https://i.pinimg.com/originals/bc/fc/97/bcfc975b7b3d5ce3f521bbed3cd2d4d3.png",
+      "https://i.pinimg.com/originals/f4/74/d5/f474d54875f80a6e71e6806d067d4a0d.png",
+      "https://i.pinimg.com/originals/53/45/de/5345deca231bc9aeec066db6c56eadb2.png"
+    ],
+    "breadcrumbs": [
+      "This is a placeholder for the character detail page."
+    ],
+    "tags": [
+      "Li family",
+      "Slime non",
+      "Not pure zo",
+      "Long hair",
+      "Adult",
+      "NSFW",
+      "White",
+      "Purple",
+      "Pink",
+      "Red",
+      "Male"
+    ]
   }
 }
