@@ -1,16 +1,15 @@
 /* Page Detail Container */
 .page-detail {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2vw;
 }
 
 /* Desktop Layout */
-@media (min-width: 768px) {
+@media (min-width: 1201px) {
   .page-detail {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: 5fr 2fr 3fr;
+    grid-template-rows: 80vh auto auto;
     gap: 20px;
   }
 
@@ -49,7 +48,7 @@
 }
 
 /* Mobile Layout */
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   .page-detail {
     display: flex;
     flex-direction: column;

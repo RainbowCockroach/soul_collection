@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
 import DetailBlockGallery from "./DetailBlockGallery";
 import "./PageDetail.css";
+import { placeholderImage } from "../helpers/constants";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [oc, setOc] = useState<OcWithDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentDisplayAvatar, setCurrentDisplayAvatar] =
+    useState<string>(placeholderImage);
 
   useEffect(() => {
     const loadOcData = async () => {
@@ -37,6 +40,12 @@ const PageDetail: React.FC = () => {
     loadOcData();
   }, [slug]);
 
+  useEffect(() => {
+    if (oc?.gallery && oc.gallery.length > 0) {
+      setCurrentDisplayAvatar(oc.gallery[0]);
+    }
+  }, [oc]);
+
   if (isLoading) {
     return <div>Loading character...</div>;
   }
@@ -52,17 +61,26 @@ const PageDetail: React.FC = () => {
   return (
     <div className="page-detail">
       {/* First row */}
-      <div className="detail-block-avatar">
-        <img src={oc.avatar} alt={oc.name} className="detail-avatar" />
+      <div className="detail-block-image-view debug">
+        <img
+          src={currentDisplayAvatar}
+          alt={oc.name}
+          className="detail-image-view"
+        />
       </div>
-      {/* Second row */}
-      <DetailBlockGallery gallery={oc.gallery} characterName={oc.name} />
-      <div className="detail-block-info">
+      <DetailBlockGallery
+        gallery={oc.gallery}
+        characterName={oc.name}
+        onImageClick={(image) => {
+          console.log("image clicked", image);
+          setCurrentDisplayAvatar(image);
+        }}
+      />
+      <div className="detail-block-info debug">
         <h1 className="detail-oc-name">{oc.name}</h1>
         <p>{oc.info}</p>
       </div>
-      {/* Third row */}
-      <div className="detail-block-species">
+      <div className="detail-block-species debug">
         <div className="detail-species-list">
           {oc.speciesDetails.map((species) => (
             <div key={species.slug} className="detail-species-item">
@@ -74,7 +92,7 @@ const PageDetail: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="detail-block-breadcrumbs">
+      <div className="detail-block-breadcrumbs debug">
         <div className="detail-breadcrumbs-list">
           {oc.breadcrumbs.map((breadcrumb, index) => (
             <p key={index} className="detail-breadcrumb-item">
@@ -84,7 +102,7 @@ const PageDetail: React.FC = () => {
         </div>
       </div>
 
-      <div className="detail-block-tags">
+      <div className="detail-block-tags debug">
         <div className="detail-tags-list">
           {oc.tags.map((tag, index) => (
             <span key={index} className="tag">
