@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { EditorSpieces } from "./EditorSpieces";
 import { EditorGroup } from "./EditorGroup";
 import { EditorOc } from "./EditorOc";
+import { baseUrl } from "../helpers/constants";
 
 type EditorTab = "species" | "groups" | "ocs";
 
 export const Editor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>("species");
-
   const tabs = [
     { id: "species" as const, label: "Species", component: EditorSpieces },
     { id: "groups" as const, label: "Groups", component: EditorGroup },
@@ -18,17 +18,12 @@ export const Editor: React.FC = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Data Editor</h1>
+      <button onClick={() => window.open(`/${baseUrl}/ocs`, "_blank")}>
+        Open preview
+      </button>
 
       {/* Tab Navigation */}
-      <div
-        style={{
-          borderBottom: "2px solid #ccc",
-          marginBottom: "20px",
-          display: "flex",
-          gap: "10px",
-        }}
-      >
+      <div>
         {tabs.map((tab) => (
           <button
             key={tab.id}
