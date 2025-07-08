@@ -8,6 +8,7 @@ export interface Spieces {
   slug: string;
   name: string;
   description: string;
+  gallery: string[]; // Image URLs
 }
 
 export interface OC {

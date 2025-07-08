@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { Spieces } from "../helpers/objects";
 import { loadSpecies } from "../helpers/data-load";
+import "./EditorSpieces.css";
 
 interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
@@ -47,7 +48,7 @@ export const EditorSpieces: React.FC = () => {
     setIsEditing(false);
     setEditingItem(null);
     setSelectedSlug("");
-    alert("Species updated! Use 'Save to Clipboard' to export.");
+    alert("Species updated! Use 'Copy to clipboard' to export.");
   };
 
   const handleCancel = () => {
@@ -63,6 +64,7 @@ export const EditorSpieces: React.FC = () => {
         slug: newSlug,
         name: "",
         description: "",
+        gallery: [],
       });
       setSelectedSlug(newSlug);
       setIsEditing(true);
@@ -86,8 +88,34 @@ export const EditorSpieces: React.FC = () => {
         setEditingItem(null);
         setSelectedSlug("");
       }
-      alert("Species deleted! Use 'Save to Clipboard' to export.");
+      alert("Species deleted! Use 'Copy to clipboard' to export.");
     }
+  };
+
+  const handleArrayFieldChange = (
+    field: "gallery",
+    index: number,
+    value: string
+  ) => {
+    if (!editingItem) return;
+
+    const updatedArray = [...editingItem[field]];
+    updatedArray[index] = value;
+    setEditingItem({ ...editingItem, [field]: updatedArray });
+  };
+
+  const handleAddArrayItem = (field: "gallery") => {
+    if (!editingItem) return;
+
+    const updatedArray = [...editingItem[field], ""];
+    setEditingItem({ ...editingItem, [field]: updatedArray });
+  };
+
+  const handleRemoveArrayItem = (field: "gallery", index: number) => {
+    if (!editingItem) return;
+
+    const updatedArray = editingItem[field].filter((_, i) => i !== index);
+    setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
   const handleSaveToClipboard = async () => {
@@ -102,52 +130,33 @@ export const EditorSpieces: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="editor-species-container">
       <h2>Species Editor</h2>
 
-      <div style={{ marginBottom: "20px" }}>
-        <button onClick={handleAddNew} style={{ marginRight: "10px" }}>
+      <div className="editor-species-buttons">
+        <button onClick={handleAddNew} className="editor-species-button">
           Add New Species
         </button>
         <button
           onClick={handleSaveToClipboard}
-          style={{
-            backgroundColor: "#28a745",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            cursor: "pointer",
-            marginRight: "10px",
-          }}
+          className="editor-species-save-button"
         >
-          Save to Clipboard
+          Copy to clipboard
         </button>
       </div>
 
-      <div style={{ display: "flex", gap: "20px" }}>
-        <div style={{ flex: 1 }}>
+      <div className="editor-species-layout">
+        <div className="editor-species-left">
           <h3>Species List</h3>
-          <div
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              maxHeight: "400px",
-              overflowY: "auto",
-            }}
-          >
+          <div className="editor-species-list">
             {Object.entries(spiecesData).map(([slug, item]) => (
               <div
                 key={slug}
-                style={{
-                  padding: "10px",
-                  margin: "5px 0",
-                  backgroundColor:
-                    selectedSlug === slug ? "#e6f3ff" : "#f5f5f5",
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+                className={`editor-species-item ${
+                  selectedSlug === slug
+                    ? "editor-species-item-selected"
+                    : "editor-species-item-default"
+                }`}
               >
                 <div onClick={() => handleSelectItem(slug)}>
                   <strong>{item.name}</strong> ({slug})
@@ -157,13 +166,7 @@ export const EditorSpieces: React.FC = () => {
                     e.stopPropagation();
                     handleDelete(slug);
                   }}
-                  style={{
-                    backgroundColor: "#ff6b6b",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
+                  className="editor-species-delete-button"
                 >
                   Delete
                 </button>
@@ -173,41 +176,35 @@ export const EditorSpieces: React.FC = () => {
         </div>
 
         {isEditing && editingItem && (
-          <div style={{ flex: 1 }}>
+          <div className="editor-species-right">
             <h3>Edit Species</h3>
-            <div style={{ border: "1px solid #ccc", padding: "20px" }}>
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Slug:
-                </label>
+            <div className="editor-species-form">
+              <div className="editor-species-field">
+                <label className="editor-species-label">Url name:</label>
                 <input
                   type="text"
                   value={editingItem.slug}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, slug: e.target.value })
                   }
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-species-input"
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Name:
-                </label>
+              <div className="editor-species-field">
+                <label className="editor-species-label">Name:</label>
                 <input
                   type="text"
                   value={editingItem.name}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, name: e.target.value })
                   }
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-species-input"
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Description:
-                </label>
+              <div className="editor-species-field">
+                <label className="editor-species-label">Description:</label>
                 <textarea
                   value={editingItem.description}
                   onChange={(e) =>
@@ -217,33 +214,49 @@ export const EditorSpieces: React.FC = () => {
                     })
                   }
                   rows={4}
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-species-textarea"
                 />
               </div>
 
-              <div>
+              <div className="editor-species-field">
+                <label className="editor-species-label">Gallery:</label>
+                {editingItem.gallery.map((url, index) => (
+                  <div key={index} className="editor-species-array-item">
+                    <input
+                      type="text"
+                      value={url}
+                      onChange={(e) =>
+                        handleArrayFieldChange("gallery", index, e.target.value)
+                      }
+                      className="editor-species-array-input"
+                      placeholder="Image URL"
+                    />
+                    <button
+                      onClick={() => handleRemoveArrayItem("gallery", index)}
+                      className="editor-species-remove-button"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => handleAddArrayItem("gallery")}
+                  className="editor-species-add-button"
+                >
+                  Add Gallery Item
+                </button>
+              </div>
+
+              <div className="editor-species-form-buttons">
                 <button
                   onClick={handleSave}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                  }}
+                  className="editor-species-save-form-button"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancel}
-                  style={{
-                    backgroundColor: "#f44336",
-                    color: "white",
-                    border: "none",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                  }}
+                  className="editor-species-cancel-button"
                 >
                   Cancel
                 </button>

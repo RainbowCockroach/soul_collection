@@ -1,0 +1,110 @@
+.editor-species-container {
+  padding: 20px;
+}
+
+.editor-species-buttons {
+  margin-bottom: 20px;
+}
+
+.editor-species-button {
+  margin-right: 10px;
+}
+
+.editor-species-save-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.editor-species-layout {
+  display: flex;
+  gap: 20px;
+}
+
+.editor-species-left {
+  flex: 1;
+}
+
+.editor-species-list {
+  border: 1px solid #ccc;
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.editor-species-item {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editor-species-item-selected {
+  background-color: #e6f3ff;
+}
+
+.editor-species-item-default {
+  background-color: #f5f5f5;
+}
+
+.editor-species-delete-button {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.editor-species-right {
+  flex: 1;
+}
+
+.editor-species-form {
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+.editor-species-field {
+  margin-bottom: 15px;
+}
+
+.editor-species-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.editor-species-input {
+  width: 100%;
+  padding: 8px;
+}
+
+.editor-species-textarea {
+  width: 100%;
+  padding: 8px;
+}
+
+.editor-species-form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.editor-species-save-form-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.editor-species-cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}

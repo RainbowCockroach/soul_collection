@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { OC, Group, Spieces } from "../helpers/objects";
 import { loadOCs, loadGroups, loadSpecies } from "../helpers/data-load";
+import "./EditorOc.css";
 
 interface OcJsonData {
   [key: string]: Omit<OC, "slug">;
@@ -78,7 +79,7 @@ export const EditorOc: React.FC = () => {
     setIsEditing(false);
     setEditingItem(null);
     setSelectedSlug("");
-    alert("OC updated! Use 'Save to Clipboard' to export.");
+    alert("OC updated! Use 'Copy to clipboard' to export.");
   };
 
   const handleCancel = () => {
@@ -119,7 +120,7 @@ export const EditorOc: React.FC = () => {
         setEditingItem(null);
         setSelectedSlug("");
       }
-      alert("OC deleted! Use 'Save to Clipboard' to export.");
+      alert("OC deleted! Use 'Copy to clipboard' to export.");
     }
   };
 
@@ -184,65 +185,42 @@ export const EditorOc: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="editor-oc-container">
       <h2>OC Editor</h2>
 
-      <div style={{ marginBottom: "20px" }}>
-        <button onClick={handleAddNew} style={{ marginRight: "10px" }}>
+      <div className="editor-oc-buttons">
+        <button onClick={handleAddNew} className="editor-oc-button">
           Add New OC
         </button>
         <button
           onClick={handleSaveToClipboard}
-          style={{
-            backgroundColor: "#28a745",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            cursor: "pointer",
-            marginRight: "10px",
-          }}
+          className="editor-oc-save-button"
         >
-          Save to Clipboard
+          Copy to clipboard
         </button>
       </div>
 
-      <div style={{ display: "flex", gap: "20px" }}>
-        <div style={{ flex: 1 }}>
+      <div className="editor-oc-layout">
+        <div className="editor-oc-left">
           <h3>OC List</h3>
-          <div
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              maxHeight: "400px",
-              overflowY: "auto",
-            }}
-          >
+          <div className="editor-oc-list">
             {Object.entries(ocData).map(([slug, item]) => (
               <div
                 key={slug}
-                style={{
-                  padding: "10px",
-                  margin: "5px 0",
-                  backgroundColor:
-                    selectedSlug === slug ? "#e6f3ff" : "#f5f5f5",
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+                className={`editor-oc-item ${
+                  selectedSlug === slug
+                    ? "editor-oc-item-selected"
+                    : "editor-oc-item-default"
+                }`}
               >
                 <div
                   onClick={() => handleSelectItem(slug)}
-                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  className="editor-oc-item-content"
                 >
                   <img
                     src={item.avatar || "https://placehold.co/40"}
                     alt={item.name}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      objectFit: "cover",
-                    }}
+                    className="editor-oc-avatar"
                   />
                   <span>
                     <strong>{item.name}</strong> ({slug})
@@ -253,13 +231,7 @@ export const EditorOc: React.FC = () => {
                     e.stopPropagation();
                     handleDelete(slug);
                   }}
-                  style={{
-                    backgroundColor: "#ff6b6b",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
+                  className="editor-oc-delete-button"
                 >
                   Delete
                 </button>
@@ -269,91 +241,59 @@ export const EditorOc: React.FC = () => {
         </div>
 
         {isEditing && editingItem && (
-          <div style={{ flex: 2 }}>
+          <div className="editor-oc-right">
             <h3>Edit OC</h3>
-            <div
-              style={{
-                border: "1px solid #ccc",
-                padding: "20px",
-                maxHeight: "600px",
-                overflowY: "auto",
-              }}
-            >
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Slug:
-                </label>
+            <div className="editor-oc-form">
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Url name:</label>
                 <input
                   type="text"
                   value={editingItem.slug}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, slug: e.target.value })
                   }
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-oc-input"
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Name:
-                </label>
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Name:</label>
                 <input
                   type="text"
                   value={editingItem.name}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, name: e.target.value })
                   }
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-oc-input"
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Avatar URL:
-                </label>
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Avatar URL:</label>
                 <input
                   type="text"
                   value={editingItem.avatar}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, avatar: e.target.value })
                   }
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-oc-input"
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Groups:
-                </label>
-                <div
-                  style={{
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    maxHeight: "100px",
-                    overflowY: "auto",
-                  }}
-                >
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Groups:</label>
+                <div className="editor-oc-checkboxes">
                   {Object.entries(groupData).map(([slug, group]) => (
-                    <div key={slug} style={{ marginBottom: "5px" }}>
-                      <label
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "5px",
-                        }}
-                      >
+                    <div key={slug} className="editor-oc-checkbox-item">
+                      <label className="editor-oc-checkbox-label">
                         <input
                           type="checkbox"
                           checked={editingItem.group.includes(slug)}
                           onChange={() => handleGroupToggle(slug)}
                         />
                         <div
-                          style={{
-                            width: "15px",
-                            height: "15px",
-                            backgroundColor: group.frameColour,
-                            border: "1px solid #ccc",
-                          }}
+                          className="editor-oc-group-color-box"
+                          style={{ backgroundColor: group.frameColour }}
                         />
                         {group.name}
                       </label>
@@ -362,27 +302,12 @@ export const EditorOc: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Species:
-                </label>
-                <div
-                  style={{
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    maxHeight: "100px",
-                    overflowY: "auto",
-                  }}
-                >
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Species:</label>
+                <div className="editor-oc-checkboxes">
                   {Object.entries(spiecesData).map(([slug, species]) => (
-                    <div key={slug} style={{ marginBottom: "5px" }}>
-                      <label
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "5px",
-                        }}
-                      >
+                    <div key={slug} className="editor-oc-checkbox-item">
+                      <label className="editor-oc-checkbox-label">
                         <input
                           type="checkbox"
                           checked={editingItem.spieces.includes(slug)}
@@ -395,46 +320,34 @@ export const EditorOc: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Info:
-                </label>
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Info:</label>
                 <textarea
                   value={editingItem.info}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, info: e.target.value })
                   }
                   rows={4}
-                  style={{ width: "100%", padding: "8px" }}
+                  className="editor-oc-textarea"
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Gallery:
-                </label>
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Gallery:</label>
                 {editingItem.gallery.map((url, index) => (
-                  <div
-                    key={index}
-                    style={{ display: "flex", gap: "5px", marginBottom: "5px" }}
-                  >
+                  <div key={index} className="editor-oc-array-item">
                     <input
                       type="text"
                       value={url}
                       onChange={(e) =>
                         handleArrayFieldChange("gallery", index, e.target.value)
                       }
-                      style={{ flex: 1, padding: "8px" }}
+                      className="editor-oc-array-input"
                       placeholder="Image URL"
                     />
                     <button
                       onClick={() => handleRemoveArrayItem("gallery", index)}
-                      style={{
-                        backgroundColor: "#ff6b6b",
-                        color: "white",
-                        border: "none",
-                        padding: "5px 10px",
-                      }}
+                      className="editor-oc-remove-button"
                     >
                       Remove
                     </button>
@@ -442,26 +355,16 @@ export const EditorOc: React.FC = () => {
                 ))}
                 <button
                   onClick={() => handleAddArrayItem("gallery")}
-                  style={{
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                  }}
+                  className="editor-oc-add-button"
                 >
                   Add Gallery Item
                 </button>
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Breadcrumbs:
-                </label>
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Breadcrumbs:</label>
                 {editingItem.breadcrumbs.map((text, index) => (
-                  <div
-                    key={index}
-                    style={{ display: "flex", gap: "5px", marginBottom: "5px" }}
-                  >
+                  <div key={index} className="editor-oc-array-item">
                     <input
                       type="text"
                       value={text}
@@ -472,19 +375,14 @@ export const EditorOc: React.FC = () => {
                           e.target.value
                         )
                       }
-                      style={{ flex: 1, padding: "8px" }}
+                      className="editor-oc-array-input"
                       placeholder="Breadcrumb text"
                     />
                     <button
                       onClick={() =>
                         handleRemoveArrayItem("breadcrumbs", index)
                       }
-                      style={{
-                        backgroundColor: "#ff6b6b",
-                        color: "white",
-                        border: "none",
-                        padding: "5px 10px",
-                      }}
+                      className="editor-oc-remove-button"
                     >
                       Remove
                     </button>
@@ -492,43 +390,28 @@ export const EditorOc: React.FC = () => {
                 ))}
                 <button
                   onClick={() => handleAddArrayItem("breadcrumbs")}
-                  style={{
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                  }}
+                  className="editor-oc-add-button"
                 >
                   Add Breadcrumb
                 </button>
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                  Tags:
-                </label>
+              <div className="editor-oc-field">
+                <label className="editor-oc-label">Tags:</label>
                 {editingItem.tags.map((tag, index) => (
-                  <div
-                    key={index}
-                    style={{ display: "flex", gap: "5px", marginBottom: "5px" }}
-                  >
+                  <div key={index} className="editor-oc-array-item">
                     <input
                       type="text"
                       value={tag}
                       onChange={(e) =>
                         handleArrayFieldChange("tags", index, e.target.value)
                       }
-                      style={{ flex: 1, padding: "8px" }}
+                      className="editor-oc-array-input"
                       placeholder="Tag"
                     />
                     <button
                       onClick={() => handleRemoveArrayItem("tags", index)}
-                      style={{
-                        backgroundColor: "#ff6b6b",
-                        color: "white",
-                        border: "none",
-                        padding: "5px 10px",
-                      }}
+                      className="editor-oc-remove-button"
                     >
                       Remove
                     </button>
@@ -536,40 +419,22 @@ export const EditorOc: React.FC = () => {
                 ))}
                 <button
                   onClick={() => handleAddArrayItem("tags")}
-                  style={{
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                  }}
+                  className="editor-oc-add-button"
                 >
                   Add Tag
                 </button>
               </div>
 
-              <div>
+              <div className="editor-oc-form-buttons">
                 <button
                   onClick={handleSave}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                  }}
+                  className="editor-oc-save-form-button"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancel}
-                  style={{
-                    backgroundColor: "#f44336",
-                    color: "white",
-                    border: "none",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                  }}
+                  className="editor-oc-cancel-button"
                 >
                   Cancel
                 </button>
