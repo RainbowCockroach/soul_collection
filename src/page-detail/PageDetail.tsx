@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
 import DetailBlockGallery from "./DetailBlockGallery";
+import ImageDisplayZoomable from "../common-components/ImageDisplayZoomable";
 import "./PageDetail.css";
 import { placeholderImage } from "../helpers/constants";
 
@@ -62,11 +63,7 @@ const PageDetail: React.FC = () => {
     <div className="page-detail">
       {/* First row */}
       <div className="detail-block-image-view debug">
-        <img
-          src={currentDisplayAvatar}
-          alt={oc.name}
-          className="detail-image-view"
-        />
+        <ImageDisplayZoomable imageUrl={currentDisplayAvatar} alt={oc.name} />
       </div>
       <DetailBlockGallery
         gallery={oc.gallery}
