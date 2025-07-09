@@ -5,6 +5,7 @@ import DetailBlockGallery from "./DetailBlockGallery";
 import ImageDisplayZoomable from "../common-components/ImageDisplayZoomable";
 import "./PageDetail.css";
 import { placeholderImage } from "../helpers/constants";
+import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -75,7 +76,7 @@ const PageDetail: React.FC = () => {
       />
       <div className="detail-block-info debug">
         <h1 className="detail-oc-name">{oc.name}</h1>
-        <p>{oc.info}</p>
+        <BBCodeDisplay bbcode={oc.info} />
       </div>
       <div className="detail-block-species debug">
         <div className="detail-species-list">
