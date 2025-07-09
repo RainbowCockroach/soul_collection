@@ -1,5 +1,5 @@
 import React from "react";
-// import "./DetailBlockGallery.css";
+import "./DetailBlockGallery.css";
 
 interface DetailBlockGalleryProps {
   gallery: string[];
