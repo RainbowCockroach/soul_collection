@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
 import DetailBlockGallery from "./DetailBlockGallery";
-import ImageDisplayZoomable from "../common-components/ImageDisplayZoomable";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import "./PageDetail.css";
 import { placeholderImage } from "../helpers/constants";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -64,7 +64,23 @@ const PageDetail: React.FC = () => {
     <div className="page-detail">
       {/* First row */}
       <div className="detail-block-image-view debug">
-        <ImageDisplayZoomable imageUrl={currentDisplayAvatar} alt={oc.name} />
+        <TransformWrapper
+          initialScale={1}
+          minScale={0.5}
+          maxScale={4}
+          wheel={{ step: 0.1 }}
+          doubleClick={{ disabled: false }}
+          panning={{ disabled: false }}
+          centerOnInit={true}
+        >
+          <TransformComponent>
+            <img
+              src={currentDisplayAvatar}
+              alt={oc.name}
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            />
+          </TransformComponent>
+        </TransformWrapper>
       </div>
       <DetailBlockGallery
         gallery={oc.gallery}
