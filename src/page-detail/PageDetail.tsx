@@ -82,14 +82,16 @@ const PageDetail: React.FC = () => {
           </TransformComponent>
         </TransformWrapper>
       </div>
-      <DetailBlockGallery
-        gallery={oc.gallery}
-        characterName={oc.name}
-        onImageClick={(image) => {
-          console.log("image clicked", image);
-          setCurrentDisplayAvatar(image);
-        }}
-      />
+      <div className="detail-block-gallery">
+        <DetailBlockGallery
+          gallery={oc.gallery}
+          characterName={oc.name}
+          onImageClick={(image) => {
+            console.log("image clicked", image);
+            setCurrentDisplayAvatar(image);
+          }}
+        />
+      </div>
       <div className="detail-block-info debug">
         <h1 className="detail-oc-name">{oc.name}</h1>
         <BBCodeDisplay bbcode={oc.info} />

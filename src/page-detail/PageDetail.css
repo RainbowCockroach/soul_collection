@@ -9,7 +9,7 @@
   .page-detail {
     display: grid;
     grid-template-columns: 5fr 3fr 2fr;
-    grid-template-rows: 80vh auto auto;
+    grid-template-rows: 70vh auto auto;
     gap: 20px;
   }
 
@@ -22,6 +22,7 @@
   .detail-block-gallery {
     grid-column: 2;
     grid-row: 1;
+    height: 100%;
   }
 
   .detail-block-info {
@@ -58,6 +59,7 @@
   /* Mobile order: avatar, gallery+info, species, breadcrumbs */
   .detail-block-avatar {
     order: 1;
+    height: 60vh;
   }
 
   .detail-block-gallery {
