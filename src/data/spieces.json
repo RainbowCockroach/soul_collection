@@ -1,14 +1,21 @@
 {
   "slimeNon": {
     "name": "Slime Non",
-    "description": "This is a placeholder for the spieces detail page.",
+    "description": "This is slime",
     "gallery": [
-      "https://png.pngtree.com/png-vector/20240315/ourmid/pngtree-chicken-hen-png-image_11968770.png"
+      "https://i.pinimg.com/originals/46/8b/f0/468bf08e583353813392b78f3a358e58.png"
     ]
   },
   "vrev": {
     "name": "Vrev",
     "description": "test script 2",
     "gallery": []
+  },
+  "not pure zo": {
+    "name": "Not pure zo",
+    "description": "This zo can not fly",
+    "gallery": [
+      "https://i.pinimg.com/originals/37/b2/9b/37b29bda36d008e364073566bdd385bc.png"
+    ]
   }
 }
