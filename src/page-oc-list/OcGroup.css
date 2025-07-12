@@ -12,10 +12,6 @@
   width: 70%;
 }
 
-.group-name {
-  display: block;
-}
-
 .group-info {
   display: flex;
   align-items: center;
@@ -26,19 +22,8 @@
   padding: 0.25rem 0.5rem;
 }
 
-.chevron-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.oc-group-content {
-  padding: 1.5rem;
-}
-
 /* Grid layout */
 .oc-group-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
 }

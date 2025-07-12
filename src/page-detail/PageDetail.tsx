@@ -81,23 +81,33 @@ const PageDetail: React.FC = () => {
         <h1 className="detail-oc-name">{oc.name}</h1>
         <BBCodeDisplay bbcode={oc.info} />
       </div>
-      <div className="detail-block-species div-3d-with-shadow">
-        <ImageWithInfoMany
-          items={oc.speciesDetails.map((species) => ({
-            images: species.gallery,
-            description: species.description,
-            title: species.name,
-          }))}
-        />
+      <div className="detail-block-species">
+        <div className="div-3d-with-shadow detail-section-header">
+          <h2>Species</h2>
+        </div>
+        <div className="div-3d-with-shadow detail-section-content">
+          <ImageWithInfoMany
+            items={oc.speciesDetails.map((species) => ({
+              images: species.gallery,
+              description: species.description,
+              title: species.name,
+            }))}
+          />
+        </div>
       </div>
-      <div className="detail-block-breadcrumbs div-3d-with-shadow">
-        <ImageWithInfoMany
-          items={oc.breadcrumbs.map((breadcrumb, index) => ({
-            images: breadcrumb.images,
-            description: breadcrumb.description,
-            title: `Breadcrumb ${index + 1}`,
-          }))}
-        />
+      <div className="detail-block-breadcrumbs">
+        <div className="div-3d-with-shadow detail-section-header">
+          <h2>Breadcrumbs</h2>
+        </div>
+        <div className="div-3d-with-shadow detail-section-content">
+          <ImageWithInfoMany
+            items={oc.breadcrumbs.map((breadcrumb, index) => ({
+              images: breadcrumb.images,
+              description: breadcrumb.description,
+              title: `Breadcrumb ${index + 1}`,
+            }))}
+          />
+        </div>
       </div>
 
       <div className="detail-block-tags">
