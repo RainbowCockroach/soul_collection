@@ -1,6 +1,6 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-size: 0.7rem;
   line-height: 1.5;
   font-weight: 400;
 
@@ -12,6 +12,13 @@
   /* Custom color variables */
   --color-purple: #6f6693;
   --color-green: #9acfb0;
+}
+
+/* Desktop font size */
+@media (min-width: 768px) {
+  :root {
+    font-size: 1rem;
+  }
 }
 
 /* Common button styles */
