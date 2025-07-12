@@ -1,6 +1,7 @@
 import React from "react";
 import OcSlot from "./OcSlot";
 import type { OC } from "./OcSlot";
+import "./OcGroup.css";
 
 export interface OcGroupInfo {
   slug: string;
@@ -21,12 +22,11 @@ const OcGroup: React.FC<OcGroupProps> = ({
 }) => {
   return (
     <div className="oc-group">
-      <button onClick={() => onToggle(groupInfo.slug)} className="group-header">
+      <button
+        onClick={() => onToggle(groupInfo.slug)}
+        className="group-header div-3d-with-shadow"
+      >
         <h2 className="group-name">{groupInfo.name}</h2>
-        <div className="group-info">
-          <span className="oc-count">{groupInfo.ocList.length}</span>
-          {isExpanded ? <span>👁</span> : <span>—</span>}
-        </div>
       </button>
 
       {isExpanded && (
