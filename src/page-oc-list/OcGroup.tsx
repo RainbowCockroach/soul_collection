@@ -27,14 +27,18 @@ const OcGroup: React.FC<OcGroupProps> = ({
         onClick={() => onToggle(groupInfo.slug)}
         className="group-header div-3d-with-shadow"
       >
-        <h2 className="group-name">{groupInfo.name}</h2>
+        <h2>{groupInfo.name}</h2>
       </button>
 
       {isExpanded && (
         <div className="oc-group-content">
           <div className="oc-group-grid">
             {groupInfo.ocList.map((oc) => (
-              <OcSlot key={oc.slug} oc={oc} frameColour={groupInfo.frameColour} />
+              <OcSlot
+                key={oc.slug}
+                oc={oc}
+                frameColour={groupInfo.frameColour}
+              />
             ))}
           </div>
         </div>
