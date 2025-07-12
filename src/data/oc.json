@@ -14,7 +14,10 @@
       "https://placehold.co/200"
     ],
     "breadcrumbs": [
-      "This is a placeholder for the character detail page."
+      {
+        "images": [],
+        "description": "This is a placeholder for the character detail page."
+      }
     ],
     "tags": [
       "tag1",
@@ -51,7 +54,10 @@
       "https://i.pinimg.com/originals/53/45/de/5345deca231bc9aeec066db6c56eadb2.png"
     ],
     "breadcrumbs": [
-      "This is a placeholder for the character detail page."
+      {
+        "images": [],
+        "description": "This is a placeholder for the character detail page."
+      }
     ],
     "tags": [
       "Li family",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import type { OC, Group, Spieces } from "../helpers/objects";
+import type { OC, Group, Spieces, BreadcrumbItem } from "../helpers/objects";
 import { loadOCs, loadGroups, loadSpecies } from "../helpers/data-load";
 import "./EditorOc.css";
 
@@ -145,7 +145,7 @@ export const EditorOc: React.FC = () => {
   };
 
   const handleArrayFieldChange = (
-    field: "gallery" | "breadcrumbs" | "tags",
+    field: "gallery" | "tags",
     index: number,
     value: string
   ) => {
@@ -156,7 +156,7 @@ export const EditorOc: React.FC = () => {
     setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
-  const handleAddArrayItem = (field: "gallery" | "breadcrumbs" | "tags") => {
+  const handleAddArrayItem = (field: "gallery" | "tags") => {
     if (!editingItem) return;
 
     const updatedArray = [...editingItem[field], ""];
@@ -164,13 +164,82 @@ export const EditorOc: React.FC = () => {
   };
 
   const handleRemoveArrayItem = (
-    field: "gallery" | "breadcrumbs" | "tags",
+    field: "gallery" | "tags",
     index: number
   ) => {
     if (!editingItem) return;
 
     const updatedArray = editingItem[field].filter((_, i) => i !== index);
     setEditingItem({ ...editingItem, [field]: updatedArray });
+  };
+
+  const handleBreadcrumbChange = (
+    index: number,
+    field: "description" | "images",
+    value: string | string[]
+  ) => {
+    if (!editingItem) return;
+
+    const updatedBreadcrumbs = [...editingItem.breadcrumbs];
+    if (field === "description") {
+      updatedBreadcrumbs[index] = { ...updatedBreadcrumbs[index], description: value as string };
+    } else {
+      updatedBreadcrumbs[index] = { ...updatedBreadcrumbs[index], images: value as string[] };
+    }
+    setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
+  };
+
+  const handleBreadcrumbImageChange = (
+    breadcrumbIndex: number,
+    imageIndex: number,
+    value: string
+  ) => {
+    if (!editingItem) return;
+
+    const updatedBreadcrumbs = [...editingItem.breadcrumbs];
+    const updatedImages = [...updatedBreadcrumbs[breadcrumbIndex].images];
+    updatedImages[imageIndex] = value;
+    updatedBreadcrumbs[breadcrumbIndex] = {
+      ...updatedBreadcrumbs[breadcrumbIndex],
+      images: updatedImages
+    };
+    setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
+  };
+
+  const handleAddBreadcrumbImage = (breadcrumbIndex: number) => {
+    if (!editingItem) return;
+
+    const updatedBreadcrumbs = [...editingItem.breadcrumbs];
+    updatedBreadcrumbs[breadcrumbIndex] = {
+      ...updatedBreadcrumbs[breadcrumbIndex],
+      images: [...updatedBreadcrumbs[breadcrumbIndex].images, ""]
+    };
+    setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
+  };
+
+  const handleRemoveBreadcrumbImage = (breadcrumbIndex: number, imageIndex: number) => {
+    if (!editingItem) return;
+
+    const updatedBreadcrumbs = [...editingItem.breadcrumbs];
+    updatedBreadcrumbs[breadcrumbIndex] = {
+      ...updatedBreadcrumbs[breadcrumbIndex],
+      images: updatedBreadcrumbs[breadcrumbIndex].images.filter((_, i) => i !== imageIndex)
+    };
+    setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
+  };
+
+  const handleAddBreadcrumb = () => {
+    if (!editingItem) return;
+
+    const newBreadcrumb: BreadcrumbItem = { images: [], description: "" };
+    setEditingItem({ ...editingItem, breadcrumbs: [...editingItem.breadcrumbs, newBreadcrumb] });
+  };
+
+  const handleRemoveBreadcrumb = (index: number) => {
+    if (!editingItem) return;
+
+    const updatedBreadcrumbs = editingItem.breadcrumbs.filter((_, i) => i !== index);
+    setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
 
   const handleSaveToClipboard = async () => {
@@ -363,33 +432,63 @@ export const EditorOc: React.FC = () => {
 
               <div className="editor-oc-field">
                 <label className="editor-oc-label">Breadcrumbs:</label>
-                {editingItem.breadcrumbs.map((text, index) => (
-                  <div key={index} className="editor-oc-array-item">
-                    <input
-                      type="text"
-                      value={text}
-                      onChange={(e) =>
-                        handleArrayFieldChange(
-                          "breadcrumbs",
-                          index,
-                          e.target.value
-                        )
-                      }
-                      className="editor-oc-array-input"
-                      placeholder="Breadcrumb text"
-                    />
-                    <button
-                      onClick={() =>
-                        handleRemoveArrayItem("breadcrumbs", index)
-                      }
-                      className="editor-oc-remove-button"
-                    >
-                      Remove
-                    </button>
+                {editingItem.breadcrumbs.map((breadcrumb, index) => (
+                  <div key={index} className="editor-oc-breadcrumb-item">
+                    <div className="editor-oc-breadcrumb-header">
+                      <h4>Breadcrumb {index + 1}</h4>
+                      <button
+                        onClick={() => handleRemoveBreadcrumb(index)}
+                        className="editor-oc-remove-button"
+                      >
+                        Remove Breadcrumb
+                      </button>
+                    </div>
+                    
+                    <div className="editor-oc-field">
+                      <label className="editor-oc-label">Description:</label>
+                      <textarea
+                        value={breadcrumb.description}
+                        onChange={(e) =>
+                          handleBreadcrumbChange(index, "description", e.target.value)
+                        }
+                        rows={3}
+                        className="editor-oc-textarea"
+                        placeholder="Breadcrumb description"
+                      />
+                    </div>
+
+                    <div className="editor-oc-field">
+                      <label className="editor-oc-label">Images:</label>
+                      {breadcrumb.images.map((imageUrl, imageIndex) => (
+                        <div key={imageIndex} className="editor-oc-array-item">
+                          <input
+                            type="text"
+                            value={imageUrl}
+                            onChange={(e) =>
+                              handleBreadcrumbImageChange(index, imageIndex, e.target.value)
+                            }
+                            className="editor-oc-array-input"
+                            placeholder="Image URL"
+                          />
+                          <button
+                            onClick={() => handleRemoveBreadcrumbImage(index, imageIndex)}
+                            className="editor-oc-remove-button"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        onClick={() => handleAddBreadcrumbImage(index)}
+                        className="editor-oc-add-button"
+                      >
+                        Add Image
+                      </button>
+                    </div>
                   </div>
                 ))}
                 <button
-                  onClick={() => handleAddArrayItem("breadcrumbs")}
+                  onClick={handleAddBreadcrumb}
                   className="editor-oc-add-button"
                 >
                   Add Breadcrumb

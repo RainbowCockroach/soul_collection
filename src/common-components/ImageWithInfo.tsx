@@ -30,7 +30,9 @@ const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
   if (!images || images.length === 0) {
     return (
       <div className={`image-with-info`}>
-        <div className="image-with-info-empty">No images to display</div>
+        <div className="image-with-info-empty">
+          <span>👀</span>
+        </div>
         <div className="image-with-info-description">
           <p>{description}</p>
         </div>

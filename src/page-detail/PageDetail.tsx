@@ -90,14 +90,14 @@ const PageDetail: React.FC = () => {
           }))}
         />
       </div>
-      <div className="detail-block-breadcrumbs debug">
-        <div className="detail-breadcrumbs-list">
-          {oc.breadcrumbs.map((breadcrumb, index) => (
-            <p key={index} className="detail-breadcrumb-item">
-              {breadcrumb}
-            </p>
-          ))}
-        </div>
+      <div className="detail-block-breadcrumbs div-3d-with-shadow">
+        <ImageWithInfoMany
+          items={oc.breadcrumbs.map((breadcrumb, index) => ({
+            images: breadcrumb.images,
+            description: breadcrumb.description,
+            title: `Breadcrumb ${index + 1}`,
+          }))}
+        />
       </div>
 
       <div className="detail-block-tags debug">
