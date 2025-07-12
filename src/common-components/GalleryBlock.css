@@ -1,18 +1,18 @@
-.detail-block-gallery {
-  height: 70%;
-  overflow: hidden;
+.gallery {
+  height: 100%;
 }
 
-.detail-gallery-grid {
+.gallery-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 4%;
   height: 100%;
-  overflow-y: auto;
-  padding: 10px;
+  overflow-y: scroll;
+  padding: 4%;
+  scrollbar-color: var(--color-green) transparent;
 }
 
-.detail-gallery-image {
+.gallery-image {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
@@ -21,6 +21,6 @@
   transition: transform 0.2s ease;
 }
 
-.detail-gallery-image:hover {
+.gallery-image:hover {
   transform: scale(1.05);
 }

@@ -11,6 +11,11 @@ export interface Spieces {
   gallery: string[]; // Image URLs
 }
 
+export interface BreadcrumbItem {
+  images: string[]; // Array of image URLs
+  description: string; // Rich text description
+}
+
 export interface OC {
   slug: string;
   name: string;
@@ -19,6 +24,6 @@ export interface OC {
   spieces: string[]; // Species slugs
   info: string; // Rich text
   gallery: string[]; // Image URLs
-  breadcrumbs: string[]; // Rich text
+  breadcrumbs: BreadcrumbItem[]; // Array of breadcrumb items
   tags: string[];
 }

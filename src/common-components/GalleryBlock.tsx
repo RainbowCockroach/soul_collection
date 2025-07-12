@@ -1,26 +1,26 @@
 import React from "react";
-import "./DetailBlockGallery.css";
+import "./GalleryBlock.css";
 
-interface DetailBlockGalleryProps {
+interface GalleryBlockProps {
   gallery: string[];
   characterName: string;
   onImageClick: (image: string) => void;
 }
 
-const DetailBlockGallery: React.FC<DetailBlockGalleryProps> = ({
+const GalleryBlock: React.FC<GalleryBlockProps> = ({
   gallery,
   characterName,
   onImageClick,
 }) => {
   return (
-    <div className="detail-block-gallery">
-      <div className="detail-gallery-grid">
+    <div className="gallery">
+      <div className="gallery-grid">
         {gallery.map((image, index) => (
           <img
             key={index}
             src={image}
             alt={`${characterName} gallery ${index + 1}`}
-            className="detail-gallery-image"
+            className="gallery-image div-3d-with-shadow"
             onClick={() => onImageClick(image)}
           />
         ))}
@@ -29,4 +29,4 @@ const DetailBlockGallery: React.FC<DetailBlockGalleryProps> = ({
   );
 };
 
-export default DetailBlockGallery;
+export default GalleryBlock;

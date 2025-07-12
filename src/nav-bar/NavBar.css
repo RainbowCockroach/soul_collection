@@ -5,13 +5,6 @@
   z-index: 50;
 }
 
-.navbar-container {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  position: relative; /* Add this for absolute positioning context */
-}
-
 .navbar-content {
   display: flex;
   justify-content: space-between;
@@ -20,7 +13,7 @@
 }
 
 /* Logo Styles */
-.logo-container {
+.nav-bar-logo {
   flex-shrink: 0;
 }
 
@@ -43,10 +36,7 @@
 }
 
 .nav-button {
-  background: none;
-  border: solid 1px white;
-  padding: 0.5rem 0.75rem;
-  cursor: pointer;
+  background-color: var(--color-green);
   transition: color 0.2s ease-in-out;
 }
 
@@ -88,7 +78,7 @@
   width: 100%;
   text-align: left;
   padding: 0.5rem 0.75rem;
-  background: none;
+  background-color: var(--color-green);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;

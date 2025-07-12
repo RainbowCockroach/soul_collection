@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
-import DetailBlockGallery from "./DetailBlockGallery";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import GalleryBlock from "../common-components/GalleryBlock";
+import ZoomPanPinchImage from "../common-components/ZoomPanPinchImage";
 import "./PageDetail.css";
 import { placeholderImage } from "../helpers/constants";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
+import ImageWithInfoMany from "../common-components/ImageWithInfoMany";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -63,57 +64,40 @@ const PageDetail: React.FC = () => {
   return (
     <div className="page-detail">
       {/* First row */}
-      <div className="detail-block-image-view debug">
-        <TransformWrapper
-          initialScale={1}
-          minScale={0.5}
-          maxScale={4}
-          wheel={{ step: 0.1 }}
-          doubleClick={{ disabled: false }}
-          panning={{ disabled: false }}
-          centerOnInit={true}
-        >
-          <TransformComponent>
-            <img
-              src={currentDisplayAvatar}
-              alt={oc.name}
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-          </TransformComponent>
-        </TransformWrapper>
+      <div className="detail-block-image-view div-3d-with-shadow">
+        <ZoomPanPinchImage src={currentDisplayAvatar} alt={oc.name} />
       </div>
-      <DetailBlockGallery
-        gallery={oc.gallery}
-        characterName={oc.name}
-        onImageClick={(image) => {
-          console.log("image clicked", image);
-          setCurrentDisplayAvatar(image);
-        }}
-      />
-      <div className="detail-block-info debug">
+      <div className="detail-block-gallery div-3d-with-shadow">
+        <GalleryBlock
+          gallery={oc.gallery}
+          characterName={oc.name}
+          onImageClick={(image) => {
+            console.log("image clicked", image);
+            setCurrentDisplayAvatar(image);
+          }}
+        />
+      </div>
+      <div className="detail-block-info div-3d-with-shadow">
         <h1 className="detail-oc-name">{oc.name}</h1>
         <BBCodeDisplay bbcode={oc.info} />
       </div>
-      <div className="detail-block-species debug">
-        <div className="detail-species-list">
-          {oc.speciesDetails.map((species) => (
-            <div key={species.slug} className="detail-species-item">
-              <span className="detail-species-name">{species.name}</span>
-              <p className="detail-species-description">
-                {species.description}
-              </p>
-            </div>
-          ))}
-        </div>
+      <div className="detail-block-species div-3d-with-shadow">
+        <ImageWithInfoMany
+          items={oc.speciesDetails.map((species) => ({
+            images: species.gallery,
+            description: species.description,
+            title: species.name,
+          }))}
+        />
       </div>
-      <div className="detail-block-breadcrumbs debug">
-        <div className="detail-breadcrumbs-list">
-          {oc.breadcrumbs.map((breadcrumb, index) => (
-            <p key={index} className="detail-breadcrumb-item">
-              {breadcrumb}
-            </p>
-          ))}
-        </div>
+      <div className="detail-block-breadcrumbs div-3d-with-shadow">
+        <ImageWithInfoMany
+          items={oc.breadcrumbs.map((breadcrumb, index) => ({
+            images: breadcrumb.images,
+            description: breadcrumb.description,
+            title: `Breadcrumb ${index + 1}`,
+          }))}
+        />
       </div>
 
       <div className="detail-block-tags debug">

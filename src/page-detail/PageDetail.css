@@ -8,35 +8,36 @@
 @media (min-width: 1201px) {
   .page-detail {
     display: grid;
-    grid-template-columns: 5fr 3fr 2fr;
-    grid-template-rows: 80vh auto auto;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 70vh auto auto;
     gap: 20px;
   }
 
-  /* First row: avatar, gallery, info */
-  .detail-block-avatar {
-    grid-column: 1;
+  /* First row: avatar (5 cols), gallery (4 cols), info (3 cols) */
+  .detail-block-image-view {
+    grid-column: 1 / span 5;
     grid-row: 1;
   }
 
   .detail-block-gallery {
-    grid-column: 2;
+    grid-column: 6 / span 4;
     grid-row: 1;
+    height: 100%;
   }
 
   .detail-block-info {
-    grid-column: 3;
+    grid-column: 10 / span 3;
     grid-row: 1;
   }
 
-  /* Second row: species, breadcrumbs */
+  /* Second row: species (4 cols from col 2), breadcrumbs (5 cols from col 6) */
   .detail-block-species {
-    grid-column: 1 / 3;
+    grid-column: 2 / span 4;
     grid-row: 2;
   }
 
   .detail-block-breadcrumbs {
-    grid-column: 3;
+    grid-column: 6 / span 5;
     grid-row: 2;
   }
 
@@ -56,7 +57,7 @@
   }
 
   /* Mobile order: avatar, gallery+info, species, breadcrumbs */
-  .detail-block-avatar {
+  .detail-block-image-view {
     order: 1;
   }
 
@@ -82,74 +83,39 @@
 }
 
 /* Avatar Block */
-.detail-block-avatar {
+.detail-block-image-view {
   text-align: center;
-  padding: 20px;
-  background: #f5f5f5;
-  border-radius: 8px;
-}
-
-.detail-avatar {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Gallery Block */
 .detail-block-gallery {
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
   overflow: hidden;
-}
-
-.detail-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  height: 100%;
-  overflow-y: auto;
-  max-height: calc(80vh - 40px);
-}
-
-.detail-gallery-image {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.detail-gallery-image:hover {
-  transform: scale(1.05);
 }
 
 /* Info Block */
 .detail-block-info {
   padding: 20px;
-  background: #f0f0f0;
-  border-radius: 8px;
 }
 
 .detail-oc-name {
   margin: 0 0 15px 0;
   font-size: 1.5em;
   font-weight: bold;
-  color: #333;
+  text-align: center;
 }
 
 .detail-block-info p {
   margin: 0;
   line-height: 1.6;
-  color: #666;
 }
 
 /* Species Block */
 .detail-block-species {
   padding: 20px;
-  background: #e8f4f8;
-  border-radius: 8px;
 }
 
 .detail-species-list {
@@ -182,8 +148,6 @@
 /* Breadcrumbs Block */
 .detail-block-breadcrumbs {
   padding: 20px;
-  background: #fff8e1;
-  border-radius: 8px;
 }
 
 .detail-breadcrumbs-list {
@@ -229,7 +193,7 @@
     padding: 10px;
   }
 
-  .detail-block-avatar,
+  .detail-block-image-viewtar,
   .detail-block-gallery,
   .detail-block-info,
   .detail-block-species,
