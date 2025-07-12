@@ -1,9 +1,3 @@
-/* Page Detail Container */
-.page-detail {
-  margin: 0 auto;
-  padding: 2vw;
-}
-
 /* Desktop Layout */
 @media (min-width: 1201px) {
   .page-detail {

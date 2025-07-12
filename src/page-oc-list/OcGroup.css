@@ -4,11 +4,16 @@
 }
 
 .group-header {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  display: flex;
+  display: block;
   align-items: center;
-  justify-content: space-between;
+  background-color: transparent;
+  margin: 0 auto;
+  padding: 0;
+  width: 70%;
+}
+
+.group-name {
+  display: block;
 }
 
 .group-info {

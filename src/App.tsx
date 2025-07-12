@@ -14,7 +14,7 @@ function App() {
         <div>
           <Navbar />
         </div>
-        <div>
+        <div className="page-container">
           <Routes>
             <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
             <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />

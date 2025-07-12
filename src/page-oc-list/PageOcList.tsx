@@ -16,6 +16,7 @@ function formatDataForGroups(ocs: OC[], groups: Group[]): OcGroupInfo[] {
     return {
       slug: group.slug,
       name: group.name,
+      frameColour: group.frameColour,
       ocList: groupOCs.map((oc) => ({
         slug: oc.slug,
         name: oc.name,

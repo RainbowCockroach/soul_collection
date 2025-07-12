@@ -62,7 +62,7 @@ const PageDetail: React.FC = () => {
   }
 
   return (
-    <div className="page-detail page-container">
+    <div className="page-detail">
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage src={currentDisplayAvatar} alt={oc.name} />
