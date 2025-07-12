@@ -168,23 +168,17 @@
 /* Tags Block */
 .detail-block-tags {
   padding: 20px;
-  background: #f3e5f5;
-  border-radius: 8px;
+  text-align: center;
 }
 
-.detail-tags-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.oc-detail-tag {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  transition: all 0.2s ease-in-out;
 }
 
-.tag {
-  background: #9c27b0;
-  color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.9em;
-  font-weight: 500;
+.oc-detail-tag:hover {
+  background-color: var(--color-green);
 }
 
 /* Mobile specific adjustments */

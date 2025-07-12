@@ -62,7 +62,7 @@ const PageDetail: React.FC = () => {
   }
 
   return (
-    <div className="page-detail">
+    <div className="page-detail page-container">
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage src={currentDisplayAvatar} alt={oc.name} />
@@ -100,14 +100,12 @@ const PageDetail: React.FC = () => {
         />
       </div>
 
-      <div className="detail-block-tags debug">
-        <div className="detail-tags-list">
-          {oc.tags.map((tag, index) => (
-            <span key={index} className="tag">
-              {tag}
-            </span>
-          ))}
-        </div>
+      <div className="detail-block-tags">
+        {oc.tags.map((tag, index) => (
+          <span key={index} className="oc-detail-tag div-3d-with-shadow">
+            {tag}
+          </span>
+        ))}
       </div>
     </div>
   );
