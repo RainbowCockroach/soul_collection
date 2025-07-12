@@ -6,6 +6,7 @@ import "./OcGroup.css";
 export interface OcGroupInfo {
   slug: string;
   name: string;
+  frameColour: string;
   ocList: OC[];
 }
 
@@ -33,7 +34,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
         <div className="oc-group-content">
           <div className="oc-group-grid">
             {groupInfo.ocList.map((oc) => (
-              <OcSlot key={oc.slug} oc={oc} />
+              <OcSlot key={oc.slug} oc={oc} frameColour={groupInfo.frameColour} />
             ))}
           </div>
         </div>
