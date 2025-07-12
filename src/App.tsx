@@ -10,11 +10,11 @@ import { Editor } from "./editor/Editor";
 function App() {
   return (
     <>
-      <div className="page-container debug">
-        <div className="debug">
+      <div className="page-container">
+        <div>
           <Navbar />
         </div>
-        <div className="debug">
+        <div>
           <Routes>
             <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
             <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
