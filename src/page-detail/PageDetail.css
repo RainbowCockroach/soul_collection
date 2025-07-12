@@ -167,18 +167,15 @@
 
 /* Tags Block */
 .detail-block-tags {
-  padding: 20px;
+  padding: 1% 0;
   text-align: center;
+  overflow: auto;
 }
 
 .oc-detail-tag {
-  padding: 0.5rem 1rem;
-  margin: 0.5rem;
-  transition: all 0.2s ease-in-out;
-}
-
-.oc-detail-tag:hover {
-  background-color: var(--color-green);
+  display: inline-block;
+  padding: 0.5% 1%;
+  margin: 1% 1%;
 }
 
 /* Mobile specific adjustments */
@@ -192,10 +189,6 @@
   .detail-block-info,
   .detail-block-species,
   .detail-block-breadcrumbs,
-  .detail-block-tags {
-    padding: 15px;
-  }
-
   .detail-oc-name {
     font-size: 1.3em;
   }
