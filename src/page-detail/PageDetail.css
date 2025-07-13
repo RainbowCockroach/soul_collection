@@ -93,6 +93,7 @@
 /* Info Block */
 .detail-block-info {
   padding: 20px;
+  text-align: center;
 }
 
 .detail-oc-name {
