@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { OC, Group, Spieces, BreadcrumbItem } from "../helpers/objects";
 import { loadOCs, loadGroups, loadSpecies } from "../helpers/data-load";
+import toast, { Toaster } from "react-hot-toast";
 import "./EditorOc.css";
 
 interface OcJsonData {
@@ -79,7 +80,7 @@ export const EditorOc: React.FC = () => {
     setIsEditing(false);
     setEditingItem(null);
     setSelectedSlug("");
-    alert("OC updated! Use 'Copy to clipboard' to export.");
+    toast.success("OC updated! Use 'Copy to clipboard' to export.");
   };
 
   const handleCancel = () => {
@@ -105,7 +106,7 @@ export const EditorOc: React.FC = () => {
       setSelectedSlug(newSlug);
       setIsEditing(true);
     } else if (newSlug && ocData[newSlug]) {
-      alert("OC with this slug already exists!");
+      toast.error("OC with this slug already exists!");
     }
   };
 
@@ -120,7 +121,7 @@ export const EditorOc: React.FC = () => {
         setEditingItem(null);
         setSelectedSlug("");
       }
-      alert("OC deleted! Use 'Copy to clipboard' to export.");
+      toast.success("OC deleted! Use 'Copy to clipboard' to export.");
     }
   };
 
@@ -246,15 +247,16 @@ export const EditorOc: React.FC = () => {
     try {
       const jsonString = JSON.stringify(ocData, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      alert("OC JSON copied to clipboard!");
+      toast.success("OC JSON copied to clipboard!");
     } catch (error) {
       console.error("Error copying to clipboard:", error);
-      alert("Error copying to clipboard");
+      toast.error("Error copying to clipboard");
     }
   };
 
   return (
     <div className="editor-oc-container">
+      <Toaster position="top-right" />
       <h2>OC Editor</h2>
 
       <div className="editor-oc-buttons">

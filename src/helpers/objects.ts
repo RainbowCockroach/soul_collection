@@ -2,6 +2,8 @@ export interface Group {
   slug: string;
   name: string;
   frameColour: string; // Hex code
+  groupHeaderColour: string; // Hex code
+  groupHeaderTextColour: string; // Hex code
 }
 
 export interface Spieces {

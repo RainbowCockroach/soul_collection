@@ -7,6 +7,8 @@ export interface OcGroupInfo {
   slug: string;
   name: string;
   frameColour: string;
+  groupHeaderColour: string;
+  groupHeaderTextColour: string;
   ocList: OC[];
 }
 
@@ -25,9 +27,12 @@ const OcGroup: React.FC<OcGroupProps> = ({
     <div className="oc-group">
       <button
         onClick={() => onToggle(groupInfo.slug)}
-        className="group-header div-3d-with-shadow"
+        className="div-3d-with-shadow group-header"
+        style={{ background: groupInfo.groupHeaderColour }}
       >
-        <h2>{groupInfo.name}</h2>
+        <h2 style={{ color: groupInfo.groupHeaderTextColour }}>
+          {groupInfo.name}
+        </h2>
       </button>
 
       {isExpanded && (
