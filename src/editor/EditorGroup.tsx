@@ -33,7 +33,14 @@ export const EditorGroup: React.FC = () => {
 
   const handleSelectItem = (slug: string) => {
     setSelectedSlug(slug);
-    setEditingItem({ ...groupData[slug], slug });
+    const group = groupData[slug];
+    setEditingItem({ 
+      ...group, 
+      slug,
+      // Provide defaults for backward compatibility
+      groupHeaderColour: group.groupHeaderColour || "#ffffff",
+      groupHeaderTextColour: group.groupHeaderTextColour || "#000000",
+    });
     setIsEditing(true);
   };
 
@@ -64,6 +71,8 @@ export const EditorGroup: React.FC = () => {
         slug: newSlug,
         name: "",
         frameColour: "#000000",
+        groupHeaderColour: "#ffffff",
+        groupHeaderTextColour: "#000000",
       });
       setSelectedSlug(newSlug);
       setIsEditing(true);
@@ -206,6 +215,64 @@ export const EditorGroup: React.FC = () => {
                       setEditingItem({
                         ...editingItem,
                         frameColour: e.target.value,
+                      })
+                    }
+                    className="editor-group-color-text"
+                    placeholder="#000000"
+                  />
+                </div>
+              </div>
+
+              <div className="editor-group-field">
+                <label className="editor-group-label">Header Background Colour:</label>
+                <div className="editor-group-color-inputs">
+                  <input
+                    type="color"
+                    value={editingItem.groupHeaderColour}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        groupHeaderColour: e.target.value,
+                      })
+                    }
+                    className="editor-group-color-picker"
+                  />
+                  <input
+                    type="text"
+                    value={editingItem.groupHeaderColour}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        groupHeaderColour: e.target.value,
+                      })
+                    }
+                    className="editor-group-color-text"
+                    placeholder="#ffffff"
+                  />
+                </div>
+              </div>
+
+              <div className="editor-group-field">
+                <label className="editor-group-label">Header Text Colour:</label>
+                <div className="editor-group-color-inputs">
+                  <input
+                    type="color"
+                    value={editingItem.groupHeaderTextColour}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        groupHeaderTextColour: e.target.value,
+                      })
+                    }
+                    className="editor-group-color-picker"
+                  />
+                  <input
+                    type="text"
+                    value={editingItem.groupHeaderTextColour}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        groupHeaderTextColour: e.target.value,
                       })
                     }
                     className="editor-group-color-text"
