@@ -28,5 +28,11 @@
     "frameColour": "#ccf0ff",
     "groupHeaderColour": "#ccf0ff",
     "groupHeaderTextColour": "#053042"
+  },
+  "other": {
+    "name": "Other",
+    "frameColour": "#f3ffb8",
+    "groupHeaderColour": "#f3ffb8",
+    "groupHeaderTextColour": "#504007"
   }
 }
