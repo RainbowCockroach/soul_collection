@@ -29,34 +29,6 @@
   padding-left: 1rem;
 }
 
-.embla-many__button {
-  position: absolute;
-  top: 20px;
-  transform: translateY(-50%);
-  z-index: 1;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.embla-many__button:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.embla-many__button--prev {
-  left: 10px;
-}
-
-.embla-many__button--next {
-  right: 10px;
-}
-
 .image-with-info-many-empty {
   padding: 2rem;
   text-align: center;
@@ -73,9 +45,5 @@
 
   .embla-many__container {
     margin-left: calc(0.5rem * -1);
-  }
-
-  .embla-many__buttons {
-    gap: 0.5rem;
   }
 }

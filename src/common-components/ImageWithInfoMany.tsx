@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback, useImperativeHandle, forwardRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import ImageWithInfo from "./ImageWithInfo";
 import "./ImageWithInfoMany.css";
@@ -11,7 +11,16 @@ interface ImageWithInfoManyProps {
   }>;
 }
 
-const ImageWithInfoMany: React.FC<ImageWithInfoManyProps> = ({ items }) => {
+export interface ImageWithInfoManyRef {
+  scrollPrev: () => void;
+  scrollNext: () => void;
+  scrollTo: (index: number) => void;
+}
+
+const ImageWithInfoMany = forwardRef<
+  ImageWithInfoManyRef,
+  ImageWithInfoManyProps
+>(({ items }, ref) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     dragFree: false,
@@ -24,6 +33,23 @@ const ImageWithInfoMany: React.FC<ImageWithInfoManyProps> = ({ items }) => {
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
+    [emblaApi]
+  );
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      scrollPrev,
+      scrollNext,
+      scrollTo,
+    }),
+    [scrollPrev, scrollNext, scrollTo]
+  );
 
   if (!items || items.length === 0) {
     return (
@@ -50,28 +76,10 @@ const ImageWithInfoMany: React.FC<ImageWithInfoManyProps> = ({ items }) => {
               ))}
             </div>
           </div>
-          {items.length > 1 && (
-            <>
-              <button
-                className="embla-many__button embla-many__button--prev div-3d-with-shadow"
-                type="button"
-                onClick={scrollPrev}
-              >
-                <span>◀</span>
-              </button>
-              <button
-                className="embla-many__button embla-many__button--next div-3d-with-shadow"
-                type="button"
-                onClick={scrollNext}
-              >
-                <span>▶</span>
-              </button>
-            </>
-          )}
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default ImageWithInfoMany;
