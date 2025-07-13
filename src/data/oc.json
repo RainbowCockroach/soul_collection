@@ -1,9 +1,10 @@
 {
   "vhhz": {
     "name": "Vhhz",
-    "avatar": "https://placehold.co/200",
+    "avatar": "https://i.pinimg.com/474x/74/62/56/7462563bff452698e879ca7ac0cf1817.jpg",
     "group": [
-      "blackRing"
+      "blackRing",
+      "Vrev"
     ],
     "spieces": [
       "vrev"
@@ -20,14 +21,16 @@
       }
     ],
     "tags": [
-      "tag1",
+      "↺✦Black Ring ✦↻",
       "tag2"
     ]
   },
   "Naame": {
-    "name": "Bad name",
-    "avatar": "https://i.pinimg.com/736x/d2/12/52/d2125284d31a88d0a75365579d06626f.jpg",
-    "group": [],
+    "name": "Naame the intern",
+    "avatar": "https://i.pinimg.com/474x/29/d7/51/29d751d3f41b58ce6a091084ac24b18f.jpg",
+    "group": [
+      "Vrev"
+    ],
     "spieces": [
       "vrev"
     ],
@@ -40,13 +43,14 @@
     "name": "Non Li",
     "avatar": "https://i.pinimg.com/originals/71/d9/e8/71d9e8f66071f058dddc5614ffa61a7e.jpg",
     "group": [
-      "liFamily"
+      "liFamily",
+      "zo"
     ],
     "spieces": [
       "slimeNon",
       "not pure zo"
     ],
-    "info": "\n[img]https://64.media.tumblr.com/04eabd8d91dfc7f85bb46f0e27ba026f/0a11a47c43145bbe-21/s75x75_c1/ccbc1eabeb605a945d92024edccc49e4a8384e81.gifv[/img][img]https://64.media.tumblr.com/6e70c28ad775532016952c11cc2904cc/0a11a47c43145bbe-14/s75x75_c1/d2bd3cad617430ef76085536aa70f43c8a88b5c5.gifv[/img]\n[img]https://y2k.neocities.org/blinkiez/tumblr_pa8n9hBrZF1xsbv6wo1_250.gif[/img] [img]https://y2k.neocities.org/blinkiez/tumblr_inline_pafw5o4Vm71vibjyl_500.gif[/img][img]https://64.media.tumblr.com/066a67f377c8d3c6b814114db7db8433/c35b95fb69cd6ee2-b4/s250x400/4de3750ab648d8e492a5a6d68840e8020a625593.gifv[/img]\n[img]https://64.media.tumblr.com/cff9a755097d997ef5a43920663460c1/f2ecde4a8441d6d3-62/s100x200/ea6494564b5dc70c481755c4dbc91b2f144a1bb4.gifv[/img]\nshe/her/it\nAge: 174\nHeight: 168cm\nWeight: 45kg\n[img]https://64.media.tumblr.com/444e336c58f295647dc07fa173d0d60e/4160be3cc2b84620-e3/s400x600/16d38bd8249a47605f85fc78d0e8e99a3779d3b5.gifv[/img]\nAlien child of the Li family\nCame from the stars\nEats corn\nWILD\nHave a bucket list\nCan BITE and might BITE",
+    "info": "[img]https://64.media.tumblr.com/04eabd8d91dfc7f85bb46f0e27ba026f/0a11a47c43145bbe-21/s75x75_c1/ccbc1eabeb605a945d92024edccc49e4a8384e81.gifv[/img][img]https://64.media.tumblr.com/6e70c28ad775532016952c11cc2904cc/0a11a47c43145bbe-\n14/s75x75_c1/d2bd3cad617430ef76085536aa70f43c8a88b5c5.gifv[/img]\n[img]https://i8.glitter-graphics.org/pub/1461/1461718pb77ew55q8.gif[/img]\n[img]https://i1.glitter-graphics.org/pub/394/394591k6c3ijcdtl.gif[/img]\n[img]https://y2k.neocities.org/blinkiez/tumblr_pa8n9hBrZF1xsbv6wo1_250.gif[/img] [img]https://y2k.neocities.org/blinkiez/tumblr_inline_pafw5o4Vm71vibjyl_500.gif[/img][img]https://64.media.tumblr.com/066a67f377c8d3c6b814114db7db8433/c35b95fb69cd6ee2-b4/s250x400/4de3750ab648d8e492a5a6d68840e8020a625593.gifv[/img]\n[img]https://64.media.tumblr.com/cff9a755097d997ef5a43920663460c1/f2ecde4a8441d6d3-62/s100x200/ea6494564b5dc70c481755c4dbc91b2f144a1bb4.gifv[/img][img]https://y2k.neocities.org/stamps2/tumblr_pddjjma6Oz1xy0eh3o3_100.webp[/img]\nshe/her/it\nAge: 174\nHeight: 168cm\nWeight: 45kg\n[img]https://64.media.tumblr.com/444e336c58f295647dc07fa173d0d60e/4160be3cc2b84620-e3/s400x600/16d38bd8249a47605f85fc78d0e8e99a3779d3b5.gifv[/img]\nAlien child of the Li family\nCame from the stars\nEats corn\nWILD\nHave a bucket list\nCan BITE and might BITE",
     "gallery": [
       "https://i.pinimg.com/originals/ab/b4/78/abb47828a417358f39f9fa90311d0094.png",
       "https://i.pinimg.com/originals/85/34/dd/8534dd413b0e5a565c27f97b9f55cb6d.png",
@@ -73,5 +77,100 @@
       "Red",
       "Male"
     ]
+  },
+  "Timur": {
+    "name": "Timur",
+    "avatar": "https://i.pinimg.com/236x/bd/d0/98/bdd098c3e48e952ab0c1251bd6ebf530.jpg",
+    "group": [
+      "liFamily",
+      "zo"
+    ],
+    "spieces": [
+      "not pure zo"
+    ],
+    "info": "Mmur",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": []
+  },
+  "Toline LI": {
+    "name": "Toline Li",
+    "avatar": "https://i.pinimg.com/474x/77/21/1d/77211d7794e8cf740fe49f13410be5d6.jpg",
+    "group": [
+      "liFamily",
+      "zo"
+    ],
+    "spieces": [
+      "not pure zo"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": []
+  },
+  "seana": {
+    "name": "Seana",
+    "avatar": "https://i.pinimg.com/474x/14/6b/f3/146bf37838cf916b0c87e8a747c54a7b.jpg",
+    "group": [
+      "human"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "🤍Doctor🤍"
+    ]
+  },
+  "Akane": {
+    "name": "Akane",
+    "avatar": "https://i.pinimg.com/474x/d2/9c/7d/d29c7d1e127f773408f7086ce0cfc9eb.jpg",
+    "group": [
+      "human"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "🤍Doctor🤍"
+    ]
+  },
+  "liv": {
+    "name": "Liv",
+    "avatar": "https://i.pinimg.com/474x/f3/8c/7c/f38c7c982ce3586253b85a0cbbe7d98a.jpg",
+    "group": [
+      "human"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": []
+  },
+  "Bush": {
+    "name": "Bush",
+    "avatar": "https://i.pinimg.com/236x/b2/f3/fe/b2f3feb723c2923e952623cef3cddda6.jpg",
+    "group": [
+      "God",
+      "Candy cockroach"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": []
+  },
+  "echo": {
+    "name": "Echo",
+    "avatar": "https://i.pinimg.com/236x/57/b3/a8/57b3a8d1d741cccc3c70adf3c74f5454.jpg",
+    "group": [
+      "Candy cockroach"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": []
   }
 }
