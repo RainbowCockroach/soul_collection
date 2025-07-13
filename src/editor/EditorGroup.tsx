@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { Group } from "../helpers/objects";
 import { loadGroups } from "../helpers/data-load";
+import toast, { Toaster } from "react-hot-toast";
 import "./EditorGroup.css";
 
 interface GroupJsonData {
@@ -55,7 +56,7 @@ export const EditorGroup: React.FC = () => {
     setIsEditing(false);
     setEditingItem(null);
     setSelectedSlug("");
-    alert("Group updated! Use 'Copy to clipboard' to export.");
+    toast.success("Group updated! Use 'Copy to clipboard' to export.");
   };
 
   const handleCancel = () => {
@@ -77,7 +78,7 @@ export const EditorGroup: React.FC = () => {
       setSelectedSlug(newSlug);
       setIsEditing(true);
     } else if (newSlug && groupData[newSlug]) {
-      alert("Group with this slug already exists!");
+      toast.error("Group with this slug already exists!");
     }
   };
 
@@ -96,7 +97,7 @@ export const EditorGroup: React.FC = () => {
         setEditingItem(null);
         setSelectedSlug("");
       }
-      alert("Group deleted! Use 'Copy to clipboard' to export.");
+      toast.success("Group deleted! Use 'Copy to clipboard' to export.");
     }
   };
 
@@ -104,15 +105,16 @@ export const EditorGroup: React.FC = () => {
     try {
       const jsonString = JSON.stringify(groupData, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      alert("Group JSON copied to clipboard!");
+      toast.success("Group JSON copied to clipboard!");
     } catch (error) {
       console.error("Error copying to clipboard:", error);
-      alert("Error copying to clipboard");
+      toast.error("Error copying to clipboard");
     }
   };
 
   return (
     <div className="editor-group-container">
+      <Toaster position="top-right" />
       <h2>Group Editor</h2>
 
       <div className="editor-group-buttons">

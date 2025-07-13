@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { Spieces } from "../helpers/objects";
 import { loadSpecies } from "../helpers/data-load";
+import toast, { Toaster } from "react-hot-toast";
 import "./EditorSpieces.css";
 
 interface SpiecesJsonData {
@@ -48,7 +49,7 @@ export const EditorSpieces: React.FC = () => {
     setIsEditing(false);
     setEditingItem(null);
     setSelectedSlug("");
-    alert("Species updated! Use 'Copy to clipboard' to export.");
+    toast.success("Species updated! Use 'Copy to clipboard' to export.");
   };
 
   const handleCancel = () => {
@@ -69,7 +70,7 @@ export const EditorSpieces: React.FC = () => {
       setSelectedSlug(newSlug);
       setIsEditing(true);
     } else if (newSlug && spiecesData[newSlug]) {
-      alert("Species with this slug already exists!");
+      toast.error("Species with this slug already exists!");
     }
   };
 
@@ -88,7 +89,7 @@ export const EditorSpieces: React.FC = () => {
         setEditingItem(null);
         setSelectedSlug("");
       }
-      alert("Species deleted! Use 'Copy to clipboard' to export.");
+      toast.success("Species deleted! Use 'Copy to clipboard' to export.");
     }
   };
 
@@ -122,15 +123,16 @@ export const EditorSpieces: React.FC = () => {
     try {
       const jsonString = JSON.stringify(spiecesData, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      alert("Species JSON copied to clipboard!");
+      toast.success("Species JSON copied to clipboard!");
     } catch (error) {
       console.error("Error copying to clipboard:", error);
-      alert("Error copying to clipboard");
+      toast.error("Error copying to clipboard");
     }
   };
 
   return (
     <div className="editor-species-container">
+      <Toaster position="top-right" />
       <h2>Species Editor</h2>
 
       <div className="editor-species-buttons">
