@@ -2,23 +2,35 @@
   "vhhz": {
     "name": "Vhhz",
     "avatar": "https://placehold.co/200",
-    "group": ["blackRing"],
-    "spieces": ["vrev"],
+    "group": [
+      "blackRing"
+    ],
+    "spieces": [
+      "vrev"
+    ],
     "info": "This is a placeholder for the character detail page.",
-    "gallery": ["https://placehold.co/200", "https://placehold.co/200"],
+    "gallery": [
+      "https://placehold.co/200",
+      "https://placehold.co/200"
+    ],
     "breadcrumbs": [
       {
         "images": [],
         "description": "This is a placeholder for the character detail page."
       }
     ],
-    "tags": ["tag1", "tag2"]
+    "tags": [
+      "tag1",
+      "tag2"
+    ]
   },
   "Naame": {
     "name": "Bad name",
     "avatar": "https://i.pinimg.com/736x/d2/12/52/d2125284d31a88d0a75365579d06626f.jpg",
     "group": [],
-    "spieces": ["vrev"],
+    "spieces": [
+      "vrev"
+    ],
     "info": "bad vrev",
     "gallery": [],
     "breadcrumbs": [],
@@ -27,9 +39,14 @@
   "non_li": {
     "name": "Non Li",
     "avatar": "https://i.pinimg.com/originals/71/d9/e8/71d9e8f66071f058dddc5614ffa61a7e.jpg",
-    "group": ["liFamily"],
-    "spieces": ["slimeNon", "not pure zo"],
-    "info": "[img]https://y2k.neocities.org/buttons/tumblr_pi1ndunVC51xmskxho1_100.png[/img] \n[img]https://y2k.neocities.org/blinkiez/tumblr_pa8n9hBrZF1xsbv6wo1_250.gif[/img] [img]https://y2k.neocities.org/blinkiez/tumblr_inline_pafw5o4Vm71vibjyl_500.gif[/img]\nshe/her/it\nAge: 174\nHeight: 168cm\nWeight: 45kg\n_\nAlien child of the Li family\nCame from the stars\nEats corn\nWILD\nHave a bucket list\nCan BITE and might BITE",
+    "group": [
+      "liFamily"
+    ],
+    "spieces": [
+      "slimeNon",
+      "not pure zo"
+    ],
+    "info": "\n[img]https://64.media.tumblr.com/04eabd8d91dfc7f85bb46f0e27ba026f/0a11a47c43145bbe-21/s75x75_c1/ccbc1eabeb605a945d92024edccc49e4a8384e81.gifv[/img][img]https://64.media.tumblr.com/6e70c28ad775532016952c11cc2904cc/0a11a47c43145bbe-14/s75x75_c1/d2bd3cad617430ef76085536aa70f43c8a88b5c5.gifv[/img]\n[img]https://y2k.neocities.org/blinkiez/tumblr_pa8n9hBrZF1xsbv6wo1_250.gif[/img] [img]https://y2k.neocities.org/blinkiez/tumblr_inline_pafw5o4Vm71vibjyl_500.gif[/img][img]https://64.media.tumblr.com/066a67f377c8d3c6b814114db7db8433/c35b95fb69cd6ee2-b4/s250x400/4de3750ab648d8e492a5a6d68840e8020a625593.gifv[/img]\n[img]https://64.media.tumblr.com/cff9a755097d997ef5a43920663460c1/f2ecde4a8441d6d3-62/s100x200/ea6494564b5dc70c481755c4dbc91b2f144a1bb4.gifv[/img]\nshe/her/it\nAge: 174\nHeight: 168cm\nWeight: 45kg\n[img]https://64.media.tumblr.com/444e336c58f295647dc07fa173d0d60e/4160be3cc2b84620-e3/s400x600/16d38bd8249a47605f85fc78d0e8e99a3779d3b5.gifv[/img]\nAlien child of the Li family\nCame from the stars\nEats corn\nWILD\nHave a bucket list\nCan BITE and might BITE",
     "gallery": [
       "https://i.pinimg.com/originals/ab/b4/78/abb47828a417358f39f9fa90311d0094.png",
       "https://i.pinimg.com/originals/85/34/dd/8534dd413b0e5a565c27f97b9f55cb6d.png",
