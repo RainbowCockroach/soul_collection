@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
 import GalleryBlock from "../common-components/GalleryBlock";
@@ -6,7 +6,9 @@ import ZoomPanPinchImage from "../common-components/ZoomPanPinchImage";
 import "./PageDetail.css";
 import { placeholderImage } from "../helpers/constants";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
-import ImageWithInfoMany from "../common-components/ImageWithInfoMany";
+import ImageWithInfoMany, {
+  type ImageWithInfoManyRef,
+} from "../common-components/ImageWithInfoMany";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,6 +17,14 @@ const PageDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentDisplayAvatar, setCurrentDisplayAvatar] =
     useState<string>(placeholderImage);
+
+  const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
+  const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
+
+  const displayButtonSpecies =
+    oc?.speciesDetails.length && oc.speciesDetails.length > 1;
+  const displayButtonBreadcrumbs =
+    oc?.breadcrumbs.length && oc.breadcrumbs.length > 1;
 
   useEffect(() => {
     const loadOcData = async () => {
@@ -83,10 +93,27 @@ const PageDetail: React.FC = () => {
       </div>
       <div className="detail-block-species">
         <div className="div-3d-with-shadow detail-section-header">
+          {displayButtonSpecies && (
+            <button
+              className="section-nav-button section-nav-button--left"
+              onClick={() => speciesCarouselRef.current?.scrollPrev()}
+            >
+              ◀
+            </button>
+          )}
           <h2>Species</h2>
+          {displayButtonSpecies && (
+            <button
+              className="section-nav-button section-nav-button--right"
+              onClick={() => speciesCarouselRef.current?.scrollNext()}
+            >
+              ▶
+            </button>
+          )}
         </div>
         <div className="div-3d-with-shadow detail-section-content">
           <ImageWithInfoMany
+            ref={speciesCarouselRef}
             items={oc.speciesDetails.map((species) => ({
               images: species.gallery,
               description: species.description,
@@ -97,10 +124,27 @@ const PageDetail: React.FC = () => {
       </div>
       <div className="detail-block-breadcrumbs">
         <div className="div-3d-with-shadow detail-section-header">
+          {displayButtonBreadcrumbs && (
+            <button
+              className="section-nav-button section-nav-button--left"
+              onClick={() => breadcrumbsCarouselRef.current?.scrollPrev()}
+            >
+              ◀
+            </button>
+          )}
           <h2>Breadcrumbs</h2>
+          {displayButtonBreadcrumbs && (
+            <button
+              className="section-nav-button section-nav-button--right"
+              onClick={() => breadcrumbsCarouselRef.current?.scrollNext()}
+            >
+              ▶
+            </button>
+          )}
         </div>
         <div className="div-3d-with-shadow detail-section-content">
           <ImageWithInfoMany
+            ref={breadcrumbsCarouselRef}
             items={oc.breadcrumbs.map((breadcrumb, index) => ({
               images: breadcrumb.images,
               description: breadcrumb.description,
