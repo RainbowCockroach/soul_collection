@@ -35,7 +35,9 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour }) => {
           border: `5px solid ${frameColour}`,
         }}
       />
-      <h3 className="oc-name">{oc.name}</h3>
+      <h3 className="oc-name" style={{ color: frameColour }}>
+        {oc.name}
+      </h3>
     </div>
   );
 };
