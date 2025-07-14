@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import type { Spieces } from "../helpers/objects";
 import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
+import slugify from "slugify";
 import "./EditorSpieces.css";
 
 interface SpiecesJsonData {
@@ -38,6 +39,10 @@ export const EditorSpieces: React.FC = () => {
     setIsEditing(true);
   };
 
+  const isNewItem = () => {
+    return editingItem && !spiecesData[editingItem.slug];
+  };
+
   const handleSave = () => {
     if (!editingItem) return;
 
@@ -59,18 +64,21 @@ export const EditorSpieces: React.FC = () => {
   };
 
   const handleAddNew = () => {
-    const newSlug = prompt("Enter url name for new species:");
-    if (newSlug && !spiecesData[newSlug]) {
-      setEditingItem({
-        slug: newSlug,
-        name: "",
-        description: "",
-        gallery: [],
-      });
-      setSelectedSlug(newSlug);
-      setIsEditing(true);
-    } else if (newSlug && spiecesData[newSlug]) {
-      toast.error("Species with this slug already exists!");
+    const speciesName = prompt("Enter name for new species:");
+    if (speciesName) {
+      const newSlug = slugify(speciesName, { lower: true, strict: true });
+      if (!spiecesData[newSlug]) {
+        setEditingItem({
+          slug: newSlug,
+          name: speciesName,
+          description: "",
+          gallery: [],
+        });
+        setSelectedSlug(newSlug);
+        setIsEditing(true);
+      } else {
+        toast.error("A species with this name already exists!");
+      }
     }
   };
 
@@ -186,11 +194,23 @@ export const EditorSpieces: React.FC = () => {
                 <input
                   type="text"
                   value={editingItem.slug}
-                  onChange={(e) =>
-                    setEditingItem({ ...editingItem, slug: e.target.value })
-                  }
+                  onChange={(e) => {
+                    if (isNewItem()) {
+                      setEditingItem({ ...editingItem, slug: slugify(e.target.value, { lower: true, strict: true }) });
+                    }
+                  }}
                   className="editor-species-input"
+                  disabled={!isNewItem()}
+                  style={{ 
+                    backgroundColor: !isNewItem() ? '#f5f5f5' : 'white',
+                    cursor: !isNewItem() ? 'not-allowed' : 'text'
+                  }}
                 />
+                {!isNewItem() && (
+                  <small style={{ color: '#666', fontSize: '12px' }}>
+                    URL names cannot be changed for existing species to prevent data corruption
+                  </small>
+                )}
               </div>
 
               <div className="editor-species-field">
@@ -198,9 +218,15 @@ export const EditorSpieces: React.FC = () => {
                 <input
                   type="text"
                   value={editingItem.name}
-                  onChange={(e) =>
-                    setEditingItem({ ...editingItem, name: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    if (isNewItem()) {
+                      const newSlug = slugify(newName, { lower: true, strict: true });
+                      setEditingItem({ ...editingItem, name: newName, slug: newSlug });
+                    } else {
+                      setEditingItem({ ...editingItem, name: newName });
+                    }
+                  }}
                   className="editor-species-input"
                 />
               </div>
