@@ -12,7 +12,7 @@
   scrollbar-color: var(--color-green) transparent;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .gallery-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     overflow-x: scroll;
