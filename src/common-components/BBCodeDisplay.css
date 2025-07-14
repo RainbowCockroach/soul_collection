@@ -1,0 +1,57 @@
+.bbcode-display {
+  /* Ensure content stays within bounds */
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ensure images stay within bounds */
+.bbcode-display img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure tables stay within bounds */
+.bbcode-display table {
+  width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+}
+
+.bbcode-display table td,
+.bbcode-display table th {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure code blocks stay within bounds */
+.bbcode-display code {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow-x: auto;
+  display: inline-block;
+}
+
+/* Ensure blockquotes stay within bounds */
+.bbcode-display blockquote {
+  max-width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure long URLs and links break properly */
+.bbcode-display a {
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}

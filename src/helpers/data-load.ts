@@ -10,17 +10,21 @@ export interface LoadedData {
 }
 
 export async function loadOCs(): Promise<OC[]> {
-  return Object.entries(ocData).map(([slug, oc]) => ({
-    slug,
-    ...(oc as Omit<OC, "slug">),
-  }));
+  return Object.entries(ocData)
+    .map(([slug, oc]) => ({
+      slug,
+      ...(oc as Omit<OC, "slug">),
+    }))
+    .sort((a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE));
 }
 
 export async function loadGroups(): Promise<Group[]> {
-  return Object.entries(groupData).map(([slug, group]) => ({
-    slug,
-    ...(group as Omit<Group, "slug">),
-  }));
+  return Object.entries(groupData)
+    .map(([slug, group]) => ({
+      slug,
+      ...(group as Omit<Group, "slug">),
+    }))
+    .sort((a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE));
 }
 
 export async function loadSpecies(): Promise<Spieces[]> {

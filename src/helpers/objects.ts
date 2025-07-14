@@ -4,6 +4,7 @@ export interface Group {
   frameColour: string; // Hex code
   groupHeaderColour: string; // Hex code
   groupHeaderTextColour: string; // Hex code
+  order?: number; // Display order
 }
 
 export interface Spieces {
@@ -28,4 +29,5 @@ export interface OC {
   gallery: string[]; // Image URLs
   breadcrumbs: BreadcrumbItem[]; // Array of breadcrumb items
   tags: string[];
+  order?: number; // Display order
 }

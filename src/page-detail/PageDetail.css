@@ -94,6 +94,8 @@
 .detail-block-info {
   padding: 20px;
   text-align: center;
+  overflow: scroll;
+  scrollbar-color: var(--color-green) transparent;
 }
 
 .detail-oc-name {

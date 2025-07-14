@@ -2,6 +2,24 @@ import React, { useState, useEffect } from "react";
 import type { OC, Group, Spieces, BreadcrumbItem } from "../helpers/objects";
 import { loadOCs, loadGroups, loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
+import slugify from "slugify";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import "./EditorOc.css";
 
 interface OcJsonData {
@@ -16,13 +34,85 @@ interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
 }
 
+interface SortableOcItemProps {
+  oc: OC;
+  isSelected: boolean;
+  onSelect: (slug: string) => void;
+  onDelete: (slug: string) => void;
+}
+
+const SortableOcItem: React.FC<SortableOcItemProps> = ({
+  oc,
+  isSelected,
+  onSelect,
+  onDelete,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: oc.slug });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className={`editor-oc-item ${
+        isSelected ? "editor-oc-item-selected" : "editor-oc-item-default"
+      }`}
+    >
+      <div className="editor-oc-item-drag-handle" {...listeners}>
+        ⋮⋮
+      </div>
+      <div onClick={() => onSelect(oc.slug)} className="editor-oc-item-content">
+        <img
+          src={oc.avatar || "https://placehold.co/40"}
+          alt={oc.name}
+          className="editor-oc-avatar"
+        />
+        <span>
+          <strong>{oc.name}</strong> ({oc.slug})
+        </span>
+      </div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(oc.slug);
+        }}
+        className="editor-oc-delete-button"
+      >
+        Delete
+      </button>
+    </div>
+  );
+};
+
 export const EditorOc: React.FC = () => {
   const [ocData, setOcData] = useState<OcJsonData>({});
+  const [ocsArray, setOcsArray] = useState<OC[]>([]);
   const [groupData, setGroupData] = useState<GroupJsonData>({});
   const [spiecesData, setSpiecesData] = useState<SpiecesJsonData>({});
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [editingItem, setEditingItem] = useState<OC | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [dragMode, setDragMode] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     loadData();
@@ -40,9 +130,9 @@ export const EditorOc: React.FC = () => {
       const groupData: GroupJsonData = {};
       const spiecesData: SpiecesJsonData = {};
 
-      ocsArray.forEach((oc) => {
+      ocsArray.forEach((oc, index) => {
         const { slug, ...rest } = oc;
-        ocData[slug] = rest;
+        ocData[slug] = { ...rest, order: rest.order ?? index };
       });
 
       groupsArray.forEach((group) => {
@@ -56,6 +146,12 @@ export const EditorOc: React.FC = () => {
       });
 
       setOcData(ocData);
+      setOcsArray(
+        ocsArray.map((oc, index) => ({
+          ...oc,
+          order: oc.order ?? index,
+        }))
+      );
       setGroupData(groupData);
       setSpiecesData(spiecesData);
     } catch (error) {
@@ -69,6 +165,37 @@ export const EditorOc: React.FC = () => {
     setIsEditing(true);
   };
 
+  const isNewItem = () => {
+    return editingItem && !ocData[editingItem.slug];
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = ocsArray.findIndex((oc) => oc.slug === active.id);
+      const newIndex = ocsArray.findIndex((oc) => oc.slug === over?.id);
+
+      const newOcsArray = arrayMove(ocsArray, oldIndex, newIndex);
+
+      const updatedOcsArray = newOcsArray.map((oc, index) => ({
+        ...oc,
+        order: index,
+      }));
+
+      setOcsArray(updatedOcsArray);
+
+      const updatedData: OcJsonData = {};
+      updatedOcsArray.forEach((oc) => {
+        const { slug, ...rest } = oc;
+        updatedData[slug] = rest;
+      });
+      setOcData(updatedData);
+
+      toast.success("OCs reordered! Use 'Copy to clipboard' to export.");
+    }
+  };
+
   const handleSave = () => {
     if (!editingItem) return;
 
@@ -76,7 +203,15 @@ export const EditorOc: React.FC = () => {
     const { slug, ...itemData } = editingItem;
     updatedData[slug] = itemData;
 
+    const updatedOcsArray = ocsArray.map((oc) =>
+      oc.slug === slug ? editingItem : oc
+    );
+    if (!ocsArray.find((oc) => oc.slug === slug)) {
+      updatedOcsArray.push(editingItem);
+    }
+
     setOcData(updatedData);
+    setOcsArray(updatedOcsArray);
     setIsEditing(false);
     setEditingItem(null);
     setSelectedSlug("");
@@ -90,23 +225,27 @@ export const EditorOc: React.FC = () => {
   };
 
   const handleAddNew = () => {
-    const newSlug = prompt("Enter url name for new OC:");
-    if (newSlug && !ocData[newSlug]) {
-      setEditingItem({
-        slug: newSlug,
-        name: "",
-        avatar: "",
-        group: [],
-        spieces: [],
-        info: "",
-        gallery: [],
-        breadcrumbs: [],
-        tags: [],
-      });
-      setSelectedSlug(newSlug);
-      setIsEditing(true);
-    } else if (newSlug && ocData[newSlug]) {
-      toast.error("OC with this slug already exists!");
+    const ocName = prompt("Enter name for new OC:");
+    if (ocName) {
+      const newSlug = slugify(ocName, { lower: true, strict: true });
+      if (!ocData[newSlug]) {
+        setEditingItem({
+          slug: newSlug,
+          name: ocName,
+          avatar: "",
+          group: [],
+          spieces: [],
+          info: "",
+          gallery: [],
+          breadcrumbs: [],
+          tags: [],
+          order: ocsArray.length,
+        });
+        setSelectedSlug(newSlug);
+        setIsEditing(true);
+      } else {
+        toast.error("An OC with this name already exists!");
+      }
     }
   };
 
@@ -115,7 +254,10 @@ export const EditorOc: React.FC = () => {
       const updatedData = { ...ocData };
       delete updatedData[slug];
 
+      const updatedOcsArray = ocsArray.filter((oc) => oc.slug !== slug);
+
       setOcData(updatedData);
+      setOcsArray(updatedOcsArray);
       if (selectedSlug === slug) {
         setIsEditing(false);
         setEditingItem(null);
@@ -164,10 +306,7 @@ export const EditorOc: React.FC = () => {
     setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
-  const handleRemoveArrayItem = (
-    field: "gallery" | "tags",
-    index: number
-  ) => {
+  const handleRemoveArrayItem = (field: "gallery" | "tags", index: number) => {
     if (!editingItem) return;
 
     const updatedArray = editingItem[field].filter((_, i) => i !== index);
@@ -183,9 +322,15 @@ export const EditorOc: React.FC = () => {
 
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
     if (field === "description") {
-      updatedBreadcrumbs[index] = { ...updatedBreadcrumbs[index], description: value as string };
+      updatedBreadcrumbs[index] = {
+        ...updatedBreadcrumbs[index],
+        description: value as string,
+      };
     } else {
-      updatedBreadcrumbs[index] = { ...updatedBreadcrumbs[index], images: value as string[] };
+      updatedBreadcrumbs[index] = {
+        ...updatedBreadcrumbs[index],
+        images: value as string[],
+      };
     }
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
@@ -202,7 +347,7 @@ export const EditorOc: React.FC = () => {
     updatedImages[imageIndex] = value;
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
-      images: updatedImages
+      images: updatedImages,
     };
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
@@ -213,18 +358,23 @@ export const EditorOc: React.FC = () => {
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
-      images: [...updatedBreadcrumbs[breadcrumbIndex].images, ""]
+      images: [...updatedBreadcrumbs[breadcrumbIndex].images, ""],
     };
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
 
-  const handleRemoveBreadcrumbImage = (breadcrumbIndex: number, imageIndex: number) => {
+  const handleRemoveBreadcrumbImage = (
+    breadcrumbIndex: number,
+    imageIndex: number
+  ) => {
     if (!editingItem) return;
 
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
-      images: updatedBreadcrumbs[breadcrumbIndex].images.filter((_, i) => i !== imageIndex)
+      images: updatedBreadcrumbs[breadcrumbIndex].images.filter(
+        (_, i) => i !== imageIndex
+      ),
     };
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
@@ -233,13 +383,18 @@ export const EditorOc: React.FC = () => {
     if (!editingItem) return;
 
     const newBreadcrumb: BreadcrumbItem = { images: [], description: "" };
-    setEditingItem({ ...editingItem, breadcrumbs: [...editingItem.breadcrumbs, newBreadcrumb] });
+    setEditingItem({
+      ...editingItem,
+      breadcrumbs: [...editingItem.breadcrumbs, newBreadcrumb],
+    });
   };
 
   const handleRemoveBreadcrumb = (index: number) => {
     if (!editingItem) return;
 
-    const updatedBreadcrumbs = editingItem.breadcrumbs.filter((_, i) => i !== index);
+    const updatedBreadcrumbs = editingItem.breadcrumbs.filter(
+      (_, i) => i !== index
+    );
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
 
@@ -264,6 +419,12 @@ export const EditorOc: React.FC = () => {
           Add New OC
         </button>
         <button
+          onClick={() => setDragMode(!dragMode)}
+          className={`editor-oc-button ${dragMode ? "active" : ""}`}
+        >
+          {dragMode ? "Exit Drag Mode" : "Rearrange stuff"}
+        </button>
+        <button
           onClick={handleSaveToClipboard}
           className="editor-oc-save-button"
         >
@@ -274,41 +435,67 @@ export const EditorOc: React.FC = () => {
       <div className="editor-oc-layout">
         <div className="editor-oc-left">
           <h3>OC List</h3>
-          <div className="editor-oc-list">
-            {Object.entries(ocData).map(([slug, item]) => (
-              <div
-                key={slug}
-                className={`editor-oc-item ${
-                  selectedSlug === slug
-                    ? "editor-oc-item-selected"
-                    : "editor-oc-item-default"
-                }`}
+          {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
+          {dragMode ? (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={ocsArray.map((oc) => oc.slug)}
+                strategy={verticalListSortingStrategy}
               >
-                <div
-                  onClick={() => handleSelectItem(slug)}
-                  className="editor-oc-item-content"
-                >
-                  <img
-                    src={item.avatar || "https://placehold.co/40"}
-                    alt={item.name}
-                    className="editor-oc-avatar"
-                  />
-                  <span>
-                    <strong>{item.name}</strong> ({slug})
-                  </span>
+                <div className="editor-oc-list">
+                  {ocsArray.map((oc) => (
+                    <SortableOcItem
+                      key={oc.slug}
+                      oc={oc}
+                      isSelected={selectedSlug === oc.slug}
+                      onSelect={handleSelectItem}
+                      onDelete={handleDelete}
+                    />
+                  ))}
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(slug);
-                  }}
-                  className="editor-oc-delete-button"
+              </SortableContext>
+            </DndContext>
+          ) : (
+            <div className="editor-oc-list">
+              {ocsArray.map((oc) => (
+                <div
+                  key={oc.slug}
+                  className={`editor-oc-item ${
+                    selectedSlug === oc.slug
+                      ? "editor-oc-item-selected"
+                      : "editor-oc-item-default"
+                  }`}
                 >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
+                  <div
+                    onClick={() => handleSelectItem(oc.slug)}
+                    className="editor-oc-item-content"
+                  >
+                    <img
+                      src={oc.avatar || "https://placehold.co/40"}
+                      alt={oc.name}
+                      className="editor-oc-avatar"
+                    />
+                    <span>
+                      <strong>{oc.name}</strong> ({oc.slug})
+                    </span>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(oc.slug);
+                    }}
+                    className="editor-oc-delete-button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {isEditing && editingItem && (
@@ -320,11 +507,30 @@ export const EditorOc: React.FC = () => {
                 <input
                   type="text"
                   value={editingItem.slug}
-                  onChange={(e) =>
-                    setEditingItem({ ...editingItem, slug: e.target.value })
-                  }
+                  onChange={(e) => {
+                    if (isNewItem()) {
+                      setEditingItem({
+                        ...editingItem,
+                        slug: slugify(e.target.value, {
+                          lower: true,
+                          strict: true,
+                        }),
+                      });
+                    }
+                  }}
                   className="editor-oc-input"
+                  disabled={!isNewItem()}
+                  style={{
+                    backgroundColor: !isNewItem() ? "#f5f5f5" : "white",
+                    cursor: !isNewItem() ? "not-allowed" : "text",
+                  }}
                 />
+                {!isNewItem() && (
+                  <small style={{ color: "#666", fontSize: "12px" }}>
+                    URL names cannot be changed for existing OCs to prevent data
+                    corruption
+                  </small>
+                )}
               </div>
 
               <div className="editor-oc-field">
@@ -332,9 +538,22 @@ export const EditorOc: React.FC = () => {
                 <input
                   type="text"
                   value={editingItem.name}
-                  onChange={(e) =>
-                    setEditingItem({ ...editingItem, name: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    if (isNewItem()) {
+                      const newSlug = slugify(newName, {
+                        lower: true,
+                        strict: true,
+                      });
+                      setEditingItem({
+                        ...editingItem,
+                        name: newName,
+                        slug: newSlug,
+                      });
+                    } else {
+                      setEditingItem({ ...editingItem, name: newName });
+                    }
+                  }}
                   className="editor-oc-input"
                 />
               </div>
@@ -445,13 +664,17 @@ export const EditorOc: React.FC = () => {
                         Remove Breadcrumb
                       </button>
                     </div>
-                    
+
                     <div className="editor-oc-field">
                       <label className="editor-oc-label">Description:</label>
                       <textarea
                         value={breadcrumb.description}
                         onChange={(e) =>
-                          handleBreadcrumbChange(index, "description", e.target.value)
+                          handleBreadcrumbChange(
+                            index,
+                            "description",
+                            e.target.value
+                          )
                         }
                         rows={3}
                         className="editor-oc-textarea"
@@ -467,13 +690,19 @@ export const EditorOc: React.FC = () => {
                             type="text"
                             value={imageUrl}
                             onChange={(e) =>
-                              handleBreadcrumbImageChange(index, imageIndex, e.target.value)
+                              handleBreadcrumbImageChange(
+                                index,
+                                imageIndex,
+                                e.target.value
+                              )
                             }
                             className="editor-oc-array-input"
                             placeholder="Image URL"
                           />
                           <button
-                            onClick={() => handleRemoveBreadcrumbImage(index, imageIndex)}
+                            onClick={() =>
+                              handleRemoveBreadcrumbImage(index, imageIndex)
+                            }
                             className="editor-oc-remove-button"
                           >
                             Remove

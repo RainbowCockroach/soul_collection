@@ -1,5 +1,5 @@
 {
-  "Vrev": {
+  "vrev": {
     "name": "•⩊• Vrev •⩊•",
     "frameColour": "#bfadff",
     "groupHeaderColour": "#bfadff",
@@ -17,13 +17,13 @@
     "groupHeaderColour": "#c2ffd9",
     "groupHeaderTextColour": "#134e32"
   },
-  "God": {
+  "god": {
     "name": "-ˋˏ ༻ God ༺ ˎˊ-",
     "frameColour": "#ffadd9",
     "groupHeaderColour": "#ffadd9",
     "groupHeaderTextColour": "#54083f"
   },
-  "Candy cockroach": {
+  "candy-cockroach": {
     "name": "𖹭 Candy cockroach 𖹭",
     "frameColour": "#ccf0ff",
     "groupHeaderColour": "#ccf0ff",
@@ -34,5 +34,17 @@
     "frameColour": "#f3ffb8",
     "groupHeaderColour": "#f3ffb8",
     "groupHeaderTextColour": "#504007"
+  },
+  "black-ring": {
+    "name": "↺✦Black Ring ✦↻",
+    "frameColour": "#666666",
+    "groupHeaderColour": "#666666",
+    "groupHeaderTextColour": "#ffffff"
+  },
+  "li-family": {
+    "name": "Li family",
+    "frameColour": "#87ceeb",
+    "groupHeaderColour": "#87ceeb",
+    "groupHeaderTextColour": "#2f4f4f"
   }
 }

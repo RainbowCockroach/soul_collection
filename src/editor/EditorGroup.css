@@ -8,6 +8,27 @@
 
 .editor-group-button {
   margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.editor-group-button.active {
+  background-color: #28a745;
+}
+
+.editor-group-item-drag-handle {
+  cursor: grab;
+  padding: 0 8px;
+  user-select: none;
+  color: #666;
+  font-weight: bold;
+}
+
+.editor-group-item-drag-handle:active {
+  cursor: grabbing;
 }
 
 .editor-group-save-button {
