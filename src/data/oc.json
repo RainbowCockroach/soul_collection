@@ -74,7 +74,11 @@
     ],
     "info": "",
     "gallery": [
-      "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png"
+      "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png",
+      "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png",
+      "https://i.pinimg.com/originals/7b/5a/28/7b5a28864e3a60d75849d62231830e46.png",
+      "https://i.pinimg.com/originals/df/6b/7a/df6b7ae65fbeae366affb47d63fa4dc1.png",
+      "https://i.pinimg.com/originals/f6/64/4d/f6644da984b1e627680c7aa200e15b01.png"
     ],
     "breadcrumbs": [],
     "tags": [
@@ -82,6 +86,27 @@
       "Female"
     ],
     "order": 3
+  },
+  "tylor": {
+    "name": "Tylor",
+    "avatar": "https://i.pinimg.com/236x/3c/04/3e/3c043e5f44739aa41ff11d4f2024f841.jpg",
+    "group": [
+      "human"
+    ],
+    "spieces": [
+      "human"
+    ],
+    "info": "",
+    "gallery": [
+      "https://i.pinimg.com/736x/f6/f0/27/f6f027a7dd3d605264040d2cdc8fe5f0.jpg",
+      "https://i.pinimg.com/736x/93/94/69/9394696933b1a44c67f5369002f750d5.jpg",
+      "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png"
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "Normal human"
+    ],
+    "order": 4
   },
   "seana": {
     "name": "Seana",
@@ -103,7 +128,7 @@
       "Female",
       "God's favorite human"
     ],
-    "order": 4
+    "order": 5
   },
   "akane": {
     "name": "Akane",
@@ -121,7 +146,7 @@
       "🤍Doctor🤍",
       "No gender"
     ],
-    "order": 5
+    "order": 6
   },
   "my-not-mad": {
     "name": "My not mad",
@@ -139,10 +164,10 @@
     "breadcrumbs": [],
     "tags": [
       "Female",
-      "Human",
+      "Normal human",
       "🤍Doctor🤍"
     ],
-    "order": 6
+    "order": 7
   },
   "rilor": {
     "name": "Rilor",
@@ -165,7 +190,7 @@
       "Underage",
       "Red"
     ],
-    "order": 7
+    "order": 8
   },
   "liv": {
     "name": "Liv",
@@ -187,7 +212,7 @@
       "Pink",
       "Underage"
     ],
-    "order": 8
+    "order": 9
   },
   "liv-the-fox": {
     "name": "Liv the fox",
@@ -208,7 +233,7 @@
       "Female",
       "God"
     ],
-    "order": 9
+    "order": 10
   },
   "timur": {
     "name": "Timur Li",
@@ -230,7 +255,7 @@
       "Not pure zo",
       "Underage"
     ],
-    "order": 10
+    "order": 11
   },
   "davaphorict-li": {
     "name": "Davaphorict Li",
@@ -250,7 +275,7 @@
       "Not pure zo",
       "Male"
     ],
-    "order": 11
+    "order": 12
   },
   "aya-li": {
     "name": "Aya Li",
@@ -271,7 +296,7 @@
       "Not pure zo",
       "Female"
     ],
-    "order": 12
+    "order": 13
   },
   "maya-li": {
     "name": "Maya Li",
@@ -292,7 +317,22 @@
       "Female",
       "Not pure zo"
     ],
-    "order": 13
+    "order": 14
+  },
+  "potat": {
+    "name": "Potat",
+    "avatar": "https://i.pinimg.com/236x/0f/d4/b9/0fd4b909ba5b2cc969629863b19488da.jpg",
+    "group": [
+      "zo"
+    ],
+    "spieces": [
+      "zo"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [],
+    "order": 15
   },
   "non-li": {
     "name": "Non Li",
@@ -333,22 +373,7 @@
       "Male",
       "Horny beast 👅"
     ],
-    "order": 14
-  },
-  "potat": {
-    "name": "Potat",
-    "avatar": "https://i.pinimg.com/236x/0f/d4/b9/0fd4b909ba5b2cc969629863b19488da.jpg",
-    "group": [
-      "zo"
-    ],
-    "spieces": [
-      "zo"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [],
-    "order": 15
+    "order": 16
   },
   "steele-li": {
     "name": "Steele Li",
@@ -362,15 +387,53 @@
     "info": "",
     "gallery": [
       "https://i.pinimg.com/originals/5a/a2/44/5aa2443b8fd70ca55f636f354239b438.png",
-      "https://i.pinimg.com/originals/ac/5d/07/ac5d0701713e139baf00d9476470e6d7.png"
+      "https://i.pinimg.com/originals/ac/5d/07/ac5d0701713e139baf00d9476470e6d7.png",
+      "https://i.pinimg.com/originals/42/ef/e0/42efe0613a400aef3f41ccdac25d6dea.png",
+      "https://i.pinimg.com/originals/2c/26/12/2c2612cd8a6a163fdcbc7984625ac653.png",
+      "https://i.pinimg.com/originals/ab/83/ab/ab83ab654b361a875f1adb2188d85613.png",
+      "https://i.pinimg.com/originals/92/fe/2e/92fe2efa296e5e4edd752f21ae0f4ff0.png",
+      "https://i.pinimg.com/originals/f5/04/53/f50453ba93088a0a324fac799c37faaa.png",
+      "https://i.pinimg.com/originals/32/95/d6/3295d680cf7309510ac3ac32ab364c31.png"
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "images": [
+          "https://i.pinimg.com/originals/81/04/45/8104458217718f8bc5765010444f6ddd.jpg"
+        ],
+        "description": "Very good brother Steele 🥹"
+      },
+      {
+        "images": [
+          "https://i.pinimg.com/originals/55/4c/0d/554c0d1e52a6f3c6e8ce1b508d475a98.png"
+        ],
+        "description": "First time Steele discover anime! He was shocked XD"
+      },
+      {
+        "images": [
+          "https://i.pinimg.com/originals/c6/63/06/c6630693b99cf99f52af4a7aa0d4c384.jpg",
+          "https://i.pinimg.com/originals/a8/3f/0f/a83f0faed805eb175478b78571b84e35.png"
+        ],
+        "description": "A little white cat plushie represent Non and made by Non. Non made little Steele a cuddle plushie to comfort him from terrible gun noises every night.💗"
+      },
+      {
+        "images": [
+          "https://i.pinimg.com/originals/83/3f/ce/833fce7fb928ce827caef0557b62b501.png"
+        ],
+        "description": "This is not gay. A girl dating a guy is NOT GAY."
+      },
+      {
+        "images": [
+          "https://i.pinimg.com/originals/5a/93/3e/5a933e84a1e6af2cab805936bc77e9ae.png"
+        ],
+        "description": "It's not a phase mom."
+      }
+    ],
     "tags": [
       "Not pure zo",
       "Male",
       "Green"
     ],
-    "order": 16
+    "order": 17
   },
   "toline-li": {
     "name": "Toline Li",
@@ -393,7 +456,7 @@
       "Not pure zo",
       "Red"
     ],
-    "order": 17
+    "order": 18
   },
   "celia-li": {
     "name": "Celia Li",
@@ -416,7 +479,7 @@
       "Green",
       "Pink"
     ],
-    "order": 18
+    "order": 19
   },
   "killfy": {
     "name": "Killfy Li",
@@ -440,7 +503,7 @@
       "Red",
       "Pink"
     ],
-    "order": 19
+    "order": 20
   },
   "heix-li": {
     "name": "Heix Li",
@@ -463,7 +526,7 @@
       "Male",
       "Not pure zo"
     ],
-    "order": 20
+    "order": 21
   },
   "vhhz": {
     "name": "Vhhz",
@@ -493,7 +556,7 @@
       "Male",
       "Vrev"
     ],
-    "order": 21
+    "order": 22
   },
   "leeo": {
     "name": "Leeo",
@@ -508,7 +571,9 @@
     ],
     "info": "",
     "gallery": [
-      "https://i.pinimg.com/originals/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.png"
+      "https://i.pinimg.com/originals/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.png",
+      "https://i.pinimg.com/originals/78/43/d3/7843d3e9d55ef8822ed4f8ac27abecc9.jpg",
+      "https://i.pinimg.com/originals/2f/3a/93/2f3a93544994d5e5c9631b34f0b5949c.png"
     ],
     "breadcrumbs": [],
     "tags": [
@@ -517,7 +582,7 @@
       "↺✦Black Ring ✦↻",
       "God"
     ],
-    "order": 22
+    "order": 23
   },
   "maary": {
     "name": "Maary",
@@ -532,14 +597,17 @@
     ],
     "info": "",
     "gallery": [
-      "https://i.pinimg.com/originals/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.png"
+      "https://i.pinimg.com/originals/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.png",
+      "https://i.pinimg.com/originals/d2/aa/b7/d2aab73d70a23470a8df6e5e21eea1af.jpg",
+      "https://i.pinimg.com/originals/e3/97/49/e3974942c4d06d514d3b55197553e10a.jpg",
+      "https://i.pinimg.com/originals/d6/71/93/d67193c959ebeeac87aec77c920c59bb.jpg"
     ],
     "breadcrumbs": [],
     "tags": [
       "Vrev",
       "Female"
     ],
-    "order": 23
+    "order": 24
   },
   "naame": {
     "name": "Naame the intern",
@@ -617,7 +685,7 @@
       "Black",
       "My personal favorite 💗"
     ],
-    "order": 24
+    "order": 25
   },
   "uaawa": {
     "name": "Uaawa",
@@ -637,7 +705,7 @@
       "Vrev",
       "Male"
     ],
-    "order": 25
+    "order": 26
   },
   "miimi": {
     "name": "Miimi",
@@ -658,7 +726,7 @@
       "Female",
       "Underage"
     ],
-    "order": 26
+    "order": 27
   },
   "joon": {
     "name": "Joon",
@@ -679,7 +747,7 @@
       "Female",
       "Underage"
     ],
-    "order": 27
+    "order": 28
   },
   "bush": {
     "name": "Bush",
@@ -694,7 +762,15 @@
     ],
     "info": "",
     "gallery": [
-      "https://i.pinimg.com/originals/88/de/02/88de027c053018b6ef5f0d1baba3f362.png"
+      "https://i.pinimg.com/originals/88/de/02/88de027c053018b6ef5f0d1baba3f362.png",
+      "https://64.media.tumblr.com/7d3feec8258a7057c563bff44bd6f2d8/d02fb0aadf57e69e-64/s400x600/7c269c8f0e206feaa7dd757ed9cd28d14568bb83.gifv",
+      "https://i.pinimg.com/originals/3d/84/03/3d8403c4371f5ff6dcfd6f15123ed744.png",
+      "https://i.pinimg.com/originals/62/71/c4/6271c42e5fcc148d211d9ba55aafc2f8.png",
+      "https://i.pinimg.com/originals/3a/48/4f/3a484f2c2901014289c4f2bb4df696ea.png",
+      "https://i.pinimg.com/originals/ec/7c/7a/ec7c7aa3d69f75034be582833065a1e0.png",
+      "https://i.pinimg.com/originals/55/28/20/5528208c5f4cbee80bcf85a5f03b1cf5.png",
+      "https://i.pinimg.com/originals/ce/11/f8/ce11f8d2ecf88603fcadd3924488d863.jpg",
+      "https://i.pinimg.com/originals/f1/24/b0/f124b03a5191d621f07b2cb4d85411b0.png"
     ],
     "breadcrumbs": [
       {
@@ -712,7 +788,7 @@
       "Green",
       "God"
     ],
-    "order": 28
+    "order": 29
   },
   "echo": {
     "name": "Echo",
@@ -722,14 +798,20 @@
     ],
     "spieces": [],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      "https://i.pinimg.com/originals/1d/64/41/1d6441942055a67b0edec225b50c3dc7.png",
+      "https://i.pinimg.com/originals/5f/42/b6/5f42b638a8fc6a2349f6a75a1e03cbf9.png",
+      "https://i.pinimg.com/originals/55/28/20/5528208c5f4cbee80bcf85a5f03b1cf5.png",
+      "https://i.pinimg.com/originals/b8/b1/f1/b8b1f1477019e6675e1142c1feb6cdb8.png",
+      "https://i.pinimg.com/originals/57/b3/a8/57b3a8d1d741cccc3c70adf3c74f5454.jpg"
+    ],
     "breadcrumbs": [],
     "tags": [
       "Horny beast 👅",
       "Candy cockroach",
       "No gender"
     ],
-    "order": 29
+    "order": 30
   },
   "elha": {
     "name": "Elha",
@@ -749,7 +831,7 @@
       "No gender",
       "Candy cockroach"
     ],
-    "order": 30
+    "order": 31
   },
   "the-queen": {
     "name": "The queen",
@@ -769,7 +851,7 @@
       "No gender",
       "Candy cockroach"
     ],
-    "order": 31
+    "order": 32
   },
   "bee": {
     "name": "Bee",
@@ -791,7 +873,7 @@
       "No gender",
       "Lore outsider"
     ],
-    "order": 32
+    "order": 33
   },
   "hikagi": {
     "name": "Hikagi",
@@ -804,7 +886,10 @@
     ],
     "info": "",
     "gallery": [
-      "https://i.pinimg.com/originals/42/1e/b1/421eb125c864868755962768539ad43a.png"
+      "https://i.pinimg.com/originals/42/1e/b1/421eb125c864868755962768539ad43a.png",
+      "https://i.pinimg.com/originals/f1/32/cd/f132cdc512da142d2e17311dcb280094.png",
+      "https://i.pinimg.com/originals/82/98/c3/8298c38310dc86abbf40e2b5b0bab5a2.png",
+      "https://i.pinimg.com/originals/89/cf/0a/89cf0a7215342869efd99bc5d1076228.png"
     ],
     "breadcrumbs": [],
     "tags": [
@@ -812,7 +897,7 @@
       "God",
       "Lore outsider"
     ],
-    "order": 33
+    "order": 34
   },
   "kumi": {
     "name": "Kumi",
@@ -824,14 +909,18 @@
       "god"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      "https://i.pinimg.com/originals/bd/5d/26/bd5d266c1b609d93d1806ba52b7534ca.png",
+      "https://i.pinimg.com/originals/07/61/17/0761172b5162f3f96801476599f3729d.png",
+      "https://i.pinimg.com/736x/d6/a9/a8/d6a9a8cc1da6361351217971aaf9e354.jpg"
+    ],
     "breadcrumbs": [],
     "tags": [
       "God",
       "Female",
       "Lore outsider"
     ],
-    "order": 34
+    "order": 35
   },
   "esme": {
     "name": "Esme",
@@ -843,14 +932,18 @@
       "god"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      "https://i.pinimg.com/736x/50/c1/67/50c167b0f17645289a9b9fbdfdde7300.jpg",
+      "https://i.pinimg.com/originals/f0/3a/b5/f03ab51f4b3c3c3c4b74630eb7486cdb.jpg",
+      "https://i.pinimg.com/originals/3f/48/c2/3f48c2e22541311a4ba7418c657495c6.jpg"
+    ],
     "breadcrumbs": [],
     "tags": [
       "Female",
       "God",
       "Lore outsider"
     ],
-    "order": 35
+    "order": 36
   },
   "hydra": {
     "name": "Hydra",
@@ -862,14 +955,18 @@
       "god"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      "https://i.pinimg.com/originals/04/27/be/0427be16508b3e1a07ca114e833c8a1b.png",
+      "https://i.pinimg.com/originals/b3/5e/e0/b35ee01d89cf75a64a8bd230cfc2b465.png",
+      "https://i.pinimg.com/originals/2a/4a/1d/2a4a1db386fe391cc18379eda734b39d.jpg"
+    ],
     "breadcrumbs": [],
     "tags": [
       "God",
       "Female",
       "Lore outsider"
     ],
-    "order": 36
+    "order": 37
   },
   "non": {
     "name": "Non",
@@ -881,10 +978,12 @@
       "god"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      "https://i.pinimg.com/736x/1a/6c/57/1a6c5730539269efe175e9182b3776f9.jpg"
+    ],
     "breadcrumbs": [],
     "tags": [],
-    "order": 37
+    "order": 38
   },
   "raki-chan": {
     "name": "Raki chan~",
@@ -896,10 +995,14 @@
       "god"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      "https://i.pinimg.com/originals/9c/b3/4a/9cb34a6e253af1885a258ec7ef8f08ce.png",
+      "https://i.pinimg.com/originals/b2/e4/6d/b2e46de2e850ba7154b56ab26e887c5e.jpg",
+      "https://i.pinimg.com/originals/4a/7d/8d/4a7d8dc1c6be4b7e4ca4308eaa290170.png"
+    ],
     "breadcrumbs": [],
     "tags": [],
-    "order": 38
+    "order": 39
   },
   "pizza-vibrator": {
     "name": "Pizza vibrator",
@@ -914,7 +1017,7 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 39
+    "order": 40
   },
   "deep-sea-girl": {
     "name": "Deep sea girl",
@@ -932,7 +1035,7 @@
       "Female",
       "God"
     ],
-    "order": 40
+    "order": 41
   },
   "kira-kira-kiki": {
     "name": "Kira Kira Kiki",
@@ -947,7 +1050,7 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 41
+    "order": 42
   },
   "dark-lone-wolf-fallen-angel": {
     "name": "DARK LONE WOLF FALLEN ANGEL",
@@ -962,7 +1065,7 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 42
+    "order": 43
   },
   "lacey": {
     "name": "Lacey",
@@ -981,7 +1084,7 @@
       "Pony",
       "Lore outsider"
     ],
-    "order": 43
+    "order": 44
   },
   "fire-fall": {
     "name": "Fire Fall",
@@ -999,7 +1102,7 @@
       "Pony",
       "Lore outsider"
     ],
-    "order": 44
+    "order": 45
   },
   "huge": {
     "name": "Huge",
@@ -1012,6 +1115,6 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 45
+    "order": 46
   }
 }
