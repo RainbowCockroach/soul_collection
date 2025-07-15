@@ -1,50 +1,44 @@
 {
-  "vrev": {
-    "name": "•⩊• Vrev •⩊•",
-    "frameColour": "#bfadff",
-    "groupHeaderColour": "#bfadff",
-    "groupHeaderTextColour": "#060542"
-  },
   "human": {
     "name": "𐀪𖠋 Human 𐦂𖨆",
     "frameColour": "#ffd5b3",
     "groupHeaderColour": "#ffd5b3",
-    "groupHeaderTextColour": "#59351d"
+    "groupHeaderTextColour": "#59351d",
+    "order": 0
   },
   "zo": {
     "name": "𓅪 Zo 𓅪",
     "frameColour": "#c2ffd9",
     "groupHeaderColour": "#c2ffd9",
-    "groupHeaderTextColour": "#134e32"
+    "groupHeaderTextColour": "#134e32",
+    "order": 1
   },
   "god": {
     "name": "-ˋˏ ༻ God ༺ ˎˊ-",
     "frameColour": "#ffadd9",
     "groupHeaderColour": "#ffadd9",
-    "groupHeaderTextColour": "#54083f"
+    "groupHeaderTextColour": "#54083f",
+    "order": 2
+  },
+  "vrev": {
+    "name": "•⩊• Vrev •⩊•",
+    "frameColour": "#bfadff",
+    "groupHeaderColour": "#bfadff",
+    "groupHeaderTextColour": "#060542",
+    "order": 3
   },
   "candy-cockroach": {
     "name": "𖹭 Candy cockroach 𖹭",
     "frameColour": "#ccf0ff",
     "groupHeaderColour": "#ccf0ff",
-    "groupHeaderTextColour": "#053042"
+    "groupHeaderTextColour": "#053042",
+    "order": 4
   },
   "other": {
     "name": "Other",
     "frameColour": "#f3ffb8",
     "groupHeaderColour": "#f3ffb8",
-    "groupHeaderTextColour": "#504007"
-  },
-  "black-ring": {
-    "name": "↺✦Black Ring ✦↻",
-    "frameColour": "#666666",
-    "groupHeaderColour": "#666666",
-    "groupHeaderTextColour": "#ffffff"
-  },
-  "li-family": {
-    "name": "Li family",
-    "frameColour": "#87ceeb",
-    "groupHeaderColour": "#87ceeb",
-    "groupHeaderTextColour": "#2f4f4f"
+    "groupHeaderTextColour": "#504007",
+    "order": 5
   }
 }

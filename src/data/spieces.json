@@ -1,23 +1,65 @@
 {
   "slime-non": {
     "name": "Slime Non",
-    "description": "This is slime",
+    "description": "Non non non? Non non non non! Non non~",
     "gallery": [
       "https://i.pinimg.com/originals/46/8b/f0/468bf08e583353813392b78f3a358e58.png"
     ]
   },
   "vrev": {
     "name": "Vrev",
-    "description": "BIG TAILS FLUFFY GOOD",
+    "description": "BIG TAILS FLUFFY GOOD!!! Originally came from Vreva with the population of 4000 but after the \"CE2-TU5\" break out, Only over 1000 survivor vrevs are left, living on different planets.",
     "gallery": [
       "https://i.pinimg.com/originals/57/9e/0c/579e0c226f7eb0bd84e9ccbe9024797f.png"
     ]
   },
   "not-pure-zo": {
     "name": "Not pure zo",
-    "description": "This zo can not fly",
+    "description": "This zo can not fly.",
     "gallery": [
       "https://i.pinimg.com/originals/37/b2/9b/37b29bda36d008e364073566bdd385bc.png"
+    ]
+  },
+  "human": {
+    "name": "Human",
+    "description": "Just a normal human being.",
+    "gallery": [
+      "https://i.pinimg.com/originals/6f/fc/80/6ffc80180a2f5100c5445cb9c87a875b.png"
+    ]
+  },
+  "gods-favorite-human": {
+    "name": "God's favorite human",
+    "description": "Those who are lucky enough to be chosen! Or they were made by god from scratch. 👀",
+    "gallery": [
+      "https://i.pinimg.com/originals/f2/d6/b3/f2d6b3194f0e2df325a28a07d3767771.png"
+    ]
+  },
+  "god": {
+    "name": "God",
+    "description": "A chance, a new life, a new world, for free![b]Or is it?[/b]",
+    "gallery": [
+      "https://i.pinimg.com/originals/3f/b2/44/3fb2449ce944b85b97962f4abf59d07c.png"
+    ]
+  },
+  "improved-human": {
+    "name": "Improved human",
+    "description": "No longer a normal human being! You are now one special child with special abilities!",
+    "gallery": [
+      "https://i.pinimg.com/originals/62/44/5c/62445ca5ba314cd6c098f4d03603e768.png"
+    ]
+  },
+  "candy-cockroach": {
+    "name": "Candy cockroach",
+    "description": "Born as a candy, hatch into cockroach, turn human when they are adult. Their god must have a lot of funs making them!",
+    "gallery": [
+      "https://i.pinimg.com/originals/8e/c2/96/8ec2960720a2335a0c26898afe91af83.png"
+    ]
+  },
+  "zo": {
+    "name": "Zo",
+    "description": "Pure zo! This one is kinda broken tho",
+    "gallery": [
+      "https://i.pinimg.com/originals/a3/64/ec/a364ec16b47ffc999909a40ef787bc68.png"
     ]
   }
 }
