@@ -41,6 +41,16 @@ interface SortableOcItemProps {
   onDelete: (slug: string) => void;
 }
 
+interface SortableBreadcrumbItemProps {
+  breadcrumb: BreadcrumbItem;
+  index: number;
+  onRemove: (index: number) => void;
+  onDescriptionChange: (index: number, value: string) => void;
+  onImageChange: (breadcrumbIndex: number, imageIndex: number, value: string) => void;
+  onAddImage: (breadcrumbIndex: number) => void;
+  onRemoveImage: (breadcrumbIndex: number, imageIndex: number) => void;
+}
+
 const SortableOcItem: React.FC<SortableOcItemProps> = ({
   oc,
   isSelected,
@@ -97,6 +107,91 @@ const SortableOcItem: React.FC<SortableOcItemProps> = ({
   );
 };
 
+const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
+  breadcrumb,
+  index,
+  onRemove,
+  onDescriptionChange,
+  onImageChange,
+  onAddImage,
+  onRemoveImage,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `breadcrumb-${index}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className="editor-oc-breadcrumb-item"
+    >
+      <div className="editor-oc-breadcrumb-header">
+        <div className="editor-oc-breadcrumb-drag-handle" {...listeners}>
+          ⋮⋮
+        </div>
+        <h4>Breadcrumb {index + 1}</h4>
+        <button
+          onClick={() => onRemove(index)}
+          className="editor-oc-remove-button"
+        >
+          Remove Breadcrumb
+        </button>
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Description:</label>
+        <textarea
+          value={breadcrumb.description}
+          onChange={(e) => onDescriptionChange(index, e.target.value)}
+          rows={3}
+          className="editor-oc-textarea"
+          placeholder="Breadcrumb description"
+        />
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Images:</label>
+        {breadcrumb.images.map((imageUrl, imageIndex) => (
+          <div key={imageIndex} className="editor-oc-array-item">
+            <input
+              type="text"
+              value={imageUrl}
+              onChange={(e) => onImageChange(index, imageIndex, e.target.value)}
+              className="editor-oc-array-input"
+              placeholder="Image URL"
+            />
+            <button
+              onClick={() => onRemoveImage(index, imageIndex)}
+              className="editor-oc-remove-button"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={() => onAddImage(index)}
+          className="editor-oc-add-button"
+        >
+          Add Image
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export const EditorOc: React.FC = () => {
   const [ocData, setOcData] = useState<OcJsonData>({});
   const [ocsArray, setOcsArray] = useState<OC[]>([]);
@@ -106,6 +201,7 @@ export const EditorOc: React.FC = () => {
   const [editingItem, setEditingItem] = useState<OC | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [dragMode, setDragMode] = useState(false);
+  const [breadcrumbDragMode, setBreadcrumbDragMode] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -193,6 +289,19 @@ export const EditorOc: React.FC = () => {
       setOcData(updatedData);
 
       toast.success("OCs reordered! Use 'Copy to clipboard' to export.");
+    }
+  };
+
+  const handleBreadcrumbDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id && editingItem) {
+      const activeIndex = parseInt(active.id.toString().replace('breadcrumb-', ''));
+      const overIndex = parseInt(over?.id.toString().replace('breadcrumb-', '') || '0');
+
+      const newBreadcrumbs = arrayMove(editingItem.breadcrumbs, activeIndex, overIndex);
+      setEditingItem({ ...editingItem, breadcrumbs: newBreadcrumbs });
+      toast.success("Breadcrumbs reordered!");
     }
   };
 
@@ -652,72 +761,112 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-oc-field">
-                <label className="editor-oc-label">Breadcrumbs:</label>
-                {editingItem.breadcrumbs.map((breadcrumb, index) => (
-                  <div key={index} className="editor-oc-breadcrumb-item">
-                    <div className="editor-oc-breadcrumb-header">
-                      <h4>Breadcrumb {index + 1}</h4>
-                      <button
-                        onClick={() => handleRemoveBreadcrumb(index)}
-                        className="editor-oc-remove-button"
-                      >
-                        Remove Breadcrumb
-                      </button>
-                    </div>
-
-                    <div className="editor-oc-field">
-                      <label className="editor-oc-label">Description:</label>
-                      <textarea
-                        value={breadcrumb.description}
-                        onChange={(e) =>
-                          handleBreadcrumbChange(
-                            index,
-                            "description",
-                            e.target.value
-                          )
-                        }
-                        rows={3}
-                        className="editor-oc-textarea"
-                        placeholder="Breadcrumb description"
-                      />
-                    </div>
-
-                    <div className="editor-oc-field">
-                      <label className="editor-oc-label">Images:</label>
-                      {breadcrumb.images.map((imageUrl, imageIndex) => (
-                        <div key={imageIndex} className="editor-oc-array-item">
-                          <input
-                            type="text"
-                            value={imageUrl}
-                            onChange={(e) =>
-                              handleBreadcrumbImageChange(
-                                index,
-                                imageIndex,
-                                e.target.value
-                              )
-                            }
-                            className="editor-oc-array-input"
-                            placeholder="Image URL"
-                          />
-                          <button
-                            onClick={() =>
-                              handleRemoveBreadcrumbImage(index, imageIndex)
-                            }
-                            className="editor-oc-remove-button"
-                          >
-                            Remove
-                          </button>
-                        </div>
+                <div className="editor-oc-breadcrumb-controls">
+                  <label className="editor-oc-label">Breadcrumbs:</label>
+                  <button
+                    onClick={() => setBreadcrumbDragMode(!breadcrumbDragMode)}
+                    className={`editor-oc-button ${breadcrumbDragMode ? "active" : ""}`}
+                    style={{ marginLeft: "10px", fontSize: "12px", padding: "4px 8px" }}
+                  >
+                    {breadcrumbDragMode ? "Exit Drag Mode" : "Rearrange Breadcrumbs"}
+                  </button>
+                </div>
+                {breadcrumbDragMode && editingItem.breadcrumbs.length > 0 && (
+                  <p style={{ fontSize: "12px", color: "#666", marginBottom: "10px" }}>
+                    Drag the ⋮⋮ handle to reorder breadcrumbs
+                  </p>
+                )}
+                {breadcrumbDragMode ? (
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleBreadcrumbDragEnd}
+                  >
+                    <SortableContext
+                      items={editingItem.breadcrumbs.map((_, index) => `breadcrumb-${index}`)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {editingItem.breadcrumbs.map((breadcrumb, index) => (
+                        <SortableBreadcrumbItem
+                          key={`breadcrumb-${index}`}
+                          breadcrumb={breadcrumb}
+                          index={index}
+                          onRemove={handleRemoveBreadcrumb}
+                          onDescriptionChange={(idx, value) => handleBreadcrumbChange(idx, "description", value)}
+                          onImageChange={handleBreadcrumbImageChange}
+                          onAddImage={handleAddBreadcrumbImage}
+                          onRemoveImage={handleRemoveBreadcrumbImage}
+                        />
                       ))}
-                      <button
-                        onClick={() => handleAddBreadcrumbImage(index)}
-                        className="editor-oc-add-button"
-                      >
-                        Add Image
-                      </button>
+                    </SortableContext>
+                  </DndContext>
+                ) : (
+                  editingItem.breadcrumbs.map((breadcrumb, index) => (
+                    <div key={index} className="editor-oc-breadcrumb-item">
+                      <div className="editor-oc-breadcrumb-header">
+                        <h4>Breadcrumb {index + 1}</h4>
+                        <button
+                          onClick={() => handleRemoveBreadcrumb(index)}
+                          className="editor-oc-remove-button"
+                        >
+                          Remove Breadcrumb
+                        </button>
+                      </div>
+
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Description:</label>
+                        <textarea
+                          value={breadcrumb.description}
+                          onChange={(e) =>
+                            handleBreadcrumbChange(
+                              index,
+                              "description",
+                              e.target.value
+                            )
+                          }
+                          rows={3}
+                          className="editor-oc-textarea"
+                          placeholder="Breadcrumb description"
+                        />
+                      </div>
+
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Images:</label>
+                        {breadcrumb.images.map((imageUrl, imageIndex) => (
+                          <div key={imageIndex} className="editor-oc-array-item">
+                            <input
+                              type="text"
+                              value={imageUrl}
+                              onChange={(e) =>
+                                handleBreadcrumbImageChange(
+                                  index,
+                                  imageIndex,
+                                  e.target.value
+                                )
+                              }
+                              className="editor-oc-array-input"
+                              placeholder="Image URL"
+                            />
+                            <button
+                              onClick={() =>
+                                handleRemoveBreadcrumbImage(index, imageIndex)
+                              }
+                              className="editor-oc-remove-button"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => handleAddBreadcrumbImage(index)}
+                          className="editor-oc-add-button"
+                        >
+                          Add Image
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
                 <button
                   onClick={handleAddBreadcrumb}
                   className="editor-oc-add-button"

@@ -213,3 +213,22 @@
   margin: 0;
   color: #333;
 }
+
+.editor-oc-breadcrumb-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.editor-oc-breadcrumb-drag-handle {
+  cursor: grab;
+  padding: 0 8px;
+  user-select: none;
+  color: #666;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.editor-oc-breadcrumb-drag-handle:active {
+  cursor: grabbing;
+}
