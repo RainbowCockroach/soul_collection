@@ -45,6 +45,7 @@ interface SortableBreadcrumbItemProps {
   breadcrumb: BreadcrumbItem;
   index: number;
   onRemove: (index: number) => void;
+  onTitleChange: (index: number, value: string) => void;
   onDescriptionChange: (index: number, value: string) => void;
   onImageChange: (breadcrumbIndex: number, imageIndex: number, value: string) => void;
   onAddImage: (breadcrumbIndex: number) => void;
@@ -111,6 +112,7 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
   breadcrumb,
   index,
   onRemove,
+  onTitleChange,
   onDescriptionChange,
   onImageChange,
   onAddImage,
@@ -149,6 +151,17 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
         >
           Remove Breadcrumb
         </button>
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Title:</label>
+        <input
+          type="text"
+          value={breadcrumb.title || ""}
+          onChange={(e) => onTitleChange(index, e.target.value)}
+          className="editor-oc-input"
+          placeholder="Breadcrumb title"
+        />
       </div>
 
       <div className="editor-oc-field">
@@ -424,13 +437,18 @@ export const EditorOc: React.FC = () => {
 
   const handleBreadcrumbChange = (
     index: number,
-    field: "description" | "images",
+    field: "title" | "description" | "images",
     value: string | string[]
   ) => {
     if (!editingItem) return;
 
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
-    if (field === "description") {
+    if (field === "title") {
+      updatedBreadcrumbs[index] = {
+        ...updatedBreadcrumbs[index],
+        title: value as string,
+      };
+    } else if (field === "description") {
       updatedBreadcrumbs[index] = {
         ...updatedBreadcrumbs[index],
         description: value as string,
@@ -491,7 +509,7 @@ export const EditorOc: React.FC = () => {
   const handleAddBreadcrumb = () => {
     if (!editingItem) return;
 
-    const newBreadcrumb: BreadcrumbItem = { images: [], description: "" };
+    const newBreadcrumb: BreadcrumbItem = { title: "", images: [], description: "" };
     setEditingItem({
       ...editingItem,
       breadcrumbs: [...editingItem.breadcrumbs, newBreadcrumb],
@@ -792,6 +810,7 @@ export const EditorOc: React.FC = () => {
                           breadcrumb={breadcrumb}
                           index={index}
                           onRemove={handleRemoveBreadcrumb}
+                          onTitleChange={(idx, value) => handleBreadcrumbChange(idx, "title", value)}
                           onDescriptionChange={(idx, value) => handleBreadcrumbChange(idx, "description", value)}
                           onImageChange={handleBreadcrumbImageChange}
                           onAddImage={handleAddBreadcrumbImage}
@@ -811,6 +830,23 @@ export const EditorOc: React.FC = () => {
                         >
                           Remove Breadcrumb
                         </button>
+                      </div>
+
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Title:</label>
+                        <input
+                          type="text"
+                          value={breadcrumb.title || ""}
+                          onChange={(e) =>
+                            handleBreadcrumbChange(
+                              index,
+                              "title",
+                              e.target.value
+                            )
+                          }
+                          className="editor-oc-input"
+                          placeholder="Breadcrumb title"
+                        />
                       </div>
 
                       <div className="editor-oc-field">

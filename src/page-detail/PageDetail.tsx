@@ -145,10 +145,10 @@ const PageDetail: React.FC = () => {
         <div className="div-3d-with-shadow detail-section-content">
           <ImageWithInfoMany
             ref={breadcrumbsCarouselRef}
-            items={oc.breadcrumbs.map((breadcrumb, index) => ({
+            items={oc.breadcrumbs.map((breadcrumb) => ({
               images: breadcrumb.images,
               description: breadcrumb.description,
-              title: `Breadcrumb ${index + 1}`,
+              title: breadcrumb.title,
             }))}
           />
         </div>

@@ -15,6 +15,7 @@ export interface Spieces {
 }
 
 export interface BreadcrumbItem {
+  title?: string; // Optional title for the breadcrumb
   images: string[]; // Array of image URLs
   description: string; // Rich text description
 }
