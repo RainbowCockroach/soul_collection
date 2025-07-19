@@ -20,6 +20,12 @@ export interface BreadcrumbItem {
   description: string; // Rich text description
 }
 
+export interface GalleryItem {
+  image: string;
+  thumbnail?: string;
+  caption?: string;
+}
+
 export interface OC {
   slug: string;
   name: string;
@@ -27,7 +33,7 @@ export interface OC {
   group: string[]; // Group slugs
   spieces: string[]; // Species slugs
   info: string; // Rich text
-  gallery: string[]; // Image URLs
+  gallery: GalleryItem[]; // Gallery items with image, thumbnail, and caption
   breadcrumbs: BreadcrumbItem[]; // Array of breadcrumb items
   tags: string[];
   order?: number; // Display order

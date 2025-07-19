@@ -55,7 +55,7 @@ const PageDetail: React.FC = () => {
 
   useEffect(() => {
     if (oc?.gallery && oc.gallery.length > 0) {
-      setCurrentDisplayAvatar(oc.gallery[0]);
+      setCurrentDisplayAvatar(oc.gallery[0].image);
     }
   }, [oc]);
 
