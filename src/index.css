@@ -16,6 +16,7 @@
   /* Font variables */
   --font-primary: "Comic Relief", "Comic Sans MS", "Chalkboard SE", cursive;
   --font-secondary: "Arial", sans-serif;
+  background-color: var(--color-purple);
 }
 
 /* Desktop font size */
@@ -60,7 +61,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--color-purple);
 }
 
 h1 {
