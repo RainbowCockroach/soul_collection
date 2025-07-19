@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import type { OC, Group, Spieces, BreadcrumbItem } from "../helpers/objects";
+import type { OC, Group, Spieces, BreadcrumbItem, GalleryItem } from "../helpers/objects";
 import { loadOCs, loadGroups, loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
@@ -410,7 +410,7 @@ export const EditorOc: React.FC = () => {
   };
 
   const handleArrayFieldChange = (
-    field: "gallery" | "tags",
+    field: "tags",
     index: number,
     value: string
   ) => {
@@ -421,18 +421,45 @@ export const EditorOc: React.FC = () => {
     setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
-  const handleAddArrayItem = (field: "gallery" | "tags") => {
+  const handleGalleryFieldChange = (
+    index: number,
+    field: "image" | "thumbnail" | "caption",
+    value: string
+  ) => {
+    if (!editingItem) return;
+
+    const updatedGallery = [...editingItem.gallery];
+    updatedGallery[index] = { ...updatedGallery[index], [field]: value };
+    setEditingItem({ ...editingItem, gallery: updatedGallery });
+  };
+
+  const handleAddArrayItem = (field: "tags") => {
     if (!editingItem) return;
 
     const updatedArray = [...editingItem[field], ""];
     setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
-  const handleRemoveArrayItem = (field: "gallery" | "tags", index: number) => {
+  const handleRemoveArrayItem = (field: "tags", index: number) => {
     if (!editingItem) return;
 
     const updatedArray = editingItem[field].filter((_, i) => i !== index);
     setEditingItem({ ...editingItem, [field]: updatedArray });
+  };
+
+  const handleAddGalleryItem = () => {
+    if (!editingItem) return;
+
+    const newGalleryItem: GalleryItem = { image: "", thumbnail: "", caption: "" };
+    const updatedGallery = [...editingItem.gallery, newGalleryItem];
+    setEditingItem({ ...editingItem, gallery: updatedGallery });
+  };
+
+  const handleRemoveGalleryItem = (index: number) => {
+    if (!editingItem) return;
+
+    const updatedGallery = editingItem.gallery.filter((_, i) => i !== index);
+    setEditingItem({ ...editingItem, gallery: updatedGallery });
   };
 
   const handleBreadcrumbChange = (
@@ -751,27 +778,60 @@ export const EditorOc: React.FC = () => {
 
               <div className="editor-oc-field">
                 <label className="editor-oc-label">Gallery:</label>
-                {editingItem.gallery.map((url, index) => (
-                  <div key={index} className="editor-oc-array-item">
-                    <input
-                      type="text"
-                      value={url}
-                      onChange={(e) =>
-                        handleArrayFieldChange("gallery", index, e.target.value)
-                      }
-                      className="editor-oc-array-input"
-                      placeholder="Image URL"
-                    />
-                    <button
-                      onClick={() => handleRemoveArrayItem("gallery", index)}
-                      className="editor-oc-remove-button"
-                    >
-                      Remove
-                    </button>
+                {editingItem.gallery.map((galleryItem, index) => (
+                  <div key={index} className="editor-oc-gallery-item">
+                    <div className="editor-oc-gallery-header">
+                      <h4>Gallery Item {index + 1}</h4>
+                      <button
+                        onClick={() => handleRemoveGalleryItem(index)}
+                        className="editor-oc-remove-button"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    
+                    <div className="editor-oc-field">
+                      <label className="editor-oc-label">Image URL:</label>
+                      <input
+                        type="text"
+                        value={galleryItem.image}
+                        onChange={(e) =>
+                          handleGalleryFieldChange(index, "image", e.target.value)
+                        }
+                        className="editor-oc-input"
+                        placeholder="Image URL"
+                      />
+                    </div>
+
+                    <div className="editor-oc-field">
+                      <label className="editor-oc-label">Thumbnail URL:</label>
+                      <input
+                        type="text"
+                        value={galleryItem.thumbnail || ""}
+                        onChange={(e) =>
+                          handleGalleryFieldChange(index, "thumbnail", e.target.value)
+                        }
+                        className="editor-oc-input"
+                        placeholder="Thumbnail URL (optional)"
+                      />
+                    </div>
+
+                    <div className="editor-oc-field">
+                      <label className="editor-oc-label">Caption:</label>
+                      <input
+                        type="text"
+                        value={galleryItem.caption || ""}
+                        onChange={(e) =>
+                          handleGalleryFieldChange(index, "caption", e.target.value)
+                        }
+                        className="editor-oc-input"
+                        placeholder="Caption (optional)"
+                      />
+                    </div>
                   </div>
                 ))}
                 <button
-                  onClick={() => handleAddArrayItem("gallery")}
+                  onClick={handleAddGalleryItem}
                   className="editor-oc-add-button"
                 >
                   Add Gallery Item
