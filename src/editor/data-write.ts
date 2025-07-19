@@ -1,4 +1,4 @@
-import type { OC, Group, Spieces, GalleryItem } from "../helpers/objects";
+import type { OC, Group, Spieces } from "../helpers/objects";
 
 interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
