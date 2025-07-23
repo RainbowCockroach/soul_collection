@@ -8,7 +8,7 @@
   top: var(--top);
   width: var(--size);
   z-index: -1;
-  animation: sparkle var(--duration) var(--delay) var(--iteration) alternate;
+  animation: sparkle var(--duration) var(--iteration) alternate;
   pointer-events: none;
 }
 
