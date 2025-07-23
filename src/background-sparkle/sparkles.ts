@@ -1,30 +1,37 @@
+function randomBetween(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}
+
+function calculateTimeTillFinishAnimation(duration: number, iteration: number) {
+  return duration * iteration;
+}
+
 const randomProperties = function (particle: HTMLElement) {
-  const left = Math.floor(Math.random() * (99 - 1)) + 1;
+  const left = randomBetween(1, 99);
   particle.style.setProperty("--left", left + "%");
 
-  const top = Math.floor(Math.random() * (99 - 1)) + 1;
+  const top = randomBetween(1, 99);
   particle.style.setProperty("--top", top + "%");
 
-  const size = Math.floor(Math.random() * (6 - 2)) + 2;
+  const size = randomBetween(2, 6);
   particle.style.setProperty("--size", size + "px");
   particle.style.setProperty("--blur", size * 4 + "px");
   particle.style.setProperty("--spread", size + "px");
 
-  const opacity = Math.random() + 0.1;
+  const opacity = randomBetween(0.1, 1);
   particle.style.setProperty("--opacity", opacity.toString());
 
-  const duration = Math.floor(Math.random() * (800 - 300)) + 300;
-  particle.style.setProperty("--duration", duration + "ms");
+  const duration = randomBetween(1, 3);
+  particle.style.setProperty("--duration", duration + "s");
 
-  const delay = Math.floor(Math.random() * (1000 - 200)) + 200;
-  particle.style.setProperty("--delay", delay + "ms");
-
-  const iteration = Math.floor(Math.random() * (10 - 4)) + 4;
+  const iteration = randomBetween(4, 10);
   particle.style.setProperty("--iteration", iteration.toString());
+
+  return { duration, iteration };
 };
 
 export const addSparkles = function (): void {
-  const maxCount = Math.random() * 99 + 10;
+  const maxCount = randomBetween(10, 100);
 
   for (let i = 0; i < maxCount; i++) {
     const sparkle = document.createElement("div");
@@ -42,21 +49,25 @@ export const addSparkles = function (): void {
 
 export const startContinuousSparkles = function (): () => void {
   const generateSparkles = () => {
-    const count = Math.random() * 20 + 5; // 5-25 sparkles per generation
-    
+    const count = randomBetween(5, 10);
+
     for (let i = 0; i < count; i++) {
       const sparkle = document.createElement("div");
       sparkle.classList.add("particle");
-      
-      randomProperties(sparkle);
+
+      const { duration, iteration } = randomProperties(sparkle);
       document.body.appendChild(sparkle);
-      
+
       // Remove each sparkle after its animation completes
+      const animationDuration = calculateTimeTillFinishAnimation(
+        duration,
+        iteration
+      );
       setTimeout(() => {
         if (sparkle.parentNode) {
           sparkle.remove();
         }
-      }, 3000);
+      }, animationDuration * 1000);
     }
   };
 
