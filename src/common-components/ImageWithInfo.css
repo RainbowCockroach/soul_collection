@@ -28,6 +28,7 @@
   height: auto;
   max-height: 400px;
   object-fit: contain;
+  margin: 0 auto;
 }
 
 .embla__buttons {
@@ -60,9 +61,16 @@
 
 .image-with-info-description {
   padding: 10px;
+  text-align: center;
 }
 
 .image-with-info-description p {
   margin: 0;
   line-height: 1.5;
+  text-align: center;
+}
+
+.image-with-info-title {
+  text-align: center;
+  margin: 0 0 10px 0;
 }

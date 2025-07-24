@@ -10,23 +10,24 @@
 
 .embla-many {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .embla-many__viewport {
   overflow: hidden;
+  padding: 0 1rem;
+  margin: 0 -1rem;
 }
 
 .embla-many__container {
   display: flex;
   touch-action: pan-y;
-  margin-left: calc(1rem * -1);
 }
 
 .embla-many__slide {
   flex: 0 0 100%;
   min-width: 0;
-  padding-left: 1rem;
+  padding: 0;
 }
 
 .image-with-info-many-empty {
@@ -39,11 +40,8 @@
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
-  .embla-many__slide {
-    padding-left: 0.5rem;
-  }
-
-  .embla-many__container {
-    margin-left: calc(0.5rem * -1);
+  .embla-many__viewport {
+    padding: 0 0.5rem;
+    margin: 0 -0.5rem;
   }
 }
