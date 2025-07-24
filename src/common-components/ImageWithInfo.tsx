@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import "./ImageWithInfo.css";
 import BBCodeDisplay from "./BBCodeDisplay";
+import ZoomPanPinchImage from "./ZoomPanPinchImage";
 
 interface ImageWithInfoProps {
   images: string[];
@@ -17,6 +18,7 @@ const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     dragFree: false,
+    watchDrag: false,
   });
 
   const scrollPrev = useCallback(() => {
@@ -48,7 +50,7 @@ const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
             <div className="embla__container">
               {images.map((image, index) => (
                 <div className="embla__slide" key={index}>
-                  <img src={image} alt={`Image ${index + 1}`} />
+                  <ZoomPanPinchImage src={image} alt={`Image ${index + 1}`} />
                 </div>
               ))}
             </div>
