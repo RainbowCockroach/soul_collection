@@ -24,6 +24,7 @@ const ImageWithInfoMany = forwardRef<
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     dragFree: false,
+    watchDrag: false,
   });
 
   const scrollPrev = useCallback(() => {
