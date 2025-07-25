@@ -38,3 +38,5 @@ export interface OC {
   tags: string[];
   order?: number; // Display order
 }
+
+export type FormLink = [string, string]; // Array of two OC slugs representing linked characters

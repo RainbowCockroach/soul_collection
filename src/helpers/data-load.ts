@@ -1,7 +1,8 @@
-import type { OC, Group, Spieces } from "./objects";
+import type { OC, Group, Spieces, FormLink } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
 import speciesData from "../data/spieces.json";
+import formLinkData from "../data/form-link.json";
 
 export interface LoadedData {
   ocs: OC[];
@@ -63,6 +64,24 @@ export async function loadOcBySlug(
     groupDetails,
     speciesDetails,
   };
+}
+
+export async function loadFormLinks(): Promise<FormLink[]> {
+  return formLinkData as FormLink[];
+}
+
+export async function findLinkedOc(ocSlug: string): Promise<string | null> {
+  const formLinks = await loadFormLinks();
+  
+  for (const link of formLinks) {
+    if (link[0] === ocSlug) {
+      return link[1];
+    } else if (link[1] === ocSlug) {
+      return link[0];
+    }
+  }
+  
+  return null;
 }
 
 export async function loadAllData(): Promise<LoadedData> {
