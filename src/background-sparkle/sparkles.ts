@@ -13,7 +13,7 @@ const randomProperties = function (particle: HTMLElement) {
   const top = randomBetween(1, 99);
   particle.style.setProperty("--top", top + "%");
 
-  const size = randomBetween(2, 6);
+  const size = randomBetween(2, 20);
   particle.style.setProperty("--size", size + "px");
   particle.style.setProperty("--blur", size * 4 + "px");
   particle.style.setProperty("--spread", size + "px");

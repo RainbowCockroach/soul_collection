@@ -40,7 +40,6 @@ const PageOcList: React.FC = () => {
         setIsLoading(true);
         const { ocs, groups } = await loadAllData();
         const formattedData = formatDataForGroups(ocs, groups);
-        console.log(formattedData);
         setGroupWithOcsData(formattedData);
 
         // Initialize all groups as expanded
