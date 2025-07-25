@@ -25,7 +25,11 @@
 
 /* Grid layout */
 .oc-group-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  justify-content: center;
+  gap: 20px 10px;
   margin-top: 10px;
+  padding: 0 10px;
 }
