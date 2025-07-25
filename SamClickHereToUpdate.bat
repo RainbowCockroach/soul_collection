@@ -8,7 +8,5 @@ set "datestamp=%YYYY%-%MM%-%DD% %HH%:%Min%:%Sec%"
 git pull origin sam
 git commit -m "sam update content %datestamp%"
 git push origin sam
-echo Creating pull request from sam to main...
-gh pr create --base main --head sam --title "Sam content update %datestamp%" --body "Automated content update from Sam on %datestamp%"
 echo *************DONE*************
 pause
