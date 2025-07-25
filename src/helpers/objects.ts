@@ -38,3 +38,8 @@ export interface OC {
   tags: string[];
   order?: number; // Display order
 }
+
+export interface FormLink {
+  godForm: string; // OC slug for god form
+  birthForm: string; // OC slug for birth form
+}
