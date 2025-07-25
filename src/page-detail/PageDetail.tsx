@@ -100,7 +100,9 @@ const PageDetail: React.FC = () => {
             to={`/soul_collection/ocs/${linkedOcSlug}`}
             className="switch-form-button"
           >
-            Switch Form → {linkedOcName}
+            {oc.group.includes("god") ? "Birth Form" : "God Form"}
+            {" - "}
+            {linkedOcName}
           </Link>
         </div>
       )}
