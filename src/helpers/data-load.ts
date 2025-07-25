@@ -70,6 +70,20 @@ export async function loadFormLinks(): Promise<FormLink[]> {
   return formLinkData as FormLink[];
 }
 
+export async function findLinkedOc(ocSlug: string): Promise<string | null> {
+  const formLinks = await loadFormLinks();
+  
+  for (const link of formLinks) {
+    if (link[0] === ocSlug) {
+      return link[1];
+    } else if (link[1] === ocSlug) {
+      return link[0];
+    }
+  }
+  
+  return null;
+}
+
 export async function loadAllData(): Promise<LoadedData> {
   const [ocs, groups, species] = await Promise.all([
     loadOCs(),

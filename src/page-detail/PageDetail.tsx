@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { loadOcBySlug, type OcWithDetails } from "../helpers/data-load";
+import { useParams, Link } from "react-router-dom";
+import {
+  loadOcBySlug,
+  findLinkedOc,
+  type OcWithDetails,
+} from "../helpers/data-load";
 import GalleryBlock from "../common-components/GalleryBlock";
 import ZoomPanPinchImage from "../common-components/ZoomPanPinchImage";
 import "./PageDetail.css";
@@ -17,6 +21,8 @@ const PageDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentDisplayAvatar, setCurrentDisplayAvatar] =
     useState<string>(placeholderImage);
+  const [linkedOcSlug, setLinkedOcSlug] = useState<string | null>(null);
+  const [linkedOcName, setLinkedOcName] = useState<string | null>(null);
 
   const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
   const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
@@ -36,11 +42,25 @@ const PageDetail: React.FC = () => {
 
       try {
         setIsLoading(true);
-        const ocData = await loadOcBySlug(slug);
+        const [ocData, linkedSlug] = await Promise.all([
+          loadOcBySlug(slug),
+          findLinkedOc(slug),
+        ]);
+
         if (!ocData) {
           setError("Character not found");
         } else {
           setOc(ocData);
+        }
+
+        if (linkedSlug) {
+          setLinkedOcSlug(linkedSlug);
+          // Load the linked OC's name
+          const linkedOcData = await loadOcBySlug(linkedSlug);
+          setLinkedOcName(linkedOcData?.name || null);
+        } else {
+          setLinkedOcSlug(null);
+          setLinkedOcName(null);
         }
       } catch (err) {
         setError("Failed to load character data");
@@ -73,6 +93,18 @@ const PageDetail: React.FC = () => {
 
   return (
     <div className="page-detail">
+      {/* Switch Form Button */}
+      {linkedOcSlug && linkedOcName && (
+        <div className="switch-form-container">
+          <Link
+            to={`/soul_collection/ocs/${linkedOcSlug}`}
+            className="switch-form-button"
+          >
+            Switch Form → {linkedOcName}
+          </Link>
+        </div>
+      )}
+
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage src={currentDisplayAvatar} alt={oc.name} />
