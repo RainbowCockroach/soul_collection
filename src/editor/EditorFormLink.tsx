@@ -9,10 +9,7 @@ export const EditorFormLink: React.FC = () => {
   const [ocs, setOcs] = useState<OC[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editingLink, setEditingLink] = useState<FormLink>({
-    godForm: "",
-    birthForm: "",
-  });
+  const [editingLink, setEditingLink] = useState<FormLink>(["", ""]);
 
   useEffect(() => {
     loadData();
@@ -33,25 +30,25 @@ export const EditorFormLink: React.FC = () => {
   };
 
   const handleAddNew = () => {
-    setEditingLink({ godForm: "", birthForm: "" });
+    setEditingLink(["", ""]);
     setEditingIndex(null);
     setIsEditing(true);
   };
 
   const handleEdit = (index: number) => {
-    setEditingLink({ ...formLinks[index] });
+    setEditingLink([...formLinks[index]]);
     setEditingIndex(index);
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    if (!editingLink.godForm || !editingLink.birthForm) {
-      toast.error("Both God Form and Birth Form must be selected");
+    if (!editingLink[0] || !editingLink[1]) {
+      toast.error("Both OCs must be selected");
       return;
     }
 
-    if (editingLink.godForm === editingLink.birthForm) {
-      toast.error("God Form and Birth Form cannot be the same OC");
+    if (editingLink[0] === editingLink[1]) {
+      toast.error("Cannot link an OC to itself");
       return;
     }
 
@@ -59,15 +56,13 @@ export const EditorFormLink: React.FC = () => {
     const isDuplicate = formLinks.some((link, index) => {
       if (editingIndex === index) return false; // Skip current item when editing
       return (
-        (link.godForm === editingLink.godForm &&
-          link.birthForm === editingLink.birthForm) ||
-        (link.godForm === editingLink.birthForm &&
-          link.birthForm === editingLink.godForm)
+        (link[0] === editingLink[0] && link[1] === editingLink[1]) ||
+        (link[0] === editingLink[1] && link[1] === editingLink[0])
       );
     });
 
     if (isDuplicate) {
-      toast.error("This form link already exists");
+      toast.error("This link already exists");
       return;
     }
 
@@ -84,30 +79,30 @@ export const EditorFormLink: React.FC = () => {
 
     setFormLinks(updatedLinks);
     setIsEditing(false);
-    setEditingLink({ godForm: "", birthForm: "" });
+    setEditingLink(["", ""]);
     setEditingIndex(null);
-    toast.success("Form link saved! Use 'Copy to clipboard' to export.");
+    toast.success("Link saved! Use 'Copy to clipboard' to export.");
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setEditingLink({ godForm: "", birthForm: "" });
+    setEditingLink(["", ""]);
     setEditingIndex(null);
   };
 
   const handleDelete = (index: number) => {
     const linkToDelete = formLinks[index];
-    const godFormOc = ocs.find((oc) => oc.slug === linkToDelete.godForm);
-    const birthFormOc = ocs.find((oc) => oc.slug === linkToDelete.birthForm);
+    const oc1 = ocs.find((oc) => oc.slug === linkToDelete[0]);
+    const oc2 = ocs.find((oc) => oc.slug === linkToDelete[1]);
 
-    const confirmMessage = `Are you sure you want to delete the form link between "${
-      godFormOc?.name || "Unknown"
-    }" (God Form) and "${birthFormOc?.name || "Unknown"}" (Birth Form)?`;
+    const confirmMessage = `Are you sure you want to delete the link between "${
+      oc1?.name || "Unknown"
+    }" and "${oc2?.name || "Unknown"}"?`;
 
     if (confirm(confirmMessage)) {
       const updatedLinks = formLinks.filter((_, i) => i !== index);
       setFormLinks(updatedLinks);
-      toast.success("Form link deleted! Use 'Copy to clipboard' to export.");
+      toast.success("Link deleted! Use 'Copy to clipboard' to export.");
     }
   };
 
@@ -115,7 +110,7 @@ export const EditorFormLink: React.FC = () => {
     try {
       const jsonString = JSON.stringify(formLinks, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      toast.success("Form links JSON copied to clipboard!");
+      toast.success("Links JSON copied to clipboard!");
     } catch (error) {
       console.error("Error copying to clipboard:", error);
       toast.error("Error copying to clipboard");
@@ -130,12 +125,11 @@ export const EditorFormLink: React.FC = () => {
   return (
     <div className="editor-form-link-container">
       <Toaster position="top-right" />
-      <h2>Form Link Editor</h2>
-      <p>Manage links between God Form and Birth Form OCs</p>
+      <h2>OC Link Editor</h2>
 
       <div className="editor-form-link-buttons">
         <button onClick={handleAddNew} className="editor-form-link-button">
-          Add New Form Link
+          Add New Link
         </button>
         <button
           onClick={handleSaveToClipboard}
@@ -147,24 +141,19 @@ export const EditorFormLink: React.FC = () => {
 
       <div className="editor-form-link-layout">
         <div className="editor-form-link-left">
-          <h3>Form Links ({formLinks.length})</h3>
+          <h3>OC Links ({formLinks.length})</h3>
           <div className="editor-form-link-list">
             {formLinks.map((link, index) => (
               <div key={index} className="editor-form-link-item">
                 <div className="editor-form-link-content">
                   <div className="editor-form-link-info">
                     <div className="editor-form-link-pair">
-                      <span className="editor-form-link-label">God Form:</span>
                       <span className="editor-form-link-oc-name">
-                        {getOcName(link.godForm)}
-                      </span>
-                    </div>
-                    <div className="editor-form-link-pair">
-                      <span className="editor-form-link-label">
-                        Birth Form:
-                      </span>
+                        {getOcName(link[0])}
+                      </span>{" "}
+                      <span> - </span>
                       <span className="editor-form-link-oc-name">
-                        {getOcName(link.birthForm)}
+                        {getOcName(link[1])}
                       </span>
                     </div>
                   </div>
@@ -187,8 +176,7 @@ export const EditorFormLink: React.FC = () => {
             ))}
             {formLinks.length === 0 && (
               <div className="editor-form-link-empty">
-                No form links created yet. Click "Add New Form Link" to create
-                one.
+                No links created yet. Click "Add New Link" to create one.
               </div>
             )}
           </div>
@@ -196,22 +184,17 @@ export const EditorFormLink: React.FC = () => {
 
         {isEditing && (
           <div className="editor-form-link-right">
-            <h3>
-              {editingIndex !== null ? "Edit Form Link" : "Add New Form Link"}
-            </h3>
+            <h3>{editingIndex !== null ? "Edit Link" : "Add New Link"}</h3>
             <div className="editor-form-link-form">
               <div className="editor-form-link-field">
-                <label className="editor-form-link-field-label">
-                  God Form:
-                </label>
                 <select
-                  value={editingLink.godForm}
+                  value={editingLink[0]}
                   onChange={(e) =>
-                    setEditingLink({ ...editingLink, godForm: e.target.value })
+                    setEditingLink([e.target.value, editingLink[1]])
                   }
                   className="editor-form-link-select"
                 >
-                  <option value="">Select God Form OC</option>
+                  <option value="">Select First OC</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
                       {oc.name} ({oc.slug})
@@ -221,20 +204,14 @@ export const EditorFormLink: React.FC = () => {
               </div>
 
               <div className="editor-form-link-field">
-                <label className="editor-form-link-field-label">
-                  Birth Form:
-                </label>
                 <select
-                  value={editingLink.birthForm}
+                  value={editingLink[1]}
                   onChange={(e) =>
-                    setEditingLink({
-                      ...editingLink,
-                      birthForm: e.target.value,
-                    })
+                    setEditingLink([editingLink[0], e.target.value])
                   }
                   className="editor-form-link-select"
                 >
-                  <option value="">Select Birth Form OC</option>
+                  <option value="">Select Second OC</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
                       {oc.name} ({oc.slug})

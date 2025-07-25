@@ -39,7 +39,4 @@ export interface OC {
   order?: number; // Display order
 }
 
-export interface FormLink {
-  godForm: string; // OC slug for god form
-  birthForm: string; // OC slug for birth form
-}
+export type FormLink = [string, string]; // Array of two OC slugs representing linked characters
