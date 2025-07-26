@@ -1,0 +1,14 @@
+.blob-particle {
+  position: fixed;
+  left: var(--left);
+  top: var(--top);
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.blob-particle svg {
+  width: var(--size);
+  height: var(--size);
+  filter: blur(var(--blur));
+}

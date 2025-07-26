@@ -8,11 +8,14 @@ import { baseUrl } from "./helpers/constants";
 import PageDetail from "./page-detail/PageDetail";
 import { Editor } from "./editor/Editor";
 import "./background-sparkle/sparkles.css";
+import "./background-sparkle/blobs.css";
 import { startContinuousSparkles } from "./background-sparkle/sparkles";
+import { addBlobs } from "./background-sparkle/blobs";
 
 function App() {
   useEffect(() => {
-    startContinuousSparkles();
+    // startCon tinuousSparkles();
+    addBlobs();
   }, []);
 
   return (
