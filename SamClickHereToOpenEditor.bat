@@ -6,6 +6,12 @@ cd /d "%~dp0"
 
 echo Current directory: %CD%
 
+echo Switching to sam branch...
+git checkout sam
+if errorlevel 1 (
+    echo Branch switch failed. Continuing anyway...
+)
+
 echo Pulling latest code...
 git pull
 if errorlevel 1 (
