@@ -14,3 +14,11 @@
 .debug {
   border: 1px solid red;
 }
+
+.background-blob {
+  background: url("/src/assets/background-blob.PNG");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  position: relative;
+  z-index: -2;
+}

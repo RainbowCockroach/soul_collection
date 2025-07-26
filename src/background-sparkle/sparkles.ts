@@ -31,15 +31,20 @@ const randomProperties = function (particle: HTMLElement) {
 };
 
 export const addSparkles = function (): void {
+  const sparkleContainers = document.querySelectorAll(".sparkle-background");
+  if (sparkleContainers.length === 0) return;
+
   const maxCount = randomBetween(10, 100);
 
-  for (let i = 0; i < maxCount; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.classList.add("particle");
+  sparkleContainers.forEach((container) => {
+    for (let i = 0; i < maxCount; i++) {
+      const sparkle = document.createElement("div");
+      sparkle.classList.add("particle");
 
-    randomProperties(sparkle);
-    document.body.appendChild(sparkle);
-  }
+      randomProperties(sparkle);
+      container.appendChild(sparkle);
+    }
+  });
 
   setTimeout(() => {
     const particles = document.querySelectorAll(".particle");
@@ -49,26 +54,31 @@ export const addSparkles = function (): void {
 
 export const startContinuousSparkles = function (): () => void {
   const generateSparkles = () => {
+    const sparkleContainers = document.querySelectorAll(".sparkle-background");
+    if (sparkleContainers.length === 0) return;
+
     const count = randomBetween(5, 10);
 
-    for (let i = 0; i < count; i++) {
-      const sparkle = document.createElement("div");
-      sparkle.classList.add("particle");
+    sparkleContainers.forEach((container) => {
+      for (let i = 0; i < count; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("particle");
 
-      const { duration, iteration } = randomProperties(sparkle);
-      document.body.appendChild(sparkle);
+        const { duration, iteration } = randomProperties(sparkle);
+        container.appendChild(sparkle);
 
-      // Remove each sparkle after its animation completes
-      const animationDuration = calculateTimeTillFinishAnimation(
-        duration,
-        iteration
-      );
-      setTimeout(() => {
-        if (sparkle.parentNode) {
-          sparkle.remove();
-        }
-      }, animationDuration * 1000);
-    }
+        // Remove each sparkle after its animation completes
+        const animationDuration = calculateTimeTillFinishAnimation(
+          duration,
+          iteration
+        );
+        setTimeout(() => {
+          if (sparkle.parentNode) {
+            sparkle.remove();
+          }
+        }, animationDuration * 1000);
+      }
+    });
   };
 
   // Generate sparkles immediately
