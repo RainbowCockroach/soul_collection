@@ -15,10 +15,54 @@
   border: 1px solid red;
 }
 
+.sparkle-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .background-blob {
-  background: url("/src/assets/background-blob.PNG");
+  background: url("/src/assets/background-blob.png");
   background-repeat: repeat-y;
   background-size: 100% auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -3;
+  pointer-events: none;
+}
+
+.main-content {
   position: relative;
+  z-index: 1;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.decorative-frame-left,
+.decorative-frame-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 10vw;
+  opacity: 0.2;
+  background: url("/src/assets/rings.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
   z-index: -2;
+  pointer-events: none;
+}
+
+.decorative-frame-left {
+  left: 0;
+}
+
+.decorative-frame-right {
+  right: 0;
 }

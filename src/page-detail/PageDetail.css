@@ -1,5 +1,5 @@
 /* Desktop Layout */
-@media (min-width: 1201px) {
+@media (min-width: 1381px) {
   .page-detail {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -43,7 +43,7 @@
 }
 
 /* Mobile Layout */
-@media (max-width: 1200px) {
+@media (max-width: 1380px) {
   .page-detail {
     display: flex;
     flex-direction: column;

@@ -17,24 +17,23 @@ function App() {
 
   return (
     <>
-      <div className="background-blob sparkle-background">
-        <div>
-          <Navbar />
-        </div>
-        <div className="page-container">
-          <Routes>
-            <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
-            <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
-            <Route path={`${baseUrl}/lore`} element={<div>Lore Page</div>} />
-            <Route
-              path={`${baseUrl}/search`}
-              element={<div>Search Page</div>}
-            />
-            <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
-            <Route path={`${baseUrl}/editor`} element={<Editor />} />
-          </Routes>
-        </div>
+      <div>
+        <Navbar />
       </div>
+      <div className="page-container">
+        <Routes>
+          <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
+          <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
+          <Route path={`${baseUrl}/lore`} element={<div>Lore Page</div>} />
+          <Route path={`${baseUrl}/search`} element={<div>Search Page</div>} />
+          <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
+          <Route path={`${baseUrl}/editor`} element={<Editor />} />
+        </Routes>
+      </div>
+      <div className="sparkle-background"></div>
+      <div className="background-blob"></div>
+      <div className="decorative-frame-left"></div>
+      <div className="decorative-frame-right"></div>
     </>
   );
 }
