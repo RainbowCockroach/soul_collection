@@ -19,18 +19,18 @@ function App() {
   return (
     <>
       <div className="parallax">
-        <div
-          className="parallax__layer parallax__layer--back"
-          style={{
-            width: "100vw",
-            height: "300vh",
-            position: "relative", // Added for positioning SVG absolutely
-          }}
-        >
+        <div className="parallax__layer parallax__layer--back">
           {/* Parallax background */}
           <ParallaxBlobBackground />
         </div>
-        <div className="parallax__layer parallax__layer--base sparkle-base">
+        <div
+          className="parallax__layer parallax__layer--sparkle debug"
+          style={{ transform: "translateZ(-0.5px) scale(1.5)" }}
+        >
+          {/* Sparkles layer - between back and base */}
+          <div id="sparkles-container"></div>
+        </div>
+        <div className="parallax__layer parallax__layer--base">
           <div>
             <Navbar />
           </div>

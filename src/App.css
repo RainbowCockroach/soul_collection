@@ -9,6 +9,7 @@
   margin: 0 auto;
   padding: 1vw;
   width: 96%;
+  z-index: 2;
 }
 
 .debug {
@@ -32,5 +33,10 @@
   transform: translateZ(0);
 }
 .parallax__layer--back {
-  transform: translateZ(-1px);
+  transform: translateZ(-1px) scale(2);
+  z-index: -2;
+}
+.parallax__layer--sparkle {
+  transform: translateZ(-1px) scale(2);
+  z-index: -1;
 }
