@@ -38,8 +38,7 @@ export const addSparkles = function (): void {
     sparkle.classList.add("particle");
 
     randomProperties(sparkle);
-    const container = document.getElementById('sparkles-container') || document.body;
-    container.appendChild(sparkle);
+    document.body.appendChild(sparkle);
   }
 
   setTimeout(() => {
@@ -57,8 +56,7 @@ export const startContinuousSparkles = function (): () => void {
       sparkle.classList.add("particle");
 
       const { duration, iteration } = randomProperties(sparkle);
-      const container = document.getElementById('sparkles-container') || document.body;
-    container.appendChild(sparkle);
+      document.body.appendChild(sparkle);
 
       // Remove each sparkle after its animation completes
       const animationDuration = calculateTimeTillFinishAnimation(
