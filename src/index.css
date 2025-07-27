@@ -65,17 +65,40 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3.8em;
   line-height: 1.1;
   font-weight: bold;
+  font-family: "Rowdies", cursive;
 }
 
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
+  font-size: 2.6em;
   font-weight: bold;
+  font-family: "Rowdies", cursive;
+}
+
+h3 {
+  font-size: 1.6em;
+  font-weight: bold;
+  font-family: "Rowdies", cursive;
+}
+
+h4 {
+  font-size: 1.8em;
+  font-weight: bold;
+  font-family: "Rowdies", cursive;
+}
+
+h5 {
+  font-size: 1.4em;
+  font-weight: bold;
+  font-family: "Rowdies", cursive;
+}
+
+h6 {
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: "Rowdies", cursive;
 }
 
 @media (prefers-color-scheme: light) {
