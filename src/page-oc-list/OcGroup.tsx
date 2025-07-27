@@ -24,6 +24,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
   isExpanded,
   onToggle,
 }) => {
+  console.log(groupInfo);
   return (
     <div className="oc-group">
       <button
@@ -44,7 +45,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 key={oc.slug}
                 oc={oc}
                 frameColour={groupInfo.frameColour}
-                textColour={groupInfo.textColour}
+                textColour={groupInfo.groupHeaderTextColour}
               />
             ))}
           </div>
