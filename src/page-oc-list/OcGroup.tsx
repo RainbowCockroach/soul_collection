@@ -7,6 +7,7 @@ export interface OcGroupInfo {
   slug: string;
   name: string;
   frameColour: string;
+  textColour: string;
   groupHeaderColour: string;
   groupHeaderTextColour: string;
   ocList: OC[];
@@ -43,6 +44,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 key={oc.slug}
                 oc={oc}
                 frameColour={groupInfo.frameColour}
+                textColour={groupInfo.textColour}
               />
             ))}
           </div>

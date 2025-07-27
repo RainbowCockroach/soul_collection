@@ -11,9 +11,10 @@ export interface OC {
 interface OcSlotProps {
   oc: OC;
   frameColour: string;
+  textColour: string;
 }
 
-const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour }) => {
+const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
   console.log(frameColour);
   const navigate = useNavigate();
 
@@ -23,21 +24,20 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour }) => {
 
   return (
     <div
-      className="oc-slot"
+      className="div-3d-with-shadow oc-slot"
       onClick={handleClick}
-      style={{ cursor: "pointer" }}
+      style={{
+        cursor: "pointer",
+        backgroundColor: frameColour,
+        border: `5px solid ${frameColour}`,
+      }}
     >
-      <img
-        src={oc.avatar}
-        alt={oc.name}
-        className="oc-avatar div-3d-with-shadow"
-        style={{
-          border: `5px solid ${frameColour}`,
-        }}
-      />
-      <h3 className="oc-name" style={{ color: frameColour }}>
-        {oc.name}
-      </h3>
+      <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
+      <div className="oc-slot-name-box">
+        <h3 className="oc-name" style={{ color: textColour }}>
+          {oc.name}
+        </h3>
+      </div>
     </div>
   );
 };

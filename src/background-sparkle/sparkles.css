@@ -1,6 +1,15 @@
 .particle {
-  background-color: #f3e9ff;
-  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+  background-color: var(--color-white-sparkle);
+  clip-path: polygon(
+    50% 0%,
+    60% 40%,
+    100% 50%,
+    60% 60%,
+    50% 100%,
+    40% 60%,
+    0% 50%,
+    40% 40%
+  );
   box-shadow: 0 0 var(--blur) var(--spread) rgba(255, 255, 224, 0.5);
   height: var(--size);
   left: var(--left);
