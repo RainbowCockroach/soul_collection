@@ -26,7 +26,7 @@
 }
 
 .background-blob {
-  background: url("/src/assets/background-blob.png");
+  background: url("/src/assets/background-blobs.png");
   background-repeat: repeat-y;
   background-size: 100% auto;
   position: fixed;
