@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./OcSlot.css";
+import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
 export interface OC {
   slug: string;
@@ -35,7 +36,7 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
       <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
       <div className="oc-slot-name-box">
         <h3 className="oc-name" style={{ color: textColour }}>
-          {oc.name}
+          <BBCodeDisplay bbcode={oc.name} />
         </h3>
       </div>
     </div>

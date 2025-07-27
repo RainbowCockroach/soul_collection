@@ -122,7 +122,9 @@ const PageDetail: React.FC = () => {
         />
       </div>
       <div className="detail-block-info div-3d-with-shadow">
-        <h1 className="detail-oc-name">{oc.name}</h1>
+        <h1 className="detail-oc-name">
+          <BBCodeDisplay bbcode={oc.name} />
+        </h1>
         <BBCodeDisplay bbcode={oc.info} />
       </div>
       <div className="detail-block-species">
