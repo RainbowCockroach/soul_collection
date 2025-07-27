@@ -114,7 +114,6 @@ const PageDetail: React.FC = () => {
           gallery={oc.gallery}
           characterName={oc.name}
           onImageClick={(image) => {
-            console.log("image clicked", image);
             setCurrentDisplayAvatar(image);
           }}
         />

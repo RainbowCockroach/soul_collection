@@ -39,7 +39,6 @@ function App() {
         document.documentElement.offsetHeight
       );
 
-      console.log("Updating background height to:", documentHeight);
       backgroundEls.forEach((el) => {
         if (el) {
           el.style.height = `${documentHeight}px`;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./BBCodeDisplay.css";
 
 // Interface for the BBCodeDisplay component props
@@ -7,11 +7,8 @@ interface BBCodeDisplayProps {
   bbcode: string;
 }
 
-// BBCodeDisplay component that renders BBCode as HTML
-// Based on the GitHub BBCode Live Editor reference implementation
-const BBCodeDisplay: React.FC<BBCodeDisplayProps> = ({ bbcode }) => {
-  // Comprehensive BBCode parser function that converts BBCode tags to HTML
-  const parseBBCode = (text: string): string => {
+// Comprehensive BBCode parser function that converts BBCode tags to HTML
+const parseBBCode = (text: string): string => {
     // Replace BBCode tags with their HTML equivalents
     return (
       text
@@ -76,8 +73,11 @@ const BBCodeDisplay: React.FC<BBCodeDisplayProps> = ({ bbcode }) => {
         // Convert newlines to line breaks
         .replace(/\n/g, "<br>")
     );
-  };
+};
 
+// BBCodeDisplay component that renders BBCode as HTML
+// Based on the GitHub BBCode Live Editor reference implementation
+const BBCodeDisplay: React.FC<BBCodeDisplayProps> = ({ bbcode }) => {
   // Parse the BBCode text to HTML
   const htmlContent = parseBBCode(bbcode);
 
@@ -89,4 +89,4 @@ const BBCodeDisplay: React.FC<BBCodeDisplayProps> = ({ bbcode }) => {
   );
 };
 
-export default BBCodeDisplay;
+export default memo(BBCodeDisplay);
