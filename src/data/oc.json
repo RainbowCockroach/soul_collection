@@ -12,11 +12,16 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/49/53/dc/4953dcc538d4f3faed9b1353b8d4f2b7.png",
-        "thumbnail": "https://i.pinimg.com/originals/49/53/dc/4953dcc538d4f3faed9b1353b8d4f2b7.png"
+        "thumbnail": "https://i.pinimg.com/236x/49/53/dc/4953dcc538d4f3faed9b1353b8d4f2b7.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/be/8a/9d/be8a9d6de2c31346a8b90fb2d0951d87.png",
-        "thumbnail": "https://i.pinimg.com/originals/be/8a/9d/be8a9d6de2c31346a8b90fb2d0951d87.png"
+        "thumbnail": "https://i.pinimg.com/236x/be/8a/9d/be8a9d6de2c31346a8b90fb2d0951d87.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/cf/30/a0/cf30a0132d5828f7f282e2c376779db2.png",
+        "thumbnail": "https://i.pinimg.com/236x/cf/30/a0/cf30a0132d5828f7f282e2c376779db2.jpg",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -30,7 +35,7 @@
   },
   "mia": {
     "name": "Mia",
-    "avatar": "https://i.pinimg.com/474x/b9/9d/7d/b99d7dab8bc7188b51b99f46583aa949.jpg",
+    "avatar": "https://i.pinimg.com/236x/b9/9d/7d/b99d7dab8bc7188b51b99f46583aa949.jpg",
     "group": [
       "human"
     ],
@@ -41,7 +46,7 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/b5/5a/58/b55a584d751808263522e1a9daa7d42b.png",
-        "thumbnail": "https://i.pinimg.com/originals/b5/5a/58/b55a584d751808263522e1a9daa7d42b.png"
+        "thumbnail": "https://i.pinimg.com/236x/b5/5a/58/b55a584d751808263522e1a9daa7d42b.jpg"
       }
     ],
     "breadcrumbs": [],
@@ -56,7 +61,7 @@
   },
   "cleo": {
     "name": "Cleo",
-    "avatar": "https://i.pinimg.com/474x/af/1b/73/af1b73efe478076c3728b52850839a7a.jpg",
+    "avatar": "https://i.pinimg.com/236x/af/1b/73/af1b73efe478076c3728b52850839a7a.jpg",
     "group": [
       "human"
     ],
@@ -67,14 +72,33 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png",
-        "thumbnail": "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png"
+        "thumbnail": "https://i.pinimg.com/236x/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/57/d4/aa/57d4aa0a45cef8271088924be0a9cf1c.png",
+        "thumbnail": "https://i.pinimg.com/236x/57/d4/aa/57d4aa0a45cef8271088924be0a9cf1c.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/18/50/45/1850455edb8cdbd68b268debf2e9f07b.png",
+        "thumbnail": "https://i.pinimg.com/236x/18/50/45/1850455edb8cdbd68b268debf2e9f07b.jpg",
+        "caption": ""
       }
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "title": "Mind reader repellant",
+        "images": [
+          "https://i.pinimg.com/originals/e7/5d/9b/e75d9bdd1542fa6fe2d07c62096b155b.jpg"
+        ],
+        "description": "To stop mind reader from reading mind"
+      }
+    ],
     "tags": [
       "God's favorite human",
       "Female",
-      "Pink"
+      "Pink",
+      "Adult"
     ],
     "order": 2
   },
@@ -91,29 +115,38 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png",
-        "thumbnail": "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png"
+        "thumbnail": "https://i.pinimg.com/236x/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png",
-        "thumbnail": "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png"
+        "thumbnail": "https://i.pinimg.com/236x/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/7b/5a/28/7b5a28864e3a60d75849d62231830e46.png",
-        "thumbnail": "https://i.pinimg.com/originals/7b/5a/28/7b5a28864e3a60d75849d62231830e46.png"
+        "thumbnail": "https://i.pinimg.com/236x/7b/5a/28/7b5a28864e3a60d75849d62231830e46.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/df/6b/7a/df6b7ae65fbeae366affb47d63fa4dc1.png",
-        "thumbnail": "https://i.pinimg.com/originals/df/6b/7a/df6b7ae65fbeae366affb47d63fa4dc1.png"
+        "thumbnail": "https://i.pinimg.com/236x/df/6b/7a/df6b7ae65fbeae366affb47d63fa4dc1.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/f6/64/4d/f6644da984b1e627680c7aa200e15b01.png",
-        "thumbnail": "https://i.pinimg.com/originals/f6/64/4d/f6644da984b1e627680c7aa200e15b01.png"
+        "thumbnail": "https://i.pinimg.com/236x/f6/64/4d/f6644da984b1e627680c7aa200e15b01.jpg"
       }
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "title": "Mind reader repellant",
+        "images": [
+          "https://i.pinimg.com/originals/e7/5d/9b/e75d9bdd1542fa6fe2d07c62096b155b.jpg"
+        ],
+        "description": "To stop mind reader from reading mind"
+      }
+    ],
     "tags": [
       "God's favorite human",
-      "Female"
+      "Female",
+      "Adult"
     ],
     "order": 3
   },
@@ -130,26 +163,28 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/736x/f6/f0/27/f6f027a7dd3d605264040d2cdc8fe5f0.jpg",
-        "thumbnail": "https://i.pinimg.com/736x/f6/f0/27/f6f027a7dd3d605264040d2cdc8fe5f0.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/f6/f0/27/f6f027a7dd3d605264040d2cdc8fe5f0.jpg"
       },
       {
         "image": "https://i.pinimg.com/736x/93/94/69/9394696933b1a44c67f5369002f750d5.jpg",
-        "thumbnail": "https://i.pinimg.com/736x/93/94/69/9394696933b1a44c67f5369002f750d5.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/93/94/69/9394696933b1a44c67f5369002f750d5.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png",
-        "thumbnail": "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png"
+        "thumbnail": "https://i.pinimg.com/236x/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.jpg"
       }
     ],
     "breadcrumbs": [],
     "tags": [
-      "Normal human"
+      "Normal human",
+      "Adult",
+      "Male"
     ],
     "order": 4
   },
   "seana": {
     "name": "Seana",
-    "avatar": "https://i.pinimg.com/474x/14/6b/f3/146bf37838cf916b0c87e8a747c54a7b.jpg",
+    "avatar": "https://i.pinimg.com/236x/14/6b/f3/146bf37838cf916b0c87e8a747c54a7b.jpg",
     "group": [
       "human"
     ],
@@ -160,11 +195,21 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/70/b2/f5/70b2f5ed62326272d144a488e4fa5e19.png",
-        "thumbnail": "https://i.pinimg.com/originals/70/b2/f5/70b2f5ed62326272d144a488e4fa5e19.png"
+        "thumbnail": "https://i.pinimg.com/236x/70/b2/f5/70b2f5ed62326272d144a488e4fa5e19.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/eb/7c/fd/eb7cfd26716e89adb0c774bddcefc2f4.jpg",
-        "thumbnail": "https://i.pinimg.com/originals/eb/7c/fd/eb7cfd26716e89adb0c774bddcefc2f4.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/eb/7c/fd/eb7cfd26716e89adb0c774bddcefc2f4.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/c4/a7/41/c4a74173ed066ef79162030421e7378c.png",
+        "thumbnail": "https://i.pinimg.com/236x/c4/a7/41/c4a74173ed066ef79162030421e7378c.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/6c/b6/46/6cb646927a5b160579beacc61a900f6d.png",
+        "thumbnail": "https://i.pinimg.com/236x/6c/b6/46/6cb646927a5b160579beacc61a900f6d.jpg",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -177,7 +222,7 @@
   },
   "akane": {
     "name": "Akane",
-    "avatar": "https://i.pinimg.com/474x/d2/9c/7d/d29c7d1e127f773408f7086ce0cfc9eb.jpg",
+    "avatar": "https://i.pinimg.com/236x/d2/9c/7d/d29c7d1e127f773408f7086ce0cfc9eb.jpg",
     "group": [
       "human"
     ],
@@ -186,13 +231,27 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/e7/00/bf/e700bfb8bf0ce3b4443abe1efd934148.png",
-        "thumbnail": "https://i.pinimg.com/originals/e7/00/bf/e700bfb8bf0ce3b4443abe1efd934148.png"
+        "thumbnail": "https://i.pinimg.com/236x/e7/00/bf/e700bfb8bf0ce3b4443abe1efd934148.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e7/ab/5d/e7ab5da71e70b92239209ae7ac526502.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/e7/ab/5d/e7ab5da71e70b92239209ae7ac526502.jpg",
+        "caption": ""
       }
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "title": "DR.AKANE'S BRAIN WASHING PREMIUM",
+        "images": [
+          "https://i.pinimg.com/originals/16/ff/b9/16ffb9e1e68bd85f50c4e748420d497b.jpg"
+        ],
+        "description": "BAD BEAK UP? TRAUMATIC EVENTS?  BRAINROTS? BRAIN WASHING PREMIUM IS NOW AVAILABLE! GET YOUR BRAIN SQUEAKY CLEAN FOR THE UPCOMING EXAM SEASON NOW!"
+      }
+    ],
     "tags": [
       "🤍Doctor🤍",
-      "No gender"
+      "No gender",
+      "adult"
     ],
     "order": 6
   },
@@ -209,7 +268,22 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/e7/00/bf/e700bfb8bf0ce3b4443abe1efd934148.png",
-        "thumbnail": "https://i.pinimg.com/originals/e7/00/bf/e700bfb8bf0ce3b4443abe1efd934148.png"
+        "thumbnail": "https://i.pinimg.com/236x/e7/00/bf/e700bfb8bf0ce3b4443abe1efd934148.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e7/ab/5d/e7ab5da71e70b92239209ae7ac526502.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/e7/ab/5d/e7ab5da71e70b92239209ae7ac526502.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/32/00/6a/32006a4d04b519b1ac6f0b90d51f6d87.png",
+        "thumbnail": "https://i.pinimg.com/236x/32/00/6a/32006a4d04b519b1ac6f0b90d51f6d87.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/f9/3d/bb/f93dbb8595bcd81912eb47f91fa42fee.png",
+        "thumbnail": "https://i.pinimg.com/236x/f9/3d/bb/f93dbb8595bcd81912eb47f91fa42fee.jpg",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -224,8 +298,7 @@
     "name": "Rilor",
     "avatar": "https://i.pinimg.com/236x/16/37/a5/1637a5cc6036836f24c80a138568c7bd.jpg",
     "group": [
-      "human",
-      "god"
+      "human"
     ],
     "spieces": [
       "improved-human"
@@ -234,10 +307,38 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png",
-        "thumbnail": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png"
+        "thumbnail": "https://i.pinimg.com/236x/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/21/4a/2a/214a2a43d6ffcc68066b23d8845f3612.png",
+        "thumbnail": "https://i.pinimg.com/236x/21/4a/2a/214a2a43d6ffcc68066b23d8845f3612.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/36/16/c5/3616c50562a627ddd832cb74c295de1b.png",
+        "thumbnail": "https://i.pinimg.com/236x/36/16/c5/3616c50562a627ddd832cb74c295de1b.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/68/97/18/6897182086c5d0e6f5f25664e35fae52.png",
+        "thumbnail": "https://i.pinimg.com/236x/68/97/18/6897182086c5d0e6f5f25664e35fae52.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/67/89/59/678959cee3ba080bdda96a0199dc689a.png",
+        "thumbnail": "https://i.pinimg.com/236x/67/89/59/678959cee3ba080bdda96a0199dc689a.jpg",
+        "caption": ""
       }
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "title": "Flat Rilor",
+        "images": [
+          "https://i.pinimg.com/736x/82/d0/7c/82d07c174c55c3ddbb94478165d87438.jpg"
+        ],
+        "description": "This is a stupidly flat Rilor"
+      }
+    ],
     "tags": [
       "Improved human",
       "Male",
@@ -248,7 +349,7 @@
   },
   "liv": {
     "name": "Liv",
-    "avatar": "https://i.pinimg.com/474x/f3/8c/7c/f38c7c982ce3586253b85a0cbbe7d98a.jpg",
+    "avatar": "https://i.pinimg.com/236x/f3/8c/7c/f38c7c982ce3586253b85a0cbbe7d98a.jpg",
     "group": [
       "human"
     ],
@@ -259,7 +360,32 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png",
-        "thumbnail": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png"
+        "thumbnail": "https://i.pinimg.com/236x/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/21/4a/2a/214a2a43d6ffcc68066b23d8845f3612.png",
+        "thumbnail": "https://i.pinimg.com/236x/21/4a/2a/214a2a43d6ffcc68066b23d8845f3612.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/36/16/c5/3616c50562a627ddd832cb74c295de1b.png",
+        "thumbnail": "https://i.pinimg.com/236x/36/16/c5/3616c50562a627ddd832cb74c295de1b.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/68/97/18/6897182086c5d0e6f5f25664e35fae52.png",
+        "thumbnail": "https://i.pinimg.com/236x/68/97/18/6897182086c5d0e6f5f25664e35fae52.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/67/89/59/678959cee3ba080bdda96a0199dc689a.png",
+        "thumbnail": "https://i.pinimg.com/236x/67/89/59/678959cee3ba080bdda96a0199dc689a.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/ba/55/3e/ba553e710e35b5b8792fcc2dc9e8bca5.png",
+        "thumbnail": "https://i.pinimg.com/236x/ba/55/3e/ba553e710e35b5b8792fcc2dc9e8bca5.jpg",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -270,6 +396,52 @@
       "Underage"
     ],
     "order": 9
+  },
+  "king-rilor": {
+    "name": "King Rilor",
+    "avatar": "https://i.pinimg.com/236x/6a/11/a3/6a11a35802d853a702fb70b8bf7cee24.jpg",
+    "group": [
+      "god"
+    ],
+    "spieces": [
+      "god"
+    ],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png",
+        "thumbnail": "https://i.pinimg.com/236x/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/36/16/c5/3616c50562a627ddd832cb74c295de1b.png",
+        "thumbnail": "https://i.pinimg.com/236x/36/16/c5/3616c50562a627ddd832cb74c295de1b.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/a5/0b/63/a50b634c3a55a8b23945005e4efb902c.png",
+        "thumbnail": "https://i.pinimg.com/236x/a5/0b/63/a50b634c3a55a8b23945005e4efb902c.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/83/54/27/835427d3e53470f38e4e88018b7cf5dd.png",
+        "thumbnail": "https://i.pinimg.com/236x/83/54/27/835427d3e53470f38e4e88018b7cf5dd.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/17/67/1e/17671edf2d2ee48a4555c11898289036.png",
+        "thumbnail": "https://i.pinimg.com/236x/17/67/1e/17671edf2d2ee48a4555c11898289036.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/5a/56/7f/5a567f4e695d671542c05821aa3e3dcf.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/5a/56/7f/5a567f4e695d671542c05821aa3e3dcf.jpg",
+        "caption": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [],
+    "order": 10
   },
   "liv-the-fox": {
     "name": "Liv the fox",
@@ -284,11 +456,21 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/99/ee/11/99ee11a8b1d8a7de378cf7807d903504.jpg",
-        "thumbnail": "https://i.pinimg.com/originals/99/ee/11/99ee11a8b1d8a7de378cf7807d903504.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/99/ee/11/99ee11a8b1d8a7de378cf7807d903504.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png",
-        "thumbnail": "https://i.pinimg.com/originals/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.png"
+        "thumbnail": "https://i.pinimg.com/236x/ab/0a/db/ab0adbfa3050182f3ff1d2351786eb1e.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/32/e2/71/32e271dc881a5c1c460a36035cd62ec7.png",
+        "thumbnail": "https://i.pinimg.com/236x/32/e2/71/32e271dc881a5c1c460a36035cd62ec7.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/ba/55/3e/ba553e710e35b5b8792fcc2dc9e8bca5.png",
+        "thumbnail": "https://i.pinimg.com/236x/ba/55/3e/ba553e710e35b5b8792fcc2dc9e8bca5.jpg",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -296,7 +478,7 @@
       "Female",
       "God"
     ],
-    "order": 10
+    "order": 11
   },
   "timur": {
     "name": "Timur Li",
@@ -335,7 +517,7 @@
       "Underage",
       "Li family"
     ],
-    "order": 11
+    "order": 12
   },
   "davaphorict-li": {
     "name": "Davaphorict Li",
@@ -362,7 +544,7 @@
       "White",
       "Li family"
     ],
-    "order": 12
+    "order": 13
   },
   "aya-li": {
     "name": "Aya Li",
@@ -396,7 +578,7 @@
       "Long hair",
       "Li family"
     ],
-    "order": 13
+    "order": 14
   },
   "maya-li": {
     "name": "Maya Li",
@@ -430,7 +612,7 @@
       "Adult",
       "Li family"
     ],
-    "order": 14
+    "order": 15
   },
   "potat": {
     "name": "Potat",
@@ -451,7 +633,7 @@
       "Pure zo",
       "Li family"
     ],
-    "order": 15
+    "order": 16
   },
   "non-li": {
     "name": "Non Li",
@@ -512,7 +694,7 @@
       "Gold",
       "My personal favorite 💗"
     ],
-    "order": 16
+    "order": 17
   },
   "steele-li": {
     "name": "Steele Li",
@@ -597,7 +779,7 @@
       "Green",
       "Li family"
     ],
-    "order": 17
+    "order": 18
   },
   "toline-li": {
     "name": "Toline Li",
@@ -688,7 +870,7 @@
       "Short hair",
       "Li family"
     ],
-    "order": 18
+    "order": 19
   },
   "celia-li": {
     "name": "Celia Li",
@@ -718,7 +900,7 @@
       "Pink",
       "Li family"
     ],
-    "order": 19
+    "order": 20
   },
   "killfy": {
     "name": "Killfy Li",
@@ -746,7 +928,7 @@
       "Pink",
       "Li family"
     ],
-    "order": 20
+    "order": 21
   },
   "heix-li": {
     "name": "Heix Li",
@@ -776,7 +958,7 @@
       "Not pure zo",
       "Li family"
     ],
-    "order": 21
+    "order": 22
   },
   "vhhz": {
     "name": "Vhhz",
@@ -812,7 +994,7 @@
       "Male",
       "Vrev"
     ],
-    "order": 22
+    "order": 23
   },
   "leeo": {
     "name": "Leeo",
@@ -851,7 +1033,7 @@
       "Yellow",
       "Blue"
     ],
-    "order": 23
+    "order": 24
   },
   "maary": {
     "name": "Maary",
@@ -868,19 +1050,19 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.png",
-        "thumbnail": "https://i.pinimg.com/originals/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.png"
+        "thumbnail": "https://i.pinimg.com/236x/fb/74/b1/fb74b1dfc4f206d5fff556d5aee91ad2.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/d2/aa/b7/d2aab73d70a23470a8df6e5e21eea1af.jpg",
-        "thumbnail": "https://i.pinimg.com/originals/d2/aa/b7/d2aab73d70a23470a8df6e5e21eea1af.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/d2/aa/b7/d2aab73d70a23470a8df6e5e21eea1af.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/e3/97/49/e3974942c4d06d514d3b55197553e10a.jpg",
-        "thumbnail": "https://i.pinimg.com/originals/e3/97/49/e3974942c4d06d514d3b55197553e10a.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/e3/97/49/e3974942c4d06d514d3b55197553e10a.jpg"
       },
       {
         "image": "https://i.pinimg.com/originals/d6/71/93/d67193c959ebeeac87aec77c920c59bb.jpg",
-        "thumbnail": "https://i.pinimg.com/originals/d6/71/93/d67193c959ebeeac87aec77c920c59bb.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/d6/71/93/d67193c959ebeeac87aec77c920c59bb.jpg"
       }
     ],
     "breadcrumbs": [],
@@ -892,7 +1074,58 @@
       "Orange",
       "White"
     ],
-    "order": 24
+    "order": 25
+  },
+  "lord-vhhz": {
+    "name": "Lord Vhhz",
+    "avatar": "https://i.pinimg.com/236x/c3/78/d9/c378d9297fdf840ef270ac7ff1791d68.jpg",
+    "group": [
+      "god"
+    ],
+    "spieces": [
+      "god"
+    ],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/59/41/33/5941334fb5d63a0983f7e3d65619021b.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/59/41/33/5941334fb5d63a0983f7e3d65619021b.jpg",
+        "caption": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [],
+    "order": 26
+  },
+  "zarnok": {
+    "name": "Zarnok[img]https://y2k.neocities.org/stamps2/pastel%20(6).gif[/img]",
+    "avatar": "https://i.pinimg.com/236x/08/25/a3/0825a3cb230cd8f301d8aefed51d58ce.jpg",
+    "group": [
+      "god"
+    ],
+    "spieces": [
+      "god"
+    ],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/40/a9/12/40a91270b46402b5fd21bbc96158b7f4.png",
+        "thumbnail": "https://i.pinimg.com/236x/40/a9/12/40a91270b46402b5fd21bbc96158b7f4.jpg",
+        "caption": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/d9/6a/31/d96a31af778d1c2545ec922f045b61ec.png",
+        "thumbnail": "https://i.pinimg.com/236x/d9/6a/31/d96a31af778d1c2545ec922f045b61ec.jpg",
+        "caption": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "God",
+      "Male",
+      "Adult"
+    ],
+    "order": 27
   },
   "naame": {
     "name": "[img]https://64.media.tumblr.com/1afddb70392f6d77a04061f6f2f74aff/2548834662a1f658-67/s75x75_c1/abff121fa1c8d18f60e4bb90df6c9c4dfac57e23.gifv[/img] Naame [img]https://64.media.tumblr.com/989e97a17d7b6979e2b35561639ea5d4/2548834662a1f658-77/s75x75_c1/1a80d7de0573c02f5a1971c218b8ab34118cf704.gifv[/img]",
@@ -1013,7 +1246,7 @@
       "Long hair",
       "Pink"
     ],
-    "order": 25
+    "order": 28
   },
   "uaawa": {
     "name": "Uaawa",
@@ -1028,7 +1261,7 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/08/4b/23/084b2308cfc3259b8124e76c5b564641.png",
-        "thumbnail": "https://i.pinimg.com/originals/08/4b/23/084b2308cfc3259b8124e76c5b564641.png"
+        "thumbnail": "https://i.pinimg.com/236x/08/4b/23/084b2308cfc3259b8124e76c5b564641.jpg"
       }
     ],
     "breadcrumbs": [],
@@ -1036,7 +1269,7 @@
       "Vrev",
       "Male"
     ],
-    "order": 26
+    "order": 29
   },
   "miimi": {
     "name": "Miimi",
@@ -1060,7 +1293,7 @@
       "Female",
       "Underage"
     ],
-    "order": 27
+    "order": 30
   },
   "joon": {
     "name": "Joon",
@@ -1084,7 +1317,7 @@
       "Female",
       "Underage"
     ],
-    "order": 28
+    "order": 31
   },
   "bush": {
     "name": "Bush",
@@ -1152,16 +1385,18 @@
       "Green",
       "God"
     ],
-    "order": 29
+    "order": 32
   },
   "echo": {
-    "name": "Echo",
+    "name": "[img]https://64.media.tumblr.com/fd0e17e12224bbcfb0bd83592e2f9e1d/2f217cde112f20e6-b8/s75x75_c1/551a938fd3b5b105d89fa1ade0bce68018e5c358.gifv[/img] Echo [img]https://64.media.tumblr.com/fd0e17e12224bbcfb0bd83592e2f9e1d/2f217cde112f20e6-b8/s75x75_c1/551a938fd3b5b105d89fa1ade0bce68018e5c358.gifv[/img]",
     "avatar": "https://i.pinimg.com/236x/57/b3/a8/57b3a8d1d741cccc3c70adf3c74f5454.jpg",
     "group": [
       "candy-cockroach"
     ],
-    "spieces": [],
-    "info": "",
+    "spieces": [
+      "candy-cockroach"
+    ],
+    "info": "he/him/it\nAge: 30\nHeight: 150cm\nWeight: 39kg\n[img]https://64.media.tumblr.com/c2b2ac6518117520ce4c6b790cdeea48/2f217cde112f20e6-62/s250x400/9c45511dc38f2874f154fcb90097477e0d9ba5fe.webp[/img]\n[img]https://i9.glitter-graphics.org/pub/1122/1122889uis5gpr73p.gif[/img]\nEmotional\nHistory professor\n[img]https://64.media.tumblr.com/e97140f012944115d491dbe50169379e/0be53c12fb9e0f6f-88/s75x75_c1/8e0a4a4673815ec6847a4ef85d8ae3f899f5b0f9.gifv[/img]\n[color=red][b]AFTER EATING THE FORBIDDEN CAKE[/b][/color]\nCupcake\nhe/him/it\nAge: ?\nHeight: 150cm\nWeight: 40kg\n[img]https://i10.glitter-graphics.org/pub/1038/1038380cyh9xtsvjj.gif[/img]\nComputer boy\nEmotionless\nJobless, carless, homeless, moneyless all thanks to a certain [url=https://rainbowcockroach.github.io/soul_collection/ocs/elha]chibe[/url]\nCreated by [url=https://rainbowcockroach.github.io/soul_collection/ocs/timur]Timur[/url] to keep [url=https://rainbowcockroach.github.io/soul_collection/ocs/bush]Bush[/url] entertain\n",
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/1d/64/41/1d6441942055a67b0edec225b50c3dc7.png",
@@ -1190,7 +1425,7 @@
       "Candy cockroach",
       "No gender"
     ],
-    "order": 30
+    "order": 33
   },
   "elha": {
     "name": "Elha",
@@ -1213,7 +1448,7 @@
       "No gender",
       "Candy cockroach"
     ],
-    "order": 31
+    "order": 34
   },
   "the-queen": {
     "name": "The queen",
@@ -1236,7 +1471,7 @@
       "No gender",
       "Candy cockroach"
     ],
-    "order": 32
+    "order": 35
   },
   "bee": {
     "name": "Bee",
@@ -1264,7 +1499,7 @@
       "Black",
       "Long hair"
     ],
-    "order": 33
+    "order": 36
   },
   "hikagi": {
     "name": "Hikagi",
@@ -1305,7 +1540,7 @@
       "Black",
       "White"
     ],
-    "order": 34
+    "order": 37
   },
   "kumi": {
     "name": "Kumi",
@@ -1337,7 +1572,7 @@
       "Female",
       "Lore outsider"
     ],
-    "order": 35
+    "order": 38
   },
   "esme": {
     "name": "Esme",
@@ -1369,7 +1604,7 @@
       "God",
       "Lore outsider"
     ],
-    "order": 36
+    "order": 39
   },
   "hydra": {
     "name": "Hydra",
@@ -1401,7 +1636,7 @@
       "Female",
       "Lore outsider"
     ],
-    "order": 37
+    "order": 40
   },
   "non": {
     "name": "Non",
@@ -1421,7 +1656,7 @@
     ],
     "breadcrumbs": [],
     "tags": [],
-    "order": 38
+    "order": 41
   },
   "raki-chan": {
     "name": "Raki chan~",
@@ -1449,7 +1684,7 @@
     ],
     "breadcrumbs": [],
     "tags": [],
-    "order": 39
+    "order": 42
   },
   "pizza-vibrator": {
     "name": "Pizza vibrator",
@@ -1464,7 +1699,7 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 40
+    "order": 43
   },
   "deep-sea-girl": {
     "name": "Deep sea girl",
@@ -1482,7 +1717,7 @@
       "Female",
       "God"
     ],
-    "order": 41
+    "order": 44
   },
   "kira-kira-kiki": {
     "name": "Kira Kira Kiki",
@@ -1497,7 +1732,7 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 42
+    "order": 45
   },
   "dark-lone-wolf-fallen-angel": {
     "name": "DRK LN WLF FLN NGEL",
@@ -1512,7 +1747,7 @@
     "gallery": [],
     "breadcrumbs": [],
     "tags": [],
-    "order": 43
+    "order": 46
   },
   "lacey": {
     "name": "Lacey",
@@ -1534,7 +1769,7 @@
       "Pony",
       "Lore outsider"
     ],
-    "order": 44
+    "order": 47
   },
   "fire-fall": {
     "name": "Fire Fall",
@@ -1555,7 +1790,7 @@
       "Pony",
       "Lore outsider"
     ],
-    "order": 45
+    "order": 48
   },
   "huge": {
     "name": "Huge",
@@ -1576,36 +1811,6 @@
       "Purple",
       "Li family"
     ],
-    "order": 46
-  },
-  "zarnok": {
-    "name": "Zarnok[img]https://y2k.neocities.org/stamps2/pastel%20(6).gif[/img]",
-    "avatar": "https://i.pinimg.com/236x/08/25/a3/0825a3cb230cd8f301d8aefed51d58ce.jpg",
-    "group": [
-      "god"
-    ],
-    "spieces": [
-      "god"
-    ],
-    "info": "",
-    "gallery": [
-      {
-        "image": "https://i.pinimg.com/originals/40/a9/12/40a91270b46402b5fd21bbc96158b7f4.png",
-        "thumbnail": "https://i.pinimg.com/236x/40/a9/12/40a91270b46402b5fd21bbc96158b7f4.jpg",
-        "caption": ""
-      },
-      {
-        "image": "https://i.pinimg.com/originals/d9/6a/31/d96a31af778d1c2545ec922f045b61ec.png",
-        "thumbnail": "https://i.pinimg.com/236x/d9/6a/31/d96a31af778d1c2545ec922f045b61ec.jpg",
-        "caption": ""
-      }
-    ],
-    "breadcrumbs": [],
-    "tags": [
-      "God",
-      "Male",
-      "Adult"
-    ],
-    "order": 47
+    "order": 49
   }
 }
