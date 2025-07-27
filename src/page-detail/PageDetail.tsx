@@ -101,8 +101,6 @@ const PageDetail: React.FC = () => {
             className="switch-form-button"
           >
             {oc.group.includes("god") ? "Birth Form" : "God Form"}
-            {" - "}
-            {linkedOcName}
           </Link>
         </div>
       )}
