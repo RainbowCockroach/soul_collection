@@ -15,24 +15,19 @@ function App() {
   const backgroundBlobRef = useRef<HTMLDivElement>(null);
   const decorativeLeftRef = useRef<HTMLDivElement>(null);
   const decorativeRightRef = useRef<HTMLDivElement>(null);
+  const pageContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     startContinuousSparkles();
   }, []);
 
+  // Update background height after Routes render
   useEffect(() => {
-    console.log("Setting up scroll listener");
-    
     const backgroundEls = [
       backgroundBlobRef.current,
       decorativeLeftRef.current,
       decorativeRightRef.current,
     ].filter(Boolean);
-
-    console.log("Background elements found:", backgroundEls.length);
-    backgroundEls.forEach((el, i) => {
-      console.log(`Element ${i}:`, el?.className);
-    });
 
     if (backgroundEls.length === 0) return;
 
@@ -43,7 +38,8 @@ function App() {
         document.body.offsetHeight,
         document.documentElement.offsetHeight
       );
-      
+
+      console.log("Updating background height to:", documentHeight);
       backgroundEls.forEach((el) => {
         if (el) {
           el.style.height = `${documentHeight}px`;
@@ -51,39 +47,44 @@ function App() {
       });
     };
 
+    // Use requestAnimationFrame to wait for DOM updates
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        updateBackgroundHeight();
+      });
+    });
+  });
+
+  useEffect(() => {
+    const backgroundEls = [
+      backgroundBlobRef.current,
+      decorativeLeftRef.current,
+      decorativeRightRef.current,
+    ].filter(Boolean);
+
+    if (backgroundEls.length === 0) return;
+
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const scrollX = window.scrollX || document.documentElement.scrollLeft;
-      
-      console.log("Scroll event - Y:", scrollY, "X:", scrollX);
 
-      backgroundEls.forEach((el, i) => {
+      backgroundEls.forEach((el) => {
         if (el) {
-          const transform = `translate(${-scrollX * 0.5}px, ${-scrollY * 0.5}px)`;
-          console.log(`Applying transform to element ${i}:`, transform);
+          const transform = `translate(${-scrollX * 0.5}px, ${
+            -scrollY * 0.5
+          }px)`;
           el.style.transform = transform;
         }
       });
     };
 
-    // Initial setup
-    updateBackgroundHeight();
-    
-    // Update height when content changes
-    const resizeObserver = new ResizeObserver(() => {
-      updateBackgroundHeight();
-    });
-    resizeObserver.observe(document.body);
-
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
+
     // Test initial call
     handleScroll();
 
     return () => {
-      console.log("Removing scroll listener");
       window.removeEventListener("scroll", handleScroll);
-      resizeObserver.disconnect();
     };
   }, []);
 
@@ -93,7 +94,7 @@ function App() {
         {/* Front elements */}
         <div ref={frontElementsRef}>
           <Navbar />
-          <div className="page-container">
+          <div id="page-container" ref={pageContainerRef}>
             <Routes>
               <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
               <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
@@ -110,7 +111,7 @@ function App() {
         {/* Keep this div untouched */}
         <div className="sparkle-background"></div>
         {/* Background elements that needs scrolling */}
-        <div ref={backgroundBlobRef} className="background-blob debug"></div>
+        <div ref={backgroundBlobRef} className="background-blob"></div>
         <div ref={decorativeLeftRef} className="decorative-frame-left"></div>
         <div ref={decorativeRightRef} className="decorative-frame-right"></div>
       </div>
