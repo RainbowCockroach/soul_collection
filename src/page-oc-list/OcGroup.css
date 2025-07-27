@@ -1,7 +1,9 @@
 /* Group layout */
 .oc-group {
-  margin-top: 10px;
-  margin-bottom: 2rem;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 .group-header {
@@ -27,9 +29,16 @@
 .oc-group-grid {
   display: grid;
   grid-auto-flow: row;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   gap: 20px 10px;
   margin-top: 10px;
   padding: 0 10px;
+}
+
+/* Laptop and larger screens */
+@media (min-width: 768px) {
+  .oc-group-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
