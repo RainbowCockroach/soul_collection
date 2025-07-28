@@ -67,7 +67,9 @@ const ZoomPanPinchImage = forwardRef<
 
   return (
     <div className="zoom-pan-pinch-container">
-      {isLoading && <LoadingSpinner size="medium" message="Loading image..." />}
+      {isLoading && (
+        <LoadingSpinner message="👀 Wait a bit, this thing is big..." />
+      )}
 
       <button
         className="zoom-toggle-button"

@@ -6,13 +6,15 @@ interface LoadingSpinnerProps {
   message?: string;
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  size = "medium", 
-  message = "Loading..." 
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = "medium",
+  message = "👀 Loading...",
 }) => {
   return (
-    <div className={`loading-spinner-container loading-spinner-container--${size}`}>
-      <div className={`loading-spinner loading-spinner--${size}`}></div>
+    <div
+      className={`loading-spinner-container loading-spinner-container--${size}`}
+    >
+      <div className="loader"></div>
       {message && <p className="loading-spinner-message">{message}</p>}
     </div>
   );
