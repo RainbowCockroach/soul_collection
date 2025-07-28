@@ -9,6 +9,12 @@
   justify-content: center;
 }
 
+.zoom-pan-pinch-container .react-transform-wrapper,
+.zoom-pan-pinch-container .react-transform-component {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .zoom-toggle-button {
   position: absolute;
   top: 8px;
