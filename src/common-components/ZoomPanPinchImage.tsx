@@ -11,11 +11,14 @@ import {
   TransformComponent,
   type ReactZoomPanPinchRef,
 } from "react-zoom-pan-pinch";
+import LoadingSpinner from "./LoadingSpinner";
 import "./ZoomPanPinchImage.css";
+import BBCodeDisplay from "./BBCodeDisplay";
 
 interface ZoomPanPinchImageProps {
   src: string;
   alt: string;
+  caption?: string;
 }
 
 export interface ZoomPanPinchImageRef {
@@ -25,8 +28,9 @@ export interface ZoomPanPinchImageRef {
 const ZoomPanPinchImage = forwardRef<
   ZoomPanPinchImageRef,
   ZoomPanPinchImageProps
->(({ src, alt }, ref) => {
+>(({ src, alt, caption }, ref) => {
   const [interactionsDisabled, setInteractionsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
 
   const resetTransform = useCallback(() => {
@@ -44,8 +48,17 @@ const ZoomPanPinchImage = forwardRef<
     resetTransform,
   }));
 
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  const handleImageError = () => {
+    setIsLoading(false);
+  };
+
   // Auto-reset transform when src changes
   useEffect(() => {
+    setIsLoading(true);
     // Add a small delay to ensure TransformWrapper is ready
     const timer = setTimeout(() => {
       resetTransform();
@@ -56,6 +69,10 @@ const ZoomPanPinchImage = forwardRef<
 
   return (
     <div className="zoom-pan-pinch-container">
+      {isLoading && (
+        <LoadingSpinner message="👀 Wait a bit, this thing is big..." />
+      )}
+
       <button
         className="zoom-toggle-button"
         onClick={toggleInteractions}
@@ -80,9 +97,16 @@ const ZoomPanPinchImage = forwardRef<
             src={src}
             alt={alt}
             style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
           />
         </TransformComponent>
       </TransformWrapper>
+      {caption && (
+        <div className="zoom-pan-pinch-caption">
+          <BBCodeDisplay bbcode={caption} />
+        </div>
+      )}
     </div>
   );
 });

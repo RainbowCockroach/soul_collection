@@ -21,6 +21,8 @@ const PageDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentDisplayAvatar, setCurrentDisplayAvatar] =
     useState<string>(placeholderImage);
+  const [currentDisplayAvatarCaption, setCurrentDisplayAvatarCaption] =
+    useState<string | undefined>(undefined);
   const [linkedOcSlug, setLinkedOcSlug] = useState<string | null>(null);
   const [linkedOcName, setLinkedOcName] = useState<string | null>(null);
 
@@ -76,6 +78,7 @@ const PageDetail: React.FC = () => {
   useEffect(() => {
     if (oc?.gallery && oc.gallery.length > 0) {
       setCurrentDisplayAvatar(oc.gallery[0].image);
+      setCurrentDisplayAvatarCaption(oc.gallery[0].caption || undefined);
     }
   }, [oc]);
 
@@ -107,14 +110,19 @@ const PageDetail: React.FC = () => {
 
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
-        <ZoomPanPinchImage src={currentDisplayAvatar} alt={oc.name} />
+        <ZoomPanPinchImage
+          src={currentDisplayAvatar}
+          alt={oc.name}
+          caption={currentDisplayAvatarCaption}
+        />
       </div>
       <div className="detail-block-gallery div-3d-with-shadow">
         <GalleryBlock
           gallery={oc.gallery}
           characterName={oc.name}
-          onImageClick={(image) => {
-            setCurrentDisplayAvatar(image);
+          onImageClick={(galleryItem) => {
+            setCurrentDisplayAvatar(galleryItem.image);
+            setCurrentDisplayAvatarCaption(galleryItem.caption || undefined);
           }}
         />
       </div>
