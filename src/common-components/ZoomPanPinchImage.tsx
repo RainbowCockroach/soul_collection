@@ -13,10 +13,12 @@ import {
 } from "react-zoom-pan-pinch";
 import LoadingSpinner from "./LoadingSpinner";
 import "./ZoomPanPinchImage.css";
+import BBCodeDisplay from "./BBCodeDisplay";
 
 interface ZoomPanPinchImageProps {
   src: string;
   alt: string;
+  caption?: string;
 }
 
 export interface ZoomPanPinchImageRef {
@@ -26,7 +28,7 @@ export interface ZoomPanPinchImageRef {
 const ZoomPanPinchImage = forwardRef<
   ZoomPanPinchImageRef,
   ZoomPanPinchImageProps
->(({ src, alt }, ref) => {
+>(({ src, alt, caption }, ref) => {
   const [interactionsDisabled, setInteractionsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
@@ -100,6 +102,11 @@ const ZoomPanPinchImage = forwardRef<
           />
         </TransformComponent>
       </TransformWrapper>
+      {caption && (
+        <div className="zoom-pan-pinch-caption">
+          <BBCodeDisplay bbcode={caption} />
+        </div>
+      )}
     </div>
   );
 });

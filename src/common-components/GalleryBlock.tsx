@@ -5,7 +5,7 @@ import type { GalleryItem } from "../helpers/objects";
 interface GalleryBlockProps {
   gallery: GalleryItem[];
   characterName: string;
-  onImageClick: (image: string) => void;
+  onImageClick: (galleryItem: GalleryItem) => void;
 }
 
 const GalleryBlock: React.FC<GalleryBlockProps> = ({
@@ -25,7 +25,7 @@ const GalleryBlock: React.FC<GalleryBlockProps> = ({
               src={displayImage}
               alt={galleryItem.caption || `${characterName} gallery ${index + 1}`}
               className="gallery-image div-3d-with-shadow"
-              onClick={() => onImageClick(galleryItem.image)} // Always pass the full image URL
+              onClick={() => onImageClick(galleryItem)} // Pass the entire gallery item
               title={galleryItem.caption} // Show caption as tooltip
             />
           );
