@@ -9,6 +9,12 @@
   justify-content: center;
 }
 
+.zoom-pan-pinch-container .react-transform-wrapper,
+.zoom-pan-pinch-container .react-transform-component {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .zoom-toggle-button {
   position: absolute;
   top: 8px;
@@ -39,5 +45,27 @@
     right: 4px;
     padding: 6px 10px;
     font-size: 14px;
+  }
+}
+
+.zoom-pan-pinch-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .zoom-pan-pinch-caption {
+    padding: 8px 12px;
+    font-size: 13px;
   }
 }
