@@ -52,6 +52,15 @@ interface SortableBreadcrumbItemProps {
   onRemoveImage: (breadcrumbIndex: number, imageIndex: number) => void;
 }
 
+interface SortableGalleryItemProps {
+  galleryItem: GalleryItem;
+  index: number;
+  onRemove: (index: number) => void;
+  onImageChange: (index: number, value: string) => void;
+  onThumbnailChange: (index: number, value: string) => void;
+  onCaptionChange: (index: number, value: string) => void;
+}
+
 const SortableOcItem: React.FC<SortableOcItemProps> = ({
   oc,
   isSelected,
@@ -205,6 +214,85 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
   );
 };
 
+const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
+  galleryItem,
+  index,
+  onRemove,
+  onImageChange,
+  onThumbnailChange,
+  onCaptionChange,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `gallery-${index}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className="editor-oc-gallery-item"
+    >
+      <div className="editor-oc-gallery-header">
+        <div className="editor-oc-gallery-drag-handle" {...listeners}>
+          ⋮⋮
+        </div>
+        <h4>Gallery Item {index + 1}</h4>
+        <button
+          onClick={() => onRemove(index)}
+          className="editor-oc-remove-button"
+        >
+          Remove
+        </button>
+      </div>
+      
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Image URL:</label>
+        <input
+          type="text"
+          value={galleryItem.image}
+          onChange={(e) => onImageChange(index, e.target.value)}
+          className="editor-oc-input"
+          placeholder="Image URL"
+        />
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Thumbnail URL:</label>
+        <input
+          type="text"
+          value={galleryItem.thumbnail || ""}
+          onChange={(e) => onThumbnailChange(index, e.target.value)}
+          className="editor-oc-input"
+          placeholder="Thumbnail URL (optional)"
+        />
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Caption:</label>
+        <input
+          type="text"
+          value={galleryItem.caption || ""}
+          onChange={(e) => onCaptionChange(index, e.target.value)}
+          className="editor-oc-input"
+          placeholder="Caption (optional)"
+        />
+      </div>
+    </div>
+  );
+};
+
 export const EditorOc: React.FC = () => {
   const [ocData, setOcData] = useState<OcJsonData>({});
   const [ocsArray, setOcsArray] = useState<OC[]>([]);
@@ -215,6 +303,7 @@ export const EditorOc: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [dragMode, setDragMode] = useState(false);
   const [breadcrumbDragMode, setBreadcrumbDragMode] = useState(false);
+  const [galleryDragMode, setGalleryDragMode] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -315,6 +404,19 @@ export const EditorOc: React.FC = () => {
       const newBreadcrumbs = arrayMove(editingItem.breadcrumbs, activeIndex, overIndex);
       setEditingItem({ ...editingItem, breadcrumbs: newBreadcrumbs });
       toast.success("Breadcrumbs reordered!");
+    }
+  };
+
+  const handleGalleryDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id && editingItem) {
+      const activeIndex = parseInt(active.id.toString().replace('gallery-', ''));
+      const overIndex = parseInt(over?.id.toString().replace('gallery-', '') || '0');
+
+      const newGallery = arrayMove(editingItem.gallery, activeIndex, overIndex);
+      setEditingItem({ ...editingItem, gallery: newGallery });
+      toast.success("Gallery images reordered!");
     }
   };
 
@@ -777,59 +879,98 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-oc-field">
-                <label className="editor-oc-label">Gallery:</label>
-                {editingItem.gallery.map((galleryItem, index) => (
-                  <div key={index} className="editor-oc-gallery-item">
-                    <div className="editor-oc-gallery-header">
-                      <h4>Gallery Item {index + 1}</h4>
-                      <button
-                        onClick={() => handleRemoveGalleryItem(index)}
-                        className="editor-oc-remove-button"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                    
-                    <div className="editor-oc-field">
-                      <label className="editor-oc-label">Image URL:</label>
-                      <input
-                        type="text"
-                        value={galleryItem.image}
-                        onChange={(e) =>
-                          handleGalleryFieldChange(index, "image", e.target.value)
-                        }
-                        className="editor-oc-input"
-                        placeholder="Image URL"
-                      />
-                    </div>
+                <div className="editor-oc-gallery-controls">
+                  <label className="editor-oc-label">Gallery:</label>
+                  <button
+                    onClick={() => setGalleryDragMode(!galleryDragMode)}
+                    className={`editor-oc-button ${galleryDragMode ? "active" : ""}`}
+                    style={{ marginLeft: "10px", fontSize: "12px", padding: "4px 8px" }}
+                  >
+                    {galleryDragMode ? "Exit Drag Mode" : "Rearrange Gallery"}
+                  </button>
+                </div>
+                {galleryDragMode && editingItem.gallery.length > 0 && (
+                  <p style={{ fontSize: "12px", color: "#666", marginBottom: "10px" }}>
+                    Drag the ⋮⋮ handle to reorder gallery images
+                  </p>
+                )}
+                {galleryDragMode ? (
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleGalleryDragEnd}
+                  >
+                    <SortableContext
+                      items={editingItem.gallery.map((_, index) => `gallery-${index}`)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {editingItem.gallery.map((galleryItem, index) => (
+                        <SortableGalleryItem
+                          key={`gallery-${index}`}
+                          galleryItem={galleryItem}
+                          index={index}
+                          onRemove={handleRemoveGalleryItem}
+                          onImageChange={(idx, value) => handleGalleryFieldChange(idx, "image", value)}
+                          onThumbnailChange={(idx, value) => handleGalleryFieldChange(idx, "thumbnail", value)}
+                          onCaptionChange={(idx, value) => handleGalleryFieldChange(idx, "caption", value)}
+                        />
+                      ))}
+                    </SortableContext>
+                  </DndContext>
+                ) : (
+                  editingItem.gallery.map((galleryItem, index) => (
+                    <div key={index} className="editor-oc-gallery-item">
+                      <div className="editor-oc-gallery-header">
+                        <h4>Gallery Item {index + 1}</h4>
+                        <button
+                          onClick={() => handleRemoveGalleryItem(index)}
+                          className="editor-oc-remove-button"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Image URL:</label>
+                        <input
+                          type="text"
+                          value={galleryItem.image}
+                          onChange={(e) =>
+                            handleGalleryFieldChange(index, "image", e.target.value)
+                          }
+                          className="editor-oc-input"
+                          placeholder="Image URL"
+                        />
+                      </div>
 
-                    <div className="editor-oc-field">
-                      <label className="editor-oc-label">Thumbnail URL:</label>
-                      <input
-                        type="text"
-                        value={galleryItem.thumbnail || ""}
-                        onChange={(e) =>
-                          handleGalleryFieldChange(index, "thumbnail", e.target.value)
-                        }
-                        className="editor-oc-input"
-                        placeholder="Thumbnail URL (optional)"
-                      />
-                    </div>
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Thumbnail URL:</label>
+                        <input
+                          type="text"
+                          value={galleryItem.thumbnail || ""}
+                          onChange={(e) =>
+                            handleGalleryFieldChange(index, "thumbnail", e.target.value)
+                          }
+                          className="editor-oc-input"
+                          placeholder="Thumbnail URL (optional)"
+                        />
+                      </div>
 
-                    <div className="editor-oc-field">
-                      <label className="editor-oc-label">Caption:</label>
-                      <input
-                        type="text"
-                        value={galleryItem.caption || ""}
-                        onChange={(e) =>
-                          handleGalleryFieldChange(index, "caption", e.target.value)
-                        }
-                        className="editor-oc-input"
-                        placeholder="Caption (optional)"
-                      />
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Caption:</label>
+                        <input
+                          type="text"
+                          value={galleryItem.caption || ""}
+                          onChange={(e) =>
+                            handleGalleryFieldChange(index, "caption", e.target.value)
+                          }
+                          className="editor-oc-input"
+                          placeholder="Caption (optional)"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
                 <button
                   onClick={handleAddGalleryItem}
                   className="editor-oc-add-button"
