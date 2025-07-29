@@ -53,14 +53,13 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
+  color: var(--color-purple);
   padding: 12px 16px;
   font-size: 14px;
   line-height: 1.4;
   text-align: center;
-  backdrop-filter: blur(4px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 8px var(--color-white-sparkle),
+    0 0 4px var(--color-white-sparkle);
 }
 
 @media (max-width: 768px) {
