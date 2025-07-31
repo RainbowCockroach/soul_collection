@@ -2,7 +2,7 @@
 cd /d "%~dp0"
 git add src/data/*
 git pull origin sam
-git commit -m "sam update content"
+git commit -m "sam update content" --no-edit
 git push origin sam
 git stash
 git checkout main
