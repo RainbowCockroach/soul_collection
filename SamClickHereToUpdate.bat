@@ -14,6 +14,7 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 git checkout main
+git pull origin main
 git merge sam
 git push origin main
 git checkout sam
