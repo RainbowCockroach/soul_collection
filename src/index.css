@@ -17,10 +17,20 @@
   /* Font variables */
   --font-primary: "Comic Relief", "Comic Sans MS", "Chalkboard SE", cursive;
   --font-secondary: "Arial", sans-serif;
+
+  /* Standard breakpoint reference:
+   * --breakpoint-xs: 320px (extra small devices)
+   * --breakpoint-sm: 640px (small devices - tablets)
+   * --breakpoint-md: 768px (medium devices - tablets landscape)
+   * --breakpoint-lg: 1024px (large devices - desktops)
+   * --breakpoint-xl: 1280px (extra large devices - large desktops)
+   * --breakpoint-2xl: 1536px (2xl devices - very large desktops)
+   */
+
   background-color: var(--color-purple);
 }
 
-/* Desktop font size */
+/* Medium devices and up (tablets landscape) - Desktop font size */
 @media (min-width: 768px) {
   :root {
     font-size: 1rem;

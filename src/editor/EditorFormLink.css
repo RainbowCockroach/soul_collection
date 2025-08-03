@@ -217,17 +217,18 @@
   background-color: #5a6268;
 }
 
+/* Medium devices and down (tablets and smaller) */
 @media (max-width: 768px) {
   .editor-form-link-layout {
     flex-direction: column;
   }
-  
+
   .editor-form-link-item {
     flex-direction: column;
     align-items: stretch;
     gap: 15px;
   }
-  
+
   .editor-form-link-actions {
     justify-content: center;
   }

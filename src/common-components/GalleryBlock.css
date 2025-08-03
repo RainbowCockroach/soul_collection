@@ -12,6 +12,7 @@
   scrollbar-color: var(--color-green) transparent;
 }
 
+/* Large devices and down (tablets and smaller) */
 @media (max-width: 1024px) {
   .gallery-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

@@ -38,7 +38,7 @@
   border-radius: 4px;
 }
 
-/* Mobile responsive adjustments */
+/* Medium devices and down (tablets and smaller) - Mobile responsive adjustments */
 @media (max-width: 768px) {
   .embla-many__viewport {
     padding: 0 0.5rem;

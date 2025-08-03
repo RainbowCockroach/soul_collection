@@ -1,5 +1,5 @@
-/* Desktop Layout */
-@media (min-width: 1381px) {
+/* Extra large devices and up (large desktops) */
+@media (min-width: 769px) {
   .page-detail {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -42,8 +42,8 @@
   }
 }
 
-/* Mobile Layout */
-@media (max-width: 1380px) {
+/* Medium devices and down (tablets and smaller) */
+@media (max-width: 768px) {
   .page-detail {
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@
   margin: 1% 1%;
 }
 
-/* Mobile specific adjustments */
+/* Small devices and down (mobile phones) */
 @media (max-width: 767px) {
   .page-detail {
     padding: 10px;

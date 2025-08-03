@@ -36,7 +36,7 @@
   padding: 0 10px;
 }
 
-/* Laptop and larger screens */
+/* Medium devices and up (tablets landscape) - Laptop and larger screens */
 @media (min-width: 768px) {
   .oc-group-grid {
     grid-template-columns: repeat(5, 1fr);
