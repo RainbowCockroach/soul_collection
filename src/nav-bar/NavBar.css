@@ -26,6 +26,7 @@
   aspect-ratio: 1;
 }
 
+/* Small devices and up (tablets) */
 @media (min-width: 640px) {
   .logo {
     height: 3.5rem;
@@ -33,6 +34,7 @@
   }
 }
 
+/* Medium devices and up (tablets landscape) */
 @media (min-width: 768px) {
   .logo {
     height: 4rem;
@@ -40,6 +42,7 @@
   }
 }
 
+/* Large devices and up (desktops) */
 @media (min-width: 1024px) {
   .logo {
     height: 4.5rem;
@@ -64,7 +67,7 @@
   font-weight: inherit;
 }
 
-/* Mobile adjustments */
+/* Extra small devices only (mobile phones) */
 @media (max-width: 639px) {
   .nav-links-desktop {
     position: static;
