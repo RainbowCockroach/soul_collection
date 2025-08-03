@@ -39,6 +39,7 @@
   transform: scale(0.95);
 }
 
+/* Medium devices and down (tablets and smaller) */
 @media (max-width: 768px) {
   .zoom-toggle-button {
     top: 4px;
@@ -62,6 +63,7 @@
     0 0 4px var(--color-white-sparkle);
 }
 
+/* Medium devices and down (tablets and smaller) */
 @media (max-width: 768px) {
   .zoom-pan-pinch-caption {
     padding: 8px 12px;
