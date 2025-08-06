@@ -1,6 +1,6 @@
 /* Slot layout */
 .oc-slot {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -21,8 +21,43 @@
 
 .oc-name {
   text-align: center;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 h3 {
   margin: 0;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* First range: Vertical phone screen (portrait) - 2 slots per row */
+/* Standard breakpoint: 320px - 767px */
+@media (min-width: 320px) and (max-width: 767px) {
+  .oc-slot {
+    width: 150px;
+    max-width: 150px;
+    min-width: 150px;
+  }
+}
+
+/* Second range: Horizontal phone screen and vertical tablet - 3 slots per row */
+/* Standard breakpoint: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .oc-slot {
+    width: 200px;
+    max-width: 200px;
+    min-width: 200px;
+  }
+}
+
+/* Third range: Horizontal tablet and desktop - 5 slots per row */
+/* Standard breakpoint: 1024px and up */
+@media (min-width: 1024px) {
+  .oc-slot {
+    width: 180px;
+    max-width: 180px;
+    min-width: 180px;
+  }
 }

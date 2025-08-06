@@ -24,7 +24,6 @@ const OcGroup: React.FC<OcGroupProps> = ({
   isExpanded,
   onToggle,
 }) => {
-  console.log(groupInfo);
   return (
     <div className="oc-group">
       <button
