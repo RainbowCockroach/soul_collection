@@ -19,13 +19,25 @@ interface OcSlotProps {
 // Custom hook for overflow detection
 const useOverflowDetection = (text: string) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const checkOverflow = () => {
       if (ref.current) {
-        const { scrollWidth, clientWidth } = ref.current;
-        setIsOverflowing(scrollWidth > clientWidth);
+        // Create a temporary span to measure the actual text width
+        const tempSpan = document.createElement("span");
+        tempSpan.style.visibility = "hidden";
+        tempSpan.style.position = "absolute";
+        tempSpan.style.whiteSpace = "nowrap";
+        tempSpan.style.font = window.getComputedStyle(ref.current).font;
+        tempSpan.textContent = text;
+
+        document.body.appendChild(tempSpan);
+        const textWidth = tempSpan.offsetWidth;
+        document.body.removeChild(tempSpan);
+
+        const containerWidth = ref.current.clientWidth;
+        setIsOverflowing(textWidth > containerWidth);
       }
     };
 
@@ -64,8 +76,12 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
       }}
     >
       <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
-      <div ref={containerRef} className="oc-slot-name-box">
-        <h3 className="oc-name" style={{ color: textColour }}>
+      <div className="oc-slot-name-box">
+        <h3
+          ref={containerRef}
+          className="oc-name"
+          style={{ color: textColour }}
+        >
           <Marquee pauseOnHover={true} play={isOverflowing}>
             <BBCodeDisplay bbcode={oc.name} />
           </Marquee>

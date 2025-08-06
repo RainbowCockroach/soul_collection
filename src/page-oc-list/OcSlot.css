@@ -21,6 +21,9 @@
 
 .oc-name {
   text-align: center;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 h3 {
