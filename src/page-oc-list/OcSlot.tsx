@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OcSlot.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
+import Marquee from "react-fast-marquee";
 
 export interface OC {
   slug: string;
@@ -15,9 +16,38 @@ interface OcSlotProps {
   textColour: string;
 }
 
+// Custom hook for overflow detection
+const useOverflowDetection = (text: string) => {
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (ref.current) {
+        const { scrollWidth, clientWidth } = ref.current;
+        setIsOverflowing(scrollWidth > clientWidth);
+      }
+    };
+
+    const timeoutId = setTimeout(checkOverflow, 100);
+
+    const resizeObserver = new ResizeObserver(checkOverflow);
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+      resizeObserver.disconnect();
+    };
+  }, [text]);
+
+  return { ref, isOverflowing };
+};
+
 const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
-  console.log(frameColour);
   const navigate = useNavigate();
+  const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
 
   const handleClick = () => {
     navigate(`${oc.slug}`);
@@ -34,9 +64,11 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
       }}
     >
       <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
-      <div className="oc-slot-name-box">
+      <div ref={containerRef} className="oc-slot-name-box">
         <h3 className="oc-name" style={{ color: textColour }}>
-          <BBCodeDisplay bbcode={oc.name} />
+          <Marquee pauseOnHover={true} play={isOverflowing}>
+            <BBCodeDisplay bbcode={oc.name} />
+          </Marquee>
         </h3>
       </div>
     </div>
