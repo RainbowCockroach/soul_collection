@@ -197,8 +197,8 @@ const PageDetail: React.FC = () => {
 
       <div className="detail-block-tags">
         {oc.tagDetails.map((tag, index) => (
-          <span 
-            key={index} 
+          <span
+            key={index}
             className="oc-detail-tag div-3d-with-shadow"
             style={{
               backgroundColor: tag.backgroundColour,
