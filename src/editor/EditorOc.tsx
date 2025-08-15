@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
-import type { OC, Group, Spieces, BreadcrumbItem, GalleryItem, Tag } from "../helpers/objects";
-import { loadOCs, loadGroups, loadSpecies, loadTags } from "../helpers/data-load";
+import type {
+  OC,
+  Group,
+  Spieces,
+  BreadcrumbItem,
+  GalleryItem,
+  Tag,
+} from "../helpers/objects";
+import {
+  loadOCs,
+  loadGroups,
+  loadSpecies,
+  loadTags,
+} from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import {
@@ -34,10 +46,6 @@ interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
 }
 
-interface TagJsonData {
-  [key: string]: Omit<Tag, "slug">;
-}
-
 interface SortableOcItemProps {
   oc: OC;
   isSelected: boolean;
@@ -51,7 +59,11 @@ interface SortableBreadcrumbItemProps {
   onRemove: (index: number) => void;
   onTitleChange: (index: number, value: string) => void;
   onDescriptionChange: (index: number, value: string) => void;
-  onImageChange: (breadcrumbIndex: number, imageIndex: number, value: string) => void;
+  onImageChange: (
+    breadcrumbIndex: number,
+    imageIndex: number,
+    value: string
+  ) => void;
   onAddImage: (breadcrumbIndex: number) => void;
   onRemoveImage: (breadcrumbIndex: number, imageIndex: number) => void;
 }
@@ -260,7 +272,7 @@ const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
           Remove
         </button>
       </div>
-      
+
       <div className="editor-oc-field">
         <label className="editor-oc-label">Image URL:</label>
         <input
@@ -302,7 +314,6 @@ export const EditorOc: React.FC = () => {
   const [ocsArray, setOcsArray] = useState<OC[]>([]);
   const [groupData, setGroupData] = useState<GroupJsonData>({});
   const [spiecesData, setSpiecesData] = useState<SpiecesJsonData>({});
-  const [tagData, setTagData] = useState<TagJsonData>({});
   const [tagsArray, setTagsArray] = useState<Tag[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [editingItem, setEditingItem] = useState<OC | null>(null);
@@ -324,17 +335,12 @@ export const EditorOc: React.FC = () => {
 
   const loadData = async () => {
     try {
-      const [ocsArray, groupsArray, speciesArray, tagsArray] = await Promise.all([
-        loadOCs(),
-        loadGroups(),
-        loadSpecies(),
-        loadTags(),
-      ]);
+      const [ocsArray, groupsArray, speciesArray, tagsArray] =
+        await Promise.all([loadOCs(), loadGroups(), loadSpecies(), loadTags()]);
 
       const ocData: OcJsonData = {};
       const groupData: GroupJsonData = {};
       const spiecesData: SpiecesJsonData = {};
-      const tagData: TagJsonData = {};
 
       ocsArray.forEach((oc, index) => {
         const { slug, ...rest } = oc;
@@ -351,11 +357,6 @@ export const EditorOc: React.FC = () => {
         spiecesData[slug] = rest;
       });
 
-      tagsArray.forEach((tag) => {
-        const { slug, ...rest } = tag;
-        tagData[slug] = rest;
-      });
-
       setOcData(ocData);
       setOcsArray(
         ocsArray.map((oc, index) => ({
@@ -365,7 +366,6 @@ export const EditorOc: React.FC = () => {
       );
       setGroupData(groupData);
       setSpiecesData(spiecesData);
-      setTagData(tagData);
       setTagsArray(tagsArray);
     } catch (error) {
       console.error("Error loading data:", error);
@@ -413,10 +413,18 @@ export const EditorOc: React.FC = () => {
     const { active, over } = event;
 
     if (active.id !== over?.id && editingItem) {
-      const activeIndex = parseInt(active.id.toString().replace('breadcrumb-', ''));
-      const overIndex = parseInt(over?.id.toString().replace('breadcrumb-', '') || '0');
+      const activeIndex = parseInt(
+        active.id.toString().replace("breadcrumb-", "")
+      );
+      const overIndex = parseInt(
+        over?.id.toString().replace("breadcrumb-", "") || "0"
+      );
 
-      const newBreadcrumbs = arrayMove(editingItem.breadcrumbs, activeIndex, overIndex);
+      const newBreadcrumbs = arrayMove(
+        editingItem.breadcrumbs,
+        activeIndex,
+        overIndex
+      );
       setEditingItem({ ...editingItem, breadcrumbs: newBreadcrumbs });
       toast.success("Breadcrumbs reordered!");
     }
@@ -426,8 +434,12 @@ export const EditorOc: React.FC = () => {
     const { active, over } = event;
 
     if (active.id !== over?.id && editingItem) {
-      const activeIndex = parseInt(active.id.toString().replace('gallery-', ''));
-      const overIndex = parseInt(over?.id.toString().replace('gallery-', '') || '0');
+      const activeIndex = parseInt(
+        active.id.toString().replace("gallery-", "")
+      );
+      const overIndex = parseInt(
+        over?.id.toString().replace("gallery-", "") || "0"
+      );
 
       const newGallery = arrayMove(editingItem.gallery, activeIndex, overIndex);
       setEditingItem({ ...editingItem, gallery: newGallery });
@@ -567,7 +579,11 @@ export const EditorOc: React.FC = () => {
   const handleAddGalleryItem = () => {
     if (!editingItem) return;
 
-    const newGalleryItem: GalleryItem = { image: "", thumbnail: "", caption: "" };
+    const newGalleryItem: GalleryItem = {
+      image: "",
+      thumbnail: "",
+      caption: "",
+    };
     const updatedGallery = [...editingItem.gallery, newGalleryItem];
     setEditingItem({ ...editingItem, gallery: updatedGallery });
   };
@@ -653,7 +669,11 @@ export const EditorOc: React.FC = () => {
   const handleAddBreadcrumb = () => {
     if (!editingItem) return;
 
-    const newBreadcrumb: BreadcrumbItem = { title: "", images: [], description: "" };
+    const newBreadcrumb: BreadcrumbItem = {
+      title: "",
+      images: [],
+      description: "",
+    };
     setEditingItem({
       ...editingItem,
       breadcrumbs: [...editingItem.breadcrumbs, newBreadcrumb],
@@ -898,14 +918,26 @@ export const EditorOc: React.FC = () => {
                   <label className="editor-oc-label">Gallery:</label>
                   <button
                     onClick={() => setGalleryDragMode(!galleryDragMode)}
-                    className={`editor-oc-button ${galleryDragMode ? "active" : ""}`}
-                    style={{ marginLeft: "10px", fontSize: "12px", padding: "4px 8px" }}
+                    className={`editor-oc-button ${
+                      galleryDragMode ? "active" : ""
+                    }`}
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "12px",
+                      padding: "4px 8px",
+                    }}
                   >
                     {galleryDragMode ? "Exit Drag Mode" : "Rearrange Gallery"}
                   </button>
                 </div>
                 {galleryDragMode && editingItem.gallery.length > 0 && (
-                  <p style={{ fontSize: "12px", color: "#666", marginBottom: "10px" }}>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#666",
+                      marginBottom: "10px",
+                    }}
+                  >
                     Drag the ⋮⋮ handle to reorder gallery images
                   </p>
                 )}
@@ -916,7 +948,9 @@ export const EditorOc: React.FC = () => {
                     onDragEnd={handleGalleryDragEnd}
                   >
                     <SortableContext
-                      items={editingItem.gallery.map((_, index) => `gallery-${index}`)}
+                      items={editingItem.gallery.map(
+                        (_, index) => `gallery-${index}`
+                      )}
                       strategy={verticalListSortingStrategy}
                     >
                       {editingItem.gallery.map((galleryItem, index) => (
@@ -925,9 +959,15 @@ export const EditorOc: React.FC = () => {
                           galleryItem={galleryItem}
                           index={index}
                           onRemove={handleRemoveGalleryItem}
-                          onImageChange={(idx, value) => handleGalleryFieldChange(idx, "image", value)}
-                          onThumbnailChange={(idx, value) => handleGalleryFieldChange(idx, "thumbnail", value)}
-                          onCaptionChange={(idx, value) => handleGalleryFieldChange(idx, "caption", value)}
+                          onImageChange={(idx, value) =>
+                            handleGalleryFieldChange(idx, "image", value)
+                          }
+                          onThumbnailChange={(idx, value) =>
+                            handleGalleryFieldChange(idx, "thumbnail", value)
+                          }
+                          onCaptionChange={(idx, value) =>
+                            handleGalleryFieldChange(idx, "caption", value)
+                          }
                         />
                       ))}
                     </SortableContext>
@@ -944,14 +984,18 @@ export const EditorOc: React.FC = () => {
                           Remove
                         </button>
                       </div>
-                      
+
                       <div className="editor-oc-field">
                         <label className="editor-oc-label">Image URL:</label>
                         <input
                           type="text"
                           value={galleryItem.image}
                           onChange={(e) =>
-                            handleGalleryFieldChange(index, "image", e.target.value)
+                            handleGalleryFieldChange(
+                              index,
+                              "image",
+                              e.target.value
+                            )
                           }
                           className="editor-oc-input"
                           placeholder="Image URL"
@@ -959,12 +1003,18 @@ export const EditorOc: React.FC = () => {
                       </div>
 
                       <div className="editor-oc-field">
-                        <label className="editor-oc-label">Thumbnail URL:</label>
+                        <label className="editor-oc-label">
+                          Thumbnail URL:
+                        </label>
                         <input
                           type="text"
                           value={galleryItem.thumbnail || ""}
                           onChange={(e) =>
-                            handleGalleryFieldChange(index, "thumbnail", e.target.value)
+                            handleGalleryFieldChange(
+                              index,
+                              "thumbnail",
+                              e.target.value
+                            )
                           }
                           className="editor-oc-input"
                           placeholder="Thumbnail URL (optional)"
@@ -977,7 +1027,11 @@ export const EditorOc: React.FC = () => {
                           type="text"
                           value={galleryItem.caption || ""}
                           onChange={(e) =>
-                            handleGalleryFieldChange(index, "caption", e.target.value)
+                            handleGalleryFieldChange(
+                              index,
+                              "caption",
+                              e.target.value
+                            )
                           }
                           className="editor-oc-input"
                           placeholder="Caption (optional)"
@@ -999,14 +1053,28 @@ export const EditorOc: React.FC = () => {
                   <label className="editor-oc-label">Breadcrumbs:</label>
                   <button
                     onClick={() => setBreadcrumbDragMode(!breadcrumbDragMode)}
-                    className={`editor-oc-button ${breadcrumbDragMode ? "active" : ""}`}
-                    style={{ marginLeft: "10px", fontSize: "12px", padding: "4px 8px" }}
+                    className={`editor-oc-button ${
+                      breadcrumbDragMode ? "active" : ""
+                    }`}
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "12px",
+                      padding: "4px 8px",
+                    }}
                   >
-                    {breadcrumbDragMode ? "Exit Drag Mode" : "Rearrange Breadcrumbs"}
+                    {breadcrumbDragMode
+                      ? "Exit Drag Mode"
+                      : "Rearrange Breadcrumbs"}
                   </button>
                 </div>
                 {breadcrumbDragMode && editingItem.breadcrumbs.length > 0 && (
-                  <p style={{ fontSize: "12px", color: "#666", marginBottom: "10px" }}>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#666",
+                      marginBottom: "10px",
+                    }}
+                  >
                     Drag the ⋮⋮ handle to reorder breadcrumbs
                   </p>
                 )}
@@ -1017,7 +1085,9 @@ export const EditorOc: React.FC = () => {
                     onDragEnd={handleBreadcrumbDragEnd}
                   >
                     <SortableContext
-                      items={editingItem.breadcrumbs.map((_, index) => `breadcrumb-${index}`)}
+                      items={editingItem.breadcrumbs.map(
+                        (_, index) => `breadcrumb-${index}`
+                      )}
                       strategy={verticalListSortingStrategy}
                     >
                       {editingItem.breadcrumbs.map((breadcrumb, index) => (
@@ -1026,8 +1096,12 @@ export const EditorOc: React.FC = () => {
                           breadcrumb={breadcrumb}
                           index={index}
                           onRemove={handleRemoveBreadcrumb}
-                          onTitleChange={(idx, value) => handleBreadcrumbChange(idx, "title", value)}
-                          onDescriptionChange={(idx, value) => handleBreadcrumbChange(idx, "description", value)}
+                          onTitleChange={(idx, value) =>
+                            handleBreadcrumbChange(idx, "title", value)
+                          }
+                          onDescriptionChange={(idx, value) =>
+                            handleBreadcrumbChange(idx, "description", value)
+                          }
                           onImageChange={handleBreadcrumbImageChange}
                           onAddImage={handleAddBreadcrumbImage}
                           onRemoveImage={handleRemoveBreadcrumbImage}
@@ -1085,7 +1159,10 @@ export const EditorOc: React.FC = () => {
                       <div className="editor-oc-field">
                         <label className="editor-oc-label">Images:</label>
                         {breadcrumb.images.map((imageUrl, imageIndex) => (
-                          <div key={imageIndex} className="editor-oc-array-item">
+                          <div
+                            key={imageIndex}
+                            className="editor-oc-array-item"
+                          >
                             <input
                               type="text"
                               value={imageUrl}
@@ -1130,7 +1207,7 @@ export const EditorOc: React.FC = () => {
               <div className="editor-oc-field">
                 <label className="editor-oc-label">Tags:</label>
                 {editingItem.tags.map((tagSlug, index) => {
-                  const tagInfo = tagsArray.find(t => t.slug === tagSlug);
+                  const tagInfo = tagsArray.find((t) => t.slug === tagSlug);
                   return (
                     <div key={index} className="editor-oc-array-item">
                       <select
