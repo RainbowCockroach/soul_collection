@@ -273,3 +273,16 @@
 .editor-oc-gallery-drag-handle:active {
   cursor: grabbing;
 }
+
+.editor-oc-tag-preview {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+  margin-right: 10px;
+  min-width: 80px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}

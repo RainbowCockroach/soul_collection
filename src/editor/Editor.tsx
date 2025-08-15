@@ -3,10 +3,11 @@ import { EditorSpieces } from "./EditorSpieces";
 import { EditorGroup } from "./EditorGroup";
 import { EditorOc } from "./EditorOc";
 import { EditorFormLink } from "./EditorFormLink";
+import EditorTag from "./EditorTag";
 import { baseUrl } from "../helpers/constants";
 import "./Editor.css";
 
-type EditorTab = "species" | "groups" | "ocs" | "form-links";
+type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links";
 
 export const Editor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>("species");
@@ -14,6 +15,7 @@ export const Editor: React.FC = () => {
     { id: "species" as const, label: "Species", component: EditorSpieces },
     { id: "groups" as const, label: "Groups", component: EditorGroup },
     { id: "ocs" as const, label: "OCs", component: EditorOc },
+    { id: "tags" as const, label: "Tags", component: EditorTag },
     { id: "form-links" as const, label: "Form Links", component: EditorFormLink },
   ];
 

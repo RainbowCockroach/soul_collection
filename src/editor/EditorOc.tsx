@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import type { OC, Group, Spieces, BreadcrumbItem, GalleryItem } from "../helpers/objects";
-import { loadOCs, loadGroups, loadSpecies } from "../helpers/data-load";
+import type { OC, Group, Spieces, BreadcrumbItem, GalleryItem, Tag } from "../helpers/objects";
+import { loadOCs, loadGroups, loadSpecies, loadTags } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import {
@@ -32,6 +32,10 @@ interface GroupJsonData {
 
 interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
+}
+
+interface TagJsonData {
+  [key: string]: Omit<Tag, "slug">;
 }
 
 interface SortableOcItemProps {
@@ -298,6 +302,8 @@ export const EditorOc: React.FC = () => {
   const [ocsArray, setOcsArray] = useState<OC[]>([]);
   const [groupData, setGroupData] = useState<GroupJsonData>({});
   const [spiecesData, setSpiecesData] = useState<SpiecesJsonData>({});
+  const [tagData, setTagData] = useState<TagJsonData>({});
+  const [tagsArray, setTagsArray] = useState<Tag[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [editingItem, setEditingItem] = useState<OC | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -318,15 +324,17 @@ export const EditorOc: React.FC = () => {
 
   const loadData = async () => {
     try {
-      const [ocsArray, groupsArray, speciesArray] = await Promise.all([
+      const [ocsArray, groupsArray, speciesArray, tagsArray] = await Promise.all([
         loadOCs(),
         loadGroups(),
         loadSpecies(),
+        loadTags(),
       ]);
 
       const ocData: OcJsonData = {};
       const groupData: GroupJsonData = {};
       const spiecesData: SpiecesJsonData = {};
+      const tagData: TagJsonData = {};
 
       ocsArray.forEach((oc, index) => {
         const { slug, ...rest } = oc;
@@ -343,6 +351,11 @@ export const EditorOc: React.FC = () => {
         spiecesData[slug] = rest;
       });
 
+      tagsArray.forEach((tag) => {
+        const { slug, ...rest } = tag;
+        tagData[slug] = rest;
+      });
+
       setOcData(ocData);
       setOcsArray(
         ocsArray.map((oc, index) => ({
@@ -352,6 +365,8 @@ export const EditorOc: React.FC = () => {
       );
       setGroupData(groupData);
       setSpiecesData(spiecesData);
+      setTagData(tagData);
+      setTagsArray(tagsArray);
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -1114,25 +1129,44 @@ export const EditorOc: React.FC = () => {
 
               <div className="editor-oc-field">
                 <label className="editor-oc-label">Tags:</label>
-                {editingItem.tags.map((tag, index) => (
-                  <div key={index} className="editor-oc-array-item">
-                    <input
-                      type="text"
-                      value={tag}
-                      onChange={(e) =>
-                        handleArrayFieldChange("tags", index, e.target.value)
-                      }
-                      className="editor-oc-array-input"
-                      placeholder="Tag"
-                    />
-                    <button
-                      onClick={() => handleRemoveArrayItem("tags", index)}
-                      className="editor-oc-remove-button"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+                {editingItem.tags.map((tagSlug, index) => {
+                  const tagInfo = tagsArray.find(t => t.slug === tagSlug);
+                  return (
+                    <div key={index} className="editor-oc-array-item">
+                      <select
+                        value={tagSlug}
+                        onChange={(e) =>
+                          handleArrayFieldChange("tags", index, e.target.value)
+                        }
+                        className="editor-oc-array-input"
+                      >
+                        <option value="">Select a tag...</option>
+                        {tagsArray.map((tag) => (
+                          <option key={tag.slug} value={tag.slug}>
+                            {tag.name}
+                          </option>
+                        ))}
+                      </select>
+                      {tagInfo && (
+                        <div
+                          className="editor-oc-tag-preview"
+                          style={{
+                            backgroundColor: tagInfo.backgroundColour,
+                            color: tagInfo.textColour,
+                          }}
+                        >
+                          {tagInfo.name}
+                        </div>
+                      )}
+                      <button
+                        onClick={() => handleRemoveArrayItem("tags", index)}
+                        className="editor-oc-remove-button"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  );
+                })}
                 <button
                   onClick={() => handleAddArrayItem("tags")}
                   className="editor-oc-add-button"
