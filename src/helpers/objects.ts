@@ -40,3 +40,10 @@ export interface OC {
 }
 
 export type FormLink = [string, string]; // Array of two OC slugs representing linked characters
+
+export type Tag = {
+  slug: string;
+  name: string;
+  backgroundColour: string;
+  textColour: string;
+};

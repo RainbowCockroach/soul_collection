@@ -1,0 +1,112 @@
+{
+  "horny-beast": {
+    "name": "Horny beast 👅",
+    "backgroundColour": "#FF6B6B",
+    "textColour": "#FFFFFF"
+  },
+  "improved-human": {
+    "name": "Improved human",
+    "backgroundColour": "#4ECDC4",
+    "textColour": "#FFFFFF"
+  },
+  "female": {
+    "name": "Female",
+    "backgroundColour": "#FF69B4",
+    "textColour": "#FFFFFF"
+  },
+  "gods-favorite-human": {
+    "name": "God's favorite human",
+    "backgroundColour": "#FFD700",
+    "textColour": "#000000"
+  },
+  "normal-human": {
+    "name": "Normal human",
+    "backgroundColour": "#95A5A6",
+    "textColour": "#FFFFFF"
+  },
+  "adult": {
+    "name": "Adult",
+    "backgroundColour": "#34495E",
+    "textColour": "#FFFFFF"
+  },
+  "doctor": {
+    "name": "🤍Doctor🤍",
+    "backgroundColour": "#E74C3C",
+    "textColour": "#FFFFFF"
+  },
+  "no-gender": {
+    "name": "No gender",
+    "backgroundColour": "#9B59B6",
+    "textColour": "#FFFFFF"
+  },
+  "male": {
+    "name": "Male",
+    "backgroundColour": "#3498DB",
+    "textColour": "#FFFFFF"
+  },
+  "god": {
+    "name": "God",
+    "backgroundColour": "#F39C12",
+    "textColour": "#000000"
+  },
+  "candy-cockroach": {
+    "name": "Candy cockroach",
+    "backgroundColour": "#E67E22",
+    "textColour": "#FFFFFF"
+  },
+  "not-pure-zo": {
+    "name": "Not pure zo",
+    "backgroundColour": "#8E44AD",
+    "textColour": "#FFFFFF"
+  },
+  "short-hair": {
+    "name": "Short hair",
+    "backgroundColour": "#16A085",
+    "textColour": "#FFFFFF"
+  },
+  "li-family": {
+    "name": "Li family",
+    "backgroundColour": "#2ECC71",
+    "textColour": "#FFFFFF"
+  },
+  "slime-non": {
+    "name": "Slime non",
+    "backgroundColour": "#1ABC9C",
+    "textColour": "#FFFFFF"
+  },
+  "black-ring": {
+    "name": "↺✦Black Ring ✦↻",
+    "backgroundColour": "#2C3E50",
+    "textColour": "#FFFFFF"
+  },
+  "vrev": {
+    "name": "Vrev",
+    "backgroundColour": "#E91E63",
+    "textColour": "#FFFFFF"
+  },
+  "purple": {
+    "name": "Purple",
+    "backgroundColour": "#9C27B0",
+    "textColour": "#FFFFFF"
+  },
+  "pony": {
+    "name": "Pony",
+    "backgroundColour": "#FF9800",
+    "textColour": "#FFFFFF"
+  },
+  "lore-outsider": {
+    "name": "Lore outsider",
+    "backgroundColour": "#607D8B",
+    "textColour": "#FFFFFF"
+  },
+  "red": {
+    "name": "Red",
+    "backgroundColour": "#F44336",
+    "textColour": "#FFFFFF"
+  },
+  "orange": {
+    "name": "Orange",
+    "backgroundColour": "#FF5722",
+    "textColour": "#FFFFFF"
+  }
+}

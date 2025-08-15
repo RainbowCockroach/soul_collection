@@ -1,13 +1,15 @@
-import type { OC, Group, Spieces, FormLink } from "./objects";
+import type { OC, Group, Spieces, FormLink, Tag } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
 import speciesData from "../data/spieces.json";
 import formLinkData from "../data/form-link.json";
+import tagData from "../data/tag.json";
 
 export interface LoadedData {
   ocs: OC[];
   groups: Group[];
   species: Spieces[];
+  tags: Tag[];
 }
 
 export async function loadOCs(): Promise<OC[]> {
@@ -35,18 +37,27 @@ export async function loadSpecies(): Promise<Spieces[]> {
   }));
 }
 
+export async function loadTags(): Promise<Tag[]> {
+  return Object.entries(tagData).map(([slug, tag]) => ({
+    slug,
+    ...(tag as Omit<Tag, "slug">),
+  }));
+}
+
 export interface OcWithDetails extends OC {
   groupDetails: Group[];
   speciesDetails: Spieces[];
+  tagDetails: Tag[];
 }
 
 export async function loadOcBySlug(
   slug: string
 ): Promise<OcWithDetails | null> {
-  const [ocs, groups, species] = await Promise.all([
+  const [ocs, groups, species, tags] = await Promise.all([
     loadOCs(),
     loadGroups(),
     loadSpecies(),
+    loadTags(),
   ]);
 
   const oc = ocs.find((oc) => oc.slug === slug);
@@ -58,11 +69,13 @@ export async function loadOcBySlug(
   const speciesDetails = species.filter((species) =>
     oc.spieces.includes(species.slug)
   );
+  const tagDetails = tags.filter((tag) => oc.tags.includes(tag.slug));
 
   return {
     ...oc,
     groupDetails,
     speciesDetails,
+    tagDetails,
   };
 }
 
@@ -85,15 +98,17 @@ export async function findLinkedOc(ocSlug: string): Promise<string | null> {
 }
 
 export async function loadAllData(): Promise<LoadedData> {
-  const [ocs, groups, species] = await Promise.all([
+  const [ocs, groups, species, tags] = await Promise.all([
     loadOCs(),
     loadGroups(),
     loadSpecies(),
+    loadTags(),
   ]);
 
   return {
     ocs,
     groups,
     species,
+    tags,
   };
 }

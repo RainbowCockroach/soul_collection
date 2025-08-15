@@ -1,0 +1,262 @@
+.editor-tag {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.editor-tag-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--color-purple);
+}
+
+.editor-tag-header h2 {
+  margin: 0;
+  color: var(--color-purple);
+}
+
+.editor-tag-save-button {
+  background: var(--color-purple);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.editor-tag-save-button:hover {
+  background: var(--color-purple-dark);
+}
+
+.editor-tag-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.editor-tag-list {
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.editor-tag-list h3 {
+  margin: 0 0 20px 0;
+  color: var(--color-purple);
+  font-size: 18px;
+}
+
+.editor-tag-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: var(--color-light-purple);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.editor-tag-item:hover {
+  background: var(--color-purple-light);
+  border-color: var(--color-purple);
+}
+
+.editor-tag-item.selected {
+  border-color: var(--color-purple);
+  background: var(--color-purple-light);
+}
+
+.editor-tag-drag-handle {
+  cursor: grab;
+  color: var(--color-purple);
+  font-weight: bold;
+  padding: 5px;
+  user-select: none;
+}
+
+.editor-tag-drag-handle:active {
+  cursor: grabbing;
+}
+
+.editor-tag-preview {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.editor-tag-slug {
+  flex: 1;
+  font-size: 12px;
+  color: var(--color-purple);
+  font-family: monospace;
+}
+
+.editor-tag-delete-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.editor-tag-delete-button:hover {
+  background: rgba(255, 0, 0, 0.1);
+}
+
+.editor-tag-form {
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.editor-tag-form h3 {
+  margin: 0 0 20px 0;
+  color: var(--color-purple);
+  font-size: 18px;
+}
+
+.editor-tag-form-group {
+  margin-bottom: 20px;
+}
+
+.editor-tag-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--color-purple);
+}
+
+.editor-tag-form-group input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--color-light-purple);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editor-tag-form-group input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-purple);
+}
+
+.editor-tag-color-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.editor-tag-color-input input[type="color"] {
+  width: 50px;
+  height: 40px;
+  border: 2px solid var(--color-light-purple);
+  border-radius: 6px;
+  cursor: pointer;
+  background: none;
+}
+
+.editor-tag-color-input input[type="text"] {
+  flex: 1;
+}
+
+.editor-tag-preview-container {
+  margin-bottom: 25px;
+}
+
+.editor-tag-preview-large {
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-tag-form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.editor-tag-save-form-button {
+  background: var(--color-purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex: 1;
+}
+
+.editor-tag-save-form-button:hover {
+  background: var(--color-purple-dark);
+}
+
+.editor-tag-cancel-button {
+  background: var(--color-light-purple);
+  color: var(--color-purple);
+  border: 2px solid var(--color-purple);
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editor-tag-cancel-button:hover {
+  background: var(--color-purple);
+  color: white;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .editor-tag-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .editor-tag-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .editor-tag-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .editor-tag-color-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .editor-tag-color-input input[type="color"] {
+    width: 100%;
+  }
+}
