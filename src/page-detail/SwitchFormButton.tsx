@@ -21,7 +21,7 @@ const SwitchFormButton: React.FC<SwitchFormButtonProps> = ({
         {isGodForm ? (
           <div>
             <img
-              src="https://media.tenor.com/Z5ccwe-O5Q0AAAAM/creation-of-adam-cat.gif"
+              src="https://adriansblinkiecollection.neocities.org/buttons/f19.gif"
               alt={isGodForm ? "God Form" : "Birth Form"}
               className="switch-form-icon"
             />
@@ -29,7 +29,7 @@ const SwitchFormButton: React.FC<SwitchFormButtonProps> = ({
         ) : (
           <div>
             <img
-              src="https://media.tenor.com/Z5ccwe-O5Q0AAAAM/creation-of-adam-cat.gif"
+              src="https://adriansblinkiecollection.neocities.org/buttons/f19.gif"
               alt={isGodForm ? "God Form" : "Birth Form"}
               className="switch-form-icon"
             />
