@@ -191,6 +191,7 @@ const PageDetail: React.FC = () => {
               description: breadcrumb.description,
               title: breadcrumb.title,
             }))}
+            showButtons={false}
           />
         </div>
       </div>
