@@ -85,6 +85,20 @@ const PageDetail: React.FC = () => {
     }
   }, [oc]);
 
+  // Apply God Form inversion to html element for maximum coverage
+  useEffect(() => {
+    if (isGodForm) {
+      document.documentElement.classList.add('god-form-inverted');
+    } else {
+      document.documentElement.classList.remove('god-form-inverted');
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.documentElement.classList.remove('god-form-inverted');
+    };
+  }, [isGodForm]);
+
   if (isLoading) {
     return <div>Loading character...</div>;
   }
@@ -98,7 +112,7 @@ const PageDetail: React.FC = () => {
   }
 
   return (
-    <div className={`page-detail ${isGodForm ? 'god-form-inverted' : ''}`}>
+    <div className="page-detail">
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage
