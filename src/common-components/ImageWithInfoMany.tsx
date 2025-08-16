@@ -1,5 +1,4 @@
-import { useCallback, useImperativeHandle, forwardRef } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import { useState, useImperativeHandle, forwardRef } from "react";
 import ImageWithInfo from "./ImageWithInfo";
 import "./ImageWithInfoMany.css";
 
@@ -9,6 +8,7 @@ interface ImageWithInfoManyProps {
     description: string;
     title?: string;
   }>;
+  showButtons?: boolean;
 }
 
 export interface ImageWithInfoManyRef {
@@ -20,27 +20,22 @@ export interface ImageWithInfoManyRef {
 const ImageWithInfoMany = forwardRef<
   ImageWithInfoManyRef,
   ImageWithInfoManyProps
->(({ items }, ref) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: false,
-    dragFree: false,
-    watchDrag: false,
-  });
+>(({ items, showButtons = true }, ref) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+  const scrollPrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+  };
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  const scrollNext = () => {
+    setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+  };
 
-  const scrollTo = useCallback(
-    (index: number) => {
-      if (emblaApi) emblaApi.scrollTo(index);
-    },
-    [emblaApi]
-  );
+  const scrollTo = (index: number) => {
+    if (index >= 0 && index < items.length) {
+      setCurrentIndex(index);
+    }
+  };
 
   useImperativeHandle(
     ref,
@@ -49,7 +44,7 @@ const ImageWithInfoMany = forwardRef<
       scrollNext,
       scrollTo,
     }),
-    [scrollPrev, scrollNext, scrollTo]
+    [items.length]
   );
 
   if (!items || items.length === 0) {
@@ -63,21 +58,36 @@ const ImageWithInfoMany = forwardRef<
   return (
     <div className="image-with-info-many">
       <div className="image-with-info-many-carousel">
-        <div className="embla-many">
-          <div className="embla-many__viewport" ref={emblaRef}>
-            <div className="embla-many__container">
-              {items.map((item, index) => (
-                <div className="embla-many__slide" key={index}>
-                  <ImageWithInfo
-                    images={item.images}
-                    description={item.description}
-                    title={item.title}
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="carousel-container">
+          <div className="carousel-slide">
+            <ImageWithInfo
+              images={items[currentIndex].images}
+              description={items[currentIndex].description}
+              title={items[currentIndex].title}
+            />
           </div>
         </div>
+        {items.length > 1 && showButtons && (
+          <div className="carousel-buttons">
+            <button
+              className="carousel-button div-3d-with-shadow"
+              type="button"
+              onClick={scrollPrev}
+            >
+              <span>◀</span>
+            </button>
+            <span className="carousel-indicator">
+              {currentIndex + 1} / {items.length}
+            </span>
+            <button
+              className="carousel-button div-3d-with-shadow"
+              type="button"
+              onClick={scrollNext}
+            >
+              <span>▶</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
