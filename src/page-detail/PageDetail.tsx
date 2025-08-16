@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   loadOcBySlug,
   findLinkedOc,
@@ -13,6 +13,7 @@ import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import ImageWithInfoMany, {
   type ImageWithInfoManyRef,
 } from "../common-components/ImageWithInfoMany";
+import SwitchFormButton from "./SwitchFormButton";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -25,6 +26,7 @@ const PageDetail: React.FC = () => {
     useState<string | undefined>(undefined);
   const [linkedOcSlug, setLinkedOcSlug] = useState<string | null>(null);
   const [linkedOcName, setLinkedOcName] = useState<string | null>(null);
+  const [isGodForm, setIsGodForm] = useState(false);
 
   const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
   const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
@@ -53,6 +55,7 @@ const PageDetail: React.FC = () => {
           setError("Character not found");
         } else {
           setOc(ocData);
+          setIsGodForm(ocData.group.includes("god"));
         }
 
         if (linkedSlug) {
@@ -82,6 +85,20 @@ const PageDetail: React.FC = () => {
     }
   }, [oc]);
 
+  // Apply God Form inversion to html element for maximum coverage
+  useEffect(() => {
+    if (isGodForm) {
+      document.documentElement.classList.add('god-form-inverted');
+    } else {
+      document.documentElement.classList.remove('god-form-inverted');
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.documentElement.classList.remove('god-form-inverted');
+    };
+  }, [isGodForm]);
+
   if (isLoading) {
     return <div>Loading character...</div>;
   }
@@ -96,18 +113,6 @@ const PageDetail: React.FC = () => {
 
   return (
     <div className="page-detail">
-      {/* Switch Form Button */}
-      {linkedOcSlug && linkedOcName && (
-        <div className="switch-form-container">
-          <Link
-            to={`/soul_collection/ocs/${linkedOcSlug}`}
-            className="switch-form-button"
-          >
-            {oc.group.includes("god") ? "Birth Form" : "God Form"}
-          </Link>
-        </div>
-      )}
-
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage
@@ -130,6 +135,14 @@ const PageDetail: React.FC = () => {
         <h1 className="detail-oc-name">
           <BBCodeDisplay bbcode={oc.name} />
         </h1>
+        {/* Switch Form Button */}
+        {linkedOcSlug && linkedOcName && (
+          <SwitchFormButton
+            linkedOcSlug={linkedOcSlug}
+            linkedOcName={linkedOcName}
+            isGodForm={oc.group.includes("god")}
+          />
+        )}
         <BBCodeDisplay bbcode={oc.info} />
       </div>
       <div className="detail-block-species">

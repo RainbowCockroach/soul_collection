@@ -56,8 +56,8 @@ h3 {
 /* Standard breakpoint: 1024px and up */
 @media (min-width: 1024px) {
   .oc-slot {
-    width: 180px;
-    max-width: 180px;
+    width: 15vw;
+    max-width: 15vw;
     min-width: 180px;
   }
 }

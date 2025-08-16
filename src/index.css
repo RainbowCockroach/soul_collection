@@ -124,3 +124,22 @@ h6 {
     background-color: #f9f9f9;
   }
 }
+
+/* God Form Color Inversion - Applied to html for maximum coverage */
+html.god-form-inverted {
+  filter: invert(1) hue-rotate(180deg);
+  transition: filter 0.3s ease-in-out;
+}
+
+/* Restore images to prevent double inversion */
+html.god-form-inverted img {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Specific targeting for background elements */
+html.god-form-inverted .background-blob,
+html.god-form-inverted .decorative-frame-left,
+html.god-form-inverted .decorative-frame-right,
+html.god-form-inverted .sparkle-background {
+  filter: inherit;
+}
