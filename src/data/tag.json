@@ -1,97 +1,102 @@
 {
-  "horny-beast": {
-    "name": "Horny beast 👅",
-    "backgroundColour": "#FF6B6B",
+  "my-personal-favorite": {
+    "name": "💗 My personal favorite 💗",
+    "backgroundColour": "#dfa3ff",
     "textColour": "#FFFFFF"
   },
-  "improved-human": {
-    "name": "Improved human",
-    "backgroundColour": "#4ECDC4",
-    "textColour": "#FFFFFF"
-  },
-  "female": {
-    "name": "Female",
-    "backgroundColour": "#FF69B4",
-    "textColour": "#FFFFFF"
-  },
-  "gods-favorite-human": {
-    "name": "God's favorite human",
-    "backgroundColour": "#FFD700",
-    "textColour": "#000000"
-  },
-  "normal-human": {
-    "name": "Normal human",
-    "backgroundColour": "#95A5A6",
-    "textColour": "#FFFFFF"
-  },
-  "adult": {
-    "name": "Adult",
-    "backgroundColour": "#34495E",
-    "textColour": "#FFFFFF"
-  },
-  "doctor": {
-    "name": "🤍Doctor🤍",
-    "backgroundColour": "#E74C3C",
-    "textColour": "#FFFFFF"
-  },
-  "no-gender": {
-    "name": "No gender",
-    "backgroundColour": "#9B59B6",
-    "textColour": "#FFFFFF"
-  },
-  "male": {
-    "name": "Male",
-    "backgroundColour": "#3498DB",
-    "textColour": "#FFFFFF"
-  },
-  "god": {
-    "name": "God",
-    "backgroundColour": "#F39C12",
-    "textColour": "#000000"
-  },
-  "candy-cockroach": {
-    "name": "Candy cockroach",
-    "backgroundColour": "#E67E22",
-    "textColour": "#FFFFFF"
-  },
-  "not-pure-zo": {
-    "name": "Not pure zo",
-    "backgroundColour": "#8E44AD",
-    "textColour": "#FFFFFF"
-  },
-  "short-hair": {
-    "name": "Short hair",
-    "backgroundColour": "#16A085",
-    "textColour": "#FFFFFF"
-  },
-  "li-family": {
-    "name": "Li family",
-    "backgroundColour": "#2ECC71",
-    "textColour": "#FFFFFF"
-  },
-  "slime-non": {
-    "name": "Slime non",
-    "backgroundColour": "#1ABC9C",
-    "textColour": "#FFFFFF"
-  },
-  "black-ring": {
-    "name": "↺✦Black Ring ✦↻",
-    "backgroundColour": "#2C3E50",
-    "textColour": "#FFFFFF"
-  },
-  "vrev": {
-    "name": "Vrev",
-    "backgroundColour": "#E91E63",
-    "textColour": "#FFFFFF"
-  },
-  "purple": {
-    "name": "Purple",
-    "backgroundColour": "#9C27B0",
+  "what": {
+    "name": "What ?",
+    "backgroundColour": "#ffaa33",
     "textColour": "#FFFFFF"
   },
   "pony": {
     "name": "Pony",
-    "backgroundColour": "#FF9800",
+    "backgroundColour": "#fdff9e",
+    "textColour": "#7f843e"
+  },
+  "normal-human": {
+    "name": "Normal human",
+    "backgroundColour": "#ffd08f",
+    "textColour": "#945610"
+  },
+  "improved-human": {
+    "name": "Improved human",
+    "backgroundColour": "#ffa3a3",
+    "textColour": "#660000"
+  },
+  "gods-favorite-human": {
+    "name": "God's favorite human",
+    "backgroundColour": "#fab8ff",
+    "textColour": "#7a1a74"
+  },
+  "candy-cockroach": {
+    "name": "Candy cockroach",
+    "backgroundColour": "#a3fffd",
+    "textColour": "#216273"
+  },
+  "slime-non": {
+    "name": "Slime non",
+    "backgroundColour": "#d9d9d9",
+    "textColour": "#434242"
+  },
+  "vrev": {
+    "name": "Vrev",
+    "backgroundColour": "#a59eff",
+    "textColour": "#193d85"
+  },
+  "not-pure-zo": {
+    "name": "Not pure zo",
+    "backgroundColour": "#b8ffd3",
+    "textColour": "#2b7d5e"
+  },
+  "zo": {
+    "name": "Zo",
+    "backgroundColour": "#9effae",
+    "textColour": "#23763c"
+  },
+  "god": {
+    "name": "🟰 God 🟰",
+    "backgroundColour": "#ffccde",
+    "textColour": "#7e165d"
+  },
+  "other": {
+    "name": "Other",
+    "backgroundColour": "#5d4e65",
+    "textColour": "#FFFFFF"
+  },
+  "female": {
+    "name": "Female♀️",
+    "backgroundColour": "#ff7abd",
+    "textColour": "#FFFFFF"
+  },
+  "male": {
+    "name": "Male♂️",
+    "backgroundColour": "#42b4ff",
+    "textColour": "#FFFFFF"
+  },
+  "no-gender": {
+    "name": "No gender✖️",
+    "backgroundColour": "#d57df7",
+    "textColour": "#FFFFFF"
+  },
+  "adult": {
+    "name": "Adult 🔞",
+    "backgroundColour": "#103556",
+    "textColour": "#FFFFFF"
+  },
+  "under-age": {
+    "name": "Underage 🍭",
+    "backgroundColour": "#e5f5ff",
+    "textColour": "#273e53"
+  },
+  "single": {
+    "name": "Single ❣️",
+    "backgroundColour": "#c6e166",
+    "textColour": "#FFFFFF"
+  },
+  "taken": {
+    "name": "Taken 💞",
+    "backgroundColour": "#f594d6",
     "textColour": "#FFFFFF"
   },
   "lore-outsider": {
@@ -99,14 +104,94 @@
     "backgroundColour": "#607D8B",
     "textColour": "#FFFFFF"
   },
+  "dome-outsider": {
+    "name": "Dome outsider",
+    "backgroundColour": "#96631d",
+    "textColour": "#FFFFFF"
+  },
+  "doctor": {
+    "name": "🤍Doctor🤍",
+    "backgroundColour": "#b9b3d6",
+    "textColour": "#FFFFFF"
+  },
+  "li-family": {
+    "name": "Li family",
+    "backgroundColour": "#2ECC71",
+    "textColour": "#FFFFFF"
+  },
+  "black-ring": {
+    "name": "↺✦Black Ring✦↻",
+    "backgroundColour": "#000000",
+    "textColour": "#FFFFFF"
+  },
+  "blood-ring": {
+    "name": "↺✦Blood Ring ✦↻",
+    "backgroundColour": "#cc0000",
+    "textColour": "#FFFFFF"
+  },
+  "short-hair": {
+    "name": "Short hair",
+    "backgroundColour": "#859390",
+    "textColour": "#FFFFFF"
+  },
+  "long-hair": {
+    "name": "Long hair",
+    "backgroundColour": "#938587",
+    "textColour": "#FFFFFF"
+  },
   "red": {
     "name": "Red",
-    "backgroundColour": "#F44336",
+    "backgroundColour": "#e30d38",
     "textColour": "#FFFFFF"
   },
   "orange": {
     "name": "Orange",
     "backgroundColour": "#FF5722",
+    "textColour": "#FFFFFF"
+  },
+  "yellow": {
+    "name": "Yellow",
+    "backgroundColour": "#f4d32f",
+    "textColour": "#FFFFFF"
+  },
+  "green": {
+    "name": "Green",
+    "backgroundColour": "#33db55",
+    "textColour": "#FFFFFF"
+  },
+  "blue": {
+    "name": "Blue",
+    "backgroundColour": "#3498DB",
+    "textColour": "#FFFFFF"
+  },
+  "purple": {
+    "name": "Purple",
+    "backgroundColour": "#9C27B0",
+    "textColour": "#FFFFFF"
+  },
+  "pink": {
+    "name": "Pink",
+    "backgroundColour": "#ea1abd",
+    "textColour": "#FFFFFF"
+  },
+  "black": {
+    "name": "Black",
+    "backgroundColour": "#3c4144",
+    "textColour": "#FFFFFF"
+  },
+  "brown": {
+    "name": "Brown",
+    "backgroundColour": "#6b4f2e",
+    "textColour": "#FFFFFF"
+  },
+  "white": {
+    "name": "White",
+    "backgroundColour": "#d4d4d4",
+    "textColour": "#FFFFFF"
+  },
+  "horny-beast": {
+    "name": "Horny beast🥵",
+    "backgroundColour": "#ff007b",
     "textColour": "#FFFFFF"
   }
 }
