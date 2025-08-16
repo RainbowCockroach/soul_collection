@@ -13,6 +13,7 @@ import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import ImageWithInfoMany, {
   type ImageWithInfoManyRef,
 } from "../common-components/ImageWithInfoMany";
+import SwitchFormButton from "./SwitchFormButton";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -96,18 +97,6 @@ const PageDetail: React.FC = () => {
 
   return (
     <div className="page-detail">
-      {/* Switch Form Button */}
-      {linkedOcSlug && linkedOcName && (
-        <div className="switch-form-container">
-          <Link
-            to={`/soul_collection/ocs/${linkedOcSlug}`}
-            className="switch-form-button"
-          >
-            {oc.group.includes("god") ? "Birth Form" : "God Form"}
-          </Link>
-        </div>
-      )}
-
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage
@@ -130,6 +119,14 @@ const PageDetail: React.FC = () => {
         <h1 className="detail-oc-name">
           <BBCodeDisplay bbcode={oc.name} />
         </h1>
+        {/* Switch Form Button */}
+        {linkedOcSlug && linkedOcName && (
+          <SwitchFormButton
+            linkedOcSlug={linkedOcSlug}
+            linkedOcName={linkedOcName}
+            isGodForm={oc.group.includes("god")}
+          />
+        )}
         <BBCodeDisplay bbcode={oc.info} />
       </div>
       <div className="detail-block-species">
