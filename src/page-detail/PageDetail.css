@@ -207,3 +207,14 @@
 .detail-section-content {
   padding: 20px;
 }
+
+/* God Form Color Inversion */
+.god-form-inverted {
+  filter: invert(1) hue-rotate(180deg);
+  transition: filter 0.3s ease-in-out;
+}
+
+/* Restore images to prevent double inversion */
+.god-form-inverted img {
+  filter: invert(1) hue-rotate(180deg);
+}

@@ -26,6 +26,7 @@ const PageDetail: React.FC = () => {
     useState<string | undefined>(undefined);
   const [linkedOcSlug, setLinkedOcSlug] = useState<string | null>(null);
   const [linkedOcName, setLinkedOcName] = useState<string | null>(null);
+  const [isGodForm, setIsGodForm] = useState(false);
 
   const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
   const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
@@ -54,6 +55,7 @@ const PageDetail: React.FC = () => {
           setError("Character not found");
         } else {
           setOc(ocData);
+          setIsGodForm(ocData.group.includes("god"));
         }
 
         if (linkedSlug) {
@@ -96,7 +98,7 @@ const PageDetail: React.FC = () => {
   }
 
   return (
-    <div className="page-detail">
+    <div className={`page-detail ${isGodForm ? 'god-form-inverted' : ''}`}>
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage
