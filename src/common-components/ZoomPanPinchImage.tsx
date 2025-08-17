@@ -25,12 +25,22 @@ export interface ZoomPanPinchImageRef {
   resetTransform: () => void;
 }
 
+const loadingMessages = [
+  "👀 Wait a bit, this thing is big...",
+  "👀 Some Sam art is crawling toward you...",
+  "👀 Pixels are pixeling...",
+  "👀 Steele got his dick stuck on ceiling fan once... Took some time to get it out.",
+];
+
 const ZoomPanPinchImage = forwardRef<
   ZoomPanPinchImageRef,
   ZoomPanPinchImageProps
 >(({ src, alt, caption }, ref) => {
   const [interactionsDisabled, setInteractionsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingMessage] = useState(
+    () => loadingMessages[Math.floor(Math.random() * loadingMessages.length)]
+  );
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -77,9 +87,7 @@ const ZoomPanPinchImage = forwardRef<
 
   return (
     <div className="zoom-pan-pinch-container">
-      {isLoading && (
-        <LoadingSpinner message="👀 Wait a bit, this thing is big..." />
-      )}
+      {isLoading && <LoadingSpinner message={loadingMessage} />}
 
       <button
         className="zoom-toggle-button"
