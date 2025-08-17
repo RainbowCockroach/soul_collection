@@ -22,13 +22,13 @@ const SamStandee: React.FC = () => {
   const getGifSrc = () => {
     switch (currentGif) {
       case "still":
-        return "/soul_collection/src/assets/sam_still.GIF";
+        return "/soul_collection/src/assets/sam_still.gif";
       case "poke":
-        return "/soul_collection/src/assets/sam_poke.GIF";
+        return "/soul_collection/src/assets/sam_poke.gif";
       case "poked":
-        return "/soul_collection/src/assets/sam_poked.GIF";
+        return "/soul_collection/src/assets/sam_poked.gif";
       default:
-        return "/soul_collection/src/assets/sam_still.GIF";
+        return "/soul_collection/src/assets/sam_still.gif";
     }
   };
 

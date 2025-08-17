@@ -1,26 +1,73 @@
 .sam-standee {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  right: clamp(2vw, 5vw, 8vw);
+  z-index: 1000;
 }
 
 .sam-gif {
-  max-width: 100%;
-  height: auto;
+  height: clamp(250px, 30vh, 500px);
+  width: auto;
+  max-width: clamp(180px, 25vw, 350px);
   cursor: pointer;
-  transition: transform 0.1s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   user-select: none;
+  opacity: 0.95;
+}
+
+@media (max-width: 767px) {
+  .sam-gif {
+    height: clamp(270px, 35vh, 450px);
+    max-width: none;
+    right: 2vw;
+    bottom: 1vh;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sam-gif {
+    height: clamp(290px, 32vh, 470px);
+    max-width: none;
+    right: 3vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sam-gif {
+    height: clamp(300px, 30vh, 500px);
+    right: 5vw;
+  }
+}
+
+@media (min-width: 1440px) {
+  .sam-gif {
+    height: clamp(330px, 30vh, 550px);
+    right: 8vw;
+  }
 }
 
 .sam-gif:hover {
-  transform: scale(1.02);
+  transform: translateY(-8px) scale(1.02);
+  opacity: 1;
 }
 
 .sam-gif:active {
-  transform: scale(0.98);
+  transform: translateY(-4px) scale(0.98);
 }
 
 .sam-gif.animating {
   cursor: not-allowed;
+  opacity: 1;
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sam-gif {
+    transition: opacity 0.3s ease;
+  }
+
+  .sam-gif:hover,
+  .sam-gif:active {
+    transform: none;
+  }
 }
