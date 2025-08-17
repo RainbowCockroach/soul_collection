@@ -1,15 +1,17 @@
-import type { OC, Group, Spieces, FormLink, Tag } from "./objects";
+import type { OC, Group, Spieces, FormLink, Tag, DialogTexts } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
 import speciesData from "../data/spieces.json";
 import formLinkData from "../data/form-link.json";
 import tagData from "../data/tag.json";
+import dialogData from "../data/dialog.json";
 
 export interface LoadedData {
   ocs: OC[];
   groups: Group[];
   species: Spieces[];
   tags: Tag[];
+  dialogs: DialogTexts;
 }
 
 export async function loadOCs(): Promise<OC[]> {
@@ -97,12 +99,22 @@ export async function findLinkedOc(ocSlug: string): Promise<string | null> {
   return null;
 }
 
+export async function loadDialogs(): Promise<DialogTexts> {
+  return dialogData as DialogTexts;
+}
+
+export async function loadDialogByKey(key: string): Promise<string[] | null> {
+  const dialogs = await loadDialogs();
+  return dialogs[key] || null;
+}
+
 export async function loadAllData(): Promise<LoadedData> {
-  const [ocs, groups, species, tags] = await Promise.all([
+  const [ocs, groups, species, tags, dialogs] = await Promise.all([
     loadOCs(),
     loadGroups(),
     loadSpecies(),
     loadTags(),
+    loadDialogs(),
   ]);
 
   return {
@@ -110,5 +122,6 @@ export async function loadAllData(): Promise<LoadedData> {
     groups,
     species,
     tags,
+    dialogs,
   };
 }

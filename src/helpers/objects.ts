@@ -47,3 +47,5 @@ export type Tag = {
   backgroundColour: string;
   textColour: string;
 };
+
+export type DialogTexts = Record<string, string[]>;
