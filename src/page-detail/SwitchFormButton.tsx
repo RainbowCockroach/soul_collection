@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./SwitchFormButton.css";
+import godForm from "../assets/god_form.gif";
+import birthForm from "../assets/birth_form.gif";
 
 interface SwitchFormButtonProps {
   linkedOcSlug: string;
@@ -21,7 +23,7 @@ const SwitchFormButton: React.FC<SwitchFormButtonProps> = ({
         {isGodForm ? (
           <div>
             <img
-              src="/soul_collection/src/assets/god_form.gif"
+              src={godForm}
               alt={isGodForm ? "God Form" : "Birth Form"}
               className="switch-form-icon"
             />
@@ -29,7 +31,7 @@ const SwitchFormButton: React.FC<SwitchFormButtonProps> = ({
         ) : (
           <div>
             <img
-              src="/soul_collection/src/assets/birth_form.gif"
+              src={birthForm}
               alt={isGodForm ? "God Form" : "Birth Form"}
               className="switch-form-icon"
             />

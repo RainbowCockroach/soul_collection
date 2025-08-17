@@ -1,5 +1,8 @@
 import React, { useState, useCallback } from "react";
 import "./SamStandee.css";
+import samStill from "../assets/sam_still.gif";
+import samPoke from "../assets/sam_poke.gif";
+import samPoked from "../assets/sam_poked.gif";
 
 const SamStandee: React.FC = () => {
   const [currentGif, setCurrentGif] = useState<"still" | "poke" | "poked">(
@@ -22,13 +25,13 @@ const SamStandee: React.FC = () => {
   const getGifSrc = () => {
     switch (currentGif) {
       case "still":
-        return "/soul_collection/src/assets/sam_still.GIF";
+        return samStill;
       case "poke":
-        return "/soul_collection/src/assets/sam_poke.GIF";
+        return samPoke;
       case "poked":
-        return "/soul_collection/src/assets/sam_poked.GIF";
+        return samPoked;
       default:
-        return "/soul_collection/src/assets/sam_still.GIF";
+        return samStill;
     }
   };
 
