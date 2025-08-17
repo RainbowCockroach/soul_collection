@@ -1,0 +1,220 @@
+.chat-bubble-container {
+  position: fixed;
+  bottom: 25vh;
+  left: 40%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  max-width: 1000px;
+  max-height: 220px;
+  width: 95%;
+  animation: bubble-appear 0.3s ease-out;
+}
+
+@keyframes bubble-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.chat-bubble {
+  background: #f3e9ff;
+  border: 4px solid #d4c5e8;
+  border-radius: 16px;
+  border-style: solid;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 4px rgba(180, 163, 209, 0.3);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat-bubble:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2),
+    inset 2px 2px 6px rgba(255, 255, 255, 0.8),
+    inset -2px -2px 6px rgba(166, 140, 197, 0.4);
+}
+
+.chat-bubble-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 28px 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border-bottom: 2px solid rgba(180, 163, 209, 0.5);
+  gap: 12px;
+}
+
+.chat-bubble-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #d4c5e8;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.8),
+    inset -1px -1px 2px rgba(180, 163, 209, 0.3);
+}
+
+.chat-bubble-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat-bubble-speaker {
+  color: #000000;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.chat-bubble-content {
+  padding: 20px 28px 24px;
+  position: relative;
+}
+
+.chat-bubble-text {
+  color: #2e1a48;
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1.5;
+  min-height: 24px;
+  word-wrap: break-word;
+}
+
+.typing-cursor {
+  color: #2e1a48;
+  font-weight: bold;
+  animation: cursor-blink 0.5s infinite;
+  margin-left: 2px;
+}
+
+@keyframes cursor-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.chat-bubble-continue {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.continue-arrow {
+  color: #7c5aa0;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  animation: bounce 2s infinite;
+}
+
+.chat-bubble-continue:hover .continue-arrow {
+  color: #5a4773;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Tablet portrait and landscape - including larger horizontal tablets */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .chat-bubble-container {
+    bottom: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    width: 85%;
+  }
+
+  .chat-bubble-text {
+    font-size: 20px;
+  }
+
+  .chat-bubble-speaker {
+    font-size: 22px;
+  }
+
+  .chat-bubble-header {
+    padding: 14px 24px 10px;
+  }
+
+  .chat-bubble-content {
+    padding: 18px 24px 20px;
+  }
+
+  .chat-bubble-avatar {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Specific handling for horizontal tablets with landscape orientation */
+@media (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
+  .chat-bubble-container {
+    bottom: auto;
+    top: 40%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    max-width: 700px;
+    width: 70%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .chat-bubble-container {
+    width: 95%;
+    bottom: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .chat-bubble-text {
+    font-size: 16px;
+  }
+
+  .chat-bubble-speaker {
+    font-size: 18px;
+  }
+
+  .chat-bubble-header {
+    padding: 10px 16px 6px;
+  }
+
+  .chat-bubble-content {
+    padding: 12px 16px;
+  }
+
+  .chat-bubble-avatar {
+    width: 32px;
+    height: 32px;
+  }
+}

@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 0;
   right: clamp(2vw, 5vw, 8vw);
-  z-index: 1000;
+  z-index: 900;
 }
 
 .sam-gif {
@@ -34,14 +34,16 @@
 
 @media (min-width: 1024px) {
   .sam-gif {
-    height: clamp(300px, 30vh, 500px);
+    height: clamp(600px, 60vh, 1000px);
+    max-width: clamp(360px, 50vw, 700px);
     right: 5vw;
   }
 }
 
 @media (min-width: 1440px) {
   .sam-gif {
-    height: clamp(330px, 30vh, 550px);
+    height: clamp(660px, 60vh, 1100px);
+    max-width: clamp(396px, 55vw, 770px);
     right: 8vw;
   }
 }

@@ -4,10 +4,11 @@ import { EditorGroup } from "./EditorGroup";
 import { EditorOc } from "./EditorOc";
 import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
+import EditorDialog from "./EditorDialog";
 import { baseUrl } from "../helpers/constants";
 import "./Editor.css";
 
-type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links";
+type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links" | "dialogs";
 
 export const Editor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>("species");
@@ -17,6 +18,7 @@ export const Editor: React.FC = () => {
     { id: "ocs" as const, label: "OCs", component: EditorOc },
     { id: "tags" as const, label: "Tags", component: EditorTag },
     { id: "form-links" as const, label: "Form Links", component: EditorFormLink },
+    { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
   ];
 
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
