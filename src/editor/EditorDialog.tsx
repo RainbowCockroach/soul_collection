@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { DialogTexts } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
+import toast, { Toaster } from "react-hot-toast";
 import "./EditorDialog.css";
 
 const EditorDialog: React.FC = () => {
@@ -92,15 +93,15 @@ const EditorDialog: React.FC = () => {
     }
   };
 
-  const exportData = () => {
-    const dataStr = JSON.stringify(dialogs, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "dialog.json";
-    link.click();
-    URL.revokeObjectURL(url);
+  const handleSaveToClipboard = async () => {
+    try {
+      const jsonString = JSON.stringify(dialogs, null, 2);
+      await navigator.clipboard.writeText(jsonString);
+      toast.success("Dialog JSON copied to clipboard!");
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
+      toast.error("Failed to copy to clipboard");
+    }
   };
 
   return (
@@ -109,7 +110,7 @@ const EditorDialog: React.FC = () => {
         <h2>Dialog Editor</h2>
         <div className="editor-actions">
           <button onClick={handleAddDialog}>Add Dialog</button>
-          <button onClick={exportData}>Export JSON</button>
+          <button onClick={handleSaveToClipboard}>Copy to clipboard</button>
         </div>
       </div>
 
@@ -119,9 +120,7 @@ const EditorDialog: React.FC = () => {
           {Object.keys(dialogs).map((key) => (
             <div
               key={key}
-              className={`dialog-item ${
-                selectedKey === key ? "selected" : ""
-              }`}
+              className={`dialog-item ${selectedKey === key ? "selected" : ""}`}
               onClick={() => handleSelectDialog(key)}
             >
               <div className="dialog-slug">{key}</div>
@@ -152,7 +151,9 @@ const EditorDialog: React.FC = () => {
                     <div key={index} className="text-input-group">
                       <textarea
                         value={text}
-                        onChange={(e) => handleTextChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleTextChange(index, e.target.value)
+                        }
                         disabled={!isEditing}
                         rows={3}
                       />
@@ -197,12 +198,11 @@ const EditorDialog: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="no-selection">
-              Select a dialog to view or edit
-            </div>
+            <div className="no-selection">Select a dialog to view or edit</div>
           )}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
