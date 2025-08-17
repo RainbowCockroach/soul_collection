@@ -32,6 +32,7 @@ const ZoomPanPinchImage = forwardRef<
   const [interactionsDisabled, setInteractionsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   const resetTransform = useCallback(() => {
     if (transformRef.current) {
@@ -67,6 +68,13 @@ const ZoomPanPinchImage = forwardRef<
     return () => clearTimeout(timer);
   }, [src, resetTransform]);
 
+  // Check if image is already loaded from cache
+  useEffect(() => {
+    if (imageRef.current && imageRef.current.complete) {
+      setIsLoading(false);
+    }
+  }, [src]);
+
   return (
     <div className="zoom-pan-pinch-container">
       {isLoading && (
@@ -94,6 +102,7 @@ const ZoomPanPinchImage = forwardRef<
       >
         <TransformComponent>
           <img
+            ref={imageRef}
             src={src}
             alt={alt}
             style={{ width: "100%", height: "100%", objectFit: "contain" }}
