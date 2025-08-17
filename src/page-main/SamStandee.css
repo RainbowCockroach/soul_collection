@@ -1,0 +1,26 @@
+.sam-standee {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.sam-gif {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  user-select: none;
+}
+
+.sam-gif:hover {
+  transform: scale(1.02);
+}
+
+.sam-gif:active {
+  transform: scale(0.98);
+}
+
+.sam-gif.animating {
+  cursor: not-allowed;
+}

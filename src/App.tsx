@@ -9,6 +9,7 @@ import PageDetail from "./page-detail/PageDetail";
 import { Editor } from "./editor/Editor";
 import "./background-sparkle/sparkles.css";
 import { startContinuousSparkles } from "./background-sparkle/sparkles";
+import PageMain from "./page-main/PageMain";
 
 function App() {
   const frontElementsRef = useRef<HTMLDivElement>(null);
@@ -95,7 +96,7 @@ function App() {
           <Navbar />
           <div id="page-container" ref={pageContainerRef}>
             <Routes>
-              <Route path={`${baseUrl}/`} element={<div>Main Page</div>} />
+              <Route path={`${baseUrl}/`} element={<PageMain />} />
               <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
               <Route path={`${baseUrl}/lore`} element={<div>Lore Page</div>} />
               <Route
