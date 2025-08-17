@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./SwitchFormButton.css";
-import godForm from "../assets/god_form.gif";
-import birthForm from "../assets/birth_form.gif";
+import godForm from "../assets/switch_button_god_form.gif";
+import birthForm from "../assets/switch_button_birth_form.gif";
 
 interface SwitchFormButtonProps {
   linkedOcSlug: string;
