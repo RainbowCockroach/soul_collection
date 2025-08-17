@@ -88,14 +88,14 @@ const PageDetail: React.FC = () => {
   // Apply God Form inversion to html element for maximum coverage
   useEffect(() => {
     if (isGodForm) {
-      document.documentElement.classList.add('god-form-inverted');
+      document.documentElement.classList.add("god-form-inverted");
     } else {
-      document.documentElement.classList.remove('god-form-inverted');
+      document.documentElement.classList.remove("god-form-inverted");
     }
 
     // Cleanup on unmount
     return () => {
-      document.documentElement.classList.remove('god-form-inverted');
+      document.documentElement.classList.remove("god-form-inverted");
     };
   }, [isGodForm]);
 
@@ -173,6 +173,7 @@ const PageDetail: React.FC = () => {
               description: species.description,
               title: species.name,
             }))}
+            showButtons={false}
           />
         </div>
       </div>
