@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import "./SamStandee.css";
-import samStill from "../assets/sam_still.gif";
-import samPoke from "../assets/sam_poke.gif";
-import samPoked from "../assets/sam_poked.gif";
+import samStill from "../assets/sam_standee_still.gif";
+import samPoke from "../assets/sam_standee_poke.gif";
+import samPoked from "../assets/sam_standee_poked.gif";
 
 const SamStandee: React.FC = () => {
   const [currentGif, setCurrentGif] = useState<"still" | "poke" | "poked">(
