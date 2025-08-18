@@ -942,7 +942,8 @@
       "black",
       "gold",
       "main-character",
-      "silver"
+      "silver",
+      "green"
     ],
     "order": 15
   },
@@ -999,7 +1000,8 @@
       "li-family",
       "main-character",
       "gold",
-      "silver"
+      "silver",
+      "green"
     ],
     "order": 16
   },
