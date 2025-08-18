@@ -99,6 +99,16 @@
     "backgroundColour": "#f594d6",
     "textColour": "#FFFFFF"
   },
+  "main-character": {
+    "name": "Main character",
+    "backgroundColour": "#19c252",
+    "textColour": "#FFFFFF"
+  },
+  "side-character": {
+    "name": "Side character",
+    "backgroundColour": "#c733db",
+    "textColour": "#FFFFFF"
+  },
   "lore-outsider": {
     "name": "Lore outsider",
     "backgroundColour": "#607D8B",
@@ -114,6 +124,16 @@
     "backgroundColour": "#b9b3d6",
     "textColour": "#FFFFFF"
   },
+  "cultist": {
+    "name": "Cultist",
+    "backgroundColour": "#a227aa",
+    "textColour": "#a5ffa3"
+  },
+  "hacker": {
+    "name": "Hacker",
+    "backgroundColour": "#00060a",
+    "textColour": "#29ff1a"
+  },
   "li-family": {
     "name": "Li family",
     "backgroundColour": "#2ECC71",
@@ -127,6 +147,16 @@
   "blood-ring": {
     "name": "↺✦Blood Ring ✦↻",
     "backgroundColour": "#cc0000",
+    "textColour": "#FFFFFF"
+  },
+  "horny-beast": {
+    "name": "Horny beast🥵",
+    "backgroundColour": "#ff007b",
+    "textColour": "#FFFFFF"
+  },
+  "drug-user": {
+    "name": "Drug user",
+    "backgroundColour": "#6c721d",
     "textColour": "#FFFFFF"
   },
   "short-hair": {
@@ -189,9 +219,19 @@
     "backgroundColour": "#d4d4d4",
     "textColour": "#FFFFFF"
   },
-  "horny-beast": {
-    "name": "Horny beast🥵",
-    "backgroundColour": "#ff007b",
+  "silver": {
+    "name": "Silver",
+    "backgroundColour": "#a0a7ac",
+    "textColour": "#FFFFFF"
+  },
+  "gold": {
+    "name": "Gold",
+    "backgroundColour": "#e7b836",
+    "textColour": "#FFFFFF"
+  },
+  "glasses": {
+    "name": "Glasses",
+    "backgroundColour": "#e760f0",
     "textColour": "#FFFFFF"
   }
 }
