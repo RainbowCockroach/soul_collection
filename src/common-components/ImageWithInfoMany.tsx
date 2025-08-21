@@ -61,6 +61,7 @@ const ImageWithInfoMany = forwardRef<
         <div className="carousel-container">
           <div className="carousel-slide">
             <ImageWithInfo
+              key={currentIndex} // To make remount, fix image load error
               images={items[currentIndex].images}
               description={items[currentIndex].description}
               title={items[currentIndex].title}
