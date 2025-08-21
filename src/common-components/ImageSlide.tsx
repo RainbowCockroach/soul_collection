@@ -32,22 +32,27 @@ const ImageSlide: React.FC<ImageSlideProps> = ({ images }) => {
         alt={`Image ${currentIndex + 1}`} 
       />
       {images.length > 1 && (
-        <div className="slide-buttons">
-          <button
-            className="slide-button div-3d-with-shadow"
-            type="button"
-            onClick={goToPrevious}
-          >
-            <span>◀</span>
-          </button>
-          <button
-            className="slide-button div-3d-with-shadow"
-            type="button"
-            onClick={goToNext}
-          >
-            <span>▶</span>
-          </button>
-        </div>
+        <>
+          <div className="slide-buttons">
+            <button
+              className="slide-button div-3d-with-shadow"
+              type="button"
+              onClick={goToPrevious}
+            >
+              <span>◀</span>
+            </button>
+            <button
+              className="slide-button div-3d-with-shadow"
+              type="button"
+              onClick={goToNext}
+            >
+              <span>▶</span>
+            </button>
+          </div>
+          <span className="carousel-indicator">
+            {currentIndex + 1} / {images.length}
+          </span>
+        </>
       )}
     </div>
   );

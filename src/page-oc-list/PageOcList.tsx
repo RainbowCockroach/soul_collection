@@ -130,7 +130,7 @@ const PageOcList: React.FC = () => {
           className="filter-toggle-button div-3d-with-shadow"
           onClick={toggleFilterVisibility}
         >
-          {showFilter ? "Hide Filters" : "Show Filters"}
+          {showFilter ? "Hide Filters" : "🔍 Show Filters"}
           {selectedTags.length > 0 && ` (${selectedTags.length} active)`}
         </button>
       </div>
