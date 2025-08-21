@@ -1,6 +1,6 @@
 .filter-toggle-container {
   margin-bottom: 10px;
-  text-align: right;
+  text-align: center;
 }
 
 .filter-toggle-button {
@@ -13,6 +13,7 @@
   font-weight: 400;
   font-family: var(--font-primary);
   transition: all 0.2s ease;
+  width: 70%;
 }
 
 .filter-toggle-button:hover {
