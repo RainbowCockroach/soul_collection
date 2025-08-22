@@ -24,6 +24,8 @@ const PageDetail: React.FC = () => {
     useState<string>(placeholderImage);
   const [currentDisplayAvatarCaption, setCurrentDisplayAvatarCaption] =
     useState<string | undefined>(undefined);
+  const [currentDisplayAvatarContentWarning, setCurrentDisplayAvatarContentWarning] =
+    useState<string | undefined>(undefined);
   const [linkedOcSlug, setLinkedOcSlug] = useState<string | null>(null);
   const [linkedOcName, setLinkedOcName] = useState<string | null>(null);
   const [isGodForm, setIsGodForm] = useState(false);
@@ -82,6 +84,7 @@ const PageDetail: React.FC = () => {
     if (oc?.gallery && oc.gallery.length > 0) {
       setCurrentDisplayAvatar(oc.gallery[0].image);
       setCurrentDisplayAvatarCaption(oc.gallery[0].caption || undefined);
+      setCurrentDisplayAvatarContentWarning(oc.gallery[0].contentWarning || undefined);
     }
   }, [oc]);
 
@@ -119,6 +122,7 @@ const PageDetail: React.FC = () => {
           src={currentDisplayAvatar}
           alt={oc.name}
           caption={currentDisplayAvatarCaption}
+          contentWarning={currentDisplayAvatarContentWarning}
         />
       </div>
       <div className="detail-block-gallery div-3d-with-shadow">
@@ -128,6 +132,7 @@ const PageDetail: React.FC = () => {
           onImageClick={(galleryItem) => {
             setCurrentDisplayAvatar(galleryItem.image);
             setCurrentDisplayAvatarCaption(galleryItem.caption || undefined);
+            setCurrentDisplayAvatarContentWarning(galleryItem.contentWarning || undefined);
           }}
         />
       </div>

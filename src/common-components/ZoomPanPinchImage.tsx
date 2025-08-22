@@ -14,11 +14,13 @@ import {
 import LoadingSpinner from "./LoadingSpinner";
 import "./ZoomPanPinchImage.css";
 import BBCodeDisplay from "./BBCodeDisplay";
+import { useBlurImage } from "../hooks/usePixelatedImage";
 
 interface ZoomPanPinchImageProps {
   src: string;
   alt: string;
   caption?: string;
+  contentWarning?: string;
 }
 
 export interface ZoomPanPinchImageRef {
@@ -35,14 +37,21 @@ const loadingMessages = [
 const ZoomPanPinchImage = forwardRef<
   ZoomPanPinchImageRef,
   ZoomPanPinchImageProps
->(({ src, alt, caption }, ref) => {
+>(({ src, alt, caption, contentWarning }, ref) => {
   const [interactionsDisabled, setInteractionsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [isImageUncensored, setIsImageUncensored] = useState(false);
   const [loadingMessage] = useState(
     () => loadingMessages[Math.floor(Math.random() * loadingMessages.length)]
   );
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+
+  // Apply pixelation if content warning exists and image is not uncensored
+  const { url: processedSrc, useCssFilter } = useBlurImage(
+    src,
+    isImageUncensored ? undefined : contentWarning
+  );
 
   const resetTransform = useCallback(() => {
     if (transformRef.current) {
@@ -76,14 +85,19 @@ const ZoomPanPinchImage = forwardRef<
     }, 50);
 
     return () => clearTimeout(timer);
-  }, [src, resetTransform]);
+  }, [processedSrc, resetTransform]);
+
+  // Reset uncensor state when src or contentWarning changes
+  useEffect(() => {
+    setIsImageUncensored(false);
+  }, [src, contentWarning]);
 
   // Check if image is already loaded from cache
   useEffect(() => {
     if (imageRef.current && imageRef.current.complete) {
       setIsLoading(false);
     }
-  }, [src]);
+  }, [processedSrc]);
 
   return (
     <div className="zoom-pan-pinch-container">
@@ -109,19 +123,53 @@ const ZoomPanPinchImage = forwardRef<
         centerOnInit={true}
       >
         <TransformComponent>
-          <img
-            ref={imageRef}
-            src={src}
-            alt={alt}
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            onLoad={handleImageLoad}
-            onError={handleImageError}
-          />
+          <div
+            style={
+              useCssFilter ? { overflow: "hidden", borderRadius: "8px" } : {}
+            }
+          >
+            <img
+              ref={imageRef}
+              src={processedSrc}
+              alt={alt}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                ...(useCssFilter
+                  ? {
+                      filter: "blur(20px) brightness(0.8) contrast(1.1)",
+                      imageRendering: "pixelated",
+                      transform: "scale(1.05)",
+                    }
+                  : {}),
+              }}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+            />
+          </div>
         </TransformComponent>
       </TransformWrapper>
       {caption && (
         <div className="zoom-pan-pinch-caption">
           <BBCodeDisplay bbcode={caption} />
+        </div>
+      )}
+
+      {/* Content Warning Display and Toggle - Centered */}
+      {contentWarning && !isImageUncensored && (
+        <div className="content-warning-overlay-center">
+          <div className="content-warning-card">
+            <div className="content-warning-text">
+              <strong>This contains:</strong> {contentWarning}
+            </div>
+            <button
+              className="uncensor-toggle-button"
+              onClick={() => setIsImageUncensored(true)}
+            >
+              Show!
+            </button>
+          </div>
         </div>
       )}
     </div>

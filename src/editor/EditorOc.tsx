@@ -75,6 +75,7 @@ interface SortableGalleryItemProps {
   onImageChange: (index: number, value: string) => void;
   onThumbnailChange: (index: number, value: string) => void;
   onCaptionChange: (index: number, value: string) => void;
+  onContentWarningChange: (index: number, value: string) => void;
 }
 
 const SortableOcItem: React.FC<SortableOcItemProps> = ({
@@ -237,6 +238,7 @@ const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
   onImageChange,
   onThumbnailChange,
   onCaptionChange,
+  onContentWarningChange,
 }) => {
   const {
     attributes,
@@ -303,6 +305,17 @@ const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
           onChange={(e) => onCaptionChange(index, e.target.value)}
           className="editor-oc-input"
           placeholder="Caption (optional)"
+        />
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Content Warning:</label>
+        <input
+          type="text"
+          value={galleryItem.contentWarning || ""}
+          onChange={(e) => onContentWarningChange(index, e.target.value)}
+          className="editor-oc-input"
+          placeholder="Content warning (optional)"
         />
       </div>
     </div>
@@ -552,7 +565,7 @@ export const EditorOc: React.FC = () => {
 
   const handleGalleryFieldChange = (
     index: number,
-    field: "image" | "thumbnail" | "caption",
+    field: "image" | "thumbnail" | "caption" | "contentWarning",
     value: string
   ) => {
     if (!editingItem) return;
@@ -583,6 +596,7 @@ export const EditorOc: React.FC = () => {
       image: "",
       thumbnail: "",
       caption: "",
+      contentWarning: "",
     };
     const updatedGallery = [...editingItem.gallery, newGalleryItem];
     setEditingItem({ ...editingItem, gallery: updatedGallery });
@@ -968,6 +982,9 @@ export const EditorOc: React.FC = () => {
                           onCaptionChange={(idx, value) =>
                             handleGalleryFieldChange(idx, "caption", value)
                           }
+                          onContentWarningChange={(idx, value) =>
+                            handleGalleryFieldChange(idx, "contentWarning", value)
+                          }
                         />
                       ))}
                     </SortableContext>
@@ -1035,6 +1052,23 @@ export const EditorOc: React.FC = () => {
                           }
                           className="editor-oc-input"
                           placeholder="Caption (optional)"
+                        />
+                      </div>
+
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Content Warning:</label>
+                        <input
+                          type="text"
+                          value={galleryItem.contentWarning || ""}
+                          onChange={(e) =>
+                            handleGalleryFieldChange(
+                              index,
+                              "contentWarning",
+                              e.target.value
+                            )
+                          }
+                          className="editor-oc-input"
+                          placeholder="Content warning (optional)"
                         />
                       </div>
                     </div>

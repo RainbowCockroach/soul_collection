@@ -39,8 +39,20 @@
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 .gallery-image:hover {
   transform: scale(1.05);
+}
+
+/* Filtered/censored gallery images */
+.gallery-image-filtered {
+  overflow: hidden !important;
+  position: relative;
+}
+
+.gallery-image-filtered img {
+  border-radius: 8px;
 }
