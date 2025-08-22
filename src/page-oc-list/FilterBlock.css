@@ -5,11 +5,11 @@
 
 .filter-toggle-button {
   padding: 5px 10px;
-  background-color: var(--color-purple);
-  color: var(--color-white-sparkle);
+  background-color: var(--color-white-sparkle);
+  color: var(--color-purple);
   border: none;
   cursor: pointer;
-  font-size: 0.8em;
+  font-size: 1.2em;
   font-weight: 400;
   font-family: var(--font-primary);
   transition: all 0.2s ease;
