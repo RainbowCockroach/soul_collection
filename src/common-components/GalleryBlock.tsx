@@ -39,6 +39,7 @@ const GalleryBlock: React.FC<GalleryBlockProps> = ({
                   ? {
                       overflow: "hidden",
                       position: "relative",
+                      background: "var(--color-purple)",
                     }
                   : {}
               }

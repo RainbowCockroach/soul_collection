@@ -125,7 +125,13 @@ const ZoomPanPinchImage = forwardRef<
         <TransformComponent>
           <div
             style={
-              useCssFilter ? { overflow: "hidden", borderRadius: "8px" } : {}
+              useCssFilter
+                ? {
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                    background: "var(--color-purple)",
+                  }
+                : {}
             }
           >
             <img
