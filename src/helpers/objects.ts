@@ -24,6 +24,7 @@ export interface GalleryItem {
   image: string;
   thumbnail?: string;
   caption?: string;
+  contentWarning?: string;
 }
 
 export interface OC {
