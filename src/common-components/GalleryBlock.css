@@ -2,9 +2,21 @@
   height: 100%;
 }
 
+/* When inside gallery-wrapper, allow natural height */
+@media (min-width: 769px) {
+  .gallery-wrapper .gallery {
+    height: auto;
+  }
+  
+  .gallery-wrapper .gallery-grid {
+    height: auto;
+    overflow: visible;
+  }
+}
+
 .gallery-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 4%;
   height: 100%;
   overflow-y: scroll;
@@ -12,14 +24,13 @@
   scrollbar-color: var(--color-green) transparent;
 }
 
-/* Large devices and down (tablets and smaller) */
-@media (max-width: 1024px) {
+/* Medium devices and down (tablets and smaller) */
+@media (max-width: 768px) {
   .gallery-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    display: flex;
     gap: 16px;
     padding: 16px;
   }
@@ -27,20 +38,39 @@
   .gallery-image {
     flex-shrink: 0;
     width: 100px !important;
-    height: 100px;
-    aspect-ratio: 1;
+    height: 100px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .gallery-image img {
+    position: static;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
   }
 }
 
 .gallery-image {
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
+  height: 0;
+  padding-bottom: 100%; /* Creates a square */
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s ease;
-  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
   position: relative;
+}
+
+.gallery-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .gallery-image:hover {
@@ -49,10 +79,7 @@
 
 /* Filtered/censored gallery images */
 .gallery-image-filtered {
-  overflow: hidden !important;
+  background: var(--color-purple);
+  overflow: hidden;
   position: relative;
-}
-
-.gallery-image-filtered img {
-  border-radius: 8px;
 }

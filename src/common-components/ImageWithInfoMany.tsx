@@ -1,4 +1,4 @@
-import { useState, useImperativeHandle, forwardRef } from "react";
+import { useState, useImperativeHandle, forwardRef, useCallback } from "react";
 import ImageWithInfo from "./ImageWithInfo";
 import "./ImageWithInfoMany.css";
 
@@ -23,19 +23,19 @@ const ImageWithInfoMany = forwardRef<
 >(({ items, showButtons = true }, ref) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const scrollPrev = () => {
+  const scrollPrev = useCallback(() => {
     setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
-  };
+  }, [items.length]);
 
-  const scrollNext = () => {
+  const scrollNext = useCallback(() => {
     setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
-  };
+  }, [items.length]);
 
-  const scrollTo = (index: number) => {
+  const scrollTo = useCallback((index: number) => {
     if (index >= 0 && index < items.length) {
       setCurrentIndex(index);
     }
-  };
+  }, [items.length]);
 
   useImperativeHandle(
     ref,
@@ -44,7 +44,7 @@ const ImageWithInfoMany = forwardRef<
       scrollNext,
       scrollTo,
     }),
-    [items.length]
+    [scrollPrev, scrollNext, scrollTo]
   );
 
   if (!items || items.length === 0) {
