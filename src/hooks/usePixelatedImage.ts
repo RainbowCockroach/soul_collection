@@ -19,7 +19,6 @@ export const useBlurImage = (
 
     // For any image with content warning, use CSS filter
     // This avoids all CORS issues and works reliably
-    console.log("Content warning detected, applying CSS filter censoring");
     return { url: imageUrl, useCssFilter: true };
   }, [imageUrl, contentWarning]);
 };

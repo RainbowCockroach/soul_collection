@@ -90,6 +90,17 @@
   overflow: hidden;
 }
 
+/* Gallery wrapper for desktop and horizontal tablets only */
+@media (min-width: 769px) {
+  .gallery-wrapper {
+    height: auto;
+    max-height: 100%;
+    overflow-y: auto;
+    scrollbar-color: var(--color-green) transparent;
+    padding: 12px;
+  }
+}
+
 /* Info Block */
 .detail-block-info {
   padding: 20px;
