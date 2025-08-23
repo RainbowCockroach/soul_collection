@@ -126,15 +126,17 @@ const PageDetail: React.FC = () => {
         />
       </div>
       <div className="detail-block-gallery div-3d-with-shadow">
-        <GalleryBlock
-          gallery={oc.gallery}
-          characterName={oc.name}
-          onImageClick={(galleryItem) => {
-            setCurrentDisplayAvatar(galleryItem.image);
-            setCurrentDisplayAvatarCaption(galleryItem.caption || undefined);
-            setCurrentDisplayAvatarContentWarning(galleryItem.contentWarning || undefined);
-          }}
-        />
+        <div className="gallery-wrapper">
+          <GalleryBlock
+            gallery={oc.gallery}
+            characterName={oc.name}
+            onImageClick={(galleryItem) => {
+              setCurrentDisplayAvatar(galleryItem.image);
+              setCurrentDisplayAvatarCaption(galleryItem.caption || undefined);
+              setCurrentDisplayAvatarContentWarning(galleryItem.contentWarning || undefined);
+            }}
+          />
+        </div>
       </div>
       <div className="detail-block-info div-3d-with-shadow">
         <h1 className="detail-oc-name">

@@ -2,6 +2,18 @@
   height: 100%;
 }
 
+/* When inside gallery-wrapper, allow natural height */
+@media (min-width: 769px) {
+  .gallery-wrapper .gallery {
+    height: auto;
+  }
+  
+  .gallery-wrapper .gallery-grid {
+    height: auto;
+    overflow: visible;
+  }
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -12,8 +24,8 @@
   scrollbar-color: var(--color-green) transparent;
 }
 
-/* Large devices and down (tablets and smaller) */
-@media (max-width: 1024px) {
+/* Medium devices and down (tablets and smaller) */
+@media (max-width: 768px) {
   .gallery-grid {
     display: flex;
     overflow-x: scroll;
