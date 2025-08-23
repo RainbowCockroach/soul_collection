@@ -38,15 +38,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
       }`}
       onClick={() => onImageClick(galleryItem)} // Pass the entire gallery item
       title={galleryItem.caption} // Show caption as tooltip
-      style={
-        useCssFilter
-          ? {
-              overflow: "hidden",
-              position: "relative",
-              background: "var(--color-purple)",
-            }
-          : {}
-      }
+      style={{}}
     >
       <img
         src={displayImage}
@@ -59,15 +51,8 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
                 filter: "blur(20px) brightness(0.8) contrast(1.1)",
                 imageRendering: "pixelated",
                 transform: "scale(1.15)",
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
               }
-            : {
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }
+            : {}
         }
       />
     </div>
