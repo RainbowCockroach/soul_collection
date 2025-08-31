@@ -5,6 +5,7 @@ import "./ImageWithInfoMany.css";
 interface ImageWithInfoManyProps {
   items: Array<{
     images: string[];
+    video?: string;
     description: string;
     title?: string;
   }>;
@@ -63,6 +64,7 @@ const ImageWithInfoMany = forwardRef<
             <ImageWithInfo
               key={currentIndex} // To make remount, fix image load error
               images={items[currentIndex].images}
+              video={items[currentIndex].video}
               description={items[currentIndex].description}
               title={items[currentIndex].title}
             />
