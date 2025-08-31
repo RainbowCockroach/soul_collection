@@ -209,6 +209,7 @@ const PageDetail: React.FC = () => {
             ref={breadcrumbsCarouselRef}
             items={oc.breadcrumbs.map((breadcrumb) => ({
               images: breadcrumb.images,
+              video: breadcrumb.video,
               description: breadcrumb.description,
               title: breadcrumb.title,
             }))}
