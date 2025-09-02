@@ -75,6 +75,13 @@ body {
   min-height: 100vh;
 }
 
+/* Custom cursor - Desktop only (768px and up) */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  * {
+    cursor: url('./assets/huge_cursor.png'), auto !important;
+  }
+}
+
 h1 {
   font-size: 3.8em;
   line-height: 1.1;
