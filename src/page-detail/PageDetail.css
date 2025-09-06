@@ -219,3 +219,35 @@
   padding: 20px;
 }
 
+/* Tab Interface */
+.detail-info-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--color-green);
+  margin-bottom: 15px;
+}
+
+.detail-info-tab {
+  flex: 1;
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+  border-bottom: 3px solid transparent;
+  font-family: var(--font-family-primary);
+}
+
+.detail-info-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.detail-info-tab.active {
+  background: var(--color-green);
+  color: white;
+  border-bottom-color: var(--color-green);
+}
+
+.detail-info-tab-content {
+  min-height: 100px;
+}

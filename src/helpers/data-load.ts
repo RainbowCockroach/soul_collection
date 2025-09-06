@@ -20,7 +20,9 @@ export async function loadOCs(): Promise<OC[]> {
       slug,
       ...(oc as Omit<OC, "slug">),
     }))
-    .sort((a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE));
+    .sort(
+      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE)
+    );
 }
 
 export async function loadGroups(): Promise<Group[]> {
@@ -29,7 +31,9 @@ export async function loadGroups(): Promise<Group[]> {
       slug,
       ...(group as Omit<Group, "slug">),
     }))
-    .sort((a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE));
+    .sort(
+      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE)
+    );
 }
 
 export async function loadSpecies(): Promise<Spieces[]> {
@@ -87,7 +91,7 @@ export async function loadFormLinks(): Promise<FormLink[]> {
 
 export async function findLinkedOc(ocSlug: string): Promise<string | null> {
   const formLinks = await loadFormLinks();
-  
+
   for (const link of formLinks) {
     if (link[0] === ocSlug) {
       return link[1];
@@ -95,7 +99,7 @@ export async function findLinkedOc(ocSlug: string): Promise<string | null> {
       return link[0];
     }
   }
-  
+
   return null;
 }
 
@@ -106,6 +110,33 @@ export async function loadDialogs(): Promise<DialogTexts> {
 export async function loadDialogByKey(key: string): Promise<string[] | null> {
   const dialogs = await loadDialogs();
   return dialogs[key] || null;
+}
+
+export async function loadOcBackstory(slug: string): Promise<string | null> {
+  try {
+    const response = await fetch(`/soul_collection/lore/${slug}`);
+    if (!response.ok) {
+      return null;
+    }
+    
+    const content = await response.text();
+    
+    // Check if the response is HTML (indicating SPA redirect due to 404)
+    // Real backstory files should not contain HTML tags
+    if (content.includes('<!DOCTYPE html>') || content.includes('<html')) {
+      return null;
+    }
+    
+    // Check if content is empty or just whitespace
+    if (!content.trim()) {
+      return null;
+    }
+    
+    return content;
+  } catch (error) {
+    console.warn(`Failed to load backstory for ${slug}:`, error);
+    return null;
+  }
 }
 
 export async function loadAllData(): Promise<LoadedData> {
