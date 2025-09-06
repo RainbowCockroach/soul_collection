@@ -114,7 +114,7 @@ export async function loadDialogByKey(key: string): Promise<string[] | null> {
 
 export async function loadOcBackstory(slug: string): Promise<string | null> {
   try {
-    const response = await fetch(`/soul_collection/lore/${slug}`);
+    const response = await fetch(`/soul_collection/lore/${slug}.txt`);
     if (!response.ok) {
       return null;
     }
