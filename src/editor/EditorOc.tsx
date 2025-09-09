@@ -59,6 +59,7 @@ interface SortableBreadcrumbItemProps {
   onRemove: (index: number) => void;
   onTitleChange: (index: number, value: string) => void;
   onDescriptionChange: (index: number, value: string) => void;
+  onVideoChange: (index: number, value: string) => void;
   onImageChange: (
     breadcrumbIndex: number,
     imageIndex: number,
@@ -140,6 +141,7 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
   onRemove,
   onTitleChange,
   onDescriptionChange,
+  onVideoChange,
   onImageChange,
   onAddImage,
   onRemoveImage,
@@ -202,8 +204,19 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
       </div>
 
       <div className="editor-oc-field">
+        <label className="editor-oc-label">YouTube Video Embed:</label>
+        <textarea
+          value={breadcrumb.video || ""}
+          onChange={(e) => onVideoChange(index, e.target.value)}
+          rows={3}
+          className="editor-oc-textarea"
+          placeholder="Paste YouTube iframe embed code here"
+        />
+      </div>
+
+      <div className="editor-oc-field">
         <label className="editor-oc-label">Images:</label>
-        {breadcrumb.images.map((imageUrl, imageIndex) => (
+        {(breadcrumb.images || []).map((imageUrl, imageIndex) => (
           <div key={imageIndex} className="editor-oc-array-item">
             <input
               type="text"
@@ -611,7 +624,7 @@ export const EditorOc: React.FC = () => {
 
   const handleBreadcrumbChange = (
     index: number,
-    field: "title" | "description" | "images",
+    field: "title" | "description" | "video" | "images",
     value: string | string[]
   ) => {
     if (!editingItem) return;
@@ -626,6 +639,11 @@ export const EditorOc: React.FC = () => {
       updatedBreadcrumbs[index] = {
         ...updatedBreadcrumbs[index],
         description: value as string,
+      };
+    } else if (field === "video") {
+      updatedBreadcrumbs[index] = {
+        ...updatedBreadcrumbs[index],
+        video: value as string,
       };
     } else {
       updatedBreadcrumbs[index] = {
@@ -644,7 +662,7 @@ export const EditorOc: React.FC = () => {
     if (!editingItem) return;
 
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
-    const updatedImages = [...updatedBreadcrumbs[breadcrumbIndex].images];
+    const updatedImages = [...(updatedBreadcrumbs[breadcrumbIndex].images || [])];
     updatedImages[imageIndex] = value;
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
@@ -659,7 +677,7 @@ export const EditorOc: React.FC = () => {
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
-      images: [...updatedBreadcrumbs[breadcrumbIndex].images, ""],
+      images: [...(updatedBreadcrumbs[breadcrumbIndex].images || []), ""],
     };
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
@@ -673,7 +691,7 @@ export const EditorOc: React.FC = () => {
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
-      images: updatedBreadcrumbs[breadcrumbIndex].images.filter(
+      images: (updatedBreadcrumbs[breadcrumbIndex].images || []).filter(
         (_, i) => i !== imageIndex
       ),
     };
@@ -686,6 +704,7 @@ export const EditorOc: React.FC = () => {
     const newBreadcrumb: BreadcrumbItem = {
       title: "",
       images: [],
+      video: "",
       description: "",
     };
     setEditingItem({
@@ -1136,6 +1155,9 @@ export const EditorOc: React.FC = () => {
                           onDescriptionChange={(idx, value) =>
                             handleBreadcrumbChange(idx, "description", value)
                           }
+                          onVideoChange={(idx, value) =>
+                            handleBreadcrumbChange(idx, "video", value)
+                          }
                           onImageChange={handleBreadcrumbImageChange}
                           onAddImage={handleAddBreadcrumbImage}
                           onRemoveImage={handleRemoveBreadcrumbImage}
@@ -1191,8 +1213,25 @@ export const EditorOc: React.FC = () => {
                       </div>
 
                       <div className="editor-oc-field">
+                        <label className="editor-oc-label">YouTube Video Embed:</label>
+                        <textarea
+                          value={breadcrumb.video || ""}
+                          onChange={(e) =>
+                            handleBreadcrumbChange(
+                              index,
+                              "video",
+                              e.target.value
+                            )
+                          }
+                          rows={3}
+                          className="editor-oc-textarea"
+                          placeholder="Paste YouTube iframe embed code here"
+                        />
+                      </div>
+
+                      <div className="editor-oc-field">
                         <label className="editor-oc-label">Images:</label>
-                        {breadcrumb.images.map((imageUrl, imageIndex) => (
+                        {(breadcrumb.images || []).map((imageUrl, imageIndex) => (
                           <div
                             key={imageIndex}
                             className="editor-oc-array-item"

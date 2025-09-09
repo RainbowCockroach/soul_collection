@@ -10,7 +10,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Custom color variables */
-  --color-purple: #6f6693;
+  --color-purple: #864edb;
   --color-green: #9acfb0;
   --color-white-sparkle: #f3e9ff;
 
@@ -73,6 +73,13 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+/* Custom cursor - Desktop only (768px and up) */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  * {
+    cursor: url("./assets/huge_cursor.png"), auto !important;
+  }
 }
 
 h1 {

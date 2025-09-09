@@ -17,6 +17,7 @@ export interface Spieces {
 export interface BreadcrumbItem {
   title?: string; // Optional title for the breadcrumb
   images: string[]; // Array of image URLs
+  video?: string; // Optional YouTube embed HTML
   description: string; // Rich text description
 }
 

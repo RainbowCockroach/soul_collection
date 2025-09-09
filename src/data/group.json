@@ -1,44 +1,44 @@
 {
   "human": {
-    "name": "𐀪𖠋 Human 𐦂𖨆",
-    "frameColour": "#ffd5b3",
-    "groupHeaderColour": "#ffd5b3",
-    "groupHeaderTextColour": "#59351d",
+    "name": "🧡 Human 🧡",
+    "frameColour": "#ffd57a",
+    "groupHeaderColour": "#ffd57a",
+    "groupHeaderTextColour": "#635603",
     "order": 0
   },
   "zo": {
-    "name": "𓅪 Zo 𓅪",
-    "frameColour": "#c2ffd9",
-    "groupHeaderColour": "#c2ffd9",
-    "groupHeaderTextColour": "#134e32",
+    "name": "💚 Zo 💚",
+    "frameColour": "#75ffaa",
+    "groupHeaderColour": "#75ffaa",
+    "groupHeaderTextColour": "#035446",
     "order": 1
   },
   "god": {
-    "name": "-ˋˏ ༻ God ༺ ˎˊ-",
-    "frameColour": "#ffadd9",
-    "groupHeaderColour": "#ffadd9",
-    "groupHeaderTextColour": "#54083f",
+    "name": "🩷 God 🩷",
+    "frameColour": "#ffb3e3",
+    "groupHeaderColour": "#ffb3e3",
+    "groupHeaderTextColour": "#880231",
     "order": 2
   },
   "vrev": {
-    "name": "•⩊• Vrev •⩊•",
+    "name": "💜 Vrev 💜",
     "frameColour": "#bfadff",
     "groupHeaderColour": "#bfadff",
-    "groupHeaderTextColour": "#060542",
+    "groupHeaderTextColour": "#66007a",
     "order": 3
   },
   "candy-cockroach": {
-    "name": "𖹭 Candy cockroach 𖹭",
-    "frameColour": "#ccf0ff",
-    "groupHeaderColour": "#ccf0ff",
-    "groupHeaderTextColour": "#053042",
+    "name": "🩵 Candy cockroach 🩵",
+    "frameColour": "#80d9ff",
+    "groupHeaderColour": "#80d9ff",
+    "groupHeaderTextColour": "#07347e",
     "order": 4
   },
   "other": {
-    "name": "Other",
-    "frameColour": "#f3ffb8",
-    "groupHeaderColour": "#f3ffb8",
-    "groupHeaderTextColour": "#504007",
+    "name": "💛 Other 💛",
+    "frameColour": "#ebff85",
+    "groupHeaderColour": "#ebff85",
+    "groupHeaderTextColour": "#176501",
     "order": 5
   }
 }

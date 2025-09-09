@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import {
   loadOcBySlug,
   findLinkedOc,
+  loadOcBackstory,
   type OcWithDetails,
 } from "../helpers/data-load";
 import GalleryBlock from "../common-components/GalleryBlock";
@@ -24,11 +25,16 @@ const PageDetail: React.FC = () => {
     useState<string>(placeholderImage);
   const [currentDisplayAvatarCaption, setCurrentDisplayAvatarCaption] =
     useState<string | undefined>(undefined);
-  const [currentDisplayAvatarContentWarning, setCurrentDisplayAvatarContentWarning] =
-    useState<string | undefined>(undefined);
+  const [
+    currentDisplayAvatarContentWarning,
+    setCurrentDisplayAvatarContentWarning,
+  ] = useState<string | undefined>(undefined);
   const [linkedOcSlug, setLinkedOcSlug] = useState<string | null>(null);
   const [linkedOcName, setLinkedOcName] = useState<string | null>(null);
   const [isGodForm, setIsGodForm] = useState(false);
+  const [activeTab, setActiveTab] = useState<"info" | "backstory">("info");
+  const [backstory, setBackstory] = useState<string | null>(null);
+  const [backstoryLoading, setBackstoryLoading] = useState(false);
 
   const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
   const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
@@ -81,10 +87,25 @@ const PageDetail: React.FC = () => {
   }, [slug]);
 
   useEffect(() => {
+    const loadBackstory = async () => {
+      if (!slug) return;
+
+      setBackstoryLoading(true);
+      const backstoryContent = await loadOcBackstory(slug);
+      setBackstory(backstoryContent);
+      setBackstoryLoading(false);
+    };
+
+    loadBackstory();
+  }, [slug]);
+
+  useEffect(() => {
     if (oc?.gallery && oc.gallery.length > 0) {
       setCurrentDisplayAvatar(oc.gallery[0].image);
       setCurrentDisplayAvatarCaption(oc.gallery[0].caption || undefined);
-      setCurrentDisplayAvatarContentWarning(oc.gallery[0].contentWarning || undefined);
+      setCurrentDisplayAvatarContentWarning(
+        oc.gallery[0].contentWarning || undefined
+      );
     }
   }, [oc]);
 
@@ -133,7 +154,9 @@ const PageDetail: React.FC = () => {
             onImageClick={(galleryItem) => {
               setCurrentDisplayAvatar(galleryItem.image);
               setCurrentDisplayAvatarCaption(galleryItem.caption || undefined);
-              setCurrentDisplayAvatarContentWarning(galleryItem.contentWarning || undefined);
+              setCurrentDisplayAvatarContentWarning(
+                galleryItem.contentWarning || undefined
+              );
             }}
           />
         </div>
@@ -150,7 +173,41 @@ const PageDetail: React.FC = () => {
             isGodForm={oc.group.includes("god")}
           />
         )}
-        <BBCodeDisplay bbcode={oc.info} />
+
+        {/* Tab Interface - only show tabs if backstory exists */}
+        {backstory && (
+          <div className="detail-info-tabs">
+            <button
+              className={`detail-info-tab ${
+                activeTab === "info" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("info")}
+            >
+              Info
+            </button>
+            <button
+              className={`detail-info-tab ${
+                activeTab === "backstory" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("backstory")}
+            >
+              Backstory
+            </button>
+          </div>
+        )}
+
+        {/* Tab Content */}
+        <div className="detail-info-tab-content">
+          {(!backstory || activeTab === "info") && (
+            <BBCodeDisplay bbcode={oc.info} />
+          )}
+          {backstory && activeTab === "backstory" && (
+            <BBCodeDisplay bbcode={backstory} />
+          )}
+          {activeTab === "backstory" && backstoryLoading && (
+            <div>Loading backstory...</div>
+          )}
+        </div>
       </div>
       <div className="detail-block-species">
         <div className="div-3d-with-shadow detail-section-header">
@@ -209,6 +266,7 @@ const PageDetail: React.FC = () => {
             ref={breadcrumbsCarouselRef}
             items={oc.breadcrumbs.map((breadcrumb) => ({
               images: breadcrumb.images,
+              video: breadcrumb.video,
               description: breadcrumb.description,
               title: breadcrumb.title,
             }))}

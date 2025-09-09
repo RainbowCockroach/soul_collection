@@ -1,6 +1,6 @@
 @echo off
 cd /d "%~dp0"
-git add src/data/*
+git add src/data/* public/lore/*
 git pull origin sam
 git commit -m "sam update content"
 git push origin sam

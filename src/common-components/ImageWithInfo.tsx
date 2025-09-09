@@ -5,17 +5,19 @@ import ImageSlide from "./ImageSlide";
 
 interface ImageWithInfoProps {
   images: string[];
+  video?: string;
   description: string;
   title?: string;
 }
 
 const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
   images,
+  video,
   description,
   title,
 }) => {
 
-  if (!images || images.length === 0) {
+  if ((!images || images.length === 0) && !video) {
     return (
       <div className={`image-with-info`}>
         <div className="image-with-info-empty">
@@ -31,7 +33,14 @@ const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
   return (
     <div className="image-with-info">
       <div className="image-with-info-carousel">
-        <ImageSlide images={images} />
+        {video ? (
+          <div 
+            className="youtube-embed-container"
+            dangerouslySetInnerHTML={{ __html: video }}
+          />
+        ) : (
+          <ImageSlide images={images} />
+        )}
       </div>
       <div className="image-with-info-description">
         {title && <h3 className="image-with-info-title">{title}</h3>}
