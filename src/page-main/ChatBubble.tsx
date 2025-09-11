@@ -1,105 +1,108 @@
-import React, { useState, useEffect } from 'react';
-import './ChatBubble.css';
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import "./ChatBubble.css";
 
-interface ChatBubbleProps {
+interface Props {
   texts: string[];
   speaker?: string;
   avatar?: string;
-  typingSpeed?: number;
-  showContinueButton?: boolean;
+  speed?: number;
   onComplete?: () => void;
-  onContinue?: () => void;
+  onFinish?: () => void;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = ({
-  texts,
-  speaker,
-  avatar,
-  typingSpeed = 50,
-  showContinueButton = true,
-  onComplete,
-  onContinue
-}) => {
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+interface Ref {
+  skip: () => void;
+}
 
-  const currentText = texts[currentTextIndex] || '';
+const ChatBubble = forwardRef<Ref, Props>(
+  ({ texts, speaker, avatar, speed = 50, onComplete, onFinish }, ref) => {
+    const [dialogIndex, setDialogIndex] = useState(0);
+    const [text, setText] = useState("");
+    const [isTyping, setIsTyping] = useState(true);
 
-  useEffect(() => {
-    setDisplayedText('');
-    setCurrentCharIndex(0);
-    setCurrentTextIndex(0);
-    setIsTyping(true);
-  }, [texts]);
+    const currentText = texts[dialogIndex] || "";
+    const isLastDialog = dialogIndex >= texts.length - 1;
+    const hasMore = dialogIndex < texts.length - 1;
 
-  useEffect(() => {
-    if (currentCharIndex < currentText.length && isTyping) {
+    // Reset on new texts
+    useEffect(() => {
+      setDialogIndex(0);
+      setText("");
+      setIsTyping(true);
+    }, [texts]);
+
+    // Typing effect
+    useEffect(() => {
+      if (!isTyping || text.length >= currentText.length) {
+        if (text.length >= currentText.length) {
+          setIsTyping(false);
+          if (isLastDialog) onComplete?.();
+        }
+        return;
+      }
+
       const timer = setTimeout(() => {
-        setDisplayedText(prev => prev + currentText[currentCharIndex]);
-        setCurrentCharIndex(prev => prev + 1);
-      }, typingSpeed);
+        setText(currentText.slice(0, text.length + 1));
+      }, speed);
 
       return () => clearTimeout(timer);
-    } else if (currentCharIndex >= currentText.length && isTyping) {
+    }, [text, currentText, isTyping, speed, isLastDialog, onComplete]);
+
+    const showFull = () => {
+      setText(currentText);
       setIsTyping(false);
-      if (currentTextIndex >= texts.length - 1) {
-        onComplete?.();
+    };
+
+    const next = () => {
+      if (hasMore) {
+        setDialogIndex((prev) => prev + 1);
+        setText("");
+        setIsTyping(true);
+      } else {
+        onFinish?.();
       }
-    }
-  }, [currentCharIndex, currentText, typingSpeed, isTyping, currentTextIndex, texts.length, onComplete]);
+    };
 
-  const handleSkip = () => {
-    if (isTyping) {
-      setDisplayedText(currentText);
-      setCurrentCharIndex(currentText.length);
-      setIsTyping(false);
-    }
-  };
+    const skip = () => {
+      if (isTyping) {
+        showFull();
+      } else {
+        next();
+      }
+    };
 
-  const handleContinue = () => {
-    if (currentTextIndex < texts.length - 1) {
-      setCurrentTextIndex(prev => prev + 1);
-      setDisplayedText('');
-      setCurrentCharIndex(0);
-      setIsTyping(true);
-    } else {
-      onContinue?.();
-    }
-  };
+    useImperativeHandle(ref, () => ({ skip }));
 
-  return (
-    <div className="chat-bubble-container">
-      <div className="chat-bubble" onClick={handleSkip}>
-        {speaker && (
-          <div className="chat-bubble-header">
-            {avatar && (
-              <div className="chat-bubble-avatar">
-                <img src={avatar} alt={speaker} />
-              </div>
-            )}
-            <div className="chat-bubble-speaker">{speaker}</div>
-          </div>
-        )}
-        
-        <div className="chat-bubble-content">
-          <div className="chat-bubble-text">
-            {displayedText}
-            {isTyping && <span className="typing-cursor">▌</span>}
-          </div>
-          
-          {!isTyping && showContinueButton && (
-            <div className="chat-bubble-continue" onClick={handleContinue}>
-              <span className="continue-arrow">
-                {currentTextIndex < texts.length - 1 ? '▼' : '✓'}
-              </span>
+    return (
+      <div className="chat-bubble-container">
+        <div className="chat-bubble" onClick={() => isTyping && showFull()}>
+          {speaker && (
+            <div className="chat-bubble-header">
+              {avatar && (
+                <div className="chat-bubble-avatar">
+                  <img src={avatar} alt={speaker} />
+                </div>
+              )}
+              <div className="chat-bubble-speaker">{speaker}</div>
             </div>
           )}
+
+          <div className="chat-bubble-content">
+            <div className="chat-bubble-text">
+              {text}
+              {isTyping && <span className="typing-cursor">▌</span>}
+            </div>
+
+            {!isTyping && (
+              <div className="chat-bubble-continue" onClick={next}>
+                <span className="continue-arrow">{hasMore ? "▼" : "✓"}</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default ChatBubble;
