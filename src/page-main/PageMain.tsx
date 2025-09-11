@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
 import { loadDialogByKey } from "../helpers/data-load";
@@ -6,6 +6,7 @@ import { loadDialogByKey } from "../helpers/data-load";
 const PageMain: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [samDialogTexts, setSamDialogTexts] = useState<string[]>([]);
+  const chatBubbleRef = useRef<{ skip: () => void }>(null);
 
   useEffect(() => {
     loadDialogByKey("sam-intro").then((texts) => {
@@ -23,17 +24,28 @@ const PageMain: React.FC = () => {
     // setShowDialog(false);
   };
 
+  const handleTextChange = () => {
+    console.log("Text change requested");
+    if (showDialog && chatBubbleRef.current) {
+      chatBubbleRef.current.skip();
+    }
+  };
+
   return (
     <div>
       {/* PageMain content goes here */}
-      <SamStandee onClick={handleSamClick} />
+      <SamStandee
+        onAnimationChange={handleSamClick}
+        onTextChange={handleTextChange}
+      />
 
       {showDialog && samDialogTexts.length > 0 && (
         <ChatBubble
+          ref={chatBubbleRef}
           texts={samDialogTexts}
           speaker="Sam"
           onComplete={handleDialogComplete}
-          onContinue={handleDialogComplete}
+          onFinish={handleDialogComplete}
         />
       )}
     </div>

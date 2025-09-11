@@ -5,29 +5,36 @@ import samPoke from "../assets/sam_standee_poke.gif";
 import samPoked from "../assets/sam_standee_poked.gif";
 
 interface SamStandeeProps {
-  onClick?: () => void;
+  onAnimationChange?: () => void;
+  onTextChange?: () => void;
 }
 
-const SamStandee: React.FC<SamStandeeProps> = ({ onClick }) => {
+const SamStandee: React.FC<SamStandeeProps> = ({
+  onAnimationChange,
+  onTextChange,
+}) => {
   const [currentGif, setCurrentGif] = useState<"still" | "poke" | "poked">(
     "still"
   );
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const handleClick = useCallback(() => {
-    if (isAnimating) return;
+  const handleAnimationChange = useCallback(() => {
+    if (isAnimating || currentGif === "poked") return;
 
     setIsAnimating(true);
     setCurrentGif("poke");
 
-    // Trigger the external onClick handler
-    onClick?.();
+    onAnimationChange?.();
 
     setTimeout(() => {
       setCurrentGif("poked");
       setIsAnimating(false);
     }, 4300);
-  }, [isAnimating, onClick]);
+  }, [isAnimating, currentGif, onAnimationChange]);
+
+  const handleTextChange = useCallback(() => {
+    onTextChange?.();
+  }, [onTextChange]);
 
   const getGifSrc = () => {
     switch (currentGif) {
@@ -48,7 +55,13 @@ const SamStandee: React.FC<SamStandeeProps> = ({ onClick }) => {
         src={getGifSrc()}
         alt="Sam Standee"
         className={`sam-gif ${isAnimating ? "animating" : ""}`}
-        onClick={handleClick}
+        onClick={() => {
+          if (currentGif != "still") {
+            handleTextChange();
+          } else {
+            handleAnimationChange();
+          }
+        }}
       />
     </div>
   );
