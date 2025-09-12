@@ -60,6 +60,7 @@ interface SortableBreadcrumbItemProps {
   onTitleChange: (index: number, value: string) => void;
   onDescriptionChange: (index: number, value: string) => void;
   onVideoChange: (index: number, value: string) => void;
+  onContentWarningChange: (index: number, value: string) => void;
   onImageChange: (
     breadcrumbIndex: number,
     imageIndex: number,
@@ -142,6 +143,7 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
   onTitleChange,
   onDescriptionChange,
   onVideoChange,
+  onContentWarningChange,
   onImageChange,
   onAddImage,
   onRemoveImage,
@@ -211,6 +213,17 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
           rows={3}
           className="editor-oc-textarea"
           placeholder="Paste YouTube iframe embed code here"
+        />
+      </div>
+
+      <div className="editor-oc-field">
+        <label className="editor-oc-label">Content Warning:</label>
+        <input
+          type="text"
+          value={breadcrumb.contentWarning || ""}
+          onChange={(e) => onContentWarningChange(index, e.target.value)}
+          className="editor-oc-input"
+          placeholder="Content warning for breadcrumb images (optional)"
         />
       </div>
 
@@ -624,7 +637,7 @@ export const EditorOc: React.FC = () => {
 
   const handleBreadcrumbChange = (
     index: number,
-    field: "title" | "description" | "video" | "images",
+    field: "title" | "description" | "video" | "contentWarning" | "images",
     value: string | string[]
   ) => {
     if (!editingItem) return;
@@ -644,6 +657,11 @@ export const EditorOc: React.FC = () => {
       updatedBreadcrumbs[index] = {
         ...updatedBreadcrumbs[index],
         video: value as string,
+      };
+    } else if (field === "contentWarning") {
+      updatedBreadcrumbs[index] = {
+        ...updatedBreadcrumbs[index],
+        contentWarning: value as string,
       };
     } else {
       updatedBreadcrumbs[index] = {
@@ -706,6 +724,7 @@ export const EditorOc: React.FC = () => {
       images: [],
       video: "",
       description: "",
+      contentWarning: "",
     };
     setEditingItem({
       ...editingItem,
@@ -1158,6 +1177,9 @@ export const EditorOc: React.FC = () => {
                           onVideoChange={(idx, value) =>
                             handleBreadcrumbChange(idx, "video", value)
                           }
+                          onContentWarningChange={(idx, value) =>
+                            handleBreadcrumbChange(idx, "contentWarning", value)
+                          }
                           onImageChange={handleBreadcrumbImageChange}
                           onAddImage={handleAddBreadcrumbImage}
                           onRemoveImage={handleRemoveBreadcrumbImage}
@@ -1226,6 +1248,23 @@ export const EditorOc: React.FC = () => {
                           rows={3}
                           className="editor-oc-textarea"
                           placeholder="Paste YouTube iframe embed code here"
+                        />
+                      </div>
+
+                      <div className="editor-oc-field">
+                        <label className="editor-oc-label">Content Warning:</label>
+                        <input
+                          type="text"
+                          value={breadcrumb.contentWarning || ""}
+                          onChange={(e) =>
+                            handleBreadcrumbChange(
+                              index,
+                              "contentWarning",
+                              e.target.value
+                            )
+                          }
+                          className="editor-oc-input"
+                          placeholder="Content warning for breadcrumb images (optional)"
                         />
                       </div>
 
