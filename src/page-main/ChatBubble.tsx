@@ -74,8 +74,8 @@ const ChatBubble = forwardRef<Ref, Props>(
     useImperativeHandle(ref, () => ({ skip }));
 
     return (
-      <div className="chat-bubble-container">
-        <div className="chat-bubble" onClick={() => isTyping && showFull()}>
+      <div className="chat-bubble-container" onClick={skip}>
+        <div className="chat-bubble">
           {speaker && (
             <div className="chat-bubble-header">
               {avatar && (
@@ -94,7 +94,7 @@ const ChatBubble = forwardRef<Ref, Props>(
             </div>
 
             {!isTyping && (
-              <div className="chat-bubble-continue" onClick={next}>
+              <div className="chat-bubble-continue">
                 <span className="continue-arrow">{hasMore ? "▼" : "✓"}</span>
               </div>
             )}
