@@ -73,6 +73,7 @@ export const EditorSpieces: React.FC = () => {
           name: speciesName,
           description: "",
           gallery: [],
+          contentWarning: "",
         });
         setSelectedSlug(newSlug);
         setIsEditing(true);
@@ -243,6 +244,22 @@ export const EditorSpieces: React.FC = () => {
                   }
                   rows={4}
                   className="editor-species-textarea"
+                />
+              </div>
+
+              <div className="editor-species-field">
+                <label className="editor-species-label">Content Warning:</label>
+                <input
+                  type="text"
+                  value={editingItem.contentWarning || ""}
+                  onChange={(e) =>
+                    setEditingItem({
+                      ...editingItem,
+                      contentWarning: e.target.value,
+                    })
+                  }
+                  className="editor-species-input"
+                  placeholder="Content warning for species images (optional)"
                 />
               </div>
 

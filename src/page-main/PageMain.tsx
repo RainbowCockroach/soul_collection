@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
 import { loadDialogByKey } from "../helpers/data-load";
+import RandomOcButton from "./RandomOcButton";
 
 const PageMain: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false);
@@ -33,7 +34,7 @@ const PageMain: React.FC = () => {
 
   return (
     <div>
-      {/* PageMain content goes here */}
+      <RandomOcButton />
       <SamStandee
         onAnimationChange={handleSamClick}
         onTextChange={handleTextChange}

@@ -8,6 +8,7 @@ interface ImageWithInfoProps {
   video?: string;
   description: string;
   title?: string;
+  contentWarning?: string;
 }
 
 const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
@@ -15,6 +16,7 @@ const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
   video,
   description,
   title,
+  contentWarning,
 }) => {
 
   if ((!images || images.length === 0) && !video) {
@@ -39,7 +41,7 @@ const ImageWithInfo: React.FC<ImageWithInfoProps> = ({
             dangerouslySetInnerHTML={{ __html: video }}
           />
         ) : (
-          <ImageSlide images={images} />
+          <ImageSlide images={images} contentWarning={contentWarning} />
         )}
       </div>
       <div className="image-with-info-description">

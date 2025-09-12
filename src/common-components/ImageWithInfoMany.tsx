@@ -8,6 +8,7 @@ interface ImageWithInfoManyProps {
     video?: string;
     description: string;
     title?: string;
+    contentWarning?: string;
   }>;
   showButtons?: boolean;
 }
@@ -67,6 +68,7 @@ const ImageWithInfoMany = forwardRef<
               video={items[currentIndex].video}
               description={items[currentIndex].description}
               title={items[currentIndex].title}
+              contentWarning={items[currentIndex].contentWarning}
             />
           </div>
         </div>

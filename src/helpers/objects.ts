@@ -12,6 +12,7 @@ export interface Spieces {
   name: string;
   description: string;
   gallery: string[]; // Image URLs
+  contentWarning?: string; // Content warning for species images
 }
 
 export interface BreadcrumbItem {
@@ -19,6 +20,7 @@ export interface BreadcrumbItem {
   images: string[]; // Array of image URLs
   video?: string; // Optional YouTube embed HTML
   description: string; // Rich text description
+  contentWarning?: string; // Content warning for breadcrumb images
 }
 
 export interface GalleryItem {
