@@ -236,6 +236,7 @@ const PageDetail: React.FC = () => {
               images: species.gallery,
               description: species.description,
               title: species.name,
+              contentWarning: species.contentWarning,
             }))}
             showButtons={false}
           />
@@ -269,6 +270,7 @@ const PageDetail: React.FC = () => {
               video: breadcrumb.video,
               description: breadcrumb.description,
               title: breadcrumb.title,
+              contentWarning: breadcrumb.contentWarning,
             }))}
             showButtons={false}
           />

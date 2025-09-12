@@ -4,9 +4,10 @@ import ZoomPanPinchImage from "./ZoomPanPinchImage";
 
 interface ImageSlideProps {
   images: string[];
+  contentWarning?: string;
 }
 
-const ImageSlide: React.FC<ImageSlideProps> = ({ images }) => {
+const ImageSlide: React.FC<ImageSlideProps> = ({ images, contentWarning }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -30,6 +31,7 @@ const ImageSlide: React.FC<ImageSlideProps> = ({ images }) => {
       <ZoomPanPinchImage 
         src={images[currentIndex]} 
         alt={`Image ${currentIndex + 1}`} 
+        contentWarning={contentWarning}
       />
       {images.length > 1 && (
         <>
