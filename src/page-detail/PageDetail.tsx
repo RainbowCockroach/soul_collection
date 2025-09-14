@@ -15,6 +15,7 @@ import ImageWithInfoMany, {
   type ImageWithInfoManyRef,
 } from "../common-components/ImageWithInfoMany";
 import SwitchFormButton from "./SwitchFormButton";
+import ArrowButton from "../common-components/ArrowButton";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -245,21 +246,19 @@ const PageDetail: React.FC = () => {
       <div className="detail-block-breadcrumbs">
         <div className="div-3d-with-shadow detail-section-header">
           {displayButtonBreadcrumbs && (
-            <button
+            <ArrowButton
+              direction="left"
               className="section-nav-button section-nav-button--left"
               onClick={() => breadcrumbsCarouselRef.current?.scrollPrev()}
-            >
-              ◀
-            </button>
+            />
           )}
           <h2>Breadcrumbs</h2>
           {displayButtonBreadcrumbs && (
-            <button
+            <ArrowButton
+              direction="right"
               className="section-nav-button section-nav-button--right"
               onClick={() => breadcrumbsCarouselRef.current?.scrollNext()}
-            >
-              ▶
-            </button>
+            />
           )}
         </div>
         <div className="div-3d-with-shadow detail-section-content">
