@@ -1,5 +1,4 @@
-import { Route } from "react-router-dom";
-import { Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import "./App.css";
 import Navbar from "./nav-bar/NavBar";
@@ -12,6 +11,7 @@ import { startContinuousSparkles } from "./background-sparkle/sparkles";
 import PageMain from "./page-main/PageMain";
 
 function App() {
+  const location = useLocation();
   const frontElementsRef = useRef<HTMLDivElement>(null);
   const backgroundBlobRef = useRef<HTMLDivElement>(null);
   const decorativeLeftRef = useRef<HTMLDivElement>(null);
@@ -47,13 +47,33 @@ function App() {
       });
     };
 
-    // Use requestAnimationFrame to wait for DOM updates
+    // Initial update with double RAF for DOM updates
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         updateBackgroundHeight();
       });
     });
-  });
+
+    // Set up ResizeObserver to watch for content changes
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(updateBackgroundHeight);
+    });
+
+    // Observe the document body for size changes
+    resizeObserver.observe(document.body);
+
+    // Also listen for window resize
+    const handleResize = () => {
+      requestAnimationFrame(updateBackgroundHeight);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [location.pathname]); // Re-run when route changes
 
   useEffect(() => {
     const backgroundEls = [
