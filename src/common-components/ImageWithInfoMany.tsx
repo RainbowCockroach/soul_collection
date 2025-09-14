@@ -1,6 +1,7 @@
 import { useState, useImperativeHandle, forwardRef, useCallback } from "react";
 import ImageWithInfo from "./ImageWithInfo";
 import "./ImageWithInfoMany.css";
+import ArrowButton from "./ArrowButton";
 
 interface ImageWithInfoManyProps {
   items: Array<{
@@ -33,11 +34,14 @@ const ImageWithInfoMany = forwardRef<
     setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
   }, [items.length]);
 
-  const scrollTo = useCallback((index: number) => {
-    if (index >= 0 && index < items.length) {
-      setCurrentIndex(index);
-    }
-  }, [items.length]);
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (index >= 0 && index < items.length) {
+        setCurrentIndex(index);
+      }
+    },
+    [items.length]
+  );
 
   useImperativeHandle(
     ref,
@@ -74,23 +78,19 @@ const ImageWithInfoMany = forwardRef<
         </div>
         {items.length > 1 && showButtons && (
           <div className="carousel-buttons">
-            <button
-              className="carousel-button div-3d-with-shadow"
-              type="button"
+            <ArrowButton
+              direction="left"
+              className="carousel-button"
               onClick={scrollPrev}
-            >
-              <span>◀</span>
-            </button>
+            />
             <span className="carousel-indicator">
               {currentIndex + 1} / {items.length}
             </span>
-            <button
-              className="carousel-button div-3d-with-shadow"
-              type="button"
+            <ArrowButton
+              direction="right"
+              className="carousel-button"
               onClick={scrollNext}
-            >
-              <span>▶</span>
-            </button>
+            />
           </div>
         )}
       </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ImageSlide.css";
 import ZoomPanPinchImage from "./ZoomPanPinchImage";
+import ArrowButton from "./ArrowButton";
 
 interface ImageSlideProps {
   images: string[];
@@ -11,13 +12,13 @@ const ImageSlide: React.FC<ImageSlideProps> = ({ images, contentWarning }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
@@ -28,28 +29,24 @@ const ImageSlide: React.FC<ImageSlideProps> = ({ images, contentWarning }) => {
 
   return (
     <div className="image-slide">
-      <ZoomPanPinchImage 
-        src={images[currentIndex]} 
-        alt={`Image ${currentIndex + 1}`} 
+      <ZoomPanPinchImage
+        src={images[currentIndex]}
+        alt={`Image ${currentIndex + 1}`}
         contentWarning={contentWarning}
       />
       {images.length > 1 && (
         <>
           <div className="slide-buttons">
-            <button
-              className="slide-button div-3d-with-shadow"
-              type="button"
+            <ArrowButton
+              direction="left"
+              className="slide-button"
               onClick={goToPrevious}
-            >
-              <span>◀</span>
-            </button>
-            <button
-              className="slide-button div-3d-with-shadow"
-              type="button"
+            />
+            <ArrowButton
+              direction="right"
+              className="slide-button"
               onClick={goToNext}
-            >
-              <span>▶</span>
-            </button>
+            />
           </div>
           <span className="carousel-indicator">
             {currentIndex + 1} / {images.length}
