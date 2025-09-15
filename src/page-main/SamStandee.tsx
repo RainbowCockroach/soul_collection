@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import "./SamStandee.css";
 import samStill from "../assets/sam_standee_still.gif";
 import samPoke from "../assets/sam_standee_poke.gif";
@@ -7,11 +7,13 @@ import samPoked from "../assets/sam_standee_poked.gif";
 interface SamStandeeProps {
   onAnimationChange?: () => void;
   onTextChange?: () => void;
+  autoTrigger?: boolean;
 }
 
 const SamStandee: React.FC<SamStandeeProps> = ({
   onAnimationChange,
   onTextChange,
+  autoTrigger = false,
 }) => {
   const [currentGif, setCurrentGif] = useState<"still" | "poke" | "poked">(
     "still"
@@ -35,6 +37,13 @@ const SamStandee: React.FC<SamStandeeProps> = ({
   const handleTextChange = useCallback(() => {
     onTextChange?.();
   }, [onTextChange]);
+
+  // Auto-trigger animation when autoTrigger prop is true
+  useEffect(() => {
+    if (autoTrigger && currentGif === "still" && !isAnimating) {
+      handleAnimationChange();
+    }
+  }, [autoTrigger, currentGif, isAnimating, handleAnimationChange]);
 
   const getGifSrc = () => {
     switch (currentGif) {
