@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import "./SamPopup.css";
+import "./SamPopUp.css";
 import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
 import { loadDialogByKey } from "../helpers/data-load";

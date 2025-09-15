@@ -9,7 +9,7 @@ import { Editor } from "./editor/Editor";
 import "./background-sparkle/sparkles.css";
 import { startContinuousSparkles } from "./background-sparkle/sparkles";
 import PageMain from "./page-main/PageMain";
-import SamPopup from "./page-main/SamPopUpp";
+import SamPopup from "./page-main/SamPopUp";
 
 function App() {
   const location = useLocation();
