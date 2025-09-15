@@ -1,0 +1,93 @@
+.sam-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+.sam-popup-overlay.closing {
+  opacity: 0;
+}
+
+.sam-popup-content {
+  position: relative;
+  background: var(--color-purple);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  animation: sam-popup-appear 0.3s ease-out;
+}
+
+@keyframes sam-popup-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.sam-popup-body {
+  padding: 40px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sam-popup-close-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 60px;
+  border: none;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.sam-popup-close-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translate(-50%, -50%) scale(1.05);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.sam-popup-close-button:active {
+  transform: translate(-50%, -50%) scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .sam-popup-body {
+    padding: 20px;
+  }
+
+  .sam-popup-close-button {
+    width: 100px;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 25px;
+  }
+}
