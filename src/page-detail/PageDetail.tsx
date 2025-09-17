@@ -213,21 +213,19 @@ const PageDetail: React.FC = () => {
       <div className="detail-block-species">
         <div className="div-3d-with-shadow detail-section-header">
           {displayButtonSpecies && (
-            <button
+            <ArrowButton
+              direction="left"
               className="section-nav-button section-nav-button--left"
               onClick={() => speciesCarouselRef.current?.scrollPrev()}
-            >
-              ◀
-            </button>
+            />
           )}
           <h2>Species</h2>
           {displayButtonSpecies && (
-            <button
+            <ArrowButton
+              direction="right"
               className="section-nav-button section-nav-button--right"
               onClick={() => speciesCarouselRef.current?.scrollNext()}
-            >
-              ▶
-            </button>
+            />
           )}
         </div>
         <div className="div-3d-with-shadow detail-section-content">
