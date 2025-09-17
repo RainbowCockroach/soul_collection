@@ -143,14 +143,16 @@ const PageOcList: React.FC = () => {
         />
       )}
       <div>
-        {groupWithOcsData.map((groupInfo) => (
-          <OcGroup
-            key={groupInfo.slug}
-            groupInfo={groupInfo}
-            isExpanded={expandedGroups[groupInfo.slug]}
-            onToggle={toggleGroup}
-          />
-        ))}
+        {groupWithOcsData
+          .filter((groupInfo) => groupInfo.ocList.length > 0)
+          .map((groupInfo) => (
+            <OcGroup
+              key={groupInfo.slug}
+              groupInfo={groupInfo}
+              isExpanded={expandedGroups[groupInfo.slug]}
+              onToggle={toggleGroup}
+            />
+          ))}
       </div>
     </div>
   );
