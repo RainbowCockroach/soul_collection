@@ -203,10 +203,6 @@
   transition: background-color 0.2s ease;
 }
 
-.section-nav-button:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
 .section-nav-button--left {
   left: -50px;
 }
