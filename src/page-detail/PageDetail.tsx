@@ -46,6 +46,10 @@ const PageDetail: React.FC = () => {
     oc?.breadcrumbs.length && oc.breadcrumbs.length > 1;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  useEffect(() => {
     const loadOcData = async () => {
       if (!slug) {
         setError("No character slug provided");
