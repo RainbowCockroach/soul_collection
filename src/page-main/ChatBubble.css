@@ -218,3 +218,81 @@
     height: 32px;
   }
 }
+
+/* Acknowledgment checkbox styles */
+.chat-bubble-acknowledgment {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid #e6d7f5;
+  border-radius: 12px;
+  box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.8),
+    inset -1px -1px 3px rgba(180, 163, 209, 0.3);
+}
+
+.acknowledgment-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #2e1a48;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  user-select: none;
+}
+
+.acknowledgment-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #7c5aa0;
+  cursor: pointer;
+}
+
+.acknowledgment-checkbox:hover {
+  color: #1a0f26;
+}
+
+/* Disabled continue arrow */
+.continue-arrow.disabled {
+  color: #b8b8b8;
+  animation: none;
+  cursor: not-allowed;
+}
+
+.chat-bubble-continue:has(.continue-arrow.disabled) {
+  cursor: not-allowed;
+}
+
+.chat-bubble-continue:has(.continue-arrow.disabled):hover .continue-arrow {
+  color: #b8b8b8;
+}
+
+/* Responsive styles for acknowledgment */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .acknowledgment-checkbox {
+    font-size: 16px;
+  }
+
+  .acknowledgment-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-bubble-acknowledgment {
+    margin-top: 12px;
+    padding: 10px 12px;
+  }
+
+  .acknowledgment-checkbox {
+    font-size: 14px;
+    gap: 8px;
+  }
+
+  .acknowledgment-checkbox input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+  }
+}

@@ -19,7 +19,7 @@
 
 .sam-popup-content {
   position: relative;
-  background: var(--color-purple);
+  background: color-mix(in srgb, var(--color-purple) 50%, transparent);
   width: 100vw;
   height: 100vh;
   overflow: hidden;

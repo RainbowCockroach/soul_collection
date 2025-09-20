@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { baseUrl } from "../helpers/constants";
 import samLogo from "../assets/sam_logo.png";
+import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -48,6 +49,10 @@ const Navbar = () => {
               {item.name}
             </button>
           ))}
+        </div>
+
+        <div className="navbar-music-player">
+          <MusicPlayerControls />
         </div>
       </nav>
     </div>

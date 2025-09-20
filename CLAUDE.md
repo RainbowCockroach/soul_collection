@@ -10,6 +10,7 @@ This project uses Yarn as the package manager. Core commands:
 - `yarn build` - Build for production (runs TypeScript compilation + Vite build)
 - `yarn lint` - Run ESLint
 - `yarn preview` - Preview production build locally
+- `npx tsc --noEmit` - Run TypeScript type checking without emitting files
 
 Note: No test framework is currently configured.
 
@@ -27,9 +28,12 @@ This is a React + TypeScript + Vite application for managing a character collect
 The application manages three main data types defined in `src/helpers/objects.ts`:
 
 - **OC (Original Character)**: Characters with name, avatar, group affiliations, species, info, gallery, breadcrumbs, and tags
-  - **BreadcrumbItem**: Breadcrumbs are now structured objects with `images` (string array) and `description` (string) fields
-- **Group**: Character groups with name, slug, and frame color
-- **Spieces**: Species with name, slug, description, and gallery
+  - **BreadcrumbItem**: Breadcrumbs are structured objects with `images` (string array), `description` (string), optional `title`, `video` (YouTube embed), and `contentWarning` fields
+  - **GalleryItem**: Gallery items with `image`, optional `thumbnail`, `caption`, and `contentWarning` fields
+- **Group**: Character groups with name, slug, frame colors, header colors, and display order
+- **Spieces**: Species with name, slug, description, gallery, and optional content warnings
+- **Tag**: Tags with name, slug, background color, and text color
+- **FormLink**: Character form relationships represented as pairs of OC slugs
 
 ### Data Management
 
@@ -84,9 +88,12 @@ The application includes reusable carousel components for media display:
   - Responsive height adjustments for different screen sizes
   - Inherits all GenericCarousel features
 
-### Base URL Configuration
+### Deployment Configuration
 
-The application uses a configurable base URL from `src/helpers/constants.ts` for deployment flexibility. Currently set to "/soul_collection/" for deployment compatibility.
+- **Base URL**: Configured in `vite.config.ts` as `/soul_collection/` for GitHub Pages deployment
+- **Build Output**: Static files are built to `./dist` directory
+- **GitHub Actions**: Automated deployment via `.github/workflows/main.yml` (note: workflow uses npm but project is configured for yarn)
+- **Content Warnings**: The application supports content warnings for images in species, gallery items, and breadcrumbs
 
 ### Editor Features
 
