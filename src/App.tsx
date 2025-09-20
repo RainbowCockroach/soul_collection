@@ -10,6 +10,7 @@ import "./background-sparkle/sparkles.css";
 import { startContinuousSparkles } from "./background-sparkle/sparkles";
 import PageMain from "./page-main/PageMain";
 import SamPopup from "./page-main/SamPopUp";
+import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
 
 function App() {
   const location = useLocation();
@@ -110,7 +111,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <MusicPlayerProvider>
       <div>
         {/* Front elements */}
         <div ref={frontElementsRef}>
@@ -138,7 +139,7 @@ function App() {
       </div>
 
       <SamPopup />
-    </>
+    </MusicPlayerProvider>
   );
 }
 
