@@ -4,7 +4,10 @@
     "Welcome to my Soul Collection!",
     "This is where I showcase all my original characters and share their story.",
     "Before you look around, I'll give you a few trigger warnings.",
-    "My art, characters and story can include elements such as: gore, body horror, NSFW, self harm, suicide, child abuse, nonsexual nudity, sexual violence, medical themes and trypophobia.",
+    {
+      "text": "My art, characters and story can include elements such as: gore, body horror, NSFW, self harm, suicide, child abuse, nonsexual nudity, sexual violence, medical themes and trypophobia.",
+      "requireAcknowledgment": true
+    },
     "Phew, that was a lot! Feel free to explore and learn more about them!",
     "Thank you for visiting!💗"
   ]

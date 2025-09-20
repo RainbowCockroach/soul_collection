@@ -1,4 +1,4 @@
-import type { OC, Group, Spieces, FormLink, Tag, DialogTexts } from "./objects";
+import type { OC, Group, Spieces, FormLink, Tag, DialogTexts, DialogEntry } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
 import speciesData from "../data/spieces.json";
@@ -107,7 +107,7 @@ export async function loadDialogs(): Promise<DialogTexts> {
   return dialogData as DialogTexts;
 }
 
-export async function loadDialogByKey(key: string): Promise<string[] | null> {
+export async function loadDialogByKey(key: string): Promise<DialogEntry[] | null> {
   const dialogs = await loadDialogs();
   return dialogs[key] || null;
 }

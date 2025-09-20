@@ -52,4 +52,11 @@ export type Tag = {
   textColour: string;
 };
 
-export type DialogTexts = Record<string, string[]>;
+export interface DialogItem {
+  text: string;
+  requireAcknowledgment?: boolean;
+}
+
+export type DialogEntry = string | DialogItem;
+
+export type DialogTexts = Record<string, DialogEntry[]>;
