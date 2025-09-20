@@ -3,12 +3,13 @@ import "./SamPopUp.css";
 import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
 import { loadDialogByKey } from "../helpers/data-load";
+import type { DialogEntry } from "../helpers/objects";
 
 const SamPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-  const [samDialogTexts, setSamDialogTexts] = useState<string[]>([]);
+  const [samDialogTexts, setSamDialogTexts] = useState<DialogEntry[]>([]);
   const [autoTriggerSam, setAutoTriggerSam] = useState(false);
   const chatBubbleRef = useRef<{ skip: () => void }>(null);
 
