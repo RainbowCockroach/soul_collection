@@ -1,8 +1,9 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "./ChatBubble.css";
+import type { DialogEntry } from "../helpers/objects";
 
 interface Props {
-  texts: string[];
+  texts: DialogEntry[];
   speaker?: string;
   avatar?: string;
   speed?: number;
@@ -19,8 +20,15 @@ const ChatBubble = forwardRef<Ref, Props>(
     const [dialogIndex, setDialogIndex] = useState(0);
     const [text, setText] = useState("");
     const [isTyping, setIsTyping] = useState(true);
+    const [isAcknowledged, setIsAcknowledged] = useState(false);
 
-    const currentText = texts[dialogIndex] || "";
+    const currentEntry = texts[dialogIndex];
+    const currentText =
+      typeof currentEntry === "string"
+        ? currentEntry
+        : currentEntry?.text || "";
+    const requiresAcknowledgment =
+      typeof currentEntry === "object" && currentEntry.requireAcknowledgment;
     const isLastDialog = dialogIndex >= texts.length - 1;
     const hasMore = dialogIndex < texts.length - 1;
 
@@ -29,7 +37,13 @@ const ChatBubble = forwardRef<Ref, Props>(
       setDialogIndex(0);
       setText("");
       setIsTyping(true);
+      setIsAcknowledged(false);
     }, [texts]);
+
+    // Reset acknowledgment when dialog changes
+    useEffect(() => {
+      setIsAcknowledged(false);
+    }, [dialogIndex]);
 
     // Typing effect
     useEffect(() => {
@@ -54,6 +68,11 @@ const ChatBubble = forwardRef<Ref, Props>(
     };
 
     const next = () => {
+      // Check if acknowledgment is required and not yet acknowledged
+      if (requiresAcknowledgment && !isAcknowledged) {
+        return;
+      }
+
       if (hasMore) {
         setDialogIndex((prev) => prev + 1);
         setText("");
@@ -69,6 +88,12 @@ const ChatBubble = forwardRef<Ref, Props>(
       } else {
         next();
       }
+    };
+
+    const handleAcknowledgmentChange = (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      setIsAcknowledged(e.target.checked);
     };
 
     useImperativeHandle(ref, () => ({ skip }));
@@ -93,9 +118,29 @@ const ChatBubble = forwardRef<Ref, Props>(
               {isTyping && <span className="typing-cursor">▌</span>}
             </div>
 
+            {!isTyping && requiresAcknowledgment && (
+              <div className="chat-bubble-acknowledgment">
+                <label className="acknowledgment-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={isAcknowledged}
+                    onChange={handleAcknowledgmentChange}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  OK, understood
+                </label>
+              </div>
+            )}
+
             {!isTyping && (
               <div className="chat-bubble-continue">
-                <span className="continue-arrow">{hasMore ? "▼" : "✓"}</span>
+                <span
+                  className={`continue-arrow ${
+                    requiresAcknowledgment && !isAcknowledged ? "disabled" : ""
+                  }`}
+                >
+                  {hasMore ? "▼" : "✓"}
+                </span>
               </div>
             )}
           </div>

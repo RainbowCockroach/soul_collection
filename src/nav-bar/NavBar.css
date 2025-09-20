@@ -9,6 +9,7 @@
   height: 4rem;
   padding: 0 1rem;
   margin-top: 0.75rem;
+  gap: 1rem;
 }
 
 /* Logo Styles */
@@ -68,6 +69,11 @@
   font-weight: inherit;
 }
 
+/* Music Player in Navbar */
+.navbar-music-player {
+  flex-shrink: 0;
+}
+
 /* Extra small devices only (mobile phones) */
 @media (max-width: 639px) {
   .nav-links-desktop {
@@ -76,5 +82,19 @@
     flex: 1;
     justify-content: space-evenly;
     gap: 1rem;
+  }
+
+  .navbar-music-player {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding-bottom: 0.5rem;
   }
 }
