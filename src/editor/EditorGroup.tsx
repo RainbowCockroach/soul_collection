@@ -20,7 +20,6 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import "./EditorGroup.css";
 import "./EditorCommon.css";
 
 interface GroupJsonData {

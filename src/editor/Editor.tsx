@@ -6,7 +6,6 @@ import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
 import EditorDialog from "./EditorDialog";
 import { baseUrl } from "../helpers/constants";
-import "./Editor.css";
 import "./EditorCommon.css";
 
 type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links" | "dialogs";

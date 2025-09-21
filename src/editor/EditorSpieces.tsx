@@ -3,7 +3,6 @@ import type { Spieces } from "../helpers/objects";
 import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
-import "./EditorSpieces.css";
 import "./EditorCommon.css";
 
 interface SpiecesJsonData {

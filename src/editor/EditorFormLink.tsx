@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import type { FormLink, OC } from "../helpers/objects";
 import { loadFormLinks, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
-import "./EditorFormLink.css";
 import "./EditorCommon.css";
 
 export const EditorFormLink: React.FC = () => {

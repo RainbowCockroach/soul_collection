@@ -32,7 +32,6 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import "./EditorOc.css";
 import "./EditorCommon.css";
 
 interface OcJsonData {
