@@ -12,6 +12,8 @@ interface Star {
   drag: number;
   timeElapsed: number;
   color: string;
+  update(deltaTime: number): void;
+  draw(ctx: CanvasRenderingContext2D): void;
 }
 
 const StarryTrail: React.FC = () => {
