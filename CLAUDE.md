@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-This project uses Yarn as the package manager. Core commands:
+This project uses NPM as the package manager. Core commands:
 
-- `yarn dev` - Start development server (runs on localhost:5173)
-- `yarn build` - Build for production (runs TypeScript compilation + Vite build)
-- `yarn lint` - Run ESLint
-- `yarn preview` - Preview production build locally
+- `npm run dev` - Start development server (runs on localhost:5173)
+- `npm run build` - Build for production (runs TypeScript compilation + Vite build)
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build locally
 - `npx tsc --noEmit` - Run TypeScript type checking without emitting files
 
 Note: No test framework is currently configured.
@@ -92,7 +92,7 @@ The application includes reusable carousel components for media display:
 
 - **Base URL**: Configured in `vite.config.ts` as `/soul_collection/` for GitHub Pages deployment
 - **Build Output**: Static files are built to `./dist` directory
-- **GitHub Actions**: Automated deployment via `.github/workflows/main.yml` (note: workflow uses npm but project is configured for yarn)
+- **GitHub Actions**: Automated deployment via `.github/workflows/main.yml`
 - **Content Warnings**: The application supports content warnings for images in species, gallery items, and breadcrumbs
 
 ### Editor Features
