@@ -20,7 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import "./EditorGroup.css";
+import "./EditorCommon.css";
 
 interface GroupJsonData {
   [key: string]: Omit<Group, "slug">;
@@ -59,19 +59,19 @@ const SortableGroupItem: React.FC<SortableGroupItemProps> = ({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={`editor-group-item ${
-        isSelected ? "editor-group-item-selected" : "editor-group-item-default"
+      className={`editor-item ${
+        isSelected ? "editor-item-selected" : ""
       }`}
     >
-      <div className="editor-group-item-drag-handle" {...listeners}>
+      <div className="editor-drag-handle" {...listeners}>
         ⋮⋮
       </div>
       <div
         onClick={() => onSelect(group.slug)}
-        className="editor-group-item-content"
+        className="editor-item-content"
       >
         <div
-          className="editor-group-color-box"
+          className="editor-color-box"
           style={{ backgroundColor: group.frameColour }}
         />
         <span>
@@ -83,7 +83,7 @@ const SortableGroupItem: React.FC<SortableGroupItemProps> = ({
           e.stopPropagation();
           onDelete(group.slug);
         }}
-        className="editor-group-delete-button"
+        className="editor-button editor-button-danger editor-button-small"
       >
         Delete
       </button>
@@ -263,31 +263,39 @@ export const EditorGroup: React.FC = () => {
   };
 
   return (
-    <div className="editor-group-container">
+    <div className="editor-container">
       <Toaster position="top-right" />
-      <h2>Group Editor</h2>
 
-      <div className="editor-group-buttons">
-        <button onClick={handleAddNew} className="editor-group-button">
+      <div className="editor-header">
+        <h2>Group Editor</h2>
+        <div className="editor-button-group">
+          <button
+            onClick={handleSaveToClipboard}
+            className="editor-button editor-button-success"
+          >
+            Copy to clipboard
+          </button>
+        </div>
+      </div>
+
+      <div className="editor-button-group">
+        <button onClick={handleAddNew} className="editor-button editor-button-primary">
           Add New Group
         </button>
         <button
           onClick={() => setDragMode(!dragMode)}
-          className={`editor-group-button ${dragMode ? "active" : ""}`}
+          className={`editor-button editor-button-secondary ${dragMode ? "active" : ""}`}
         >
-          {dragMode ? "Exit Drag Mode" : "Rearrange stuff"}
-        </button>
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-group-save-button"
-        >
-          Copy to clipboard
+          {dragMode ? "Exit Drag Mode" : "Rearrange Groups"}
         </button>
       </div>
 
-      <div className="editor-group-layout">
-        <div className="editor-group-left">
-          <h3>Group List</h3>
+      <div className="editor-layout">
+        <div className="editor-left">
+          <div className="editor-list">
+            <div className="editor-list-header">
+              <h3>Group List</h3>
+            </div>
           {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
           {dragMode ? (
             <DndContext
@@ -299,7 +307,7 @@ export const EditorGroup: React.FC = () => {
                 items={groupsArray.map((group) => group.slug)}
                 strategy={verticalListSortingStrategy}
               >
-                <div className="editor-group-list">
+                <div className="editor-list">
                   {groupsArray.map((group) => (
                     <SortableGroupItem
                       key={group.slug}
@@ -313,22 +321,22 @@ export const EditorGroup: React.FC = () => {
               </SortableContext>
             </DndContext>
           ) : (
-            <div className="editor-group-list">
+            <div className="editor-list">
               {groupsArray.map((group) => (
                 <div
                   key={group.slug}
-                  className={`editor-group-item ${
+                  className={`editor-item ${
                     selectedSlug === group.slug
-                      ? "editor-group-item-selected"
-                      : "editor-group-item-default"
+                      ? "editor-item-selected"
+                      : ""
                   }`}
                 >
                   <div
                     onClick={() => handleSelectItem(group.slug)}
-                    className="editor-group-item-content"
+                    className="editor-item-content"
                   >
                     <div
-                      className="editor-group-color-box"
+                      className="editor-color-box"
                       style={{ backgroundColor: group.frameColour }}
                     />
                     <span>
@@ -340,7 +348,7 @@ export const EditorGroup: React.FC = () => {
                       e.stopPropagation();
                       handleDelete(group.slug);
                     }}
-                    className="editor-group-delete-button"
+                    className="editor-button editor-button-danger editor-button-small"
                   >
                     Delete
                   </button>
@@ -348,14 +356,14 @@ export const EditorGroup: React.FC = () => {
               ))}
             </div>
           )}
+          </div>
         </div>
 
         {isEditing && editingItem && (
-          <div className="editor-group-right">
-            <h3>Edit Group</h3>
-            <div className="editor-group-form">
-              <div className="editor-group-field">
-                <label className="editor-group-label">Url name:</label>
+          <div className="editor-right">
+            <div className="editor-form">
+              <div className="editor-field">
+                <label className="editor-label">URL Name:</label>
                 <input
                   type="text"
                   value={editingItem.slug}
@@ -370,7 +378,7 @@ export const EditorGroup: React.FC = () => {
                       });
                     }
                   }}
-                  className="editor-group-input"
+                  className="editor-input"
                   disabled={!isNewItem()}
                   style={{
                     backgroundColor: !isNewItem() ? "#f5f5f5" : "white",
@@ -385,8 +393,8 @@ export const EditorGroup: React.FC = () => {
                 )}
               </div>
 
-              <div className="editor-group-field">
-                <label className="editor-group-label">Name:</label>
+              <div className="editor-field">
+                <label className="editor-label">Name:</label>
                 <input
                   type="text"
                   value={editingItem.name}
@@ -406,13 +414,13 @@ export const EditorGroup: React.FC = () => {
                       setEditingItem({ ...editingItem, name: newName });
                     }
                   }}
-                  className="editor-group-input"
+                  className="editor-input"
                 />
               </div>
 
-              <div className="editor-group-field">
-                <label className="editor-group-label">Frame Colour:</label>
-                <div className="editor-group-color-inputs">
+              <div className="editor-field">
+                <label className="editor-label">Frame Colour:</label>
+                <div className="editor-color-group">
                   <input
                     type="color"
                     value={editingItem.frameColour}
@@ -422,7 +430,7 @@ export const EditorGroup: React.FC = () => {
                         frameColour: e.target.value,
                       })
                     }
-                    className="editor-group-color-picker"
+                    className="editor-color-picker"
                   />
                   <input
                     type="text"
@@ -433,17 +441,17 @@ export const EditorGroup: React.FC = () => {
                         frameColour: e.target.value,
                       })
                     }
-                    className="editor-group-color-text"
+                    className="editor-color-text"
                     placeholder="#000000"
                   />
                 </div>
               </div>
 
-              <div className="editor-group-field">
-                <label className="editor-group-label">
+              <div className="editor-field">
+                <label className="editor-label">
                   Header Background Colour:
                 </label>
-                <div className="editor-group-color-inputs">
+                <div className="editor-color-group">
                   <input
                     type="color"
                     value={editingItem.groupHeaderColour}
@@ -453,7 +461,7 @@ export const EditorGroup: React.FC = () => {
                         groupHeaderColour: e.target.value,
                       })
                     }
-                    className="editor-group-color-picker"
+                    className="editor-color-picker"
                   />
                   <input
                     type="text"
@@ -464,17 +472,17 @@ export const EditorGroup: React.FC = () => {
                         groupHeaderColour: e.target.value,
                       })
                     }
-                    className="editor-group-color-text"
+                    className="editor-color-text"
                     placeholder="#ffffff"
                   />
                 </div>
               </div>
 
-              <div className="editor-group-field">
-                <label className="editor-group-label">
+              <div className="editor-field">
+                <label className="editor-label">
                   Header Text Colour:
                 </label>
-                <div className="editor-group-color-inputs">
+                <div className="editor-color-group">
                   <input
                     type="color"
                     value={editingItem.groupHeaderTextColour}
@@ -484,7 +492,7 @@ export const EditorGroup: React.FC = () => {
                         groupHeaderTextColour: e.target.value,
                       })
                     }
-                    className="editor-group-color-picker"
+                    className="editor-color-picker"
                   />
                   <input
                     type="text"
@@ -495,22 +503,22 @@ export const EditorGroup: React.FC = () => {
                         groupHeaderTextColour: e.target.value,
                       })
                     }
-                    className="editor-group-color-text"
+                    className="editor-color-text"
                     placeholder="#000000"
                   />
                 </div>
               </div>
 
-              <div className="editor-group-form-buttons">
+              <div className="editor-button-group">
                 <button
                   onClick={handleSave}
-                  className="editor-group-save-form-button"
+                  className="editor-button editor-button-success"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="editor-group-cancel-button"
+                  className="editor-button editor-button-secondary"
                 >
                   Cancel
                 </button>

@@ -6,7 +6,7 @@ import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
 import EditorDialog from "./EditorDialog";
 import { baseUrl } from "../helpers/constants";
-import "./Editor.css";
+import "./EditorCommon.css";
 
 type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links" | "dialogs";
 
@@ -25,17 +25,25 @@ export const Editor: React.FC = () => {
 
   return (
     <div className="editor-container">
-      <button onClick={() => window.open(`/${baseUrl}/ocs`, "_blank")}>
-        Open preview
-      </button>
+      <div className="editor-header">
+        <h2>Data Editor</h2>
+        <button
+          onClick={() => window.open(`/${baseUrl}/ocs`, "_blank")}
+          className="editor-button editor-button-secondary"
+        >
+          Open Preview
+        </button>
+      </div>
 
       {/* Tab Navigation */}
-      <div>
+      <div className="editor-button-group">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`editor-tab ${activeTab === tab.id ? 'editor-tab-active' : 'editor-tab-inactive'}`}
+            className={`editor-button ${
+              activeTab === tab.id ? 'editor-button-primary' : 'editor-button-secondary'
+            }`}
           >
             {tab.label}
           </button>
