@@ -127,7 +127,7 @@ const ChatBubble = forwardRef<Ref, Props>(
                     onChange={handleAcknowledgmentChange}
                     onClick={(e) => e.stopPropagation()}
                   />
-                  OK, understood
+                  OK, understood, won't complain
                 </label>
               </div>
             )}

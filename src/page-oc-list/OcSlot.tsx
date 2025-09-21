@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./OcSlot.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import Marquee from "react-fast-marquee";
+import ButtonWrapper from "../common-components/ButtonWrapper";
 
 export interface OC {
   slug: string;
@@ -66,28 +67,28 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
   };
 
   return (
-    <div
-      className="div-3d-with-shadow oc-slot"
-      onClick={handleClick}
-      style={{
-        cursor: "pointer",
-        backgroundColor: frameColour,
-        border: `5px solid ${frameColour}`,
-      }}
-    >
-      <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
-      <div className="oc-slot-name-box">
-        <h3
-          ref={containerRef}
-          className="oc-name"
-          style={{ color: textColour }}
-        >
-          <Marquee pauseOnHover={true} play={isOverflowing}>
-            <BBCodeDisplay bbcode={oc.name} />
-          </Marquee>
-        </h3>
+    <ButtonWrapper onClick={handleClick}>
+      <div
+        className="div-3d-with-shadow oc-slot"
+        style={{
+          backgroundColor: frameColour,
+          border: `5px solid ${frameColour}`,
+        }}
+      >
+        <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
+        <div className="oc-slot-name-box">
+          <h3
+            ref={containerRef}
+            className="oc-name"
+            style={{ color: textColour }}
+          >
+            <Marquee pauseOnHover={true} play={isOverflowing}>
+              <BBCodeDisplay bbcode={oc.name} />
+            </Marquee>
+          </h3>
+        </div>
       </div>
-    </div>
+    </ButtonWrapper>
   );
 };
 
