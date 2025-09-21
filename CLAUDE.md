@@ -25,7 +25,7 @@ This is a React + TypeScript + Vite application for managing a character collect
 
 ### Core Data Model
 
-The application manages three main data types defined in `src/helpers/objects.ts`:
+The application manages several main data types defined in `src/helpers/objects.ts`:
 
 - **OC (Original Character)**: Characters with name, avatar, group affiliations, species, info, gallery, breadcrumbs, and tags
   - **BreadcrumbItem**: Breadcrumbs are structured objects with `images` (string array), `description` (string), optional `title`, `video` (YouTube embed), and `contentWarning` fields
@@ -34,10 +34,12 @@ The application manages three main data types defined in `src/helpers/objects.ts
 - **Spieces**: Species with name, slug, description, gallery, and optional content warnings
 - **Tag**: Tags with name, slug, background color, and text color
 - **FormLink**: Character form relationships represented as pairs of OC slugs
+- **DialogTexts**: Dialog system for character interactions with support for acknowledgment requirements
 
 ### Data Management
 
 - **Data Storage**: Character data is stored in JSON files in `src/data/`:
+
   - `oc.json` - Character data (keyed by slug)
   - `group.json` - Group data (keyed by slug)
   - `spieces.json` - Species data (keyed by slug)
@@ -53,6 +55,7 @@ The application manages three main data types defined in `src/helpers/objects.ts
 ### Application Structure
 
 - **Routing**: Uses React Router with routes for:
+
   - `/` - Main page
   - `/ocs` - Character list page
   - `/ocs/:slug` - Character detail page
@@ -68,25 +71,23 @@ The application manages three main data types defined in `src/helpers/objects.ts
   - `src/editor/` - Data editing components (separate editors for OCs, groups, species)
   - `src/common-components/` - Shared components including:
     - `BBCodeDisplay.tsx` - BBCode rendering
-    - `GenericCarousel.tsx` - Reusable carousel component with auto-play and navigation
-    - `ImageCarousel.tsx` - Image-specific carousel with responsive design
+    - `GalleryBlock.tsx` - Gallery display component
+    - `ImageWithInfo.tsx` and `ImageWithInfoMany.tsx` - Image display with metadata
+    - `ZoomPanPinchImage.tsx` - Interactive image zoom/pan functionality
+    - `StarryTrail.tsx` - Decorative mouse trail effect
+    - `LoadingSpinner.tsx` - Loading state component
   - `src/nav-bar/` - Navigation components
+  - `src/music-player/` - Music player system with context and controls
 
-### Carousel Components
+### Visual and Interactive Features
 
-The application includes reusable carousel components for media display:
+The application includes various visual and interactive components:
 
-- **GenericCarousel**: A flexible carousel that can display any React content
-  - Auto-play functionality with pause on hover
-  - Navigation arrows and dot indicators
-  - Keyboard navigation support (arrow keys)
-  - Slide counter display
-  - Responsive design with mobile optimizations
-
-- **ImageCarousel**: Specialized carousel for image galleries
-  - Optimized for image display with proper scaling
-  - Responsive height adjustments for different screen sizes
-  - Inherits all GenericCarousel features
+- **Background Effects**: Continuous sparkle animations (`src/background-sparkle/sparkles.ts`)
+- **StarryTrail**: Mouse trail effect that follows cursor movement
+- **Music Player**: Context-based music system with controls and state management
+- **Image Zoom**: Interactive zoom/pan/pinch functionality for detailed image viewing
+- **Gallery Systems**: Multiple gallery components for different display needs
 
 ### Deployment Configuration
 
@@ -98,10 +99,11 @@ The application includes reusable carousel components for media display:
 ### Editor Features
 
 The editor provides separate interfaces for managing:
+
 - Character data (EditorOc.tsx)
   - Enhanced breadcrumb editor with support for multiple images and rich text descriptions per breadcrumb item
   - Structured breadcrumb management with add/remove functionality for both breadcrumbs and their associated images
-- Group data (EditorGroup.tsx) 
+- Group data (EditorGroup.tsx)
 - Species data (EditorSpieces.tsx)
 - Tag data (EditorTag.tsx)
 - Form links (EditorFormLink.tsx)
