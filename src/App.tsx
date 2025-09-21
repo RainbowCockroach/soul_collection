@@ -11,6 +11,7 @@ import { startContinuousSparkles } from "./background-sparkle/sparkles";
 import PageMain from "./page-main/PageMain";
 import SamPopup from "./page-main/SamPopUp";
 import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
+import StarryTrail from "./common-components/StarryTrail";
 
 function App() {
   const location = useLocation();
@@ -138,6 +139,7 @@ function App() {
         <div ref={decorativeRightRef} className="decorative-frame-right"></div>
       </div>
 
+      <StarryTrail />
       <SamPopup />
     </MusicPlayerProvider>
   );

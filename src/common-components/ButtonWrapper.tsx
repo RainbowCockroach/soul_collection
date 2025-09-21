@@ -1,6 +1,6 @@
-import React, { ReactNode, useState } from "react";
+import React, { type ReactNode, useState } from "react";
 import useSound from "use-sound";
-import buttonSound from "/public/sound-effect/button.mp3";
+import buttonSound from "/sound-effect/button.mp3";
 import "./ButtonWrapper.css";
 
 interface ButtonWrapperProps {
