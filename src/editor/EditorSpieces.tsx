@@ -3,7 +3,7 @@ import type { Spieces } from "../helpers/objects";
 import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
-import "./EditorSpieces.css";
+import "./EditorCommon.css";
 
 interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
@@ -140,33 +140,41 @@ export const EditorSpieces: React.FC = () => {
   };
 
   return (
-    <div className="editor-species-container">
+    <div className="editor-container">
       <Toaster position="top-right" />
-      <h2>Species Editor</h2>
 
-      <div className="editor-species-buttons">
-        <button onClick={handleAddNew} className="editor-species-button">
+      <div className="editor-header">
+        <h2>Species Editor</h2>
+        <div className="editor-button-group">
+          <button
+            onClick={handleSaveToClipboard}
+            className="editor-button editor-button-success"
+          >
+            Copy to clipboard
+          </button>
+        </div>
+      </div>
+
+      <div className="editor-button-group">
+        <button onClick={handleAddNew} className="editor-button editor-button-primary">
           Add New Species
-        </button>
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-species-save-button"
-        >
-          Copy to clipboard
         </button>
       </div>
 
-      <div className="editor-species-layout">
-        <div className="editor-species-left">
-          <h3>Species List</h3>
-          <div className="editor-species-list">
+      <div className="editor-layout">
+        <div className="editor-left">
+          <div className="editor-list">
+            <div className="editor-list-header">
+              <h3>Species List</h3>
+            </div>
+          <div className="editor-list">
             {Object.entries(spiecesData).map(([slug, item]) => (
               <div
                 key={slug}
-                className={`editor-species-item ${
+                className={`editor-item ${
                   selectedSlug === slug
-                    ? "editor-species-item-selected"
-                    : "editor-species-item-default"
+                    ? "editor-item-selected"
+                    : ""
                 }`}
               >
                 <div onClick={() => handleSelectItem(slug)}>
@@ -177,21 +185,21 @@ export const EditorSpieces: React.FC = () => {
                     e.stopPropagation();
                     handleDelete(slug);
                   }}
-                  className="editor-species-delete-button"
+                  className="editor-button editor-button-danger editor-button-small"
                 >
                   Delete
                 </button>
               </div>
             ))}
           </div>
+          </div>
         </div>
 
         {isEditing && editingItem && (
-          <div className="editor-species-right">
-            <h3>Edit Species</h3>
-            <div className="editor-species-form">
-              <div className="editor-species-field">
-                <label className="editor-species-label">Url name:</label>
+          <div className="editor-right">
+            <div className="editor-form">
+              <div className="editor-field">
+                <label className="editor-label">Url name:</label>
                 <input
                   type="text"
                   value={editingItem.slug}
@@ -200,7 +208,7 @@ export const EditorSpieces: React.FC = () => {
                       setEditingItem({ ...editingItem, slug: slugify(e.target.value, { lower: true, strict: true }) });
                     }
                   }}
-                  className="editor-species-input"
+                  className="editor-input"
                   disabled={!isNewItem()}
                   style={{ 
                     backgroundColor: !isNewItem() ? '#f5f5f5' : 'white',
@@ -214,8 +222,8 @@ export const EditorSpieces: React.FC = () => {
                 )}
               </div>
 
-              <div className="editor-species-field">
-                <label className="editor-species-label">Name:</label>
+              <div className="editor-field">
+                <label className="editor-label">Name:</label>
                 <input
                   type="text"
                   value={editingItem.name}
@@ -228,12 +236,12 @@ export const EditorSpieces: React.FC = () => {
                       setEditingItem({ ...editingItem, name: newName });
                     }
                   }}
-                  className="editor-species-input"
+                  className="editor-input"
                 />
               </div>
 
-              <div className="editor-species-field">
-                <label className="editor-species-label">Description:</label>
+              <div className="editor-field">
+                <label className="editor-label">Description:</label>
                 <textarea
                   value={editingItem.description}
                   onChange={(e) =>
@@ -243,12 +251,12 @@ export const EditorSpieces: React.FC = () => {
                     })
                   }
                   rows={4}
-                  className="editor-species-textarea"
+                  className="editor-textarea"
                 />
               </div>
 
-              <div className="editor-species-field">
-                <label className="editor-species-label">Content Warning:</label>
+              <div className="editor-field">
+                <label className="editor-label">Content Warning:</label>
                 <input
                   type="text"
                   value={editingItem.contentWarning || ""}
@@ -258,27 +266,27 @@ export const EditorSpieces: React.FC = () => {
                       contentWarning: e.target.value,
                     })
                   }
-                  className="editor-species-input"
+                  className="editor-input"
                   placeholder="Content warning for species images (optional)"
                 />
               </div>
 
-              <div className="editor-species-field">
-                <label className="editor-species-label">Gallery:</label>
+              <div className="editor-field">
+                <label className="editor-label">Gallery:</label>
                 {editingItem.gallery.map((url, index) => (
-                  <div key={index} className="editor-species-array-item">
+                  <div key={index} className="editor-array-item">
                     <input
                       type="text"
                       value={url}
                       onChange={(e) =>
                         handleArrayFieldChange("gallery", index, e.target.value)
                       }
-                      className="editor-species-array-input"
+                      className="editor-array-input"
                       placeholder="Image URL"
                     />
                     <button
                       onClick={() => handleRemoveArrayItem("gallery", index)}
-                      className="editor-species-remove-button"
+                      className="editor-button editor-button-danger editor-button-small"
                     >
                       Remove
                     </button>
@@ -286,22 +294,22 @@ export const EditorSpieces: React.FC = () => {
                 ))}
                 <button
                   onClick={() => handleAddArrayItem("gallery")}
-                  className="editor-species-add-button"
+                  className="editor-button editor-button-primary editor-button-small"
                 >
                   Add Gallery Item
                 </button>
               </div>
 
-              <div className="editor-species-form-buttons">
+              <div className="editor-button-group">
                 <button
                   onClick={handleSave}
-                  className="editor-species-save-form-button"
+                  className="editor-button editor-button-success"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="editor-species-cancel-button"
+                  className="editor-button editor-button-secondary"
                 >
                   Cancel
                 </button>

@@ -20,7 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import "./EditorTag.css";
+import "./EditorCommon.css";
 
 interface TagJsonData {
   [key: string]: Omit<Tag, "slug">;
@@ -58,10 +58,10 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`editor-tag-item ${isSelected ? "selected" : ""}`}
+      className={`editor-item ${isSelected ? "selected" : ""}`}
       onClick={() => onSelect(tag.slug)}
     >
-      <div {...attributes} {...listeners} className="editor-tag-drag-handle">
+      <div {...attributes} {...listeners} className="editor-drag-handle">
         ⋮⋮
       </div>
       <div
@@ -73,13 +73,13 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
       >
         {tag.name}
       </div>
-      <div className="editor-tag-slug">{tag.slug}</div>
+      <div className="editor-item-slug">{tag.slug}</div>
       <button
         onClick={(e) => {
           e.stopPropagation();
           onDelete(tag.slug);
         }}
-        className="editor-tag-delete-button"
+        className="editor-button editor-button-danger editor-button-small"
       >
         🗑
       </button>
@@ -261,129 +261,144 @@ const EditorTag: React.FC = () => {
   };
 
   return (
-    <div className="editor-tag">
+    <div className="editor-container">
       <Toaster position="top-right" />
-      
-      <div className="editor-tag-header">
+
+      <div className="editor-header">
         <h2>Tag Editor</h2>
         <button
           onClick={handleSaveToClipboard}
-          className="editor-tag-save-button"
+          className="editor-button editor-button-success"
         >
           Copy to clipboard
         </button>
       </div>
 
-      <div className="editor-tag-content">
-        <div className="editor-tag-list">
-          <h3>Tags ({tags.length})</h3>
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={tags.map((tag) => tag.slug)}
-              strategy={verticalListSortingStrategy}
+      <div className="editor-layout">
+        <div className="editor-left">
+          <div className="editor-list">
+            <div className="editor-list-header">
+              <h3>Tags ({tags.length})</h3>
+            </div>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
             >
-              {tags.map((tag) => (
-                <SortableTagItem
-                  key={tag.slug}
-                  tag={tag}
-                  isSelected={selectedTag === tag.slug}
-                  onSelect={handleSelectTag}
-                  onDelete={handleDelete}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
+              <SortableContext
+                items={tags.map((tag) => tag.slug)}
+                strategy={verticalListSortingStrategy}
+              >
+                {tags.map((tag) => (
+                  <SortableTagItem
+                    key={tag.slug}
+                    tag={tag}
+                    isSelected={selectedTag === tag.slug}
+                    onSelect={handleSelectTag}
+                    onDelete={handleDelete}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </div>
         </div>
 
-        <div className="editor-tag-form">
-          <h3>{isEditing ? "Edit Tag" : "Add New Tag"}</h3>
-          
-          <div className="editor-tag-form-group">
-            <label>Name:</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              placeholder="Enter tag name"
-            />
-          </div>
+        <div className="editor-right">
+          <div className="editor-form">
+            <h3>{isEditing ? "Edit Tag" : "Add New Tag"}</h3>
 
-          <div className="editor-tag-form-group">
-            <label>Background Color:</label>
-            <div className="editor-tag-color-input">
-              <input
-                type="color"
-                value={formData.backgroundColour}
-                onChange={(e) =>
-                  setFormData({ ...formData, backgroundColour: e.target.value })
-                }
-              />
+            <div className="editor-field">
+              <label className="editor-label">Name:</label>
               <input
                 type="text"
-                value={formData.backgroundColour}
+                value={formData.name}
                 onChange={(e) =>
-                  setFormData({ ...formData, backgroundColour: e.target.value })
+                  setFormData({ ...formData, name: e.target.value })
                 }
-                placeholder="#000000"
+                placeholder="Enter tag name"
+                className="editor-input"
               />
             </div>
-          </div>
 
-          <div className="editor-tag-form-group">
-            <label>Text Color:</label>
-            <div className="editor-tag-color-input">
-              <input
-                type="color"
-                value={formData.textColour}
-                onChange={(e) =>
-                  setFormData({ ...formData, textColour: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                value={formData.textColour}
-                onChange={(e) =>
-                  setFormData({ ...formData, textColour: e.target.value })
-                }
-                placeholder="#FFFFFF"
-              />
+            <div className="editor-field">
+              <label className="editor-label">Background Color:</label>
+              <div className="editor-color-group">
+                <input
+                  type="color"
+                  value={formData.backgroundColour}
+                  onChange={(e) =>
+                    setFormData({ ...formData, backgroundColour: e.target.value })
+                  }
+                  className="editor-color-picker"
+                />
+                <input
+                  type="text"
+                  value={formData.backgroundColour}
+                  onChange={(e) =>
+                    setFormData({ ...formData, backgroundColour: e.target.value })
+                  }
+                  placeholder="#000000"
+                  className="editor-color-text"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="editor-tag-preview-container">
-            <label>Preview:</label>
-            <div
-              className="editor-tag-preview-large"
-              style={{
-                backgroundColor: formData.backgroundColour,
-                color: formData.textColour,
-              }}
-            >
-              {formData.name || "Tag Preview"}
+            <div className="editor-field">
+              <label className="editor-label">Text Color:</label>
+              <div className="editor-color-group">
+                <input
+                  type="color"
+                  value={formData.textColour}
+                  onChange={(e) =>
+                    setFormData({ ...formData, textColour: e.target.value })
+                  }
+                  className="editor-color-picker"
+                />
+                <input
+                  type="text"
+                  value={formData.textColour}
+                  onChange={(e) =>
+                    setFormData({ ...formData, textColour: e.target.value })
+                  }
+                  placeholder="#FFFFFF"
+                  className="editor-color-text"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="editor-tag-form-buttons">
-            <button
-              onClick={handleSave}
-              className="editor-tag-save-form-button"
-            >
-              {isEditing ? "Update" : "Add"} Tag
-            </button>
-            {isEditing && (
-              <button
-                onClick={handleCancelEdit}
-                className="editor-tag-cancel-button"
+            <div className="editor-field">
+              <label className="editor-label">Preview:</label>
+              <div
+                className="editor-tag-preview"
+                style={{
+                  backgroundColor: formData.backgroundColour,
+                  color: formData.textColour,
+                  padding: "8px 16px",
+                  borderRadius: "16px",
+                  textAlign: "center",
+                  fontWeight: "500"
+                }}
               >
-                Cancel
+                {formData.name || "Tag Preview"}
+              </div>
+            </div>
+
+            <div className="editor-button-group">
+              <button
+                onClick={handleSave}
+                className="editor-button editor-button-success"
+              >
+                {isEditing ? "Update" : "Add"} Tag
               </button>
-            )}
+              {isEditing && (
+                <button
+                  onClick={handleCancelEdit}
+                  className="editor-button editor-button-secondary"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
