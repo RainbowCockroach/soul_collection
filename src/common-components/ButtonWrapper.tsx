@@ -1,6 +1,6 @@
 import React, { type ReactNode, useState } from "react";
 import useSound from "use-sound";
-import buttonSound from "/sound-effect/button.mp3";
+import buttonSound from "/sound-effect/button-character-slot.mp3";
 import "./ButtonWrapper.css";
 
 interface ButtonWrapperProps {
@@ -8,6 +8,7 @@ interface ButtonWrapperProps {
   onClick: () => void;
   disabled?: boolean;
   className?: string;
+  soundFile?: string;
 }
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
@@ -15,9 +16,10 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   onClick,
   disabled = false,
   className = "",
+  soundFile = buttonSound,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
-  const [playSound] = useSound(buttonSound, { volume: 0.5 });
+  const [playSound] = useSound(soundFile, { volume: 0.5 });
 
   const handleMouseDown = () => {
     if (!disabled) {

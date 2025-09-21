@@ -2,6 +2,8 @@ import React from "react";
 import "./GalleryBlock.css";
 import type { GalleryItem } from "../helpers/objects";
 import { useBlurImage } from "../hooks/usePixelatedImage";
+import ButtonWrapper from "./ButtonWrapper";
+import buttonSound from "/sound-effect/button-gallery-item.mp3";
 
 interface GalleryBlockProps {
   gallery: GalleryItem[];
@@ -31,20 +33,17 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
   );
 
   return (
-    <div
-      key={index}
+    <ButtonWrapper
+      soundFile={buttonSound}
+      onClick={() => onImageClick(galleryItem)}
       className={`gallery-image div-3d-with-shadow ${
         useCssFilter ? "gallery-image-filtered" : ""
       }`}
-      onClick={() => onImageClick(galleryItem)} // Pass the entire gallery item
-      title={galleryItem.caption} // Show caption as tooltip
-      style={{}}
     >
       <img
         src={displayImage}
-        alt={
-          galleryItem.caption || `${characterName} gallery ${index + 1}`
-        }
+        alt={galleryItem.caption || `${characterName} gallery ${index + 1}`}
+        title={galleryItem.caption} // Show caption as tooltip
         style={
           useCssFilter
             ? {
@@ -55,7 +54,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
             : {}
         }
       />
-    </div>
+    </ButtonWrapper>
   );
 };
 
