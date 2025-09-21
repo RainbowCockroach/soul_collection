@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useMusicPlayer } from './useMusicPlayer';
 import './MusicPlayer.css';
 
@@ -6,6 +6,7 @@ export const MusicPlayerControls: React.FC = () => {
   const { state, togglePlayPause, nextTrack, previousTrack, playTrack, setVolume, toggleLoop } = useMusicPlayer();
   const [showTrackList, setShowTrackList] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const volumeControlRef = useRef<HTMLDivElement>(null);
 
   const currentTrack = state.currentTrackIndex !== null ? state.tracks[state.currentTrackIndex] : null;
 
@@ -25,6 +26,23 @@ export const MusicPlayerControls: React.FC = () => {
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
+
+  // Handle click outside volume control to hide slider
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (volumeControlRef.current && !volumeControlRef.current.contains(event.target as Node)) {
+        setShowVolumeSlider(false);
+      }
+    };
+
+    if (showVolumeSlider) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showVolumeSlider]);
 
   return (
     <div className="music-player-controls">
@@ -95,7 +113,7 @@ export const MusicPlayerControls: React.FC = () => {
       </div>
 
       {/* Volume Control */}
-      <div className="volume-control">
+      <div className="volume-control" ref={volumeControlRef}>
         <button
           className="volume-button"
           onClick={() => setShowVolumeSlider(!showVolumeSlider)}
