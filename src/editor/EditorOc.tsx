@@ -33,6 +33,7 @@ import {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./EditorOc.css";
+import "./EditorCommon.css";
 
 interface OcJsonData {
   [key: string]: Omit<OC, "slug">;
@@ -106,18 +107,18 @@ const SortableOcItem: React.FC<SortableOcItemProps> = ({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={`editor-oc-item ${
-        isSelected ? "editor-oc-item-selected" : "editor-oc-item-default"
+      className={`editor-item ${
+        isSelected ? "editor-item-selected" : ""
       }`}
     >
-      <div className="editor-oc-item-drag-handle" {...listeners}>
+      <div className="editor-drag-handle" {...listeners}>
         ⋮⋮
       </div>
-      <div onClick={() => onSelect(oc.slug)} className="editor-oc-item-content">
+      <div onClick={() => onSelect(oc.slug)} className="editor-item-content">
         <img
           src={oc.avatar || "https://placehold.co/40"}
           alt={oc.name}
-          className="editor-oc-avatar"
+          className="editor-avatar"
         />
         <span>
           <strong>{oc.name}</strong> ({oc.slug})
@@ -128,7 +129,7 @@ const SortableOcItem: React.FC<SortableOcItemProps> = ({
           e.stopPropagation();
           onDelete(oc.slug);
         }}
-        className="editor-oc-delete-button"
+        className="editor-button editor-button-danger editor-button-small"
       >
         Delete
       </button>
@@ -168,79 +169,79 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="editor-oc-breadcrumb-item"
+      className="editor-section"
     >
-      <div className="editor-oc-breadcrumb-header">
-        <div className="editor-oc-breadcrumb-drag-handle" {...listeners}>
+      <div className="editor-section-header">
+        <div className="editor-drag-handle" {...listeners}>
           ⋮⋮
         </div>
         <h4>Breadcrumb {index + 1}</h4>
         <button
           onClick={() => onRemove(index)}
-          className="editor-oc-remove-button"
+          className="editor-button editor-button-danger editor-button-small"
         >
           Remove Breadcrumb
         </button>
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Title:</label>
+      <div className="editor-field">
+        <label className="editor-label">Title:</label>
         <input
           type="text"
           value={breadcrumb.title || ""}
           onChange={(e) => onTitleChange(index, e.target.value)}
-          className="editor-oc-input"
+          className="editor-input"
           placeholder="Breadcrumb title"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Description:</label>
+      <div className="editor-field">
+        <label className="editor-label">Description:</label>
         <textarea
           value={breadcrumb.description}
           onChange={(e) => onDescriptionChange(index, e.target.value)}
           rows={3}
-          className="editor-oc-textarea"
+          className="editor-textarea"
           placeholder="Breadcrumb description"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">YouTube Video Embed:</label>
+      <div className="editor-field">
+        <label className="editor-label">YouTube Video Embed:</label>
         <textarea
           value={breadcrumb.video || ""}
           onChange={(e) => onVideoChange(index, e.target.value)}
           rows={3}
-          className="editor-oc-textarea"
+          className="editor-textarea"
           placeholder="Paste YouTube iframe embed code here"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Content Warning:</label>
+      <div className="editor-field">
+        <label className="editor-label">Content Warning:</label>
         <input
           type="text"
           value={breadcrumb.contentWarning || ""}
           onChange={(e) => onContentWarningChange(index, e.target.value)}
-          className="editor-oc-input"
+          className="editor-input"
           placeholder="Content warning for breadcrumb images (optional)"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Images:</label>
+      <div className="editor-field">
+        <label className="editor-label">Images:</label>
         {(breadcrumb.images || []).map((imageUrl, imageIndex) => (
-          <div key={imageIndex} className="editor-oc-array-item">
+          <div key={imageIndex} className="editor-array-item">
             <input
               type="text"
               value={imageUrl}
               onChange={(e) => onImageChange(index, imageIndex, e.target.value)}
-              className="editor-oc-array-input"
+              className="editor-array-input"
               placeholder="Image URL"
             />
             <button
               onClick={() => onRemoveImage(index, imageIndex)}
-              className="editor-oc-remove-button"
+              className="editor-button editor-button-danger editor-button-small"
             >
               Remove
             </button>
@@ -248,7 +249,7 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
         ))}
         <button
           onClick={() => onAddImage(index)}
-          className="editor-oc-add-button"
+          className="editor-button editor-button-primary editor-button-small"
         >
           Add Image
         </button>
@@ -286,61 +287,61 @@ const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="editor-oc-gallery-item"
+      className="editor-section"
     >
-      <div className="editor-oc-gallery-header">
-        <div className="editor-oc-gallery-drag-handle" {...listeners}>
+      <div className="editor-section-header">
+        <div className="editor-drag-handle" {...listeners}>
           ⋮⋮
         </div>
         <h4>Gallery Item {index + 1}</h4>
         <button
           onClick={() => onRemove(index)}
-          className="editor-oc-remove-button"
+          className="editor-button editor-button-danger editor-button-small"
         >
           Remove
         </button>
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Image URL:</label>
+      <div className="editor-field">
+        <label className="editor-label">Image URL:</label>
         <input
           type="text"
           value={galleryItem.image}
           onChange={(e) => onImageChange(index, e.target.value)}
-          className="editor-oc-input"
+          className="editor-input"
           placeholder="Image URL"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Thumbnail URL:</label>
+      <div className="editor-field">
+        <label className="editor-label">Thumbnail URL:</label>
         <input
           type="text"
           value={galleryItem.thumbnail || ""}
           onChange={(e) => onThumbnailChange(index, e.target.value)}
-          className="editor-oc-input"
+          className="editor-input"
           placeholder="Thumbnail URL (optional)"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Caption:</label>
+      <div className="editor-field">
+        <label className="editor-label">Caption:</label>
         <input
           type="text"
           value={galleryItem.caption || ""}
           onChange={(e) => onCaptionChange(index, e.target.value)}
-          className="editor-oc-input"
+          className="editor-input"
           placeholder="Caption (optional)"
         />
       </div>
 
-      <div className="editor-oc-field">
-        <label className="editor-oc-label">Content Warning:</label>
+      <div className="editor-field">
+        <label className="editor-label">Content Warning:</label>
         <input
           type="text"
           value={galleryItem.contentWarning || ""}
           onChange={(e) => onContentWarningChange(index, e.target.value)}
-          className="editor-oc-input"
+          className="editor-input"
           placeholder="Content warning (optional)"
         />
       </div>
@@ -753,31 +754,39 @@ export const EditorOc: React.FC = () => {
   };
 
   return (
-    <div className="editor-oc-container">
+    <div className="editor-container">
       <Toaster position="top-right" />
-      <h2>OC Editor</h2>
 
-      <div className="editor-oc-buttons">
-        <button onClick={handleAddNew} className="editor-oc-button">
+      <div className="editor-header">
+        <h2>OC Editor</h2>
+        <div className="editor-button-group">
+          <button
+            onClick={handleSaveToClipboard}
+            className="editor-button editor-button-success"
+          >
+            Copy to clipboard
+          </button>
+        </div>
+      </div>
+
+      <div className="editor-button-group">
+        <button onClick={handleAddNew} className="editor-button editor-button-primary">
           Add New OC
         </button>
         <button
           onClick={() => setDragMode(!dragMode)}
-          className={`editor-oc-button ${dragMode ? "active" : ""}`}
+          className={`editor-button editor-button-secondary ${dragMode ? "active" : ""}`}
         >
-          {dragMode ? "Exit Drag Mode" : "Rearrange stuff"}
-        </button>
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-oc-save-button"
-        >
-          Copy to clipboard
+          {dragMode ? "Exit Drag Mode" : "Rearrange OCs"}
         </button>
       </div>
 
-      <div className="editor-oc-layout">
-        <div className="editor-oc-left">
-          <h3>OC List</h3>
+      <div className="editor-layout">
+        <div className="editor-left">
+          <div className="editor-list">
+            <div className="editor-list-header">
+              <h3>OC List</h3>
+            </div>
           {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
           {dragMode ? (
             <DndContext
@@ -789,7 +798,7 @@ export const EditorOc: React.FC = () => {
                 items={ocsArray.map((oc) => oc.slug)}
                 strategy={verticalListSortingStrategy}
               >
-                <div className="editor-oc-list">
+                <div className="editor-list">
                   {ocsArray.map((oc) => (
                     <SortableOcItem
                       key={oc.slug}
@@ -803,24 +812,24 @@ export const EditorOc: React.FC = () => {
               </SortableContext>
             </DndContext>
           ) : (
-            <div className="editor-oc-list">
+            <div className="editor-list">
               {ocsArray.map((oc) => (
                 <div
                   key={oc.slug}
-                  className={`editor-oc-item ${
+                  className={`editor-item ${
                     selectedSlug === oc.slug
-                      ? "editor-oc-item-selected"
-                      : "editor-oc-item-default"
+                      ? "editor-item-selected"
+                      : ""
                   }`}
                 >
                   <div
                     onClick={() => handleSelectItem(oc.slug)}
-                    className="editor-oc-item-content"
+                    className="editor-item-content"
                   >
                     <img
                       src={oc.avatar || "https://placehold.co/40"}
                       alt={oc.name}
-                      className="editor-oc-avatar"
+                      className="editor-avatar"
                     />
                     <span>
                       <strong>{oc.name}</strong> ({oc.slug})
@@ -831,7 +840,7 @@ export const EditorOc: React.FC = () => {
                       e.stopPropagation();
                       handleDelete(oc.slug);
                     }}
-                    className="editor-oc-delete-button"
+                    className="editor-button editor-button-danger editor-button-small"
                   >
                     Delete
                   </button>
@@ -839,14 +848,14 @@ export const EditorOc: React.FC = () => {
               ))}
             </div>
           )}
+          </div>
         </div>
 
         {isEditing && editingItem && (
-          <div className="editor-oc-right">
-            <h3>Edit OC</h3>
-            <div className="editor-oc-form">
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Url name:</label>
+          <div className="editor-right">
+            <div className="editor-form">
+              <div className="editor-field">
+                <label className="editor-label">URL Name:</label>
                 <input
                   type="text"
                   value={editingItem.slug}
@@ -861,23 +870,18 @@ export const EditorOc: React.FC = () => {
                       });
                     }
                   }}
-                  className="editor-oc-input"
+                  className="editor-input"
                   disabled={!isNewItem()}
-                  style={{
-                    backgroundColor: !isNewItem() ? "#f5f5f5" : "white",
-                    cursor: !isNewItem() ? "not-allowed" : "text",
-                  }}
                 />
                 {!isNewItem() && (
-                  <small style={{ color: "#666", fontSize: "12px" }}>
-                    URL names cannot be changed for existing OCs to prevent data
-                    corruption
+                  <small className="editor-text-muted">
+                    URL names cannot be changed for existing OCs to prevent data corruption
                   </small>
                 )}
               </div>
 
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Name:</label>
+              <div className="editor-field">
+                <label className="editor-label">Name:</label>
                 <input
                   type="text"
                   value={editingItem.name}
@@ -897,35 +901,36 @@ export const EditorOc: React.FC = () => {
                       setEditingItem({ ...editingItem, name: newName });
                     }
                   }}
-                  className="editor-oc-input"
+                  className="editor-input"
                 />
               </div>
 
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Avatar URL:</label>
+              <div className="editor-field">
+                <label className="editor-label">Avatar URL:</label>
                 <input
                   type="text"
                   value={editingItem.avatar}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, avatar: e.target.value })
                   }
-                  className="editor-oc-input"
+                  className="editor-input"
+                  placeholder="https://example.com/avatar.jpg"
                 />
               </div>
 
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Groups:</label>
-                <div className="editor-oc-checkboxes">
+              <div className="editor-field">
+                <label className="editor-label">Groups:</label>
+                <div className="editor-checkbox-group">
                   {Object.entries(groupData).map(([slug, group]) => (
-                    <div key={slug} className="editor-oc-checkbox-item">
-                      <label className="editor-oc-checkbox-label">
+                    <div key={slug} className="editor-checkbox-item">
+                      <label className="editor-checkbox-label">
                         <input
                           type="checkbox"
                           checked={editingItem.group.includes(slug)}
                           onChange={() => handleGroupToggle(slug)}
                         />
                         <div
-                          className="editor-oc-group-color-box"
+                          className="editor-color-box"
                           style={{ backgroundColor: group.frameColour }}
                         />
                         {group.name}
@@ -935,12 +940,12 @@ export const EditorOc: React.FC = () => {
                 </div>
               </div>
 
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Species:</label>
-                <div className="editor-oc-checkboxes">
+              <div className="editor-field">
+                <label className="editor-label">Species:</label>
+                <div className="editor-checkbox-group">
                   {Object.entries(spiecesData).map(([slug, species]) => (
-                    <div key={slug} className="editor-oc-checkbox-item">
-                      <label className="editor-oc-checkbox-label">
+                    <div key={slug} className="editor-checkbox-item">
+                      <label className="editor-checkbox-label">
                         <input
                           type="checkbox"
                           checked={editingItem.spieces.includes(slug)}
@@ -953,24 +958,24 @@ export const EditorOc: React.FC = () => {
                 </div>
               </div>
 
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Info:</label>
+              <div className="editor-field">
+                <label className="editor-label">Info:</label>
                 <textarea
                   value={editingItem.info}
                   onChange={(e) =>
                     setEditingItem({ ...editingItem, info: e.target.value })
                   }
                   rows={4}
-                  className="editor-oc-textarea"
+                  className="editor-textarea"
                 />
               </div>
 
-              <div className="editor-oc-field">
-                <div className="editor-oc-gallery-controls">
-                  <label className="editor-oc-label">Gallery:</label>
+              <div className="editor-field">
+                <div className="editor-field">
+                  <label className="editor-label">Gallery:</label>
                   <button
                     onClick={() => setGalleryDragMode(!galleryDragMode)}
-                    className={`editor-oc-button ${
+                    className={`editor-button editor-button-secondary ${
                       galleryDragMode ? "active" : ""
                     }`}
                     style={{
@@ -1029,19 +1034,19 @@ export const EditorOc: React.FC = () => {
                   </DndContext>
                 ) : (
                   editingItem.gallery.map((galleryItem, index) => (
-                    <div key={index} className="editor-oc-gallery-item">
-                      <div className="editor-oc-gallery-header">
+                    <div key={index} className="editor-section">
+                      <div className="editor-section-header">
                         <h4>Gallery Item {index + 1}</h4>
                         <button
                           onClick={() => handleRemoveGalleryItem(index)}
-                          className="editor-oc-remove-button"
+                          className="editor-button editor-button-danger editor-button-small"
                         >
                           Remove
                         </button>
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Image URL:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Image URL:</label>
                         <input
                           type="text"
                           value={galleryItem.image}
@@ -1052,13 +1057,13 @@ export const EditorOc: React.FC = () => {
                               e.target.value
                             )
                           }
-                          className="editor-oc-input"
+                          className="editor-input"
                           placeholder="Image URL"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">
+                      <div className="editor-field">
+                        <label className="editor-label">
                           Thumbnail URL:
                         </label>
                         <input
@@ -1071,13 +1076,13 @@ export const EditorOc: React.FC = () => {
                               e.target.value
                             )
                           }
-                          className="editor-oc-input"
+                          className="editor-input"
                           placeholder="Thumbnail URL (optional)"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Caption:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Caption:</label>
                         <input
                           type="text"
                           value={galleryItem.caption || ""}
@@ -1088,13 +1093,13 @@ export const EditorOc: React.FC = () => {
                               e.target.value
                             )
                           }
-                          className="editor-oc-input"
+                          className="editor-input"
                           placeholder="Caption (optional)"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Content Warning:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Content Warning:</label>
                         <input
                           type="text"
                           value={galleryItem.contentWarning || ""}
@@ -1105,7 +1110,7 @@ export const EditorOc: React.FC = () => {
                               e.target.value
                             )
                           }
-                          className="editor-oc-input"
+                          className="editor-input"
                           placeholder="Content warning (optional)"
                         />
                       </div>
@@ -1114,18 +1119,18 @@ export const EditorOc: React.FC = () => {
                 )}
                 <button
                   onClick={handleAddGalleryItem}
-                  className="editor-oc-add-button"
+                  className="editor-button editor-button-primary editor-button-small"
                 >
                   Add Gallery Item
                 </button>
               </div>
 
-              <div className="editor-oc-field">
-                <div className="editor-oc-breadcrumb-controls">
-                  <label className="editor-oc-label">Breadcrumbs:</label>
+              <div className="editor-field">
+                <div className="editor-field">
+                  <label className="editor-label">Breadcrumbs:</label>
                   <button
                     onClick={() => setBreadcrumbDragMode(!breadcrumbDragMode)}
-                    className={`editor-oc-button ${
+                    className={`editor-button editor-button-secondary ${
                       breadcrumbDragMode ? "active" : ""
                     }`}
                     style={{
@@ -1189,19 +1194,19 @@ export const EditorOc: React.FC = () => {
                   </DndContext>
                 ) : (
                   editingItem.breadcrumbs.map((breadcrumb, index) => (
-                    <div key={index} className="editor-oc-breadcrumb-item">
-                      <div className="editor-oc-breadcrumb-header">
+                    <div key={index} className="editor-section">
+                      <div className="editor-section-header">
                         <h4>Breadcrumb {index + 1}</h4>
                         <button
                           onClick={() => handleRemoveBreadcrumb(index)}
-                          className="editor-oc-remove-button"
+                          className="editor-button editor-button-danger editor-button-small"
                         >
                           Remove Breadcrumb
                         </button>
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Title:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Title:</label>
                         <input
                           type="text"
                           value={breadcrumb.title || ""}
@@ -1212,13 +1217,13 @@ export const EditorOc: React.FC = () => {
                               e.target.value
                             )
                           }
-                          className="editor-oc-input"
+                          className="editor-input"
                           placeholder="Breadcrumb title"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Description:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Description:</label>
                         <textarea
                           value={breadcrumb.description}
                           onChange={(e) =>
@@ -1229,13 +1234,13 @@ export const EditorOc: React.FC = () => {
                             )
                           }
                           rows={3}
-                          className="editor-oc-textarea"
+                          className="editor-textarea"
                           placeholder="Breadcrumb description"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">YouTube Video Embed:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">YouTube Video Embed:</label>
                         <textarea
                           value={breadcrumb.video || ""}
                           onChange={(e) =>
@@ -1246,13 +1251,13 @@ export const EditorOc: React.FC = () => {
                             )
                           }
                           rows={3}
-                          className="editor-oc-textarea"
+                          className="editor-textarea"
                           placeholder="Paste YouTube iframe embed code here"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Content Warning:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Content Warning:</label>
                         <input
                           type="text"
                           value={breadcrumb.contentWarning || ""}
@@ -1263,17 +1268,17 @@ export const EditorOc: React.FC = () => {
                               e.target.value
                             )
                           }
-                          className="editor-oc-input"
+                          className="editor-input"
                           placeholder="Content warning for breadcrumb images (optional)"
                         />
                       </div>
 
-                      <div className="editor-oc-field">
-                        <label className="editor-oc-label">Images:</label>
+                      <div className="editor-field">
+                        <label className="editor-label">Images:</label>
                         {(breadcrumb.images || []).map((imageUrl, imageIndex) => (
                           <div
                             key={imageIndex}
-                            className="editor-oc-array-item"
+                            className="editor-array-item"
                           >
                             <input
                               type="text"
@@ -1285,14 +1290,14 @@ export const EditorOc: React.FC = () => {
                                   e.target.value
                                 )
                               }
-                              className="editor-oc-array-input"
+                              className="editor-array-input"
                               placeholder="Image URL"
                             />
                             <button
                               onClick={() =>
                                 handleRemoveBreadcrumbImage(index, imageIndex)
                               }
-                              className="editor-oc-remove-button"
+                              className="editor-button editor-button-danger editor-button-small"
                             >
                               Remove
                             </button>
@@ -1300,7 +1305,7 @@ export const EditorOc: React.FC = () => {
                         ))}
                         <button
                           onClick={() => handleAddBreadcrumbImage(index)}
-                          className="editor-oc-add-button"
+                          className="editor-button editor-button-primary editor-button-small"
                         >
                           Add Image
                         </button>
@@ -1310,24 +1315,24 @@ export const EditorOc: React.FC = () => {
                 )}
                 <button
                   onClick={handleAddBreadcrumb}
-                  className="editor-oc-add-button"
+                  className="editor-button editor-button-primary editor-button-small"
                 >
                   Add Breadcrumb
                 </button>
               </div>
 
-              <div className="editor-oc-field">
-                <label className="editor-oc-label">Tags:</label>
+              <div className="editor-field">
+                <label className="editor-label">Tags:</label>
                 {editingItem.tags.map((tagSlug, index) => {
                   const tagInfo = tagsArray.find((t) => t.slug === tagSlug);
                   return (
-                    <div key={index} className="editor-oc-array-item">
+                    <div key={index} className="editor-array-item">
                       <select
                         value={tagSlug}
                         onChange={(e) =>
                           handleArrayFieldChange("tags", index, e.target.value)
                         }
-                        className="editor-oc-array-input"
+                        className="editor-array-input"
                       >
                         <option value="">Select a tag...</option>
                         {tagsArray.map((tag) => (
@@ -1338,7 +1343,7 @@ export const EditorOc: React.FC = () => {
                       </select>
                       {tagInfo && (
                         <div
-                          className="editor-oc-tag-preview"
+                          className="editor-tag-preview"
                           style={{
                             backgroundColor: tagInfo.backgroundColour,
                             color: tagInfo.textColour,
@@ -1349,7 +1354,7 @@ export const EditorOc: React.FC = () => {
                       )}
                       <button
                         onClick={() => handleRemoveArrayItem("tags", index)}
-                        className="editor-oc-remove-button"
+                        className="editor-button editor-button-danger editor-button-small"
                       >
                         Remove
                       </button>
@@ -1358,22 +1363,22 @@ export const EditorOc: React.FC = () => {
                 })}
                 <button
                   onClick={() => handleAddArrayItem("tags")}
-                  className="editor-oc-add-button"
+                  className="editor-button editor-button-primary editor-button-small"
                 >
                   Add Tag
                 </button>
               </div>
 
-              <div className="editor-oc-form-buttons">
+              <div className="editor-button-group">
                 <button
                   onClick={handleSave}
-                  className="editor-oc-save-form-button"
+                  className="editor-button editor-button-success"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="editor-oc-cancel-button"
+                  className="editor-button editor-button-secondary"
                 >
                   Cancel
                 </button>

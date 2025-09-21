@@ -3,6 +3,7 @@ import type { FormLink, OC } from "../helpers/objects";
 import { loadFormLinks, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import "./EditorFormLink.css";
+import "./EditorCommon.css";
 
 export const EditorFormLink: React.FC = () => {
   const [formLinks, setFormLinks] = useState<FormLink[]>([]);
@@ -123,51 +124,59 @@ export const EditorFormLink: React.FC = () => {
   };
 
   return (
-    <div className="editor-form-link-container">
+    <div className="editor-container">
       <Toaster position="top-right" />
-      <h2>OC Link Editor</h2>
 
-      <div className="editor-form-link-buttons">
-        <button onClick={handleAddNew} className="editor-form-link-button">
+      <div className="editor-header">
+        <h2>OC Link Editor</h2>
+        <div className="editor-button-group">
+          <button
+            onClick={handleSaveToClipboard}
+            className="editor-button editor-button-success"
+          >
+            Copy to clipboard
+          </button>
+        </div>
+      </div>
+
+      <div className="editor-button-group">
+        <button onClick={handleAddNew} className="editor-button editor-button-primary">
           Add New Link
-        </button>
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-form-link-save-button"
-        >
-          Copy to clipboard
         </button>
       </div>
 
-      <div className="editor-form-link-layout">
-        <div className="editor-form-link-left">
-          <h3>OC Links ({formLinks.length})</h3>
-          <div className="editor-form-link-list">
+      <div className="editor-layout">
+        <div className="editor-left">
+          <div className="editor-list">
+            <div className="editor-list-header">
+              <h3>OC Links ({formLinks.length})</h3>
+            </div>
+          <div className="editor-list">
             {formLinks.map((link, index) => (
-              <div key={index} className="editor-form-link-item">
-                <div className="editor-form-link-content">
-                  <div className="editor-form-link-info">
-                    <div className="editor-form-link-pair">
-                      <span className="editor-form-link-oc-name">
+              <div key={index} className="editor-item">
+                <div className="editor-item-content">
+                  <div className="editor-item-content">
+                    <div className="">
+                      <span className="editor-item-name">
                         {getOcName(link[0])}
                       </span>{" "}
                       <span> - </span>
-                      <span className="editor-form-link-oc-name">
+                      <span className="editor-item-name">
                         {getOcName(link[1])}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="editor-form-link-actions">
+                <div className="editor-item-actions">
                   <button
                     onClick={() => handleEdit(index)}
-                    className="editor-form-link-edit-button"
+                    className="editor-button editor-button-secondary editor-button-small"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(index)}
-                    className="editor-form-link-delete-button"
+                    className="editor-button editor-button-danger editor-button-small"
                   >
                     Delete
                   </button>
@@ -175,24 +184,25 @@ export const EditorFormLink: React.FC = () => {
               </div>
             ))}
             {formLinks.length === 0 && (
-              <div className="editor-form-link-empty">
+              <div className="editor-empty-state">
                 No links created yet. Click "Add New Link" to create one.
               </div>
             )}
           </div>
+          </div>
         </div>
 
         {isEditing && (
-          <div className="editor-form-link-right">
-            <h3>{editingIndex !== null ? "Edit Link" : "Add New Link"}</h3>
-            <div className="editor-form-link-form">
-              <div className="editor-form-link-field">
+          <div className="editor-right">
+            <div className="editor-form">
+              <h3>{editingIndex !== null ? "Edit Link" : "Add New Link"}</h3>
+              <div className="editor-field">
                 <select
                   value={editingLink[0]}
                   onChange={(e) =>
                     setEditingLink([e.target.value, editingLink[1]])
                   }
-                  className="editor-form-link-select"
+                  className="editor-select"
                 >
                   <option value="">Select First OC</option>
                   {ocs.map((oc) => (
@@ -203,13 +213,13 @@ export const EditorFormLink: React.FC = () => {
                 </select>
               </div>
 
-              <div className="editor-form-link-field">
+              <div className="editor-field">
                 <select
                   value={editingLink[1]}
                   onChange={(e) =>
                     setEditingLink([editingLink[0], e.target.value])
                   }
-                  className="editor-form-link-select"
+                  className="editor-select"
                 >
                   <option value="">Select Second OC</option>
                   {ocs.map((oc) => (
@@ -220,16 +230,16 @@ export const EditorFormLink: React.FC = () => {
                 </select>
               </div>
 
-              <div className="editor-form-link-form-buttons">
+              <div className="editor-button-group">
                 <button
                   onClick={handleSave}
-                  className="editor-form-link-save-form-button"
+                  className="editor-button editor-button-success"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="editor-form-link-cancel-button"
+                  className="editor-button editor-button-secondary"
                 >
                   Cancel
                 </button>

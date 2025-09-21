@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import type { DialogTexts } from "../helpers/objects";
+import type { DialogTexts, DialogEntry } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import "./EditorDialog.css";
+import "./EditorCommon.css";
 
 const EditorDialog: React.FC = () => {
   const [dialogs, setDialogs] = useState<DialogTexts>({});
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [selectedTexts, setSelectedTexts] = useState<string[]>([]);
+  const [selectedTexts, setSelectedTexts] = useState<DialogEntry[]>([]);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -105,62 +106,87 @@ const EditorDialog: React.FC = () => {
   };
 
   return (
-    <div className="editor-dialog">
+    <div className="editor-container">
       <div className="editor-header">
         <h2>Dialog Editor</h2>
-        <div className="editor-actions">
-          <button onClick={handleAddDialog}>Add Dialog</button>
-          <button onClick={handleSaveToClipboard}>Copy to clipboard</button>
+        <div className="editor-button-group">
+          <button
+            onClick={handleAddDialog}
+            className="editor-button editor-button-primary"
+          >
+            Add Dialog
+          </button>
+          <button
+            onClick={handleSaveToClipboard}
+            className="editor-button editor-button-success"
+          >
+            Copy to clipboard
+          </button>
         </div>
       </div>
 
-      <div className="editor-content">
-        <div className="dialog-list">
-          <h3>Dialogs</h3>
+      <div className="editor-layout">
+        <div className="editor-left">
+          <div className="editor-list">
+            <div className="editor-list-header">
+              <h3>Dialogs</h3>
+            </div>
           {Object.keys(dialogs).map((key) => (
             <div
               key={key}
-              className={`dialog-item ${selectedKey === key ? "selected" : ""}`}
+              className={`editor-item ${selectedKey === key ? "editor-item-selected" : ""}`}
               onClick={() => handleSelectDialog(key)}
             >
-              <div className="dialog-slug">{key}</div>
-              <div className="dialog-preview">
-                {dialogs[key][0]?.substring(0, 50)}...
+              <div className="editor-item-content">
+                <div>
+                  <div className="editor-item-name">{key}</div>
+                  <div className="editor-item-slug">
+                    {typeof dialogs[key][0] === 'string'
+                      ? dialogs[key][0].substring(0, 50) + '...'
+                      : 'Dialog item...'}
+                  </div>
+                </div>
               </div>
             </div>
           ))}
+          </div>
         </div>
 
-        <div className="dialog-editor">
-          {selectedKey ? (
-            <>
-              <div className="dialog-details">
-                <div className="field-group">
-                  <label>Dialog Key:</label>
+        <div className="editor-right">
+          <div className="editor-form">
+            {selectedKey ? (
+              <>
+                <h3>Dialog Details</h3>
+
+                <div className="editor-field">
+                  <label className="editor-label">Dialog Key:</label>
                   <input
                     type="text"
                     value={selectedKey}
                     onChange={(e) => handleKeyChange(e.target.value)}
                     disabled={!isEditing}
+                    className="editor-input"
                   />
                 </div>
 
-                <div className="field-group">
-                  <label>Dialog Texts:</label>
+                <div className="editor-field">
+                  <label className="editor-label">Dialog Texts:</label>
                   {selectedTexts.map((text, index) => (
-                    <div key={index} className="text-input-group">
+                    <div key={index} className="editor-array-item">
                       <textarea
-                        value={text}
+                        value={typeof text === 'string' ? text : JSON.stringify(text)}
                         onChange={(e) =>
                           handleTextChange(index, e.target.value)
                         }
                         disabled={!isEditing}
                         rows={3}
+                        className="editor-textarea"
+                        style={{ flex: 1 }}
                       />
                       {isEditing && selectedTexts.length > 1 && (
                         <button
                           onClick={() => handleRemoveText(index)}
-                          className="remove-text-btn"
+                          className="editor-button editor-button-danger editor-button-small"
                         >
                           Remove
                         </button>
@@ -168,38 +194,55 @@ const EditorDialog: React.FC = () => {
                     </div>
                   ))}
                   {isEditing && (
-                    <button onClick={handleAddText} className="add-text-btn">
+                    <button
+                      onClick={handleAddText}
+                      className="editor-button editor-button-primary editor-button-small"
+                    >
                       Add Text
                     </button>
                   )}
                 </div>
-              </div>
 
-              <div className="editor-controls">
-                {isEditing ? (
-                  <>
-                    <button onClick={handleSave} className="save-btn">
-                      Save
-                    </button>
-                    <button onClick={handleCancel} className="cancel-btn">
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={handleEdit} className="edit-btn">
-                      Edit
-                    </button>
-                    <button onClick={handleDeleteDialog} className="delete-btn">
-                      Delete
-                    </button>
-                  </>
-                )}
+                <div className="editor-button-group">
+                  {isEditing ? (
+                    <>
+                      <button
+                        onClick={handleSave}
+                        className="editor-button editor-button-success"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        className="editor-button editor-button-secondary"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={handleEdit}
+                        className="editor-button editor-button-primary"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={handleDeleteDialog}
+                        className="editor-button editor-button-danger"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="editor-empty-state">
+                Select a dialog to view or edit
               </div>
-            </>
-          ) : (
-            <div className="no-selection">Select a dialog to view or edit</div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       <Toaster />
