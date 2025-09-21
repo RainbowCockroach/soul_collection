@@ -3,6 +3,7 @@ import type { FormLink, OC } from "../helpers/objects";
 import { loadFormLinks, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import "./EditorCommon.css";
+import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
 export const EditorFormLink: React.FC = () => {
   const [formLinks, setFormLinks] = useState<FormLink[]>([]);
@@ -139,7 +140,10 @@ export const EditorFormLink: React.FC = () => {
       </div>
 
       <div className="editor-button-group">
-        <button onClick={handleAddNew} className="editor-button editor-button-primary">
+        <button
+          onClick={handleAddNew}
+          className="editor-button editor-button-primary"
+        >
           Add New Link
         </button>
       </div>
@@ -150,44 +154,38 @@ export const EditorFormLink: React.FC = () => {
             <div className="editor-list-header">
               <h3>OC Links ({formLinks.length})</h3>
             </div>
-          <div className="editor-list">
-            {formLinks.map((link, index) => (
-              <div key={index} className="editor-item">
-                <div className="editor-item-content">
+            <div className="editor-list">
+              {formLinks.map((link, index) => (
+                <div key={index} className="editor-item">
                   <div className="editor-item-content">
-                    <div className="">
-                      <span className="editor-item-name">
-                        {getOcName(link[0])}
-                      </span>{" "}
-                      <span> - </span>
-                      <span className="editor-item-name">
-                        {getOcName(link[1])}
-                      </span>
+                    <div className="editor-oc-link-inline">
+                      <BBCodeDisplay bbcode={getOcName(link[0])} />
+                      <span>-</span>
+                      <BBCodeDisplay bbcode={getOcName(link[1])} />
                     </div>
                   </div>
+                  <div className="editor-item-actions">
+                    <button
+                      onClick={() => handleEdit(index)}
+                      className="editor-button editor-button-secondary editor-button-small"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="editor-button editor-button-danger editor-button-small"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <div className="editor-item-actions">
-                  <button
-                    onClick={() => handleEdit(index)}
-                    className="editor-button editor-button-secondary editor-button-small"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(index)}
-                    className="editor-button editor-button-danger editor-button-small"
-                  >
-                    Delete
-                  </button>
+              ))}
+              {formLinks.length === 0 && (
+                <div className="editor-empty-state">
+                  No links created yet. Click "Add New Link" to create one.
                 </div>
-              </div>
-            ))}
-            {formLinks.length === 0 && (
-              <div className="editor-empty-state">
-                No links created yet. Click "Add New Link" to create one.
-              </div>
-            )}
-          </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -206,10 +204,19 @@ export const EditorFormLink: React.FC = () => {
                   <option value="">Select First OC</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
-                      {oc.name} ({oc.slug})
+                      <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
                     </option>
                   ))}
                 </select>
+                {editingLink[0] && (
+                  <div
+                    className="editor-text-small"
+                    style={{ marginTop: "4px" }}
+                  >
+                    Preview:{" "}
+                    <BBCodeDisplay bbcode={getOcName(editingLink[0])} />
+                  </div>
+                )}
               </div>
 
               <div className="editor-field">
@@ -223,10 +230,19 @@ export const EditorFormLink: React.FC = () => {
                   <option value="">Select Second OC</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
-                      {oc.name} ({oc.slug})
+                      <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
                     </option>
                   ))}
                 </select>
+                {editingLink[1] && (
+                  <div
+                    className="editor-text-small"
+                    style={{ marginTop: "4px" }}
+                  >
+                    Preview:{" "}
+                    <BBCodeDisplay bbcode={getOcName(editingLink[1])} />
+                  </div>
+                )}
               </div>
 
               <div className="editor-button-group">

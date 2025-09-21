@@ -584,3 +584,14 @@
   outline: none;
   box-shadow: 0 0 0 3px rgb(37 99 235 / 0.2);
 }
+
+/* ===== BBCODE DISPLAY INLINE ===== */
+.editor-oc-link-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--editor-spacing-xs);
+}
+
+.editor-oc-link-inline .bbcode-display {
+  display: inline;
+}

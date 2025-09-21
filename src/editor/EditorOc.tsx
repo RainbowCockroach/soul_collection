@@ -33,6 +33,7 @@ import {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./EditorCommon.css";
+import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
 interface OcJsonData {
   [key: string]: Omit<OC, "slug">;
@@ -106,9 +107,7 @@ const SortableOcItem: React.FC<SortableOcItemProps> = ({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={`editor-item ${
-        isSelected ? "editor-item-selected" : ""
-      }`}
+      className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
     >
       <div className="editor-drag-handle" {...listeners}>
         ⋮⋮
@@ -680,7 +679,9 @@ export const EditorOc: React.FC = () => {
     if (!editingItem) return;
 
     const updatedBreadcrumbs = [...editingItem.breadcrumbs];
-    const updatedImages = [...(updatedBreadcrumbs[breadcrumbIndex].images || [])];
+    const updatedImages = [
+      ...(updatedBreadcrumbs[breadcrumbIndex].images || []),
+    ];
     updatedImages[imageIndex] = value;
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
@@ -769,12 +770,17 @@ export const EditorOc: React.FC = () => {
       </div>
 
       <div className="editor-button-group">
-        <button onClick={handleAddNew} className="editor-button editor-button-primary">
+        <button
+          onClick={handleAddNew}
+          className="editor-button editor-button-primary"
+        >
           Add New OC
         </button>
         <button
           onClick={() => setDragMode(!dragMode)}
-          className={`editor-button editor-button-secondary ${dragMode ? "active" : ""}`}
+          className={`editor-button editor-button-secondary ${
+            dragMode ? "active" : ""
+          }`}
         >
           {dragMode ? "Exit Drag Mode" : "Rearrange OCs"}
         </button>
@@ -786,67 +792,65 @@ export const EditorOc: React.FC = () => {
             <div className="editor-list-header">
               <h3>OC List</h3>
             </div>
-          {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
-          {dragMode ? (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={ocsArray.map((oc) => oc.slug)}
-                strategy={verticalListSortingStrategy}
+            {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
+            {dragMode ? (
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
               >
-                <div className="editor-list">
-                  {ocsArray.map((oc) => (
-                    <SortableOcItem
-                      key={oc.slug}
-                      oc={oc}
-                      isSelected={selectedSlug === oc.slug}
-                      onSelect={handleSelectItem}
-                      onDelete={handleDelete}
-                    />
-                  ))}
-                </div>
-              </SortableContext>
-            </DndContext>
-          ) : (
-            <div className="editor-list">
-              {ocsArray.map((oc) => (
-                <div
-                  key={oc.slug}
-                  className={`editor-item ${
-                    selectedSlug === oc.slug
-                      ? "editor-item-selected"
-                      : ""
-                  }`}
+                <SortableContext
+                  items={ocsArray.map((oc) => oc.slug)}
+                  strategy={verticalListSortingStrategy}
                 >
-                  <div
-                    onClick={() => handleSelectItem(oc.slug)}
-                    className="editor-item-content"
-                  >
-                    <img
-                      src={oc.avatar || "https://placehold.co/40"}
-                      alt={oc.name}
-                      className="editor-avatar"
-                    />
-                    <span>
-                      <strong>{oc.name}</strong> ({oc.slug})
-                    </span>
+                  <div className="editor-list">
+                    {ocsArray.map((oc) => (
+                      <SortableOcItem
+                        key={oc.slug}
+                        oc={oc}
+                        isSelected={selectedSlug === oc.slug}
+                        onSelect={handleSelectItem}
+                        onDelete={handleDelete}
+                      />
+                    ))}
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(oc.slug);
-                    }}
-                    className="editor-button editor-button-danger editor-button-small"
+                </SortableContext>
+              </DndContext>
+            ) : (
+              <div className="editor-list">
+                {ocsArray.map((oc) => (
+                  <div
+                    key={oc.slug}
+                    className={`editor-item ${
+                      selectedSlug === oc.slug ? "editor-item-selected" : ""
+                    }`}
                   >
-                    Delete
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+                    <div
+                      onClick={() => handleSelectItem(oc.slug)}
+                      className="editor-item-content"
+                    >
+                      <img
+                        src={oc.avatar || "https://placehold.co/40"}
+                        alt={oc.name}
+                        className="editor-avatar"
+                      />
+                      <span>
+                        <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
+                      </span>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(oc.slug);
+                      }}
+                      className="editor-button editor-button-danger editor-button-small"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -874,7 +878,8 @@ export const EditorOc: React.FC = () => {
                 />
                 {!isNewItem() && (
                   <small className="editor-text-muted">
-                    URL names cannot be changed for existing OCs to prevent data corruption
+                    URL names cannot be changed for existing OCs to prevent data
+                    corruption
                   </small>
                 )}
               </div>
@@ -1025,7 +1030,11 @@ export const EditorOc: React.FC = () => {
                             handleGalleryFieldChange(idx, "caption", value)
                           }
                           onContentWarningChange={(idx, value) =>
-                            handleGalleryFieldChange(idx, "contentWarning", value)
+                            handleGalleryFieldChange(
+                              idx,
+                              "contentWarning",
+                              value
+                            )
                           }
                         />
                       ))}
@@ -1062,9 +1071,7 @@ export const EditorOc: React.FC = () => {
                       </div>
 
                       <div className="editor-field">
-                        <label className="editor-label">
-                          Thumbnail URL:
-                        </label>
+                        <label className="editor-label">Thumbnail URL:</label>
                         <input
                           type="text"
                           value={galleryItem.thumbnail || ""}
@@ -1239,7 +1246,9 @@ export const EditorOc: React.FC = () => {
                       </div>
 
                       <div className="editor-field">
-                        <label className="editor-label">YouTube Video Embed:</label>
+                        <label className="editor-label">
+                          YouTube Video Embed:
+                        </label>
                         <textarea
                           value={breadcrumb.video || ""}
                           onChange={(e) =>
@@ -1274,34 +1283,33 @@ export const EditorOc: React.FC = () => {
 
                       <div className="editor-field">
                         <label className="editor-label">Images:</label>
-                        {(breadcrumb.images || []).map((imageUrl, imageIndex) => (
-                          <div
-                            key={imageIndex}
-                            className="editor-array-item"
-                          >
-                            <input
-                              type="text"
-                              value={imageUrl}
-                              onChange={(e) =>
-                                handleBreadcrumbImageChange(
-                                  index,
-                                  imageIndex,
-                                  e.target.value
-                                )
-                              }
-                              className="editor-array-input"
-                              placeholder="Image URL"
-                            />
-                            <button
-                              onClick={() =>
-                                handleRemoveBreadcrumbImage(index, imageIndex)
-                              }
-                              className="editor-button editor-button-danger editor-button-small"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ))}
+                        {(breadcrumb.images || []).map(
+                          (imageUrl, imageIndex) => (
+                            <div key={imageIndex} className="editor-array-item">
+                              <input
+                                type="text"
+                                value={imageUrl}
+                                onChange={(e) =>
+                                  handleBreadcrumbImageChange(
+                                    index,
+                                    imageIndex,
+                                    e.target.value
+                                  )
+                                }
+                                className="editor-array-input"
+                                placeholder="Image URL"
+                              />
+                              <button
+                                onClick={() =>
+                                  handleRemoveBreadcrumbImage(index, imageIndex)
+                                }
+                                className="editor-button editor-button-danger editor-button-small"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          )
+                        )}
                         <button
                           onClick={() => handleAddBreadcrumbImage(index)}
                           className="editor-button editor-button-primary editor-button-small"
