@@ -42,6 +42,20 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
     }
   };
 
+  const handleTouchStart = () => {
+    if (!disabled) {
+      setIsPressed(true);
+      playSound();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!disabled) {
+      setIsPressed(false);
+      onClick();
+    }
+  };
+
   return (
     <button
       className={`button-wrapper ${className} ${isPressed ? "pressed" : ""} ${
@@ -51,6 +65,8 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       disabled={disabled}
     >
       {children}

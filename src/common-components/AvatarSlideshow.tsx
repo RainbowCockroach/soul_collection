@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './AvatarSlideshow.css';
 
 interface AvatarSlideshowProps {
@@ -13,9 +13,29 @@ const SLIDESHOW_INTERVAL = 5000; // 5 seconds
 const AvatarSlideshow: React.FC<AvatarSlideshowProps> = ({ images, alt, className }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    if (images.length <= 1) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: '50px',
+        threshold: 0.1,
+      }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible || images.length <= 1) return;
 
     const interval = setInterval(() => {
       setIsTransitioning(true);
@@ -27,7 +47,7 @@ const AvatarSlideshow: React.FC<AvatarSlideshowProps> = ({ images, alt, classNam
     }, SLIDESHOW_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [isVisible, images.length]);
 
   if (images.length === 0) {
     return null;
@@ -35,6 +55,7 @@ const AvatarSlideshow: React.FC<AvatarSlideshowProps> = ({ images, alt, classNam
 
   return (
     <img
+      ref={imgRef}
       src={images[currentIndex]}
       alt={alt}
       className={`${className} ${isTransitioning ? 'avatar-slideshow-fade' : ''}`}
