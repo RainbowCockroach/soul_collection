@@ -13,11 +13,11 @@
     "groupHeaderTextColour": "#035446",
     "order": 1
   },
-  "god": {
-    "name": "🩷 God 🩷",
-    "frameColour": "#ffb3e3",
-    "groupHeaderColour": "#ffb3e3",
-    "groupHeaderTextColour": "#880231",
+  "candy-cockroach": {
+    "name": "🩵 Candy cockroach 🩵",
+    "frameColour": "#80d9ff",
+    "groupHeaderColour": "#80d9ff",
+    "groupHeaderTextColour": "#07347e",
     "order": 2
   },
   "vrev": {
@@ -27,11 +27,11 @@
     "groupHeaderTextColour": "#66007a",
     "order": 3
   },
-  "candy-cockroach": {
-    "name": "🩵 Candy cockroach 🩵",
-    "frameColour": "#80d9ff",
-    "groupHeaderColour": "#80d9ff",
-    "groupHeaderTextColour": "#07347e",
+  "god": {
+    "name": "🩷 God 🩷",
+    "frameColour": "#ffb3e3",
+    "groupHeaderColour": "#ffb3e3",
+    "groupHeaderTextColour": "#880231",
     "order": 4
   },
   "other": {
