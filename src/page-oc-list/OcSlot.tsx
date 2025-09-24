@@ -4,11 +4,12 @@ import "./OcSlot.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import Marquee from "react-fast-marquee";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import AvatarSlideshow from "../common-components/AvatarSlideshow";
 
 export interface OC {
   slug: string;
   name: string;
-  avatar: string;
+  avatar: string[];
 }
 
 interface OcSlotProps {
@@ -75,7 +76,7 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
           border: `5px solid ${frameColour}`,
         }}
       >
-        <img src={oc.avatar} alt={oc.name} className="oc-avatar" />
+        <AvatarSlideshow images={oc.avatar} alt={oc.name} className="oc-avatar" />
         <div className="oc-slot-name-box">
           <h3
             ref={containerRef}

@@ -45,8 +45,8 @@ export const initialState: MusicPlayerState = {
   currentTrackIndex: null,
   isPlaying: false,
   isLoading: false,
-  volume: 0.7,
-  isLooping: false,
+  volume: 0.2,
+  isLooping: true,
   duration: 0,
   currentTime: 0,
 };

@@ -114,7 +114,7 @@ const SortableOcItem: React.FC<SortableOcItemProps> = ({
       </div>
       <div onClick={() => onSelect(oc.slug)} className="editor-item-content">
         <img
-          src={oc.avatar || "https://placehold.co/40"}
+          src={oc.avatar?.[0] || "https://placehold.co/40"}
           alt={oc.name}
           className="editor-avatar"
         />
@@ -521,7 +521,7 @@ export const EditorOc: React.FC = () => {
         setEditingItem({
           slug: newSlug,
           name: ocName,
-          avatar: "",
+          avatar: [],
           group: [],
           spieces: [],
           info: "",
@@ -830,7 +830,7 @@ export const EditorOc: React.FC = () => {
                       className="editor-item-content"
                     >
                       <img
-                        src={oc.avatar || "https://placehold.co/40"}
+                        src={oc.avatar?.[0] || "https://placehold.co/40"}
                         alt={oc.name}
                         className="editor-avatar"
                       />
@@ -910,16 +910,40 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-field">
-                <label className="editor-label">Avatar URL:</label>
-                <input
-                  type="text"
-                  value={editingItem.avatar}
-                  onChange={(e) =>
-                    setEditingItem({ ...editingItem, avatar: e.target.value })
-                  }
-                  className="editor-input"
-                  placeholder="https://example.com/avatar.jpg"
-                />
+                <label className="editor-label">Avatar URLs:</label>
+                {editingItem.avatar.map((avatarUrl, index) => (
+                  <div key={index} className="editor-array-item">
+                    <input
+                      type="text"
+                      value={avatarUrl}
+                      onChange={(e) => {
+                        const newAvatars = [...editingItem.avatar];
+                        newAvatars[index] = e.target.value;
+                        setEditingItem({ ...editingItem, avatar: newAvatars });
+                      }}
+                      className="editor-array-input"
+                      placeholder="https://example.com/avatar.jpg"
+                    />
+                    <button
+                      onClick={() => {
+                        const newAvatars = editingItem.avatar.filter((_, i) => i !== index);
+                        setEditingItem({ ...editingItem, avatar: newAvatars });
+                      }}
+                      className="editor-button editor-button-danger editor-button-small"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => {
+                    const newAvatars = [...editingItem.avatar, ""];
+                    setEditingItem({ ...editingItem, avatar: newAvatars });
+                  }}
+                  className="editor-button editor-button-primary editor-button-small"
+                >
+                  Add Avatar
+                </button>
               </div>
 
               <div className="editor-field">

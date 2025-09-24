@@ -1,0 +1,6 @@
+/* AvatarSlideshow inherits styling from whatever className is passed to it */
+/* Fading effect for avatar transitions */
+.avatar-slideshow-fade {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}

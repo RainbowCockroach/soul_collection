@@ -33,7 +33,7 @@ export interface GalleryItem {
 export interface OC {
   slug: string;
   name: string;
-  avatar: string; // Image URL
+  avatar: string[]; // Array of image URLs
   group: string[]; // Group slugs
   spieces: string[]; // Species slugs
   info: string; // Rich text
