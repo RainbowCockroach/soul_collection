@@ -1,12 +1,12 @@
-import type { Track, MusicPlayerState } from './types';
-import { baseUrl } from '../helpers/constants';
+import type { Track, MusicPlayerState } from "./types";
+import { baseUrl } from "../helpers/constants";
 
 export const initialTracks: Track[] = [
   {
-    id: "all",
-    name: "All",
-    fileName: "all.mp3",
-    path: `/${baseUrl}/music/all.mp3`,
+    id: "kohaku",
+    name: "Kohaku",
+    fileName: "kohaku.mp3",
+    path: `/${baseUrl}/music/kohaku.mp3`,
   },
   {
     id: "iseki",
