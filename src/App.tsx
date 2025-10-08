@@ -9,7 +9,7 @@ import { Editor } from "./editor/Editor";
 import "./background-sparkle/sparkles.css";
 import { startContinuousSparkles } from "./background-sparkle/sparkles";
 import PageMain from "./page-main/PageMain";
-import SamPopup from "./page-main/SamPopUp";
+import SamPopup from "./page-intro/SamPopUp";
 import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
 import StarryTrail from "./common-components/StarryTrail";
 

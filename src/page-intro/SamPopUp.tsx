@@ -64,6 +64,24 @@ const SamPopup = () => {
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.code === "Space" || e.code === "Enter") {
+      e.preventDefault();
+      if (showDialog && chatBubbleRef.current) {
+        chatBubbleRef.current.skip();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [isVisible, showDialog]);
+
   if (!isVisible) return null;
 
   return (
