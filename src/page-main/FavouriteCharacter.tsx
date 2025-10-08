@@ -17,7 +17,7 @@ const FavouriteCharacter: React.FC<FavouriteCharacterProps> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/ocs/${slug}`);
+    navigate(`/soul_collection/ocs/${slug}`);
   };
 
   return (
