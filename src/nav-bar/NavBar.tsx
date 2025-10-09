@@ -34,7 +34,9 @@ const Navbar = () => {
               src={samLogo}
               alt="Logo"
               className="logo"
-              onClick={() => navigate(`${baseUrl}/`)}
+              onClick={() =>
+                (window.location.href = "https://itssammmm.carrd.co/")
+              }
             />
           </button>
         </div>
