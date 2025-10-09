@@ -11,10 +11,10 @@ import FavouriteCharacter from "./FavouriteCharacter";
 const PageMain: React.FC = () => {
   const favourites = [
     { slug: "bush", name: "Bush", avatar: bushAvatar },
-    { slug: "cupcake", name: "Cupcake", avatar: cupcakeAvatar },
-    { slug: "hec", name: "Hec", avatar: hecAvatar },
+    { slug: "echo", name: "Cupcake", avatar: cupcakeAvatar },
+    { slug: "heix-li", name: "Hec", avatar: hecAvatar },
     { slug: "naame", name: "Naame", avatar: naameAvatar },
-    { slug: "non", name: "Non", avatar: nonAvatar },
+    { slug: "non-li", name: "Non", avatar: nonAvatar },
     { slug: "rilor", name: "Rilor and Liv", avatar: rilorLivAvatar },
   ];
   return (
