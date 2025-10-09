@@ -32,7 +32,7 @@ const PageMain: React.FC = () => {
             />
           ))}
         </section>
-        <p className="favourite-text">Cutest / dearest to me!</p>
+        <p className="favourite-text">♡ Cutest / dearest to me! ♡</p>
       </div>
       <RandomOcButton />
     </div>
