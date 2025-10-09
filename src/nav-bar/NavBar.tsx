@@ -3,6 +3,7 @@ import "./NavBar.css";
 import { baseUrl } from "../helpers/constants";
 import samLogo from "../assets/sam_logo.png";
 import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
+import ButtonWrapper from "../common-components/ButtonWrapper";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -29,27 +30,25 @@ const Navbar = () => {
     <div>
       <nav className="navbar">
         <div className="nav-bar-logo">
-          <button className="logo">
-            <img
-              src={samLogo}
-              alt="Logo"
-              className="logo"
-              onClick={() =>
-                (window.location.href = "https://itssammmm.carrd.co/")
-              }
-            />
-          </button>
+          <ButtonWrapper
+            onClick={() =>
+              (window.location.href = "https://itssammmm.carrd.co/")
+            }
+          >
+            <img src={samLogo} alt="Logo" className="logo" />
+          </ButtonWrapper>
         </div>
 
         <div className="nav-links-desktop">
           {menuItems.map((item) => (
-            <button
-              className="button-with-underline nav-button"
+            <ButtonWrapper
               key={item.name}
               onClick={() => navigate(item.href)}
             >
-              {item.name}
-            </button>
+              <div className="button-with-underline nav-button">
+                {item.name}
+              </div>
+            </ButtonWrapper>
           ))}
         </div>
 
