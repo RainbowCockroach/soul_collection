@@ -24,7 +24,7 @@ const FavouriteCharacter: React.FC<FavouriteCharacterProps> = ({
     <ButtonWrapper onClick={handleClick}>
       <div className="favourite-character">
         <img src={avatar} alt={name} className="favourite-avatar" />
-        <p className="favourite-name">{name}</p>
+        <h3 className="favourite-name">{name}</h3>
       </div>
     </ButtonWrapper>
   );
