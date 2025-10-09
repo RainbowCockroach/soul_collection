@@ -2,11 +2,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
 }
 
-.favourites-section {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 20px;
+.favourite-avatar {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.favourite-name {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Tablet and Desktop: adjust name font size */
+@media (min-width: 768px) {
+  .favourite-name {
+    font-size: 0.9rem;
+  }
 }
