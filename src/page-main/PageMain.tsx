@@ -20,9 +20,8 @@ const PageMain: React.FC = () => {
   ];
   return (
     <div>
-      <RandomOcButton />
       <div className="favourites-container">
-        <h2 className="dramatic-glow-pink">My favourites!</h2>
+        <h2 className="favourite-text">My favourites!</h2>
         <section className="favourites-section">
           {favourites.map((fav) => (
             <FavouriteCharacter
@@ -33,8 +32,9 @@ const PageMain: React.FC = () => {
             />
           ))}
         </section>
-        <p className="dramatic-glow-pink">Cutest / dearest to me!</p>
+        <p className="favourite-text">Cutest / dearest to me!</p>
       </div>
+      <RandomOcButton />
     </div>
   );
 };

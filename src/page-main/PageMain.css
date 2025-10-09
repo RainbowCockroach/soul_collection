@@ -8,16 +8,10 @@
   text-align: center;
 }
 
-.dramatic-glow-pink {
-  color: #d946a6;
-  text-shadow:
-    0 0 10px #ffb3d9,
-    0 0 20px #ffb3d9,
-    0 0 30px #ff99cc,
-    0 0 40px #ff99cc,
-    0 0 50px #ff99cc,
-    0 0 60px #ff99cc,
-    0 0 70px #ff99cc;
+.favourite-text {
+  color: #d2ec9b;
+  text-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9, 0 0 30px #ff99cc,
+    0 0 40px #ff99cc, 0 0 50px #ff99cc, 0 0 60px #ff99cc, 0 0 70px #ff99cc;
 }
 
 .favourites-section {
@@ -26,9 +20,7 @@
   flex-wrap: wrap;
   justify-content: center;
   padding: 40px 20px;
-  background-color: var(--color-green);
-  box-shadow: 0 0 30px var(--color-green), 0 0 60px var(--color-green),
-    inset 0 0 80px var(--color-green);
+  background-color: #6affa899;
   width: 100vw;
   margin-left: -3vw;
 }
