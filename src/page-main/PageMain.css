@@ -4,8 +4,20 @@
   width: 96%;
 }
 
-.favourites-container h2 {
+.favourites-container {
   text-align: center;
+}
+
+.dramatic-glow-pink {
+  color: #d946a6;
+  text-shadow:
+    0 0 10px #ffb3d9,
+    0 0 20px #ffb3d9,
+    0 0 30px #ff99cc,
+    0 0 40px #ff99cc,
+    0 0 50px #ff99cc,
+    0 0 60px #ff99cc,
+    0 0 70px #ff99cc;
 }
 
 .favourites-section {
