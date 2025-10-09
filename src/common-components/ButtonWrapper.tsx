@@ -9,6 +9,7 @@ interface ButtonWrapperProps {
   disabled?: boolean;
   className?: string;
   soundFile?: string;
+  hoverSoundFile?: string;
 }
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
@@ -17,9 +18,13 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   disabled = false,
   className = "",
   soundFile = buttonSound,
+  hoverSoundFile,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [playSound] = useSound(soundFile, { volume: 0.5 });
+  const [playHoverSound] = useSound(hoverSoundFile || "", {
+    volume: 0.5,
+  });
 
   const handleMouseDown = () => {
     if (!disabled) {
@@ -33,6 +38,12 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
 
   const handleMouseLeave = () => {
     setIsPressed(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (!disabled && hoverSoundFile) {
+      playHoverSound();
+    }
   };
 
   const handleClick = () => {
@@ -49,6 +60,7 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
       }`}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
       disabled={disabled}
