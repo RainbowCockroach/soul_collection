@@ -153,6 +153,40 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     }
   }, [state.currentTrackIndex, state.tracks]);
 
+  // Auto-play on first user interaction
+  useEffect(() => {
+    let hasInteracted = false;
+
+    const handleFirstInteraction = () => {
+      if (hasInteracted) return;
+      hasInteracted = true;
+
+      // Start playing if not already playing
+      if (!state.isPlaying && state.currentTrackIndex !== null) {
+        const audio = audioRef.current;
+        if (audio) {
+          audio.play().catch(console.error);
+        }
+      }
+
+      // Remove listeners after first interaction
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+
+    // Add listeners for various user interactions
+    window.addEventListener('click', handleFirstInteraction);
+    window.addEventListener('touchstart', handleFirstInteraction);
+    window.addEventListener('keydown', handleFirstInteraction);
+
+    return () => {
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+  }, [state.isPlaying, state.currentTrackIndex]);
+
   const contextValue: MusicPlayerContextType = {
     state,
     audioRef,
