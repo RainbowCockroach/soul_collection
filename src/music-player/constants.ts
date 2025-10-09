@@ -42,7 +42,7 @@ export const initialTracks: Track[] = [
 
 export const initialState: MusicPlayerState = {
   tracks: initialTracks,
-  currentTrackIndex: null,
+  currentTrackIndex: 0,
   isPlaying: false,
   isLoading: false,
   volume: 0.2,
