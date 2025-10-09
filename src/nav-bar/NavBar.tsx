@@ -11,18 +11,22 @@ const Navbar = () => {
     {
       name: "Main",
       href: `${baseUrl}/`,
+      disabled: false,
     },
     {
       name: "All",
       href: `${baseUrl}/ocs`,
+      disabled: false,
     },
     {
       name: "Lore",
       href: `${baseUrl}/lore`,
+      disabled: true,
     },
     {
-      name: "Search",
+      name: "Guest book",
       href: `${baseUrl}/search`,
+      disabled: true,
     },
   ];
 
@@ -43,9 +47,15 @@ const Navbar = () => {
           {menuItems.map((item) => (
             <ButtonWrapper
               key={item.name}
-              onClick={() => navigate(item.href)}
+              onClick={() => !item.disabled && navigate(item.href)}
             >
-              <div className="button-with-underline nav-button">
+              <div
+                className="button-with-underline nav-button"
+                style={{
+                  opacity: item.disabled ? 0.5 : 1,
+                  cursor: item.disabled ? 'not-allowed' : 'pointer'
+                }}
+              >
                 {item.name}
               </div>
             </ButtonWrapper>
