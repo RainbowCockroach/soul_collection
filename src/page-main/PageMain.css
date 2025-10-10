@@ -4,10 +4,6 @@
   width: 96%;
 }
 
-.favourites-container {
-  text-align: center;
-}
-
 .favourite-text {
   color: #d2ec9b;
   text-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9, 0 0 30px #ff99cc,
@@ -54,5 +50,38 @@
 @media (min-width: 1024px) {
   .favourites-section {
     gap: 16px;
+  }
+}
+
+/* Protagonists Grid */
+.protagonists-grid {
+  display: grid;
+  justify-content: center;
+  gap: 20px 10px;
+  padding: 30px 5vw;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Mobile: 3 rows, 2 characters per row */
+@media (min-width: 320px) and (max-width: 767px) {
+  .protagonists-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
+  }
+}
+
+/* Tablet and Desktop: 2 rows, 3 characters per row */
+@media (min-width: 768px) {
+  .protagonists-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+  }
+}
+
+/* Large Desktop: slightly wider but still centered */
+@media (min-width: 1200px) {
+  .protagonists-grid {
+    max-width: 1000px;
   }
 }

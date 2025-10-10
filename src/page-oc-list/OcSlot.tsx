@@ -64,7 +64,7 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
   const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
 
   const handleClick = () => {
-    navigate(`${oc.slug}`);
+    navigate(`/soul_collection/ocs/${oc.slug}`);
   };
 
   return (
@@ -76,7 +76,11 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
           border: `5px solid ${frameColour}`,
         }}
       >
-        <AvatarSlideshow images={oc.avatar} alt={oc.name} className="oc-avatar" />
+        <AvatarSlideshow
+          images={oc.avatar}
+          alt={oc.name}
+          className="oc-avatar"
+        />
         <div className="oc-slot-name-box">
           <h3
             ref={containerRef}
