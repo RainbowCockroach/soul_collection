@@ -9,6 +9,8 @@ import type { MusicPlayerState, MusicPlayerContextType } from './types';
 import { initialState } from './constants';
 import { MusicPlayerContext } from './context';
 
+const MUSIC_PAUSED_KEY = 'soul_collection_music_paused';
+
 interface MusicPlayerProviderProps {
   children: ReactNode;
 }
@@ -18,6 +20,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 }) => {
   const [state, setState] = useState<MusicPlayerState>(initialState);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const hasAutoPlayedRef = useRef<boolean>(false);
 
   const playTrack = useCallback((index: number) => {
     if (index < 0 || index >= state.tracks.length) return;
@@ -33,8 +36,12 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     if (!audioRef.current) return;
 
     if (state.isPlaying) {
+      // User is pausing - remember this preference
+      localStorage.setItem(MUSIC_PAUSED_KEY, 'true');
       audioRef.current.pause();
     } else {
+      // User is playing - clear the paused flag
+      localStorage.removeItem(MUSIC_PAUSED_KEY);
       if (state.currentTrackIndex === null && state.tracks.length > 0) {
         // If no track is selected, start with the first track
         playTrack(0);
@@ -155,18 +162,27 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 
   // Auto-play on first user interaction
   useEffect(() => {
-    let hasInteracted = false;
-
     const handleFirstInteraction = () => {
-      if (hasInteracted) return;
-      hasInteracted = true;
+      // Only auto-play once, ever
+      if (hasAutoPlayedRef.current) return;
+      hasAutoPlayedRef.current = true;
 
-      // Start playing if not already playing
-      if (!state.isPlaying && state.currentTrackIndex !== null) {
-        const audio = audioRef.current;
-        if (audio) {
-          audio.play().catch(console.error);
-        }
+      // Check if user previously paused the music
+      const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === 'true';
+
+      // Don't auto-play if user previously paused
+      if (userPausedMusic) {
+        // Remove listeners and exit
+        window.removeEventListener('click', handleFirstInteraction);
+        window.removeEventListener('touchstart', handleFirstInteraction);
+        window.removeEventListener('keydown', handleFirstInteraction);
+        return;
+      }
+
+      // Start playing the first track
+      const audio = audioRef.current;
+      if (audio && state.currentTrackIndex !== null) {
+        audio.play().catch(console.error);
       }
 
       // Remove listeners after first interaction
@@ -175,17 +191,19 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
       window.removeEventListener('keydown', handleFirstInteraction);
     };
 
-    // Add listeners for various user interactions
-    window.addEventListener('click', handleFirstInteraction);
-    window.addEventListener('touchstart', handleFirstInteraction);
-    window.addEventListener('keydown', handleFirstInteraction);
+    // Only attach listeners if we haven't auto-played yet
+    if (!hasAutoPlayedRef.current) {
+      window.addEventListener('click', handleFirstInteraction);
+      window.addEventListener('touchstart', handleFirstInteraction);
+      window.addEventListener('keydown', handleFirstInteraction);
+    }
 
     return () => {
       window.removeEventListener('click', handleFirstInteraction);
       window.removeEventListener('touchstart', handleFirstInteraction);
       window.removeEventListener('keydown', handleFirstInteraction);
     };
-  }, [state.isPlaying, state.currentTrackIndex]);
+  }, [state.currentTrackIndex]);
 
   const contextValue: MusicPlayerContextType = {
     state,
