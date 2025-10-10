@@ -25,11 +25,12 @@
 @media (max-width: 767px) {
   .favourites-section {
     max-width: 100%;
+    gap: 4px;
   }
 
   .favourites-section > * {
-    flex: 0 0 calc(33.333% - 14px);
-    max-width: calc(33.333% - 14px);
+    flex: 0 0 calc(33.333% - 2.67px);
+    max-width: calc(33.333% - 2.67px);
   }
 }
 
