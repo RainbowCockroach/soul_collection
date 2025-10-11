@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import RandomOcButton from "./RandomOcButton";
-import bushAvatar from "../assets/fav_bush.png";
-import cupcakeAvatar from "../assets/fav_cupcake.png";
-import hecAvatar from "../assets/fav_hec.png";
-import naameAvatar from "../assets/fav_naame.png";
-import nonAvatar from "../assets/fav_non.png";
-import rilorLivAvatar from "../assets/fav_rilor_liv.png";
+import bushAvatar from "../assets/fav_bush.webp";
+import cupcakeAvatar from "../assets/fav_cupcake.webp";
+import hecAvatar from "../assets/fav_hec.webp";
+import naameAvatar from "../assets/fav_naame.webp";
+import nonAvatar from "../assets/fav_non.webp";
+import rilorLivAvatar from "../assets/fav_rilor_liv.webp";
 import FavouriteCharacter from "./FavouriteCharacter";
 import OcSlot from "../page-oc-list/OcSlot";
 import type { OC } from "../page-oc-list/OcSlot";
@@ -16,10 +16,10 @@ const PageMain: React.FC = () => {
   const favourites = [
     { slug: "bush", name: "Bush", avatar: bushAvatar },
     { slug: "echo", name: "Cupcake", avatar: cupcakeAvatar },
-    { slug: "heix-li", name: "Heix", avatar: hecAvatar },
-    { slug: "naame", name: "Naame", avatar: naameAvatar },
-    { slug: "non-li", name: "Non", avatar: nonAvatar },
     { slug: "rilor", name: "Rilor and Liv", avatar: rilorLivAvatar },
+    { slug: "heix-li", name: "Heix", avatar: hecAvatar },
+    { slug: "non-li", name: "Non", avatar: nonAvatar },
+    { slug: "naame", name: "Naame", avatar: naameAvatar },
   ];
   const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
   const [protagonistOcs, setProtagonistOcs] = useState<OC[]>([]);
