@@ -52,6 +52,10 @@ const PageMain: React.FC = () => {
         <p className="favourite-text">♡ Cutest / dearest to me! ♡</p>
       </div>
       <div>
+        <p className="favourite-text">And many others</p>
+        <RandomOcButton />
+      </div>
+      <div>
         <h2 className="favourite-text">Protagonists</h2>
         <p className="favourite-text">For my in-planning games</p>
         <div className="protagonists-grid">
@@ -64,10 +68,6 @@ const PageMain: React.FC = () => {
             />
           ))}
         </div>
-      </div>
-      <div>
-        <p className="favourite-text">And many others</p>
-        <RandomOcButton />
       </div>
     </div>
   );
