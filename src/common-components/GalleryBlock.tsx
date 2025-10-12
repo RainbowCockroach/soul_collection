@@ -3,7 +3,7 @@ import "./GalleryBlock.css";
 import type { GalleryItem } from "../helpers/objects";
 import { useBlurImage } from "../hooks/usePixelatedImage";
 import ButtonWrapper from "./ButtonWrapper";
-import buttonSound from "/sound-effect/button-gallery-item.mp3";
+import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 
 interface GalleryBlockProps {
   gallery: GalleryItem[];
@@ -34,7 +34,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
 
   return (
     <ButtonWrapper
-      soundFile={buttonSound}
+      soundFile={buttonSoundGallery}
       onClick={() => onImageClick(galleryItem)}
       className={`gallery-image div-3d-with-shadow ${
         useCssFilter ? "gallery-image-filtered" : ""

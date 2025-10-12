@@ -1,8 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ButtonWrapper from "../common-components/ButtonWrapper";
 import "./SwitchFormButton.css";
 import godForm from "../assets/switch_button_god_form.gif";
 import birthForm from "../assets/switch_button_birth_form.gif";
+import soundFileToGod from "/sound-effect/switch_form_birth_to_god.mp3";
+import soundFileToBirth from "/sound-effect/switch_form_god_to_birth.mp3";
+import soundFileHover from "/sound-effect/button_hover.mp3";
 
 interface SwitchFormButtonProps {
   linkedOcSlug: string;
@@ -14,11 +18,19 @@ const SwitchFormButton: React.FC<SwitchFormButtonProps> = ({
   linkedOcSlug,
   isGodForm,
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/soul_collection/ocs/${linkedOcSlug}`);
+  };
+
   return (
     <div className="switch-form-container">
-      <Link
-        to={`/soul_collection/ocs/${linkedOcSlug}`}
+      <ButtonWrapper
+        onClick={handleClick}
         className="switch-form-button div-3d-with-shadow"
+        soundFile={isGodForm ? soundFileToBirth : soundFileToGod}
+        hoverSoundFile={soundFileHover}
       >
         {isGodForm ? (
           <div>
@@ -37,7 +49,7 @@ const SwitchFormButton: React.FC<SwitchFormButtonProps> = ({
             />
           </div>
         )}
-      </Link>
+      </ButtonWrapper>
     </div>
   );
 };
