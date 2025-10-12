@@ -4,6 +4,11 @@
   width: 96%;
 }
 
+.main-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
 .big-text-shadow {
   color: #d2ec9b;
   text-shadow: 4px 4px 0px #000000;
