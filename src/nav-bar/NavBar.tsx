@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { baseUrl } from "../helpers/constants";
-import samLogo from "../assets/sam_logo.png";
+import samLogoFull from "../assets/sam_logo_full.webp";
 import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 
@@ -39,7 +39,7 @@ const Navbar = () => {
               (window.location.href = "https://itssammmm.carrd.co/")
             }
           >
-            <img src={samLogo} alt="Logo" className="logo" />
+            <img src={samLogoFull} alt="Logo" className="logo" />
           </ButtonWrapper>
         </div>
 
@@ -53,7 +53,7 @@ const Navbar = () => {
                 className="button-with-underline nav-button"
                 style={{
                   opacity: item.disabled ? 0.5 : 1,
-                  cursor: item.disabled ? 'not-allowed' : 'pointer'
+                  cursor: item.disabled ? "not-allowed" : "pointer",
                 }}
               >
                 {item.name}

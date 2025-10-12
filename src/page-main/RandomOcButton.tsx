@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadOCs } from "../helpers/data-load";
 import "./RandomOcButton.css";
+import ButtonWrapper from "../common-components/ButtonWrapper";
+import randomButton from "../assets/button_random.gif";
 
 interface RandomOcButtonProps {
   className?: string;
@@ -28,13 +30,21 @@ const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
   };
 
   return (
-    <button
-      className={`random-oc-button ${className || ""}`}
+    <ButtonWrapper
       onClick={handleRandomOc}
       disabled={isLoading}
+      className={className}
     >
-      {isLoading ? "..." : "Random OC"}
-    </button>
+      {isLoading ? (
+        "..."
+      ) : (
+        <img
+          src={randomButton}
+          alt="Random OC Button"
+          className="shadow-3d button-image"
+        />
+      )}
+    </ButtonWrapper>
   );
 };
 

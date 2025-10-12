@@ -10,6 +10,7 @@ import FavouriteCharacter from "./FavouriteCharacter";
 import OcSlot from "../page-oc-list/OcSlot";
 import type { OC } from "../page-oc-list/OcSlot";
 import { loadOCs } from "../helpers/data-load";
+import samLogo from "../assets/sam_logo.webp";
 import "./PageMain.css";
 
 const PageMain: React.FC = () => {
@@ -36,9 +37,12 @@ const PageMain: React.FC = () => {
 
   return (
     <div>
-      <h1 className="favourite-text">Welcome to my soul collection</h1>
       <div>
-        <h2 className="favourite-text">My favourites!</h2>
+        <img src={samLogo} alt="Sam Logo" className="main-logo" />
+        <h1 className="big-text-shadow">Welcome to my soul collection</h1>
+      </div>
+      <div>
+        <h2 className="big-text-shadow">My favourites!</h2>
         <section className="favourites-section">
           {favourites.map((fav) => (
             <FavouriteCharacter
@@ -49,11 +53,17 @@ const PageMain: React.FC = () => {
             />
           ))}
         </section>
-        <p className="favourite-text">♡ Cutest / dearest to me! ♡</p>
+        <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
+      </div>
+      <div className="random-oc-button-section">
+        <p className="small-text-shadow">Click button for random character</p>
+        <RandomOcButton />
       </div>
       <div>
-        <h2 className="favourite-text">Protagonists</h2>
-        <p className="favourite-text">For my in-planning games</p>
+        <div className="shadow-3d protagonist-text-box">
+          <h2 className="big-text-shadow">Protagonists</h2>
+        </div>
+        <p className="small-text-shadow">For my in-planning games</p>
         <div className="protagonists-grid">
           {protagonistOcs.map((oc) => (
             <OcSlot
@@ -64,10 +74,6 @@ const PageMain: React.FC = () => {
             />
           ))}
         </div>
-      </div>
-      <div>
-        <p className="favourite-text">And many others</p>
-        <RandomOcButton />
       </div>
     </div>
   );
