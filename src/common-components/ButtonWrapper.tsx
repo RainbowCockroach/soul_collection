@@ -1,6 +1,5 @@
 import React, { type ReactNode, useState } from "react";
 import useSound from "use-sound";
-import buttonSound from "/sound-effect/button-character-slot.mp3";
 import "./ButtonWrapper.css";
 
 interface ButtonWrapperProps {
@@ -9,7 +8,9 @@ interface ButtonWrapperProps {
   disabled?: boolean;
   className?: string;
   soundFile?: string;
+  soundVolume?: number;
   hoverSoundFile?: string;
+  hoverSoundVolume?: number;
 }
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
@@ -17,14 +18,22 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   onClick,
   disabled = false,
   className = "",
-  soundFile = buttonSound,
+  soundFile,
+  soundVolume = 0.5,
   hoverSoundFile,
+  hoverSoundVolume = 0.5,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
-  const [playSound] = useSound(soundFile, { volume: 0.5 });
+  const [playSound] = useSound(soundFile || "", { volume: soundVolume });
   const [playHoverSound] = useSound(hoverSoundFile || "", {
-    volume: 0.5,
+    volume: hoverSoundVolume,
   });
+
+  const handleMouseEnter = () => {
+    if (!disabled && hoverSoundFile) {
+      playHoverSound();
+    }
+  };
 
   const handleMouseDown = () => {
     if (!disabled) {
@@ -40,15 +49,11 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
     setIsPressed(false);
   };
 
-  const handleMouseEnter = () => {
-    if (!disabled && hoverSoundFile) {
-      playHoverSound();
-    }
-  };
-
   const handleClick = () => {
     if (!disabled) {
-      playSound();
+      if (soundFile) {
+        playSound();
+      }
       onClick();
     }
   };
@@ -58,9 +63,9 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
       className={`button-wrapper ${className} ${isPressed ? "pressed" : ""} ${
         disabled ? "disabled" : ""
       }`}
+      onMouseEnter={handleMouseEnter}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
       disabled={disabled}

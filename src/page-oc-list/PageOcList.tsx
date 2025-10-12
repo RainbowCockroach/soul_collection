@@ -124,7 +124,7 @@ const PageOcList: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="page-padded">
       <div className="filter-toggle-container">
         <button
           className="filter-toggle-button div-3d-with-shadow"

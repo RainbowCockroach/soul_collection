@@ -37,11 +37,11 @@ const PageMain: React.FC = () => {
 
   return (
     <div>
-      <div>
+      <div className="main-section">
         <img src={samLogo} alt="Sam Logo" className="main-logo" />
         <h1 className="big-text-shadow">Welcome to my soul collection</h1>
       </div>
-      <div>
+      <div className="main-section">
         <h2 className="big-text-shadow">My favourites!</h2>
         <section className="favourites-section">
           {favourites.map((fav) => (
@@ -55,11 +55,11 @@ const PageMain: React.FC = () => {
         </section>
         <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
       </div>
-      <div className="random-oc-button-section">
+      <div className="main-section random-oc-button-section">
         <p className="small-text-shadow">Click button for random character</p>
         <RandomOcButton />
       </div>
-      <div>
+      <div className="main-section">
         <div className="shadow-3d protagonist-text-box">
           <h2 className="big-text-shadow">Protagonists</h2>
         </div>

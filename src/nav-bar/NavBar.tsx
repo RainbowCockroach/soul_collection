@@ -4,6 +4,8 @@ import { baseUrl } from "../helpers/constants";
 import samLogoFull from "../assets/sam_logo_full.webp";
 import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
+import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ const Navbar = () => {
             onClick={() =>
               (window.location.href = "https://itssammmm.carrd.co/")
             }
+            hoverSoundFile={buttonSoundHover}
           >
             <img src={samLogoFull} alt="Logo" className="logo" />
           </ButtonWrapper>
@@ -48,6 +51,9 @@ const Navbar = () => {
             <ButtonWrapper
               key={item.name}
               onClick={() => !item.disabled && navigate(item.href)}
+              hoverSoundFile={buttonSoundHover}
+              soundFile={buttonSound}
+              disabled={item.disabled}
             >
               <div
                 className="button-with-underline nav-button"

@@ -4,6 +4,8 @@ import { loadOCs } from "../helpers/data-load";
 import "./RandomOcButton.css";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import randomButton from "../assets/button_random.gif";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
+import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 
 interface RandomOcButtonProps {
   className?: string;
@@ -34,6 +36,8 @@ const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
       onClick={handleRandomOc}
       disabled={isLoading}
       className={className}
+      hoverSoundFile={buttonSoundHover}
+      soundFile={buttonSound}
     >
       {isLoading ? (
         "..."

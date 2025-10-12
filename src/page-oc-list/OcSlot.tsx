@@ -5,6 +5,8 @@ import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import Marquee from "react-fast-marquee";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import AvatarSlideshow from "../common-components/AvatarSlideshow";
+import buttonSoundOcSlot from "/sound-effect/button_oc_slot.mp3";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
 export interface OC {
   slug: string;
@@ -68,7 +70,11 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
   };
 
   return (
-    <ButtonWrapper onClick={handleClick}>
+    <ButtonWrapper
+      onClick={handleClick}
+      soundFile={buttonSoundOcSlot}
+      hoverSoundFile={buttonSoundHover}
+    >
       <div
         className="div-3d-with-shadow oc-slot"
         style={{
