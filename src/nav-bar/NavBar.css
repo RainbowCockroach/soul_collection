@@ -23,16 +23,15 @@
   cursor: pointer;
   transition: color 0.2s ease-in-out;
   height: 3rem;
-  width: 3rem;
+  width: auto;
   object-fit: contain;
-  aspect-ratio: 1;
 }
 
 /* Small devices and up (tablets) */
 @media (min-width: 640px) {
   .logo {
     height: 3.5rem;
-    width: 3.5rem;
+    width: auto;
   }
 }
 
@@ -40,7 +39,7 @@
 @media (min-width: 768px) {
   .logo {
     height: 4rem;
-    width: 4rem;
+    width: auto;
   }
 }
 
@@ -48,7 +47,7 @@
 @media (min-width: 1024px) {
   .logo {
     height: 4.5rem;
-    width: 4.5rem;
+    width: auto;
   }
 }
 

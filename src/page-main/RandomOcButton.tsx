@@ -30,15 +30,18 @@ const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
   };
 
   return (
-    <ButtonWrapper onClick={handleRandomOc} disabled={isLoading}>
+    <ButtonWrapper
+      onClick={handleRandomOc}
+      disabled={isLoading}
+      className={className}
+    >
       {isLoading ? (
         "..."
       ) : (
         <img
           src={randomButton}
           alt="Random OC Button"
-          className="button-image"
-          draggable={false}
+          className="shadow-3d button-image"
         />
       )}
     </ButtonWrapper>
