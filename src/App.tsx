@@ -121,10 +121,10 @@ function App() {
             <Routes>
               <Route path={`${baseUrl}/`} element={<PageMain />} />
               <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
-              <Route path={`${baseUrl}/lore`} element={<div>Lore Page</div>} />
+              <Route path={`${baseUrl}/lore`} element={<div className="page-padded">Lore Page</div>} />
               <Route
                 path={`${baseUrl}/search`}
-                element={<div>Search Page</div>}
+                element={<div className="page-padded">Search Page</div>}
               />
               <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
               <Route path={`${baseUrl}/editor`} element={<Editor />} />

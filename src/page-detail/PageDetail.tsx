@@ -141,7 +141,7 @@ const PageDetail: React.FC = () => {
   }
 
   return (
-    <div className="page-detail">
+    <div className="page-detail page-padded">
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage

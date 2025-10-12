@@ -24,7 +24,7 @@ export const Editor: React.FC = () => {
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
   return (
-    <div className="editor-container">
+    <div className="editor-container page-padded">
       <div className="editor-header">
         <h2>Data Editor</h2>
         <button
