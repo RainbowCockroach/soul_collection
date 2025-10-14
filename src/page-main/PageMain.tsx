@@ -61,7 +61,7 @@ const PageMain: React.FC = () => {
       </div>
       <div className="main-section">
         <div className="shadow-3d protagonist-text-box">
-          <h2 className="big-text-shadow">Protagonists</h2>
+          <h2 style={{ color: "#03291dff" }}>Protagonists</h2>
         </div>
         <p className="small-text-shadow">For my in-planning games</p>
         <div className="protagonists-grid">
