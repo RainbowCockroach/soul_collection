@@ -1,0 +1,7 @@
+.collapsible-button {
+  cursor: pointer;
+}
+
+.collapsible-container.collapsed {
+  display: none;
+}
