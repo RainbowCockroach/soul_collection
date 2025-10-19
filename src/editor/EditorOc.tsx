@@ -34,6 +34,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
+import CollapsibleWrapper from "../common-components/CollapsibleWrapper";
 
 interface OcJsonData {
   [key: string]: Omit<OC, "slug">;
@@ -139,13 +140,6 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
   breadcrumb,
   index,
   onRemove,
-  onTitleChange,
-  onDescriptionChange,
-  onVideoChange,
-  onContentWarningChange,
-  onImageChange,
-  onAddImage,
-  onRemoveImage,
 }) => {
   const {
     attributes,
@@ -173,83 +167,15 @@ const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
         <div className="editor-drag-handle" {...listeners}>
           ⋮⋮
         </div>
-        <h4>Breadcrumb {index + 1}</h4>
+        <h4>
+          Breadcrumb {index + 1}
+          {breadcrumb.title && ` - ${breadcrumb.title}`}
+        </h4>
         <button
           onClick={() => onRemove(index)}
           className="editor-button editor-button-danger editor-button-small"
         >
           Remove Breadcrumb
-        </button>
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Title:</label>
-        <input
-          type="text"
-          value={breadcrumb.title || ""}
-          onChange={(e) => onTitleChange(index, e.target.value)}
-          className="editor-input"
-          placeholder="Breadcrumb title"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Description:</label>
-        <textarea
-          value={breadcrumb.description}
-          onChange={(e) => onDescriptionChange(index, e.target.value)}
-          rows={3}
-          className="editor-textarea"
-          placeholder="Breadcrumb description"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">YouTube Video Embed:</label>
-        <textarea
-          value={breadcrumb.video || ""}
-          onChange={(e) => onVideoChange(index, e.target.value)}
-          rows={3}
-          className="editor-textarea"
-          placeholder="Paste YouTube iframe embed code here"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Content Warning:</label>
-        <input
-          type="text"
-          value={breadcrumb.contentWarning || ""}
-          onChange={(e) => onContentWarningChange(index, e.target.value)}
-          className="editor-input"
-          placeholder="Content warning for breadcrumb images (optional)"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Images:</label>
-        {(breadcrumb.images || []).map((imageUrl, imageIndex) => (
-          <div key={imageIndex} className="editor-array-item">
-            <input
-              type="text"
-              value={imageUrl}
-              onChange={(e) => onImageChange(index, imageIndex, e.target.value)}
-              className="editor-array-input"
-              placeholder="Image URL"
-            />
-            <button
-              onClick={() => onRemoveImage(index, imageIndex)}
-              className="editor-button editor-button-danger editor-button-small"
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button
-          onClick={() => onAddImage(index)}
-          className="editor-button editor-button-primary editor-button-small"
-        >
-          Add Image
         </button>
       </div>
     </div>
@@ -260,10 +186,6 @@ const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
   galleryItem,
   index,
   onRemove,
-  onImageChange,
-  onThumbnailChange,
-  onCaptionChange,
-  onContentWarningChange,
 }) => {
   const {
     attributes,
@@ -291,57 +213,16 @@ const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
         <div className="editor-drag-handle" {...listeners}>
           ⋮⋮
         </div>
-        <h4>Gallery Item {index + 1}</h4>
+        <h4>
+          Gallery Item {index + 1}
+          {galleryItem.caption && ` - ${galleryItem.caption}`}
+        </h4>
         <button
           onClick={() => onRemove(index)}
           className="editor-button editor-button-danger editor-button-small"
         >
           Remove
         </button>
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Image URL:</label>
-        <input
-          type="text"
-          value={galleryItem.image}
-          onChange={(e) => onImageChange(index, e.target.value)}
-          className="editor-input"
-          placeholder="Image URL"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Thumbnail URL:</label>
-        <input
-          type="text"
-          value={galleryItem.thumbnail || ""}
-          onChange={(e) => onThumbnailChange(index, e.target.value)}
-          className="editor-input"
-          placeholder="Thumbnail URL (optional)"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Caption:</label>
-        <input
-          type="text"
-          value={galleryItem.caption || ""}
-          onChange={(e) => onCaptionChange(index, e.target.value)}
-          className="editor-input"
-          placeholder="Caption (optional)"
-        />
-      </div>
-
-      <div className="editor-field">
-        <label className="editor-label">Content Warning:</label>
-        <input
-          type="text"
-          value={galleryItem.contentWarning || ""}
-          onChange={(e) => onContentWarningChange(index, e.target.value)}
-          className="editor-input"
-          placeholder="Content warning (optional)"
-        />
       </div>
     </div>
   );
@@ -926,7 +807,9 @@ export const EditorOc: React.FC = () => {
                     />
                     <button
                       onClick={() => {
-                        const newAvatars = editingItem.avatar.filter((_, i) => i !== index);
+                        const newAvatars = editingItem.avatar.filter(
+                          (_, i) => i !== index
+                        );
                         setEditingItem({ ...editingItem, avatar: newAvatars });
                       }}
                       className="editor-button editor-button-danger editor-button-small"
@@ -1066,85 +949,101 @@ export const EditorOc: React.FC = () => {
                   </DndContext>
                 ) : (
                   editingItem.gallery.map((galleryItem, index) => (
-                    <div key={index} className="editor-section">
-                      <div className="editor-section-header">
-                        <h4>Gallery Item {index + 1}</h4>
-                        <button
-                          onClick={() => handleRemoveGalleryItem(index)}
-                          className="editor-button editor-button-danger editor-button-small"
-                        >
-                          Remove
-                        </button>
-                      </div>
+                    <CollapsibleWrapper
+                      key={index}
+                      button={
+                        <>
+                          Image {index + 1}
+                          {galleryItem.caption && ` - ${galleryItem.caption}`}
+                        </>
+                      }
+                      buttonClassName="editor-collapsible-button"
+                      container={
+                        <div key={index} className="editor-section">
+                          <div className="editor-section-header">
+                            <h4>Gallery Item {index + 1}</h4>
+                            <button
+                              onClick={() => handleRemoveGalleryItem(index)}
+                              className="editor-button editor-button-danger editor-button-small"
+                            >
+                              Remove
+                            </button>
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Image URL:</label>
-                        <input
-                          type="text"
-                          value={galleryItem.image}
-                          onChange={(e) =>
-                            handleGalleryFieldChange(
-                              index,
-                              "image",
-                              e.target.value
-                            )
-                          }
-                          className="editor-input"
-                          placeholder="Image URL"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">Image URL:</label>
+                            <input
+                              type="text"
+                              value={galleryItem.image}
+                              onChange={(e) =>
+                                handleGalleryFieldChange(
+                                  index,
+                                  "image",
+                                  e.target.value
+                                )
+                              }
+                              className="editor-input"
+                              placeholder="Image URL"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Thumbnail URL:</label>
-                        <input
-                          type="text"
-                          value={galleryItem.thumbnail || ""}
-                          onChange={(e) =>
-                            handleGalleryFieldChange(
-                              index,
-                              "thumbnail",
-                              e.target.value
-                            )
-                          }
-                          className="editor-input"
-                          placeholder="Thumbnail URL (optional)"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">
+                              Thumbnail URL:
+                            </label>
+                            <input
+                              type="text"
+                              value={galleryItem.thumbnail || ""}
+                              onChange={(e) =>
+                                handleGalleryFieldChange(
+                                  index,
+                                  "thumbnail",
+                                  e.target.value
+                                )
+                              }
+                              className="editor-input"
+                              placeholder="Thumbnail URL (optional)"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Caption:</label>
-                        <input
-                          type="text"
-                          value={galleryItem.caption || ""}
-                          onChange={(e) =>
-                            handleGalleryFieldChange(
-                              index,
-                              "caption",
-                              e.target.value
-                            )
-                          }
-                          className="editor-input"
-                          placeholder="Caption (optional)"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">Caption:</label>
+                            <input
+                              type="text"
+                              value={galleryItem.caption || ""}
+                              onChange={(e) =>
+                                handleGalleryFieldChange(
+                                  index,
+                                  "caption",
+                                  e.target.value
+                                )
+                              }
+                              className="editor-input"
+                              placeholder="Caption (optional)"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Content Warning:</label>
-                        <input
-                          type="text"
-                          value={galleryItem.contentWarning || ""}
-                          onChange={(e) =>
-                            handleGalleryFieldChange(
-                              index,
-                              "contentWarning",
-                              e.target.value
-                            )
-                          }
-                          className="editor-input"
-                          placeholder="Content warning (optional)"
-                        />
-                      </div>
-                    </div>
+                          <div className="editor-field">
+                            <label className="editor-label">
+                              Content Warning:
+                            </label>
+                            <input
+                              type="text"
+                              value={galleryItem.contentWarning || ""}
+                              onChange={(e) =>
+                                handleGalleryFieldChange(
+                                  index,
+                                  "contentWarning",
+                                  e.target.value
+                                )
+                              }
+                              className="editor-input"
+                              placeholder="Content warning (optional)"
+                            />
+                          </div>
+                        </div>
+                      }
+                    />
                   ))
                 )}
                 <button
@@ -1224,124 +1123,144 @@ export const EditorOc: React.FC = () => {
                   </DndContext>
                 ) : (
                   editingItem.breadcrumbs.map((breadcrumb, index) => (
-                    <div key={index} className="editor-section">
-                      <div className="editor-section-header">
-                        <h4>Breadcrumb {index + 1}</h4>
-                        <button
-                          onClick={() => handleRemoveBreadcrumb(index)}
-                          className="editor-button editor-button-danger editor-button-small"
-                        >
-                          Remove Breadcrumb
-                        </button>
-                      </div>
+                    <CollapsibleWrapper
+                      key={index}
+                      button={
+                        <>
+                          Breadcrumb {index + 1}
+                          {breadcrumb.title && ` - ${breadcrumb.title}`}
+                        </>
+                      }
+                      buttonClassName="editor-collapsible-button"
+                      container={
+                        <div className="editor-section">
+                          <div className="editor-section-header">
+                            <h4>Breadcrumb {index + 1}</h4>
+                            <button
+                              onClick={() => handleRemoveBreadcrumb(index)}
+                              className="editor-button editor-button-danger editor-button-small"
+                            >
+                              Remove Breadcrumb
+                            </button>
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Title:</label>
-                        <input
-                          type="text"
-                          value={breadcrumb.title || ""}
-                          onChange={(e) =>
-                            handleBreadcrumbChange(
-                              index,
-                              "title",
-                              e.target.value
-                            )
-                          }
-                          className="editor-input"
-                          placeholder="Breadcrumb title"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">Title:</label>
+                            <input
+                              type="text"
+                              value={breadcrumb.title || ""}
+                              onChange={(e) =>
+                                handleBreadcrumbChange(
+                                  index,
+                                  "title",
+                                  e.target.value
+                                )
+                              }
+                              className="editor-input"
+                              placeholder="Breadcrumb title"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Description:</label>
-                        <textarea
-                          value={breadcrumb.description}
-                          onChange={(e) =>
-                            handleBreadcrumbChange(
-                              index,
-                              "description",
-                              e.target.value
-                            )
-                          }
-                          rows={3}
-                          className="editor-textarea"
-                          placeholder="Breadcrumb description"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">Description:</label>
+                            <textarea
+                              value={breadcrumb.description}
+                              onChange={(e) =>
+                                handleBreadcrumbChange(
+                                  index,
+                                  "description",
+                                  e.target.value
+                                )
+                              }
+                              rows={3}
+                              className="editor-textarea"
+                              placeholder="Breadcrumb description"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">
-                          YouTube Video Embed:
-                        </label>
-                        <textarea
-                          value={breadcrumb.video || ""}
-                          onChange={(e) =>
-                            handleBreadcrumbChange(
-                              index,
-                              "video",
-                              e.target.value
-                            )
-                          }
-                          rows={3}
-                          className="editor-textarea"
-                          placeholder="Paste YouTube iframe embed code here"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">
+                              YouTube Video Embed:
+                            </label>
+                            <textarea
+                              value={breadcrumb.video || ""}
+                              onChange={(e) =>
+                                handleBreadcrumbChange(
+                                  index,
+                                  "video",
+                                  e.target.value
+                                )
+                              }
+                              rows={3}
+                              className="editor-textarea"
+                              placeholder="Paste YouTube iframe embed code here"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Content Warning:</label>
-                        <input
-                          type="text"
-                          value={breadcrumb.contentWarning || ""}
-                          onChange={(e) =>
-                            handleBreadcrumbChange(
-                              index,
-                              "contentWarning",
-                              e.target.value
-                            )
-                          }
-                          className="editor-input"
-                          placeholder="Content warning for breadcrumb images (optional)"
-                        />
-                      </div>
+                          <div className="editor-field">
+                            <label className="editor-label">
+                              Content Warning:
+                            </label>
+                            <input
+                              type="text"
+                              value={breadcrumb.contentWarning || ""}
+                              onChange={(e) =>
+                                handleBreadcrumbChange(
+                                  index,
+                                  "contentWarning",
+                                  e.target.value
+                                )
+                              }
+                              className="editor-input"
+                              placeholder="Content warning for breadcrumb images (optional)"
+                            />
+                          </div>
 
-                      <div className="editor-field">
-                        <label className="editor-label">Images:</label>
-                        {(breadcrumb.images || []).map(
-                          (imageUrl, imageIndex) => (
-                            <div key={imageIndex} className="editor-array-item">
-                              <input
-                                type="text"
-                                value={imageUrl}
-                                onChange={(e) =>
-                                  handleBreadcrumbImageChange(
-                                    index,
-                                    imageIndex,
-                                    e.target.value
-                                  )
-                                }
-                                className="editor-array-input"
-                                placeholder="Image URL"
-                              />
-                              <button
-                                onClick={() =>
-                                  handleRemoveBreadcrumbImage(index, imageIndex)
-                                }
-                                className="editor-button editor-button-danger editor-button-small"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          )
-                        )}
-                        <button
-                          onClick={() => handleAddBreadcrumbImage(index)}
-                          className="editor-button editor-button-primary editor-button-small"
-                        >
-                          Add Image
-                        </button>
-                      </div>
-                    </div>
+                          <div className="editor-field">
+                            <label className="editor-label">Images:</label>
+                            {(breadcrumb.images || []).map(
+                              (imageUrl, imageIndex) => (
+                                <div
+                                  key={imageIndex}
+                                  className="editor-array-item"
+                                >
+                                  <input
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={(e) =>
+                                      handleBreadcrumbImageChange(
+                                        index,
+                                        imageIndex,
+                                        e.target.value
+                                      )
+                                    }
+                                    className="editor-array-input"
+                                    placeholder="Image URL"
+                                  />
+                                  <button
+                                    onClick={() =>
+                                      handleRemoveBreadcrumbImage(
+                                        index,
+                                        imageIndex
+                                      )
+                                    }
+                                    className="editor-button editor-button-danger editor-button-small"
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              )
+                            )}
+                            <button
+                              onClick={() => handleAddBreadcrumbImage(index)}
+                              className="editor-button editor-button-primary editor-button-small"
+                            >
+                              Add Image
+                            </button>
+                          </div>
+                        </div>
+                      }
+                    />
                   ))
                 )}
                 <button
