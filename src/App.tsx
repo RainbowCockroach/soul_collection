@@ -12,6 +12,7 @@ import PageMain from "./page-main/PageMain";
 import SamPopup from "./page-intro/SamPopUp";
 import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
 import StarryTrail from "./common-components/StarryTrail";
+import PageGuestBook from "./page-guest-book/PageGuestBook";
 
 function App() {
   const location = useLocation();
@@ -121,7 +122,14 @@ function App() {
             <Routes>
               <Route path={`${baseUrl}/`} element={<PageMain />} />
               <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
-              <Route path={`${baseUrl}/lore`} element={<div className="page-padded">Lore Page</div>} />
+              <Route
+                path={`${baseUrl}/lore`}
+                element={<div className="page-padded">Lore Page</div>}
+              />
+              <Route
+                path={`${baseUrl}/guest-book`}
+                element={<PageGuestBook />}
+              />
               <Route
                 path={`${baseUrl}/search`}
                 element={<div className="page-padded">Search Page</div>}

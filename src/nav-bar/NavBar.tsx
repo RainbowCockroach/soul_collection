@@ -27,7 +27,7 @@ const Navbar = () => {
     },
     {
       name: "Guest book",
-      href: `${baseUrl}/search`,
+      href: `${baseUrl}/guest-book`,
       disabled: true,
     },
   ];
