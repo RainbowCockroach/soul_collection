@@ -619,3 +619,24 @@
 .editor-collapsible-button:active {
   background-color: var(--editor-gray-300);
 }
+
+/* ===== IMAGE UPLOAD STYLES ===== */
+.editor-upload-area-dragging {
+  background-color: var(--editor-gray-50) !important;
+  border-color: var(--editor-primary) !important;
+}
+
+.editor-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--editor-gray-200);
+  border-top: 2px solid var(--editor-primary);
+  border-radius: 50%;
+  animation: editor-spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes editor-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
