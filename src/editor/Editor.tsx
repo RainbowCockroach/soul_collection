@@ -5,10 +5,11 @@ import { EditorOc } from "./EditorOc";
 import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
 import EditorDialog from "./EditorDialog";
+import { EditorImageUpload } from "./EditorImageUpload";
 import { baseUrl } from "../helpers/constants";
 import "./EditorCommon.css";
 
-type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links" | "dialogs";
+type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links" | "dialogs" | "uploads";
 
 export const Editor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>("species");
@@ -19,6 +20,7 @@ export const Editor: React.FC = () => {
     { id: "tags" as const, label: "Tags", component: EditorTag },
     { id: "form-links" as const, label: "Form Links", component: EditorFormLink },
     { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
+    { id: "uploads" as const, label: "Image Upload", component: EditorImageUpload },
   ];
 
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;

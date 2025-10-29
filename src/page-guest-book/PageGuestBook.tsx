@@ -1,48 +1,19 @@
 import { useState, useEffect } from "react";
-
-interface MessageContent {
-  name: string;
-  content: string;
-  blinkie?: string;
-  thumbnail?: string;
-  full_image?: string;
-  caption?: string;
-}
-
-interface Message {
-  id: number;
-  content: MessageContent;
-  created_at: string;
-  updated_at: string;
-  expire_at: string;
-  type: "note" | "fan art";
-  password: string | null;
-  uploaded_path: string | null;
-}
-
-const API_BASE_URL = "http://localhost:3002/api";
+import GuestBookSubmission from "./GuestBookSubmission";
+import type { MessageContent, Message } from "./types";
+import { apiBaseUrl } from "../helpers/constants";
 
 const PageGuestBook = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    content: "",
-    type: "note" as "note" | "fan art",
-    password: "",
-    blinkie: "",
-    thumbnail: "",
-    full_image: "",
-    caption: "",
-  });
   const [submitting, setSubmitting] = useState(false);
 
   // Fetch messages
   const fetchMessages = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/messages`);
+      const response = await fetch(`${apiBaseUrl}/messages`);
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
@@ -60,36 +31,29 @@ const PageGuestBook = () => {
     fetchMessages();
   }, []);
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Handle submission from new GuestBookSubmission component
+  const handleFormSubmit = async (
+    messageContent: MessageContent,
+    type: "note" | "fan art",
+    password?: string
+  ) => {
     setSubmitting(true);
 
     try {
-      const messageContent: MessageContent = {
-        name: formData.name,
-        content: formData.content,
-      };
-
-      if (formData.blinkie) messageContent.blinkie = formData.blinkie;
-      if (formData.thumbnail) messageContent.thumbnail = formData.thumbnail;
-      if (formData.full_image) messageContent.full_image = formData.full_image;
-      if (formData.caption) messageContent.caption = formData.caption;
-
       const payload: {
         content: MessageContent;
         type: "note" | "fan art";
         password?: string;
       } = {
         content: messageContent,
-        type: formData.type,
+        type: type,
       };
 
-      if (formData.password) {
-        payload.password = formData.password;
+      if (password) {
+        payload.password = password;
       }
 
-      const response = await fetch(`${API_BASE_URL}/messages`, {
+      const response = await fetch(`${apiBaseUrl}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,146 +66,22 @@ const PageGuestBook = () => {
         throw new Error(errorData.error || "Failed to create message");
       }
 
-      // Reset form
-      setFormData({
-        name: "",
-        content: "",
-        type: "note",
-        password: "",
-        blinkie: "",
-        thumbnail: "",
-        full_image: "",
-        caption: "",
-      });
-
       // Refresh messages
       await fetchMessages();
+      setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit message");
+      throw err; // Re-throw so the component can handle it
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   return (
     <div className="page-padded">
-      <h1>Guest Book</h1>
-
-      {error && <div>Error: {error}</div>}
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name *</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="content">Message *</label>
-          <textarea
-            id="content"
-            name="content"
-            value={formData.content}
-            onChange={handleInputChange}
-            required
-            rows={4}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="type">Type</label>
-          <select
-            id="type"
-            name="type"
-            value={formData.type}
-            onChange={handleInputChange}
-          >
-            <option value="note">Note</option>
-            <option value="fan art">Fan Art</option>
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="password">
-            Password (optional, for editing/deleting)
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="blinkie">Blinkie URL (optional)</label>
-          <input
-            type="text"
-            id="blinkie"
-            name="blinkie"
-            value={formData.blinkie}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="thumbnail">Thumbnail URL (optional)</label>
-          <input
-            type="text"
-            id="thumbnail"
-            name="thumbnail"
-            value={formData.thumbnail}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="full_image">Full Image URL (optional)</label>
-          <input
-            type="text"
-            id="full_image"
-            name="full_image"
-            value={formData.full_image}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="caption">Caption (optional)</label>
-          <input
-            type="text"
-            id="caption"
-            name="caption"
-            value={formData.caption}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <button type="submit" disabled={submitting}>
-          {submitting ? "Submitting..." : "Submit Message"}
-        </button>
-      </form>
-
-      <h2>Messages</h2>
+      {error && (
+        <div style={{ color: "red", marginBottom: "10px" }}>Error: {error}</div>
+      )}
 
       {loading ? (
         <div>Loading messages...</div>
@@ -276,6 +116,12 @@ const PageGuestBook = () => {
           )}
         </div>
       )}
+
+      {/* New GuestBookSubmission component */}
+      <GuestBookSubmission
+        onSubmit={handleFormSubmit}
+        submitting={submitting}
+      />
     </div>
   );
 };

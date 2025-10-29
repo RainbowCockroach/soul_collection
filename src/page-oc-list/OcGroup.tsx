@@ -32,6 +32,17 @@ const OcGroup: React.FC<OcGroupProps> = ({
         style={{ background: groupInfo.groupHeaderColour }}
       >
         <h2 style={{ color: groupInfo.groupHeaderTextColour }}>
+          <span
+            style={{
+              display: "inline-block",
+              marginRight: "0.5rem",
+              transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
+              transition: "transform 0.2s ease",
+              color: groupInfo.groupHeaderTextColour,
+            }}
+          >
+            ▶
+          </span>
           {groupInfo.name}
         </h2>
       </button>
