@@ -200,7 +200,6 @@ const GuestBookSubmission = ({
                   name="name"
                   value={noteForm.name}
                   onChange={handleNoteInputChange}
-                  required
                 />
               </div>
 
@@ -283,7 +282,7 @@ const GuestBookSubmission = ({
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !noteForm.content.trim()}
               className="submit-button"
             >
               {submitting ? "Submitting..." : "Send!"}
@@ -302,7 +301,6 @@ const GuestBookSubmission = ({
                 name="name"
                 value={fanArtForm.name}
                 onChange={handleFanArtInputChange}
-                required
               />
             </div>
 
