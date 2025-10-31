@@ -40,6 +40,8 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
       - name: Build
+        env:
+          VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5

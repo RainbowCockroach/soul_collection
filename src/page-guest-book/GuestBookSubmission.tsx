@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
 import ImageUploadInput from "../common-components/ImageUploadInput";
 import type { MessageContent } from "./types";
 import "./GuestBookSubmission.css";
@@ -7,7 +8,8 @@ interface GuestBookSubmissionProps {
   onSubmit: (
     messageContent: MessageContent,
     type: "note" | "fan art",
-    password?: string
+    password?: string,
+    captchaToken?: string
   ) => Promise<void>;
   submitting?: boolean;
 }
@@ -32,6 +34,12 @@ const GuestBookSubmission = ({
     blinkie: "",
     password: "",
   });
+
+  // Captcha states
+  const [noteCaptchaToken, setNoteCaptchaToken] = useState<string | null>(null);
+  const [fanArtCaptchaToken, setFanArtCaptchaToken] = useState<string | null>(
+    null
+  );
 
   const [blinkieDropdownOpen, setBlinkieDropdownOpen] = useState(false);
   const blinkieDropdownRef = useRef<HTMLDivElement>(null);
@@ -90,13 +98,23 @@ const GuestBookSubmission = ({
   const handleNoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!noteCaptchaToken) {
+      alert("Please complete the CAPTCHA verification.");
+      return;
+    }
+
     const messageContent: MessageContent = {
       name: noteForm.name,
       content: noteForm.content,
       blinkie: noteForm.blinkie || undefined,
     };
 
-    await onSubmit(messageContent, "note", noteForm.password || undefined);
+    await onSubmit(
+      messageContent,
+      "note",
+      noteForm.password || undefined,
+      noteCaptchaToken
+    );
 
     // Reset form on successful submission
     setNoteForm({
@@ -105,10 +123,16 @@ const GuestBookSubmission = ({
       blinkie: "",
       password: "",
     });
+    setNoteCaptchaToken(null);
   };
 
   const handleFanArtSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!fanArtCaptchaToken) {
+      alert("Please complete the CAPTCHA verification.");
+      return;
+    }
 
     const messageContent: MessageContent = {
       name: fanArtForm.name,
@@ -118,7 +142,12 @@ const GuestBookSubmission = ({
       caption: fanArtForm.caption || undefined,
     };
 
-    await onSubmit(messageContent, "fan art", fanArtForm.password || undefined);
+    await onSubmit(
+      messageContent,
+      "fan art",
+      fanArtForm.password || undefined,
+      fanArtCaptchaToken
+    );
 
     // Reset form on successful submission
     setFanArtForm({
@@ -128,6 +157,7 @@ const GuestBookSubmission = ({
       caption: "",
       password: "",
     });
+    setFanArtCaptchaToken(null);
   };
 
   const handleImageUploaded = (thumbnailUrl: string, fullImageUrl: string) => {
@@ -246,9 +276,19 @@ const GuestBookSubmission = ({
               />
             </div>
 
+            <div className="form-group">
+              <label>Security verification</label>
+              <Turnstile
+                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                onSuccess={(token: string) => setNoteCaptchaToken(token)}
+                onError={() => setNoteCaptchaToken(null)}
+                onExpire={() => setNoteCaptchaToken(null)}
+              />
+            </div>
+
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !noteCaptchaToken}
               className="submit-button"
             >
               {submitting ? "Submitting..." : "Send!"}
@@ -277,6 +317,7 @@ const GuestBookSubmission = ({
               <ImageUploadInput
                 onImageUploaded={handleImageUploaded}
                 disabled={submitting}
+                captchaToken={fanArtCaptchaToken}
               />
             </div>
 
@@ -306,10 +347,22 @@ const GuestBookSubmission = ({
               />
             </div>
 
+            <div className="form-group">
+              <label>Security verification</label>
+              <Turnstile
+                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                onSuccess={(token: string) => setFanArtCaptchaToken(token)}
+                onError={() => setFanArtCaptchaToken(null)}
+                onExpire={() => setFanArtCaptchaToken(null)}
+              />
+            </div>
+
             <button
               type="submit"
               disabled={
-                submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
+                submitting ||
+                (!fanArtForm.thumbnail && !fanArtForm.full_image) ||
+                !fanArtCaptchaToken
               }
               className="submit-button"
             >

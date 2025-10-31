@@ -4,6 +4,7 @@ import { apiBaseUrl } from "../helpers/constants";
 interface ImageUploadInputProps {
   onImageUploaded: (thumbnailUrl: string, fullImageUrl: string) => void;
   disabled?: boolean;
+  captchaToken?: string | null;
 }
 
 interface ImageUploadResponse {
@@ -14,6 +15,7 @@ interface ImageUploadResponse {
 const ImageUploadInput = ({
   onImageUploaded,
   disabled = false,
+  captchaToken = null,
 }: ImageUploadInputProps) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +28,11 @@ const ImageUploadInput = ({
     setError(null);
 
     try {
+      // Check if captcha token is available
+      if (!captchaToken) {
+        throw new Error("Please complete the CAPTCHA verification first");
+      }
+
       // Validate file type
       if (!file.type.startsWith("image/")) {
         throw new Error("Please select an image file");
@@ -43,6 +50,7 @@ const ImageUploadInput = ({
       // Upload to server
       const formData = new FormData();
       formData.append("image", file);
+      formData.append("captchaToken", captchaToken);
 
       const response = await fetch(`${apiBaseUrl}/upload`, {
         method: "POST",

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import GuestBookSubmission from "./GuestBookSubmission";
+import GuestBookNoteSection from "./GuestBookNoteSection";
 import type { MessageContent, Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
 
@@ -35,7 +36,8 @@ const PageGuestBook = () => {
   const handleFormSubmit = async (
     messageContent: MessageContent,
     type: "note" | "fan art",
-    password?: string
+    password?: string,
+    captchaToken?: string
   ) => {
     setSubmitting(true);
 
@@ -44,6 +46,7 @@ const PageGuestBook = () => {
         content: MessageContent;
         type: "note" | "fan art";
         password?: string;
+        captchaToken?: string;
       } = {
         content: messageContent,
         type: type,
@@ -51,6 +54,10 @@ const PageGuestBook = () => {
 
       if (password) {
         payload.password = password;
+      }
+
+      if (captchaToken) {
+        payload.captchaToken = captchaToken;
       }
 
       const response = await fetch(`${apiBaseUrl}/messages`, {
@@ -82,6 +89,9 @@ const PageGuestBook = () => {
       {error && (
         <div style={{ color: "red", marginBottom: "10px" }}>Error: {error}</div>
       )}
+
+      {/* Notes Section */}
+      <GuestBookNoteSection notesPerPage={4} />
 
       {loading ? (
         <div>Loading messages...</div>

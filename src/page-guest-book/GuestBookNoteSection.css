@@ -1,0 +1,215 @@
+.guest-book-note-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Main container for notes and navigation */
+.notes-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  min-height: 200px;
+}
+
+/* Navigation arrows */
+.nav-arrow {
+  background: linear-gradient(135deg, #4a5db8 0%, #7b9dd9 100%);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.nav-arrow:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3a4d9a 0%, #6b8dcb 100%);
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-arrow:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.nav-arrow.disabled {
+  background: #ccc;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-arrow-left {
+  margin-right: 10px;
+}
+
+.nav-arrow-right {
+  margin-left: 10px;
+}
+
+/* Notes display area */
+.notes-display {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 200px;
+}
+
+/* Pagination info */
+.pagination-info {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 14px;
+  color: #666;
+  font-weight: bold;
+}
+
+.total-count {
+  font-weight: normal;
+  color: #888;
+  font-size: 12px;
+}
+
+/* Loading state */
+.note-section-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.loading-spinner {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+/* Error state */
+.note-section-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.error-message {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  color: #c62828;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Empty state */
+.note-section-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.empty-message {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  color: #7b1fa2;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .notes-display {
+    gap: 10px;
+  }
+
+  .nav-arrow {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .guest-book-note-section {
+    padding: 15px;
+    margin: 20px 0;
+  }
+
+  .notes-container {
+    gap: 10px;
+    min-height: 180px;
+  }
+
+  .notes-display {
+    gap: 8px;
+  }
+
+  .nav-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .nav-arrow-left {
+    margin-right: 5px;
+  }
+
+  .nav-arrow-right {
+    margin-left: 5px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+
+  .total-count {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notes-display {
+    gap: 5px;
+  }
+
+  .nav-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .pagination-info {
+    font-size: 12px;
+  }
+}
