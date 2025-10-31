@@ -43,17 +43,8 @@
 /* Pagination info */
 .pagination-info {
   text-align: center;
-  margin-top: 20px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  font-size: 14px;
-  color: #1565c0;
+  color: var(--color-white-sparkle);
   font-weight: bold;
-}
-
-.total-count {
-  font-weight: normal;
-  color: #1976d2;
-  font-size: 12px;
 }
 
 /* Loading state */

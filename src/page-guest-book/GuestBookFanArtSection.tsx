@@ -142,13 +142,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
 
       {/* Pagination info */}
       <div className="pagination-info">
-        Page {data.pagination.page} of {data.pagination.totalPages}
-        {data.pagination.total > 0 && (
-          <span className="total-count">
-            {" "}
-            ({data.pagination.total} fan art total)
-          </span>
-        )}
+        {data.pagination.page} / {data.pagination.totalPages}
       </div>
     </div>
   );

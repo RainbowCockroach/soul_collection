@@ -320,7 +320,7 @@ const GuestBookSubmission = ({
                       className="upload-trigger-button"
                       disabled={submitting}
                     >
-                      Let this human upload file
+                      Upload file
                     </button>
                   ) : (
                     <Turnstile
