@@ -43,41 +43,40 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({ message }) => {
             aria-label="View full image"
             title="Click to view full image"
           >
-            =
+            üîç
           </button>
 
           {/* Image display area */}
-          <div className="fanart-image-container">
-            {displayImage ? (
-              <img
-                src={displayImage}
-                alt={message.content.caption || `Fan art by ${message.content.name}`}
-                className="fanart-thumbnail"
-                onClick={handleMagnifyClick}
-              />
-            ) : (
+          <div
+            className="fanart-image-container"
+            style={{
+              backgroundImage: displayImage ? `url(${displayImage})` : undefined,
+            }}
+            onClick={handleMagnifyClick}
+          >
+            {!displayImage && (
               <div className="fanart-placeholder">
                 <span>No Image</span>
               </div>
             )}
-          </div>
 
-          {/* Artist info and caption */}
-          <div className="fanart-info">
-            <div className="fanart-header">
-              <span className="fanart-artist">{message.content.name}</span>
-              <span className="fanart-date">
-                {new Date(message.created_at).toLocaleDateString()}
-              </span>
+            {/* Artist info and caption - overlay on image */}
+            <div className="fanart-info">
+              <div className="fanart-header">
+                <span className="fanart-artist">{message.content.name}</span>
+                <span className="fanart-date">
+                  {new Date(message.created_at).toLocaleDateString()}
+                </span>
+              </div>
+
+              {message.content.caption && (
+                <div className="fanart-caption">{message.content.caption}</div>
+              )}
+
+              {message.content.content && (
+                <div className="fanart-description">{message.content.content}</div>
+              )}
             </div>
-
-            {message.content.caption && (
-              <div className="fanart-caption">{message.content.caption}</div>
-            )}
-
-            {message.content.content && (
-              <div className="fanart-description">{message.content.content}</div>
-            )}
           </div>
         </div>
       </div>
@@ -91,7 +90,7 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({ message }) => {
               onClick={handleCloseModal}
               aria-label="Close full image"
             >
-              ◊
+              ÔøΩ
             </button>
             <img
               src={fullImage}

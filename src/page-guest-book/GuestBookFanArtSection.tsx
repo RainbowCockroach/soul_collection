@@ -86,13 +86,16 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   if (!data || data.messages.length === 0) {
     return (
       <div className="fanart-section-empty">
-        <div className="empty-message">No fan art found. Be the first to share your creation!</div>
+        <div className="empty-message">
+          No fan art found. Be the first to share your creation!
+        </div>
       </div>
     );
   }
 
   return (
     <div className="guest-book-fanart-section">
+      <h2>Your creations</h2>
       <div className="fanart-container">
         {/* Left navigation arrow */}
         <button
@@ -130,7 +133,10 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
       <div className="pagination-info">
         Page {data.pagination.page} of {data.pagination.totalPages}
         {data.pagination.total > 0 && (
-          <span className="total-count"> ({data.pagination.total} fan art total)</span>
+          <span className="total-count">
+            {" "}
+            ({data.pagination.total} fan art total)
+          </span>
         )}
       </div>
     </div>
