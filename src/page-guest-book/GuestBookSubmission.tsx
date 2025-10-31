@@ -3,6 +3,7 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import ImageUploadInput from "../common-components/ImageUploadInput";
 import type { MessageContent } from "./types";
 import "./GuestBookSubmission.css";
+import ButtonWrapper from "../common-components/ButtonWrapper";
 
 interface GuestBookSubmissionProps {
   onSubmit: (
@@ -47,6 +48,10 @@ const GuestBookSubmission = ({
 
   const [blinkieDropdownOpen, setBlinkieDropdownOpen] = useState(false);
   const blinkieDropdownRef = useRef<HTMLDivElement>(null);
+
+  const [showNoteForm, setShowNoteForm] = useState(false);
+
+  const [showFanArtForm, setShowFanArtForm] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -189,194 +194,205 @@ const GuestBookSubmission = ({
 
       <div className="forms-container">
         <div className="form-container note-form-container">
-          <h3>Send note</h3>
-          <form onSubmit={handleNoteSubmit} className="note-form">
-            <div className="form-row">
-              <div className="form-group name-group">
-                <label htmlFor="note-name">Display name (optional)</label>
-                <input
-                  type="text"
-                  id="note-name"
-                  name="name"
-                  value={noteForm.name}
+          <ButtonWrapper onClick={() => setShowNoteForm(!showNoteForm)}>
+            <h3>Send note</h3>
+          </ButtonWrapper>
+          {showNoteForm && (
+            <form onSubmit={handleNoteSubmit} className="note-form">
+              <div className="form-row">
+                <div className="form-group name-group">
+                  <label htmlFor="note-name">Display name (optional)</label>
+                  <input
+                    type="text"
+                    id="note-name"
+                    name="name"
+                    value={noteForm.name}
+                    onChange={handleNoteInputChange}
+                  />
+                </div>
+
+                <div className="form-group blinkie-group">
+                  <label>Blinkie (optional)</label>
+                  <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
+                    <div
+                      className="blinkie-dropdown-trigger"
+                      onClick={() =>
+                        setBlinkieDropdownOpen(!blinkieDropdownOpen)
+                      }
+                    >
+                      {noteForm.blinkie ? (
+                        <img
+                          src={noteForm.blinkie}
+                          alt="Selected blinkie"
+                          className="selected-blinkie"
+                        />
+                      ) : (
+                        <span className="blinkie-placeholder">
+                          Select a blinkie
+                        </span>
+                      )}
+                      <span className="dropdown-arrow">▼</span>
+                    </div>
+                    {blinkieDropdownOpen && (
+                      <div className="blinkie-dropdown-menu">
+                        <div
+                          className="blinkie-option"
+                          onClick={() => handleBlinkieSelect("")}
+                        >
+                          <span>None</span>
+                        </div>
+                        {DUMMY_BLINKIES.map((url, index) => (
+                          <div
+                            key={index}
+                            className="blinkie-option"
+                            onClick={() => handleBlinkieSelect(url)}
+                          >
+                            <img
+                              src={url}
+                              alt={`Blinkie ${index + 1}`}
+                              className="blinkie-preview"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="note-content">Message *</label>
+                <textarea
+                  id="note-content"
+                  name="content"
+                  value={noteForm.content}
                   onChange={handleNoteInputChange}
+                  required
+                  rows={4}
+                  maxLength={150}
+                />
+                <div className="character-counter">
+                  {noteForm.content.length}/150
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="note-password">
+                  Password (for edit/delete later, optional!)
+                </label>
+                <input
+                  type="password"
+                  id="note-password"
+                  name="password"
+                  value={noteForm.password}
+                  onChange={handleNoteInputChange}
+                  placeholder="*don't set me as 123456 :)*"
                 />
               </div>
 
-              <div className="form-group blinkie-group">
-                <label>Blinkie (optional)</label>
-                <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
-                  <div
-                    className="blinkie-dropdown-trigger"
-                    onClick={() => setBlinkieDropdownOpen(!blinkieDropdownOpen)}
-                  >
-                    {noteForm.blinkie ? (
-                      <img
-                        src={noteForm.blinkie}
-                        alt="Selected blinkie"
-                        className="selected-blinkie"
-                      />
-                    ) : (
-                      <span className="blinkie-placeholder">
-                        Select a blinkie
-                      </span>
-                    )}
-                    <span className="dropdown-arrow">▼</span>
-                  </div>
-                  {blinkieDropdownOpen && (
-                    <div className="blinkie-dropdown-menu">
-                      <div
-                        className="blinkie-option"
-                        onClick={() => handleBlinkieSelect("")}
-                      >
-                        <span>None</span>
-                      </div>
-                      {DUMMY_BLINKIES.map((url, index) => (
-                        <div
-                          key={index}
-                          className="blinkie-option"
-                          onClick={() => handleBlinkieSelect(url)}
-                        >
-                          <img
-                            src={url}
-                            alt={`Blinkie ${index + 1}`}
-                            className="blinkie-preview"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="note-content">Message *</label>
-              <textarea
-                id="note-content"
-                name="content"
-                value={noteForm.content}
-                onChange={handleNoteInputChange}
-                required
-                rows={4}
-                maxLength={150}
-              />
-              <div className="character-counter">
-                {noteForm.content.length}/150
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="note-password">
-                Password (for edit/delete later, optional!)
-              </label>
-              <input
-                type="password"
-                id="note-password"
-                name="password"
-                value={noteForm.password}
-                onChange={handleNoteInputChange}
-                placeholder="*don't set me as 123456 :)*"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitting || !noteForm.content.trim()}
-              className="submit-button"
-            >
-              {submitting ? "Submitting..." : "Send!"}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={submitting || !noteForm.content.trim()}
+                className="submit-button"
+              >
+                {submitting ? "Submitting..." : "Send!"}
+              </button>
+            </form>
+          )}
         </div>
 
         <div className="form-container fanart-form-container">
-          <h3>Send fan art</h3>
-          <form onSubmit={handleFanArtSubmit} className="fan-art-form">
-            <div className="form-group">
-              <label htmlFor="fanart-name">Display name (optional)</label>
-              <input
-                type="text"
-                id="fanart-name"
-                name="name"
-                value={fanArtForm.name}
-                onChange={handleFanArtInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Upload your fan art</label>
-              {!uploadVerified ? (
-                <div>
-                  {!showUploadCaptcha ? (
-                    <button
-                      type="button"
-                      onClick={handleUploadButtonClick}
-                      className="upload-trigger-button"
-                      disabled={submitting}
-                    >
-                      Upload file
-                    </button>
-                  ) : (
-                    <Turnstile
-                      ref={uploadCaptchaRef}
-                      siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                      onSuccess={handleUploadCaptchaSuccess}
-                      onError={() => {
-                        setUploadCaptchaToken(null);
-                        setShowUploadCaptcha(false);
-                      }}
-                      onExpire={() => {
-                        setUploadCaptchaToken(null);
-                        setShowUploadCaptcha(false);
-                      }}
-                    />
-                  )}
-                </div>
-              ) : (
-                <ImageUploadInput
-                  onImageUploaded={handleImageUploaded}
-                  disabled={submitting}
-                  captchaToken={uploadCaptchaToken}
+          <ButtonWrapper onClick={() => setShowFanArtForm(!showFanArtForm)}>
+            <h3>Send fan art</h3>
+          </ButtonWrapper>
+          {showFanArtForm && (
+            <form onSubmit={handleFanArtSubmit} className="fan-art-form">
+              <div className="form-group">
+                <label htmlFor="fanart-name">Display name (optional)</label>
+                <input
+                  type="text"
+                  id="fanart-name"
+                  name="name"
+                  value={fanArtForm.name}
+                  onChange={handleFanArtInputChange}
                 />
-              )}
-            </div>
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="fanart-caption">Caption (optional)</label>
-              <input
-                type="text"
-                id="fanart-caption"
-                name="caption"
-                value={fanArtForm.caption}
-                onChange={handleFanArtInputChange}
-              />
-            </div>
+              <div className="form-group">
+                <label>Upload your fan art</label>
+                {!uploadVerified ? (
+                  <div>
+                    {!showUploadCaptcha ? (
+                      <button
+                        type="button"
+                        onClick={handleUploadButtonClick}
+                        className="upload-trigger-button"
+                        disabled={submitting}
+                      >
+                        Upload file
+                      </button>
+                    ) : (
+                      <Turnstile
+                        ref={uploadCaptchaRef}
+                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                        onSuccess={handleUploadCaptchaSuccess}
+                        onError={() => {
+                          setUploadCaptchaToken(null);
+                          setShowUploadCaptcha(false);
+                        }}
+                        onExpire={() => {
+                          setUploadCaptchaToken(null);
+                          setShowUploadCaptcha(false);
+                        }}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <ImageUploadInput
+                    onImageUploaded={handleImageUploaded}
+                    disabled={submitting}
+                    captchaToken={uploadCaptchaToken}
+                  />
+                )}
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="fanart-password">
-                Password (for edit/delete later, optional!)
-              </label>
-              <input
-                type="password"
-                id="fanart-password"
-                name="password"
-                value={fanArtForm.password}
-                onChange={handleFanArtInputChange}
-                placeholder="*don't set me as 123456 :)*"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="fanart-caption">Caption (optional)</label>
+                <input
+                  type="text"
+                  id="fanart-caption"
+                  name="caption"
+                  value={fanArtForm.caption}
+                  onChange={handleFanArtInputChange}
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={
-                submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
-              }
-              className="submit-button"
-            >
-              {submitting ? "Submitting..." : "Send!"}
-            </button>
-          </form>
+              <div className="form-group">
+                <label htmlFor="fanart-password">
+                  Password (for edit/delete later, optional!)
+                </label>
+                <input
+                  type="password"
+                  id="fanart-password"
+                  name="password"
+                  value={fanArtForm.password}
+                  onChange={handleFanArtInputChange}
+                  placeholder="*don't set me as 123456 :)*"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={
+                  submitting ||
+                  (!fanArtForm.thumbnail && !fanArtForm.full_image)
+                }
+                className="submit-button"
+              >
+                {submitting ? "Submitting..." : "Send!"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 

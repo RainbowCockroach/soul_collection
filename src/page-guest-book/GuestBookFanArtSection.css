@@ -40,11 +40,25 @@
   min-height: 220px;
 }
 
-/* Pagination info */
-.pagination-info {
+/* Header with title and refresh button */
+.fanart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fanart-header h2 {
+  margin: 0;
+}
+
+/* Auto-refresh info */
+.refresh-info {
   text-align: center;
   color: var(--color-white-sparkle);
-  font-weight: bold;
+  font-size: 12px;
+  margin-top: 15px;
+  opacity: 0.8;
 }
 
 /* Loading state */
@@ -68,12 +82,15 @@
 /* Error state */
 .fanart-section-error {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15px;
   min-height: 220px;
   background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
   border-radius: 15px;
   margin: 30px 0;
+  padding: 20px;
 }
 
 .error-message {

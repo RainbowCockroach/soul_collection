@@ -2,24 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
 import ButtonWrapper from "../common-components/ButtonWrapper";
-import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
 
-interface PaginatedResponse {
-  messages: Message[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
-}
-
 interface GuestBookFanArtSectionProps {
-  fanArtPerPage?: number;
+  fanArtCount?: number;
+  refreshIntervalMs?: number;
 }
 
 // Wrapper component to handle refs properly
@@ -38,50 +26,58 @@ const FanArtWithButton: React.FC<{ message: Message }> = ({ message }) => {
 };
 
 const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
-  fanArtPerPage = 4,
+  fanArtCount = 4,
+  refreshIntervalMs = 30000, // Default: refresh every 30 seconds
 }) => {
-  const [data, setData] = useState<PaginatedResponse | null>(null);
+  const [fanArtMessages, setFanArtMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Fetch fan art for the current page
-  const fetchFanArt = async (page: number) => {
+  // Fetch random fan art
+  const fetchRandomFanArt = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`
+        `${apiBaseUrl}/messages/random/fan-art?count=${fanArtCount}`
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch fan art");
+        throw new Error("Failed to fetch random fan art");
       }
 
       const responseData = await response.json();
-      setData(responseData);
+      setFanArtMessages(responseData);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
-      setData(null);
+      setFanArtMessages([]);
     } finally {
       setLoading(false);
     }
   };
 
+  // Setup interval for automatic refresh
   useEffect(() => {
-    fetchFanArt(currentPage);
-  }, [currentPage, fanArtPerPage]);
+    // Initial fetch
+    fetchRandomFanArt();
 
-  const handlePrevPage = () => {
-    if (data?.pagination.hasPrev) {
-      setCurrentPage((prev) => prev - 1);
+    // Setup interval for periodic refresh
+    if (refreshIntervalMs > 0) {
+      intervalRef.current = setInterval(fetchRandomFanArt, refreshIntervalMs);
     }
-  };
 
-  const handleNextPage = () => {
-    if (data?.pagination.hasNext) {
-      setCurrentPage((prev) => prev + 1);
-    }
+    // Cleanup interval on unmount
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [fanArtCount, refreshIntervalMs]);
+
+  // Manual refresh function
+  const handleRefresh = () => {
+    fetchRandomFanArt();
   };
 
   if (loading) {
@@ -96,11 +92,14 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
     return (
       <div className="fanart-section-error">
         <div className="error-message">Error loading fan art: {error}</div>
+        <ButtonWrapper onClick={handleRefresh}>
+          <div className="refresh-button">Try Again</div>
+        </ButtonWrapper>
       </div>
     );
   }
 
-  if (!data || data.messages.length === 0) {
+  if (fanArtMessages.length === 0) {
     return (
       <div className="fanart-section-empty">
         <div className="empty-message">
@@ -112,37 +111,23 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
 
   return (
     <div className="guest-book-fanart-section">
-      <h2>Your creations</h2>
-      <div className="fanart-container">
-        {/* Left navigation arrow */}
-        {data.pagination.hasPrev && (
-          <ArrowButton
-            direction="left"
-            className="section-nav-button section-nav-button--left"
-            onClick={handlePrevPage}
-          />
-        )}
+      <div className="fanart-header">
+        <h2>Your creations</h2>
+      </div>
 
+      <div className="fanart-container">
         {/* Fan art display */}
         <div className="fanart-display">
-          {data.messages.map((message) => (
+          {fanArtMessages.map((message) => (
             <FanArtWithButton key={message.id} message={message} />
           ))}
         </div>
-
-        {/* Right navigation arrow */}
-        {data.pagination.hasNext && (
-          <ArrowButton
-            direction="right"
-            className="section-nav-button section-nav-button--right"
-            onClick={handleNextPage}
-          />
-        )}
       </div>
 
-      {/* Pagination info */}
-      <div className="pagination-info">
-        {data.pagination.page} / {data.pagination.totalPages}
+      {/* Auto-refresh info */}
+      <div className="refresh-info">
+        Refreshes automatically every {Math.round(refreshIntervalMs / 1000)}{" "}
+        seconds
       </div>
     </div>
   );
