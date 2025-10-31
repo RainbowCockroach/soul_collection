@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Turnstile } from "@marsidev/react-turnstile";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import ImageUploadInput from "../common-components/ImageUploadInput";
 import type { MessageContent } from "./types";
 import "./GuestBookSubmission.css";
@@ -35,15 +35,15 @@ const GuestBookSubmission = ({
     password: "",
   });
 
-  // Captcha states
-  const [noteCaptchaToken, setNoteCaptchaToken] = useState<string | null>(null);
-  const [fanArtCaptchaToken, setFanArtCaptchaToken] = useState<string | null>(
+  // Upload captcha state
+  const [uploadCaptchaToken, setUploadCaptchaToken] = useState<string | null>(
     null
   );
+  const [showUploadCaptcha, setShowUploadCaptcha] = useState(false);
+  const [uploadVerified, setUploadVerified] = useState(false);
 
-  // Captcha refs for resetting widgets
-  const noteCaptchaRef = useRef<any>(null);
-  const fanArtCaptchaRef = useRef<any>(null);
+  // Captcha ref for upload widget
+  const uploadCaptchaRef = useRef<TurnstileInstance>(null);
 
   const [blinkieDropdownOpen, setBlinkieDropdownOpen] = useState(false);
   const blinkieDropdownRef = useRef<HTMLDivElement>(null);
@@ -102,51 +102,25 @@ const GuestBookSubmission = ({
   const handleNoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!noteCaptchaToken) {
-      alert("Please complete the CAPTCHA verification.");
-      return;
-    }
-
     const messageContent: MessageContent = {
       name: noteForm.name,
       content: noteForm.content,
       blinkie: noteForm.blinkie || undefined,
     };
 
-    try {
-      await onSubmit(
-        messageContent,
-        "note",
-        noteForm.password || undefined,
-        noteCaptchaToken
-      );
+    await onSubmit(messageContent, "note", noteForm.password || undefined);
 
-      // Reset form on successful submission
-      setNoteForm({
-        name: "",
-        content: "",
-        blinkie: "",
-        password: "",
-      });
-      setNoteCaptchaToken(null);
-    } catch (error) {
-      // Reset captcha token on any error so user can retry with fresh token
-      setNoteCaptchaToken(null);
-      // Reset the Turnstile widget to get a new token
-      if (noteCaptchaRef.current?.reset) {
-        noteCaptchaRef.current.reset();
-      }
-      throw error;
-    }
+    // Reset form on successful submission
+    setNoteForm({
+      name: "",
+      content: "",
+      blinkie: "",
+      password: "",
+    });
   };
 
   const handleFanArtSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!fanArtCaptchaToken) {
-      alert("Please complete the CAPTCHA verification.");
-      return;
-    }
 
     const messageContent: MessageContent = {
       name: fanArtForm.name,
@@ -156,31 +130,22 @@ const GuestBookSubmission = ({
       caption: fanArtForm.caption || undefined,
     };
 
-    try {
-      await onSubmit(
-        messageContent,
-        "fan art",
-        fanArtForm.password || undefined,
-        fanArtCaptchaToken
-      );
+    await onSubmit(messageContent, "fan art", fanArtForm.password || undefined);
 
-      // Reset form on successful submission
-      setFanArtForm({
-        name: "",
-        thumbnail: "",
-        full_image: "",
-        caption: "",
-        password: "",
-      });
-      setFanArtCaptchaToken(null);
-    } catch (error) {
-      // Reset captcha token on any error so user can retry with fresh token
-      setFanArtCaptchaToken(null);
-      // Reset the Turnstile widget to get a new token
-      if (fanArtCaptchaRef.current?.reset) {
-        fanArtCaptchaRef.current.reset();
-      }
-      throw error;
+    // Reset form on successful submission
+    setFanArtForm({
+      name: "",
+      thumbnail: "",
+      full_image: "",
+      caption: "",
+      password: "",
+    });
+    // Reset upload state
+    setUploadCaptchaToken(null);
+    setShowUploadCaptcha(false);
+    setUploadVerified(false);
+    if (uploadCaptchaRef.current?.reset) {
+      uploadCaptchaRef.current.reset();
     }
   };
 
@@ -190,6 +155,24 @@ const GuestBookSubmission = ({
       thumbnail: thumbnailUrl,
       full_image: fullImageUrl,
     }));
+
+    // Reset upload CAPTCHA after successful upload
+    setUploadCaptchaToken(null);
+    setShowUploadCaptcha(false);
+    setUploadVerified(false);
+    if (uploadCaptchaRef.current?.reset) {
+      uploadCaptchaRef.current.reset();
+    }
+  };
+
+  const handleUploadButtonClick = () => {
+    // Show CAPTCHA when user clicks the upload button
+    setShowUploadCaptcha(true);
+  };
+
+  const handleUploadCaptchaSuccess = (token: string) => {
+    setUploadCaptchaToken(token);
+    setUploadVerified(true);
   };
 
   const handleBlinkieSelect = (url: string) => {
@@ -300,20 +283,9 @@ const GuestBookSubmission = ({
               />
             </div>
 
-            <div className="form-group">
-              <label>Security verification</label>
-              <Turnstile
-                ref={noteCaptchaRef}
-                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                onSuccess={(token: string) => setNoteCaptchaToken(token)}
-                onError={() => setNoteCaptchaToken(null)}
-                onExpire={() => setNoteCaptchaToken(null)}
-              />
-            </div>
-
             <button
               type="submit"
-              disabled={submitting || !noteCaptchaToken}
+              disabled={submitting}
               className="submit-button"
             >
               {submitting ? "Submitting..." : "Send!"}
@@ -339,11 +311,40 @@ const GuestBookSubmission = ({
 
             <div className="form-group">
               <label>Upload your fan art</label>
-              <ImageUploadInput
-                onImageUploaded={handleImageUploaded}
-                disabled={submitting}
-                captchaToken={fanArtCaptchaToken}
-              />
+              {!uploadVerified ? (
+                <div>
+                  {!showUploadCaptcha ? (
+                    <button
+                      type="button"
+                      onClick={handleUploadButtonClick}
+                      className="upload-trigger-button"
+                      disabled={submitting}
+                    >
+                      Let this human upload file
+                    </button>
+                  ) : (
+                    <Turnstile
+                      ref={uploadCaptchaRef}
+                      siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                      onSuccess={handleUploadCaptchaSuccess}
+                      onError={() => {
+                        setUploadCaptchaToken(null);
+                        setShowUploadCaptcha(false);
+                      }}
+                      onExpire={() => {
+                        setUploadCaptchaToken(null);
+                        setShowUploadCaptcha(false);
+                      }}
+                    />
+                  )}
+                </div>
+              ) : (
+                <ImageUploadInput
+                  onImageUploaded={handleImageUploaded}
+                  disabled={submitting}
+                  captchaToken={uploadCaptchaToken}
+                />
+              )}
             </div>
 
             <div className="form-group">
@@ -372,23 +373,10 @@ const GuestBookSubmission = ({
               />
             </div>
 
-            <div className="form-group">
-              <label>Security verification</label>
-              <Turnstile
-                ref={fanArtCaptchaRef}
-                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                onSuccess={(token: string) => setFanArtCaptchaToken(token)}
-                onError={() => setFanArtCaptchaToken(null)}
-                onExpire={() => setFanArtCaptchaToken(null)}
-              />
-            </div>
-
             <button
               type="submit"
               disabled={
-                submitting ||
-                (!fanArtForm.thumbnail && !fanArtForm.full_image) ||
-                !fanArtCaptchaToken
+                submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
               }
               className="submit-button"
             >
