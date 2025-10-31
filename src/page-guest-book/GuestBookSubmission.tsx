@@ -193,14 +193,13 @@ const GuestBookSubmission = ({
           <form onSubmit={handleNoteSubmit} className="note-form">
             <div className="form-row">
               <div className="form-group name-group">
-                <label htmlFor="note-name">Name</label>
+                <label htmlFor="note-name">Display name (optional)</label>
                 <input
                   type="text"
                   id="note-name"
                   name="name"
                   value={noteForm.name}
                   onChange={handleNoteInputChange}
-                  placeholder="Type here"
                   required
                 />
               </div>
@@ -259,7 +258,6 @@ const GuestBookSubmission = ({
                 name="content"
                 value={noteForm.content}
                 onChange={handleNoteInputChange}
-                placeholder="Type here"
                 required
                 rows={4}
                 maxLength={150}
@@ -271,7 +269,7 @@ const GuestBookSubmission = ({
 
             <div className="form-group">
               <label htmlFor="note-password">
-                Password (optional, for editing/deleting)
+                Password (for edit/delete later, optional!)
               </label>
               <input
                 type="password"
@@ -279,7 +277,7 @@ const GuestBookSubmission = ({
                 name="password"
                 value={noteForm.password}
                 onChange={handleNoteInputChange}
-                placeholder="Optional password"
+                placeholder="*don't set me as 123456 :)*"
               />
             </div>
 
@@ -297,14 +295,13 @@ const GuestBookSubmission = ({
           <h3>Send fan art</h3>
           <form onSubmit={handleFanArtSubmit} className="fan-art-form">
             <div className="form-group">
-              <label htmlFor="fanart-name">Name</label>
+              <label htmlFor="fanart-name">Display name (optional)</label>
               <input
                 type="text"
                 id="fanart-name"
                 name="name"
                 value={fanArtForm.name}
                 onChange={handleFanArtInputChange}
-                placeholder="Type here"
                 required
               />
             </div>
@@ -355,13 +352,12 @@ const GuestBookSubmission = ({
                 name="caption"
                 value={fanArtForm.caption}
                 onChange={handleFanArtInputChange}
-                placeholder="Add a caption for your art"
               />
             </div>
 
             <div className="form-group">
               <label htmlFor="fanart-password">
-                Password (optional, for editing/deleting)
+                Password (for edit/delete later, optional!)
               </label>
               <input
                 type="password"
@@ -369,7 +365,7 @@ const GuestBookSubmission = ({
                 name="password"
                 value={fanArtForm.password}
                 onChange={handleFanArtInputChange}
-                placeholder="Optional password"
+                placeholder="*don't set me as 123456 :)*"
               />
             </div>
 
