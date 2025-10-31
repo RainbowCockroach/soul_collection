@@ -1,9 +1,6 @@
 .guest-book-note-section {
   margin: 30px 0;
   padding: 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Main container for notes and navigation */
@@ -47,7 +44,7 @@
 .pagination-info {
   text-align: center;
   margin-top: 20px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 14px;
   color: #666;
   font-weight: bold;
@@ -71,7 +68,7 @@
 }
 
 .loading-spinner {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 16px;
   color: #666;
   text-align: center;
@@ -89,7 +86,7 @@
 }
 
 .error-message {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 16px;
   color: #c62828;
   text-align: center;
@@ -108,7 +105,7 @@
 }
 
 .empty-message {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 16px;
   color: #7b1fa2;
   text-align: center;

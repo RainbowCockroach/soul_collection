@@ -87,7 +87,9 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
   if (!data || data.messages.length === 0) {
     return (
       <div className="note-section-empty">
-        <div className="empty-message">No notes found. Be the first to leave one!</div>
+        <div className="empty-message">
+          No notes found. Be the first to leave one!
+        </div>
       </div>
     );
   }
@@ -123,10 +125,7 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
 
       {/* Pagination info */}
       <div className="pagination-info">
-        Page {data.pagination.page} of {data.pagination.totalPages}
-        {data.pagination.total > 0 && (
-          <span className="total-count"> ({data.pagination.total} notes total)</span>
-        )}
+        {data.pagination.page} / {data.pagination.totalPages}
       </div>
     </div>
   );
