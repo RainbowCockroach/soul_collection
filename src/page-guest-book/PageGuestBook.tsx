@@ -50,8 +50,6 @@ const PageGuestBook = () => {
         throw new Error(errorData.error || "Failed to create message");
       }
 
-      // Refresh messages
-      await fetchMessages();
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit message");

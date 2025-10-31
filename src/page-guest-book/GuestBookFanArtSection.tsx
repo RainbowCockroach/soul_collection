@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { Message } from "./types";
-import GuestBookFanArt from "./GuestBookFanArt";
+import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
+import ButtonWrapper from "../common-components/ButtonWrapper";
+import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
 
@@ -19,6 +21,21 @@ interface PaginatedResponse {
 interface GuestBookFanArtSectionProps {
   fanArtPerPage?: number;
 }
+
+// Wrapper component to handle refs properly
+const FanArtWithButton: React.FC<{ message: Message }> = ({ message }) => {
+  const fanArtRef = useRef<GuestBookFanArtRef>(null);
+
+  return (
+    <ButtonWrapper
+      onClick={() => {
+        fanArtRef.current?.openImageInNewTab();
+      }}
+    >
+      <GuestBookFanArt ref={fanArtRef} message={message} />
+    </ButtonWrapper>
+  );
+};
 
 const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   fanArtPerPage = 4,
@@ -98,35 +115,29 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
       <h2>Your creations</h2>
       <div className="fanart-container">
         {/* Left navigation arrow */}
-        <button
-          className={`nav-arrow nav-arrow-left ${
-            !data.pagination.hasPrev ? "disabled" : ""
-          }`}
-          onClick={handlePrevPage}
-          disabled={!data.pagination.hasPrev}
-          aria-label="Previous page"
-        >
-          &#8249;
-        </button>
+        {data.pagination.hasPrev && (
+          <ArrowButton
+            direction="left"
+            className="section-nav-button section-nav-button--left"
+            onClick={handlePrevPage}
+          />
+        )}
 
         {/* Fan art display */}
         <div className="fanart-display">
           {data.messages.map((message) => (
-            <GuestBookFanArt key={message.id} message={message} />
+            <FanArtWithButton key={message.id} message={message} />
           ))}
         </div>
 
         {/* Right navigation arrow */}
-        <button
-          className={`nav-arrow nav-arrow-right ${
-            !data.pagination.hasNext ? "disabled" : ""
-          }`}
-          onClick={handleNextPage}
-          disabled={!data.pagination.hasNext}
-          aria-label="Next page"
-        >
-          &#8250;
-        </button>
+        {data.pagination.hasNext && (
+          <ArrowButton
+            direction="right"
+            className="section-nav-button section-nav-button--right"
+            onClick={handleNextPage}
+          />
+        )}
       </div>
 
       {/* Pagination info */}

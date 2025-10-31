@@ -32,35 +32,7 @@
   min-height: 200px;
 }
 
-/* Magnifier glass icon */
-.magnifier-icon {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #6c757d;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  z-index: 3;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.magnifier-icon:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.magnifier-icon:active {
-  transform: scale(0.95);
-}
+/* Magnifier icon removed - clicking opens image in new tab */
 
 /* Image container */
 .fanart-image-container {
@@ -75,15 +47,12 @@
   justify-content: center;
   overflow: hidden;
   position: relative;
-  cursor: pointer;
 
   /* Background image styling */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-
-/* Thumbnail styles removed - now using background image */
 
 .fanart-placeholder {
   display: flex;
@@ -145,111 +114,8 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.fanart-description {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.3;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  word-wrap: break-word;
-  hyphens: auto;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-/* Hover effect for the entire frame */
-.guest-book-fanart:hover .fanart-window-frame {
-  transform: translateY(-3px);
-  transition: all 0.3s ease;
-}
-
-.fanart-window-frame {
-  transition: all 0.3s ease;
-}
-
-/* Full image modal */
-.fanart-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  cursor: pointer;
-}
-
-.fanart-modal-content {
-  position: relative;
-  max-width: 90%;
-  max-height: 90%;
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  cursor: default;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.fanart-modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.fanart-modal-close:hover {
-  background: #c82333;
-  transform: scale(1.1);
-}
-
-.fanart-modal-image {
-  max-width: 100%;
-  max-height: 70vh;
-  object-fit: contain;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-
-.fanart-modal-info {
-  text-align: center;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  max-width: 500px;
-}
-
-.fanart-modal-info h3 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 18px;
-}
-
-.fanart-modal-info p {
-  margin: 5px 0;
-  color: #666;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.fanart-modal-date {
-  font-size: 12px !important;
-  color: #999 !important;
-  margin-top: 10px !important;
-}
+/* Hover effects removed - handled by ButtonWrapper */
+/* Modal removed - clicking opens image in new tab */
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -266,21 +132,5 @@
 
   .fanart-image-container {
     min-height: 140px; /* Maintain taller arch on mobile */
-  }
-
-  .magnifier-icon {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-  }
-
-  .fanart-modal-content {
-    max-width: 95%;
-    max-height: 95%;
-    padding: 15px;
-  }
-
-  .fanart-modal-image {
-    max-height: 60vh;
   }
 }

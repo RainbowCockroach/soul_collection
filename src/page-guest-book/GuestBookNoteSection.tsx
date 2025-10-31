@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { Message } from "./types";
 import GuestBookNote from "./GuestBookNote";
+import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookNoteSection.css";
 
@@ -95,16 +96,13 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
     <div className="guest-book-note-section">
       <div className="notes-container">
         {/* Left navigation arrow */}
-        <button
-          className={`nav-arrow nav-arrow-left ${
-            !data.pagination.hasPrev ? "disabled" : ""
-          }`}
-          onClick={handlePrevPage}
-          disabled={!data.pagination.hasPrev}
-          aria-label="Previous page"
-        >
-          &#8249;
-        </button>
+        {data.pagination.hasPrev && (
+          <ArrowButton
+            direction="left"
+            className="section-nav-button section-nav-button--left"
+            onClick={handlePrevPage}
+          />
+        )}
 
         {/* Notes display */}
         <div className="notes-display">
@@ -114,16 +112,13 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
         </div>
 
         {/* Right navigation arrow */}
-        <button
-          className={`nav-arrow nav-arrow-right ${
-            !data.pagination.hasNext ? "disabled" : ""
-          }`}
-          onClick={handleNextPage}
-          disabled={!data.pagination.hasNext}
-          aria-label="Next page"
-        >
-          &#8250;
-        </button>
+        {data.pagination.hasNext && (
+          <ArrowButton
+            direction="right"
+            className="section-nav-button section-nav-button--right"
+            onClick={handleNextPage}
+          />
+        )}
       </div>
 
       {/* Pagination info */}
