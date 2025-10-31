@@ -1,10 +1,8 @@
 .guest-book-submission {
-  background: linear-gradient(135deg, #4a5db8 0%, #7b9dd9 50%, #a8c8d8 100%);
-  border-radius: 15px;
   padding: 20px;
   margin: 20px 0;
   color: white;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .guest-book-submission h2 {
@@ -14,7 +12,6 @@
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
-
 
 .forms-container {
   display: flex;
