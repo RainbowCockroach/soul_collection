@@ -8,11 +8,22 @@
   max-width: 250px;
 }
 
+/* Reserve space for blinkie area - always consistent height */
+.guest-book-note::before {
+  content: "";
+  height: 31px; /* Same as blinkie image height */
+  width: 100%;
+  display: block;
+  margin-bottom: -10px; /* Overlap with paper */
+}
+
 /* Blinkie positioned above the note */
 .note-blinkie {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
-  margin-bottom: -10px; /* Overlap slightly with the paper */
   display: flex;
   justify-content: center;
 }

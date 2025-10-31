@@ -1,0 +1,215 @@
+.guest-book-fanart-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Main container for fan art and navigation */
+.fanart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  min-height: 220px;
+}
+
+/* Navigation arrows - using similar styling to notes but with different colors */
+.nav-arrow {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.nav-arrow:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1565c0 0%, #1e88e5 100%);
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-arrow:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.nav-arrow.disabled {
+  background: #ccc;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-arrow-left {
+  margin-right: 10px;
+}
+
+.nav-arrow-right {
+  margin-left: 10px;
+}
+
+/* Fan art display area */
+.fanart-display {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 220px;
+}
+
+/* Pagination info */
+.pagination-info {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 14px;
+  color: #1565c0;
+  font-weight: bold;
+}
+
+.total-count {
+  font-weight: normal;
+  color: #1976d2;
+  font-size: 12px;
+}
+
+/* Loading state */
+.fanart-section-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.loading-spinner {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  color: #1565c0;
+  text-align: center;
+}
+
+/* Error state */
+.fanart-section-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.error-message {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  color: #c62828;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Empty state */
+.fanart-section-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.empty-message {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  color: #7b1fa2;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .fanart-display {
+    gap: 10px;
+  }
+
+  .nav-arrow {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .guest-book-fanart-section {
+    padding: 15px;
+    margin: 20px 0;
+  }
+
+  .fanart-container {
+    gap: 10px;
+    min-height: 200px;
+  }
+
+  .fanart-display {
+    gap: 8px;
+  }
+
+  .nav-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .nav-arrow-left {
+    margin-right: 5px;
+  }
+
+  .nav-arrow-right {
+    margin-left: 5px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+
+  .total-count {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fanart-display {
+    gap: 5px;
+  }
+
+  .nav-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .pagination-info {
+    font-size: 12px;
+  }
+}

@@ -41,6 +41,10 @@ const GuestBookSubmission = ({
     null
   );
 
+  // Captcha refs for resetting widgets
+  const noteCaptchaRef = useRef<any>(null);
+  const fanArtCaptchaRef = useRef<any>(null);
+
   const [blinkieDropdownOpen, setBlinkieDropdownOpen] = useState(false);
   const blinkieDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -109,21 +113,31 @@ const GuestBookSubmission = ({
       blinkie: noteForm.blinkie || undefined,
     };
 
-    await onSubmit(
-      messageContent,
-      "note",
-      noteForm.password || undefined,
-      noteCaptchaToken
-    );
+    try {
+      await onSubmit(
+        messageContent,
+        "note",
+        noteForm.password || undefined,
+        noteCaptchaToken
+      );
 
-    // Reset form on successful submission
-    setNoteForm({
-      name: "",
-      content: "",
-      blinkie: "",
-      password: "",
-    });
-    setNoteCaptchaToken(null);
+      // Reset form on successful submission
+      setNoteForm({
+        name: "",
+        content: "",
+        blinkie: "",
+        password: "",
+      });
+      setNoteCaptchaToken(null);
+    } catch (error) {
+      // Reset captcha token on any error so user can retry with fresh token
+      setNoteCaptchaToken(null);
+      // Reset the Turnstile widget to get a new token
+      if (noteCaptchaRef.current?.reset) {
+        noteCaptchaRef.current.reset();
+      }
+      throw error;
+    }
   };
 
   const handleFanArtSubmit = async (e: React.FormEvent) => {
@@ -142,22 +156,32 @@ const GuestBookSubmission = ({
       caption: fanArtForm.caption || undefined,
     };
 
-    await onSubmit(
-      messageContent,
-      "fan art",
-      fanArtForm.password || undefined,
-      fanArtCaptchaToken
-    );
+    try {
+      await onSubmit(
+        messageContent,
+        "fan art",
+        fanArtForm.password || undefined,
+        fanArtCaptchaToken
+      );
 
-    // Reset form on successful submission
-    setFanArtForm({
-      name: "",
-      thumbnail: "",
-      full_image: "",
-      caption: "",
-      password: "",
-    });
-    setFanArtCaptchaToken(null);
+      // Reset form on successful submission
+      setFanArtForm({
+        name: "",
+        thumbnail: "",
+        full_image: "",
+        caption: "",
+        password: "",
+      });
+      setFanArtCaptchaToken(null);
+    } catch (error) {
+      // Reset captcha token on any error so user can retry with fresh token
+      setFanArtCaptchaToken(null);
+      // Reset the Turnstile widget to get a new token
+      if (fanArtCaptchaRef.current?.reset) {
+        fanArtCaptchaRef.current.reset();
+      }
+      throw error;
+    }
   };
 
   const handleImageUploaded = (thumbnailUrl: string, fullImageUrl: string) => {
@@ -279,6 +303,7 @@ const GuestBookSubmission = ({
             <div className="form-group">
               <label>Security verification</label>
               <Turnstile
+                ref={noteCaptchaRef}
                 siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
                 onSuccess={(token: string) => setNoteCaptchaToken(token)}
                 onError={() => setNoteCaptchaToken(null)}
@@ -350,6 +375,7 @@ const GuestBookSubmission = ({
             <div className="form-group">
               <label>Security verification</label>
               <Turnstile
+                ref={fanArtCaptchaRef}
                 siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
                 onSuccess={(token: string) => setFanArtCaptchaToken(token)}
                 onError={() => setFanArtCaptchaToken(null)}
