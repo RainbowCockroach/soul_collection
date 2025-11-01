@@ -15,13 +15,19 @@ interface GuestBookSubmissionProps {
   submitting?: boolean;
 }
 
-// Dummy blinkie URLs for demonstration (using placeholder images)
-const DUMMY_BLINKIES = [
+const BLINKIES = [
   "https://adriansblinkiecollection.neocities.org/b47.gif",
   "https://adriansblinkiecollection.neocities.org/b47.gif",
   "https://adriansblinkiecollection.neocities.org/b47.gif",
   "https://adriansblinkiecollection.neocities.org/b47.gif",
   "https://adriansblinkiecollection.neocities.org/b47.gif",
+];
+const CONTENT_WARNINGS = [
+  "Flashing Lights",
+  "Mild Violence",
+  "Strong Language",
+  "Adult Themes",
+  "Horror Elements",
 ];
 
 const GuestBookSubmission = ({
@@ -53,6 +59,20 @@ const GuestBookSubmission = ({
 
   const [showFanArtForm, setShowFanArtForm] = useState(false);
 
+  // Fan art form state
+  const [fanArtForm, setFanArtForm] = useState({
+    name: "",
+    thumbnail: "",
+    full_image: "",
+    caption: "",
+    password: "",
+  });
+
+  // Content warning multi-select state
+  const [selectedContentWarnings, setSelectedContentWarnings] = useState<
+    string[]
+  >([]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -72,15 +92,6 @@ const GuestBookSubmission = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [blinkieDropdownOpen]);
-
-  // Fan art form state
-  const [fanArtForm, setFanArtForm] = useState({
-    name: "",
-    thumbnail: "",
-    full_image: "",
-    caption: "",
-    password: "",
-  });
 
   const handleNoteInputChange = (
     e: React.ChangeEvent<
@@ -133,6 +144,10 @@ const GuestBookSubmission = ({
       thumbnail: fanArtForm.thumbnail || undefined,
       full_image: fanArtForm.full_image || undefined,
       caption: fanArtForm.caption || undefined,
+      content_warning:
+        selectedContentWarnings.length > 0
+          ? selectedContentWarnings.join(", ")
+          : undefined,
     };
 
     await onSubmit(messageContent, "fan art", fanArtForm.password || undefined);
@@ -145,6 +160,8 @@ const GuestBookSubmission = ({
       caption: "",
       password: "",
     });
+    // Reset content warnings
+    setSelectedContentWarnings([]);
     // Reset upload state
     setUploadCaptchaToken(null);
     setShowUploadCaptcha(false);
@@ -186,6 +203,23 @@ const GuestBookSubmission = ({
       blinkie: url,
     }));
     setBlinkieDropdownOpen(false);
+  };
+
+  const handleContentWarningChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const warning = e.target.value;
+    const isChecked = e.target.checked;
+
+    setSelectedContentWarnings((prev) => {
+      if (isChecked) {
+        // Add warning if checked
+        return [...prev, warning];
+      } else {
+        // Remove warning if unchecked
+        return prev.filter((w) => w !== warning);
+      }
+    });
   };
 
   return (
@@ -241,7 +275,7 @@ const GuestBookSubmission = ({
                         >
                           <span>None</span>
                         </div>
-                        {DUMMY_BLINKIES.map((url, index) => (
+                        {BLINKIES.map((url, index) => (
                           <div
                             key={index}
                             className="blinkie-option"
@@ -365,6 +399,23 @@ const GuestBookSubmission = ({
                   value={fanArtForm.caption}
                   onChange={handleFanArtInputChange}
                 />
+              </div>
+
+              <div className="form-group">
+                <label>Content warning (optional)</label>
+                <div className="content-warning-checkboxes">
+                  {CONTENT_WARNINGS.map((warning, index) => (
+                    <label key={index} className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        value={warning}
+                        checked={selectedContentWarnings.includes(warning)}
+                        onChange={handleContentWarningChange}
+                      />
+                      <span className="checkbox-text">{warning}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <div className="form-group">

@@ -5,6 +5,7 @@ export interface MessageContent {
   thumbnail?: string;
   full_image?: string;
   caption?: string;
+  content_warning?: string;
 }
 
 export interface Message {
@@ -16,4 +17,5 @@ export interface Message {
   type: "note" | "fan art";
   password: string | null;
   uploaded_path: string | null;
+  content_warning?: string;
 }
