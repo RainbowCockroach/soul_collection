@@ -72,6 +72,8 @@ const GuestBookSubmission = ({
   const [selectedContentWarnings, setSelectedContentWarnings] = useState<
     string[]
   >([]);
+  // Other content warning text
+  const [otherContentWarning, setOtherContentWarning] = useState<string>("");
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -138,6 +140,29 @@ const GuestBookSubmission = ({
   const handleFanArtSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Build content warning string by combining selected warnings and custom "Other" text
+    const allContentWarnings = [...selectedContentWarnings];
+    if (
+      selectedContentWarnings.includes("Other") &&
+      otherContentWarning.trim()
+    ) {
+      // Replace "Other" with the custom text
+      const index = allContentWarnings.indexOf("Other");
+      allContentWarnings[index] = otherContentWarning.trim();
+    } else if (
+      !selectedContentWarnings.includes("Other") &&
+      otherContentWarning.trim()
+    ) {
+      // If "Other" isn't checked but there's text, add it anyway
+      allContentWarnings.push(otherContentWarning.trim());
+    } else if (
+      selectedContentWarnings.includes("Other") &&
+      !otherContentWarning.trim()
+    ) {
+      // If "Other" is checked but no custom text, remove "Other"
+      allContentWarnings.splice(allContentWarnings.indexOf("Other"), 1);
+    }
+
     const messageContent: MessageContent = {
       name: fanArtForm.name,
       content: fanArtForm.caption || "Fan art submission",
@@ -145,8 +170,8 @@ const GuestBookSubmission = ({
       full_image: fanArtForm.full_image || undefined,
       caption: fanArtForm.caption || undefined,
       content_warning:
-        selectedContentWarnings.length > 0
-          ? selectedContentWarnings.join(", ")
+        allContentWarnings.length > 0
+          ? allContentWarnings.join(", ")
           : undefined,
     };
 
@@ -162,6 +187,7 @@ const GuestBookSubmission = ({
     });
     // Reset content warnings
     setSelectedContentWarnings([]);
+    setOtherContentWarning("");
     // Reset upload state
     setUploadCaptchaToken(null);
     setShowUploadCaptcha(false);
@@ -223,17 +249,29 @@ const GuestBookSubmission = ({
     });
   };
 
+  const handleOtherContentWarningChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setOtherContentWarning(e.target.value);
+  };
+
   return (
     <div className="guest-book-submission">
       <h2>Wanna leave something here?</h2>
 
       <div className="forms-container">
         <div className="form-container note-form-container">
-          <ButtonWrapper onClick={() => setShowNoteForm(!showNoteForm)}>
+          <ButtonWrapper
+            className="div-3d-with-shadow form-toggle-button"
+            onClick={() => setShowNoteForm(!showNoteForm)}
+          >
             <h3>Send note</h3>
           </ButtonWrapper>
           {showNoteForm && (
-            <form onSubmit={handleNoteSubmit} className="note-form">
+            <form
+              onSubmit={handleNoteSubmit}
+              className="div-3d-with-shadow guest-book-form"
+            >
               <div className="form-row">
                 <div className="form-group name-group">
                   <label htmlFor="note-name">Display name (optional)</label>
@@ -316,7 +354,7 @@ const GuestBookSubmission = ({
                   Password (for edit/delete later, optional!)
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   id="note-password"
                   name="password"
                   value={noteForm.password}
@@ -337,11 +375,17 @@ const GuestBookSubmission = ({
         </div>
 
         <div className="form-container fanart-form-container">
-          <ButtonWrapper onClick={() => setShowFanArtForm(!showFanArtForm)}>
+          <ButtonWrapper
+            className="div-3d-with-shadow form-toggle-button"
+            onClick={() => setShowFanArtForm(!showFanArtForm)}
+          >
             <h3>Send fan art</h3>
           </ButtonWrapper>
           {showFanArtForm && (
-            <form onSubmit={handleFanArtSubmit} className="fan-art-form">
+            <form
+              onSubmit={handleFanArtSubmit}
+              className="div-3d-with-shadow guest-book-form"
+            >
               <div className="form-group">
                 <label htmlFor="fanart-name">Display name (optional)</label>
                 <input
@@ -405,18 +449,43 @@ const GuestBookSubmission = ({
               <div className="form-group">
                 <label>Content warning (optional)</label>
                 <div className="content-warning-checkboxes">
-                  {CONTENT_WARNINGS.map((warning, index) => (
-                    <label key={index} className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        value={warning}
-                        checked={selectedContentWarnings.includes(warning)}
-                        onChange={handleContentWarningChange}
-                      />
-                      <span className="checkbox-text">{warning}</span>
-                    </label>
-                  ))}
+                  {CONTENT_WARNINGS.map((warning, index) => {
+                    const checkboxId = `content-warning-${index}`;
+                    return (
+                      <div key={index}>
+                        <input
+                          id={checkboxId}
+                          type="checkbox"
+                          value={warning}
+                          checked={selectedContentWarnings.includes(warning)}
+                          onChange={handleContentWarningChange}
+                        />
+                        <label htmlFor={checkboxId}>{warning}</label>
+                      </div>
+                    );
+                  })}
+                  <div className="checkbox-label">
+                    <input
+                      id="content-warning-other"
+                      type="checkbox"
+                      value="Other"
+                      checked={selectedContentWarnings.includes("Other")}
+                      onChange={handleContentWarningChange}
+                    />
+                    <label htmlFor="content-warning-other">Other</label>
+                  </div>
                 </div>
+              </div>
+
+              <div className="form-group">
+                {selectedContentWarnings.includes("Other") && (
+                  <input
+                    type="text"
+                    placeholder="Specify other content warning..."
+                    value={otherContentWarning}
+                    onChange={handleOtherContentWarningChange}
+                  />
+                )}
               </div>
 
               <div className="form-group">
@@ -424,7 +493,7 @@ const GuestBookSubmission = ({
                   Password (for edit/delete later, optional!)
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   id="fanart-password"
                   name="password"
                   value={fanArtForm.password}

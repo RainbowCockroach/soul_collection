@@ -1,16 +1,6 @@
 .guest-book-submission {
   padding: 20px;
   margin: 20px 0;
-  color: white;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-}
-
-.guest-book-submission h2 {
-  text-align: center;
-  margin: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .forms-container {
@@ -20,20 +10,41 @@
 }
 
 .form-container {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   flex: 1;
 }
 
-.form-container h3 {
-  margin: 0 0 15px 0;
-  font-size: 16px;
-  font-weight: bold;
+.form-toggle-button {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: var(--color-green);
+}
+
+.form-toggle-button h3 {
   text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  color: white;
+  margin: 0;
+}
+
+.guest-book-form {
+  margin-top: 1vh;
+  padding: 1rem;
+  background-color: var(--color-white-sparkle);
+}
+.guest-book-form input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background-color: #fafafa;
+  transition: border-color 0.2s ease;
+}
+
+.guest-book-form input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-green);
 }
 
 .form-row {
@@ -54,93 +65,13 @@
   flex: 1;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 14px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  font-family: inherit;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #666;
-  font-style: italic;
-}
-
 .character-counter {
   text-align: right;
-  font-size: 12px;
   margin-top: 5px;
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.submit-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 50%, #ffb3b3 100%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  padding: 10px 20px;
-  color: white;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  margin-top: 10px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+/*  */
 
-.submit-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #ff5252 0%, #ff7979 50%, #ffa8a8 100%);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.submit-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.disclaimer {
-  text-align: center;
-  font-size: 12px;
-  margin-top: 20px;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  font-style: italic;
-}
-
-/* Blinkie dropdown styles */
 .blinkie-dropdown {
   position: relative;
 }
@@ -148,23 +79,11 @@
 .blinkie-dropdown-trigger {
   width: 100%;
   padding: 8px 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  font-family: inherit;
-  font-size: 14px;
   box-sizing: border-box;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 40px;
-}
-
-.blinkie-dropdown-trigger:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.95);
 }
 
 .selected-blinkie {
@@ -173,15 +92,8 @@
   object-fit: contain;
 }
 
-.blinkie-placeholder {
-  color: #666;
-  font-style: italic;
-}
-
 .dropdown-arrow {
   margin-left: 8px;
-  font-size: 12px;
-  color: #666;
 }
 
 .blinkie-dropdown-menu {
@@ -189,10 +101,6 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
@@ -200,19 +108,8 @@
 
 .blinkie-option {
   padding: 8px 12px;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  transition: background-color 0.2s ease;
-}
-
-.blinkie-option:hover {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.blinkie-option span {
-  color: #333;
-  font-size: 14px;
 }
 
 .blinkie-preview {
@@ -221,7 +118,35 @@
   object-fit: contain;
 }
 
-/* Mobile responsiveness */
+.form-container button,
+.upload-trigger-button {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.content-warning-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.content-warning-checkboxes > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.content-warning-checkboxes label {
+  display: inline;
+  margin-bottom: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 @media (max-width: 768px) {
   .forms-container {
     flex-direction: column;
