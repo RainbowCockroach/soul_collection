@@ -178,10 +178,11 @@ const GuestBookSubmission = ({
       full_image: fullImageUrl,
     }));
 
-    // Reset upload CAPTCHA after successful upload
+    // Reset upload CAPTCHA token after successful upload, but keep upload verified
+    // so user can continue to see the ImageUploadInput component
     setUploadCaptchaToken(null);
     setShowUploadCaptcha(false);
-    setUploadVerified(false);
+    // Note: We don't reset uploadVerified here to maintain the UI state
     if (uploadCaptchaRef.current?.reset) {
       uploadCaptchaRef.current.reset();
     }
