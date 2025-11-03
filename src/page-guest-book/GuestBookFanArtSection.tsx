@@ -111,7 +111,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
 
   return (
     <div className="guest-book-fanart-section">
-      <div className="fanart-header">
+      <div>
         <h2>Your creations</h2>
       </div>
 

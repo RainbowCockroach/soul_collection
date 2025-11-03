@@ -69,7 +69,7 @@ const PageGuestBook = () => {
       <GuestBookNoteSection notesPerPage={4} />
 
       {/* Fan Art Section */}
-      <GuestBookFanArtSection fanArtCount={4} refreshIntervalMs={5000} />
+      <GuestBookFanArtSection fanArtCount={4} refreshIntervalMs={50000} />
 
       {/* New GuestBookSubmission component */}
       <GuestBookSubmission

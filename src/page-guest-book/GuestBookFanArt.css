@@ -4,8 +4,9 @@
   align-items: center;
   margin: 10px;
   position: relative;
-  min-width: 200px;
-  max-width: 250px;
+  width: 100%; /* Use full width of flex container */
+  min-width: 200px; /* Keep minimum for very small screens */
+  box-sizing: border-box; /* Include padding and borders in width calculation */
 }
 
 /* Blinkie positioned above the frame */
@@ -29,7 +30,6 @@
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  min-height: 200px;
 }
 
 /* Magnifier icon removed - clicking opens image in new tab */
@@ -41,7 +41,7 @@
   border-radius: 47% 47% 0 0; /* Arched shape: rounded top, flat bottom */
   padding: 1px;
   margin-bottom: 10px;
-  min-height: 250px; /* Taller arch */
+  aspect-ratio: 1 / 1.618; /* Golden ratio (width : height) */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +59,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 160px; /* Match taller container */
+  height: 100%; /* Fill the container with golden ratio */
   background: #f8f9fa;
   color: #6c757d;
   font-family: "Comic Sans MS", cursive, sans-serif;
@@ -120,17 +120,24 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .guest-book-fanart {
-    min-width: 180px;
-    max-width: 220px;
     margin: 8px;
+    min-width: 180px; /* Maintain minimum width for mobile */
   }
 
   .fanart-window-frame {
     padding: 12px;
-    min-height: 180px;
   }
 
-  .fanart-image-container {
-    min-height: 140px; /* Maintain taller arch on mobile */
+  /* Image container maintains golden ratio automatically via aspect-ratio */
+}
+
+@media (max-width: 480px) {
+  .guest-book-fanart {
+    margin: 4px; /* Reduce margin further on mobile to prevent overflow */
+    min-width: 140px;
+  }
+
+  .fanart-window-frame {
+    padding: 8px; /* Reduce padding on mobile */
   }
 }
