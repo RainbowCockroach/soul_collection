@@ -18,7 +18,7 @@
   border: 1px solid black;
   border-radius: 4px;
   padding: 0.5rem 1rem;
-  background-color: transparent;
+  background-color: var(--color-purple);
   color: var(--color-green);
 }
 
@@ -32,7 +32,8 @@
   padding: 1rem;
   background-color: var(--color-white-sparkle);
 }
-.guest-book-form input[type="text"] {
+.guest-book-submission input[type="text"],
+.guest-book-submission textarea {
   width: 100%;
   box-sizing: border-box;
   border: 1px solid #ddd;
@@ -40,9 +41,15 @@
   padding: 8px 12px;
   background-color: #fafafa;
   transition: border-color 0.2s ease;
+  font-family: inherit;
 }
 
-.guest-book-form input[type="text"]:focus {
+.guest-book-submission textarea {
+  resize: vertical;
+}
+
+.guest-book-submission input[type="text"]:focus,
+.guest-book-submission textarea:focus {
   outline: none;
   border-color: var(--color-green);
 }
@@ -104,6 +111,7 @@
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
+  background-color: white;
 }
 
 .blinkie-option {

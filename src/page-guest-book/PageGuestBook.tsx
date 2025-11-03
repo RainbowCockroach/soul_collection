@@ -13,7 +13,7 @@ const PageGuestBook = () => {
   const handleFormSubmit = async (
     messageContent: MessageContent,
     type: "note" | "fan art",
-    password?: string,
+    password?: string | null,
     captchaToken?: string
   ) => {
     setSubmitting(true);
@@ -22,14 +22,14 @@ const PageGuestBook = () => {
       const payload: {
         content: MessageContent;
         type: "note" | "fan art";
-        password?: string;
+        password?: string | null;
         captchaToken?: string;
       } = {
         content: messageContent,
         type: type,
       };
 
-      if (password) {
+      if (password !== undefined) {
         payload.password = password;
       }
 

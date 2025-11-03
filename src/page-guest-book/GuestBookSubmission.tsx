@@ -9,7 +9,7 @@ interface GuestBookSubmissionProps {
   onSubmit: (
     messageContent: MessageContent,
     type: "note" | "fan art",
-    password?: string,
+    password?: string | null,
     captchaToken?: string
   ) => Promise<void>;
   submitting?: boolean;
@@ -121,12 +121,12 @@ const GuestBookSubmission = ({
     e.preventDefault();
 
     const messageContent: MessageContent = {
-      name: noteForm.name,
-      content: noteForm.content,
-      blinkie: noteForm.blinkie || undefined,
+      name: noteForm.name || null,
+      content: noteForm.content || null,
+      blinkie: noteForm.blinkie || null,
     };
 
-    await onSubmit(messageContent, "note", noteForm.password || undefined);
+    await onSubmit(messageContent, "note", noteForm.password || null);
 
     // Reset form on successful submission
     setNoteForm({
@@ -164,18 +164,16 @@ const GuestBookSubmission = ({
     }
 
     const messageContent: MessageContent = {
-      name: fanArtForm.name,
-      content: fanArtForm.caption || "Fan art submission",
-      thumbnail: fanArtForm.thumbnail || undefined,
-      full_image: fanArtForm.full_image || undefined,
-      caption: fanArtForm.caption || undefined,
+      name: fanArtForm.name || null,
+      content: fanArtForm.caption || null,
+      thumbnail: fanArtForm.thumbnail || null,
+      full_image: fanArtForm.full_image || null,
+      caption: fanArtForm.caption || null,
       content_warning:
-        allContentWarnings.length > 0
-          ? allContentWarnings.join(", ")
-          : undefined,
+        allContentWarnings.length > 0 ? allContentWarnings.join(", ") : null,
     };
 
-    await onSubmit(messageContent, "fan art", fanArtForm.password || undefined);
+    await onSubmit(messageContent, "fan art", fanArtForm.password || null);
 
     // Reset form on successful submission
     setFanArtForm({
