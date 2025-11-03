@@ -4,6 +4,7 @@ import ImageUploadInput from "../common-components/ImageUploadInput";
 import type { MessageContent } from "./types";
 import "./GuestBookSubmission.css";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import blinkies from "../data/guestbook-blinkies.json";
 
 interface GuestBookSubmissionProps {
   onSubmit: (
@@ -15,13 +16,7 @@ interface GuestBookSubmissionProps {
   submitting?: boolean;
 }
 
-const BLINKIES = [
-  "https://adriansblinkiecollection.neocities.org/b47.gif",
-  "https://adriansblinkiecollection.neocities.org/b47.gif",
-  "https://adriansblinkiecollection.neocities.org/b47.gif",
-  "https://adriansblinkiecollection.neocities.org/b47.gif",
-  "https://adriansblinkiecollection.neocities.org/b47.gif",
-];
+const BLINKIES = blinkies as string[];
 const CONTENT_WARNINGS = [
   "Genitals",
   "Nipples",
