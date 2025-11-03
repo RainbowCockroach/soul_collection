@@ -5,6 +5,13 @@ import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookNoteSection.css";
 
+// Hook to get responsive notes per page - keeping 4 notes for both desktop and mobile
+const useResponsiveNotesPerPage = (defaultNotesPerPage: number) => {
+  // Always use the default number of notes per page (4) for consistency
+  // Mobile will display them in a 2x2 grid layout instead of reducing the count
+  return defaultNotesPerPage;
+};
+
 interface PaginatedResponse {
   messages: Message[];
   pagination: {
@@ -22,8 +29,9 @@ interface GuestBookNoteSectionProps {
 }
 
 const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
-  notesPerPage = 4,
+  notesPerPage: defaultNotesPerPage = 4,
 }) => {
+  const notesPerPage = useResponsiveNotesPerPage(defaultNotesPerPage);
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,36 +104,45 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
 
   return (
     <div className="guest-book-note-section">
-      <div className="notes-container">
-        {/* Left navigation arrow */}
-        {data.pagination.hasPrev && (
-          <ArrowButton
-            direction="left"
-            className="section-nav-button section-nav-button--left"
-            onClick={handlePrevPage}
-          />
-        )}
+      {/* Notes display */}
+      <div className="notes-display">
+        {data.messages.map((message) => (
+          <GuestBookNote key={message.id} message={message} />
+        ))}
+      </div>
 
-        {/* Notes display */}
-        <div className="notes-display">
-          {data.messages.map((message) => (
-            <GuestBookNote key={message.id} message={message} />
-          ))}
+      {/* Pagination navigation bar */}
+      <div className="pagination-nav">
+        {/* Left navigation arrow */}
+        <div className="pagination-nav-left">
+          {data.pagination.hasPrev ? (
+            <ArrowButton
+              direction="left"
+              className="section-nav-button"
+              onClick={handlePrevPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
+
+        {/* Pagination info */}
+        <div className="pagination-info">
+          {data.pagination.page} / {data.pagination.totalPages}
         </div>
 
         {/* Right navigation arrow */}
-        {data.pagination.hasNext && (
-          <ArrowButton
-            direction="right"
-            className="section-nav-button section-nav-button--right"
-            onClick={handleNextPage}
-          />
-        )}
-      </div>
-
-      {/* Pagination info */}
-      <div className="pagination-info">
-        {data.pagination.page} / {data.pagination.totalPages}
+        <div className="pagination-nav-right">
+          {data.pagination.hasNext ? (
+            <ArrowButton
+              direction="right"
+              className="section-nav-button"
+              onClick={handleNextPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 32px; /* Ensure minimum clickable area */
+  min-height: 32px; /* Ensure minimum clickable area */
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .arrow-button img {

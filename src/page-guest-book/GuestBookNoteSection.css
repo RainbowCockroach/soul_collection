@@ -3,31 +3,6 @@
   padding: 20px;
 }
 
-/* Main container for notes and navigation */
-.notes-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  position: relative;
-  min-height: 200px;
-}
-
-/* ArrowButton positioning for notes section */
-.notes-container .section-nav-button {
-  position: relative;
-  margin: 0;
-  flex-shrink: 0;
-}
-
-.notes-container .section-nav-button--left {
-  margin-right: 15px;
-}
-
-.notes-container .section-nav-button--right {
-  margin-left: 15px;
-}
-
 /* Notes display area */
 .notes-display {
   display: flex;
@@ -36,18 +11,41 @@
   gap: 15px;
   flex-wrap: nowrap;
   overflow-x: hidden;
-  flex: 1;
   min-height: 200px;
+  margin-bottom: 20px;
+}
+
+/* Pagination navigation bar */
+.pagination-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.pagination-nav-left,
+.pagination-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px; /* Reserve space for buttons */
+}
+
+.nav-spacer {
+  width: 32px; /* Same as min-width of arrow button */
+  height: 32px;
 }
 
 /* Pagination info */
 .pagination-info {
   text-align: center;
-  margin-top: 20px;
   font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 14px;
-  color: #666;
+  color: var(--color-white-sparkle);
   font-weight: bold;
+  flex: 1;
 }
 
 .total-count {
@@ -125,26 +123,20 @@
     margin: 20px 0;
   }
 
-  .notes-container {
-    gap: 10px;
-    min-height: 180px;
-  }
-
   .notes-display {
+    /* Switch to CSS Grid for 2x2 layout on mobile */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    grid-template-rows: auto auto; /* 2 rows */
     gap: 8px;
-  }
-
-  .notes-container .section-nav-button--left {
-    margin-right: 10px;
-  }
-
-  .notes-container .section-nav-button--right {
-    margin-left: 10px;
+    justify-items: center;
+    align-items: flex-start;
+    min-height: 360px;
+    margin-bottom: 15px;
   }
 
   .pagination-info {
     font-size: 13px;
-    margin-top: 15px;
   }
 
   .total-count {
@@ -153,11 +145,23 @@
 }
 
 @media (max-width: 480px) {
+  .guest-book-note-section {
+    padding: 10px;
+    margin: 15px 0;
+  }
+
   .notes-display {
+    /* Maintain CSS Grid for 2x2 layout on very small screens */
     gap: 5px;
+    min-height: 320px;
+    margin-bottom: 10px;
   }
 
   .pagination-info {
     font-size: 12px;
+  }
+
+  .pagination-nav {
+    max-width: 300px; /* Smaller on mobile */
   }
 }

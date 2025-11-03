@@ -23,11 +23,11 @@ const BLINKIES = [
   "https://adriansblinkiecollection.neocities.org/b47.gif",
 ];
 const CONTENT_WARNINGS = [
-  "Flashing Lights",
-  "Mild Violence",
-  "Strong Language",
-  "Adult Themes",
-  "Horror Elements",
+  "Genitals",
+  "Nipples",
+  "Gore",
+  "Drugs",
+  "Eldritch horror beyond comprehension",
 ];
 
 const GuestBookSubmission = ({

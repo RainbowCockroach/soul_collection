@@ -122,9 +122,9 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .guest-book-note {
-    min-width: 180px;
-    max-width: 220px;
-    margin: 8px;
+    min-width: 160px;
+    max-width: 200px;
+    margin: 6px;
   }
 
   .note-paper {
@@ -138,5 +138,34 @@
 
   .note-content {
     font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .guest-book-note {
+    min-width: 140px;
+    max-width: 180px;
+    margin: 4px;
+  }
+
+  .note-paper {
+    padding: 10px;
+    min-height: 120px;
+  }
+
+  .note-name {
+    font-size: 12px;
+  }
+
+  .note-date {
+    font-size: 10px;
+  }
+
+  .note-content {
+    font-size: 11px;
+  }
+
+  .note-caption {
+    font-size: 10px;
   }
 }
