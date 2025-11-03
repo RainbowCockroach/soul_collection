@@ -13,21 +13,6 @@
   min-height: 320px; /* Increased to accommodate golden ratio height */
 }
 
-/* ArrowButton positioning for fan art section */
-.fanart-container .section-nav-button {
-  position: relative;
-  margin: 0;
-  flex-shrink: 0;
-}
-
-.fanart-container .section-nav-button--left {
-  margin-right: 15px;
-}
-
-.fanart-container .section-nav-button--right {
-  margin-left: 15px;
-}
-
 /* Fan art display area */
 .fanart-display {
   display: flex;
@@ -155,23 +140,6 @@
     min-width: 180px;
     box-sizing: border-box;
   }
-
-  .fanart-container .section-nav-button--left {
-    margin-right: 10px;
-  }
-
-  .fanart-container .section-nav-button--right {
-    margin-left: 10px;
-  }
-
-  .pagination-info {
-    font-size: 13px;
-    margin-top: 15px;
-  }
-
-  .total-count {
-    font-size: 11px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -193,9 +161,5 @@
 
   .fanart-container {
     min-height: auto; /* Remove height constraint to allow natural wrapping */
-  }
-
-  .pagination-info {
-    font-size: 12px;
   }
 }

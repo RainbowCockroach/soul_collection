@@ -32,7 +32,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   const [fanArtMessages, setFanArtMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   // Fetch random fan art
   const fetchRandomFanArt = async () => {
