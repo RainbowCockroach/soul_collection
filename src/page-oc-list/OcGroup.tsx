@@ -1,6 +1,7 @@
 import React from "react";
 import OcSlot from "./OcSlot";
 import type { OC } from "./OcSlot";
+import ButtonWrapper from "../common-components/ButtonWrapper";
 import "./OcGroup.css";
 
 export interface OcGroupInfo {
@@ -26,7 +27,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
 }) => {
   return (
     <div className="oc-group">
-      <button
+      <ButtonWrapper
         onClick={() => onToggle(groupInfo.slug)}
         className="div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
@@ -45,7 +46,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
           </span>
           {groupInfo.name}
         </h2>
-      </button>
+      </ButtonWrapper>
 
       {isExpanded && (
         <div className="oc-group-content">
