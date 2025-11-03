@@ -1,0 +1,165 @@
+.guest-book-fanart-section {
+  margin: 30px 0;
+  padding: 20px;
+}
+
+/* Main container for fan art and navigation */
+.fanart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  min-height: 320px; /* Increased to accommodate golden ratio height */
+}
+
+/* Fan art display area */
+.fanart-display {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 320px; /* Increased to accommodate golden ratio height */
+  padding: 5px; /* Add padding to provide space for hover expansion */
+}
+
+/* Individual fan art items - 1/4 container width on desktop with hover expansion buffer */
+.fanart-display > * {
+  flex: 0 0 calc(24% - 11.25px); /* Reduced from 25% to 24% to accommodate 2% hover scale */
+  max-width: calc(24% - 11.25px);
+  min-width: 200px; /* Fallback minimum width */
+  box-sizing: border-box; /* Include padding and borders in width calculation */
+}
+
+/* Auto-refresh info */
+.refresh-info {
+  text-align: center;
+  color: var(--color-white-sparkle);
+  font-size: 12px;
+  margin-top: 15px;
+  opacity: 0.8;
+}
+
+/* Loading state */
+.fanart-section-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px; /* Match container height */
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.loading-spinner {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  color: #1565c0;
+  text-align: center;
+}
+
+/* Error state */
+.fanart-section-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  min-height: 320px; /* Match container height */
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+  padding: 20px;
+}
+
+.error-message {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  color: #c62828;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Empty state */
+.fanart-section-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px; /* Match container height */
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.empty-message {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  color: #7b1fa2;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .fanart-display {
+    gap: 10px;
+    padding: 5px; /* Maintain padding for hover expansion */
+  }
+
+  /* Adjust gap calculation for 1200px and below with hover expansion buffer */
+  .fanart-display > * {
+    flex: 0 0 calc(24% - 7.5px); /* Reduced from 25% to 24% to accommodate 2% hover scale */
+    max-width: calc(24% - 7.5px);
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 768px) {
+  .guest-book-fanart-section {
+    padding: 15px;
+    margin: 20px 0;
+  }
+
+  .fanart-container {
+    gap: 10px;
+    min-height: 280px; /* Adjusted for mobile golden ratio */
+  }
+
+  .fanart-display {
+    gap: 8px;
+    padding: 5px; /* Maintain padding for hover expansion */
+  }
+
+  /* 2 items per row on tablets with hover expansion buffer */
+  .fanart-display > * {
+    flex: 0 0 calc(48% - 4px); /* Reduced from 50% to 48% to accommodate 2% hover scale */
+    max-width: calc(48% - 4px);
+    min-width: 180px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .fanart-display {
+    gap: 5px;
+    min-height: auto; /* Remove height constraint to allow wrapping */
+    flex-wrap: wrap; /* Ensure items can wrap to new rows */
+    align-content: flex-start; /* Align wrapped rows to top */
+    padding: 5px; /* Maintain padding for hover expansion */
+  }
+
+  /* 2x2 grid: 2 items per row on mobile with hover expansion buffer */
+  .fanart-display > * {
+    flex: 0 0 calc(48% - 2.5px); /* Reduced from 50% to 48% to accommodate 2% hover scale */
+    max-width: calc(48% - 2.5px);
+    min-width: 140px; /* Smaller minimum for mobile */
+    box-sizing: border-box;
+  }
+
+  .fanart-container {
+    min-height: auto; /* Remove height constraint to allow natural wrapping */
+  }
+}

@@ -1,10 +1,11 @@
 export interface MessageContent {
-  name: string;
-  content: string;
-  blinkie?: string;
-  thumbnail?: string;
-  full_image?: string;
-  caption?: string;
+  name: string | null;
+  content: string | null;
+  blinkie?: string | null;
+  thumbnail?: string | null;
+  full_image?: string | null;
+  caption?: string | null;
+  content_warning?: string | null;
 }
 
 export interface Message {
@@ -16,4 +17,5 @@ export interface Message {
   type: "note" | "fan art";
   password: string | null;
   uploaded_path: string | null;
+  content_warning?: string;
 }

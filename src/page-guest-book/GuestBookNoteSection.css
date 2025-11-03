@@ -1,0 +1,167 @@
+.guest-book-note-section {
+  margin: 30px 0;
+  padding: 20px;
+}
+
+/* Notes display area */
+.notes-display {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+  min-height: 200px;
+  margin-bottom: 20px;
+}
+
+/* Pagination navigation bar */
+.pagination-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.pagination-nav-left,
+.pagination-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px; /* Reserve space for buttons */
+}
+
+.nav-spacer {
+  width: 32px; /* Same as min-width of arrow button */
+  height: 32px;
+}
+
+/* Pagination info */
+.pagination-info {
+  text-align: center;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 14px;
+  color: var(--color-white-sparkle);
+  font-weight: bold;
+  flex: 1;
+}
+
+.total-count {
+  font-weight: normal;
+  color: #888;
+  font-size: 12px;
+}
+
+/* Loading state */
+.note-section-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.loading-spinner {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+/* Error state */
+.note-section-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.error-message {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  color: #c62828;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Empty state */
+.note-section-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.empty-message {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  color: #7b1fa2;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .notes-display {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .guest-book-note-section {
+    padding: 15px;
+    margin: 20px 0;
+  }
+
+  .notes-display {
+    /* Switch to CSS Grid for 2x2 layout on mobile */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    grid-template-rows: auto auto; /* 2 rows */
+    gap: 8px;
+    justify-items: center;
+    align-items: flex-start;
+    min-height: 360px;
+    margin-bottom: 15px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+  }
+
+  .total-count {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .guest-book-note-section {
+    padding: 10px;
+    margin: 15px 0;
+  }
+
+  .notes-display {
+    /* Maintain CSS Grid for 2x2 layout on very small screens */
+    gap: 5px;
+    min-height: 320px;
+    margin-bottom: 10px;
+  }
+
+  .pagination-info {
+    font-size: 12px;
+  }
+
+  .pagination-nav {
+    max-width: 300px; /* Smaller on mobile */
+  }
+}

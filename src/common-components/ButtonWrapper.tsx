@@ -7,6 +7,7 @@ interface ButtonWrapperProps {
   onClick: () => void;
   disabled?: boolean;
   className?: string;
+  style?: React.CSSProperties;
   soundFile?: string;
   soundVolume?: number;
   hoverSoundFile?: string;
@@ -18,6 +19,7 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   onClick,
   disabled = false,
   className = "",
+  style,
   soundFile,
   soundVolume = 0.5,
   hoverSoundFile,
@@ -63,6 +65,7 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
       className={`button-wrapper ${className} ${isPressed ? "pressed" : ""} ${
         disabled ? "disabled" : ""
       }`}
+      style={style}
       onMouseEnter={handleMouseEnter}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
