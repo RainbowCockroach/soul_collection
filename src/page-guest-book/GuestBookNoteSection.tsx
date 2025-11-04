@@ -106,15 +106,37 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
     <div className="guest-book-note-section">
       {/* Notes display */}
       <div className="notes-display">
+        <div className="pagination-nav-left pagination-nav-desktop">
+          {data.pagination.hasPrev ? (
+            <ArrowButton
+              direction="left"
+              className="section-nav-button"
+              onClick={handlePrevPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
         {data.messages.map((message) => (
           <GuestBookNote key={message.id} message={message} />
         ))}
+        <div className="pagination-nav-right pagination-nav-desktop">
+          {data.pagination.hasNext ? (
+            <ArrowButton
+              direction="right"
+              className="section-nav-button"
+              onClick={handleNextPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
       </div>
 
       {/* Pagination navigation bar */}
       <div className="pagination-nav">
         {/* Left navigation arrow */}
-        <div className="pagination-nav-left">
+        <div className="pagination-nav-left pagination-nav-mobile">
           {data.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
@@ -132,7 +154,7 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
         </div>
 
         {/* Right navigation arrow */}
-        <div className="pagination-nav-right">
+        <div className="pagination-nav-right pagination-nav-mobile">
           {data.pagination.hasNext ? (
             <ArrowButton
               direction="right"

@@ -7,7 +7,7 @@
 .notes-display {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center; /* Changed from flex-start to center for vertical centering */
   gap: 15px;
   flex-wrap: nowrap;
   overflow-x: hidden;
@@ -163,5 +163,28 @@
 
   .pagination-nav {
     max-width: 300px; /* Smaller on mobile */
+  }
+}
+
+/* Desktop/Mobile navigation visibility controls */
+/* Desktop: Show desktop nav, hide mobile nav */
+@media (min-width: 769px) {
+  .pagination-nav-desktop {
+    display: flex;
+  }
+
+  .pagination-nav-mobile {
+    display: none !important;
+  }
+}
+
+/* Mobile: Hide desktop nav, show mobile nav */
+@media (max-width: 768px) {
+  .pagination-nav-desktop {
+    display: none !important;
+  }
+
+  .pagination-nav-mobile {
+    display: flex;
   }
 }
