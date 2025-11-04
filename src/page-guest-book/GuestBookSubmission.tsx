@@ -5,6 +5,7 @@ import type { MessageContent } from "./types";
 import "./GuestBookSubmission.css";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import blinkies from "../data/guestbook-blinkies.json";
+import buttonSendNote from "../assets/button_send_note.gif";
 
 interface GuestBookSubmissionProps {
   onSubmit: (
@@ -356,13 +357,22 @@ const GuestBookSubmission = ({
                 />
               </div>
 
-              <button
+              <ButtonWrapper
                 type="submit"
+                onClick={() => {}}
                 disabled={submitting || !noteForm.content.trim()}
                 className="submit-button"
               >
-                {submitting ? "Submitting..." : "Send!"}
-              </button>
+                {submitting ? (
+                  "Submitting..."
+                ) : (
+                  <img
+                    src={buttonSendNote}
+                    alt="Send"
+                    className="div-3d-with-shadow"
+                  />
+                )}
+              </ButtonWrapper>
             </form>
           )}
         </div>
@@ -495,16 +505,25 @@ const GuestBookSubmission = ({
                 />
               </div>
 
-              <button
+              <ButtonWrapper
                 type="submit"
+                onClick={() => {}}
                 disabled={
                   submitting ||
                   (!fanArtForm.thumbnail && !fanArtForm.full_image)
                 }
                 className="submit-button"
               >
-                {submitting ? "Submitting..." : "Send!"}
-              </button>
+                {submitting ? (
+                  "Submitting..."
+                ) : (
+                  <img
+                    src={buttonSendNote}
+                    alt="Send"
+                    className="div-3d-with-shadow"
+                  />
+                )}
+              </ButtonWrapper>
             </form>
           )}
         </div>
