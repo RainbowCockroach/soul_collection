@@ -34,7 +34,7 @@ const GuestBookSubmission = ({
   const [noteForm, setNoteForm] = useState({
     name: "",
     content: "",
-    blinkie: "",
+    blinkies: [] as string[],
     password: "",
   });
 
@@ -119,7 +119,7 @@ const GuestBookSubmission = ({
     const messageContent: MessageContent = {
       name: noteForm.name || null,
       content: noteForm.content || null,
-      blinkie: noteForm.blinkie || null,
+      blinkies: noteForm.blinkies.length > 0 ? noteForm.blinkies : null,
     };
 
     await onSubmit(messageContent, "note", noteForm.password || null);
@@ -128,7 +128,7 @@ const GuestBookSubmission = ({
     setNoteForm({
       name: "",
       content: "",
-      blinkie: "",
+      blinkies: [],
       password: "",
     });
   };
@@ -219,11 +219,27 @@ const GuestBookSubmission = ({
   };
 
   const handleBlinkieSelect = (url: string) => {
-    setNoteForm((prev) => ({
-      ...prev,
-      blinkie: url,
-    }));
-    setBlinkieDropdownOpen(false);
+    setNoteForm((prev) => {
+      const currentBlinkies = prev.blinkies;
+
+      if (url === "") {
+        // Clear all blinkies
+        return { ...prev, blinkies: [] };
+      }
+
+      // Toggle blinkie selection
+      if (currentBlinkies.includes(url)) {
+        // Remove if already selected
+        return { ...prev, blinkies: currentBlinkies.filter(b => b !== url) };
+      } else if (currentBlinkies.length < 3) {
+        // Add if less than 3 selected
+        return { ...prev, blinkies: [...currentBlinkies, url] };
+      }
+
+      // If 3 already selected, don't add more
+      return prev;
+    });
+    // Keep dropdown open for multiple selections
   };
 
   const handleContentWarningChange = (
@@ -279,7 +295,7 @@ const GuestBookSubmission = ({
                 </div>
 
                 <div className="form-group blinkie-group">
-                  <label>Blinkie (optional)</label>
+                  <label>Blinkies (optional, max 3)</label>
                   <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
                     <div
                       className="blinkie-dropdown-trigger"
@@ -287,15 +303,20 @@ const GuestBookSubmission = ({
                         setBlinkieDropdownOpen(!blinkieDropdownOpen)
                       }
                     >
-                      {noteForm.blinkie ? (
-                        <img
-                          src={noteForm.blinkie}
-                          alt="Selected blinkie"
-                          className="selected-blinkie"
-                        />
+                      {noteForm.blinkies.length > 0 ? (
+                        <div className="selected-blinkies">
+                          {noteForm.blinkies.map((url, index) => (
+                            <img
+                              key={index}
+                              src={url}
+                              alt={`Selected blinkie ${index + 1}`}
+                              className="selected-blinkie"
+                            />
+                          ))}
+                        </div>
                       ) : (
                         <span className="blinkie-placeholder">
-                          Select a blinkie
+                          Select blinkies
                         </span>
                       )}
                       <span className="dropdown-arrow">▼</span>
@@ -306,21 +327,27 @@ const GuestBookSubmission = ({
                           className="blinkie-option"
                           onClick={() => handleBlinkieSelect("")}
                         >
-                          <span>None</span>
+                          <span>Clear all</span>
                         </div>
-                        {BLINKIES.map((url, index) => (
-                          <div
-                            key={index}
-                            className="blinkie-option"
-                            onClick={() => handleBlinkieSelect(url)}
-                          >
-                            <img
-                              src={url}
-                              alt={`Blinkie ${index + 1}`}
-                              className="blinkie-preview"
-                            />
-                          </div>
-                        ))}
+                        {BLINKIES.map((url, index) => {
+                          const isSelected = noteForm.blinkies.includes(url);
+                          const canSelect = !isSelected && noteForm.blinkies.length < 3;
+                          return (
+                            <div
+                              key={index}
+                              className={`blinkie-option ${isSelected ? 'selected' : ''} ${!canSelect && !isSelected ? 'disabled' : ''}`}
+                              onClick={() => handleBlinkieSelect(url)}
+                              style={{ opacity: (!canSelect && !isSelected) ? 0.5 : 1 }}
+                            >
+                              <img
+                                src={url}
+                                alt={`Blinkie ${index + 1}`}
+                                className="blinkie-preview"
+                              />
+                              {isSelected && <span className="selection-indicator">✓</span>}
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>

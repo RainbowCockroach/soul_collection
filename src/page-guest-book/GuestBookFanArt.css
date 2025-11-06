@@ -9,13 +9,22 @@
   box-sizing: border-box; /* Include padding and borders in width calculation */
 }
 
-/* Blinkie positioned above the frame */
-.fanart-blinkie {
+/* Blinkies container positioned above the frame */
+.fanart-blinkies {
   position: relative;
   z-index: 2;
   margin-bottom: -10px; /* Overlap slightly with the frame */
   display: flex;
+  gap: 5px;
   justify-content: center;
+  align-items: center;
+}
+
+/* Individual blinkie within the container */
+.fanart-blinkie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .blinkie-image {

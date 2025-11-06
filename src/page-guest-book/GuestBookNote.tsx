@@ -9,14 +9,18 @@ interface GuestBookNoteProps {
 const GuestBookNote: React.FC<GuestBookNoteProps> = ({ message }) => {
   return (
     <div className="guest-book-note">
-      {/* Blinkie on top of the note */}
-      {message.content.blinkie && (
-        <div className="note-blinkie">
-          <img
-            src={message.content.blinkie}
-            alt="Blinkie"
-            className="blinkie-image"
-          />
+      {/* Blinkies on top of the note */}
+      {message.content.blinkies && message.content.blinkies.length > 0 && (
+        <div className="note-blinkies">
+          {message.content.blinkies.slice(0, 3).map((blinkieUrl, index) => (
+            <div key={index} className="note-blinkie">
+              <img
+                src={blinkieUrl}
+                alt={`Blinkie ${index + 1}`}
+                className="blinkie-image"
+              />
+            </div>
+          ))}
         </div>
       )}
 

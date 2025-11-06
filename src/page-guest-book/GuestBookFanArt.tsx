@@ -26,14 +26,18 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(({ 
 
   return (
     <div className="guest-book-fanart">
-      {/* Blinkie positioned above the frame */}
-      {message.content.blinkie && (
-        <div className="fanart-blinkie">
-          <img
-            src={message.content.blinkie}
-            alt="Blinkie"
-            className="blinkie-image"
-          />
+      {/* Blinkies positioned above the frame */}
+      {message.content.blinkies && message.content.blinkies.length > 0 && (
+        <div className="fanart-blinkies">
+          {message.content.blinkies.slice(0, 3).map((blinkieUrl, index) => (
+            <div key={index} className="fanart-blinkie">
+              <img
+                src={blinkieUrl}
+                alt={`Blinkie ${index + 1}`}
+                className="blinkie-image"
+              />
+            </div>
+          ))}
         </div>
       )}
 

@@ -17,15 +17,24 @@
   margin-bottom: -10px; /* Overlap with paper */
 }
 
-/* Blinkie positioned above the note */
-.note-blinkie {
+/* Blinkies container positioned above the note */
+.note-blinkies {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
   display: flex;
+  gap: 5px;
   justify-content: center;
+  align-items: center;
+}
+
+/* Individual blinkie within the container */
+.note-blinkie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .blinkie-image {
