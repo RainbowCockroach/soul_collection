@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
 import ButtonWrapper from "../common-components/ButtonWrapper";
@@ -44,11 +44,19 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isPaginating, setIsPaginating] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const hasInitiallyLoaded = useRef(false);
 
   // Fetch fan art for the current page
-  const fetchFanArt = async (page: number) => {
+  const fetchFanArt = useCallback(async (page: number, isInitialLoad: boolean = false) => {
     try {
-      setLoading(true);
+      if (isInitialLoad) {
+        setLoading(true);
+      } else {
+        setIsPaginating(true);
+      }
+
       const response = await fetch(
         `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`
       );
@@ -60,29 +68,38 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
       const responseData = await response.json();
       setData(responseData);
       setError(null);
+
+      if (isInitialLoad) {
+        hasInitiallyLoaded.current = true;
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       setData(null);
     } finally {
-      setLoading(false);
+      if (isInitialLoad) {
+        setLoading(false);
+      } else {
+        setIsPaginating(false);
+      }
     }
-  };
+  }, [fanArtPerPage]);
 
   useEffect(() => {
-    fetchFanArt(currentPage);
-  }, [currentPage, fanArtPerPage]);
+    const isInitialLoad = !hasInitiallyLoaded.current;
+    fetchFanArt(currentPage, isInitialLoad);
+  }, [currentPage, fetchFanArt]);
 
-  const handlePrevPage = () => {
-    if (data?.pagination.hasPrev) {
+  const handlePrevPage = useCallback(() => {
+    if (data?.pagination.hasPrev && !isPaginating) {
       setCurrentPage((prev) => prev - 1);
     }
-  };
+  }, [data?.pagination.hasPrev, isPaginating]);
 
-  const handleNextPage = () => {
-    if (data?.pagination.hasNext) {
+  const handleNextPage = useCallback(() => {
+    if (data?.pagination.hasNext && !isPaginating) {
       setCurrentPage((prev) => prev + 1);
     }
-  };
+  }, [data?.pagination.hasNext, isPaginating]);
 
   if (loading) {
     return (
@@ -111,13 +128,13 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   }
 
   return (
-    <div className="guest-book-fanart-section">
+    <div className="guest-book-fanart-section" ref={sectionRef}>
       <div>
         <h2>Your creations</h2>
       </div>
 
       {/* Fan art display with navigation */}
-      <div className="fanart-display">
+      <div className="fanart-display" style={{ opacity: isPaginating ? 0.6 : 1, transition: 'opacity 0.2s ease' }}>
         <div className="pagination-nav-left pagination-nav-desktop">
           {data.pagination.hasPrev ? (
             <ArrowButton
@@ -162,7 +179,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
 
         {/* Pagination info */}
         <div className="pagination-info">
-          {data.pagination.page} / {data.pagination.totalPages}
+          {isPaginating ? "Loading..." : `${data.pagination.page} / ${data.pagination.totalPages}`}
         </div>
 
         {/* Right navigation arrow */}
