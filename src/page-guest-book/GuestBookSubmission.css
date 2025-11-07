@@ -15,11 +15,8 @@
 
 .form-toggle-button {
   width: 100%;
-  border: 1px solid black;
   border-radius: 4px;
   padding: 0.5rem 1rem;
-  background-color: var(--color-purple);
-  color: var(--color-green);
 }
 
 .form-toggle-button h3 {
@@ -91,6 +88,16 @@
   align-items: center;
   justify-content: space-between;
   min-height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.blinkie-dropdown-trigger:hover,
+.blinkie-dropdown-trigger:focus {
+  border-color: var(--color-green);
 }
 
 .selected-blinkie {
@@ -130,6 +137,11 @@
 .upload-trigger-button {
   margin-left: 0;
   margin-right: auto;
+}
+
+.submit-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-green);
 }
 
 .content-warning-checkboxes {

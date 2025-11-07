@@ -230,7 +230,7 @@ const GuestBookSubmission = ({
       // Toggle blinkie selection
       if (currentBlinkies.includes(url)) {
         // Remove if already selected
-        return { ...prev, blinkies: currentBlinkies.filter(b => b !== url) };
+        return { ...prev, blinkies: currentBlinkies.filter((b) => b !== url) };
       } else if (currentBlinkies.length < 3) {
         // Add if less than 3 selected
         return { ...prev, blinkies: [...currentBlinkies, url] };
@@ -272,10 +272,14 @@ const GuestBookSubmission = ({
       <div className="forms-container">
         <div className="form-container note-form-container">
           <ButtonWrapper
-            className="div-3d-with-shadow form-toggle-button"
+            className="form-toggle-button"
             onClick={() => setShowNoteForm(!showNoteForm)}
           >
-            <h3>Send note</h3>
+            <img
+              src={buttonSendNote}
+              alt="Send"
+              className="div-3d-with-shadow"
+            />
           </ButtonWrapper>
           {showNoteForm && (
             <form
@@ -331,20 +335,27 @@ const GuestBookSubmission = ({
                         </div>
                         {BLINKIES.map((url, index) => {
                           const isSelected = noteForm.blinkies.includes(url);
-                          const canSelect = !isSelected && noteForm.blinkies.length < 3;
+                          const canSelect =
+                            !isSelected && noteForm.blinkies.length < 3;
                           return (
                             <div
                               key={index}
-                              className={`blinkie-option ${isSelected ? 'selected' : ''} ${!canSelect && !isSelected ? 'disabled' : ''}`}
+                              className={`blinkie-option ${
+                                isSelected ? "selected" : ""
+                              } ${!canSelect && !isSelected ? "disabled" : ""}`}
                               onClick={() => handleBlinkieSelect(url)}
-                              style={{ opacity: (!canSelect && !isSelected) ? 0.5 : 1 }}
+                              style={{
+                                opacity: !canSelect && !isSelected ? 0.5 : 1,
+                              }}
                             >
                               <img
                                 src={url}
                                 alt={`Blinkie ${index + 1}`}
                                 className="blinkie-preview"
                               />
-                              {isSelected && <span className="selection-indicator">✓</span>}
+                              {isSelected && (
+                                <span className="selection-indicator">✓</span>
+                              )}
                             </div>
                           );
                         })}
@@ -390,15 +401,7 @@ const GuestBookSubmission = ({
                 disabled={submitting || !noteForm.content.trim()}
                 className="submit-button"
               >
-                {submitting ? (
-                  "Submitting..."
-                ) : (
-                  <img
-                    src={buttonSendNote}
-                    alt="Send"
-                    className="div-3d-with-shadow"
-                  />
-                )}
+                {submitting ? "Submitting..." : "Send!"}
               </ButtonWrapper>
             </form>
           )}
@@ -541,15 +544,7 @@ const GuestBookSubmission = ({
                 }
                 className="submit-button"
               >
-                {submitting ? (
-                  "Submitting..."
-                ) : (
-                  <img
-                    src={buttonSendNote}
-                    alt="Send"
-                    className="div-3d-with-shadow"
-                  />
-                )}
+                {submitting ? "Submitting..." : "Send!"}
               </ButtonWrapper>
             </form>
           )}
