@@ -3,35 +3,58 @@
   padding: 20px;
 }
 
-/* Main container for fan art and navigation */
-.fanart-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  position: relative;
-  min-height: 320px; /* Increased to accommodate golden ratio height */
-}
-
 /* Fan art display area */
 .fanart-display {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 15px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   overflow-x: hidden;
-  flex: 1;
-  min-height: 320px; /* Increased to accommodate golden ratio height */
+  min-height: 320px;
+  margin-bottom: 20px;
   padding: 5px; /* Add padding to provide space for hover expansion */
 }
 
 /* Individual fan art items - 1/4 container width on desktop with hover expansion buffer */
-.fanart-display > * {
-  flex: 0 0 calc(24% - 11.25px); /* Reduced from 25% to 24% to accommodate 2% hover scale */
-  max-width: calc(24% - 11.25px);
+.fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
+  flex: 0 0 calc(22% - 11.25px); /* Reduced to accommodate navigation elements */
+  max-width: calc(22% - 11.25px);
   min-width: 200px; /* Fallback minimum width */
   box-sizing: border-box; /* Include padding and borders in width calculation */
+}
+
+/* Pagination navigation bar */
+.pagination-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.pagination-nav-left,
+.pagination-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px; /* Reserve space for buttons */
+}
+
+.nav-spacer {
+  width: 32px; /* Same as min-width of arrow button */
+  height: 32px;
+}
+
+/* Pagination info */
+.pagination-info {
+  text-align: center;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 14px;
+  color: var(--color-white-sparkle);
+  font-weight: bold;
+  flex: 1;
 }
 
 /* Auto-refresh info */
@@ -110,9 +133,9 @@
   }
 
   /* Adjust gap calculation for 1200px and below with hover expansion buffer */
-  .fanart-display > * {
-    flex: 0 0 calc(24% - 7.5px); /* Reduced from 25% to 24% to accommodate 2% hover scale */
-    max-width: calc(24% - 7.5px);
+  .fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
+    flex: 0 0 calc(22% - 7.5px); /* Reduced to accommodate navigation elements */
+    max-width: calc(22% - 7.5px);
     box-sizing: border-box;
   }
 }
@@ -133,33 +156,64 @@
     padding: 5px; /* Maintain padding for hover expansion */
   }
 
-  /* 2 items per row on tablets with hover expansion buffer */
-  .fanart-display > * {
-    flex: 0 0 calc(48% - 4px); /* Reduced from 50% to 48% to accommodate 2% hover scale */
-    max-width: calc(48% - 4px);
-    min-width: 180px;
-    box-sizing: border-box;
+  .fanart-display {
+    /* Switch to CSS Grid for 2x2 layout on mobile */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    grid-template-rows: auto auto; /* 2 rows */
+    gap: 8px;
+    justify-items: center;
+    align-items: flex-start;
+    min-height: 360px;
+    margin-bottom: 15px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
   }
 }
 
 @media (max-width: 480px) {
+  .guest-book-fanart-section {
+    padding: 10px;
+    margin: 15px 0;
+  }
+
   .fanart-display {
+    /* Maintain CSS Grid for 2x2 layout on very small screens */
     gap: 5px;
-    min-height: auto; /* Remove height constraint to allow wrapping */
-    flex-wrap: wrap; /* Ensure items can wrap to new rows */
-    align-content: flex-start; /* Align wrapped rows to top */
-    padding: 5px; /* Maintain padding for hover expansion */
+    min-height: 320px;
+    margin-bottom: 10px;
   }
 
-  /* 2x2 grid: 2 items per row on mobile with hover expansion buffer */
-  .fanart-display > * {
-    flex: 0 0 calc(48% - 2.5px); /* Reduced from 50% to 48% to accommodate 2% hover scale */
-    max-width: calc(48% - 2.5px);
-    min-width: 140px; /* Smaller minimum for mobile */
-    box-sizing: border-box;
+  .pagination-info {
+    font-size: 12px;
   }
 
-  .fanart-container {
-    min-height: auto; /* Remove height constraint to allow natural wrapping */
+  .pagination-nav {
+    max-width: 300px; /* Smaller on mobile */
+  }
+}
+
+/* Desktop/Mobile navigation visibility controls */
+/* Desktop: Show desktop nav, hide mobile nav */
+@media (min-width: 769px) {
+  .pagination-nav-desktop {
+    display: flex;
+  }
+
+  .pagination-nav-mobile {
+    display: none !important;
+  }
+}
+
+/* Mobile: Hide desktop nav, show mobile nav */
+@media (max-width: 768px) {
+  .pagination-nav-desktop {
+    display: none !important;
+  }
+
+  .pagination-nav-mobile {
+    display: flex;
   }
 }
