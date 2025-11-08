@@ -1,14 +1,24 @@
+/* =============================================================================
+   GUEST BOOK NOTE SECTION STYLES
+   Handles the display and pagination of guest book notes
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   BASE STYLES
+   ----------------------------------------------------------------------------- */
+
+/* Main section container */
 .guest-book-note-section {
   margin: 30px 0;
   padding: 20px;
   overflow: hidden; /* Prevent section from causing scroll bars */
 }
 
-/* Notes display area */
+/* Notes display area - flexbox on desktop, grid on mobile */
 .notes-display {
   display: flex;
   justify-content: center;
-  align-items: center; /* Changed from flex-start to center for vertical centering */
+  align-items: center;
   gap: 15px;
   flex-wrap: nowrap;
   overflow: hidden; /* Prevent all overflow */
@@ -16,7 +26,10 @@
   margin-bottom: 20px;
 }
 
-/* Pagination navigation bar */
+/* -----------------------------------------------------------------------------
+   PAGINATION NAVIGATION
+   ----------------------------------------------------------------------------- */
+
 .pagination-nav {
   display: flex;
   align-items: center;
@@ -39,7 +52,6 @@
   height: 32px;
 }
 
-/* Pagination info */
 .pagination-info {
   text-align: center;
   font-family: "Comic Sans MS", cursive, sans-serif;
@@ -54,6 +66,10 @@
   color: #888;
   font-size: 12px;
 }
+
+/* -----------------------------------------------------------------------------
+   STATE STYLES
+   ----------------------------------------------------------------------------- */
 
 /* Loading state */
 .note-section-loading {
@@ -111,29 +127,34 @@
   font-weight: bold;
 }
 
-/* Desktop-specific styling for larger notes layout */
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+/* Desktop - Large screens with horizontal note layout */
 @media (min-width: 769px) {
+  .guest-book-note-section {
+    padding: max(20px, 1.5vw);
+    margin: 30px 0;
+  }
+
   .notes-display {
     gap: max(15px, 1.5vw); /* Responsive gap that scales with viewport */
-    height: 280px; /* Fixed height for consistent note alignment - reduced to prevent scroll */
+    height: 280px; /* Fixed height for consistent note alignment */
     align-items: stretch; /* Make all notes same height */
     justify-content: space-evenly; /* Better distribution of flexible-width notes */
     overflow: hidden; /* Prevent any overflow from causing scroll bars */
   }
-
-  .guest-book-note-section {
-    padding: max(20px, 1.5vw); /* Reduced padding to save space */
-    margin: 30px 0; /* Reduced margin to save space */
-  }
 }
 
-/* Responsive design */
+/* Medium screens - Reduce gap */
 @media (max-width: 1200px) {
   .notes-display {
     gap: 10px;
   }
 }
 
+/* Tablet/Mobile - Switch to 2x2 grid layout */
 @media (max-width: 768px) {
   .guest-book-note-section {
     padding: 8px;
@@ -141,14 +162,13 @@
   }
 
   .notes-display {
-    /* Switch to CSS Grid for 2x2 layout on mobile */
     display: grid;
     grid-template-columns: 1fr 1fr; /* 2 columns */
-    grid-template-rows: 1fr 1fr; /* Equal height rows - prevents overlap */
+    grid-template-rows: 1fr 1fr; /* Equal height rows */
     gap: 6px;
-    justify-items: stretch; /* Make notes fill their grid cells completely */
-    align-items: stretch; /* Make notes fill their grid cells */
-    height: 500px; /* Increased height to show full bottom row */
+    justify-items: stretch;
+    align-items: stretch;
+    height: 500px;
     margin-bottom: 15px;
     overflow-x: hidden; /* Prevent horizontal scroll only */
   }
@@ -162,6 +182,7 @@
   }
 }
 
+/* Small mobile - Tighter spacing */
 @media (max-width: 480px) {
   .guest-book-note-section {
     padding: 6px;
@@ -169,16 +190,9 @@
   }
 
   .notes-display {
-    /* Maintain CSS Grid for 2x2 layout on very small screens */
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 columns */
-    grid-template-rows: 1fr 1fr; /* Equal height rows - prevents overlap */
     gap: 4px;
-    justify-items: stretch; /* Make notes fill their grid cells completely */
-    align-items: stretch; /* Make notes fill their grid cells */
-    height: 440px; /* Increased height to show full bottom row */
+    height: 440px;
     margin-bottom: 10px;
-    overflow-x: hidden; /* Prevent horizontal scroll only */
   }
 
   .pagination-info {
@@ -186,11 +200,14 @@
   }
 
   .pagination-nav {
-    max-width: 300px; /* Smaller on mobile */
+    max-width: 300px;
   }
 }
 
-/* Desktop/Mobile navigation visibility controls */
+/* -----------------------------------------------------------------------------
+   NAVIGATION VISIBILITY CONTROLS
+   ----------------------------------------------------------------------------- */
+
 /* Desktop: Show desktop nav, hide mobile nav */
 @media (min-width: 769px) {
   .pagination-nav-desktop {
