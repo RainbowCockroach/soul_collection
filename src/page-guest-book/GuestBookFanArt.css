@@ -45,7 +45,6 @@
 
 .fanart-image-container {
   background: #ffffff;
-  border: 4px solid #62ffc3;
   padding: 1px;
   margin-bottom: 10px;
   aspect-ratio: 1 / 1.618;
@@ -114,10 +113,6 @@
   .fanart-window-frame {
     padding: 8px;
   }
-
-  .fanart-image-container {
-    border-width: 3px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -129,9 +124,5 @@
 
   .fanart-window-frame {
     padding: 4px;
-  }
-
-  .fanart-image-container {
-    border-width: 2px;
   }
 }
