@@ -151,6 +151,14 @@
     align-items: flex-start;
     min-height: 360px;
     margin-bottom: 15px;
+    overflow: visible;
+  }
+
+  .fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
+    flex: none;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
   }
 
   .pagination-info {

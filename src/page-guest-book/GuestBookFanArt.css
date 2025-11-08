@@ -106,22 +106,32 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .guest-book-fanart {
-    margin: 8px;
-    min-width: 180px;
+    margin: 4px;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .fanart-window-frame {
-    padding: 12px;
+    padding: 8px;
+  }
+
+  .fanart-image-container {
+    border-width: 3px;
   }
 }
 
 @media (max-width: 480px) {
   .guest-book-fanart {
-    margin: 4px;
-    min-width: 140px;
+    margin: 2px;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .fanart-window-frame {
-    padding: 8px;
+    padding: 4px;
+  }
+
+  .fanart-image-container {
+    border-width: 2px;
   }
 }
