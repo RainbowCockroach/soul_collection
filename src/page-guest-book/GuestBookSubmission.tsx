@@ -267,7 +267,7 @@ const GuestBookSubmission = ({
 
   return (
     <div className="guest-book-submission">
-      <h2>Wanna leave something here?</h2>
+      <h2 className="big-text-shadow">Wanna leave something here?</h2>
 
       <div className="forms-container">
         <div className="form-container note-form-container">

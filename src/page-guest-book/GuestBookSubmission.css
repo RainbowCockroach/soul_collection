@@ -167,6 +167,10 @@
   gap: 5px;
 }
 
+.disclaimer {
+  color: var(--color-white-sparkle);
+}
+
 @media (max-width: 768px) {
   .forms-container {
     flex-direction: column;

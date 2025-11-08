@@ -49,40 +49,43 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   const hasInitiallyLoaded = useRef(false);
 
   // Fetch fan art for the current page
-  const fetchFanArt = useCallback(async (page: number, isInitialLoad: boolean = false) => {
-    try {
-      if (isInitialLoad) {
-        setLoading(true);
-      } else {
-        setIsPaginating(true);
-      }
+  const fetchFanArt = useCallback(
+    async (page: number, isInitialLoad: boolean = false) => {
+      try {
+        if (isInitialLoad) {
+          setLoading(true);
+        } else {
+          setIsPaginating(true);
+        }
 
-      const response = await fetch(
-        `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`
-      );
+        const response = await fetch(
+          `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`
+        );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch fan art");
-      }
+        if (!response.ok) {
+          throw new Error("Failed to fetch fan art");
+        }
 
-      const responseData = await response.json();
-      setData(responseData);
-      setError(null);
+        const responseData = await response.json();
+        setData(responseData);
+        setError(null);
 
-      if (isInitialLoad) {
-        hasInitiallyLoaded.current = true;
+        if (isInitialLoad) {
+          hasInitiallyLoaded.current = true;
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setData(null);
+      } finally {
+        if (isInitialLoad) {
+          setLoading(false);
+        } else {
+          setIsPaginating(false);
+        }
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setData(null);
-    } finally {
-      if (isInitialLoad) {
-        setLoading(false);
-      } else {
-        setIsPaginating(false);
-      }
-    }
-  }, [fanArtPerPage]);
+    },
+    [fanArtPerPage]
+  );
 
   useEffect(() => {
     const isInitialLoad = !hasInitiallyLoaded.current;
@@ -130,11 +133,17 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   return (
     <div className="guest-book-fanart-section" ref={sectionRef}>
       <div>
-        <h2>Your creations</h2>
+        <h2 className="big-text-shadow">Your art</h2>
       </div>
 
       {/* Fan art display with navigation */}
-      <div className="fanart-display" style={{ opacity: isPaginating ? 0.6 : 1, transition: 'opacity 0.2s ease' }}>
+      <div
+        className="fanart-display"
+        style={{
+          opacity: isPaginating ? 0.6 : 1,
+          transition: "opacity 0.2s ease",
+        }}
+      >
         <div className="pagination-nav-left pagination-nav-desktop">
           {data.pagination.hasPrev ? (
             <ArrowButton
@@ -179,7 +188,9 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
 
         {/* Pagination info */}
         <div className="pagination-info">
-          {isPaginating ? "Loading..." : `${data.pagination.page} / ${data.pagination.totalPages}`}
+          {isPaginating
+            ? "Loading..."
+            : `${data.pagination.page} / ${data.pagination.totalPages}`}
         </div>
 
         {/* Right navigation arrow */}
