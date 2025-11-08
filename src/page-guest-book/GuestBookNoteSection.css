@@ -1,6 +1,7 @@
 .guest-book-note-section {
   margin: 30px 0;
   padding: 20px;
+  overflow: hidden; /* Prevent section from causing scroll bars */
 }
 
 /* Notes display area */
@@ -10,7 +11,7 @@
   align-items: center; /* Changed from flex-start to center for vertical centering */
   gap: 15px;
   flex-wrap: nowrap;
-  overflow-x: hidden;
+  overflow: hidden; /* Prevent all overflow */
   min-height: 200px;
   margin-bottom: 20px;
 }
@@ -114,13 +115,15 @@
 @media (min-width: 769px) {
   .notes-display {
     gap: max(15px, 1.5vw); /* Responsive gap that scales with viewport */
-    min-height: 280px; /* Increased for larger notes */
+    height: 280px; /* Fixed height for consistent note alignment - reduced to prevent scroll */
+    align-items: stretch; /* Make all notes same height */
     justify-content: space-evenly; /* Better distribution of flexible-width notes */
+    overflow: hidden; /* Prevent any overflow from causing scroll bars */
   }
 
   .guest-book-note-section {
-    padding: max(25px, 2vw);
-    margin: 40px 0;
+    padding: max(20px, 1.5vw); /* Reduced padding to save space */
+    margin: 30px 0; /* Reduced margin to save space */
   }
 }
 

@@ -150,25 +150,48 @@
     min-width: unset; /* Override base min-width */
     max-width: unset; /* Override base max-width */
     margin: 15px;
+    height: 100%; /* Fill the flex container height */
+    display: flex;
+    flex-direction: column;
   }
 
   .note-paper {
     padding: 16px; /* Reduced from 20px to prevent overflow */
-    min-height: 180px;
+    height: 100%; /* Fill available note height */
+    max-height: 240px; /* Reduced to match smaller container */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Add scroll if content is too long */
+    overflow-x: hidden; /* Prevent horizontal overflow */
   }
 
   .note-name {
     font-size: 22px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    flex-shrink: 0; /* Prevent header from shrinking */
   }
 
   .note-date {
     font-size: 16px;
+    flex-shrink: 0; /* Prevent header from shrinking */
+  }
+
+  .note-header {
+    flex-shrink: 0; /* Ensure header doesn't get compressed */
   }
 
   .note-content {
     font-size: 24px;
     line-height: 1.5;
     margin-bottom: 12px;
+    flex: 1; /* Allow content to expand within available space */
+    overflow-y: auto; /* Add scroll if content is too long */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    word-wrap: break-word;
+    overflow-wrap: anywhere; /* More aggressive word breaking */
+    word-break: break-word; /* Break long words */
+    hyphens: auto;
   }
 
   .note-thumbnail {
