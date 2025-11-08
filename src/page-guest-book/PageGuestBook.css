@@ -1,122 +1,115 @@
-/* Floating Edit Mode Button */
-.floating-edit-button {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  width: 56px !important;
-  height: 56px !important;
-  min-width: 56px !important;
-  min-height: 56px !important;
-  border-radius: 50% !important;
+/* Edit Mode Toggle Button */
+.edit-mode-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  border-radius: 8px !important;
   background: #4CAF50 !important;
   color: white !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-  z-index: 1000 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   transition: all 0.3s ease !important;
-  border: 3px solid #45a049 !important;
-  padding: 0 !important;
+  border: 2px solid #45a049 !important;
+  padding: 12px 20px !important;
   cursor: pointer !important;
+  margin: 20px auto !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  gap: 8px !important;
 }
 
-.floating-edit-button:hover {
+.edit-mode-button:hover {
   background: #45a049 !important;
-  transform: scale(1.1) !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
-.floating-edit-button.active {
+.edit-mode-button.active {
   background: #f44336 !important;
   border-color: #d32f2f !important;
 }
 
-.floating-edit-button.active:hover {
+.edit-mode-button.active:hover {
   background: #d32f2f !important;
-  transform: scale(1.1) !important;
+  transform: translateY(-1px) !important;
 }
 
 .edit-button-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: 24px;
+  gap: 8px;
+  font-size: 16px;
   line-height: 1;
 }
 
 .edit-icon {
   display: block;
-  font-size: 24px;
+  font-size: 18px;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-  .floating-edit-button {
-    bottom: 16px !important;
-    right: 16px !important;
-    width: 60px !important;
-    height: 60px !important;
-    min-width: 60px !important;
-    min-height: 60px !important;
+  .edit-mode-button {
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 14px 24px !important;
+    font-size: 17px !important;
   }
 
   .edit-button-content {
-    font-size: 26px;
+    font-size: 17px;
   }
 
   .edit-icon {
-    font-size: 26px;
+    font-size: 19px;
   }
 }
 
 @media (max-width: 480px) {
-  .floating-edit-button {
-    bottom: 12px !important;
-    right: 12px !important;
-    width: 64px !important;
-    height: 64px !important;
-    min-width: 64px !important;
-    min-height: 64px !important;
+  .edit-mode-button {
+    height: 56px !important;
+    min-height: 56px !important;
+    padding: 16px 28px !important;
+    font-size: 18px !important;
+    margin: 24px auto !important;
   }
 
   .edit-button-content {
-    font-size: 28px;
+    font-size: 18px;
   }
 
   .edit-icon {
-    font-size: 28px;
+    font-size: 20px;
   }
 }
 
 /* Animation for mode transitions */
-.floating-edit-button .edit-icon {
+.edit-mode-button .edit-icon {
   transition: transform 0.2s ease;
 }
 
-.floating-edit-button:active .edit-icon {
+.edit-mode-button:active .edit-icon {
   transform: scale(0.9);
 }
 
-/* Ensure button stays above other content */
-.floating-edit-button {
-  z-index: 1000 !important;
-}
-
 /* Add subtle pulse animation when active */
-.floating-edit-button.active {
+.edit-mode-button.active {
   animation: subtle-pulse 2s infinite ease-in-out;
 }
 
 @keyframes subtle-pulse {
   0%, 100% {
-    transform: scale(1);
+    transform: translateY(-1px);
   }
   50% {
-    transform: scale(1.05);
+    transform: translateY(-1px) scale(1.02);
   }
 }
 
-.floating-edit-button.active:hover {
+.edit-mode-button.active:hover {
   animation: none; /* Stop pulse on hover */
 }

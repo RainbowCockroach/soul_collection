@@ -35,16 +35,26 @@ const FanArtWithButton: React.FC<{
   const fanArtRef = useRef<GuestBookFanArtRef>(null);
 
   const handleClick = () => {
-    // Only open image in new tab if NOT in edit mode
-    if (!editMode) {
-      fanArtRef.current?.openImageInNewTab();
-    }
+    fanArtRef.current?.openImageInNewTab();
   };
 
+  // In edit mode, render without ButtonWrapper to allow action menu clicks
+  if (editMode) {
+    return (
+      <GuestBookFanArt
+        ref={fanArtRef}
+        message={message}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    );
+  }
+
+  // In normal mode, wrap with ButtonWrapper for click-to-open functionality
   return (
     <ButtonWrapper
       onClick={handleClick}
-      className={editMode ? "edit-mode-disabled" : ""}
+      className=""
     >
       <GuestBookFanArt
         ref={fanArtRef}

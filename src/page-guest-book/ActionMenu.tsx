@@ -32,16 +32,19 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
     };
   }, []);
 
-  const handleToggleMenu = () => {
+  const handleToggleMenu = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setIsOpen(!isOpen);
   };
 
-  const handleEdit = () => {
+  const handleEdit = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setIsOpen(false);
     onEdit();
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setIsOpen(false);
     onDelete();
   };

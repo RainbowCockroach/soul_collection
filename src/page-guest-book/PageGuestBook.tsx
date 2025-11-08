@@ -85,17 +85,18 @@ const PageGuestBook = () => {
         submitting={submitting}
       />
 
-      {/* Floating Edit Mode Toggle Button */}
+      {/* Edit Mode Toggle Button */}
       <ButtonWrapper
         onClick={toggleEditMode}
-        className={`floating-edit-button ${editMode ? 'active' : ''}`}
+        className={`edit-mode-button ${editMode ? 'active' : ''}`}
       >
         <div className="edit-button-content">
-          {editMode ? (
-            <span className="edit-icon">✓</span>
-          ) : (
-            <span className="edit-icon">✏️</span>
-          )}
+          <span className="edit-icon">
+            {editMode ? '✓' : '✏️'}
+          </span>
+          <span>
+            {editMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
+          </span>
         </div>
       </ButtonWrapper>
     </div>
