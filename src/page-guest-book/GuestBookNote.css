@@ -73,13 +73,13 @@
 
 .note-name {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
   color: #333;
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .note-date {
-  font-size: 11px;
+  font-size: 14px;
   color: #666;
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
@@ -90,7 +90,6 @@
   color: #444;
   line-height: 1.4;
   margin-bottom: 10px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
   word-wrap: break-word;
   hyphens: auto;
 }
@@ -128,6 +127,61 @@
   transition: all 0.3s ease;
 }
 
+/* Desktop-specific styling for larger notes */
+@media (min-width: 769px) {
+  .guest-book-note {
+    /* Make width relative to container - scales from 15% to 25% of viewport width */
+    /* with reasonable min/max constraints for very large or small screens */
+    width: clamp(280px, calc(20vw + 10px), 450px);
+    min-width: unset; /* Override base min-width */
+    max-width: unset; /* Override base max-width */
+    margin: 15px;
+  }
+
+  .note-paper {
+    padding: 20px;
+    min-height: 180px;
+  }
+
+  .note-name {
+    font-size: 22px;
+  }
+
+  .note-date {
+    font-size: 16px;
+  }
+
+  .note-content {
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .note-thumbnail {
+    max-height: 100px;
+  }
+
+  .note-caption {
+    font-size: 12px;
+  }
+
+  .blinkie-image {
+    height: 35px;
+    max-width: 140px;
+  }
+
+  .guest-book-note::before {
+    height: 35px; /* Match the larger blinkie height */
+  }
+}
+
+/* Extra large screens - prevent notes from becoming too wide */
+@media (min-width: 1400px) {
+  .guest-book-note {
+    width: clamp(320px, 18vw, 400px);
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .guest-book-note {
@@ -142,11 +196,15 @@
   }
 
   .note-name {
+    font-size: 17px;
+  }
+
+  .note-date {
     font-size: 13px;
   }
 
   .note-content {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -163,15 +221,15 @@
   }
 
   .note-name {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .note-date {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .note-content {
-    font-size: 11px;
+    font-size: 14px;
   }
 
   .note-caption {
