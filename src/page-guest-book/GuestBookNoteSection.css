@@ -110,6 +110,20 @@
   font-weight: bold;
 }
 
+/* Desktop-specific styling for larger notes layout */
+@media (min-width: 769px) {
+  .notes-display {
+    gap: max(15px, 1.5vw); /* Responsive gap that scales with viewport */
+    min-height: 280px; /* Increased for larger notes */
+    justify-content: space-evenly; /* Better distribution of flexible-width notes */
+  }
+
+  .guest-book-note-section {
+    padding: max(25px, 2vw);
+    margin: 40px 0;
+  }
+}
+
 /* Responsive design */
 @media (max-width: 1200px) {
   .notes-display {
@@ -119,7 +133,7 @@
 
 @media (max-width: 768px) {
   .guest-book-note-section {
-    padding: 15px;
+    padding: 8px;
     margin: 20px 0;
   }
 
@@ -127,12 +141,13 @@
     /* Switch to CSS Grid for 2x2 layout on mobile */
     display: grid;
     grid-template-columns: 1fr 1fr; /* 2 columns */
-    grid-template-rows: auto auto; /* 2 rows */
-    gap: 8px;
-    justify-items: center;
-    align-items: flex-start;
-    min-height: 360px;
+    grid-template-rows: 1fr 1fr; /* Equal height rows - prevents overlap */
+    gap: 6px;
+    justify-items: stretch; /* Make notes fill their grid cells completely */
+    align-items: stretch; /* Make notes fill their grid cells */
+    height: 500px; /* Increased height to show full bottom row */
     margin-bottom: 15px;
+    overflow-x: hidden; /* Prevent horizontal scroll only */
   }
 
   .pagination-info {
@@ -146,15 +161,21 @@
 
 @media (max-width: 480px) {
   .guest-book-note-section {
-    padding: 10px;
+    padding: 6px;
     margin: 15px 0;
   }
 
   .notes-display {
     /* Maintain CSS Grid for 2x2 layout on very small screens */
-    gap: 5px;
-    min-height: 320px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    grid-template-rows: 1fr 1fr; /* Equal height rows - prevents overlap */
+    gap: 4px;
+    justify-items: stretch; /* Make notes fill their grid cells completely */
+    align-items: stretch; /* Make notes fill their grid cells */
+    height: 440px; /* Increased height to show full bottom row */
     margin-bottom: 10px;
+    overflow-x: hidden; /* Prevent horizontal scroll only */
   }
 
   .pagination-info {

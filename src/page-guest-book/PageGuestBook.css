@@ -1,0 +1,122 @@
+/* Floating Edit Mode Button */
+.floating-edit-button {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+  min-height: 56px !important;
+  border-radius: 50% !important;
+  background: #4CAF50 !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  transition: all 0.3s ease !important;
+  border: 3px solid #45a049 !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+}
+
+.floating-edit-button:hover {
+  background: #45a049 !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.floating-edit-button.active {
+  background: #f44336 !important;
+  border-color: #d32f2f !important;
+}
+
+.floating-edit-button.active:hover {
+  background: #d32f2f !important;
+  transform: scale(1.1) !important;
+}
+
+.edit-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.edit-icon {
+  display: block;
+  font-size: 24px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .floating-edit-button {
+    bottom: 16px !important;
+    right: 16px !important;
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
+  }
+
+  .edit-button-content {
+    font-size: 26px;
+  }
+
+  .edit-icon {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-edit-button {
+    bottom: 12px !important;
+    right: 12px !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-width: 64px !important;
+    min-height: 64px !important;
+  }
+
+  .edit-button-content {
+    font-size: 28px;
+  }
+
+  .edit-icon {
+    font-size: 28px;
+  }
+}
+
+/* Animation for mode transitions */
+.floating-edit-button .edit-icon {
+  transition: transform 0.2s ease;
+}
+
+.floating-edit-button:active .edit-icon {
+  transform: scale(0.9);
+}
+
+/* Ensure button stays above other content */
+.floating-edit-button {
+  z-index: 1000 !important;
+}
+
+/* Add subtle pulse animation when active */
+.floating-edit-button.active {
+  animation: subtle-pulse 2s infinite ease-in-out;
+}
+
+@keyframes subtle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.floating-edit-button.active:hover {
+  animation: none; /* Stop pulse on hover */
+}

@@ -1,9 +1,12 @@
 import { forwardRef, useImperativeHandle, useMemo } from "react";
+import ActionMenu from "./ActionMenu";
 import type { Message } from "./types";
 import "./GuestBookFanArt.css";
 
 interface GuestBookFanArtProps {
   message: Message;
+  onEdit?: (message: Message) => void;
+  onDelete?: (message: Message) => void;
 }
 
 export interface GuestBookFanArtRef {
@@ -11,7 +14,7 @@ export interface GuestBookFanArtRef {
 }
 
 const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
-  ({ message }, ref) => {
+  ({ message, onEdit, onDelete }, ref) => {
     // Generate unique ID for this component instance
     const clipId = useMemo(
       () =>
@@ -24,6 +27,14 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
       if (fullImage) {
         window.open(fullImage, "_blank");
       }
+    };
+
+    const handleEdit = () => {
+      onEdit?.(message);
+    };
+
+    const handleDelete = () => {
+      onDelete?.(message);
     };
 
     useImperativeHandle(ref, () => ({
@@ -61,6 +72,15 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
 
         {/* Window-like frame container */}
         <div className="fanart-window-frame">
+          {/* Action menu for edit/delete */}
+          {(onEdit || onDelete) && (
+            <ActionMenu
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              className="fanart-action-menu"
+            />
+          )}
+
           {/* Image display area */}
           <div
             className="fanart-image-container flex-center"

@@ -6,7 +6,9 @@
   position: relative;
   min-width: 200px;
   max-width: 250px;
+  box-sizing: border-box;
 }
+
 
 /* Reserve space for blinkie area - always consistent height */
 .guest-book-note::before {
@@ -47,14 +49,16 @@
 /* Paper note styling */
 .note-paper {
   background: #fff4eb;
-  border: 2px solid #e0e0e0;
+  border: 1px solid #e0e0e0; /* Reduced border width */
   border-radius: 8px;
-  padding: 15px;
+  padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
   width: 100%;
   box-sizing: border-box;
   min-height: 150px;
+  overflow-x: hidden; /* Prevent horizontal content overflow */
+  overflow-y: auto; /* Allow vertical scrolling if needed */
 
   /* Paper texture effect */
   background-image: linear-gradient(#eee 0.1em, transparent 0.1em);
@@ -66,9 +70,11 @@
 .note-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
+  align-items: flex-start; /* Allow items to wrap if needed */
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .note-name {
@@ -76,6 +82,9 @@
   font-size: 18px;
   color: #333;
   font-family: "Comic Sans MS", cursive, sans-serif;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .note-date {
@@ -90,8 +99,13 @@
   color: #444;
   line-height: 1.4;
   margin-bottom: 10px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   word-wrap: break-word;
+  overflow-wrap: anywhere; /* More aggressive word breaking */
+  word-break: break-word; /* Break long words */
   hyphens: auto;
+  max-width: 100%;
+  white-space: pre-wrap; /* Preserve line breaks but wrap text */
 }
 
 /* Optional image in note */
@@ -139,7 +153,7 @@
   }
 
   .note-paper {
-    padding: 20px;
+    padding: 16px; /* Reduced from 20px to prevent overflow */
     min-height: 180px;
   }
 
@@ -185,14 +199,28 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .guest-book-note {
-    min-width: 160px;
-    max-width: 200px;
-    margin: 6px;
+    width: 100% !important; /* Fill the grid cell width completely */
+    max-width: 100% !important; /* Prevent overflow */
+    min-width: unset !important; /* Override base min-width */
+    margin: 0 !important; /* Remove margin to prevent overflow */
+    height: 100%; /* Fill the grid cell height */
+    display: flex;
+    flex-direction: column;
   }
 
   .note-paper {
-    padding: 12px;
-    min-height: 130px;
+    padding: 8px;
+    height: 100%; /* Fill available height */
+    max-height: 230px; /* Increased to match larger grid */
+    width: 100%; /* Ensure paper fills the note container */
+    box-sizing: border-box; /* Include padding in width calculation */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto; /* Add scroll if content is too long */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    flex: 1; /* Take available space */
+    display: flex;
+    flex-direction: column;
   }
 
   .note-name {
@@ -205,19 +233,40 @@
 
   .note-content {
     font-size: 16px;
+    flex: 1; /* Allow content to expand within available space */
+    overflow-y: auto; /* Add scroll if content is too long */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    word-wrap: break-word;
+    overflow-wrap: anywhere; /* More aggressive word breaking */
+    word-break: break-word; /* Break long words */
+    hyphens: auto;
   }
 }
 
 @media (max-width: 480px) {
   .guest-book-note {
-    min-width: 140px;
-    max-width: 180px;
-    margin: 4px;
+    width: 100% !important; /* Fill the grid cell width completely */
+    max-width: 100% !important; /* Prevent overflow */
+    min-width: unset !important; /* Override base min-width */
+    margin: 0 !important; /* Remove margin to prevent overflow */
+    height: 100%; /* Fill the grid cell height */
+    display: flex;
+    flex-direction: column;
   }
 
   .note-paper {
-    padding: 10px;
-    min-height: 120px;
+    padding: 6px;
+    height: 100%; /* Fill available height */
+    max-height: 200px; /* Increased to match larger grid */
+    width: 100%; /* Ensure paper fills the note container */
+    box-sizing: border-box; /* Include padding in width calculation */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto; /* Add scroll if content is too long */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    flex: 1; /* Take available space */
+    display: flex;
+    flex-direction: column;
   }
 
   .note-name {
@@ -230,6 +279,13 @@
 
   .note-content {
     font-size: 14px;
+    flex: 1; /* Allow content to expand within available space */
+    overflow-y: auto; /* Add scroll if content is too long */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    word-wrap: break-word;
+    overflow-wrap: anywhere; /* More aggressive word breaking */
+    word-break: break-word; /* Break long words */
+    hyphens: auto;
   }
 
   .note-caption {

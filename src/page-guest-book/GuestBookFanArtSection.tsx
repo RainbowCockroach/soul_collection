@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
+import EditMessageModal from "./EditMessageModal";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
@@ -20,25 +22,43 @@ interface PaginatedResponse {
 
 interface GuestBookFanArtSectionProps {
   fanArtPerPage?: number;
+  editMode?: boolean;
 }
 
 // Wrapper component to handle refs properly
-const FanArtWithButton: React.FC<{ message: Message }> = ({ message }) => {
+const FanArtWithButton: React.FC<{
+  message: Message;
+  onEdit?: (message: Message) => void;
+  onDelete?: (message: Message) => void;
+  editMode?: boolean;
+}> = ({ message, onEdit, onDelete, editMode = false }) => {
   const fanArtRef = useRef<GuestBookFanArtRef>(null);
+
+  const handleClick = () => {
+    // Only open image in new tab if NOT in edit mode
+    if (!editMode) {
+      fanArtRef.current?.openImageInNewTab();
+    }
+  };
 
   return (
     <ButtonWrapper
-      onClick={() => {
-        fanArtRef.current?.openImageInNewTab();
-      }}
+      onClick={handleClick}
+      className={editMode ? "edit-mode-disabled" : ""}
     >
-      <GuestBookFanArt ref={fanArtRef} message={message} />
+      <GuestBookFanArt
+        ref={fanArtRef}
+        message={message}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
     </ButtonWrapper>
   );
 };
 
 const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   fanArtPerPage = 4,
+  editMode = false,
 }) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,6 +67,11 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   const [isPaginating, setIsPaginating] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const hasInitiallyLoaded = useRef(false);
+
+  // Modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   // Fetch fan art for the current page
   const fetchFanArt = useCallback(
@@ -104,6 +129,30 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
     }
   }, [data?.pagination.hasNext, isPaginating]);
 
+  // Modal handlers
+  const handleEdit = useCallback((message: Message) => {
+    setSelectedMessage(message);
+    setEditModalOpen(true);
+  }, []);
+
+  const handleDelete = useCallback((message: Message) => {
+    setSelectedMessage(message);
+    setDeleteModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setEditModalOpen(false);
+    setDeleteModalOpen(false);
+    setSelectedMessage(null);
+  }, []);
+
+  const handleModalSuccess = useCallback(() => {
+    // Refresh the current page to show updated data
+    const isInitialLoad = !hasInitiallyLoaded.current;
+    fetchFanArt(currentPage, isInitialLoad);
+    handleModalClose();
+  }, [currentPage, fetchFanArt, handleModalClose]);
+
   if (loading) {
     return (
       <div className="fanart-section-loading">
@@ -133,7 +182,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   return (
     <div className="guest-book-fanart-section" ref={sectionRef}>
       <div>
-        <h2 className="big-text-shadow">Your art</h2>
+        <h1 className="big-text-shadow">Your art</h1>
       </div>
 
       {/* Fan art display with navigation */}
@@ -156,7 +205,13 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
           )}
         </div>
         {data.messages.map((message) => (
-          <FanArtWithButton key={message.id} message={message} />
+          <FanArtWithButton
+            key={message.id}
+            message={message}
+            onEdit={editMode ? handleEdit : undefined}
+            onDelete={editMode ? handleDelete : undefined}
+            editMode={editMode}
+          />
         ))}
         <div className="pagination-nav-right pagination-nav-desktop">
           {data.pagination.hasNext ? (
@@ -206,6 +261,24 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
           )}
         </div>
       </div>
+
+      {/* Modals */}
+      {selectedMessage && (
+        <>
+          <EditMessageModal
+            message={selectedMessage}
+            isOpen={editModalOpen}
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+          />
+          <DeleteConfirmationModal
+            message={selectedMessage}
+            isOpen={deleteModalOpen}
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+          />
+        </>
+      )}
     </div>
   );
 };
