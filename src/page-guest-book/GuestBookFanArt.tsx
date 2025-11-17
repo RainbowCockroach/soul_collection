@@ -7,14 +7,16 @@ interface GuestBookFanArtProps {
   message: Message;
   onEdit?: (message: Message) => void;
   onDelete?: (message: Message) => void;
+  onOpenFullscreenViewer?: (message: Message) => void;
 }
 
 export interface GuestBookFanArtRef {
   openImageInNewTab: () => void;
+  openFullscreenViewer: () => void;
 }
 
 const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
-  ({ message, onEdit, onDelete }, ref) => {
+  ({ message, onEdit, onDelete, onOpenFullscreenViewer }, ref) => {
     // Generate unique ID for this component instance
     const clipId = useMemo(
       () =>
@@ -29,6 +31,10 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
       }
     };
 
+    const openFullscreenViewer = () => {
+      onOpenFullscreenViewer?.(message);
+    };
+
     const handleEdit = () => {
       onEdit?.(message);
     };
@@ -39,6 +45,7 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
 
     useImperativeHandle(ref, () => ({
       openImageInNewTab,
+      openFullscreenViewer,
     }));
 
     const displayImage =

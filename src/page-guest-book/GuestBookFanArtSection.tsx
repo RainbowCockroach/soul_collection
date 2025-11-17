@@ -23,6 +23,7 @@ interface PaginatedResponse {
 interface GuestBookFanArtSectionProps {
   fanArtPerPage?: number;
   editMode?: boolean;
+  onOpenFullscreenViewer?: (message: Message) => void;
 }
 
 // Wrapper component to handle refs properly
@@ -30,12 +31,13 @@ const FanArtWithButton: React.FC<{
   message: Message;
   onEdit?: (message: Message) => void;
   onDelete?: (message: Message) => void;
+  onOpenFullscreenViewer?: (message: Message) => void;
   editMode?: boolean;
-}> = ({ message, onEdit, onDelete, editMode = false }) => {
+}> = ({ message, onEdit, onDelete, onOpenFullscreenViewer, editMode = false }) => {
   const fanArtRef = useRef<GuestBookFanArtRef>(null);
 
   const handleClick = () => {
-    fanArtRef.current?.openImageInNewTab();
+    fanArtRef.current?.openFullscreenViewer();
   };
 
   // In edit mode, render without ButtonWrapper to allow action menu clicks
@@ -46,6 +48,7 @@ const FanArtWithButton: React.FC<{
         message={message}
         onEdit={onEdit}
         onDelete={onDelete}
+        onOpenFullscreenViewer={onOpenFullscreenViewer}
       />
     );
   }
@@ -61,6 +64,7 @@ const FanArtWithButton: React.FC<{
         message={message}
         onEdit={onEdit}
         onDelete={onDelete}
+        onOpenFullscreenViewer={onOpenFullscreenViewer}
       />
     </ButtonWrapper>
   );
@@ -69,6 +73,7 @@ const FanArtWithButton: React.FC<{
 const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   fanArtPerPage = 4,
   editMode = false,
+  onOpenFullscreenViewer,
 }) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -220,6 +225,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
             message={message}
             onEdit={editMode ? handleEdit : undefined}
             onDelete={editMode ? handleDelete : undefined}
+            onOpenFullscreenViewer={onOpenFullscreenViewer}
             editMode={editMode}
           />
         ))}
