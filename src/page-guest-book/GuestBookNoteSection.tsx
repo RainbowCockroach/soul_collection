@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { Message } from "./types";
 import GuestBookNote from "./GuestBookNote";
-import EditMessageModal from "./EditMessageModal";
+import EditMessageLightbox from "./EditMessageLightbox";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
@@ -207,7 +207,7 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
       {/* Modals */}
       {selectedMessage && (
         <>
-          <EditMessageModal
+          <EditMessageLightbox
             message={selectedMessage}
             isOpen={editModalOpen}
             onClose={handleModalClose}

@@ -1,0 +1,138 @@
+.edit-message-lightbox {
+  width: 100%;
+  margin: 0 auto;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.edit-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.password-step,
+.edit-step {
+  padding: 20px;
+}
+
+.password-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.password-form .form-group {
+  margin-bottom: 20px;
+}
+
+.password-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.password-form input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.password-form input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.captcha-section label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.edit-content {
+  /* Remove default form container styling when in edit mode */
+}
+
+.edit-content .form-container {
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.edit-content .form-toggle-button {
+  display: none; /* Hide toggle button in edit mode */
+}
+
+.edit-content .guest-book-form {
+  margin: 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #dee2e6;
+}
+
+.form-actions .cancel-button {
+  background: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+.form-actions .cancel-button:hover {
+  background: #5a6268;
+  border-color: #545b62;
+}
+
+.form-actions .submit-button {
+  background: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.form-actions .submit-button:hover {
+  background: #0056b3;
+  border-color: #004085;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .edit-message-lightbox {
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+
+  .edit-header,
+  .password-step,
+  .edit-step {
+    padding: 15px;
+  }
+
+  .edit-header h2 {
+    font-size: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .cancel-button,
+  .form-actions .submit-button {
+    width: 100%;
+  }
+}

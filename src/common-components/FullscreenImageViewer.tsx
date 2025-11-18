@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import ZoomPanPinchImage, { type ZoomPanPinchImageRef } from "./ZoomPanPinchImage";
+import Lightbox from "./Lightbox";
 import "./FullscreenImageViewer.css";
 
 interface FullscreenImageViewerProps {
@@ -21,22 +22,6 @@ const FullscreenImageViewer = ({
 }: FullscreenImageViewerProps) => {
   const zoomRef = useRef<ZoomPanPinchImageRef>(null);
 
-  // Handle ESC key press
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [isOpen, onClose]);
-
   // Reset zoom when opening
   useEffect(() => {
     if (isOpen && zoomRef.current) {
@@ -48,34 +33,8 @@ const FullscreenImageViewer = ({
     }
   }, [isOpen, src]);
 
-  // Prevent body scroll when viewer is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    // Only close if clicking on the backdrop itself, not the content
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   return (
-    <div className="fullscreen-image-viewer" onClick={handleBackdropClick}>
-      <button className="fullscreen-close-button" onClick={onClose} title="Close (ESC)">
-        ✕
-      </button>
-
+    <Lightbox isOpen={isOpen} onClose={onClose}>
       <div className="fullscreen-image-content">
         <ZoomPanPinchImage
           ref={zoomRef}
@@ -85,7 +44,7 @@ const FullscreenImageViewer = ({
           contentWarning={contentWarning}
         />
       </div>
-    </div>
+    </Lightbox>
   );
 };
 

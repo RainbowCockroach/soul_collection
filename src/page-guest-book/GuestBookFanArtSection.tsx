@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
-import EditMessageModal from "./EditMessageModal";
+import EditMessageLightbox from "./EditMessageLightbox";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import ArrowButton from "../common-components/ArrowButton";
@@ -281,7 +281,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
       {/* Modals */}
       {selectedMessage && (
         <>
-          <EditMessageModal
+          <EditMessageLightbox
             message={selectedMessage}
             isOpen={editModalOpen}
             onClose={handleModalClose}
