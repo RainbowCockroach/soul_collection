@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { useState, useEffect } from "react";
 import ImageUploadInput from "../common-components/ImageUploadInput";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
@@ -66,10 +65,8 @@ const GuestBookFanArtForm = ({
         password: "",
       });
 
-      // Set upload verified if image already exists
-      if (initialData.thumbnail || initialData.full_image) {
-        setUploadVerified(true);
-      }
+      // In edit mode, don't automatically set uploadVerified
+      // Let user choose whether to keep existing image or upload new one
 
       // Parse content warnings for edit mode
       if (initialData.content_warning) {
@@ -93,15 +90,8 @@ const GuestBookFanArtForm = ({
     }
   }, [isEditMode, initialData]);
 
-  // Upload captcha state
-  const [uploadCaptchaToken, setUploadCaptchaToken] = useState<string | null>(
-    null
-  );
-  const [showUploadCaptcha, setShowUploadCaptcha] = useState(false);
-  const [uploadVerified, setUploadVerified] = useState(false);
-
-  // Captcha ref for upload widget
-  const uploadCaptchaRef = useRef<TurnstileInstance>(null);
+  // Upload state (simplified since ImageUploadInput handles its own CAPTCHA)
+  const [showUploadInput, setShowUploadInput] = useState(false);
 
   // Content warning multi-select state
   const [selectedContentWarnings, setSelectedContentWarnings] = useState<
@@ -170,12 +160,7 @@ const GuestBookFanArtForm = ({
     setSelectedContentWarnings([]);
     setOtherContentWarning("");
     // Reset upload state
-    setUploadCaptchaToken(null);
-    setShowUploadCaptcha(false);
-    setUploadVerified(false);
-    if (uploadCaptchaRef.current?.reset) {
-      uploadCaptchaRef.current.reset();
-    }
+    setShowUploadInput(false);
   };
 
   const handleImageUploaded = (thumbnailUrl: string, fullImageUrl: string) => {
@@ -184,25 +169,12 @@ const GuestBookFanArtForm = ({
       thumbnail: thumbnailUrl,
       full_image: fullImageUrl,
     }));
-
-    // Reset upload CAPTCHA token after successful upload, but keep upload verified
-    // so user can continue to see the ImageUploadInput component
-    setUploadCaptchaToken(null);
-    setShowUploadCaptcha(false);
-    // Note: We don't reset uploadVerified here to maintain the UI state
-    if (uploadCaptchaRef.current?.reset) {
-      uploadCaptchaRef.current.reset();
-    }
+    // Note: ImageUploadInput now handles its own CAPTCHA state management
   };
 
   const handleUploadButtonClick = () => {
-    // Show CAPTCHA when user clicks the upload button
-    setShowUploadCaptcha(true);
-  };
-
-  const handleUploadCaptchaSuccess = (token: string) => {
-    setUploadCaptchaToken(token);
-    setUploadVerified(true);
+    // Show upload input (which will handle its own CAPTCHA)
+    setShowUploadInput(true);
   };
 
   const handleContentWarningChange = (
@@ -247,39 +219,40 @@ const GuestBookFanArtForm = ({
         </div>
 
         <div className="form-group">
-          <label>Upload your fan art</label>
-          {!uploadVerified ? (
-            <div>
-              {!showUploadCaptcha ? (
-                <button
-                  type="button"
-                  onClick={handleUploadButtonClick}
-                  className="upload-trigger-button"
-                  disabled={submitting}
-                >
-                  Upload file
-                </button>
-              ) : (
-                <Turnstile
-                  ref={uploadCaptchaRef}
-                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                  onSuccess={handleUploadCaptchaSuccess}
-                  onError={() => {
-                    setUploadCaptchaToken(null);
-                    setShowUploadCaptcha(false);
-                  }}
-                  onExpire={() => {
-                    setUploadCaptchaToken(null);
-                    setShowUploadCaptcha(false);
-                  }}
-                />
-              )}
+          <label>
+            {initialData && (initialData.thumbnail || initialData.full_image)
+              ? "Fan art image"
+              : "Upload your fan art"}
+          </label>
+
+          {/* Show current image info in edit mode */}
+          {initialData && (initialData.thumbnail || initialData.full_image) && (
+            <div className="current-image-info">
+              <p>
+                <strong>Current:</strong>{" "}
+                {fanArtForm.full_image !== (initialData.full_image || initialData.thumbnail)
+                  ? "New image uploaded"
+                  : (initialData.full_image || initialData.thumbnail)}
+              </p>
             </div>
+          )}
+
+          {/* Upload section */}
+          {!showUploadInput ? (
+            <button
+              type="button"
+              onClick={handleUploadButtonClick}
+              className="upload-trigger-button"
+              disabled={submitting}
+            >
+              {initialData && (initialData.thumbnail || initialData.full_image)
+                ? "Upload new image"
+                : "Upload image"}
+            </button>
           ) : (
             <ImageUploadInput
               onImageUploaded={handleImageUploaded}
               disabled={submitting}
-              captchaToken={uploadCaptchaToken}
             />
           )}
         </div>
@@ -368,7 +341,10 @@ const GuestBookFanArtForm = ({
             type="submit"
             onClick={() => {}}
             disabled={
-              submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
+              submitting ||
+              (!fanArtForm.thumbnail &&
+               !fanArtForm.full_image &&
+               !(initialData && (initialData.thumbnail || initialData.full_image)))
             }
             className="submit-button"
           >
@@ -409,38 +385,19 @@ const GuestBookFanArtForm = ({
 
           <div className="form-group">
             <label>Upload your fan art</label>
-            {!uploadVerified ? (
-              <div>
-                {!showUploadCaptcha ? (
-                  <button
-                    type="button"
-                    onClick={handleUploadButtonClick}
-                    className="upload-trigger-button"
-                    disabled={submitting}
-                  >
-                    Upload file
-                  </button>
-                ) : (
-                  <Turnstile
-                    ref={uploadCaptchaRef}
-                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                    onSuccess={handleUploadCaptchaSuccess}
-                    onError={() => {
-                      setUploadCaptchaToken(null);
-                      setShowUploadCaptcha(false);
-                    }}
-                    onExpire={() => {
-                      setUploadCaptchaToken(null);
-                      setShowUploadCaptcha(false);
-                    }}
-                  />
-                )}
-              </div>
+            {!showUploadInput ? (
+              <button
+                type="button"
+                onClick={handleUploadButtonClick}
+                className="upload-trigger-button"
+                disabled={submitting}
+              >
+                Upload file
+              </button>
             ) : (
               <ImageUploadInput
                 onImageUploaded={handleImageUploaded}
                 disabled={submitting}
-                captchaToken={uploadCaptchaToken}
               />
             )}
           </div>

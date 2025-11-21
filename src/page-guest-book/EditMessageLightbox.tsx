@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import React, { useState } from "react";
 import Lightbox from "../common-components/Lightbox";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import GuestBookNoteForm from "./GuestBookNoteForm";
@@ -27,13 +26,6 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [verifyingPassword, setVerifyingPassword] = useState(false);
 
-  // Submission captcha
-  const [submissionCaptchaToken, setSubmissionCaptchaToken] = useState<
-    string | null
-  >(null);
-  const [showSubmissionCaptcha, setShowSubmissionCaptcha] = useState(false);
-  const submissionCaptchaRef = useRef<TurnstileInstance>(null);
-
   // Reset state when modal opens/closes
   React.useEffect(() => {
     if (isOpen) {
@@ -42,8 +34,6 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
       setPasswordError("");
       setSubmitting(false);
       setVerifyingPassword(false);
-      setSubmissionCaptchaToken(null);
-      setShowSubmissionCaptcha(false);
     }
   }, [isOpen, message]);
 
@@ -74,7 +64,6 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
       if (response.ok && data.valid) {
         // Password is correct, proceed to edit step
         setStep("edit");
-        setShowSubmissionCaptcha(true); // Show captcha for the final submission
       } else {
         // Password verification failed
         if (response.status === 429) {
@@ -95,23 +84,13 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
     }
   };
 
-  const handleSubmissionCaptchaSuccess = (token: string) => {
-    setSubmissionCaptchaToken(token);
-  };
-
   const handleFormSubmit = async (messageContent: MessageContent) => {
-    if (!submissionCaptchaToken) {
-      alert("Please complete the CAPTCHA verification");
-      return;
-    }
-
     setSubmitting(true);
 
     try {
       const updateData = {
         content: messageContent,
         password: password,
-        captchaToken: submissionCaptchaToken,
       };
 
       const response = await fetch(`${apiBaseUrl}/messages/${message.id}`, {
@@ -177,10 +156,9 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
                 onClick={() => {}}
                 className="submit-button"
                 disabled={verifyingPassword}
+                type="submit"
               >
-                <button type="submit" disabled={verifyingPassword}>
-                  {verifyingPassword ? "Verifying..." : "Verify Password"}
-                </button>
+                {verifyingPassword ? "Verifying..." : "Verify Password"}
               </ButtonWrapper>
             </form>
           </div>
@@ -191,24 +169,8 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
             </div>
 
             <div className="edit-content">
-              {/* Show CAPTCHA first */}
-              {!showSubmissionCaptcha ? (
-                <div className="captcha-placeholder">
-                  <p>CAPTCHA verification required for submission</p>
-                </div>
-              ) : !submissionCaptchaToken ? (
-                <div className="captcha-section">
-                  <label>Complete CAPTCHA to proceed:</label>
-                  <Turnstile
-                    ref={submissionCaptchaRef}
-                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                    onSuccess={handleSubmissionCaptchaSuccess}
-                    onError={() => setSubmissionCaptchaToken(null)}
-                    onExpire={() => setSubmissionCaptchaToken(null)}
-                  />
-                </div>
-              ) : /* Show appropriate form based on message type */
-              message.type === "note" ? (
+              {/* Show appropriate form based on message type */}
+              {message.type === "note" ? (
                 <GuestBookNoteForm
                   onSubmit={handleFormSubmit}
                   submitting={submitting}
