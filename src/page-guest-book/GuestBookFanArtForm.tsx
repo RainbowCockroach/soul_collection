@@ -3,6 +3,7 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import ImageUploadInput from "../common-components/ImageUploadInput";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
+import buttonSendArt from "../assets/button_send_art.gif";
 
 interface GuestBookFanArtFormProps {
   onSubmit: (
@@ -46,8 +47,10 @@ const GuestBookFanArtForm = ({
   // Fan art form state
   const [fanArtForm, setFanArtForm] = useState({
     name: isEditMode && initialData?.name ? initialData.name : "",
-    thumbnail: isEditMode && initialData?.thumbnail ? initialData.thumbnail : "",
-    full_image: isEditMode && initialData?.full_image ? initialData.full_image : "",
+    thumbnail:
+      isEditMode && initialData?.thumbnail ? initialData.thumbnail : "",
+    full_image:
+      isEditMode && initialData?.full_image ? initialData.full_image : "",
     caption: isEditMode && initialData?.caption ? initialData.caption : "",
     password: "",
   });
@@ -71,14 +74,20 @@ const GuestBookFanArtForm = ({
       // Parse content warnings for edit mode
       if (initialData.content_warning) {
         const warnings = initialData.content_warning.split(", ");
-        const knownWarnings = warnings.filter(w => CONTENT_WARNINGS.includes(w));
-        const unknownWarnings = warnings.filter(w => !CONTENT_WARNINGS.includes(w));
+        const knownWarnings = warnings.filter((w) =>
+          CONTENT_WARNINGS.includes(w)
+        );
+        const unknownWarnings = warnings.filter(
+          (w) => !CONTENT_WARNINGS.includes(w)
+        );
 
         setSelectedContentWarnings(knownWarnings);
-        setOtherContentWarning(unknownWarnings.length > 0 ? unknownWarnings[0] : "");
+        setOtherContentWarning(
+          unknownWarnings.length > 0 ? unknownWarnings[0] : ""
+        );
 
         if (unknownWarnings.length > 0) {
-          setSelectedContentWarnings(prev => [...prev, "Other"]);
+          setSelectedContentWarnings((prev) => [...prev, "Other"]);
         }
       }
     }
@@ -226,6 +235,167 @@ const GuestBookFanArtForm = ({
         onSubmit={handleFanArtSubmit}
         className="div-3d-with-shadow guest-book-form"
       >
+        <div className="form-group">
+          <label htmlFor="fanart-name">Display name (optional)</label>
+          <input
+            type="text"
+            id="fanart-name"
+            name="name"
+            value={fanArtForm.name}
+            onChange={handleFanArtInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Upload your fan art</label>
+          {!uploadVerified ? (
+            <div>
+              {!showUploadCaptcha ? (
+                <button
+                  type="button"
+                  onClick={handleUploadButtonClick}
+                  className="upload-trigger-button"
+                  disabled={submitting}
+                >
+                  Upload file
+                </button>
+              ) : (
+                <Turnstile
+                  ref={uploadCaptchaRef}
+                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                  onSuccess={handleUploadCaptchaSuccess}
+                  onError={() => {
+                    setUploadCaptchaToken(null);
+                    setShowUploadCaptcha(false);
+                  }}
+                  onExpire={() => {
+                    setUploadCaptchaToken(null);
+                    setShowUploadCaptcha(false);
+                  }}
+                />
+              )}
+            </div>
+          ) : (
+            <ImageUploadInput
+              onImageUploaded={handleImageUploaded}
+              disabled={submitting}
+              captchaToken={uploadCaptchaToken}
+            />
+          )}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="fanart-caption">Caption (optional)</label>
+          <input
+            type="text"
+            id="fanart-caption"
+            name="caption"
+            value={fanArtForm.caption}
+            onChange={handleFanArtInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Content warning (optional)</label>
+          <div className="content-warning-checkboxes">
+            {CONTENT_WARNINGS.map((warning, index) => {
+              const checkboxId = `content-warning-${index}`;
+              return (
+                <div key={index}>
+                  <input
+                    id={checkboxId}
+                    type="checkbox"
+                    value={warning}
+                    checked={selectedContentWarnings.includes(warning)}
+                    onChange={handleContentWarningChange}
+                  />
+                  <label htmlFor={checkboxId}>{warning}</label>
+                </div>
+              );
+            })}
+            <div className="checkbox-label">
+              <input
+                id="content-warning-other"
+                type="checkbox"
+                value="Other"
+                checked={selectedContentWarnings.includes("Other")}
+                onChange={handleContentWarningChange}
+              />
+              <label htmlFor="content-warning-other">Other</label>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          {selectedContentWarnings.includes("Other") && (
+            <input
+              type="text"
+              placeholder="Specify other content warning..."
+              value={otherContentWarning}
+              onChange={handleOtherContentWarningChange}
+            />
+          )}
+        </div>
+
+        {!isEditMode && (
+          <div className="form-group">
+            <label htmlFor="fanart-password">
+              Password (for edit/delete later, optional!)
+            </label>
+            <input
+              type="text"
+              id="fanart-password"
+              name="password"
+              value={fanArtForm.password}
+              onChange={handleFanArtInputChange}
+              placeholder="*don't set me as 123456 :)*"
+            />
+          </div>
+        )}
+
+        <div className={isEditMode ? "form-actions" : ""}>
+          {isEditMode && onCancel && (
+            <ButtonWrapper
+              onClick={onCancel}
+              disabled={submitting}
+              className="cancel-button"
+              type="button"
+            >
+              Cancel
+            </ButtonWrapper>
+          )}
+          <ButtonWrapper
+            type="submit"
+            onClick={() => {}}
+            disabled={
+              submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
+            }
+            className="submit-button"
+          >
+            {submitting
+              ? isEditMode
+                ? "Updating..."
+                : "Submitting..."
+              : isEditMode
+              ? "Update"
+              : "Send!"}
+          </ButtonWrapper>
+        </div>
+      </form>
+    );
+  }
+
+  // Normal mode with toggle button and container
+  return (
+    <div className="form-container fanart-form-container">
+      <ButtonWrapper className="form-toggle-button" onClick={onToggle}>
+        <img src={buttonSendArt} alt="Send" className="div-3d-with-shadow" />
+      </ButtonWrapper>
+      {showForm && (
+        <form
+          onSubmit={handleFanArtSubmit}
+          className="div-3d-with-shadow guest-book-form"
+        >
           <div className="form-group">
             <label htmlFor="fanart-name">Display name (optional)</label>
             <input
@@ -359,183 +529,23 @@ const GuestBookFanArtForm = ({
               type="submit"
               onClick={() => {}}
               disabled={
-                submitting ||
-                (!fanArtForm.thumbnail && !fanArtForm.full_image)
+                submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
               }
               className="submit-button"
             >
-              {submitting ?
-                (isEditMode ? "Updating..." : "Submitting...") :
-                (isEditMode ? "Update" : "Send!")
-              }
+              {submitting
+                ? isEditMode
+                  ? "Updating..."
+                  : "Submitting..."
+                : isEditMode
+                ? "Update"
+                : "Send!"}
             </ButtonWrapper>
           </div>
         </form>
-      );
-    }
-
-    // Normal mode with toggle button and container
-    return (
-      <div className="form-container fanart-form-container">
-        <ButtonWrapper
-          className="div-3d-with-shadow form-toggle-button"
-          onClick={onToggle}
-        >
-          <h3>Send fan art</h3>
-        </ButtonWrapper>
-        {showForm && (
-          <form
-            onSubmit={handleFanArtSubmit}
-            className="div-3d-with-shadow guest-book-form"
-          >
-            <div className="form-group">
-              <label htmlFor="fanart-name">Display name (optional)</label>
-              <input
-                type="text"
-                id="fanart-name"
-                name="name"
-                value={fanArtForm.name}
-                onChange={handleFanArtInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Upload your fan art</label>
-              {!uploadVerified ? (
-                <div>
-                  {!showUploadCaptcha ? (
-                    <button
-                      type="button"
-                      onClick={handleUploadButtonClick}
-                      className="upload-trigger-button"
-                      disabled={submitting}
-                    >
-                      Upload file
-                    </button>
-                  ) : (
-                    <Turnstile
-                      ref={uploadCaptchaRef}
-                      siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                      onSuccess={handleUploadCaptchaSuccess}
-                      onError={() => {
-                        setUploadCaptchaToken(null);
-                        setShowUploadCaptcha(false);
-                      }}
-                      onExpire={() => {
-                        setUploadCaptchaToken(null);
-                        setShowUploadCaptcha(false);
-                      }}
-                    />
-                  )}
-                </div>
-              ) : (
-                <ImageUploadInput
-                  onImageUploaded={handleImageUploaded}
-                  disabled={submitting}
-                  captchaToken={uploadCaptchaToken}
-                />
-              )}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="fanart-caption">Caption (optional)</label>
-              <input
-                type="text"
-                id="fanart-caption"
-                name="caption"
-                value={fanArtForm.caption}
-                onChange={handleFanArtInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Content warning (optional)</label>
-              <div className="content-warning-checkboxes">
-                {CONTENT_WARNINGS.map((warning, index) => {
-                  const checkboxId = `content-warning-${index}`;
-                  return (
-                    <div key={index}>
-                      <input
-                        id={checkboxId}
-                        type="checkbox"
-                        value={warning}
-                        checked={selectedContentWarnings.includes(warning)}
-                        onChange={handleContentWarningChange}
-                      />
-                      <label htmlFor={checkboxId}>{warning}</label>
-                    </div>
-                  );
-                })}
-                <div className="checkbox-label">
-                  <input
-                    id="content-warning-other"
-                    type="checkbox"
-                    value="Other"
-                    checked={selectedContentWarnings.includes("Other")}
-                    onChange={handleContentWarningChange}
-                  />
-                  <label htmlFor="content-warning-other">Other</label>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              {selectedContentWarnings.includes("Other") && (
-                <input
-                  type="text"
-                  placeholder="Specify other content warning..."
-                  value={otherContentWarning}
-                  onChange={handleOtherContentWarningChange}
-                />
-              )}
-            </div>
-
-            {!isEditMode && (
-              <div className="form-group">
-                <label htmlFor="fanart-password">
-                  Password (for edit/delete later, optional!)
-                </label>
-                <input
-                  type="text"
-                  id="fanart-password"
-                  name="password"
-                  value={fanArtForm.password}
-                  onChange={handleFanArtInputChange}
-                  placeholder="*don't set me as 123456 :)*"
-                />
-              </div>
-            )}
-
-            <div className={isEditMode ? "form-actions" : ""}>
-              {isEditMode && onCancel && (
-                <ButtonWrapper
-                  onClick={onCancel}
-                  disabled={submitting}
-                  className="cancel-button"
-                  type="button"
-                >
-                  Cancel
-                </ButtonWrapper>
-              )}
-              <ButtonWrapper
-                type="submit"
-                onClick={() => {}}
-                disabled={
-                  submitting ||
-                  (!fanArtForm.thumbnail && !fanArtForm.full_image)
-                }
-                className="submit-button"
-              >
-                {submitting ?
-                  (isEditMode ? "Updating..." : "Submitting...") :
-                  (isEditMode ? "Update" : "Send!")
-                }
-              </ButtonWrapper>
-            </div>
-          </form>
-        )}
-      </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default GuestBookFanArtForm;
