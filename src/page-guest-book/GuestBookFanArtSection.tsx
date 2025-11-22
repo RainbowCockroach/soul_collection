@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
 import EditMessageLightbox from "./EditMessageLightbox";
@@ -77,11 +84,10 @@ const FanArtWithButton: React.FC<{
   );
 };
 
-const GuestBookFanArtSection = forwardRef<GuestBookFanArtSectionRef, GuestBookFanArtSectionProps>(({
-  fanArtPerPage = 4,
-  editMode = false,
-  onOpenFullscreenViewer,
-}, ref) => {
+const GuestBookFanArtSection = forwardRef<
+  GuestBookFanArtSectionRef,
+  GuestBookFanArtSectionProps
+>(({ fanArtPerPage = 4, editMode = false, onOpenFullscreenViewer }, ref) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -136,7 +142,7 @@ const GuestBookFanArtSection = forwardRef<GuestBookFanArtSectionRef, GuestBookFa
 
   // Expose refresh function to parent component
   useImperativeHandle(ref, () => ({
-    refresh: () => fetchFanArt(currentPage, false)
+    refresh: () => fetchFanArt(currentPage, false),
   }));
 
   useEffect(() => {
@@ -183,7 +189,7 @@ const GuestBookFanArtSection = forwardRef<GuestBookFanArtSectionRef, GuestBookFa
   if (loading) {
     return (
       <div className="fanart-section-loading">
-        <div className="loading-spinner">Loading fan art...</div>
+        <div className="loading-spinner">Loading art...</div>
       </div>
     );
   }
@@ -191,7 +197,7 @@ const GuestBookFanArtSection = forwardRef<GuestBookFanArtSectionRef, GuestBookFa
   if (error) {
     return (
       <div className="fanart-section-error">
-        <div className="error-message">Error loading fan art: {error}</div>
+        <div className="error-message">Error loading art: {error}</div>
       </div>
     );
   }
@@ -312,6 +318,6 @@ const GuestBookFanArtSection = forwardRef<GuestBookFanArtSectionRef, GuestBookFa
   );
 });
 
-GuestBookFanArtSection.displayName = 'GuestBookFanArtSection';
+GuestBookFanArtSection.displayName = "GuestBookFanArtSection";
 
 export default GuestBookFanArtSection;
