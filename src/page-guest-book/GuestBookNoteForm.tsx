@@ -3,6 +3,7 @@ import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
 import blinkies from "../data/guestbook-blinkies.json";
 import buttonSendNote from "../assets/button_send_note.gif";
+import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 
 interface GuestBookNoteFormProps {
   onSubmit: (
@@ -39,7 +40,9 @@ const GuestBookNoteForm = ({
   const [noteForm, setNoteForm] = useState({
     name: isEditMode && initialData?.name ? initialData.name : "",
     content: isEditMode && initialData?.content ? initialData.content : "",
-    blinkies: (isEditMode && initialData?.blinkies ? initialData.blinkies : []) as string[],
+    blinkies: (isEditMode && initialData?.blinkies
+      ? initialData.blinkies
+      : []) as string[],
     password: "",
   });
 
@@ -141,116 +144,110 @@ const GuestBookNoteForm = ({
         onSubmit={handleNoteSubmit}
         className="div-3d-with-shadow guest-book-form"
       >
-          <div className="form-row">
-            <div className="form-group name-group">
-              <label htmlFor="note-name">Display name (optional)</label>
-              <input
-                type="text"
-                id="note-name"
-                name="name"
-                value={noteForm.name}
-                onChange={handleNoteInputChange}
-              />
-            </div>
-
-            <div className="form-group blinkie-group">
-              <label>Blinkies (optional, max 3)</label>
-              <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
-                <div
-                  className="blinkie-dropdown-trigger"
-                  onClick={() =>
-                    setBlinkieDropdownOpen(!blinkieDropdownOpen)
-                  }
-                >
-                  {noteForm.blinkies.length > 0 ? (
-                    <div className="selected-blinkies">
-                      {noteForm.blinkies.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`Selected blinkie ${index + 1}`}
-                          className="selected-blinkie"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="blinkie-placeholder">
-                      Select blinkies
-                    </span>
-                  )}
-                  <span className="dropdown-arrow">▼</span>
-                </div>
-                {blinkieDropdownOpen && (
-                  <div className="blinkie-dropdown-menu">
-                    <div
-                      className="blinkie-option"
-                      onClick={() => handleBlinkieSelect("")}
-                    >
-                      <span>Clear all</span>
-                    </div>
-                    {BLINKIES.map((url, index) => {
-                      const isSelected = noteForm.blinkies.includes(url);
-                      const canSelect =
-                        !isSelected && noteForm.blinkies.length < 3;
-                      return (
-                        <div
-                          key={index}
-                          className={`blinkie-option ${
-                            isSelected ? "selected" : ""
-                          } ${!canSelect && !isSelected ? "disabled" : ""}`}
-                          onClick={() => handleBlinkieSelect(url)}
-                          style={{
-                            opacity: !canSelect && !isSelected ? 0.5 : 1,
-                          }}
-                        >
-                          <img
-                            src={url}
-                            alt={`Blinkie ${index + 1}`}
-                            className="blinkie-preview"
-                          />
-                          {isSelected && (
-                            <span className="selection-indicator">✓</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="note-content">Message *</label>
-            <textarea
-              id="note-content"
-              name="content"
-              value={noteForm.content}
+        <div className="form-row">
+          <div className="form-group name-group">
+            <label htmlFor="note-name">Display name (optional)</label>
+            <input
+              type="text"
+              id="note-name"
+              name="name"
+              value={noteForm.name}
               onChange={handleNoteInputChange}
-              required
-              rows={4}
-              maxLength={150}
             />
-            <div className="character-counter">
-              {noteForm.content.length}/150
-            </div>
           </div>
 
-          {!isEditMode && (
-            <div className="form-group">
-              <label htmlFor="note-password">
-                Password (for edit/delete later, optional!)
-              </label>
-              <input
-                type="text"
-                id="note-password"
-                name="password"
-                value={noteForm.password}
-                onChange={handleNoteInputChange}
-                placeholder="*don't set me as 123456 :)*"
-              />
+          <div className="form-group blinkie-group">
+            <label>Blinkies (optional, max 3)</label>
+            <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
+              <div
+                className="blinkie-dropdown-trigger"
+                onClick={() => setBlinkieDropdownOpen(!blinkieDropdownOpen)}
+              >
+                {noteForm.blinkies.length > 0 ? (
+                  <div className="selected-blinkies">
+                    {noteForm.blinkies.map((url, index) => (
+                      <img
+                        key={index}
+                        src={url}
+                        alt={`Selected blinkie ${index + 1}`}
+                        className="selected-blinkie"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <span className="blinkie-placeholder">Select blinkies</span>
+                )}
+                <span className="dropdown-arrow">▼</span>
+              </div>
+              {blinkieDropdownOpen && (
+                <div className="blinkie-dropdown-menu">
+                  <div
+                    className="blinkie-option"
+                    onClick={() => handleBlinkieSelect("")}
+                  >
+                    <span>Clear all</span>
+                  </div>
+                  {BLINKIES.map((url, index) => {
+                    const isSelected = noteForm.blinkies.includes(url);
+                    const canSelect =
+                      !isSelected && noteForm.blinkies.length < 3;
+                    return (
+                      <div
+                        key={index}
+                        className={`blinkie-option ${
+                          isSelected ? "selected" : ""
+                        } ${!canSelect && !isSelected ? "disabled" : ""}`}
+                        onClick={() => handleBlinkieSelect(url)}
+                        style={{
+                          opacity: !canSelect && !isSelected ? 0.5 : 1,
+                        }}
+                      >
+                        <img
+                          src={url}
+                          alt={`Blinkie ${index + 1}`}
+                          className="blinkie-preview"
+                        />
+                        {isSelected && (
+                          <span className="selection-indicator">✓</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="note-content">Message *</label>
+          <textarea
+            id="note-content"
+            name="content"
+            value={noteForm.content}
+            onChange={handleNoteInputChange}
+            required
+            rows={4}
+            maxLength={150}
+          />
+          <div className="character-counter">{noteForm.content.length}/150</div>
+        </div>
+
+        {!isEditMode && (
+          <div className="form-group">
+            <label htmlFor="note-password">
+              Password (for edit/delete later, optional!)
+            </label>
+            <input
+              type="text"
+              id="note-password"
+              name="password"
+              value={noteForm.password}
+              onChange={handleNoteInputChange}
+              placeholder="*don't set me as 123456 :)*"
+            />
+          </div>
+        )}
 
         <div className={isEditMode ? "form-actions" : ""}>
           {isEditMode && onCancel && (
@@ -269,10 +266,13 @@ const GuestBookNoteForm = ({
             disabled={submitting || !noteForm.content.trim()}
             className="submit-button"
           >
-            {submitting ?
-              (isEditMode ? "Updating..." : "Submitting...") :
-              (isEditMode ? "Update" : "Send!")
-            }
+            {submitting
+              ? isEditMode
+                ? "Updating..."
+                : "Submitting..."
+              : isEditMode
+              ? "Update"
+              : "Send!"}
           </ButtonWrapper>
         </div>
       </form>
@@ -282,12 +282,12 @@ const GuestBookNoteForm = ({
   // Normal mode with toggle button and container
   return (
     <div className="form-container note-form-container">
-      <ButtonWrapper className="form-toggle-button" onClick={onToggle}>
-        <img
-          src={buttonSendNote}
-          alt="Send"
-          className="div-3d-with-shadow"
-        />
+      <ButtonWrapper
+        className="form-toggle-button"
+        onClick={onToggle}
+        soundFile={buttonSoundGallery}
+      >
+        <img src={buttonSendNote} alt="Send" className="div-3d-with-shadow" />
       </ButtonWrapper>
       {showForm && (
         <form
@@ -311,9 +311,7 @@ const GuestBookNoteForm = ({
               <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
                 <div
                   className="blinkie-dropdown-trigger"
-                  onClick={() =>
-                    setBlinkieDropdownOpen(!blinkieDropdownOpen)
-                  }
+                  onClick={() => setBlinkieDropdownOpen(!blinkieDropdownOpen)}
                 >
                   {noteForm.blinkies.length > 0 ? (
                     <div className="selected-blinkies">
@@ -327,9 +325,7 @@ const GuestBookNoteForm = ({
                       ))}
                     </div>
                   ) : (
-                    <span className="blinkie-placeholder">
-                      Select blinkies
-                    </span>
+                    <span className="blinkie-placeholder">Select blinkies</span>
                   )}
                   <span className="dropdown-arrow">▼</span>
                 </div>
@@ -422,10 +418,13 @@ const GuestBookNoteForm = ({
               disabled={submitting || !noteForm.content.trim()}
               className="submit-button"
             >
-              {submitting ?
-                (isEditMode ? "Updating..." : "Submitting...") :
-                (isEditMode ? "Update" : "Send!")
-              }
+              {submitting
+                ? isEditMode
+                  ? "Updating..."
+                  : "Submitting..."
+                : isEditMode
+                ? "Update"
+                : "Send!"}
             </ButtonWrapper>
           </div>
         </form>

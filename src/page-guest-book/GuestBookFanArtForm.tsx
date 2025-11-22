@@ -3,6 +3,7 @@ import ImageUploadInput from "../common-components/ImageUploadInput";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
 import buttonSendArt from "../assets/button_send_art.gif";
+import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 
 interface GuestBookFanArtFormProps {
   onSubmit: (
@@ -230,9 +231,10 @@ const GuestBookFanArtForm = ({
             <div className="current-image-info">
               <p>
                 <strong>Current:</strong>{" "}
-                {fanArtForm.full_image !== (initialData.full_image || initialData.thumbnail)
+                {fanArtForm.full_image !==
+                (initialData.full_image || initialData.thumbnail)
                   ? "New image uploaded"
-                  : (initialData.full_image || initialData.thumbnail)}
+                  : initialData.full_image || initialData.thumbnail}
               </p>
             </div>
           )}
@@ -343,8 +345,11 @@ const GuestBookFanArtForm = ({
             disabled={
               submitting ||
               (!fanArtForm.thumbnail &&
-               !fanArtForm.full_image &&
-               !(initialData && (initialData.thumbnail || initialData.full_image)))
+                !fanArtForm.full_image &&
+                !(
+                  initialData &&
+                  (initialData.thumbnail || initialData.full_image)
+                ))
             }
             className="submit-button"
           >
@@ -364,7 +369,11 @@ const GuestBookFanArtForm = ({
   // Normal mode with toggle button and container
   return (
     <div className="form-container fanart-form-container">
-      <ButtonWrapper className="form-toggle-button" onClick={onToggle}>
+      <ButtonWrapper
+        className="form-toggle-button"
+        onClick={onToggle}
+        soundFile={buttonSoundGallery}
+      >
         <img src={buttonSendArt} alt="Send" className="div-3d-with-shadow" />
       </ButtonWrapper>
       {showForm && (
