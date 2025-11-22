@@ -41,10 +41,10 @@ const GuestBookSubmission = ({
         />
       </div>
 
-      <p className="disclaimer">
+      {/* <p className="disclaimer">
         Your note will be displayed on the guestbook for 30 days <br />
         Creations will be displayed at random
-      </p>
+      </p> */}
     </div>
   );
 };

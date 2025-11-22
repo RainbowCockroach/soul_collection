@@ -1,6 +1,7 @@
-import { forwardRef, useImperativeHandle, useMemo } from "react";
+import { forwardRef, useImperativeHandle, useMemo, useState, useEffect } from "react";
 import ActionMenu from "./ActionMenu";
 import type { Message } from "./types";
+import { useBlurImage } from "../hooks/usePixelatedImage";
 import "./GuestBookFanArt.css";
 
 interface GuestBookFanArtProps {
@@ -17,6 +18,8 @@ export interface GuestBookFanArtRef {
 
 const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
   ({ message, onEdit, onDelete, onOpenFullscreenViewer }, ref) => {
+    const [isImageUncensored, setIsImageUncensored] = useState(false);
+
     // Generate unique ID for this component instance
     const clipId = useMemo(
       () =>
@@ -50,6 +53,17 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
 
     const displayImage =
       message.content.thumbnail || message.content.full_image;
+
+    // Apply pixelation if content warning exists and image is not uncensored
+    const { url: processedImage, useCssFilter } = useBlurImage(
+      displayImage || "",
+      isImageUncensored ? undefined : message.content.content_warning
+    );
+
+    // Reset uncensor state when content warning changes
+    useEffect(() => {
+      setIsImageUncensored(false);
+    }, [message.content.content_warning]);
 
     return (
       <div className="guest-book-fanart">
@@ -93,9 +107,14 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
             className="fanart-image-container flex-center"
             style={{
               backgroundImage: displayImage
-                ? `url(${displayImage})`
+                ? `url(${processedImage})`
                 : undefined,
               clipPath: `url(#${clipId})`,
+              ...(useCssFilter
+                ? {
+                    filter: "blur(20px) brightness(0.8) contrast(1.1)",
+                  }
+                : {}),
             }}
           >
             {!displayImage && (
@@ -127,6 +146,23 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
               )}
             </div>
           </div>
+
+          {/* Content Warning Overlay */}
+          {message.content.content_warning && !isImageUncensored && (
+            <div className="fanart-content-warning-overlay">
+              <div className="fanart-content-warning-card">
+                <div className="fanart-content-warning-text">
+                  <strong>This contains:</strong> {message.content.content_warning}
+                </div>
+                <button
+                  className="fanart-uncensor-button"
+                  onClick={() => setIsImageUncensored(true)}
+                >
+                  Show!
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

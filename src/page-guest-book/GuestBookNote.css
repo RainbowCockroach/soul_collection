@@ -101,7 +101,7 @@
   font-weight: bold;
   font-size: 18px;
   color: #333;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
@@ -110,7 +110,7 @@
 .note-date {
   font-size: 14px;
   color: #666;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
 }
 
 /* Main note content */
@@ -119,7 +119,7 @@
   color: #444;
   line-height: 1.4;
   margin-bottom: 10px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   word-wrap: break-word;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -147,7 +147,7 @@
   color: #666;
   margin-top: 5px;
   font-style: italic;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
 }
 
 /* -----------------------------------------------------------------------------

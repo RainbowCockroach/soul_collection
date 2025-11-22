@@ -1,6 +1,5 @@
 /* CSS Custom Properties */
 .guest-book-fanart-section {
-  --font-main: "Comic Sans MS", cursive, sans-serif;
   --container-height: 320px;
   --border-radius: 15px;
   --gap-desktop: 15px;
@@ -58,7 +57,7 @@
 /* Pagination info */
 .pagination-info {
   text-align: center;
-  font-family: var(--font-main);
+  font-family: var(--font-primary);
   font-size: 14px;
   color: var(--color-white-sparkle);
   font-weight: bold;
@@ -106,7 +105,7 @@
 .loading-spinner,
 .error-message,
 .empty-message {
-  font-family: var(--font-main);
+  font-family: var(--font-primary);
   font-size: 16px;
   text-align: center;
   font-weight: bold;

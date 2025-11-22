@@ -68,7 +68,7 @@
   background: transparent !important;
   border: none !important;
   gap: 8px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   font-size: 14px;
   font-weight: bold;
   transition: background-color 0.3s ease;

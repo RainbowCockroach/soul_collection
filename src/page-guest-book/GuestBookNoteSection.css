@@ -54,7 +54,7 @@
 
 .pagination-info {
   text-align: center;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   font-size: 14px;
   color: var(--color-white-sparkle);
   font-weight: bold;
@@ -83,7 +83,7 @@
 }
 
 .loading-spinner {
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   font-size: 16px;
   color: #666;
   text-align: center;
@@ -101,7 +101,7 @@
 }
 
 .error-message {
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   font-size: 16px;
   color: #c62828;
   text-align: center;
@@ -120,7 +120,7 @@
 }
 
 .empty-message {
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: var(--font-primary);
   font-size: 16px;
   color: #7b1fa2;
   text-align: center;

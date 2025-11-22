@@ -231,7 +231,7 @@
   font-size: 16px;
   transition: background-color 0.2s ease;
   border-bottom: 3px solid transparent;
-  font-family: var(--font-family-primary);
+  font-family: var(--font-primary);
 }
 
 .detail-info-tab:hover {

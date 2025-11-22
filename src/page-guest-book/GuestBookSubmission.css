@@ -7,10 +7,12 @@
   display: flex;
   gap: 20px;
   margin-top: 20px;
+  justify-content: center;
 }
 
 .form-container {
-  flex: 1;
+  flex: 0 1 400px;
+  max-width: 400px;
 }
 
 .form-toggle-button {
@@ -175,6 +177,12 @@
   .forms-container {
     flex-direction: column;
     gap: 15px;
+    justify-content: flex-start;
+  }
+
+  .form-container {
+    flex: 1;
+    max-width: none;
   }
 
   .form-row {
