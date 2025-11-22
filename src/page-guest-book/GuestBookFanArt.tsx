@@ -57,7 +57,7 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
     // Apply pixelation if content warning exists and image is not uncensored
     const { url: processedImage, useCssFilter } = useBlurImage(
       displayImage || "",
-      isImageUncensored ? undefined : message.content.content_warning
+      isImageUncensored ? undefined : message.content.content_warning || undefined
     );
 
     // Reset uncensor state when content warning changes
