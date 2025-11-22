@@ -73,3 +73,18 @@
 .decorative-frame-right {
   right: 0;
 }
+
+.big-text-shadow {
+  color: #d2ec9b;
+  text-shadow: 4px 4px 0px #000000;
+
+  /* text-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9, 0 0 30px #ff99cc,
+    0 0 40px #ff99cc, 0 0 50px #ff99cc, 0 0 60px #ff99cc, 0 0 70px #ff99cc; */
+}
+.small-text-shadow {
+  color: #d2ec9b;
+  text-shadow: 2px 2px 0px #000000;
+
+  /* text-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9, 0 0 30px #ff99cc,
+    0 0 40px #ff99cc, 0 0 50px #ff99cc, 0 0 60px #ff99cc, 0 0 70px #ff99cc; */
+}

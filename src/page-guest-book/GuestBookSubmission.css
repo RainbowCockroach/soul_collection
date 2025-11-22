@@ -7,19 +7,18 @@
   display: flex;
   gap: 20px;
   margin-top: 20px;
+  justify-content: center;
 }
 
 .form-container {
-  flex: 1;
+  flex: 0 1 400px;
+  max-width: 400px;
 }
 
 .form-toggle-button {
   width: 100%;
-  border: 1px solid black;
   border-radius: 4px;
   padding: 0.5rem 1rem;
-  background-color: var(--color-purple);
-  color: var(--color-green);
 }
 
 .form-toggle-button h3 {
@@ -91,6 +90,16 @@
   align-items: center;
   justify-content: space-between;
   min-height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.blinkie-dropdown-trigger:hover,
+.blinkie-dropdown-trigger:focus {
+  border-color: var(--color-green);
 }
 
 .selected-blinkie {
@@ -132,6 +141,11 @@
   margin-right: auto;
 }
 
+.submit-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-green);
+}
+
 .content-warning-checkboxes {
   display: flex;
   flex-wrap: wrap;
@@ -155,10 +169,20 @@
   gap: 5px;
 }
 
+.disclaimer {
+  color: var(--color-white-sparkle);
+}
+
 @media (max-width: 768px) {
   .forms-container {
     flex-direction: column;
     gap: 15px;
+    justify-content: flex-start;
+  }
+
+  .form-container {
+    flex: 1;
+    max-width: none;
   }
 
   .form-row {

@@ -1,27 +1,50 @@
 import React from "react";
+import ActionMenu from "./ActionMenu";
 import type { Message } from "./types";
 import "./GuestBookNote.css";
 
 interface GuestBookNoteProps {
   message: Message;
+  onEdit?: (message: Message) => void;
+  onDelete?: (message: Message) => void;
 }
 
-const GuestBookNote: React.FC<GuestBookNoteProps> = ({ message }) => {
+const GuestBookNote: React.FC<GuestBookNoteProps> = ({ message, onEdit, onDelete }) => {
+  const handleEdit = () => {
+    onEdit?.(message);
+  };
+
+  const handleDelete = () => {
+    onDelete?.(message);
+  };
   return (
     <div className="guest-book-note">
-      {/* Blinkie on top of the note */}
-      {message.content.blinkie && (
-        <div className="note-blinkie">
-          <img
-            src={message.content.blinkie}
-            alt="Blinkie"
-            className="blinkie-image"
-          />
+      {/* Blinkies on top of the note */}
+      {message.content.blinkies && message.content.blinkies.length > 0 && (
+        <div className="note-blinkies">
+          {message.content.blinkies.slice(0, 3).map((blinkieUrl, index) => (
+            <div key={index} className="note-blinkie">
+              <img
+                src={blinkieUrl}
+                alt={`Blinkie ${index + 1}`}
+                className="blinkie-image"
+              />
+            </div>
+          ))}
         </div>
       )}
 
       {/* Paper note container */}
       <div className="note-paper">
+        {/* Action menu for edit/delete */}
+        {(onEdit || onDelete) && (
+          <ActionMenu
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            className="note-action-menu"
+          />
+        )}
+
         <div className="note-header">
           <span className="note-name">{message.content.name}</span>
           <span className="note-date">

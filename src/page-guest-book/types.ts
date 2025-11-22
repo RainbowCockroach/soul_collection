@@ -1,7 +1,7 @@
 export interface MessageContent {
   name: string | null;
   content: string | null;
-  blinkie?: string | null;
+  blinkies?: string[] | null;
   thumbnail?: string | null;
   full_image?: string | null;
   caption?: string | null;

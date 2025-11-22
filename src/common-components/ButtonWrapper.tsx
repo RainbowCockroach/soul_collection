@@ -12,6 +12,7 @@ interface ButtonWrapperProps {
   soundVolume?: number;
   hoverSoundFile?: string;
   hoverSoundVolume?: number;
+  type?: "button" | "submit" | "reset";
 }
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
@@ -24,6 +25,7 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   soundVolume = 0.5,
   hoverSoundFile,
   hoverSoundVolume = 0.5,
+  type = "button",
 }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [playSound] = useSound(soundFile || "", { volume: soundVolume });
@@ -62,6 +64,7 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
 
   return (
     <button
+      type={type}
       className={`button-wrapper ${className} ${isPressed ? "pressed" : ""} ${
         disabled ? "disabled" : ""
       }`}

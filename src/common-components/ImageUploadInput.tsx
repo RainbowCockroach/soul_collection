@@ -1,10 +1,10 @@
 import { useState, useRef, type DragEvent } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { apiBaseUrl } from "../helpers/constants";
 
 interface ImageUploadInputProps {
   onImageUploaded: (thumbnailUrl: string, fullImageUrl: string) => void;
   disabled?: boolean;
-  captchaToken?: string | null;
 }
 
 interface ImageUploadResponse {
@@ -15,13 +15,38 @@ interface ImageUploadResponse {
 const ImageUploadInput = ({
   onImageUploaded,
   disabled = false,
-  captchaToken = null,
 }: ImageUploadInputProps) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Internal CAPTCHA management
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const captchaRef = useRef<TurnstileInstance>(null);
+
+  const handleCaptchaSuccess = (token: string) => {
+    setCaptchaToken(token);
+    setCaptchaVerified(true);
+    setShowCaptcha(false);
+  };
+
+  const handleCaptchaError = () => {
+    setCaptchaToken(null);
+    setCaptchaVerified(false);
+    setShowCaptcha(false);
+  };
+
+  const handleRequestUpload = () => {
+    if (!captchaVerified) {
+      setShowCaptcha(true);
+      return;
+    }
+    fileInputRef.current?.click();
+  };
 
   const uploadImage = async (file: File) => {
     setUploading(true);
@@ -30,7 +55,7 @@ const ImageUploadInput = ({
     try {
       // Check if captcha token is available
       if (!captchaToken) {
-        throw new Error("Please complete the CAPTCHA verification first");
+        throw new Error("CAPTCHA verification required");
       }
 
       // Validate file type
@@ -64,6 +89,13 @@ const ImageUploadInput = ({
 
       const data: ImageUploadResponse = await response.json();
       onImageUploaded(data.thumbnailUrl, data.fullImageUrl);
+
+      // Reset CAPTCHA state after successful upload
+      setCaptchaToken(null);
+      setCaptchaVerified(false);
+      if (captchaRef.current?.reset) {
+        captchaRef.current.reset();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to upload image");
       setPreview(null);
@@ -100,6 +132,11 @@ const ImageUploadInput = ({
 
     if (disabled || uploading) return;
 
+    if (!captchaVerified) {
+      setShowCaptcha(true);
+      return;
+    }
+
     const file = e.dataTransfer.files?.[0];
     if (file) {
       uploadImage(file);
@@ -108,7 +145,7 @@ const ImageUploadInput = ({
 
   const handleClick = () => {
     if (!disabled && !uploading) {
-      fileInputRef.current?.click();
+      handleRequestUpload();
     }
   };
 
@@ -117,6 +154,13 @@ const ImageUploadInput = ({
     setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+    // Reset CAPTCHA state
+    setCaptchaToken(null);
+    setCaptchaVerified(false);
+    setShowCaptcha(false);
+    if (captchaRef.current?.reset) {
+      captchaRef.current.reset();
     }
     onImageUploaded("", "");
   };
@@ -132,43 +176,57 @@ const ImageUploadInput = ({
         style={{ display: "none" }}
       />
 
-      <div
-        onClick={handleClick}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        style={{
-          border: isDragging ? "2px dashed #0066cc" : "2px dashed #ccc",
-          padding: "20px",
-          textAlign: "center",
-          cursor: disabled || uploading ? "not-allowed" : "pointer",
-          backgroundColor: isDragging ? "#f0f8ff" : "transparent",
-        }}
-      >
-        {uploading ? (
-          <p>Uploading...</p>
-        ) : preview ? (
-          <div>
-            <img
-              src={preview}
-              alt="Preview"
-              style={{ maxWidth: "200px", maxHeight: "200px" }}
-            />
-            <p>Image uploaded successfully!</p>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleClear();
-              }}
-            >
-              Clear
-            </button>
-          </div>
-        ) : (
-          <p>Click or drag an image here to upload</p>
-        )}
-      </div>
+      {/* Show CAPTCHA if needed */}
+      {showCaptcha ? (
+        <div style={{ marginBottom: "16px" }}>
+          <p>Complete CAPTCHA to upload image:</p>
+          <Turnstile
+            ref={captchaRef}
+            siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+            onSuccess={handleCaptchaSuccess}
+            onError={handleCaptchaError}
+            onExpire={handleCaptchaError}
+          />
+        </div>
+      ) : (
+        <div
+          onClick={handleClick}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          style={{
+            border: isDragging ? "2px dashed #0066cc" : "2px dashed #ccc",
+            padding: "20px",
+            textAlign: "center",
+            cursor: disabled || uploading ? "not-allowed" : "pointer",
+            backgroundColor: isDragging ? "#f0f8ff" : "transparent",
+          }}
+        >
+          {uploading ? (
+            <p>Uploading...</p>
+          ) : preview ? (
+            <div>
+              <img
+                src={preview}
+                alt="Preview"
+                style={{ maxWidth: "200px", maxHeight: "200px" }}
+              />
+              <p>Image uploaded successfully!</p>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClear();
+                }}
+              >
+                Clear
+              </button>
+            </div>
+          ) : (
+            <p>Click or drag an image here to upload</p>
+          )}
+        </div>
+      )}
 
       {error && (
         <p style={{ color: "red", marginTop: "8px" }}>Error: {error}</p>

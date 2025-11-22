@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import type { Message } from "./types";
 import GuestBookNote from "./GuestBookNote";
+import EditMessageLightbox from "./EditMessageLightbox";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookNoteSection.css";
@@ -26,16 +28,23 @@ interface PaginatedResponse {
 
 interface GuestBookNoteSectionProps {
   notesPerPage?: number;
+  editMode?: boolean;
 }
 
 const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
   notesPerPage: defaultNotesPerPage = 4,
+  editMode = false,
 }) => {
   const notesPerPage = useResponsiveNotesPerPage(defaultNotesPerPage);
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   // Fetch notes for the current page
   const fetchNotes = async (page: number) => {
@@ -76,6 +85,29 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
     }
   };
 
+  // Modal handlers
+  const handleEdit = (message: Message) => {
+    setSelectedMessage(message);
+    setEditModalOpen(true);
+  };
+
+  const handleDelete = (message: Message) => {
+    setSelectedMessage(message);
+    setDeleteModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setEditModalOpen(false);
+    setDeleteModalOpen(false);
+    setSelectedMessage(null);
+  };
+
+  const handleModalSuccess = () => {
+    // Refresh the current page to show updated data
+    fetchNotes(currentPage);
+    handleModalClose();
+  };
+
   if (loading) {
     return (
       <div className="note-section-loading">
@@ -106,15 +138,42 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
     <div className="guest-book-note-section">
       {/* Notes display */}
       <div className="notes-display">
+        <div className="pagination-nav-left pagination-nav-desktop">
+          {data.pagination.hasPrev ? (
+            <ArrowButton
+              direction="left"
+              className="section-nav-button"
+              onClick={handlePrevPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
         {data.messages.map((message) => (
-          <GuestBookNote key={message.id} message={message} />
+          <GuestBookNote
+            key={message.id}
+            message={message}
+            onEdit={editMode ? handleEdit : undefined}
+            onDelete={editMode ? handleDelete : undefined}
+          />
         ))}
+        <div className="pagination-nav-right pagination-nav-desktop">
+          {data.pagination.hasNext ? (
+            <ArrowButton
+              direction="right"
+              className="section-nav-button"
+              onClick={handleNextPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
       </div>
 
       {/* Pagination navigation bar */}
       <div className="pagination-nav">
         {/* Left navigation arrow */}
-        <div className="pagination-nav-left">
+        <div className="pagination-nav-left pagination-nav-mobile">
           {data.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
@@ -132,7 +191,7 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
         </div>
 
         {/* Right navigation arrow */}
-        <div className="pagination-nav-right">
+        <div className="pagination-nav-right pagination-nav-mobile">
           {data.pagination.hasNext ? (
             <ArrowButton
               direction="right"
@@ -144,6 +203,24 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
           )}
         </div>
       </div>
+
+      {/* Modals */}
+      {selectedMessage && (
+        <>
+          <EditMessageLightbox
+            message={selectedMessage}
+            isOpen={editModalOpen}
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+          />
+          <DeleteConfirmationModal
+            message={selectedMessage}
+            isOpen={deleteModalOpen}
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+          />
+        </>
+      )}
     </div>
   );
 };

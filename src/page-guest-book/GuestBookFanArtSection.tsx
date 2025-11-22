@@ -1,84 +1,172 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
+import EditMessageLightbox from "./EditMessageLightbox";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
 
+interface PaginatedResponse {
+  messages: Message[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
 interface GuestBookFanArtSectionProps {
-  fanArtCount?: number;
-  refreshIntervalMs?: number;
+  fanArtPerPage?: number;
+  editMode?: boolean;
+  onOpenFullscreenViewer?: (message: Message) => void;
 }
 
 // Wrapper component to handle refs properly
-const FanArtWithButton: React.FC<{ message: Message }> = ({ message }) => {
+const FanArtWithButton: React.FC<{
+  message: Message;
+  onEdit?: (message: Message) => void;
+  onDelete?: (message: Message) => void;
+  onOpenFullscreenViewer?: (message: Message) => void;
+  editMode?: boolean;
+}> = ({ message, onEdit, onDelete, onOpenFullscreenViewer, editMode = false }) => {
   const fanArtRef = useRef<GuestBookFanArtRef>(null);
 
+  const handleClick = () => {
+    fanArtRef.current?.openFullscreenViewer();
+  };
+
+  // In edit mode, render without ButtonWrapper to allow action menu clicks
+  if (editMode) {
+    return (
+      <GuestBookFanArt
+        ref={fanArtRef}
+        message={message}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onOpenFullscreenViewer={onOpenFullscreenViewer}
+      />
+    );
+  }
+
+  // In normal mode, wrap with ButtonWrapper for click-to-open functionality
   return (
     <ButtonWrapper
-      onClick={() => {
-        fanArtRef.current?.openImageInNewTab();
-      }}
+      onClick={handleClick}
+      className=""
     >
-      <GuestBookFanArt ref={fanArtRef} message={message} />
+      <GuestBookFanArt
+        ref={fanArtRef}
+        message={message}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onOpenFullscreenViewer={onOpenFullscreenViewer}
+      />
     </ButtonWrapper>
   );
 };
 
 const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
-  fanArtCount = 4,
-  refreshIntervalMs = 30000, // Default: refresh every 30 seconds
+  fanArtPerPage = 4,
+  editMode = false,
+  onOpenFullscreenViewer,
 }) => {
-  const [fanArtMessages, setFanArtMessages] = useState<Message[]>([]);
+  const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const intervalRef = useRef<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isPaginating, setIsPaginating] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const hasInitiallyLoaded = useRef(false);
 
-  // Fetch random fan art
-  const fetchRandomFanArt = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${apiBaseUrl}/messages/random/fan-art?count=${fanArtCount}`
-      );
+  // Modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch random fan art");
+  // Fetch fan art for the current page
+  const fetchFanArt = useCallback(
+    async (page: number, isInitialLoad: boolean = false) => {
+      try {
+        if (isInitialLoad) {
+          setLoading(true);
+        } else {
+          setIsPaginating(true);
+        }
+
+        const response = await fetch(
+          `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch fan art");
+        }
+
+        const responseData = await response.json();
+        setData(responseData);
+        setError(null);
+
+        if (isInitialLoad) {
+          hasInitiallyLoaded.current = true;
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setData(null);
+      } finally {
+        if (isInitialLoad) {
+          setLoading(false);
+        } else {
+          setIsPaginating(false);
+        }
       }
+    },
+    [fanArtPerPage]
+  );
 
-      const responseData = await response.json();
-      setFanArtMessages(responseData);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setFanArtMessages([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Setup interval for automatic refresh
   useEffect(() => {
-    // Initial fetch
-    fetchRandomFanArt();
+    const isInitialLoad = !hasInitiallyLoaded.current;
+    fetchFanArt(currentPage, isInitialLoad);
+  }, [currentPage, fetchFanArt]);
 
-    // Setup interval for periodic refresh
-    if (refreshIntervalMs > 0) {
-      intervalRef.current = setInterval(fetchRandomFanArt, refreshIntervalMs);
+  const handlePrevPage = useCallback(() => {
+    if (data?.pagination.hasPrev && !isPaginating) {
+      setCurrentPage((prev) => prev - 1);
     }
+  }, [data?.pagination.hasPrev, isPaginating]);
 
-    // Cleanup interval on unmount
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [fanArtCount, refreshIntervalMs]);
+  const handleNextPage = useCallback(() => {
+    if (data?.pagination.hasNext && !isPaginating) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  }, [data?.pagination.hasNext, isPaginating]);
 
-  // Manual refresh function
-  const handleRefresh = () => {
-    fetchRandomFanArt();
-  };
+  // Modal handlers
+  const handleEdit = useCallback((message: Message) => {
+    setSelectedMessage(message);
+    setEditModalOpen(true);
+  }, []);
+
+  const handleDelete = useCallback((message: Message) => {
+    setSelectedMessage(message);
+    setDeleteModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setEditModalOpen(false);
+    setDeleteModalOpen(false);
+    setSelectedMessage(null);
+  }, []);
+
+  const handleModalSuccess = useCallback(() => {
+    // Refresh the current page to show updated data
+    const isInitialLoad = !hasInitiallyLoaded.current;
+    fetchFanArt(currentPage, isInitialLoad);
+    handleModalClose();
+  }, [currentPage, fetchFanArt, handleModalClose]);
 
   if (loading) {
     return (
@@ -92,14 +180,11 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
     return (
       <div className="fanart-section-error">
         <div className="error-message">Error loading fan art: {error}</div>
-        <ButtonWrapper onClick={handleRefresh}>
-          <div className="refresh-button">Try Again</div>
-        </ButtonWrapper>
       </div>
     );
   }
 
-  if (fanArtMessages.length === 0) {
+  if (!data || data.messages.length === 0) {
     return (
       <div className="fanart-section-empty">
         <div className="empty-message">
@@ -110,25 +195,106 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   }
 
   return (
-    <div className="guest-book-fanart-section">
+    <div className="guest-book-fanart-section" ref={sectionRef}>
       <div>
-        <h2>Your creations</h2>
+        <h1 className="big-text-shadow">Your art</h1>
       </div>
 
-      <div className="fanart-container">
-        {/* Fan art display */}
-        <div className="fanart-display">
-          {fanArtMessages.map((message) => (
-            <FanArtWithButton key={message.id} message={message} />
-          ))}
+      {/* Fan art display with navigation */}
+      <div
+        className="fanart-display"
+        style={{
+          opacity: isPaginating ? 0.6 : 1,
+          transition: "opacity 0.2s ease",
+        }}
+      >
+        <div className="pagination-nav-left pagination-nav-desktop">
+          {data.pagination.hasPrev ? (
+            <ArrowButton
+              direction="left"
+              className="section-nav-button"
+              onClick={handlePrevPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
+        {data.messages.map((message) => (
+          <FanArtWithButton
+            key={message.id}
+            message={message}
+            onEdit={editMode ? handleEdit : undefined}
+            onDelete={editMode ? handleDelete : undefined}
+            onOpenFullscreenViewer={onOpenFullscreenViewer}
+            editMode={editMode}
+          />
+        ))}
+        <div className="pagination-nav-right pagination-nav-desktop">
+          {data.pagination.hasNext ? (
+            <ArrowButton
+              direction="right"
+              className="section-nav-button"
+              onClick={handleNextPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
         </div>
       </div>
 
-      {/* Auto-refresh info */}
-      <div className="refresh-info">
-        Refreshes automatically every {Math.round(refreshIntervalMs / 1000)}{" "}
-        seconds
+      {/* Pagination navigation bar */}
+      <div className="pagination-nav">
+        {/* Left navigation arrow */}
+        <div className="pagination-nav-left pagination-nav-mobile">
+          {data.pagination.hasPrev ? (
+            <ArrowButton
+              direction="left"
+              className="section-nav-button"
+              onClick={handlePrevPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
+
+        {/* Pagination info */}
+        <div className="pagination-info">
+          {isPaginating
+            ? "Loading..."
+            : `${data.pagination.page} / ${data.pagination.totalPages}`}
+        </div>
+
+        {/* Right navigation arrow */}
+        <div className="pagination-nav-right pagination-nav-mobile">
+          {data.pagination.hasNext ? (
+            <ArrowButton
+              direction="right"
+              className="section-nav-button"
+              onClick={handleNextPage}
+            />
+          ) : (
+            <div className="nav-spacer"></div>
+          )}
+        </div>
       </div>
+
+      {/* Modals */}
+      {selectedMessage && (
+        <>
+          <EditMessageLightbox
+            message={selectedMessage}
+            isOpen={editModalOpen}
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+          />
+          <DeleteConfirmationModal
+            message={selectedMessage}
+            isOpen={deleteModalOpen}
+            onClose={handleModalClose}
+            onSuccess={handleModalSuccess}
+          />
+        </>
+      )}
     </div>
   );
 };
