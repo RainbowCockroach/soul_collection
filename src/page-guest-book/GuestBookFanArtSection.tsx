@@ -33,7 +33,13 @@ const FanArtWithButton: React.FC<{
   onDelete?: (message: Message) => void;
   onOpenFullscreenViewer?: (message: Message) => void;
   editMode?: boolean;
-}> = ({ message, onEdit, onDelete, onOpenFullscreenViewer, editMode = false }) => {
+}> = ({
+  message,
+  onEdit,
+  onDelete,
+  onOpenFullscreenViewer,
+  editMode = false,
+}) => {
   const fanArtRef = useRef<GuestBookFanArtRef>(null);
 
   const handleClick = () => {
@@ -55,10 +61,7 @@ const FanArtWithButton: React.FC<{
 
   // In normal mode, wrap with ButtonWrapper for click-to-open functionality
   return (
-    <ButtonWrapper
-      onClick={handleClick}
-      className=""
-    >
+    <ButtonWrapper onClick={handleClick} className="">
       <GuestBookFanArt
         ref={fanArtRef}
         message={message}
@@ -185,7 +188,12 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   }
 
   if (!data || data.messages.length === 0) {
-    return null;
+    <div className="guest-book-fanart-section" ref={sectionRef}>
+      <div>
+        <h1 className="big-text-shadow">Your art</h1>
+      </div>
+      <p>No art? Put your art here!</p>
+    </div>;
   }
 
   return (
