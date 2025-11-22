@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from "react";
 import type { Message } from "./types";
 import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
 import EditMessageLightbox from "./EditMessageLightbox";
@@ -24,6 +24,10 @@ interface GuestBookFanArtSectionProps {
   fanArtPerPage?: number;
   editMode?: boolean;
   onOpenFullscreenViewer?: (message: Message) => void;
+}
+
+export interface GuestBookFanArtSectionRef {
+  refresh: () => void;
 }
 
 // Wrapper component to handle refs properly
@@ -73,11 +77,11 @@ const FanArtWithButton: React.FC<{
   );
 };
 
-const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
+const GuestBookFanArtSection = forwardRef<GuestBookFanArtSectionRef, GuestBookFanArtSectionProps>(({
   fanArtPerPage = 4,
   editMode = false,
   onOpenFullscreenViewer,
-}) => {
+}, ref) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -129,6 +133,11 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
     },
     [fanArtPerPage]
   );
+
+  // Expose refresh function to parent component
+  useImperativeHandle(ref, () => ({
+    refresh: () => fetchFanArt(currentPage, false)
+  }));
 
   useEffect(() => {
     const isInitialLoad = !hasInitiallyLoaded.current;
@@ -301,6 +310,8 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
       )}
     </div>
   );
-};
+});
+
+GuestBookFanArtSection.displayName = 'GuestBookFanArtSection';
 
 export default GuestBookFanArtSection;

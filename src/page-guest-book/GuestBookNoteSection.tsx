@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import type { Message } from "./types";
 import GuestBookNote from "./GuestBookNote";
 import EditMessageLightbox from "./EditMessageLightbox";
@@ -31,10 +31,14 @@ interface GuestBookNoteSectionProps {
   editMode?: boolean;
 }
 
-const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
-  notesPerPage: defaultNotesPerPage = 4,
-  editMode = false,
-}) => {
+export interface GuestBookNoteSectionRef {
+  refresh: () => void;
+}
+
+const GuestBookNoteSection = forwardRef<
+  GuestBookNoteSectionRef,
+  GuestBookNoteSectionProps
+>(({ notesPerPage: defaultNotesPerPage = 4, editMode = false }, ref) => {
   const notesPerPage = useResponsiveNotesPerPage(defaultNotesPerPage);
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -68,6 +72,11 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
       setLoading(false);
     }
   };
+
+  // Expose refresh function to parent component
+  useImperativeHandle(ref, () => ({
+    refresh: () => fetchNotes(currentPage),
+  }));
 
   useEffect(() => {
     fetchNotes(currentPage);
@@ -221,6 +230,8 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
       )}
     </div>
   );
-};
+});
+
+GuestBookNoteSection.displayName = "GuestBookNoteSection";
 
 export default GuestBookNoteSection;

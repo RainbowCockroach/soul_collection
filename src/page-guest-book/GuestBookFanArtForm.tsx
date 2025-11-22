@@ -55,6 +55,9 @@ const GuestBookFanArtForm = ({
     password: "",
   });
 
+  // Success message state
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   // Update form when initialData changes (for edit mode)
   useEffect(() => {
     if (isEditMode && initialData) {
@@ -147,21 +150,32 @@ const GuestBookFanArtForm = ({
         allContentWarnings.length > 0 ? allContentWarnings.join(", ") : null,
     };
 
-    await onSubmit(messageContent, "fan art", fanArtForm.password || null);
+    try {
+      await onSubmit(messageContent, "fan art", fanArtForm.password || null);
 
-    // Reset form on successful submission
-    setFanArtForm({
-      name: "",
-      thumbnail: "",
-      full_image: "",
-      caption: "",
-      password: "",
-    });
-    // Reset content warnings
-    setSelectedContentWarnings([]);
-    setOtherContentWarning("");
-    // Reset upload state
-    setShowUploadInput(false);
+      // Reset form on successful submission
+      setFanArtForm({
+        name: "",
+        thumbnail: "",
+        full_image: "",
+        caption: "",
+        password: "",
+      });
+      // Reset content warnings
+      setSelectedContentWarnings([]);
+      setOtherContentWarning("");
+      // Reset upload state
+      setShowUploadInput(false);
+
+      // Show success message
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000); // Hide after 3 seconds
+    } catch (error) {
+      // Error is already handled by the parent component
+      // We don't show success message on error
+    }
   };
 
   const handleImageUploaded = (thumbnailUrl: string, fullImageUrl: string) => {
@@ -362,6 +376,22 @@ const GuestBookFanArtForm = ({
               : "Send!"}
           </ButtonWrapper>
         </div>
+
+        {/* Success message for edit mode */}
+        {showSuccessMessage && (
+          <div className="success-message" style={{
+            marginTop: "10px",
+            padding: "10px",
+            backgroundColor: "#d4edda",
+            color: "#155724",
+            border: "1px solid #c3e6cb",
+            borderRadius: "4px",
+            textAlign: "center",
+            fontSize: "14px"
+          }}>
+            ✓ {isEditMode ? "Fan art updated successfully!" : "Fan art sent successfully!"}
+          </div>
+        )}
       </form>
     );
   }
@@ -508,6 +538,22 @@ const GuestBookFanArtForm = ({
                 : "Send!"}
             </ButtonWrapper>
           </div>
+
+          {/* Success message */}
+          {showSuccessMessage && (
+            <div className="success-message" style={{
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#d4edda",
+              color: "#155724",
+              border: "1px solid #c3e6cb",
+              borderRadius: "4px",
+              textAlign: "center",
+              fontSize: "14px"
+            }}>
+              ✓ Fan art sent successfully!
+            </div>
+          )}
         </form>
       )}
     </div>
