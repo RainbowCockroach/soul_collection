@@ -46,6 +46,9 @@ const GuestBookNoteForm = ({
     password: "",
   });
 
+  // Success message state
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   // Update form when initialData changes (for edit mode)
   useEffect(() => {
     if (isEditMode && initialData) {
@@ -102,15 +105,26 @@ const GuestBookNoteForm = ({
       blinkies: noteForm.blinkies.length > 0 ? noteForm.blinkies : null,
     };
 
-    await onSubmit(messageContent, "note", noteForm.password || null);
+    try {
+      await onSubmit(messageContent, "note", noteForm.password || null);
 
-    // Reset form on successful submission
-    setNoteForm({
-      name: "",
-      content: "",
-      blinkies: [],
-      password: "",
-    });
+      // Reset form on successful submission
+      setNoteForm({
+        name: "",
+        content: "",
+        blinkies: [],
+        password: "",
+      });
+
+      // Show success message
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000); // Hide after 3 seconds
+    } catch (error) {
+      // Error is already handled by the parent component
+      // We don't show success message on error
+    }
   };
 
   const handleBlinkieSelect = (url: string) => {
@@ -275,6 +289,22 @@ const GuestBookNoteForm = ({
               : "Send!"}
           </ButtonWrapper>
         </div>
+
+        {/* Success message for edit mode */}
+        {showSuccessMessage && (
+          <div className="success-message" style={{
+            marginTop: "10px",
+            padding: "10px",
+            backgroundColor: "#d4edda",
+            color: "#155724",
+            border: "1px solid #c3e6cb",
+            borderRadius: "4px",
+            textAlign: "center",
+            fontSize: "14px"
+          }}>
+            ✓ {isEditMode ? "Note updated successfully!" : "Note sent successfully!"}
+          </div>
+        )}
       </form>
     );
   }
@@ -427,6 +457,22 @@ const GuestBookNoteForm = ({
                 : "Send!"}
             </ButtonWrapper>
           </div>
+
+          {/* Success message */}
+          {showSuccessMessage && (
+            <div className="success-message" style={{
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#d4edda",
+              color: "#155724",
+              border: "1px solid #c3e6cb",
+              borderRadius: "4px",
+              textAlign: "center",
+              fontSize: "14px"
+            }}>
+              ✓ Note sent successfully!
+            </div>
+          )}
         </form>
       )}
     </div>

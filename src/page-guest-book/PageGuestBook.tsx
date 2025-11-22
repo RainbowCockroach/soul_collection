@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import GuestBookSubmission from "./GuestBookSubmission";
-import GuestBookNoteSection from "./GuestBookNoteSection";
-import GuestBookFanArtSection from "./GuestBookFanArtSection";
+import GuestBookNoteSection, { type GuestBookNoteSectionRef } from "./GuestBookNoteSection";
+import GuestBookFanArtSection, { type GuestBookFanArtSectionRef } from "./GuestBookFanArtSection";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import FullscreenImageViewer from "../common-components/FullscreenImageViewer";
 import type { MessageContent, Message } from "./types";
@@ -12,6 +12,10 @@ const PageGuestBook = () => {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
+  // Refs for section components
+  const noteSectionRef = useRef<GuestBookNoteSectionRef>(null);
+  const fanArtSectionRef = useRef<GuestBookFanArtSectionRef>(null);
 
   // Fullscreen viewer state
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -75,6 +79,10 @@ const PageGuestBook = () => {
       }
 
       setError(null);
+
+      // Refresh both sections to show the new submission
+      noteSectionRef.current?.refresh();
+      fanArtSectionRef.current?.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit message");
       throw err; // Re-throw so the component can handle it
@@ -90,10 +98,11 @@ const PageGuestBook = () => {
       )}
 
       {/* Notes Section */}
-      <GuestBookNoteSection notesPerPage={4} editMode={editMode} />
+      <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} editMode={editMode} />
 
       {/* Fan Art Section */}
       <GuestBookFanArtSection
+        ref={fanArtSectionRef}
         fanArtPerPage={4}
         editMode={editMode}
         onOpenFullscreenViewer={handleOpenFullscreenViewer}
