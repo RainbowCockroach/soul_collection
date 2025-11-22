@@ -125,9 +125,11 @@ const GuestBookNoteSection: React.FC<GuestBookNoteSectionProps> = ({
   }
 
   if (!data || data.messages.length === 0) {
-    <div className="guest-book-note-section">
-      <p>No notes! Leave a note?</p>
-    </div>;
+    return (
+      <div className="guest-book-note-section">
+        <p>No notes! Leave a note?</p>
+      </div>
+    );
   }
 
   return (

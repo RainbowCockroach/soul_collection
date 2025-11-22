@@ -71,9 +71,6 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
     }
   };
 
-  const handleCancel = () => {
-    onClose();
-  };
 
   if (!isOpen) return null;
 
