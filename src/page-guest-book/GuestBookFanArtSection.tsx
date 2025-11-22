@@ -188,12 +188,14 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   }
 
   if (!data || data.messages.length === 0) {
-    <div className="guest-book-fanart-section" ref={sectionRef}>
-      <div>
-        <h1 className="big-text-shadow">Your art</h1>
+    return (
+      <div className="guest-book-fanart-section" ref={sectionRef}>
+        <div>
+          <h1 className="big-text-shadow">Your art</h1>
+        </div>
+        <p>No art? Put your art here!</p>
       </div>
-      <p>No art? Put your art here!</p>
-    </div>;
+    );
   }
 
   return (
