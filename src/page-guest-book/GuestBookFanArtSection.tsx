@@ -185,13 +185,7 @@ const GuestBookFanArtSection: React.FC<GuestBookFanArtSectionProps> = ({
   }
 
   if (!data || data.messages.length === 0) {
-    return (
-      <div className="fanart-section-empty">
-        <div className="empty-message">
-          No fan art found. Be the first to share your creation!
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
