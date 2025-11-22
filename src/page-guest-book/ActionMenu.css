@@ -2,7 +2,7 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  z-index: 10;
+  z-index: 20;
 }
 
 .action-menu-trigger {
