@@ -1,0 +1,11 @@
+/* Override Lightbox.css .lightbox-content > div rule */
+.lightbox-content .fullscreen-image-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 100%;
+  height: 100% !important; /* Override height: auto from Lightbox */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

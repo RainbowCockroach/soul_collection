@@ -1,9 +1,13 @@
 import { useState, useRef } from "react";
 import GuestBookSubmission from "./GuestBookSubmission";
-import GuestBookNoteSection, { type GuestBookNoteSectionRef } from "./GuestBookNoteSection";
-import GuestBookFanArtSection, { type GuestBookFanArtSectionRef } from "./GuestBookFanArtSection";
+import GuestBookNoteSection, {
+  type GuestBookNoteSectionRef,
+} from "./GuestBookNoteSection";
+import GuestBookFanArtSection, {
+  type GuestBookFanArtSectionRef,
+} from "./GuestBookFanArtSection";
 import ButtonWrapper from "../common-components/ButtonWrapper";
-import FullscreenImageViewer from "../common-components/FullscreenImageViewer";
+import FullscreenImageViewer from "./FullscreenImageViewer";
 import type { MessageContent, Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
 import "./PageGuestBook.css";
@@ -98,7 +102,11 @@ const PageGuestBook = () => {
       )}
 
       {/* Notes Section */}
-      <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} editMode={editMode} />
+      <GuestBookNoteSection
+        ref={noteSectionRef}
+        notesPerPage={4}
+        editMode={editMode}
+      />
 
       {/* Fan Art Section */}
       <GuestBookFanArtSection
@@ -117,22 +125,22 @@ const PageGuestBook = () => {
       {/* Edit Mode Toggle Button */}
       <ButtonWrapper
         onClick={toggleEditMode}
-        className={`edit-mode-button ${editMode ? 'active' : ''}`}
+        className={`edit-mode-button ${editMode ? "active" : ""}`}
       >
         <div className="edit-button-content">
-          <span className="edit-icon">
-            {editMode ? '✓' : '✏️'}
-          </span>
-          <span>
-            {editMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
-          </span>
+          <span className="edit-icon">{editMode ? "✓" : "✏️"}</span>
+          <span>{editMode ? "Exit Edit Mode" : "Enter Edit Mode"}</span>
         </div>
       </ButtonWrapper>
 
       {/* Fullscreen Image Viewer */}
       {viewerMessage && (
         <FullscreenImageViewer
-          src={viewerMessage.content.full_image || viewerMessage.content.thumbnail || ""}
+          src={
+            viewerMessage.content.full_image ||
+            viewerMessage.content.thumbnail ||
+            ""
+          }
           alt={`Fan art by ${viewerMessage.content.name}`}
           caption={viewerMessage.content.caption || undefined}
           isOpen={viewerOpen}
