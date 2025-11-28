@@ -1,28 +1,11 @@
-/* Higher specificity to override Lightbox.css .lightbox-content > div rule */
+/* Override Lightbox.css .lightbox-content > div rule */
 .lightbox-content .fullscreen-image-content {
   max-width: 90vw;
   max-height: 90vh;
   width: 100%;
-  height: 100%;
+  height: 100% !important; /* Override height: auto from Lightbox */
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-
-.lightbox-content .fullscreen-image-content .zoom-pan-pinch-container {
-  width: 100%;
-  height: 100%;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: hidden;
-}
-
-/* Override the ZoomPanPinchImage !important rules specifically for fullscreen context */
-.lightbox-content .fullscreen-image-content .zoom-pan-pinch-container .react-transform-wrapper,
-.lightbox-content .fullscreen-image-content .zoom-pan-pinch-container .react-transform-component {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 90vw !important;
-  max-height: 90vh !important;
 }
