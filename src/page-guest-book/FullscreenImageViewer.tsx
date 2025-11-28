@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
-import ZoomPanPinchImage, { type ZoomPanPinchImageRef } from "./ZoomPanPinchImage";
-import Lightbox from "./Lightbox";
+import ZoomPanPinchImage, {
+  type ZoomPanPinchImageRef,
+} from "../common-components/ZoomPanPinchImage";
+import Lightbox from "../common-components/Lightbox";
 import "./FullscreenImageViewer.css";
 
 interface FullscreenImageViewerProps {
