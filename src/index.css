@@ -50,9 +50,9 @@
 .div-3d-with-shadow {
   box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
     0 0 20px rgba(52, 11, 86, 0.6);
-  border: 1px solid rgb(68, 172, 137);
+  border: 1px solid rgb(106, 255, 168);
   border-radius: 4px;
-  background-color: rgba(165, 206, 178, 0.6);
+  background-color: rgba(106, 255, 168, 0.6);
 }
 
 .shadow-3d {
@@ -62,9 +62,9 @@
 
 .div-3d-no-shadow {
   box-shadow: 0px 4px 0px rgb(52, 11, 86);
-  border: 1px solid rgb(68, 172, 137);
+  border: 1px solid rgb(106, 255, 168);
   border-radius: 4px;
-  background-color: rgba(165, 206, 178, 0.6);
+  background-color: rgba(106, 255, 168, 0.6);
 }
 
 a {
