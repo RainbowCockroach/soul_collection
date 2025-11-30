@@ -38,6 +38,7 @@ p {
   .favourites-section {
     max-width: 100%;
     gap: 0px;
+    padding: 10px;
   }
 
   .favourites-section > * {
