@@ -4,6 +4,8 @@ import type { OcGroupInfo } from "./OcGroup";
 import FilterBlock from "./FilterBlock";
 import { loadAllData } from "../helpers/data-load";
 import type { OC, Group, Tag } from "../helpers/objects";
+import ButtonWrapper from "../common-components/ButtonWrapper";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./OcGroup.css";
 import "./FilterBlock.css";
 
@@ -126,13 +128,14 @@ const PageOcList: React.FC = () => {
   return (
     <div className="page-padded">
       <div className="filter-toggle-container">
-        <button
+        <ButtonWrapper
           className="filter-toggle-button div-3d-with-shadow"
           onClick={toggleFilterVisibility}
+          soundFile={buttonSound}
         >
           {showFilter ? "Hide search" : "🔍 Search by tag"}
           {selectedTags.length > 0 && ` (${selectedTags.length} active)`}
-        </button>
+        </ButtonWrapper>
       </div>
       {showFilter && (
         <FilterBlock

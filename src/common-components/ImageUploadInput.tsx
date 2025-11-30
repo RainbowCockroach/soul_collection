@@ -77,7 +77,7 @@ const ImageUploadInput = ({
       formData.append("image", file);
       formData.append("captchaToken", captchaToken);
 
-      const response = await fetch(`${apiBaseUrl}/upload`, {
+      const response = await fetch(`${apiBaseUrl}/upload/image`, {
         method: "POST",
         body: formData,
       });
