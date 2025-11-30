@@ -5,12 +5,12 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import type { MusicPlayerState, MusicPlayerContextType } from './types';
-import { initialState } from './constants';
-import { MusicPlayerContext } from './context';
+import type { MusicPlayerState, MusicPlayerContextType } from "./types";
+import { initialState } from "./constants";
+import { MusicPlayerContext } from "./context";
 
-const MUSIC_PAUSED_KEY = 'soul_collection_music_paused';
-const FIRST_VISIT_KEY = 'soul_collection_first_visit_completed';
+const MUSIC_PAUSED_KEY = "soul_collection_music_paused";
+const FIRST_VISIT_KEY = "soul_collection_first_visit_completed";
 
 interface MusicPlayerProviderProps {
   children: ReactNode;
@@ -24,22 +24,25 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
   const hasAutoPlayedRef = useRef<boolean>(false);
   const fadeAnimationRef = useRef<number | null>(null);
 
-  const playTrack = useCallback((index: number) => {
-    if (index < 0 || index >= state.tracks.length) return;
+  const playTrack = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= state.tracks.length) return;
 
-    setState((prev) => ({
-      ...prev,
-      currentTrackIndex: index,
-      isLoading: true,
-    }));
-  }, [state.tracks.length]);
+      setState((prev) => ({
+        ...prev,
+        currentTrackIndex: index,
+        isLoading: true,
+      }));
+    },
+    [state.tracks.length]
+  );
 
   const togglePlayPause = () => {
     if (!audioRef.current) return;
 
     if (state.isPlaying) {
       // User is pausing - remember this preference
-      localStorage.setItem(MUSIC_PAUSED_KEY, 'true');
+      localStorage.setItem(MUSIC_PAUSED_KEY, "true");
       audioRef.current.pause();
     } else {
       // User is playing - clear the paused flag
@@ -84,42 +87,46 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     audioRef.current.currentTime = time;
   };
 
-  const fadeInAudio = useCallback((targetVolume: number, duration: number = 3000) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  const fadeInAudio = useCallback(
+    (targetVolume: number, duration: number = 120000) => {
+      const audio = audioRef.current;
+      if (!audio) return;
 
-    // Cancel any existing fade animation
-    if (fadeAnimationRef.current) {
-      cancelAnimationFrame(fadeAnimationRef.current);
-    }
-
-    const startVolume = 0;
-    const startTime = Date.now();
-
-    // Set initial volume to 0
-    audio.volume = startVolume;
-    setState((prev) => ({ ...prev, volume: startVolume }));
-
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Use ease-out curve for more natural feel
-      const easeOut = 1 - Math.pow(1 - progress, 2);
-      const currentVolume = startVolume + (targetVolume - startVolume) * easeOut;
-
-      audio.volume = currentVolume;
-      setState((prev) => ({ ...prev, volume: currentVolume }));
-
-      if (progress < 1) {
-        fadeAnimationRef.current = requestAnimationFrame(animate);
-      } else {
-        fadeAnimationRef.current = null;
+      // Cancel any existing fade animation
+      if (fadeAnimationRef.current) {
+        cancelAnimationFrame(fadeAnimationRef.current);
       }
-    };
 
-    fadeAnimationRef.current = requestAnimationFrame(animate);
-  }, []);
+      const startVolume = 0;
+      const startTime = Date.now();
+
+      // Set initial volume to 0
+      audio.volume = startVolume;
+      setState((prev) => ({ ...prev, volume: startVolume }));
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Use ease-out curve for more natural feel
+        const easeOut = 1 - Math.pow(1 - progress, 2);
+        const currentVolume =
+          startVolume + (targetVolume - startVolume) * easeOut;
+
+        audio.volume = currentVolume;
+        setState((prev) => ({ ...prev, volume: currentVolume }));
+
+        if (progress < 1) {
+          fadeAnimationRef.current = requestAnimationFrame(animate);
+        } else {
+          fadeAnimationRef.current = null;
+        }
+      };
+
+      fadeAnimationRef.current = requestAnimationFrame(animate);
+    },
+    []
+  );
 
   // Audio event handlers
   useEffect(() => {
@@ -207,53 +214,56 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
       hasAutoPlayedRef.current = true;
 
       // Check if user previously paused the music
-      const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === 'true';
+      const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === "true";
 
       // Don't auto-play if user previously paused
       if (userPausedMusic) {
         // Remove listeners and exit
-        window.removeEventListener('click', handleFirstInteraction);
-        window.removeEventListener('touchstart', handleFirstInteraction);
-        window.removeEventListener('keydown', handleFirstInteraction);
+        window.removeEventListener("click", handleFirstInteraction);
+        window.removeEventListener("touchstart", handleFirstInteraction);
+        window.removeEventListener("keydown", handleFirstInteraction);
         return;
       }
 
       // Check if this is the user's first visit to the site
-      const isFirstVisit = localStorage.getItem(FIRST_VISIT_KEY) !== 'true';
+      const isFirstVisit = localStorage.getItem(FIRST_VISIT_KEY) !== "true";
 
       // Start playing the first track
       const audio = audioRef.current;
       if (audio && state.currentTrackIndex !== null) {
-        audio.play().then(() => {
-          if (isFirstVisit) {
-            // Mark first visit as completed
-            localStorage.setItem(FIRST_VISIT_KEY, 'true');
-            // Fade in from 0 to default volume (0.2) over 3 seconds
-            fadeInAudio(initialState.volume, 3000);
-          } else {
-            // For subsequent visits, play at normal volume immediately
-            audio.volume = state.volume;
-          }
-        }).catch(console.error);
+        audio
+          .play()
+          .then(() => {
+            if (isFirstVisit) {
+              // Mark first visit as completed
+              localStorage.setItem(FIRST_VISIT_KEY, "true");
+              // Fade in from 0 to default volume (0.2) over 3 seconds
+              fadeInAudio(initialState.volume, 3000);
+            } else {
+              // For subsequent visits, play at normal volume immediately
+              audio.volume = state.volume;
+            }
+          })
+          .catch(console.error);
       }
 
       // Remove listeners after first interaction
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
     };
 
     // Only attach listeners if we haven't auto-played yet
     if (!hasAutoPlayedRef.current) {
-      window.addEventListener('click', handleFirstInteraction);
-      window.addEventListener('touchstart', handleFirstInteraction);
-      window.addEventListener('keydown', handleFirstInteraction);
+      window.addEventListener("click", handleFirstInteraction);
+      window.addEventListener("touchstart", handleFirstInteraction);
+      window.addEventListener("keydown", handleFirstInteraction);
     }
 
     return () => {
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
     };
   }, [state.currentTrackIndex, state.volume, fadeInAudio]);
 
