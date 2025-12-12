@@ -1,0 +1,21 @@
+.audio-player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.audio-player audio {
+  display: none; /* Hide the default audio element */
+}
+
+.audio-player-button {
+  background-color: var(--color-purple);
+  font-size: 1em;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.audio-player-button:hover {
+  color: #333;
+}

@@ -16,6 +16,7 @@ import ImageWithInfoMany, {
 } from "../common-components/ImageWithInfoMany";
 import SwitchFormButton from "./SwitchFormButton";
 import ArrowButton from "../common-components/ArrowButton";
+import AudioPlayer from "../common-components/AudioPlayer";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -68,6 +69,7 @@ const PageDetail: React.FC = () => {
           setError("Character not found");
         } else {
           setOc(ocData);
+          console.log("Loaded OC data:", ocData);
           setIsGodForm(ocData.group.includes("god"));
         }
 
@@ -166,6 +168,12 @@ const PageDetail: React.FC = () => {
           />
         </div>
       </div>
+      {oc.voiceSample && (
+        <div className="detail-block-voice-sample div-3d-with-shadow">
+          <span>Voice reference:</span>
+          <AudioPlayer src={oc.voiceSample} />
+        </div>
+      )}
       <div className="detail-block-info div-3d-with-shadow">
         <h1 className="detail-oc-name">
           <BBCodeDisplay bbcode={oc.name} />

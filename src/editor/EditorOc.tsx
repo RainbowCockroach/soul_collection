@@ -830,6 +830,27 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-field">
+                <label className="editor-label">
+                  Voice Sample URL (Optional):
+                </label>
+                <input
+                  type="text"
+                  value={editingItem.voiceSample || ""}
+                  onChange={(e) =>
+                    setEditingItem({
+                      ...editingItem,
+                      voiceSample: e.target.value || undefined,
+                    })
+                  }
+                  className="editor-input"
+                  placeholder="https://example.com/voice-sample.mp3"
+                />
+                <small className="editor-text-muted">
+                  Paste a direct URL to an audio file (MP3, OGG, WAV, etc.)
+                </small>
+              </div>
+
+              <div className="editor-field">
                 <label className="editor-label">Groups:</label>
                 <div className="editor-checkbox-group">
                   {Object.entries(groupData).map(([slug, group]) => (

@@ -34,6 +34,7 @@ export interface OC {
   slug: string;
   name: string;
   avatar: string[]; // Array of image URLs
+  voiceSample?: string; // Optional URL to audio file
   group: string[]; // Group slugs
   spieces: string[]; // Species slugs
   info: string; // Rich text
