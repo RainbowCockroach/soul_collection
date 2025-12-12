@@ -3,42 +3,49 @@
   .page-detail {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 70vh auto auto;
+    grid-template-rows: 10vh 60vh auto auto;
     gap: 20px;
   }
 
-  /* First row: avatar (5 cols), gallery (4 cols), info (3 cols) */
-  .detail-block-image-view {
-    grid-column: 1 / span 5;
-    grid-row: 1;
-  }
-
-  .detail-block-gallery {
-    grid-column: 6 / span 4;
-    grid-row: 1;
-    height: 100%;
-  }
-
-  .detail-block-info {
+  /* First row: voice sample (3 cols from col 10) when it exists */
+  .detail-block-voice-sample {
     grid-column: 10 / span 3;
     grid-row: 1;
   }
 
-  /* Second row: species (4 cols from col 2), breadcrumbs (5 cols from col 6) */
+  /* Rows 1-2: avatar (5 cols), gallery (4 cols) */
+  .detail-block-image-view {
+    grid-column: 1 / span 5;
+    grid-row: 1 / span 2;
+  }
+
+  .detail-block-gallery {
+    grid-column: 6 / span 4;
+    grid-row: 1 / span 2;
+    height: 100%;
+  }
+
+  /* Second row: info (3 cols) */
+  .detail-block-info {
+    grid-column: 10 / span 3;
+    grid-row: 2;
+  }
+
+  /* Fourth row: species (4 cols from col 2), breadcrumbs (5 cols from col 6) */
   .detail-block-species {
     grid-column: 2 / span 4;
-    grid-row: 2;
+    grid-row: 3;
   }
 
   .detail-block-breadcrumbs {
     grid-column: 6 / span 5;
-    grid-row: 2;
+    grid-row: 3;
   }
 
   /* Tags span full width */
   .detail-block-tags {
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: 4;
   }
 }
 
@@ -50,7 +57,7 @@
     gap: 20px;
   }
 
-  /* Mobile order: avatar, gallery+info, species, breadcrumbs */
+  /* Mobile order: avatar, gallery, voice sample, info, species, breadcrumbs, tags */
   .detail-block-image-view {
     order: 1;
   }
@@ -59,20 +66,24 @@
     order: 2;
   }
 
-  .detail-block-info {
+  .detail-block-voice-sample {
     order: 3;
   }
 
-  .detail-block-species {
+  .detail-block-info {
     order: 4;
   }
 
-  .detail-block-breadcrumbs {
+  .detail-block-species {
     order: 5;
   }
 
-  .detail-block-tags {
+  .detail-block-breadcrumbs {
     order: 6;
+  }
+
+  .detail-block-tags {
+    order: 7;
   }
 }
 
@@ -99,6 +110,17 @@
     scrollbar-color: var(--color-green) transparent;
     padding: 12px;
   }
+}
+
+/* Voice Sample Block */
+.detail-block-voice-sample {
+  padding: 10px;
+  font-size: 1.2em;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
 }
 
 /* Info Block */
