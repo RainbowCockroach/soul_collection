@@ -1,14 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useMusicPlayer } from './useMusicPlayer';
-import './MusicPlayer.css';
+import React, { useState, useRef, useEffect } from "react";
+import { useMusicPlayer } from "./useMusicPlayer";
+import DropdownArrow from "../common-components/DropdownArrow";
+import "./MusicPlayer.css";
 
 export const MusicPlayerControls: React.FC = () => {
-  const { state, togglePlayPause, nextTrack, previousTrack, playTrack, setVolume, toggleLoop } = useMusicPlayer();
+  const {
+    state,
+    togglePlayPause,
+    nextTrack,
+    previousTrack,
+    playTrack,
+    setVolume,
+    toggleLoop,
+  } = useMusicPlayer();
   const [showTrackList, setShowTrackList] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const volumeControlRef = useRef<HTMLDivElement>(null);
 
-  const currentTrack = state.currentTrackIndex !== null ? state.tracks[state.currentTrackIndex] : null;
+  const currentTrack =
+    state.currentTrackIndex !== null
+      ? state.tracks[state.currentTrackIndex]
+      : null;
 
   const handleTrackSelect = (trackIndex: number) => {
     playTrack(trackIndex);
@@ -21,26 +33,29 @@ export const MusicPlayerControls: React.FC = () => {
   };
 
   const formatTime = (seconds: number): string => {
-    if (isNaN(seconds)) return '0:00';
+    if (isNaN(seconds)) return "0:00";
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   // Handle click outside volume control to hide slider
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (volumeControlRef.current && !volumeControlRef.current.contains(event.target as Node)) {
+      if (
+        volumeControlRef.current &&
+        !volumeControlRef.current.contains(event.target as Node)
+      ) {
         setShowVolumeSlider(false);
       }
     };
 
     if (showVolumeSlider) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showVolumeSlider]);
 
@@ -54,9 +69,19 @@ export const MusicPlayerControls: React.FC = () => {
           title="Select Track"
         >
           <span className="track-name">
-            {currentTrack ? currentTrack.name : 'Select Track'}
+            {currentTrack ? currentTrack.name : "Select Track"}
           </span>
-          <span className="dropdown-arrow">▼</span>
+          <DropdownArrow
+            className="dropdown-arrow"
+            fill="white"
+            width="10px"
+            height="10px"
+            style={{
+              transform: showTrackList ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s ease",
+              marginRight: 0,
+            }}
+          />
         </button>
 
         {showTrackList && (
@@ -64,7 +89,9 @@ export const MusicPlayerControls: React.FC = () => {
             {state.tracks.map((track, index) => (
               <button
                 key={track.id}
-                className={`track-list-item ${index === state.currentTrackIndex ? 'active' : ''}`}
+                className={`track-list-item ${
+                  index === state.currentTrackIndex ? "active" : ""
+                }`}
                 onClick={() => handleTrackSelect(index)}
               >
                 {track.name}
@@ -89,9 +116,9 @@ export const MusicPlayerControls: React.FC = () => {
           className="control-button play-pause"
           onClick={togglePlayPause}
           disabled={state.isLoading}
-          title={state.isPlaying ? 'Pause' : 'Play'}
+          title={state.isPlaying ? "Pause" : "Play"}
         >
-          {state.isLoading ? '⏳' : state.isPlaying ? '⏸' : '▶'}
+          {state.isLoading ? "⏳" : state.isPlaying ? "⏸" : "▶"}
         </button>
 
         <button
@@ -104,9 +131,9 @@ export const MusicPlayerControls: React.FC = () => {
         </button>
 
         <button
-          className={`control-button loop ${state.isLooping ? 'active' : ''}`}
+          className={`control-button loop ${state.isLooping ? "active" : ""}`}
           onClick={toggleLoop}
-          title={state.isLooping ? 'Disable Loop' : 'Enable Loop'}
+          title={state.isLooping ? "Disable Loop" : "Enable Loop"}
         >
           🔁
         </button>
@@ -133,7 +160,9 @@ export const MusicPlayerControls: React.FC = () => {
               onChange={handleVolumeChange}
               className="volume-slider"
             />
-            <span className="volume-value">{Math.round(state.volume * 100)}%</span>
+            <span className="volume-value">
+              {Math.round(state.volume * 100)}%
+            </span>
           </div>
         )}
       </div>
