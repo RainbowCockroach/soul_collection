@@ -32,18 +32,22 @@ const OcGroup: React.FC<OcGroupProps> = ({
         className="div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
       >
+        <svg
+          width="1.5em"
+          height="1.5em"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            display: "inline-block",
+            marginRight: "0.5rem",
+            transform: isExpanded ? "rotate(0deg)" : "rotate(-90deg)",
+            transition: "transform 0.2s ease",
+            fill: groupInfo.groupHeaderTextColour,
+          }}
+        >
+          <path d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z" />
+        </svg>
         <h2 style={{ color: groupInfo.groupHeaderTextColour }}>
-          <span
-            style={{
-              display: "inline-block",
-              marginRight: "0.5rem",
-              transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
-              transition: "transform 0.2s ease",
-              color: groupInfo.groupHeaderTextColour,
-            }}
-          >
-            ▶
-          </span>
           {groupInfo.name}
         </h2>
       </ButtonWrapper>

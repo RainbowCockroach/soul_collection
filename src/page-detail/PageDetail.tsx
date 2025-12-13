@@ -143,7 +143,11 @@ const PageDetail: React.FC = () => {
   }
 
   return (
-    <div className="page-detail page-padded">
+    <div
+      className={`page-detail page-padded ${
+        oc.voiceSample ? "" : "no-voice-sample"
+      }`}
+    >
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
         <ZoomPanPinchImage

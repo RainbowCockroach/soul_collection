@@ -31,6 +31,10 @@
     grid-row: 2;
   }
 
+  .page-detail.no-voice-sample .detail-block-info {
+    grid-row: 1 / span 2;
+  }
+
   /* Fourth row: species (4 cols from col 2), breadcrumbs (5 cols from col 6) */
   .detail-block-species {
     grid-column: 2 / span 4;
