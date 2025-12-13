@@ -13,10 +13,14 @@ interface UploadedAudio {
 
 export const EditorSoundUpload: React.FC = () => {
   const [uploadedAudios, setUploadedAudios] = useState<UploadedAudio[]>([]);
+  const [recentAudios, setRecentAudios] = useState<string[]>([]);
   const [apiKey, setApiKey] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isLoadingRecent, setIsLoadingRecent] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [currentPlayingAudio, setCurrentPlayingAudio] =
+    useState<HTMLAudioElement | null>(null);
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return bytes + " B";
@@ -146,10 +150,87 @@ export const EditorSoundUpload: React.FC = () => {
     }
   };
 
-  const removeAudio = (id: string) => {
-    setUploadedAudios((prev) => prev.filter((audio) => audio.id !== id));
-    toast.success("Audio removed from list");
+  const loadRecentUploads = async () => {
+    if (!apiKey.trim()) {
+      toast.error("Please enter the API key first");
+      return;
+    }
+
+    setIsLoadingRecent(true);
+
+    try {
+      const response = await fetch(
+        `${apiBaseUrl}/uploads/recent?type=audio&limit=20`,
+        {
+          method: "GET",
+          headers: {
+            "X-API-Key": apiKey,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to fetch recent uploads");
+      }
+
+      const data = await response.json();
+      setRecentAudios(data.urls || []);
+      toast.success(`Loaded ${data.urls?.length || 0} recent audio files`);
+    } catch (error) {
+      console.error("Error fetching recent uploads:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch recent uploads"
+      );
+    } finally {
+      setIsLoadingRecent(false);
+    }
   };
+
+  const playAudio = (url: string) => {
+    // Stop currently playing audio if any
+    if (currentPlayingAudio) {
+      currentPlayingAudio.pause();
+      currentPlayingAudio.currentTime = 0;
+    }
+
+    // Create a new audio element to play the sound
+    const audio = new Audio(url);
+
+    // Set up event listeners
+    audio.addEventListener("ended", () => {
+      setCurrentPlayingAudio(null);
+    });
+
+    audio.addEventListener("error", (error) => {
+      console.error("Error playing audio:", error);
+      toast.error("Failed to play audio");
+      setCurrentPlayingAudio(null);
+    });
+
+    // Play the audio
+    audio
+      .play()
+      .then(() => {
+        setCurrentPlayingAudio(audio);
+      })
+      .catch((error) => {
+        console.error("Error playing audio:", error);
+        toast.error("Failed to play audio");
+      });
+  };
+
+  // Cleanup audio when component unmounts
+  React.useEffect(() => {
+    return () => {
+      if (currentPlayingAudio) {
+        currentPlayingAudio.pause();
+        currentPlayingAudio.currentTime = 0;
+      }
+    };
+  }, [currentPlayingAudio]);
 
   return (
     <div className="editor-layout">
@@ -241,13 +322,30 @@ export const EditorSoundUpload: React.FC = () => {
 
         <div className="editor-section">
           <div className="editor-section-header">
-            <h3>Recent Uploads ({uploadedAudios.length})</h3>
+            <h3>Recent Server Uploads ({recentAudios.length})</h3>
+            <button
+              onClick={loadRecentUploads}
+              disabled={!apiKey.trim() || isLoadingRecent}
+              className="editor-button editor-button-secondary editor-button-small"
+            >
+              {isLoadingRecent ? (
+                <>
+                  <div
+                    className="editor-loading-spinner"
+                    style={{ width: "14px", height: "14px" }}
+                  />
+                  Loading...
+                </>
+              ) : (
+                "Refresh"
+              )}
+            </button>
           </div>
           <div
             className="editor-list"
-            style={{ maxHeight: "400px", overflowY: "auto" }}
+            style={{ maxHeight: "300px", overflowY: "auto" }}
           >
-            {uploadedAudios.length === 0 ? (
+            {recentAudios.length === 0 ? (
               <p
                 style={{
                   color: "var(--editor-gray-600)",
@@ -255,70 +353,75 @@ export const EditorSoundUpload: React.FC = () => {
                   padding: "var(--editor-spacing-md)",
                 }}
               >
-                No audio files uploaded yet
+                {apiKey.trim()
+                  ? "Click refresh to load recent uploads"
+                  : "Enter API key and click refresh to load recent uploads"}
               </p>
             ) : (
-              uploadedAudios.map((audio) => (
-                <div
-                  key={audio.id}
-                  className="editor-item"
-                  style={{ padding: "var(--editor-spacing-sm)" }}
-                >
+              recentAudios.map((url, index) => {
+                const filename = url.split("/").pop() || `audio-${index + 1}`;
+                return (
                   <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "var(--editor-spacing-sm)",
-                      width: "100%",
-                    }}
+                    key={url}
+                    className="editor-item"
+                    style={{ padding: "var(--editor-spacing-sm)" }}
                   >
                     <div
                       style={{
-                        width: "40px",
-                        height: "40px",
-                        borderRadius: "var(--editor-border-radius)",
-                        border: "1px solid var(--editor-gray-300)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "var(--editor-gray-100)",
-                        flexShrink: 0,
+                        gap: "var(--editor-spacing-sm)",
+                        width: "100%",
                       }}
                     >
-                      🔊
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <p
+                      <button
+                        onClick={() => playAudio(url)}
+                        className="editor-button editor-button-secondary"
                         style={{
-                          margin: 0,
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
+                          padding: "var(--editor-spacing-xs)",
+                          minWidth: "auto",
+                          flexShrink: 0,
                         }}
+                        title="Play audio"
                       >
-                        {audio.fileName}
-                      </p>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: "0.75rem",
-                          color: "var(--editor-gray-600)",
-                        }}
+                        ▶️
+                      </button>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p
+                          style={{
+                            margin: 0,
+                            fontWeight: 500,
+                            fontSize: "14px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {filename}
+                        </p>
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: "0.75rem",
+                            color: "var(--editor-gray-600)",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {url}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(url, "URL")}
+                        className="editor-button editor-button-secondary editor-button-small"
                       >
-                        {formatFileSize(audio.fileSize)} • {audio.uploadedAt}
-                      </p>
+                        Copy
+                      </button>
                     </div>
-                    <button
-                      onClick={() => removeAudio(audio.id)}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Remove
-                    </button>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
