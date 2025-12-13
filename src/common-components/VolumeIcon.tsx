@@ -1,0 +1,52 @@
+import React from "react";
+
+interface VolumeIconProps {
+  fill?: string;
+  width?: string;
+  height?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+const VolumeIcon: React.FC<VolumeIconProps> = ({
+  fill = "#000000",
+  width = "1em",
+  height = "1em",
+  className,
+  style,
+}) => {
+  return (
+    <svg
+      fill={fill}
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      width={width}
+      height={height}
+      viewBox="0 0 306.534 306.535"
+      xmlSpace="preserve"
+      className={className}
+      style={style}
+    >
+      <g>
+        <rect x="10.604" y="89.638" width="51.137" height="105.795" />
+        <rect x="89.276" y="64.033" width="51.136" height="131.4" />
+        <rect x="167.947" y="38.427" width="51.139" height="157.006" />
+        <rect x="246.623" y="12.821" width="51.14" height="182.612" />
+        <path
+          d="M61.741,246.934H10.604C4.751,246.934,0,251.688,0,257.539c0,5.852,4.751,10.605,10.604,10.605h51.142
+          c5.854,0,10.605-4.754,10.605-10.605C72.351,251.688,67.6,246.934,61.741,246.934z"
+        />
+        <path
+          d="M295.93,246.934h-14.965v-14.965c0-5.851-4.754-10.604-10.604-10.604c-5.852,0-10.605,4.754-10.605,10.604v14.965H244.79
+          c-5.851,0-10.604,4.754-10.604,10.604c0,5.852,4.754,10.605,10.604,10.605h14.965v14.965c0,5.851,4.754,10.604,10.605,10.604
+          c5.851,0,10.604-4.754,10.604-10.604v-14.965h14.965c5.851,0,10.604-4.754,10.604-10.605
+          C306.534,251.688,301.786,246.934,295.93,246.934z"
+        />
+      </g>
+    </svg>
+  );
+};
+
+export default VolumeIcon;

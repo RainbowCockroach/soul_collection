@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useMusicPlayer } from "./useMusicPlayer";
 import DropdownArrow from "../common-components/DropdownArrow";
+import RewindArrow from "../common-components/RewindArrow";
+import FastForwardArrow from "../common-components/FastForwardArrow";
+import PlayButton from "../common-components/PlayButton";
+import PauseButton from "../common-components/PauseButton";
+import Hourglass from "../common-components/Hourglass";
+import LoopIcon from "../common-components/LoopIcon";
+import VolumeIcon from "../common-components/VolumeIcon";
 import "./MusicPlayer.css";
 
 export const MusicPlayerControls: React.FC = () => {
@@ -109,7 +116,7 @@ export const MusicPlayerControls: React.FC = () => {
           disabled={state.tracks.length === 0}
           title="Previous Track"
         >
-          ⏮
+          <RewindArrow fill="white" />
         </button>
 
         <button
@@ -118,7 +125,13 @@ export const MusicPlayerControls: React.FC = () => {
           disabled={state.isLoading}
           title={state.isPlaying ? "Pause" : "Play"}
         >
-          {state.isLoading ? "⏳" : state.isPlaying ? "⏸" : "▶"}
+          {state.isLoading ? (
+            <Hourglass fill="white" />
+          ) : state.isPlaying ? (
+            <PauseButton fill="white" />
+          ) : (
+            <PlayButton fill="white" />
+          )}
         </button>
 
         <button
@@ -127,7 +140,7 @@ export const MusicPlayerControls: React.FC = () => {
           disabled={state.tracks.length === 0}
           title="Next Track"
         >
-          ⏭
+          <FastForwardArrow fill="white" />
         </button>
 
         <button
@@ -135,7 +148,7 @@ export const MusicPlayerControls: React.FC = () => {
           onClick={toggleLoop}
           title={state.isLooping ? "Disable Loop" : "Enable Loop"}
         >
-          🔁
+          <LoopIcon fill="white" />
         </button>
       </div>
 
@@ -146,7 +159,7 @@ export const MusicPlayerControls: React.FC = () => {
           onClick={() => setShowVolumeSlider(!showVolumeSlider)}
           title="Volume"
         >
-          🔊
+          <VolumeIcon fill="white" />
         </button>
 
         {showVolumeSlider && (
