@@ -6,10 +6,19 @@ import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
 import EditorDialog from "./EditorDialog";
 import { EditorImageUpload } from "./EditorImageUpload";
+import { EditorSoundUpload } from "./EditorSoundUpload";
 import { baseUrl } from "../helpers/constants";
 import "./EditorCommon.css";
 
-type EditorTab = "species" | "groups" | "ocs" | "tags" | "form-links" | "dialogs" | "uploads";
+type EditorTab =
+  | "species"
+  | "groups"
+  | "ocs"
+  | "tags"
+  | "form-links"
+  | "dialogs"
+  | "uploads"
+  | "sounds";
 
 export const Editor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>("species");
@@ -18,9 +27,22 @@ export const Editor: React.FC = () => {
     { id: "groups" as const, label: "Groups", component: EditorGroup },
     { id: "ocs" as const, label: "OCs", component: EditorOc },
     { id: "tags" as const, label: "Tags", component: EditorTag },
-    { id: "form-links" as const, label: "Form Links", component: EditorFormLink },
+    {
+      id: "form-links" as const,
+      label: "Form Links",
+      component: EditorFormLink,
+    },
     { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
-    { id: "uploads" as const, label: "Image Upload", component: EditorImageUpload },
+    {
+      id: "uploads" as const,
+      label: "Image Upload",
+      component: EditorImageUpload,
+    },
+    {
+      id: "sounds" as const,
+      label: "Sound Upload",
+      component: EditorSoundUpload,
+    },
   ];
 
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
@@ -44,7 +66,9 @@ export const Editor: React.FC = () => {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`editor-button ${
-              activeTab === tab.id ? 'editor-button-primary' : 'editor-button-secondary'
+              activeTab === tab.id
+                ? "editor-button-primary"
+                : "editor-button-secondary"
             }`}
           >
             {tab.label}
