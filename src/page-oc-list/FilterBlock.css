@@ -13,7 +13,9 @@
   font-weight: 400;
   font-family: var(--font-primary);
   transition: all 0.2s ease;
-  width: 70%;
+  width: 80%;
+  display: block;
+  margin: 0 auto;
 }
 
 .filter-toggle-button:hover {
