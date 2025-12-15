@@ -41,8 +41,9 @@
 .oc-group-grid {
   display: grid;
   grid-auto-flow: row;
-  justify-content: center;
   gap: 20px 10px;
+  width: 100%;
+  /* Removed justify-content: center to prevent grid from shrinking */
 }
 
 /* ===== RESPONSIVE BREAKPOINTS ===== */

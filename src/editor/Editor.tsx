@@ -4,6 +4,7 @@ import { EditorGroup } from "./EditorGroup";
 import { EditorOc } from "./EditorOc";
 import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
+import EditorShip from "./EditorShip";
 import EditorDialog from "./EditorDialog";
 import { EditorImageUpload } from "./EditorImageUpload";
 import { EditorSoundUpload } from "./EditorSoundUpload";
@@ -15,6 +16,7 @@ type EditorTab =
   | "groups"
   | "ocs"
   | "tags"
+  | "ships"
   | "form-links"
   | "dialogs"
   | "uploads"
@@ -27,6 +29,7 @@ export const Editor: React.FC = () => {
     { id: "groups" as const, label: "Groups", component: EditorGroup },
     { id: "ocs" as const, label: "OCs", component: EditorOc },
     { id: "tags" as const, label: "Tags", component: EditorTag },
+    { id: "ships" as const, label: "Ships", component: EditorShip },
     {
       id: "form-links" as const,
       label: "Form Links",

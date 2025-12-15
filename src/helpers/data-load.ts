@@ -1,9 +1,19 @@
-import type { OC, Group, Spieces, FormLink, Tag, DialogTexts, DialogEntry } from "./objects";
+import type {
+  OC,
+  Group,
+  Spieces,
+  FormLink,
+  Tag,
+  Ship,
+  DialogTexts,
+  DialogEntry,
+} from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
 import speciesData from "../data/spieces.json";
 import formLinkData from "../data/form-link.json";
 import tagData from "../data/tag.json";
+import shipData from "../data/ships.json";
 import dialogData from "../data/dialog.json";
 
 export interface LoadedData {
@@ -11,6 +21,7 @@ export interface LoadedData {
   groups: Group[];
   species: Spieces[];
   tags: Tag[];
+  ships: Ship[];
   dialogs: DialogTexts;
 }
 
@@ -48,6 +59,10 @@ export async function loadTags(): Promise<Tag[]> {
     slug,
     ...(tag as Omit<Tag, "slug">),
   }));
+}
+
+export async function loadShips(): Promise<Ship[]> {
+  return shipData as Ship[];
 }
 
 export interface OcWithDetails extends OC {
@@ -107,7 +122,9 @@ export async function loadDialogs(): Promise<DialogTexts> {
   return dialogData as DialogTexts;
 }
 
-export async function loadDialogByKey(key: string): Promise<DialogEntry[] | null> {
+export async function loadDialogByKey(
+  key: string
+): Promise<DialogEntry[] | null> {
   const dialogs = await loadDialogs();
   return dialogs[key] || null;
 }
@@ -118,20 +135,20 @@ export async function loadOcBackstory(slug: string): Promise<string | null> {
     if (!response.ok) {
       return null;
     }
-    
+
     const content = await response.text();
-    
+
     // Check if the response is HTML (indicating SPA redirect due to 404)
     // Real backstory files should not contain HTML tags
-    if (content.includes('<!DOCTYPE html>') || content.includes('<html')) {
+    if (content.includes("<!DOCTYPE html>") || content.includes("<html")) {
       return null;
     }
-    
+
     // Check if content is empty or just whitespace
     if (!content.trim()) {
       return null;
     }
-    
+
     return content;
   } catch (error) {
     console.warn(`Failed to load backstory for ${slug}:`, error);
@@ -140,11 +157,12 @@ export async function loadOcBackstory(slug: string): Promise<string | null> {
 }
 
 export async function loadAllData(): Promise<LoadedData> {
-  const [ocs, groups, species, tags, dialogs] = await Promise.all([
+  const [ocs, groups, species, tags, ships, dialogs] = await Promise.all([
     loadOCs(),
     loadGroups(),
     loadSpecies(),
     loadTags(),
+    loadShips(),
     loadDialogs(),
   ]);
 
@@ -153,6 +171,7 @@ export async function loadAllData(): Promise<LoadedData> {
     groups,
     species,
     tags,
+    ships,
     dialogs,
   };
 }

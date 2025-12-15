@@ -1,6 +1,7 @@
 import React from "react";
 import OcSlot from "./OcSlot";
 import type { OC } from "./OcSlot";
+import type { Ship } from "../helpers/objects";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import DropdownArrow from "../common-components/DropdownArrow";
 import "./OcGroup.css";
@@ -19,13 +20,38 @@ interface OcGroupProps {
   groupInfo: OcGroupInfo;
   isExpanded: boolean;
   onToggle: (categoryId: string) => void;
+  ships: Ship[];
+  selectedShips: string[];
 }
 
 const OcGroup: React.FC<OcGroupProps> = ({
   groupInfo,
   isExpanded,
   onToggle,
+  ships,
+  selectedShips,
 }) => {
+  // Helper function to get ship icon for an OC
+  const getShipIconForOc = (ocSlug: string): string | undefined => {
+    // If ships are selected, show only selected ship icons
+    if (selectedShips.length > 0) {
+      // Find the first selected ship that includes this OC
+      for (const shipName of selectedShips) {
+        const ship = ships.find(
+          (s) => s.name === shipName && s.oc.includes(ocSlug)
+        );
+        if (ship) {
+          return ship.displayIcon;
+        }
+      }
+      return undefined;
+    }
+
+    // Otherwise, show the first ship this OC is part of
+    const shipForOc = ships.find((s) => s.oc.includes(ocSlug));
+    return shipForOc?.displayIcon;
+  };
+
   return (
     <div className="oc-group">
       <ButtonWrapper
@@ -54,6 +80,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 oc={oc}
                 frameColour={groupInfo.frameColour}
                 textColour={groupInfo.groupHeaderTextColour}
+                shipIcon={getShipIconForOc(oc.slug)}
               />
             ))}
           </div>

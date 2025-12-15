@@ -1,5 +1,5 @@
 import React from "react";
-import type { Tag } from "../helpers/objects";
+import type { Tag, Ship } from "../helpers/objects";
 import "./FilterBlock.css";
 
 interface FilterBlockProps {
@@ -7,6 +7,10 @@ interface FilterBlockProps {
   selectedTags: string[];
   onTagToggle: (tagSlug: string) => void;
   onClearAll: () => void;
+  ships: Ship[];
+  selectedShips: string[];
+  onShipToggle: (shipName: string) => void;
+  onClearAllShips: () => void;
 }
 
 const FilterBlock: React.FC<FilterBlockProps> = ({
@@ -14,17 +18,63 @@ const FilterBlock: React.FC<FilterBlockProps> = ({
   selectedTags,
   onTagToggle,
   onClearAll,
+  ships,
+  selectedShips,
+  onShipToggle,
+  onClearAllShips,
 }) => {
   const handleTagClick = (tagSlug: string) => {
     onTagToggle(tagSlug);
   };
 
+  const handleShipClick = (shipName: string) => {
+    onShipToggle(shipName);
+  };
+
   return (
     <div className="filter-block">
+      {/* Ships Section */}
+      {ships.length > 0 && (
+        <>
+          <div className="filter-header">
+            <h3>Ships</h3>
+            {selectedShips.length > 0 && (
+              <button className="clear-button" onClick={onClearAllShips}>
+                Clear All Ships ({selectedShips.length})
+              </button>
+            )}
+          </div>
+          <div className="tag-list">
+            {ships.map((ship) => {
+              const isSelected = selectedShips.includes(ship.name);
+              return (
+                <button
+                  key={ship.name}
+                  className={`oc-detail-tag div-3d-with-shadow tag-button ${
+                    isSelected ? "selected" : ""
+                  }`}
+                  style={{
+                    backgroundColor: isSelected ? "#FF69B4" : "#FFB6D9",
+                    color: "#000",
+                    opacity: isSelected ? 1 : 0.6,
+                  }}
+                  onClick={() => handleShipClick(ship.name)}
+                  title={`Click to ${isSelected ? "remove" : "add"} filter`}
+                >
+                  {ship.name}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {/* Tags Section */}
       <div className="filter-header">
+        <h3>Tags</h3>
         {selectedTags.length > 0 && (
           <button className="clear-button" onClick={onClearAll}>
-            Clear All ({selectedTags.length})
+            Clear All Tags ({selectedTags.length})
           </button>
         )}
       </div>
