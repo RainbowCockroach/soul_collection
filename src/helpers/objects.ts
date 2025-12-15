@@ -53,6 +53,12 @@ export type Tag = {
   textColour: string;
 };
 
+export interface Ship {
+  name: string;
+  displayIcon: string; // BBCode for the ship icon
+  oc: string[]; // Array of OC slugs involved in the ship
+}
+
 export interface DialogItem {
   text: string;
   requireAcknowledgment?: boolean;

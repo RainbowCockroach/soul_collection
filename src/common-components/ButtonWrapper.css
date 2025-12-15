@@ -11,6 +11,8 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   font: inherit;
+  /* Remove fixed width - let it be sized by grid parent */
+  display: block;
 }
 
 .button-wrapper:hover {
