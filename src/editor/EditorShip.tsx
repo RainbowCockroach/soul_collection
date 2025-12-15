@@ -352,7 +352,7 @@ export const EditorShip: React.FC = () => {
                   <option value="">Select an OC...</option>
                   {availableOcs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
-                      {oc.name} ({oc.slug})
+                      <BBCodeDisplay bbcode={oc.name} />
                     </option>
                   ))}
                 </select>
@@ -383,7 +383,7 @@ export const EditorShip: React.FC = () => {
                         }}
                       >
                         <span>
-                          {oc ? oc.name : ocSlug} ({ocSlug})
+                          <BBCodeDisplay bbcode={oc ? oc.name : ocSlug} />
                         </span>
                         <button
                           onClick={() => handleRemoveOc(ocSlug)}
