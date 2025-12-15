@@ -18,6 +18,7 @@ interface OcSlotProps {
   oc: OC;
   frameColour: string;
   textColour: string;
+  shipIcon?: string; // BBCode for ship icon to display
 }
 
 // Custom hook for overflow detection
@@ -61,7 +62,12 @@ const useOverflowDetection = (text: string) => {
   return { ref, isOverflowing };
 };
 
-const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
+const OcSlot: React.FC<OcSlotProps> = ({
+  oc,
+  frameColour,
+  textColour,
+  shipIcon,
+}) => {
   const navigate = useNavigate();
   const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
 
@@ -75,28 +81,37 @@ const OcSlot: React.FC<OcSlotProps> = ({ oc, frameColour, textColour }) => {
       soundFile={buttonSoundOcSlot}
       hoverSoundFile={buttonSoundHover}
     >
-      <div
-        className="div-3d-with-shadow oc-slot"
-        style={{
-          backgroundColor: frameColour,
-          border: `5px solid ${frameColour}`,
-        }}
-      >
-        <AvatarSlideshow
-          images={oc.avatar}
-          alt={oc.name}
-          className="oc-avatar"
-        />
-        <div className="oc-slot-name-box">
-          <h3
-            ref={containerRef}
-            className="oc-name"
-            style={{ color: textColour }}
-          >
-            <Marquee pauseOnHover={true} play={isOverflowing}>
-              <BBCodeDisplay bbcode={oc.name} />
-            </Marquee>
-          </h3>
+      <div className="oc-slot-wrapper">
+        {/* Ship icon positioned above the frame */}
+        {shipIcon && (
+          <div className="oc-slot-ship-icon">
+            <BBCodeDisplay bbcode={shipIcon} />
+          </div>
+        )}
+
+        <div
+          className="div-3d-with-shadow oc-slot"
+          style={{
+            backgroundColor: frameColour,
+            border: `5px solid ${frameColour}`,
+          }}
+        >
+          <AvatarSlideshow
+            images={oc.avatar}
+            alt={oc.name}
+            className="oc-avatar"
+          />
+          <div className="oc-slot-name-box">
+            <h3
+              ref={containerRef}
+              className="oc-name"
+              style={{ color: textColour }}
+            >
+              <Marquee pauseOnHover={true} play={isOverflowing}>
+                <BBCodeDisplay bbcode={oc.name} />
+              </Marquee>
+            </h3>
+          </div>
         </div>
       </div>
     </ButtonWrapper>
