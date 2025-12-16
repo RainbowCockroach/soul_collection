@@ -62,15 +62,15 @@ h3 {
 /* Standard breakpoint: 320px - 767px */
 @media (min-width: 320px) and (max-width: 767px) {
   .oc-slot-wrapper {
-    width: 130px;
-    max-width: 130px;
-    min-width: 130px;
+    width: 140px;
+    max-width: 140px;
+    min-width: 140px;
   }
 
   .oc-slot {
-    width: 130px;
-    max-width: 130px;
-    min-width: 130px;
+    width: 140px;
+    max-width: 140px;
+    min-width: 140px;
   }
 }
 
