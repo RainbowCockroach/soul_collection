@@ -17,11 +17,13 @@
   justify-content: center;
   align-items: center;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  height: 20%;
+  width: auto;
 }
 
 .oc-slot-ship-icon img {
-  height: 31px;
-  max-width: 120px;
+  height: 100%;
+  width: auto;
   object-fit: contain;
 }
 
@@ -62,15 +64,15 @@ h3 {
 /* Standard breakpoint: 320px - 767px */
 @media (min-width: 320px) and (max-width: 767px) {
   .oc-slot-wrapper {
-    width: 130px;
-    max-width: 130px;
-    min-width: 130px;
+    width: 140px;
+    max-width: 140px;
+    min-width: 140px;
   }
 
   .oc-slot {
-    width: 130px;
-    max-width: 130px;
-    min-width: 130px;
+    width: 140px;
+    max-width: 140px;
+    min-width: 140px;
   }
 }
 

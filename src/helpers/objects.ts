@@ -55,7 +55,7 @@ export type Tag = {
 
 export interface Ship {
   name: string;
-  displayIcon: string; // BBCode for the ship icon
+  displayIcon: string[]; // Array of image URLs for the ship icon
   oc: string[]; // Array of OC slugs involved in the ship
 }
 

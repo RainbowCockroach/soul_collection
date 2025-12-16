@@ -636,7 +636,9 @@
   margin: 0 auto;
 }
 
-@keyframes editor-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.editor-avatar-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--editor-border-radius);
 }

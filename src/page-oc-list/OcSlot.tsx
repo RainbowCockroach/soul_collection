@@ -18,7 +18,7 @@ interface OcSlotProps {
   oc: OC;
   frameColour: string;
   textColour: string;
-  shipIcon?: string; // BBCode for ship icon to display
+  shipIcon?: string[]; // Array of image URLs for ship icon to display
 }
 
 // Custom hook for overflow detection
@@ -83,9 +83,13 @@ const OcSlot: React.FC<OcSlotProps> = ({
     >
       <div className="oc-slot-wrapper">
         {/* Ship icon positioned above the frame */}
-        {shipIcon && (
+        {shipIcon && shipIcon.length > 0 && (
           <div className="oc-slot-ship-icon">
-            <BBCodeDisplay bbcode={shipIcon} />
+            <AvatarSlideshow
+              images={shipIcon}
+              alt="Ship icon"
+              className="ship-icon-image"
+            />
           </div>
         )}
 
