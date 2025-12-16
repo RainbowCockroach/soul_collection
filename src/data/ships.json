@@ -1,10 +1,9 @@
 [
   {
     "name": "NoeStinky",
-    "displayIcon": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/6x135q.gif[/img]",
-    "oc": [
-      "non-li",
-      "naame"
-    ]
+    "displayIcon": [
+      "https://poempuppy.neocities.org/subpages/archive/pixels/6x135q.gif"
+    ],
+    "oc": ["non-li", "naame"]
   }
 ]

@@ -17,11 +17,13 @@
   justify-content: center;
   align-items: center;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  height: 20%;
+  width: auto;
 }
 
 .oc-slot-ship-icon img {
-  height: 31px;
-  max-width: 120px;
+  height: 100%;
+  width: auto;
   object-fit: contain;
 }
 

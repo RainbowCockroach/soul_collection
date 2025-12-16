@@ -32,7 +32,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
   selectedShips,
 }) => {
   // Helper function to get ship icon for an OC
-  const getShipIconForOc = (ocSlug: string): string | undefined => {
+  const getShipIconForOc = (ocSlug: string): string[] | undefined => {
     // If ships are selected, show only selected ship icons
     if (selectedShips.length > 0) {
       // Find the first selected ship that includes this OC
