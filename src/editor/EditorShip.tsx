@@ -318,27 +318,17 @@ export const EditorShip: React.FC = () => {
 
             <div className="editor-field">
               <label className="editor-label">Heart Color:</label>
-              <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+              <div className="editor-color-group">
                 <input
                   type="color"
                   value={formData.color}
                   onChange={(e) =>
                     setFormData({ ...formData, color: e.target.value })
                   }
-                  className="editor-input"
-                  style={{ width: "80px", height: "40px", cursor: "pointer" }}
+                  className="editor-color-picker"
                 />
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    background: "white",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <span style={{ fontSize: "14px", color: "#666" }}>Preview:</span>
+                <div className="editor-color-preview-container">
+                  <span className="editor-color-preview-label">Preview:</span>
                   <FontAwesomeIcon
                     icon={faHeart}
                     style={{ color: formData.color, fontSize: "32px" }}
