@@ -5,6 +5,8 @@ import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import Marquee from "react-fast-marquee";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import AvatarSlideshow from "../common-components/AvatarSlideshow";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import buttonSoundOcSlot from "/sound-effect/button_oc_slot.mp3";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
@@ -18,7 +20,7 @@ interface OcSlotProps {
   oc: OC;
   frameColour: string;
   textColour: string;
-  shipIcon?: string[]; // Array of image URLs for ship icon to display
+  shipColor?: string; // Hex color code for the ship heart icon
 }
 
 // Custom hook for overflow detection
@@ -66,7 +68,7 @@ const OcSlot: React.FC<OcSlotProps> = ({
   oc,
   frameColour,
   textColour,
-  shipIcon,
+  shipColor,
 }) => {
   const navigate = useNavigate();
   const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
@@ -82,12 +84,12 @@ const OcSlot: React.FC<OcSlotProps> = ({
       hoverSoundFile={buttonSoundHover}
     >
       <div className="oc-slot-wrapper">
-        {/* Ship icon positioned above the frame */}
-        {shipIcon && shipIcon.length > 0 && (
+        {/* Ship heart icon positioned above the frame */}
+        {shipColor && (
           <div className="oc-slot-ship-icon">
-            <AvatarSlideshow
-              images={shipIcon}
-              alt="Ship icon"
+            <FontAwesomeIcon
+              icon={faHeart}
+              style={{ color: shipColor }}
               className="ship-icon-image"
             />
           </div>

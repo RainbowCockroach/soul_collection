@@ -33,6 +33,7 @@ The application manages several main data types defined in `src/helpers/objects.
 - **Group**: Character groups with name, slug, frame colors, header colors, and display order
 - **Spieces**: Species with name, slug, description, gallery, and optional content warnings
 - **Tag**: Tags with name, slug, background color, and text color
+- **Ship**: Character relationship pairs with name, colored heart icon (hex color), and array of OC slugs
 - **FormLink**: Character form relationships represented as pairs of OC slugs
 - **DialogTexts**: Dialog system for character interactions with support for acknowledgment requirements
 
@@ -44,6 +45,7 @@ The application manages several main data types defined in `src/helpers/objects.
   - `group.json` - Group data (keyed by slug)
   - `spieces.json` - Species data (keyed by slug)
   - `tag.json` - Tag data (keyed by slug)
+  - `ships.json` - Ship/relationship data (array format)
   - `form-link.json` - Character form relationships/links
   - `dialog.json` - Dialog text content
   - `settings.json` - Application settings
@@ -106,6 +108,10 @@ The editor provides separate interfaces for managing:
 - Group data (EditorGroup.tsx)
 - Species data (EditorSpieces.tsx)
 - Tag data (EditorTag.tsx)
+- Ship data (EditorShip.tsx)
+  - Color picker for customizing ship heart icon color
+  - Live preview showing FontAwesome heart icon with selected color
+  - OC selection from available characters to assign to ships
 - Form links (EditorFormLink.tsx)
 - Dialog text (EditorDialog.tsx)
 

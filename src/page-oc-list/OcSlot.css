@@ -17,14 +17,10 @@
   justify-content: center;
   align-items: center;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-  height: 20%;
-  width: auto;
 }
 
-.oc-slot-ship-icon img {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
+.ship-icon-image {
+  font-size: 28px; /* 20% of 140px (mobile width) */
 }
 
 .oc-slot {
@@ -74,6 +70,10 @@ h3 {
     max-width: 140px;
     min-width: 140px;
   }
+
+  .ship-icon-image {
+    font-size: 28px; /* 20% of 140px */
+  }
 }
 
 /* Second range: Horizontal phone screen and vertical tablet - 3 slots per row */
@@ -90,6 +90,10 @@ h3 {
     max-width: 200px;
     min-width: 200px;
   }
+
+  .ship-icon-image {
+    font-size: 40px; /* 20% of 200px */
+  }
 }
 
 /* Third range: Horizontal tablet and desktop - 5 slots per row */
@@ -99,5 +103,9 @@ h3 {
     width: 15vw;
     max-width: 15vw;
     min-width: 180px;
+  }
+
+  .ship-icon-image {
+    font-size: max(36px, 3vw); /* 20% of slot width (15vw), min 36px (20% of 180px) */
   }
 }

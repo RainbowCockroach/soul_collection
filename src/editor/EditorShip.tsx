@@ -21,7 +21,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
-import AvatarSlideshow from "../common-components/AvatarSlideshow";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 interface SortableShipItemProps {
   ship: Ship;
@@ -87,13 +88,12 @@ export const EditorShip: React.FC = () => {
   );
   const [formData, setFormData] = useState({
     name: "",
-    displayIcon: [] as string[],
+    color: "#FF1493",
     oc: [] as string[],
   });
   const [isEditing, setIsEditing] = useState(false);
   const [availableOcs, setAvailableOcs] = useState<OC[]>([]);
   const [newOcSlug, setNewOcSlug] = useState("");
-  const [newIconUrl, setNewIconUrl] = useState("");
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -133,7 +133,7 @@ export const EditorShip: React.FC = () => {
       setSelectedShipIndex(index);
       setFormData({
         name: ship.name,
-        displayIcon: [...ship.displayIcon],
+        color: ship.color || "#FF1493",
         oc: [...ship.oc],
       });
       setIsEditing(true);
@@ -153,7 +153,7 @@ export const EditorShip: React.FC = () => {
 
     const newShip: Ship = {
       name: formData.name,
-      displayIcon: formData.displayIcon,
+      color: formData.color,
       oc: formData.oc,
     };
 
@@ -189,12 +189,11 @@ export const EditorShip: React.FC = () => {
     setSelectedShipIndex(null);
     setFormData({
       name: "",
-      displayIcon: [],
+      color: "#FF1493",
       oc: [],
     });
     setIsEditing(false);
     setNewOcSlug("");
-    setNewIconUrl("");
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -253,31 +252,6 @@ export const EditorShip: React.FC = () => {
     setFormData({
       ...formData,
       oc: formData.oc.filter((slug) => slug !== ocSlug),
-    });
-  };
-
-  const handleAddIcon = () => {
-    if (!newIconUrl.trim()) {
-      toast.error("Please enter an icon URL");
-      return;
-    }
-
-    if (formData.displayIcon.includes(newIconUrl)) {
-      toast.error("This icon URL is already added");
-      return;
-    }
-
-    setFormData({
-      ...formData,
-      displayIcon: [...formData.displayIcon, newIconUrl],
-    });
-    setNewIconUrl("");
-  };
-
-  const handleRemoveIcon = (iconUrl: string) => {
-    setFormData({
-      ...formData,
-      displayIcon: formData.displayIcon.filter((url) => url !== iconUrl),
     });
   };
 
@@ -343,76 +317,34 @@ export const EditorShip: React.FC = () => {
             </div>
 
             <div className="editor-field">
-              <label className="editor-label">Display Icon URLs:</label>
-              <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
+              <label className="editor-label">Heart Color:</label>
+              <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                 <input
-                  type="text"
-                  value={newIconUrl}
-                  onChange={(e) => setNewIconUrl(e.target.value)}
-                  placeholder="https://example.com/icon.gif"
+                  type="color"
+                  value={formData.color}
+                  onChange={(e) =>
+                    setFormData({ ...formData, color: e.target.value })
+                  }
                   className="editor-input"
-                  style={{ flex: 1 }}
+                  style={{ width: "80px", height: "40px", cursor: "pointer" }}
                 />
-                <button
-                  onClick={handleAddIcon}
-                  className="editor-button editor-button-primary editor-button-small"
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    background: "white",
+                    borderRadius: "4px",
+                  }}
                 >
-                  Add
-                </button>
-              </div>
-              <div className="editor-array-item">
-                {formData.displayIcon.length === 0 ? (
-                  <div className="editor-text-muted">
-                    No icon URLs added yet
-                  </div>
-                ) : (
-                  formData.displayIcon.map((url, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: "8px",
-                        background: "white",
-                        borderRadius: "4px",
-                        marginBottom: "4px",
-                      }}
-                    >
-                      <span style={{ wordBreak: "break-all", flex: 1 }}>
-                        {url}
-                      </span>
-                      <button
-                        onClick={() => handleRemoveIcon(url)}
-                        className="editor-button editor-button-danger editor-button-small"
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-              {formData.displayIcon.length > 0 && (
-                <div className="editor-field" style={{ marginTop: "8px" }}>
-                  <label className="editor-label">Preview:</label>
-                  <div
-                    style={{
-                      padding: "8px",
-                      background: "white",
-                      borderRadius: "4px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <AvatarSlideshow
-                      images={formData.displayIcon}
-                      alt="Ship icon preview"
-                      className="editor-avatar-preview"
-                    />
-                  </div>
+                  <span style={{ fontSize: "14px", color: "#666" }}>Preview:</span>
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    style={{ color: formData.color, fontSize: "32px" }}
+                  />
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="editor-field">

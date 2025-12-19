@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useMusicPlayer } from "./useMusicPlayer";
-import DropdownArrow from "../common-components/DropdownArrow";
-import RewindArrow from "../common-components/RewindArrow";
-import FastForwardArrow from "../common-components/FastForwardArrow";
-import PlayButton from "../common-components/PlayButton";
-import PauseButton from "../common-components/PauseButton";
-import Hourglass from "../common-components/Hourglass";
-import LoopIcon from "../common-components/LoopIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCaretDown,
+  faBackwardStep,
+  faForwardStep,
+  faPlay,
+  faPause,
+  faHourglassHalf,
+  faRepeat
+} from "@fortawesome/free-solid-svg-icons";
 import VolumeIcon from "../common-components/VolumeIcon";
 import "./MusicPlayer.css";
 
@@ -78,12 +81,12 @@ export const MusicPlayerControls: React.FC = () => {
           <span className="track-name">
             {currentTrack ? currentTrack.name : "Select Track"}
           </span>
-          <DropdownArrow
+          <FontAwesomeIcon
+            icon={faCaretDown}
             className="dropdown-arrow"
-            fill="white"
-            width="10px"
-            height="10px"
             style={{
+              color: "white",
+              fontSize: "10px",
               transform: showTrackList ? "rotate(180deg)" : "rotate(0deg)",
               transition: "transform 0.2s ease",
               marginRight: 0,
@@ -116,7 +119,7 @@ export const MusicPlayerControls: React.FC = () => {
           disabled={state.tracks.length === 0}
           title="Previous Track"
         >
-          <RewindArrow fill="white" />
+          <FontAwesomeIcon icon={faBackwardStep} style={{ color: "white" }} />
         </button>
 
         <button
@@ -126,11 +129,11 @@ export const MusicPlayerControls: React.FC = () => {
           title={state.isPlaying ? "Pause" : "Play"}
         >
           {state.isLoading ? (
-            <Hourglass fill="white" />
+            <FontAwesomeIcon icon={faHourglassHalf} style={{ color: "white" }} />
           ) : state.isPlaying ? (
-            <PauseButton fill="white" />
+            <FontAwesomeIcon icon={faPause} style={{ color: "white" }} />
           ) : (
-            <PlayButton fill="white" />
+            <FontAwesomeIcon icon={faPlay} style={{ color: "white" }} />
           )}
         </button>
 
@@ -140,7 +143,7 @@ export const MusicPlayerControls: React.FC = () => {
           disabled={state.tracks.length === 0}
           title="Next Track"
         >
-          <FastForwardArrow fill="white" />
+          <FontAwesomeIcon icon={faForwardStep} style={{ color: "white" }} />
         </button>
 
         <button
@@ -148,7 +151,7 @@ export const MusicPlayerControls: React.FC = () => {
           onClick={toggleLoop}
           title={state.isLooping ? "Disable Loop" : "Enable Loop"}
         >
-          <LoopIcon fill="white" />
+          <FontAwesomeIcon icon={faRepeat} style={{ color: "white" }} />
         </button>
       </div>
 
