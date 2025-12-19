@@ -270,12 +270,12 @@
 /* Color inputs */
 .editor-color-group {
   display: flex;
-  gap: var(--editor-spacing-sm);
+  gap: var(--editor-spacing-md);
   align-items: center;
 }
 
 .editor-color-picker {
-  width: 50px;
+  width: 80px;
   height: 40px;
   border: 1px solid var(--editor-gray-300);
   border-radius: var(--editor-border-radius);
@@ -289,6 +289,29 @@
   border-radius: var(--editor-border-radius);
   font-size: 14px;
   font-family: monospace;
+}
+
+/* Color picker with preview */
+.editor-color-preview-container {
+  display: flex;
+  align-items: center;
+  gap: var(--editor-spacing-sm);
+  padding: var(--editor-spacing-sm) var(--editor-spacing-md);
+  background-color: white;
+  border-radius: var(--editor-border-radius);
+  border: 1px solid var(--editor-gray-200);
+}
+
+.editor-color-preview-label {
+  font-size: 14px;
+  color: var(--editor-gray-600);
+}
+
+.editor-color-preview-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--editor-border-radius-sm);
+  border: 1px solid var(--editor-gray-300);
 }
 
 /* ===== LISTS & ITEMS ===== */
