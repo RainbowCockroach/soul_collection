@@ -55,7 +55,7 @@ export type Tag = {
 
 export interface Ship {
   name: string;
-  displayIcon: string[]; // Array of image URLs for the ship icon
+  color: string; // Hex color code for the heart icon (e.g., #FF1493)
   oc: string[]; // Array of OC slugs involved in the ship
 }
 

@@ -3,7 +3,8 @@ import OcSlot from "./OcSlot";
 import type { OC } from "./OcSlot";
 import type { Ship } from "../helpers/objects";
 import ButtonWrapper from "../common-components/ButtonWrapper";
-import DropdownArrow from "../common-components/DropdownArrow";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import "./OcGroup.css";
 
 export interface OcGroupInfo {
@@ -31,9 +32,9 @@ const OcGroup: React.FC<OcGroupProps> = ({
   ships,
   selectedShips,
 }) => {
-  // Helper function to get ship icon for an OC
-  const getShipIconForOc = (ocSlug: string): string[] | undefined => {
-    // If ships are selected, show only selected ship icons
+  // Helper function to get ship color for an OC
+  const getShipColorForOc = (ocSlug: string): string | undefined => {
+    // If ships are selected, show only selected ship colors
     if (selectedShips.length > 0) {
       // Find the first selected ship that includes this OC
       for (const shipName of selectedShips) {
@@ -41,7 +42,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
           (s) => s.name === shipName && s.oc.includes(ocSlug)
         );
         if (ship) {
-          return ship.displayIcon;
+          return ship.color;
         }
       }
       return undefined;
@@ -49,7 +50,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
 
     // Otherwise, show the first ship this OC is part of
     const shipForOc = ships.find((s) => s.oc.includes(ocSlug));
-    return shipForOc?.displayIcon;
+    return shipForOc?.color;
   };
 
   return (
@@ -59,9 +60,10 @@ const OcGroup: React.FC<OcGroupProps> = ({
         className="div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
       >
-        <DropdownArrow
-          fill={groupInfo.groupHeaderTextColour}
+        <FontAwesomeIcon
+          icon={faCaretDown}
           style={{
+            color: groupInfo.groupHeaderTextColour,
             transform: isExpanded ? "rotate(0deg)" : "rotate(-90deg)",
             transition: "transform 0.2s ease",
           }}
@@ -80,7 +82,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 oc={oc}
                 frameColour={groupInfo.frameColour}
                 textColour={groupInfo.groupHeaderTextColour}
-                shipIcon={getShipIconForOc(oc.slug)}
+                shipColor={getShipColorForOc(oc.slug)}
               />
             ))}
           </div>

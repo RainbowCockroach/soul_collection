@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./AudioPlayer.css";
-import PauseButton from "./PauseButton";
-import PlayButton from "./PlayButton";
-import Hourglass from "./Hourglass";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPause, faPlay, faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
 
 interface AudioPlayerProps {
   src: string;
@@ -57,11 +56,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src }) => {
         onClick={togglePlayPause}
       >
         {isLoading ? (
-          <Hourglass fill="white" />
+          <FontAwesomeIcon icon={faHourglassHalf} style={{ color: "white" }} />
         ) : isPlaying ? (
-          <PauseButton fill="white" />
+          <FontAwesomeIcon icon={faPause} style={{ color: "white" }} />
         ) : (
-          <PlayButton fill="white" />
+          <FontAwesomeIcon icon={faPlay} style={{ color: "white" }} />
         )}
       </button>
     </div>

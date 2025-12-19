@@ -1,9 +1,7 @@
 [
   {
     "name": "NoeStinky",
-    "displayIcon": [
-      "https://poempuppy.neocities.org/subpages/archive/pixels/6x135q.gif"
-    ],
+    "color": "#FF1493",
     "oc": ["non-li", "naame"]
   }
 ]
