@@ -23,6 +23,12 @@
   font-size: 28px; /* 20% of 140px (mobile width) */
 }
 
+.ship-icon-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .oc-slot {
   width: 100%;
   margin: 0 auto;
