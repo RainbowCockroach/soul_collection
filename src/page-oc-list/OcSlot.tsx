@@ -5,6 +5,7 @@ import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import Marquee from "react-fast-marquee";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import AvatarSlideshow from "../common-components/AvatarSlideshow";
+import Tooltip from "../common-components/Tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
@@ -22,6 +23,7 @@ interface OcSlotProps {
   frameColour: string;
   textColour: string;
   shipColor?: string; // Hex color code for the ship heart icon
+  shipText?: string; // Ship text to display in tooltip
 }
 
 // Custom hook for overflow detection
@@ -70,6 +72,7 @@ const OcSlot: React.FC<OcSlotProps> = ({
   frameColour,
   textColour,
   shipColor,
+  shipText,
 }) => {
   const navigate = useNavigate();
   const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
@@ -88,16 +91,20 @@ const OcSlot: React.FC<OcSlotProps> = ({
         {/* Ship heart icon positioned above the frame */}
         {shipColor && (
           <div className="oc-slot-ship-icon">
-            <FontAwesomeIcon
-              icon={faHeart}
-              style={{ color: shipColor }}
-              className="ship-icon-image"
-            />
-            <FontAwesomeIcon
-              icon={faHeartRegular}
-              style={{ color: "white" }}
-              className="ship-icon-image ship-icon-outline"
-            />
+            <Tooltip content={shipText || ""} position="top">
+              <div className="ship-icon-container">
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  style={{ color: shipColor }}
+                  className="ship-icon-image"
+                />
+                <FontAwesomeIcon
+                  icon={faHeartRegular}
+                  style={{ color: "white" }}
+                  className="ship-icon-image ship-icon-outline"
+                />
+              </div>
+            </Tooltip>
           </div>
         )}
 

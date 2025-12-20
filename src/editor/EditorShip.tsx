@@ -90,6 +90,7 @@ export const EditorShip: React.FC = () => {
     name: "",
     color: "#FF1493",
     oc: [] as string[],
+    shipText: {} as Record<string, string>,
   });
   const [isEditing, setIsEditing] = useState(false);
   const [availableOcs, setAvailableOcs] = useState<OC[]>([]);
@@ -135,6 +136,7 @@ export const EditorShip: React.FC = () => {
         name: ship.name,
         color: ship.color || "#FF1493",
         oc: [...ship.oc],
+        shipText: ship.shipText ? { ...ship.shipText } : {},
       });
       setIsEditing(true);
     }
@@ -155,6 +157,7 @@ export const EditorShip: React.FC = () => {
       name: formData.name,
       color: formData.color,
       oc: formData.oc,
+      shipText: formData.shipText,
     };
 
     let updatedShips: Ship[];
@@ -191,6 +194,7 @@ export const EditorShip: React.FC = () => {
       name: "",
       color: "#FF1493",
       oc: [],
+      shipText: {},
     });
     setIsEditing(false);
     setNewOcSlug("");
@@ -249,9 +253,22 @@ export const EditorShip: React.FC = () => {
   };
 
   const handleRemoveOc = (ocSlug: string) => {
+    const newShipText = { ...formData.shipText };
+    delete newShipText[ocSlug];
     setFormData({
       ...formData,
       oc: formData.oc.filter((slug) => slug !== ocSlug),
+      shipText: newShipText,
+    });
+  };
+
+  const handleUpdateShipText = (ocSlug: string, text: string) => {
+    setFormData({
+      ...formData,
+      shipText: {
+        ...formData.shipText,
+        [ocSlug]: text,
+      },
     });
   };
 
@@ -370,24 +387,48 @@ export const EditorShip: React.FC = () => {
                       <div
                         key={ocSlug}
                         style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          padding: "8px",
+                          padding: "12px",
                           background: "white",
                           borderRadius: "4px",
-                          marginBottom: "4px",
+                          marginBottom: "8px",
                         }}
                       >
-                        <span>
-                          <BBCodeDisplay bbcode={oc ? oc.name : ocSlug} />
-                        </span>
-                        <button
-                          onClick={() => handleRemoveOc(ocSlug)}
-                          className="editor-button editor-button-danger editor-button-small"
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "8px",
+                          }}
                         >
-                          Remove
-                        </button>
+                          <span style={{ fontWeight: "bold" }}>
+                            <BBCodeDisplay bbcode={oc ? oc.name : ocSlug} />
+                          </span>
+                          <button
+                            onClick={() => handleRemoveOc(ocSlug)}
+                            className="editor-button editor-button-danger editor-button-small"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                        <div>
+                          <label
+                            className="editor-label"
+                            style={{ fontSize: "13px" }}
+                          >
+                            Ship Text (tooltip):
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.shipText[ocSlug] || ""}
+                            onChange={(e) =>
+                              handleUpdateShipText(ocSlug, e.target.value)
+                            }
+                            placeholder={`e.g., "wife with ${oc?.name || "other OC"}"`}
+                            className="editor-input"
+                            style={{ fontSize: "13px" }}
+                          />
+                        </div>
                       </div>
                     );
                   })

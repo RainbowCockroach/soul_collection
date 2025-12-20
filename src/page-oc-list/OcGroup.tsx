@@ -53,6 +53,27 @@ const OcGroup: React.FC<OcGroupProps> = ({
     return shipForOc?.color;
   };
 
+  // Helper function to get ship text for an OC
+  const getShipTextForOc = (ocSlug: string): string | undefined => {
+    // If ships are selected, show only selected ship text
+    if (selectedShips.length > 0) {
+      // Find the first selected ship that includes this OC
+      for (const shipName of selectedShips) {
+        const ship = ships.find(
+          (s) => s.name === shipName && s.oc.includes(ocSlug)
+        );
+        if (ship) {
+          return ship.shipText?.[ocSlug];
+        }
+      }
+      return undefined;
+    }
+
+    // Otherwise, show the first ship this OC is part of
+    const shipForOc = ships.find((s) => s.oc.includes(ocSlug));
+    return shipForOc?.shipText?.[ocSlug];
+  };
+
   return (
     <div className="oc-group">
       <ButtonWrapper
@@ -83,6 +104,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 frameColour={groupInfo.frameColour}
                 textColour={groupInfo.groupHeaderTextColour}
                 shipColor={getShipColorForOc(oc.slug)}
+                shipText={getShipTextForOc(oc.slug)}
               />
             ))}
           </div>

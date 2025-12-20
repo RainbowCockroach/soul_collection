@@ -2,6 +2,10 @@
   {
     "name": "NoeStinky",
     "color": "#FF1493",
-    "oc": ["non-li", "naame"]
+    "oc": ["non-li", "naame"],
+    "shipText": {
+      "non-li": "Mountain of Naame",
+      "naame": "Nasty worm that infects Non"
+    }
   }
 ]
