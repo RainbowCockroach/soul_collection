@@ -7,6 +7,7 @@ import ButtonWrapper from "../common-components/ButtonWrapper";
 import AvatarSlideshow from "../common-components/AvatarSlideshow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import buttonSoundOcSlot from "/sound-effect/button_oc_slot.mp3";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
@@ -91,6 +92,11 @@ const OcSlot: React.FC<OcSlotProps> = ({
               icon={faHeart}
               style={{ color: shipColor }}
               className="ship-icon-image"
+            />
+            <FontAwesomeIcon
+              icon={faHeartRegular}
+              style={{ color: "white" }}
+              className="ship-icon-image ship-icon-outline"
             />
           </div>
         )}
