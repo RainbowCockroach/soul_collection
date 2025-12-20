@@ -57,6 +57,7 @@ export interface Ship {
   name: string;
   color: string; // Hex color code for the heart icon (e.g., #FF1493)
   oc: string[]; // Array of OC slugs involved in the ship
+  shipText?: Record<string, string>; // Optional ship text for each OC (key: OC slug, value: ship text)
 }
 
 export interface DialogItem {

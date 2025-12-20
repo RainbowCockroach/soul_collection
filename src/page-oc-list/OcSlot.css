@@ -13,10 +13,19 @@
   top: -10px;
   left: 5px;
   z-index: 2;
+  pointer-events: auto; /* Re-enable pointer events for tooltip */
+}
+
+/* Re-enable pointer events for all ship icon children */
+.oc-slot-ship-icon * {
+  pointer-events: auto;
+}
+
+.ship-icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  position: relative;
 }
 
 .ship-icon-image {
@@ -112,6 +121,9 @@ h3 {
   }
 
   .ship-icon-image {
-    font-size: max(36px, 3vw); /* 20% of slot width (15vw), min 36px (20% of 180px) */
+    font-size: max(
+      36px,
+      3vw
+    ); /* 20% of slot width (15vw), min 36px (20% of 180px) */
   }
 }
