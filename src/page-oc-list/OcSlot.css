@@ -29,7 +29,7 @@
 }
 
 .ship-icon-image {
-  font-size: 35px; /* 25% of 145px (mobile width) - 1.25x bigger */
+  font-size: 35px; /* 25% of 148px (mobile width) - 1.25x bigger */
 }
 
 .ship-icon-outline {
@@ -75,19 +75,19 @@ h3 {
 /* Standard breakpoint: 320px - 767px */
 @media (min-width: 320px) and (max-width: 767px) {
   .oc-slot-wrapper {
-    width: 145px;
-    max-width: 145px;
-    min-width: 145px;
+    width: 148px;
+    max-width: 148px;
+    min-width: 148px;
   }
 
   .oc-slot {
-    width: 145px;
-    max-width: 145px;
-    min-width: 145px;
+    width: 148px;
+    max-width: 148px;
+    min-width: 148px;
   }
 
   .ship-icon-image {
-    font-size: 35px; /* 25% of 145px - 1.25x bigger */
+    font-size: 35px; /* 25% of 148px - 1.25x bigger */
   }
 }
 
