@@ -36,6 +36,9 @@ const SamPopup = () => {
     setTimeout(() => {
       setIsVisible(false);
       localStorage.setItem("hasSeenSamPopup", "true");
+
+      // Dispatch custom event to notify music player that popup is closed
+      window.dispatchEvent(new CustomEvent("samPopupClosed"));
     }, 300); // Match the CSS transition duration
   };
 
