@@ -11,6 +11,7 @@ import { MusicPlayerContext } from "./context";
 
 const MUSIC_PAUSED_KEY = "soul_collection_music_paused";
 const FIRST_VISIT_KEY = "soul_collection_first_visit_completed";
+const SAM_POPUP_SEEN_KEY = "hasSeenSamPopup";
 
 interface MusicPlayerProviderProps {
   children: ReactNode;
@@ -140,7 +141,13 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     const handleCanPlay = () => {
       setState((prev) => ({ ...prev, isLoading: false }));
       if (state.currentTrackIndex !== null) {
-        audio.play().catch(console.error);
+        // Only auto-play if user has interacted (hasAutoPlayedRef = true)
+        // OR if this is NOT a first-time visitor (SamPopup already seen)
+        // This allows returning visitors to auto-play while blocking first-timers until popup closes
+        const samPopupSeen = localStorage.getItem(SAM_POPUP_SEEN_KEY) === "true";
+        if (hasAutoPlayedRef.current || samPopupSeen) {
+          audio.play().catch(console.error);
+        }
       }
     };
 
@@ -211,6 +218,16 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     const handleFirstInteraction = () => {
       // Only auto-play once, ever
       if (hasAutoPlayedRef.current) return;
+
+      // Check if SamPopUp hasn't been seen yet (first-time visitor with popup showing)
+      const samPopupSeen = localStorage.getItem(SAM_POPUP_SEEN_KEY) === "true";
+
+      // If SamPopup not seen yet, don't auto-play - wait for popup to close
+      if (!samPopupSeen) {
+        return;
+      }
+
+      // Mark that we've auto-played
       hasAutoPlayedRef.current = true;
 
       // Check if user previously paused the music
@@ -266,6 +283,39 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
       window.removeEventListener("keydown", handleFirstInteraction);
     };
   }, [state.currentTrackIndex, state.volume, fadeInAudio]);
+
+  // Listen for SamPopUp close event to start music for first-time visitors
+  useEffect(() => {
+    const handleSamPopupClose = () => {
+      // Only auto-play if we haven't already
+      if (hasAutoPlayedRef.current) return;
+      hasAutoPlayedRef.current = true;
+
+      // Check if user previously paused the music
+      const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === "true";
+      if (userPausedMusic) return;
+
+      // Start playing with fade-in for first-time visitors
+      const audio = audioRef.current;
+      if (audio && state.currentTrackIndex !== null) {
+        audio
+          .play()
+          .then(() => {
+            // Mark first visit as completed
+            localStorage.setItem(FIRST_VISIT_KEY, "true");
+            // Fade in from 0 to default volume (0.2) over 3 seconds
+            fadeInAudio(initialState.volume, 3000);
+          })
+          .catch(console.error);
+      }
+    };
+
+    window.addEventListener("samPopupClosed", handleSamPopupClose);
+
+    return () => {
+      window.removeEventListener("samPopupClosed", handleSamPopupClose);
+    };
+  }, [state.currentTrackIndex, fadeInAudio]);
 
   // Cleanup fade animation on unmount
   useEffect(() => {
