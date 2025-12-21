@@ -80,7 +80,24 @@
   }
 }
 
-/* Extra small devices only (mobile phones) */
+/* Mobile and tablets - Music player on new line */
+@media (max-width: 1023px) {
+  .navbar-music-player {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding-bottom: 1rem;
+  }
+}
+
+/* Mobile only - Adjust nav links layout */
 @media (max-width: 639px) {
   .nav-links-desktop {
     position: static;
@@ -88,19 +105,5 @@
     flex: 1;
     justify-content: space-evenly;
     gap: 1rem;
-  }
-
-  .navbar-music-player {
-    order: 3;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding-bottom: 0.5rem;
   }
 }

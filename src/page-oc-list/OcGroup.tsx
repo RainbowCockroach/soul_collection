@@ -81,15 +81,15 @@ const OcGroup: React.FC<OcGroupProps> = ({
         className="div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
       >
-        <FontAwesomeIcon
-          icon={faCaretDown}
-          style={{
-            color: groupInfo.groupHeaderTextColour,
-            transform: isExpanded ? "rotate(0deg)" : "rotate(-90deg)",
-            transition: "transform 0.2s ease",
-          }}
-        />
         <h2 style={{ color: groupInfo.groupHeaderTextColour }}>
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            style={{
+              color: groupInfo.groupHeaderTextColour,
+              transform: isExpanded ? "rotate(0deg)" : "rotate(-90deg)",
+              transition: "transform 0.2s ease",
+            }}
+          />
           {groupInfo.name}
         </h2>
       </ButtonWrapper>
