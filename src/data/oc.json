@@ -2096,6 +2096,12 @@
         "thumbnail": "https://i.pinimg.com/236x/3e/5b/4b/3e5b4be839d25246685d237c24c25bbf.jpg",
         "caption": "",
         "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.png",
+        "thumbnail": "https://i.pinimg.com/236x/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.jpg",
+        "caption": "",
+        "contentWarning": ""
       }
     ],
     "breadcrumbs": [],
@@ -2184,7 +2190,8 @@
       "purple",
       "side-character"
     ],
-    "order": 30
+    "order": 30,
+    "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766408097344-c5qc0r.mp3"
   },
   "miimi": {
     "name": "Miimi",
