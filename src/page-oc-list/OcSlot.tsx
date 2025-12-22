@@ -6,9 +6,7 @@ import Marquee from "react-fast-marquee";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import AvatarSlideshow from "../common-components/AvatarSlideshow";
 import Tooltip from "../common-components/Tooltip";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
+import ShipHeartIcon from "../common-components/ShipHeartIcon";
 import buttonSoundOcSlot from "/sound-effect/button_oc_slot.mp3";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
@@ -92,18 +90,7 @@ const OcSlot: React.FC<OcSlotProps> = ({
         {shipColor && (
           <div className="oc-slot-ship-icon">
             <Tooltip content={shipText || ""} position="top">
-              <div className="ship-icon-container">
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  style={{ color: shipColor }}
-                  className="ship-icon-image"
-                />
-                <FontAwesomeIcon
-                  icon={faHeartRegular}
-                  style={{ color: "white" }}
-                  className="ship-icon-image ship-icon-outline"
-                />
-              </div>
+              <ShipHeartIcon color={shipColor} />
             </Tooltip>
           </div>
         )}
