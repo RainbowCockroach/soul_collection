@@ -72,8 +72,7 @@
   "cleo": {
     "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/7s6r8n.gif[/img] Cleo [img]https://poempuppy.neocities.org/subpages/archive/pixels/vrqls3.gif[/img]",
     "avatar": [
-      "https://i.pinimg.com/236x/af/1b/73/af1b73efe478076c3728b52850839a7a.jpg",
-      "https://i.pinimg.com/236x/32/1e/31/321e31d316e3be6005de57f1178399e1.jpg"
+      "https://i.pinimg.com/236x/af/1b/73/af1b73efe478076c3728b52850839a7a.jpg"
     ],
     "group": [
       "human"
@@ -2644,7 +2643,7 @@
     "order": 39
   },
   "non": {
-    "name": "Non",
+    "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/u1a3mv.gif[/img] Non [img]https://poempuppy.neocities.org/subpages/archive/pixels/aj0cqr.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/1a/6c/57/1a6c5730539269efe175e9182b3776f9.jpg"
     ],
@@ -3282,7 +3281,7 @@
     "order": 54
   },
   "jessica": {
-    "name": "Jessica",
+    "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/7kltbb.gif[/img] Jessica [img]https://poempuppy.neocities.org/subpages/archive/pixels/7kltbb.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/ff/4e/f8/ff4ef8d4a17f24dca43a24377b2e4389.jpg"
     ],
@@ -3317,6 +3316,12 @@
       {
         "image": "https://i.pinimg.com/originals/d3/c6/84/d3c6844f98f0b7be0ca93999d088a6c6.jpg",
         "thumbnail": "https://i.pinimg.com/236x/d3/c6/84/d3c6844f98f0b7be0ca93999d088a6c6.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.png",
+        "thumbnail": "https://i.pinimg.com/236x/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.jpg",
+        "caption": "",
+        "contentWarning": ""
       }
     ],
     "breadcrumbs": [],
@@ -3325,7 +3330,8 @@
       "pony",
       "lore-outsider",
       "blue",
-      "long-hair"
+      "long-hair",
+      "female"
     ],
     "order": 56
   },
@@ -3344,6 +3350,12 @@
         "image": "https://i.pinimg.com/originals/85/74/e0/8574e02e63381a77ac5dc7f375892e6c.png",
         "thumbnail": "https://i.pinimg.com/236x/85/74/e0/8574e02e63381a77ac5dc7f375892e6c.jpg",
         "caption": "Adopted from [url=https://www.instagram.com/tvliyp.s/]tvliyp.s[/url]"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.png",
+        "thumbnail": "https://i.pinimg.com/236x/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.jpg",
+        "caption": "",
+        "contentWarning": ""
       }
     ],
     "breadcrumbs": [],
@@ -3352,8 +3364,144 @@
       "lore-outsider",
       "orange",
       "yellow",
-      "long-hair"
+      "long-hair",
+      "female"
     ],
     "order": 57
+  },
+  "mussy": {
+    "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/k9eq2r.gif[/img] Mussy [img]https://poempuppy.neocities.org/subpages/archive/pixels/k9eq2r.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/85/ee/6b/85ee6b92308f5c4496a08b37d146d471.jpg"
+    ],
+    "group": [
+      "other"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/ca/8e/9c/ca8e9c2218db65a53cf535edb5cbbda2.png",
+        "thumbnail": "https://i.pinimg.com/236x/ca/8e/9c/ca8e9c2218db65a53cf535edb5cbbda2.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.png",
+        "thumbnail": "https://i.pinimg.com/236x/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "pony",
+      "female",
+      "single",
+      "lore-outsider",
+      "long-hair",
+      "orange",
+      "red",
+      "yellow",
+      "gold"
+    ],
+    "order": 58
+  },
+  "goon": {
+    "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/xxd009.gif[/img] Goon [img]https://poempuppy.neocities.org/subpages/archive/pixels/xxd009.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/73/4b/47/734b474a6a63c045bf139b8f70039676.jpg"
+    ],
+    "group": [
+      "other"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/c6/0b/6e/c60b6e7b646f86d019c7ef25d4db2775.png",
+        "thumbnail": "https://i.pinimg.com/236x/c6/0b/6e/c60b6e7b646f86d019c7ef25d4db2775.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.png",
+        "thumbnail": "https://i.pinimg.com/236x/93/67/5c/93675cad8e6b31ac11e2b6c795f7739a.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "pony",
+      "adult",
+      "single",
+      "lore-outsider",
+      "long-hair",
+      "green",
+      "yellow",
+      "silver",
+      "male"
+    ],
+    "order": 59
+  },
+  "fatumir": {
+    "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/85mz39.gif[/img] Fatumir [img]https://poempuppy.neocities.org/subpages/archive/pixels/pzo7af.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/ef/3c/73/ef3c73cd3b12a4f4f355b5f1e956d0d0.jpg"
+    ],
+    "group": [
+      "other"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/c4/04/d0/c404d0e410df1d277c5ca815e8432a8a.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/c4/04/d0/c404d0e410df1d277c5ca815e8432a8a.jpg",
+        "caption": "adopted from [url=https://www.instagram.com/mia.patrol/]mia.patrol[/url]",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "what",
+      "no-gender",
+      "adult",
+      "lore-outsider",
+      "green",
+      "long-hair"
+    ],
+    "order": 60
+  },
+  "caelwyn": {
+    "name": "[img]https://poempuppy.neocities.org/subpages/archive/pixels/jyradd.gif[/img] Caelwyn [img]https://poempuppy.neocities.org/subpages/archive/pixels/484om9.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/44/21/22/442122a776dd60f87d70cbfcd06880a1.jpg"
+    ],
+    "group": [
+      "other"
+    ],
+    "spieces": [],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/82/22/88/822288569a0956b370ff88fda2a8adaa.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/82/22/88/822288569a0956b370ff88fda2a8adaa.jpg",
+        "caption": "adopted from [url=https://www.instagram.com/mia.patrol/]mia.patrol[/url]",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "what",
+      "no-gender",
+      "lore-outsider",
+      "short-hair",
+      "red",
+      "yellow",
+      "blue"
+    ],
+    "order": 61
   }
 }
