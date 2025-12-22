@@ -90,7 +90,7 @@ export const EditorShip: React.FC = () => {
     name: "",
     color: "#FF1493",
     oc: [] as string[],
-    shipText: {} as Record<string, string>,
+    shipText: {} as Record<string, string | undefined>,
   });
   const [isEditing, setIsEditing] = useState(false);
   const [availableOcs, setAvailableOcs] = useState<OC[]>([]);
@@ -424,7 +424,9 @@ export const EditorShip: React.FC = () => {
                             onChange={(e) =>
                               handleUpdateShipText(ocSlug, e.target.value)
                             }
-                            placeholder={`e.g., "wife with ${oc?.name || "other OC"}"`}
+                            placeholder={`e.g., "wife with ${
+                              oc?.name || "other OC"
+                            }"`}
                             className="editor-input"
                             style={{ fontSize: "13px" }}
                           />
