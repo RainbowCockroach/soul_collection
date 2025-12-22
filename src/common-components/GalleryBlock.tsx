@@ -4,6 +4,8 @@ import type { GalleryItem } from "../helpers/objects";
 import { useBlurImage } from "../hooks/usePixelatedImage";
 import ButtonWrapper from "./ButtonWrapper";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 interface GalleryBlockProps {
   gallery: GalleryItem[];
@@ -27,7 +29,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
   // Use thumbnail if available, otherwise use the original image
   const originalImage = galleryItem.thumbnail || galleryItem.image;
   // Apply pixelation if content warning exists
-  const { url: displayImage, useCssFilter } = useBlurImage(
+  const { url: displayImage, useCssFilter: censorImage } = useBlurImage(
     originalImage,
     galleryItem.contentWarning
   );
@@ -37,15 +39,20 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
       soundFile={buttonSoundGallery}
       onClick={() => onImageClick(galleryItem)}
       className={`gallery-image div-3d-with-shadow ${
-        useCssFilter ? "gallery-image-filtered" : ""
+        censorImage ? "gallery-image-censored" : ""
       }`}
     >
+      {censorImage && (
+        <div className="gallery-content-warning-icon">
+          <FontAwesomeIcon icon={faEyeSlash} />
+        </div>
+      )}
       <img
         src={displayImage}
         alt={galleryItem.caption || `${characterName} gallery ${index + 1}`}
         title={galleryItem.caption} // Show caption as tooltip
         style={
-          useCssFilter
+          censorImage
             ? {
                 filter: "blur(20px) brightness(0.8) contrast(1.1)",
                 imageRendering: "pixelated",

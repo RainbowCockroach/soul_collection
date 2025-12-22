@@ -7,7 +7,7 @@
   .gallery-wrapper .gallery {
     height: auto;
   }
-  
+
   .gallery-wrapper .gallery-grid {
     height: auto;
     overflow: visible;
@@ -78,8 +78,28 @@
 }
 
 /* Filtered/censored gallery images */
-.gallery-image-filtered {
+.gallery-image-censored {
   background: var(--color-purple);
   overflow: hidden;
   position: relative;
+}
+
+/* Content warning icon overlay */
+.gallery-content-warning-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Adjust icon size for mobile */
+@media (max-width: 768px) {
+  .gallery-content-warning-icon {
+    font-size: 2rem;
+  }
 }
