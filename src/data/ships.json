@@ -2,10 +2,123 @@
   {
     "name": "NoeStinky",
     "color": "#FF1493",
-    "oc": ["non-li", "naame"],
+    "oc": [
+      "non-li",
+      "naame",
+      "zarnok",
+      "non"
+    ],
     "shipText": {
       "non-li": "Mountain of Naame",
-      "naame": "Nasty worm that infects Non"
+      "naame": "Nasty worm that infects Non",
+      "zarnok": "Forever mine",
+      "non": "Forever mine"
+    }
+  },
+  {
+    "name": "RilorLiv",
+    "color": "#da0b0b",
+    "oc": [
+      "liv",
+      "rilor",
+      "liv-the-fox",
+      "king-rilor"
+    ],
+    "shipText": {
+      "liv": "To Rilor",
+      "rilor": "To Liv",
+      "liv-the-fox": "Till death do us part",
+      "king-rilor": "Till death do us part"
+    }
+  },
+  {
+    "name": "MiaT...",
+    "color": "#8b7e7e",
+    "oc": [
+      "mia",
+      "tylor"
+    ],
+    "shipText": {
+      "mia": "Dating with Tylor",
+      "tylor": "Dating with Mia"
+    }
+  },
+  {
+    "name": "DeepseaHydra",
+    "color": "#f9b9b9",
+    "oc": [
+      "deep-sea-girl",
+      "hydra",
+      "celia-li"
+    ],
+    "shipText": {
+      "deep-sea-girl": "wife with Hydra",
+      "hydra": "wife with Deep sea girl",
+      "celia-li": "my wife can't breath on land"
+    }
+  },
+  {
+    "name": "Sweet knowledge",
+    "color": "#51b42d",
+    "oc": [
+      "bush",
+      "echo"
+    ],
+    "shipText": {
+      "bush": "Lover of Echo",
+      "echo": "Lover of Bush"
+    }
+  },
+  {
+    "name": "LeeoMaary",
+    "color": "#cd7918",
+    "oc": [
+      "leeo",
+      "maary",
+      "pastel-leeo",
+      "healthy-maary"
+    ],
+    "shipText": {
+      "pastel-leeo": "Pure love with Maary",
+      "healthy-maary": "Pure love with Leeo",
+      "maary": "Pure love with Leeo",
+      "leeo": "Desperation with Maary"
+    }
+  },
+  {
+    "name": "KumiEsme",
+    "color": "#b30083",
+    "oc": [
+      "kumi",
+      "esme"
+    ],
+    "shipText": {
+      "esme": "One-sided love with Kumi",
+      "kumi": "Girlfriend of Esme"
+    }
+  },
+  {
+    "name": "My not mad",
+    "color": "#ffd53d",
+    "oc": [
+      "akane",
+      "my-not-mad"
+    ],
+    "shipText": {
+      "akane": "Owner of my not mad",
+      "my-not-mad": "Akane's not mad"
+    }
+  },
+  {
+    "name": "SammyT",
+    "color": "#d689ec",
+    "oc": [
+      "sammy-sa",
+      "tylor"
+    ],
+    "shipText": {
+      "sammy-sa": "Girlfriend of T",
+      "tylor": "Hell nah"
     }
   }
 ]
