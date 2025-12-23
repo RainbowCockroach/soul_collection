@@ -32,46 +32,45 @@ const OcGroup: React.FC<OcGroupProps> = ({
   ships,
   selectedShips,
 }) => {
-  // Helper function to get ship color for an OC
-  const getShipColorForOc = (ocSlug: string): string | undefined => {
+  // Helper function to get ship colors for an OC
+  const getShipColorsForOc = (ocSlug: string): string[] => {
     // If ships are selected, show only selected ship colors
     if (selectedShips.length > 0) {
-      // Find the first selected ship that includes this OC
-      for (const shipName of selectedShips) {
-        const ship = ships.find(
-          (s) => s.name === shipName && s.oc.includes(ocSlug)
-        );
-        if (ship) {
-          return ship.color;
-        }
-      }
-      return undefined;
+      // Find all selected ships that include this OC
+      return selectedShips
+        .map((shipName) => {
+          const ship = ships.find(
+            (s) => s.name === shipName && s.oc.includes(ocSlug)
+          );
+          return ship ? ship.color : null;
+        })
+        .filter((color): color is string => color !== null);
     }
 
-    // Otherwise, show the first ship this OC is part of
-    const shipForOc = ships.find((s) => s.oc.includes(ocSlug));
-    return shipForOc?.color;
+    // Otherwise, show all ships this OC is part of
+    return ships.filter((s) => s.oc.includes(ocSlug)).map((s) => s.color);
   };
 
-  // Helper function to get ship text for an OC
-  const getShipTextForOc = (ocSlug: string): string | undefined => {
-    // If ships are selected, show only selected ship text
+  // Helper function to get ship texts for an OC
+  const getShipTextsForOc = (ocSlug: string): string[] => {
+    // If ships are selected, show only selected ship texts
     if (selectedShips.length > 0) {
-      // Find the first selected ship that includes this OC
-      for (const shipName of selectedShips) {
-        const ship = ships.find(
-          (s) => s.name === shipName && s.oc.includes(ocSlug)
-        );
-        if (ship) {
-          return ship.shipText?.[ocSlug];
-        }
-      }
-      return undefined;
+      // Find all selected ships that include this OC
+      return selectedShips
+        .map((shipName) => {
+          const ship = ships.find(
+            (s) => s.name === shipName && s.oc.includes(ocSlug)
+          );
+          return ship ? ship.shipText?.[ocSlug] : null;
+        })
+        .filter((text): text is string => text !== null);
     }
 
-    // Otherwise, show the first ship this OC is part of
-    const shipForOc = ships.find((s) => s.oc.includes(ocSlug));
-    return shipForOc?.shipText?.[ocSlug];
+    // Otherwise, show all ships this OC is part of
+    return ships
+      .filter((s) => s.oc.includes(ocSlug))
+      .map((s) => s.shipText?.[ocSlug])
+      .filter((text): text is string => text !== undefined);
   };
 
   return (
@@ -103,8 +102,8 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 oc={oc}
                 frameColour={groupInfo.frameColour}
                 textColour={groupInfo.groupHeaderTextColour}
-                shipColor={getShipColorForOc(oc.slug)}
-                shipText={getShipTextForOc(oc.slug)}
+                shipColors={getShipColorsForOc(oc.slug)}
+                shipTexts={getShipTextsForOc(oc.slug)}
               />
             ))}
           </div>
