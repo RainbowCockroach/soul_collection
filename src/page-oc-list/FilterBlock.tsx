@@ -54,7 +54,7 @@ const FilterBlock: React.FC<FilterBlockProps> = ({
                     isSelected ? "selected" : ""
                   }`}
                   style={{
-                    backgroundColor: isSelected ? "#FF69B4" : "#FFB6D9",
+                    backgroundColor: ship.color,
                     color: "#000",
                     opacity: isSelected ? 1 : 0.6,
                   }}

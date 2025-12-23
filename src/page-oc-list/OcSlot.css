@@ -7,17 +7,25 @@
   position: relative;
 }
 
-/* Ship icon positioned above the slot */
-.oc-slot-ship-icon {
+/* Ship icons positioned above the slot */
+.oc-slot-ship-icons {
   position: absolute;
   top: -10px;
   left: 5px;
   z-index: 2;
+  display: flex;
+  flex-direction: row;
+  gap: 2px; /* Small gap between icons */
   pointer-events: auto; /* Re-enable pointer events for tooltip */
 }
 
+/* Individual ship icon */
+.oc-slot-ship-icon {
+  /* No absolute positioning here, handled by parent */
+}
+
 /* Re-enable pointer events for all ship icon children */
-.oc-slot-ship-icon * {
+.oc-slot-ship-icons * {
   pointer-events: auto;
 }
 
