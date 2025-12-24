@@ -230,7 +230,7 @@
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 1470px) {
   .music-player-controls {
     gap: 8px;
     padding: 6px 8px;
