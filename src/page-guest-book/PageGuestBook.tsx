@@ -125,7 +125,9 @@ const PageGuestBook = () => {
       {/* Edit Mode Toggle Button */}
       <ButtonWrapper
         onClick={toggleEditMode}
-        className={`edit-mode-button ${editMode ? "active" : ""}`}
+        className={`button-with-underline edit-mode-button ${
+          editMode ? "active" : ""
+        }`}
       >
         <div className="edit-button-content">
           <span className="edit-icon">{editMode ? "✓" : "✏️"}</span>
