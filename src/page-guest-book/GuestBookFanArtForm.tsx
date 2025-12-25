@@ -246,7 +246,7 @@ const GuestBookFanArtForm = ({
               <p>
                 <strong>Current:</strong>{" "}
                 {fanArtForm.full_image !==
-                (initialData.full_image || initialData.thumbnail)
+                  (initialData.full_image || initialData.thumbnail)
                   ? "New image uploaded"
                   : initialData.full_image || initialData.thumbnail}
               </p>
@@ -269,6 +269,7 @@ const GuestBookFanArtForm = ({
             <ImageUploadInput
               onImageUploaded={handleImageUploaded}
               disabled={submitting}
+              mode="guest"
             />
           )}
         </div>
@@ -355,7 +356,7 @@ const GuestBookFanArtForm = ({
           )}
           <ButtonWrapper
             type="submit"
-            onClick={() => {}}
+            onClick={() => { }}
             disabled={
               submitting ||
               (!fanArtForm.thumbnail &&
@@ -372,8 +373,8 @@ const GuestBookFanArtForm = ({
                 ? "Updating..."
                 : "Submitting..."
               : isEditMode
-              ? "Update"
-              : "Send!"}
+                ? "Update"
+                : "Send!"}
           </ButtonWrapper>
         </div>
 
@@ -437,6 +438,7 @@ const GuestBookFanArtForm = ({
               <ImageUploadInput
                 onImageUploaded={handleImageUploaded}
                 disabled={submitting}
+                mode="guest"
               />
             )}
           </div>
@@ -523,7 +525,7 @@ const GuestBookFanArtForm = ({
             )}
             <ButtonWrapper
               type="submit"
-              onClick={() => {}}
+              onClick={() => { }}
               disabled={
                 submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
               }
@@ -534,8 +536,8 @@ const GuestBookFanArtForm = ({
                   ? "Updating..."
                   : "Submitting..."
                 : isEditMode
-                ? "Update"
-                : "Send!"}
+                  ? "Update"
+                  : "Send!"}
             </ButtonWrapper>
           </div>
 

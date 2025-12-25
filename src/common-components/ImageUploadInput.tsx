@@ -5,6 +5,8 @@ import { apiBaseUrl } from "../helpers/constants";
 interface ImageUploadInputProps {
   onImageUploaded: (thumbnailUrl: string, fullImageUrl: string) => void;
   disabled?: boolean;
+  mode?: "guest" | "admin";
+  apiKey?: string;
 }
 
 interface ImageUploadResponse {
@@ -15,6 +17,8 @@ interface ImageUploadResponse {
 const ImageUploadInput = ({
   onImageUploaded,
   disabled = false,
+  mode = "guest",
+  apiKey,
 }: ImageUploadInputProps) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +45,7 @@ const ImageUploadInput = ({
   };
 
   const handleRequestUpload = () => {
-    if (!captchaVerified) {
+    if (mode === "guest" && !captchaVerified) {
       setShowCaptcha(true);
       return;
     }
@@ -53,9 +57,13 @@ const ImageUploadInput = ({
     setError(null);
 
     try {
-      // Check if captcha token is available
-      if (!captchaToken) {
+      // Check if captcha token is available only for guest mode
+      if (mode === "guest" && !captchaToken) {
         throw new Error("CAPTCHA verification required");
+      }
+
+      if (mode === "admin" && !apiKey) {
+        throw new Error("API Key is required for admin upload");
       }
 
       // Validate file type
@@ -75,10 +83,20 @@ const ImageUploadInput = ({
       // Upload to server
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("captchaToken", captchaToken);
 
-      const response = await fetch(`${apiBaseUrl}/upload/image`, {
+      const headers: HeadersInit = {};
+
+      if (mode === "guest" && captchaToken) {
+        formData.append("captchaToken", captchaToken);
+      } else if (mode === "admin" && apiKey) {
+        headers["X-API-Key"] = apiKey;
+      }
+
+      const endpoint = mode === "guest" ? "/upload/image-guest" : "/upload/image";
+
+      const response = await fetch(`${apiBaseUrl}${endpoint}`, {
         method: "POST",
+        headers: headers,
         body: formData,
       });
 
@@ -132,7 +150,7 @@ const ImageUploadInput = ({
 
     if (disabled || uploading) return;
 
-    if (!captchaVerified) {
+    if (mode === "guest" && !captchaVerified) {
       setShowCaptcha(true);
       return;
     }
