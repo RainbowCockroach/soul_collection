@@ -98,12 +98,12 @@ export const EditorImageUpload: React.FC = () => {
           <div className="editor-section-content">
             {/* API Key Input */}
             <div className="editor-field">
-              <label className="editor-label">API Key (Password)</label>
+              <label className="editor-label">Sam password</label>
               <input
                 type="password"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter API key"
+                placeholder="Enter Sam password"
                 className="editor-input"
               />
               <p className="editor-text-muted" style={{ marginTop: "4px" }}>
@@ -145,7 +145,7 @@ export const EditorImageUpload: React.FC = () => {
               <p style={{ color: "var(--editor-gray-600)", textAlign: "center", padding: "var(--editor-spacing-md)" }}>
                 {apiKey.trim()
                   ? "Click refresh to load recent uploads"
-                  : "Enter API key and click refresh to load recent uploads"}
+                  : "Enter Sam password and click refresh to load recent uploads"}
               </p>
             ) : (
               recentImages.map((url, index) => {
