@@ -8,3 +8,5 @@
 - [Starry mouse trail effect](https://codepen.io/Kuutti-Siitonen/pen/KKJeOoQ)
 - [Image in shape](https://www.youtube.com/watch?v=1KyvCgEulQQ)
 - [Image in shape: responsive](https://stackoverflow.com/questions/76931315/is-it-possible-to-make-a-responsive-css-clip-path)
+
+Rebuild
