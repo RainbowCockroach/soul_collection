@@ -71,11 +71,6 @@ const ImageUploadInput = ({
         throw new Error("Please select an image file");
       }
 
-      // Validate file size (10MB)
-      if (file.size > 10 * 1024 * 1024) {
-        throw new Error("Image size must be less than 10MB");
-      }
-
       // Create preview
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
@@ -92,7 +87,8 @@ const ImageUploadInput = ({
         headers["X-API-Key"] = apiKey;
       }
 
-      const endpoint = mode === "guest" ? "/upload/image-guest" : "/upload/image";
+      const endpoint =
+        mode === "guest" ? "/upload/image-guest" : "/upload/image";
 
       const response = await fetch(`${apiBaseUrl}${endpoint}`, {
         method: "POST",

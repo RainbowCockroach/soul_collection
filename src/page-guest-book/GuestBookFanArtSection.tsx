@@ -116,7 +116,7 @@ const GuestBookFanArtSection = forwardRef<
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch fan art");
+          throw new Error("Failed to load arts");
         }
 
         const responseData = await response.json();
