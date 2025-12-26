@@ -8,7 +8,9 @@ import {
   faPlay,
   faPause,
   faHourglassHalf,
-  faRepeat
+  faRepeat,
+  faMusic,
+  faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import VolumeIcon from "../common-components/VolumeIcon";
 import "./MusicPlayer.css";
@@ -25,6 +27,7 @@ export const MusicPlayerControls: React.FC = () => {
   } = useMusicPlayer();
   const [showTrackList, setShowTrackList] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const volumeControlRef = useRef<HTMLDivElement>(null);
 
   const currentTrack =
@@ -69,128 +72,153 @@ export const MusicPlayerControls: React.FC = () => {
     };
   }, [showVolumeSlider]);
 
+  if (isCollapsed) {
+    return (
+      <div className="music-player-fixed-container">
+        <button
+          className="music-player-floating-button"
+          onClick={() => setIsCollapsed(false)}
+          title="Open Music Player"
+        >
+          <FontAwesomeIcon icon={faMusic} style={{ color: "white" }} />
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="music-player-controls">
-      {/* Track Selection Dropdown */}
-      <div className="track-selector">
+    <div className="music-player-fixed-container">
+      <div className="music-player-controls">
+        {/* Minimize Button */}
         <button
-          className="track-selector-button"
-          onClick={() => setShowTrackList(!showTrackList)}
-          title="Select Track"
+          className="minimize-button"
+          onClick={() => setIsCollapsed(true)}
+          title="Minimize"
         >
-          <span className="track-name">
-            {currentTrack ? currentTrack.name : "Select Track"}
-          </span>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            className="dropdown-arrow"
-            style={{
-              color: "white",
-              fontSize: "10px",
-              transform: showTrackList ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.2s ease",
-              marginRight: 0,
-            }}
-          />
+          <FontAwesomeIcon icon={faXmark} style={{ color: "white", fontSize: "14px" }} />
         </button>
 
-        {showTrackList && (
-          <div className="track-list-dropdown">
-            {state.tracks.map((track, index) => (
-              <button
-                key={track.id}
-                className={`track-list-item ${
-                  index === state.currentTrackIndex ? "active" : ""
-                }`}
-                onClick={() => handleTrackSelect(index)}
-              >
-                {track.name}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Playback Controls */}
-      <div className="playback-controls">
-        <button
-          className="control-button previous"
-          onClick={previousTrack}
-          disabled={state.tracks.length === 0}
-          title="Previous Track"
-        >
-          <FontAwesomeIcon icon={faBackwardStep} style={{ color: "white" }} />
-        </button>
-
-        <button
-          className="control-button play-pause"
-          onClick={togglePlayPause}
-          disabled={state.isLoading}
-          title={state.isPlaying ? "Pause" : "Play"}
-        >
-          {state.isLoading ? (
-            <FontAwesomeIcon icon={faHourglassHalf} style={{ color: "white" }} />
-          ) : state.isPlaying ? (
-            <FontAwesomeIcon icon={faPause} style={{ color: "white" }} />
-          ) : (
-            <FontAwesomeIcon icon={faPlay} style={{ color: "white" }} />
-          )}
-        </button>
-
-        <button
-          className="control-button next"
-          onClick={nextTrack}
-          disabled={state.tracks.length === 0}
-          title="Next Track"
-        >
-          <FontAwesomeIcon icon={faForwardStep} style={{ color: "white" }} />
-        </button>
-
-        <button
-          className={`control-button loop ${state.isLooping ? "active" : ""}`}
-          onClick={toggleLoop}
-          title={state.isLooping ? "Disable Loop" : "Enable Loop"}
-        >
-          <FontAwesomeIcon icon={faRepeat} style={{ color: "white" }} />
-        </button>
-      </div>
-
-      {/* Volume Control */}
-      <div className="volume-control" ref={volumeControlRef}>
-        <button
-          className="volume-button"
-          onClick={() => setShowVolumeSlider(!showVolumeSlider)}
-          title="Volume"
-        >
-          <VolumeIcon fill="white" />
-        </button>
-
-        {showVolumeSlider && (
-          <div className="volume-slider-container">
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={state.volume}
-              onChange={handleVolumeChange}
-              className="volume-slider"
-            />
-            <span className="volume-value">
-              {Math.round(state.volume * 100)}%
+        {/* Track Selection Dropdown */}
+        <div className="track-selector">
+          <button
+            className="track-selector-button"
+            onClick={() => setShowTrackList(!showTrackList)}
+            title="Select Track"
+          >
+            <span className="track-name">
+              {currentTrack ? currentTrack.name : "Select Track"}
             </span>
+            <FontAwesomeIcon
+              icon={faCaretDown}
+              className="dropdown-arrow"
+              style={{
+                color: "white",
+                fontSize: "10px",
+                transform: showTrackList ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.2s ease",
+                marginRight: 0,
+              }}
+            />
+          </button>
+
+          {showTrackList && (
+            <div className="track-list-dropdown">
+              {state.tracks.map((track, index) => (
+                <button
+                  key={track.id}
+                  className={`track-list-item ${index === state.currentTrackIndex ? "active" : ""
+                    }`}
+                  onClick={() => handleTrackSelect(index)}
+                >
+                  {track.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Playback Controls */}
+        <div className="playback-controls">
+          <button
+            className="control-button previous"
+            onClick={previousTrack}
+            disabled={state.tracks.length === 0}
+            title="Previous Track"
+          >
+            <FontAwesomeIcon icon={faBackwardStep} style={{ color: "white" }} />
+          </button>
+
+          <button
+            className="control-button play-pause"
+            onClick={togglePlayPause}
+            disabled={state.isLoading}
+            title={state.isPlaying ? "Pause" : "Play"}
+          >
+            {state.isLoading ? (
+              <FontAwesomeIcon icon={faHourglassHalf} style={{ color: "white" }} />
+            ) : state.isPlaying ? (
+              <FontAwesomeIcon icon={faPause} style={{ color: "white" }} />
+            ) : (
+              <FontAwesomeIcon icon={faPlay} style={{ color: "white" }} />
+            )}
+          </button>
+
+          <button
+            className="control-button next"
+            onClick={nextTrack}
+            disabled={state.tracks.length === 0}
+            title="Next Track"
+          >
+            <FontAwesomeIcon icon={faForwardStep} style={{ color: "white" }} />
+          </button>
+
+          <button
+            className={`control-button loop ${state.isLooping ? "active" : ""}`}
+            onClick={toggleLoop}
+            title={state.isLooping ? "Disable Loop" : "Enable Loop"}
+          >
+            <FontAwesomeIcon icon={faRepeat} style={{ color: "white" }} />
+          </button>
+        </div>
+
+        {/* Volume Control */}
+        <div className="volume-control" ref={volumeControlRef}>
+          <button
+            className="volume-button"
+            onClick={() => setShowVolumeSlider(!showVolumeSlider)}
+            title="Volume"
+          >
+            <VolumeIcon fill="white" />
+          </button>
+
+          {showVolumeSlider && (
+            <div className="volume-slider-container">
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={state.volume}
+                onChange={handleVolumeChange}
+                className="volume-slider"
+              />
+              <span className="volume-value">
+                {Math.round(state.volume * 100)}%
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Time Display */}
+        {currentTrack && state.duration > 0 && (
+          <div className="time-display">
+            <span className="time-current">{formatTime(state.currentTime)}</span>
+            <span className="time-separator">/</span>
+            <span className="time-total">{formatTime(state.duration)}</span>
           </div>
         )}
       </div>
-
-      {/* Time Display */}
-      {currentTrack && state.duration > 0 && (
-        <div className="time-display">
-          <span className="time-current">{formatTime(state.currentTime)}</span>
-          <span className="time-separator">/</span>
-          <span className="time-total">{formatTime(state.duration)}</span>
-        </div>
-      )}
     </div>
   );
 };
+

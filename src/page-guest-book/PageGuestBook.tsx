@@ -143,7 +143,7 @@ const PageGuestBook = () => {
             viewerMessage.content.thumbnail ||
             ""
           }
-          alt={`Fan art by ${viewerMessage.content.name}`}
+          alt={`By ${viewerMessage.content.name}`}
           caption={viewerMessage.content.caption || undefined}
           isOpen={viewerOpen}
           onClose={handleCloseFullscreenViewer}
