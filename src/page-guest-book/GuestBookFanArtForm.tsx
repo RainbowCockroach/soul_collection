@@ -360,19 +360,6 @@ const GuestBookFanArtForm = ({
               : "Upload your art"}
           </label>
 
-          {/* Show current image info in edit mode */}
-          {initialData && (initialData.thumbnail || initialData.full_image) && (
-            <div className="current-image-info">
-              <p>
-                <strong>Current:</strong>{" "}
-                {fanArtForm.full_image !==
-                (initialData.full_image || initialData.thumbnail)
-                  ? "New image uploaded"
-                  : initialData.full_image || initialData.thumbnail}
-              </p>
-            </div>
-          )}
-
           {/* Hidden file input */}
           <input
             ref={fileInputRef}
@@ -382,19 +369,49 @@ const GuestBookFanArtForm = ({
             style={{ display: "none" }}
           />
 
-          {/* Upload button */}
-          <button
-            type="button"
-            onClick={handleUploadButtonClick}
-            className="upload-trigger-button"
-            disabled={submitting || uploading}
-          >
-            {uploading
-              ? "Uploading..."
-              : initialData && (initialData.thumbnail || initialData.full_image)
-              ? "Upload new image"
-              : "Upload image"}
-          </button>
+          {/* Show uploaded image if it exists */}
+          {fanArtForm.full_image && (
+            <div style={{ marginBottom: "10px" }}>
+              <img
+                src={fanArtForm.full_image}
+                alt="Uploaded art preview"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "300px",
+                  display: "block",
+                  marginBottom: "8px",
+                  border: "2px solid #ddd",
+                  borderRadius: "4px",
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleUploadButtonClick}
+                className="upload-trigger-button"
+                disabled={submitting || uploading}
+                style={{ fontSize: "14px" }}
+              >
+                {uploading ? "Uploading..." : "Change image"}
+              </button>
+            </div>
+          )}
+
+          {/* Show upload button only if no image uploaded */}
+          {!fanArtForm.full_image && (
+            <button
+              type="button"
+              onClick={handleUploadButtonClick}
+              className="upload-trigger-button"
+              disabled={submitting || uploading}
+            >
+              {uploading
+                ? "Uploading..."
+                : initialData &&
+                  (initialData.thumbnail || initialData.full_image)
+                ? "Upload new image"
+                : "Upload image"}
+            </button>
+          )}
 
           {/* Upload error */}
           {uploadError && (
@@ -568,15 +585,44 @@ const GuestBookFanArtForm = ({
               style={{ display: "none" }}
             />
 
-            {/* Upload button */}
-            <button
-              type="button"
-              onClick={handleUploadButtonClick}
-              className="upload-trigger-button"
-              disabled={submitting || uploading}
-            >
-              {uploading ? "Uploading..." : "Upload file"}
-            </button>
+            {/* Show uploaded image if it exists */}
+            {fanArtForm.full_image && (
+              <div style={{ marginBottom: "10px" }}>
+                <img
+                  src={fanArtForm.full_image}
+                  alt="Uploaded art preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    display: "block",
+                    marginBottom: "8px",
+                    border: "2px solid #ddd",
+                    borderRadius: "4px",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={handleUploadButtonClick}
+                  className="upload-trigger-button"
+                  disabled={submitting || uploading}
+                  style={{ fontSize: "14px" }}
+                >
+                  {uploading ? "Uploading..." : "Change image"}
+                </button>
+              </div>
+            )}
+
+            {/* Show upload button only if no image uploaded */}
+            {!fanArtForm.full_image && (
+              <button
+                type="button"
+                onClick={handleUploadButtonClick}
+                className="upload-trigger-button"
+                disabled={submitting || uploading}
+              >
+                {uploading ? "Uploading..." : "Upload file"}
+              </button>
+            )}
 
             {/* Upload error */}
             {uploadError && (
