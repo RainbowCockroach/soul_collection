@@ -9,7 +9,9 @@ import rilorLivAvatar from "../assets/fav_rilor_liv.webp";
 import FavouriteCharacter from "./FavouriteCharacter";
 import OcSlot from "../page-oc-list/OcSlot";
 import type { OC } from "../page-oc-list/OcSlot";
-import { loadOCs } from "../helpers/data-load";
+import { loadOCs, loadAds } from "../helpers/data-load";
+import type { AdItem } from "../helpers/objects";
+import AdSlideshow from "../common-components/AdSlideshow";
 import samLogo from "../assets/sam_logo.webp";
 import "./PageMain.css";
 
@@ -24,15 +26,19 @@ const PageMain: React.FC = () => {
   ];
   const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
   const [protagonistOcs, setProtagonistOcs] = useState<OC[]>([]);
+  const [sidebarAds, setSidebarAds] = useState<AdItem[]>([]);
 
   useEffect(() => {
-    const fetchProtagonists = async () => {
+    const fetchData = async () => {
       const allOcs = await loadOCs();
       const filteredOcs = allOcs.filter((oc) => protagonists.includes(oc.slug));
       setProtagonistOcs(filteredOcs);
+
+      const adsData = await loadAds();
+      setSidebarAds(adsData["main-sidebar"] || []);
     };
 
-    fetchProtagonists();
+    fetchData();
   }, []);
 
   return (
@@ -55,24 +61,38 @@ const PageMain: React.FC = () => {
         </section>
         <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
       </div>
-      <div className="main-section random-oc-button-section">
-        <p className="small-text-shadow">Click button for random character</p>
-        <RandomOcButton />
-      </div>
+      {/* Protagonist and Sidebar section */}
       <div className="main-section">
-        <div className="shadow-3d protagonist-text-box">
-          <h2 style={{ color: "#03291dff" }}>Protagonists</h2>
-        </div>
-        <p className="small-text-shadow">For my in-planning games</p>
-        <div className="protagonists-grid">
-          {protagonistOcs.map((oc) => (
-            <OcSlot
-              key={oc.slug}
-              oc={oc}
-              frameColour="#44fcc2ff"
-              textColour="#03291dff"
-            />
-          ))}
+        <div className="protagonist-sidebar-grid">
+          {/* Left Column: Protagonist section */}
+          <div className="protagonist-column">
+            <div className="shadow-3d protagonist-text-box">
+              <h2 style={{ color: "#03291dff" }}>Protagonists</h2>
+            </div>
+            <p className="small-text-shadow">For my in-planning games</p>
+            <div className="protagonists-grid">
+              {protagonistOcs.map((oc) => (
+                <OcSlot
+                  key={oc.slug}
+                  oc={oc}
+                  frameColour="#44fcc2ff"
+                  textColour="#03291dff"
+                />
+              ))}
+            </div>
+          </div>
+          {/* Right Column: Random OC button and Ads */}
+          <div className="sidebar-column">
+            <div className="random-oc-button-section">
+              <p className="small-text-shadow">Click button for random character</p>
+              <RandomOcButton />
+            </div>
+            {sidebarAds.length > 0 && (
+              <div className="sidebar-ads-container">
+                <AdSlideshow ads={sidebarAds} className="sidebar-ad" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

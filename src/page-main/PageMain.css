@@ -103,9 +103,61 @@ p {
 
 .protagonist-text-box {
   text-align: center;
-  max-width: 70vw;
+  max-width: 70%;
   margin-left: auto;
   margin-right: auto;
   border-radius: 6px;
   background-color: var(--color-white-sparkle);
+}
+
+/* Protagonist and Sidebar Grid Layout */
+.protagonist-sidebar-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Desktop: Two columns */
+@media (min-width: 900px) {
+  .protagonist-sidebar-grid {
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+  }
+}
+
+/* Protagonist Column */
+.protagonist-column {
+  width: 100%;
+}
+
+/* Sidebar Column */
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Sidebar Ads Container with 3:4 aspect ratio */
+.sidebar-ads-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.sidebar-ad {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+/* Mobile: Center sidebar elements */
+@media (max-width: 899px) {
+  .sidebar-column {
+    align-items: center;
+  }
+
+  .random-oc-button-section {
+    margin-top: 0;
+  }
 }

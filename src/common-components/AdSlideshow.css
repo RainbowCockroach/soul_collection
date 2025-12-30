@@ -1,0 +1,76 @@
+/* Ad Slideshow Container */
+.ad-slideshow-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #000000;
+  border: 1px solid #dadce0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Clickable cursor for ads with redirect URLs */
+.ad-slideshow-clickable {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.ad-slideshow-clickable:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #c0c4c9;
+}
+
+.ad-slideshow-clickable:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Ad Image */
+.ad-slideshow-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* Fade effect during transition */
+.ad-slideshow-fade {
+  opacity: 0;
+}
+
+/* Ad Label - Google Ads style */
+.ad-label {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #fff;
+  color: #5f6368;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid #dadce0;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-transform: capitalize;
+  letter-spacing: 0;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Accessibility: Focus state for keyboard navigation */
+.ad-slideshow-clickable:focus {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ad-label {
+    font-size: 10px;
+    padding: 2px 5px;
+    top: 6px;
+    left: 6px;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "main-sidebar": [
+    {
+      "imageUrl": "https://i.pinimg.com/originals/16/ff/b9/16ffb9e1e68bd85f50c4e748420d497b.jpg",
+      "redirectUrl": "http://localhost:5173/soul_collection/ocs/akane"
+    }
+  ],
+  "main-footer": [
+    {
+      "imageUrl": "",
+      "redirectUrl": ""
+    }
+  ]
+}

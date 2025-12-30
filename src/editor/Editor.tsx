@@ -6,6 +6,7 @@ import { EditorFormLink } from "./EditorFormLink";
 import EditorTag from "./EditorTag";
 import EditorShip from "./EditorShip";
 import EditorDialog from "./EditorDialog";
+import EditorAd from "./EditorAd";
 import { EditorImageUpload } from "./EditorImageUpload";
 import { EditorSoundUpload } from "./EditorSoundUpload";
 import { baseUrl } from "../helpers/constants";
@@ -19,6 +20,7 @@ type EditorTab =
   | "ships"
   | "form-links"
   | "dialogs"
+  | "ads"
   | "uploads"
   | "sounds";
 
@@ -36,6 +38,7 @@ export const Editor: React.FC = () => {
       component: EditorFormLink,
     },
     { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
+    { id: "ads" as const, label: "Ads", component: EditorAd },
     {
       id: "uploads" as const,
       label: "Image Upload",
