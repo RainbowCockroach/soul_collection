@@ -67,11 +67,8 @@ const Navbar = () => {
             </ButtonWrapper>
           ))}
         </div>
-
-        <div className="navbar-music-player">
-          <MusicPlayerControls />
-        </div>
       </nav>
+      <MusicPlayerControls />
     </div>
   );
 };

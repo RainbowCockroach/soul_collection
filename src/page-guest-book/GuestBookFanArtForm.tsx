@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
-import ImageUploadInput from "../common-components/ImageUploadInput";
+import { useState, useEffect, useRef } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import ImageCropper from "../common-components/ImageCropper";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
+import { apiBaseUrl } from "../helpers/constants";
 import buttonSendArt from "../assets/button_send_art.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 
@@ -94,8 +96,19 @@ const GuestBookFanArtForm = ({
     }
   }, [isEditMode, initialData]);
 
-  // Upload state (simplified since ImageUploadInput handles its own CAPTCHA)
-  const [showUploadInput, setShowUploadInput] = useState(false);
+  // Image cropping and upload state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
+  const [croppedBlob, setCroppedBlob] = useState<Blob | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // CAPTCHA state
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const captchaRef = useRef<TurnstileInstance>(null);
 
   // Content warning multi-select state
   const [selectedContentWarnings, setSelectedContentWarnings] = useState<
@@ -164,8 +177,6 @@ const GuestBookFanArtForm = ({
       // Reset content warnings
       setSelectedContentWarnings([]);
       setOtherContentWarning("");
-      // Reset upload state
-      setShowUploadInput(false);
 
       // Show success message
       setShowSuccessMessage(true);
@@ -178,18 +189,127 @@ const GuestBookFanArtForm = ({
     }
   };
 
-  const handleImageUploaded = (thumbnailUrl: string, fullImageUrl: string) => {
-    setFanArtForm((prev) => ({
-      ...prev,
-      thumbnail: thumbnailUrl,
-      full_image: fullImageUrl,
-    }));
-    // Note: ImageUploadInput now handles its own CAPTCHA state management
+  // Handle file selection
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        setUploadError("Please select an image file");
+        return;
+      }
+
+      // Validate file size (20MB)
+      if (file.size > 20 * 1024 * 1024) {
+        setUploadError("Image size must be less than 20MB");
+        return;
+      }
+
+      setSelectedFile(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImageSrc(imageUrl);
+      setShowCropper(true);
+      setUploadError(null);
+    }
+  };
+
+  // Handle crop completion
+  const handleCropComplete = (croppedImage: Blob) => {
+    setCroppedBlob(croppedImage);
+    setShowCropper(false);
+
+    // Always show CAPTCHA before upload (both guest and edit mode)
+    setShowCaptcha(true);
+  };
+
+  // Handle crop cancel
+  const handleCropCancel = () => {
+    if (imageSrc) {
+      URL.revokeObjectURL(imageSrc);
+    }
+    setImageSrc(null);
+    setShowCropper(false);
+    setSelectedFile(null);
+    setCroppedBlob(null);
+  };
+
+  // Handle CAPTCHA success
+  const handleCaptchaSuccess = (token: string) => {
+    setCaptchaToken(token);
+    setShowCaptcha(false);
+
+    // Upload both images after CAPTCHA verification
+    if (croppedBlob && selectedFile) {
+      uploadBothImages(croppedBlob, selectedFile);
+    }
+  };
+
+  const handleCaptchaError = () => {
+    setCaptchaToken(null);
+    setUploadError("CAPTCHA verification failed. Please try again.");
+  };
+
+  // Upload both cropped thumbnail and original full image
+  const uploadBothImages = async (thumbnailBlob: Blob, fullImageFile: File) => {
+    setUploading(true);
+    setUploadError(null);
+
+    try {
+      // CAPTCHA is always required (both guest and edit mode use guest endpoint)
+      if (!captchaToken) {
+        throw new Error("CAPTCHA verification required");
+      }
+
+      // Create FormData with both files
+      const formData = new FormData();
+      formData.append("thumbnail", thumbnailBlob, "thumbnail.jpg");
+      formData.append("fullImage", fullImageFile);
+      formData.append("captchaToken", captchaToken);
+
+      // Single upload request for both images
+      const response = await fetch(`${apiBaseUrl}/upload/images-guest`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to upload images");
+      }
+
+      const data = await response.json();
+
+      // Store both URLs
+      setFanArtForm((prev) => ({
+        ...prev,
+        thumbnail: data.thumbnailUrl,
+        full_image: data.fullImageUrl,
+      }));
+
+      // Clean up
+      if (imageSrc) {
+        URL.revokeObjectURL(imageSrc);
+      }
+      setImageSrc(null);
+      setSelectedFile(null);
+      setCroppedBlob(null);
+
+      // Reset CAPTCHA
+      setCaptchaToken(null);
+      if (captchaRef.current?.reset) {
+        captchaRef.current.reset();
+      }
+    } catch (err) {
+      setUploadError(
+        err instanceof Error ? err.message : "Failed to upload images"
+      );
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleUploadButtonClick = () => {
-    // Show upload input (which will handle its own CAPTCHA)
-    setShowUploadInput(true);
+    fileInputRef.current?.click();
   };
 
   const handleContentWarningChange = (
@@ -236,40 +356,68 @@ const GuestBookFanArtForm = ({
         <div className="form-group">
           <label>
             {initialData && (initialData.thumbnail || initialData.full_image)
-              ? "Fan art image"
-              : "Upload your fan art"}
+              ? "Art"
+              : "Upload your art"}
           </label>
 
-          {/* Show current image info in edit mode */}
-          {initialData && (initialData.thumbnail || initialData.full_image) && (
-            <div className="current-image-info">
-              <p>
-                <strong>Current:</strong>{" "}
-                {fanArtForm.full_image !==
-                (initialData.full_image || initialData.thumbnail)
-                  ? "New image uploaded"
-                  : initialData.full_image || initialData.thumbnail}
-              </p>
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileSelect}
+            style={{ display: "none" }}
+          />
+
+          {/* Show uploaded image if it exists */}
+          {fanArtForm.full_image && (
+            <div style={{ marginBottom: "10px" }}>
+              <img
+                src={fanArtForm.full_image}
+                alt="Uploaded art preview"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "300px",
+                  display: "block",
+                  marginBottom: "8px",
+                  border: "2px solid #ddd",
+                  borderRadius: "4px",
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleUploadButtonClick}
+                className="upload-trigger-button"
+                disabled={submitting || uploading}
+                style={{ fontSize: "14px" }}
+              >
+                {uploading ? "Uploading..." : "Change image"}
+              </button>
             </div>
           )}
 
-          {/* Upload section */}
-          {!showUploadInput ? (
+          {/* Show upload button only if no image uploaded */}
+          {!fanArtForm.full_image && (
             <button
               type="button"
               onClick={handleUploadButtonClick}
               className="upload-trigger-button"
-              disabled={submitting}
+              disabled={submitting || uploading}
             >
-              {initialData && (initialData.thumbnail || initialData.full_image)
+              {uploading
+                ? "Uploading..."
+                : initialData &&
+                  (initialData.thumbnail || initialData.full_image)
                 ? "Upload new image"
                 : "Upload image"}
             </button>
-          ) : (
-            <ImageUploadInput
-              onImageUploaded={handleImageUploaded}
-              disabled={submitting}
-            />
+          )}
+
+          {/* Upload error */}
+          {uploadError && (
+            <p style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
+              {uploadError}
+            </p>
           )}
         </div>
 
@@ -379,17 +527,20 @@ const GuestBookFanArtForm = ({
 
         {/* Success message for edit mode */}
         {showSuccessMessage && (
-          <div className="success-message" style={{
-            marginTop: "10px",
-            padding: "10px",
-            backgroundColor: "#d4edda",
-            color: "#155724",
-            border: "1px solid #c3e6cb",
-            borderRadius: "4px",
-            textAlign: "center",
-            fontSize: "14px"
-          }}>
-            ✓ {isEditMode ? "Fan art updated successfully!" : "Fan art sent successfully!"}
+          <div
+            className="success-message"
+            style={{
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#d4edda",
+              color: "#155724",
+              border: "1px solid #c3e6cb",
+              borderRadius: "4px",
+              textAlign: "center",
+              fontSize: "14px",
+            }}
+          >
+            ✓ {isEditMode ? "Art updated!" : "Art sent!"}
           </div>
         )}
       </form>
@@ -423,21 +574,61 @@ const GuestBookFanArtForm = ({
           </div>
 
           <div className="form-group">
-            <label>Upload your fan art</label>
-            {!showUploadInput ? (
+            <label>Upload your art</label>
+
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              style={{ display: "none" }}
+            />
+
+            {/* Show uploaded image if it exists */}
+            {fanArtForm.full_image && (
+              <div style={{ marginBottom: "10px" }}>
+                <img
+                  src={fanArtForm.full_image}
+                  alt="Uploaded art preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    display: "block",
+                    marginBottom: "8px",
+                    border: "2px solid #ddd",
+                    borderRadius: "4px",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={handleUploadButtonClick}
+                  className="upload-trigger-button"
+                  disabled={submitting || uploading}
+                  style={{ fontSize: "14px" }}
+                >
+                  {uploading ? "Uploading..." : "Change image"}
+                </button>
+              </div>
+            )}
+
+            {/* Show upload button only if no image uploaded */}
+            {!fanArtForm.full_image && (
               <button
                 type="button"
                 onClick={handleUploadButtonClick}
                 className="upload-trigger-button"
-                disabled={submitting}
+                disabled={submitting || uploading}
               >
-                Upload file
+                {uploading ? "Uploading..." : "Upload file"}
               </button>
-            ) : (
-              <ImageUploadInput
-                onImageUploaded={handleImageUploaded}
-                disabled={submitting}
-              />
+            )}
+
+            {/* Upload error */}
+            {uploadError && (
+              <p style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
+                {uploadError}
+              </p>
             )}
           </div>
 
@@ -541,20 +732,86 @@ const GuestBookFanArtForm = ({
 
           {/* Success message */}
           {showSuccessMessage && (
-            <div className="success-message" style={{
-              marginTop: "10px",
-              padding: "10px",
-              backgroundColor: "#d4edda",
-              color: "#155724",
-              border: "1px solid #c3e6cb",
-              borderRadius: "4px",
-              textAlign: "center",
-              fontSize: "14px"
-            }}>
-              ✓ Fan art sent successfully!
+            <div
+              className="success-message"
+              style={{
+                marginTop: "10px",
+                padding: "10px",
+                backgroundColor: "#d4edda",
+                color: "#155724",
+                border: "1px solid #c3e6cb",
+                borderRadius: "4px",
+                textAlign: "center",
+                fontSize: "14px",
+              }}
+            >
+              ✓ Art sent!
             </div>
           )}
         </form>
+      )}
+
+      {/* Image Cropper Modal */}
+      {imageSrc && (
+        <ImageCropper
+          isOpen={showCropper}
+          imageSrc={imageSrc}
+          aspectRatio={1 / 1.618}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+          maxWidth={300}
+          maxHeight={485}
+        />
+      )}
+
+      {/* CAPTCHA Modal - required for both guest and edit mode */}
+      {showCaptcha && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "30px",
+              borderRadius: "8px",
+              maxWidth: "400px",
+            }}
+          >
+            <h3>Complete CAPTCHA to upload</h3>
+            <Turnstile
+              ref={captchaRef}
+              siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+              onSuccess={handleCaptchaSuccess}
+              onError={handleCaptchaError}
+              onExpire={handleCaptchaError}
+            />
+            <button
+              type="button"
+              onClick={handleCropCancel}
+              style={{
+                marginTop: "16px",
+                padding: "8px 16px",
+                backgroundColor: "#ccc",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

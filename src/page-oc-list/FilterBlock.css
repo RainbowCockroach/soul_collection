@@ -40,7 +40,7 @@
 
 .filter-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--color-white-sparkle);
   font-size: 1.1em;
 }
 

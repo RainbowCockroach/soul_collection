@@ -125,7 +125,9 @@ const PageGuestBook = () => {
       {/* Edit Mode Toggle Button */}
       <ButtonWrapper
         onClick={toggleEditMode}
-        className={`edit-mode-button ${editMode ? "active" : ""}`}
+        className={`button-with-underline edit-mode-button ${
+          editMode ? "active" : ""
+        }`}
       >
         <div className="edit-button-content">
           <span className="edit-icon">{editMode ? "✓" : "✏️"}</span>
@@ -141,7 +143,7 @@ const PageGuestBook = () => {
             viewerMessage.content.thumbnail ||
             ""
           }
-          alt={`Fan art by ${viewerMessage.content.name}`}
+          alt={`By ${viewerMessage.content.name}`}
           caption={viewerMessage.content.caption || undefined}
           isOpen={viewerOpen}
           onClose={handleCloseFullscreenViewer}

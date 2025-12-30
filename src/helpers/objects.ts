@@ -68,3 +68,10 @@ export interface DialogItem {
 export type DialogEntry = string | DialogItem;
 
 export type DialogTexts = Record<string, DialogEntry[]>;
+
+export interface AdItem {
+  imageUrl: string;
+  redirectUrl: string;
+}
+
+export type AdLocations = Record<string, AdItem[]>; // Key: location ID (e.g., "main-sidebar"), Value: array of ads
