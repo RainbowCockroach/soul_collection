@@ -7,6 +7,7 @@ import type {
   Ship,
   DialogTexts,
   DialogEntry,
+  AdLocations,
 } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
@@ -15,6 +16,7 @@ import formLinkData from "../data/form-link.json";
 import tagData from "../data/tag.json";
 import shipData from "../data/ships.json";
 import dialogData from "../data/dialog.json";
+import adsData from "../data/ads.json";
 
 export interface LoadedData {
   ocs: OC[];
@@ -174,4 +176,8 @@ export async function loadAllData(): Promise<LoadedData> {
     ships,
     dialogs,
   };
+}
+
+export async function loadAds(): Promise<AdLocations> {
+  return adsData as AdLocations;
 }
