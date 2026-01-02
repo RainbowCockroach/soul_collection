@@ -27,6 +27,7 @@ const PageMain: React.FC = () => {
   const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
   const [protagonistOcs, setProtagonistOcs] = useState<OC[]>([]);
   const [sidebarAds, setSidebarAds] = useState<AdItem[]>([]);
+  const [footerAds, setFooterAds] = useState<AdItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +37,7 @@ const PageMain: React.FC = () => {
 
       const adsData = await loadAds();
       setSidebarAds(adsData["main-sidebar"] || []);
+      setFooterAds(adsData["main-footer"] || []);
     };
 
     fetchData();
@@ -84,7 +86,9 @@ const PageMain: React.FC = () => {
           {/* Right Column: Random OC button and Ads */}
           <div className="sidebar-column">
             <div className="random-oc-button-section">
-              <p className="small-text-shadow">Click button for random character</p>
+              <p className="small-text-shadow">
+                Click button for random character
+              </p>
               <RandomOcButton />
             </div>
             {sidebarAds.length > 0 && (
@@ -95,6 +99,14 @@ const PageMain: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Footer Ads section */}
+      {footerAds.length > 0 && (
+        <div className="main-section">
+          <div className="footer-ads-container">
+            <AdSlideshow ads={footerAds} className="footer-ad" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
