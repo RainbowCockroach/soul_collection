@@ -94,71 +94,131 @@ p {
 
 .protagonist-text-box {
   text-align: center;
-  max-width: 70%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   border-radius: 6px;
   background-color: var(--color-white-sparkle);
+  color: #03291dff;
 }
 
-/* Protagonist and Sidebar Grid Layout */
+/* Protagonist and Sidebar Grid Layout - 2x2 Grid */
 .protagonist-sidebar-grid {
   display: grid;
   grid-template-columns: 1fr;
-  align-items: start;
-  padding: 0 7%;
+  grid-template-rows: auto auto auto auto;
+  padding: 0 8%;
+  gap: 20px;
 }
 
-/* Desktop: Two columns */
+/* Desktop: 2x2 grid with auto-sized first column */
 @media (min-width: 900px) {
   .protagonist-sidebar-grid {
     grid-template-columns: auto 1fr;
-    grid-auto-rows: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 30px;
+    align-items: end;
+  }
+
+  /* Row 1, Col 1: Protagonist text box */
+  .protagonist-text-box-cell {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+  }
+
+  /* Row 1, Col 2: Random button */
+  .random-button-cell {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: end;
+    text-align: right;
+  }
+
+  /* Row 2, Col 1: Protagonist grid */
+  .protagonist-grid-cell {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* Row 2, Col 2: Ad - constrained to protagonist grid height */
+  .ad-cell {
+    grid-row: 2;
+    grid-column: 2;
+    align-self: stretch;
+    position: relative;
+    min-height: 0;
   }
 }
 
-/* Protagonist Column */
-.protagonist-column {
-  width: 100%;
-  height: 100%;
+/* Mobile: Stack vertically */
+@media (max-width: 899px) {
+  .protagonist-text-box-cell {
+    grid-row: 1;
+  }
+
+  .random-button-cell {
+    grid-row: 2;
+  }
+
+  .protagonist-grid-cell {
+    grid-row: 3;
+  }
+
+  .ad-cell {
+    grid-row: 4;
+  }
 }
 
-/* Sidebar Column */
-.sidebar-column {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-
-/* Sidebar Ads Container with 3:4 aspect ratio */
+/* Sidebar Ads Container */
 .sidebar-ads-container {
-  margin: 0 auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.sidebar-ads-container > * {
+  pointer-events: auto;
 }
 
 .sidebar-ad {
-  aspect-ratio: 3 / 4;
   width: 100%;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Mobile: Center sidebar elements and hide ads */
+/* Mobile: Center elements and hide ads */
 @media (max-width: 899px) {
-  .sidebar-column {
-    align-items: center;
+  .random-button-cell {
+    text-align: center;
   }
 
   .random-oc-button-section {
     margin-top: 0;
   }
 
-  .sidebar-ads-container {
+  .ad-cell {
     display: none;
   }
 }
 
 /* Vertical iPad: Hide ads in portrait mode */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .sidebar-ads-container {
+  .ad-cell {
     display: none;
   }
 }
