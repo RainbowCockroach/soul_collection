@@ -114,15 +114,13 @@ p {
 .protagonist-sidebar-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: start;
+  align-items: stretch;
 }
 
 /* Desktop: Two columns */
 @media (min-width: 900px) {
   .protagonist-sidebar-grid {
     grid-template-columns: 2fr 1fr;
-    gap: 40px;
   }
 }
 
@@ -135,15 +133,13 @@ p {
 .sidebar-column {
   display: flex;
   flex-direction: column;
-  gap: 30px;
   width: 100%;
 }
 
 /* Sidebar Ads Container with 3:4 aspect ratio */
 .sidebar-ads-container {
-  width: 100%;
-  max-width: 400px;
   margin: 0 auto;
+  padding: 5% 10% 0 10%;
 }
 
 .sidebar-ad {
@@ -151,7 +147,7 @@ p {
   width: 100%;
 }
 
-/* Mobile: Center sidebar elements */
+/* Mobile: Center sidebar elements and hide ads */
 @media (max-width: 899px) {
   .sidebar-column {
     align-items: center;
@@ -159,5 +155,16 @@ p {
 
   .random-oc-button-section {
     margin-top: 0;
+  }
+
+  .sidebar-ads-container {
+    display: none;
+  }
+}
+
+/* Vertical iPad: Hide ads in portrait mode */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .sidebar-ads-container {
+    display: none;
   }
 }
