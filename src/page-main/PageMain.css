@@ -73,16 +73,15 @@ p {
   display: grid;
   justify-content: center;
   gap: 20px 10px;
-  padding: 10px 5vw;
-  margin: 0 auto;
-  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 /* Mobile: 3 rows, 2 characters per row */
 @media (min-width: 320px) and (max-width: 767px) {
   .protagonists-grid {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 500px;
   }
 }
 
@@ -90,74 +89,159 @@ p {
 @media (min-width: 768px) {
   .protagonists-grid {
     grid-template-columns: repeat(3, 1fr);
-    max-width: 900px;
-  }
-}
-
-/* Large Desktop: slightly wider but still centered */
-@media (min-width: 1200px) {
-  .protagonists-grid {
-    max-width: 1000px;
   }
 }
 
 .protagonist-text-box {
   text-align: center;
-  max-width: 70%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   border-radius: 6px;
   background-color: var(--color-white-sparkle);
+  color: #03291dff;
 }
 
-/* Protagonist and Sidebar Grid Layout */
+/* Protagonist and Sidebar Grid Layout - 2x2 Grid */
 .protagonist-sidebar-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: start;
+  grid-template-rows: auto auto auto auto;
+  padding: 0 8%;
+  gap: 20px;
 }
 
-/* Desktop: Two columns */
+/* Desktop: 2x2 grid with auto-sized first column */
 @media (min-width: 900px) {
   .protagonist-sidebar-grid {
-    grid-template-columns: 2fr 1fr;
-    gap: 40px;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 30px;
+    align-items: end;
+  }
+
+  /* Row 1, Col 1: Protagonist text box */
+  .protagonist-text-box-cell {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+  }
+
+  /* Row 1, Col 2: Random button */
+  .random-button-cell {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: end;
+    text-align: right;
+  }
+
+  /* Row 2, Col 1: Protagonist grid */
+  .protagonist-grid-cell {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* Row 2, Col 2: Ad - constrained to protagonist grid height */
+  .ad-cell {
+    grid-row: 2;
+    grid-column: 2;
+    align-self: stretch;
+    position: relative;
+    min-height: 0;
   }
 }
 
-/* Protagonist Column */
-.protagonist-column {
-  width: 100%;
+/* Mobile: Stack vertically */
+@media (max-width: 899px) {
+  .protagonist-text-box-cell {
+    grid-row: 1;
+  }
+
+  .random-button-cell {
+    grid-row: 2;
+  }
+
+  .protagonist-grid-cell {
+    grid-row: 3;
+  }
+
+  .ad-cell {
+    grid-row: 4;
+  }
 }
 
-/* Sidebar Column */
-.sidebar-column {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 100%;
-}
-
-/* Sidebar Ads Container with 3:4 aspect ratio */
+/* Sidebar Ads Container */
 .sidebar-ads-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.sidebar-ads-container > * {
+  pointer-events: auto;
 }
 
 .sidebar-ad {
-  aspect-ratio: 3 / 4;
   width: 100%;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Mobile: Center sidebar elements */
+/* Mobile: Center elements and hide ads */
 @media (max-width: 899px) {
-  .sidebar-column {
-    align-items: center;
+  .random-button-cell {
+    text-align: center;
   }
 
   .random-oc-button-section {
     margin-top: 0;
+  }
+
+  .ad-cell {
+    display: none;
+  }
+}
+
+/* Vertical iPad: Hide ads in portrait mode */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .ad-cell {
+    display: none;
+  }
+}
+
+/* Footer Ads Container */
+.footer-ads-container {
+  margin: 30px auto 0 auto;
+  padding: 0 10%;
+  max-width: 1200px;
+}
+
+.footer-ad {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+/* Mobile: Adjust footer ad aspect ratio */
+@media (max-width: 767px) {
+  .footer-ads-container {
+    padding: 0 5%;
+  }
+
+  .footer-ad {
+    aspect-ratio: 4 / 3;
   }
 }
