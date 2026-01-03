@@ -242,17 +242,36 @@ p {
 }
 
 .footer-ad {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 9 / 1;
   width: 100%;
 }
 
-/* Mobile: Adjust footer ad aspect ratio */
-@media (max-width: 767px) {
-  .footer-ads-container {
-    padding: 0 5%;
+/* Footer Ads Section - Hide by default */
+.footer-ads-section {
+  display: none;
+}
+
+/* Mobile: Show footer ads with adjusted aspect ratio */
+@media (max-width: 768px) {
+  .footer-ads-section {
+    display: block;
   }
 
   .footer-ad {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 1;
+  }
+}
+
+/* Horizontal Tablet: Show footer ads */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .footer-ads-section {
+    display: block;
+  }
+}
+
+/* Vertical Tablet: Show footer ads */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .footer-ads-section {
+    display: block;
   }
 }

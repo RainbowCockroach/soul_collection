@@ -116,7 +116,7 @@ const PageMain: React.FC = () => {
       </div>
       {/* Footer Ads section */}
       {footerAds.length > 0 && (
-        <div className="main-section">
+        <div className="main-section footer-ads-section">
           <div className="footer-ads-container">
             <AdSlideshow ads={footerAds} className="footer-ad" />
           </div>
