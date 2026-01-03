@@ -63,6 +63,11 @@ const PageMain: React.FC = () => {
         </section>
         <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
       </div>
+      {/* For mobile and vertical tablet */}
+      <div className="random-oc-button-section random-button-mobile">
+        <p className="small-text-shadow">Click button for random character</p>
+        <RandomOcButton />
+      </div>
       {/* Protagonist and Sidebar section */}
       <div className="main-section">
         <div className="protagonist-sidebar-grid">
@@ -75,6 +80,7 @@ const PageMain: React.FC = () => {
           </div>
 
           {/* Row 1, Col 2: Random button */}
+          {/* For desktop and horizontal tablet */}
           <div className="random-button-cell">
             <div className="random-oc-button-section">
               <p className="small-text-shadow">
