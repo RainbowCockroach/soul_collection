@@ -27,6 +27,7 @@ const PageMain: React.FC = () => {
   const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
   const [protagonistOcs, setProtagonistOcs] = useState<OC[]>([]);
   const [sidebarAds, setSidebarAds] = useState<AdItem[]>([]);
+  const [footerAds, setFooterAds] = useState<AdItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +37,7 @@ const PageMain: React.FC = () => {
 
       const adsData = await loadAds();
       setSidebarAds(adsData["main-sidebar"] || []);
+      setFooterAds(adsData["main-footer"] || []);
     };
 
     fetchData();
@@ -61,15 +63,35 @@ const PageMain: React.FC = () => {
         </section>
         <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
       </div>
+      {/* For mobile and vertical tablet */}
+      <div className="random-oc-button-section random-button-mobile">
+        <p className="small-text-shadow">Click button for random character</p>
+        <RandomOcButton />
+      </div>
       {/* Protagonist and Sidebar section */}
       <div className="main-section">
         <div className="protagonist-sidebar-grid">
-          {/* Left Column: Protagonist section */}
-          <div className="protagonist-column">
+          {/* Row 1, Col 1: Protagonist text box */}
+          <div className="protagonist-text-box-cell">
             <div className="shadow-3d protagonist-text-box">
-              <h2 style={{ color: "#03291dff" }}>Protagonists</h2>
+              <h2>Protagonists</h2>
             </div>
             <p className="small-text-shadow">For my in-planning games</p>
+          </div>
+
+          {/* Row 1, Col 2: Random button */}
+          {/* For desktop and horizontal tablet */}
+          <div className="random-button-cell">
+            <div className="random-oc-button-section">
+              <p className="small-text-shadow">
+                Click button for random character
+              </p>
+              <RandomOcButton />
+            </div>
+          </div>
+
+          {/* Row 2, Col 1: Protagonist grid */}
+          <div className="protagonist-grid-cell">
             <div className="protagonists-grid">
               {protagonistOcs.map((oc) => (
                 <OcSlot
@@ -81,12 +103,9 @@ const PageMain: React.FC = () => {
               ))}
             </div>
           </div>
-          {/* Right Column: Random OC button and Ads */}
-          <div className="sidebar-column">
-            <div className="random-oc-button-section">
-              <p className="small-text-shadow">Click button for random character</p>
-              <RandomOcButton />
-            </div>
+
+          {/* Row 2, Col 2: Ad */}
+          <div className="ad-cell">
             {sidebarAds.length > 0 && (
               <div className="sidebar-ads-container">
                 <AdSlideshow ads={sidebarAds} className="sidebar-ad" />
@@ -95,6 +114,14 @@ const PageMain: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Footer Ads section */}
+      {footerAds.length > 0 && (
+        <div className="main-section footer-ads-section">
+          <div className="footer-ads-container">
+            <AdSlideshow ads={footerAds} className="footer-ad" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
