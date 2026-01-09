@@ -227,14 +227,13 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
         return;
       }
 
-      // Mark that we've auto-played
-      hasAutoPlayedRef.current = true;
-
       // Check if user previously paused the music
       const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === "true";
 
       // Don't auto-play if user previously paused
       if (userPausedMusic) {
+        // Mark that we've processed this interaction
+        hasAutoPlayedRef.current = true;
         // Remove listeners and exit
         window.removeEventListener("click", handleFirstInteraction);
         window.removeEventListener("touchstart", handleFirstInteraction);
@@ -251,6 +250,8 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
         audio
           .play()
           .then(() => {
+            // Mark that we've successfully auto-played
+            hasAutoPlayedRef.current = true;
             if (isFirstVisit) {
               // Mark first visit as completed
               localStorage.setItem(FIRST_VISIT_KEY, "true");
@@ -261,7 +262,9 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
               audio.volume = state.volume;
             }
           })
-          .catch(console.error);
+          .catch((error) => {
+            console.error("Failed to auto-play music on interaction:", error);
+          });
       }
 
       // Remove listeners after first interaction
@@ -289,7 +292,6 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     const handleSamPopupClose = () => {
       // Only auto-play if we haven't already
       if (hasAutoPlayedRef.current) return;
-      hasAutoPlayedRef.current = true;
 
       // Check if user previously paused the music
       const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === "true";
@@ -301,12 +303,16 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
         audio
           .play()
           .then(() => {
+            // Mark that we've successfully auto-played
+            hasAutoPlayedRef.current = true;
             // Mark first visit as completed
             localStorage.setItem(FIRST_VISIT_KEY, "true");
             // Fade in from 0 to default volume (0.2) over 3 seconds
             fadeInAudio(initialState.volume, 3000);
           })
-          .catch(console.error);
+          .catch((error) => {
+            console.error("Failed to auto-play music after popup close:", error);
+          });
       }
     };
 
