@@ -1,3 +1,5 @@
+/* ==================== BASE STYLES ==================== */
+
 .page-main {
   margin: 0 auto;
   padding: 1vw;
@@ -15,60 +17,31 @@ h2 {
 
 p {
   margin-top: 0.1em;
-  font-size: 1.2em;
   margin-bottom: 0.1em;
+  font-size: 1.2em;
 }
+
+/* ==================== FAVOURITES SECTION ==================== */
 
 .favourites-section {
   display: flex;
-  gap: 0px;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 0;
   padding: 40px 60px;
   background-color: #6affa899;
   box-sizing: border-box;
 }
+
+/* ==================== RANDOM OC BUTTON ==================== */
 
 .random-oc-button-section {
   margin-top: 30px;
   text-align: center;
 }
 
-/* Mobile: 3 characters per row */
-@media (max-width: 767px) {
-  .favourites-section {
-    max-width: 100%;
-    gap: 0px;
-    padding: 10px;
-  }
+/* ==================== PROTAGONISTS GRID ==================== */
 
-  .favourites-section > * {
-    flex: 0 0 33.333%;
-    max-width: 33.333%;
-  }
-}
-
-/* Tablet and Desktop: all characters in one row */
-@media (min-width: 768px) {
-  .favourites-section {
-    flex-wrap: nowrap;
-    gap: 0px;
-    width: 100vw;
-  }
-
-  .favourites-section > * {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .favourites-section {
-    gap: 0px;
-  }
-}
-
-/* Protagonists Grid */
 .protagonists-grid {
   display: grid;
   justify-content: center;
@@ -76,20 +49,7 @@ p {
   padding: 0;
   margin: 0;
   width: 100%;
-}
-
-/* Mobile: 3 rows, 2 characters per row */
-@media (min-width: 320px) and (max-width: 767px) {
-  .protagonists-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Tablet and Desktop: 2 rows, 3 characters per row */
-@media (min-width: 768px) {
-  .protagonists-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  grid-template-columns: repeat(2, 1fr); /* Mobile: 2 columns */
 }
 
 .protagonist-text-box {
@@ -102,7 +62,8 @@ p {
   color: #03291dff;
 }
 
-/* Protagonist and Sidebar Grid Layout - 2x2 Grid */
+/* ==================== PROTAGONIST-SIDEBAR GRID ==================== */
+
 .protagonist-sidebar-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -111,76 +72,9 @@ p {
   gap: 20px;
 }
 
-/* Desktop: 2x2 grid with auto-sized first column */
-@media (min-width: 900px) {
-  .protagonist-sidebar-grid {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 30px;
-    align-items: end;
-  }
-
-  /* Row 1, Col 1: Protagonist text box */
-  .protagonist-text-box-cell {
-    grid-row: 1;
-    grid-column: 1;
-    align-self: end;
-  }
-
-  /* Row 1, Col 2: Random button */
-  .random-button-cell {
-    grid-row: 1;
-    grid-column: 2;
-    align-self: end;
-    text-align: right;
-  }
-
-  /* Row 2, Col 1: Protagonist grid */
-  .protagonist-grid-cell {
-    grid-row: 2;
-    grid-column: 1;
-    align-self: end;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-
-  /* Row 2, Col 2: Ad - constrained to protagonist grid height */
-  .ad-cell {
-    grid-row: 2;
-    grid-column: 2;
-    align-self: stretch;
-    position: relative;
-    min-height: 0;
-  }
-}
-
-/* Mobile: Stack vertically */
-@media (max-width: 899px) {
-  .protagonist-text-box-cell {
-    grid-row: 1;
-  }
-
-  .random-button-cell {
-    grid-row: 2;
-  }
-
-  .protagonist-grid-cell {
-    grid-row: 3;
-  }
-
-  .ad-cell {
-    grid-row: 4;
-  }
-}
-
-/* Sidebar Ads Container */
 .sidebar-ads-container {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
+  inset: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -201,40 +95,8 @@ p {
   justify-content: center;
 }
 
-/* Mobile: Center elements and hide ads */
-@media (max-width: 899px) {
-  .random-button-cell {
-    display: none;
-  }
+/* ==================== FOOTER ADS ==================== */
 
-  .random-oc-button-section {
-    margin-top: 0;
-  }
-
-  .random-button-mobile {
-    margin-top: 40px;
-  }
-
-  .ad-cell {
-    display: none;
-  }
-}
-
-/* Desktop: Hide mobile random button section */
-@media (min-width: 900px) {
-  .random-button-mobile {
-    display: none;
-  }
-}
-
-/* Vertical iPad: Hide ads in portrait mode */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .ad-cell {
-    display: none;
-  }
-}
-
-/* Footer Ads Container */
 .footer-ads-container {
   margin: 30px auto 0 auto;
   padding: 0 10%;
@@ -246,13 +108,25 @@ p {
   width: 100%;
 }
 
-/* Footer Ads Section - Hide by default */
 .footer-ads-section {
-  display: none;
+  display: none; /* Hidden by default, shown via media queries */
 }
 
-/* Mobile: Show footer ads with adjusted aspect ratio */
-@media (max-width: 768px) {
+/* ==================== MOBILE (max-width: 767px) ==================== */
+
+@media (max-width: 767px) {
+  /* Favourites: 3 per row */
+  .favourites-section {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .favourites-section > * {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
+
+  /* Footer ads: Show with adjusted aspect ratio */
   .footer-ads-section {
     display: block;
   }
@@ -262,6 +136,28 @@ p {
   }
 }
 
+/* ==================== TABLET & DESKTOP (min-width: 768px) ==================== */
+
+@media (min-width: 768px) {
+  /* Favourites: All in one row */
+  .favourites-section {
+    flex-wrap: nowrap;
+    width: 100vw;
+  }
+
+  .favourites-section > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Protagonists: 3 columns */
+  .protagonists-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==================== TABLET (768px - 1024px) ==================== */
+
 /* Horizontal Tablet: Show footer ads */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   .footer-ads-section {
@@ -269,9 +165,93 @@ p {
   }
 }
 
-/* Vertical Tablet: Show footer ads */
+/* Vertical Tablet: Show footer ads, hide sidebar ads */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
   .footer-ads-section {
     display: block;
+  }
+
+  .ad-cell {
+    display: none;
+  }
+}
+
+/* ==================== MOBILE & SMALL TABLET (max-width: 899px) ==================== */
+
+@media (max-width: 899px) {
+  /* Stack protagonist grid vertically */
+  .protagonist-text-box-cell {
+    grid-row: 1;
+  }
+
+  .random-button-cell {
+    grid-row: 2;
+    display: none; /* Hide desktop random button */
+  }
+
+  .protagonist-grid-cell {
+    grid-row: 3;
+  }
+
+  .ad-cell {
+    grid-row: 4;
+    display: none; /* Hide sidebar ads */
+  }
+
+  /* Show mobile random button */
+  .random-oc-button-section {
+    margin-top: 0;
+  }
+
+  .random-button-mobile {
+    margin-top: 40px;
+  }
+}
+
+/* ==================== DESKTOP (min-width: 900px) ==================== */
+
+@media (min-width: 900px) {
+  /* 2x2 grid layout with auto-sized first column */
+  .protagonist-sidebar-grid {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 30px;
+    align-items: end;
+  }
+
+  /* Grid positioning */
+  .protagonist-text-box-cell {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+  }
+
+  .random-button-cell {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: end;
+    text-align: right;
+  }
+
+  .protagonist-grid-cell {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .ad-cell {
+    grid-row: 2;
+    grid-column: 2;
+    align-self: stretch;
+    position: relative;
+    min-height: 0;
+  }
+
+  /* Hide mobile random button */
+  .random-button-mobile {
+    display: none;
   }
 }
