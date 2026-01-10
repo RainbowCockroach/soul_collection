@@ -18,7 +18,6 @@ export const BioSection: React.FC = () => {
 
   return (
     <div className="main-section bio-section">
-      <h2 className="big-text-shadow">The Artists</h2>
       <div className="bio-container">
         {bioData.map((artist, index) => (
           <div
