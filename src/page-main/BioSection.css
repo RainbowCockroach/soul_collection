@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 48px;
-  max-width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -65,17 +65,15 @@
   height: 300px;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .bio-image:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
 .bio-introduction {
-  max-width: 500px;
+  max-width: 800px;
   width: 100%;
 }
 
@@ -141,6 +139,11 @@
 
 /* Tablet adjustments */
 @media (max-width: 1024px) and (min-width: 769px) {
+  .bio-artist {
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+  }
+
   .bio-portrait {
     width: 250px;
     height: 250px;
@@ -152,7 +155,7 @@
   }
 
   .bio-introduction {
-    max-width: 400px;
+    max-width: 600px;
     width: 100%;
   }
 }
