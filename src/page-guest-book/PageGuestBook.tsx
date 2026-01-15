@@ -6,7 +6,6 @@ import GuestBookNoteSection, {
 import GuestBookFanArtSection, {
   type GuestBookFanArtSectionRef,
 } from "./GuestBookFanArtSection";
-import ButtonWrapper from "../common-components/ButtonWrapper";
 import FullscreenImageViewer from "./FullscreenImageViewer";
 import type { MessageContent, Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
@@ -15,7 +14,6 @@ import "./PageGuestBook.css";
 const PageGuestBook = () => {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [editMode, setEditMode] = useState(false);
 
   // Refs for section components
   const noteSectionRef = useRef<GuestBookNoteSectionRef>(null);
@@ -24,11 +22,6 @@ const PageGuestBook = () => {
   // Fullscreen viewer state
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerMessage, setViewerMessage] = useState<Message | null>(null);
-
-  // Toggle edit mode
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
 
   // Fullscreen viewer handlers
   const handleOpenFullscreenViewer = (message: Message) => {
@@ -105,14 +98,12 @@ const PageGuestBook = () => {
       <GuestBookNoteSection
         ref={noteSectionRef}
         notesPerPage={4}
-        editMode={editMode}
       />
 
       {/* Fan Art Section */}
       <GuestBookFanArtSection
         ref={fanArtSectionRef}
         fanArtPerPage={4}
-        editMode={editMode}
         onOpenFullscreenViewer={handleOpenFullscreenViewer}
       />
 
@@ -121,19 +112,6 @@ const PageGuestBook = () => {
         onSubmit={handleFormSubmit}
         submitting={submitting}
       />
-
-      {/* Edit Mode Toggle Button */}
-      <ButtonWrapper
-        onClick={toggleEditMode}
-        className={`button-with-underline edit-mode-button ${
-          editMode ? "active" : ""
-        }`}
-      >
-        <div className="edit-button-content">
-          <span className="edit-icon">{editMode ? "✓" : "✏️"}</span>
-          <span>{editMode ? "Exit Edit Mode" : "Enter Edit Mode"}</span>
-        </div>
-      </ButtonWrapper>
 
       {/* Fullscreen Image Viewer */}
       {viewerMessage && (

@@ -2,7 +2,25 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  z-index: 20;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Show on parent hover (desktop) */
+.guest-book-note:hover .action-menu,
+.guest-book-fanart:hover .action-menu,
+.button-wrapper:hover .action-menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Show when parent has 'show-action-menu' class (for touch devices) */
+.guest-book-note.show-action-menu .action-menu,
+.guest-book-fanart.show-action-menu .action-menu {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .action-menu-trigger {
@@ -52,7 +70,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 4px;
   min-width: 120px;
-  z-index: 1000;
+  z-index: 101;
 }
 
 .action-menu-item {
@@ -147,10 +165,14 @@
   background: rgba(248, 244, 235, 1);
 }
 
-/* Special positioning for fan art */
+/* Special positioning for fan art - below the image */
 .guest-book-fanart .action-menu {
-  top: 12px;
-  right: 12px;
+  position: relative;
+  top: auto;
+  right: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
 }
 
 .guest-book-fanart .action-menu-trigger {
@@ -161,4 +183,13 @@
 .guest-book-fanart .action-menu-trigger:hover {
   background: rgba(255, 255, 255, 1);
   border-color: rgba(98, 255, 195, 0.8);
+}
+
+.guest-book-fanart .action-menu-dropdown {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  /* Appear above the button instead of below */
+  top: auto;
+  bottom: 48px;
 }

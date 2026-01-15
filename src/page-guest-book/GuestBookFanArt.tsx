@@ -1,5 +1,6 @@
-import { forwardRef, useImperativeHandle, useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import ActionMenu from "./ActionMenu";
+import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { Message } from "./types";
 import { useBlurImage } from "../hooks/usePixelatedImage";
 import "./GuestBookFanArt.css";
@@ -11,97 +12,98 @@ interface GuestBookFanArtProps {
   onOpenFullscreenViewer?: (message: Message) => void;
 }
 
-export interface GuestBookFanArtRef {
-  openImageInNewTab: () => void;
-  openFullscreenViewer: () => void;
-}
+const HOLD_DURATION = 300; // ms to hold before showing menu
 
-const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
-  ({ message, onEdit, onDelete, onOpenFullscreenViewer }, ref) => {
-    const [isImageUncensored, setIsImageUncensored] = useState(false);
+const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
+  message,
+  onEdit,
+  onDelete,
+  onOpenFullscreenViewer,
+}) => {
+  const [isImageUncensored, setIsImageUncensored] = useState(false);
+  const [showActionMenu, setShowActionMenu] = useState(false);
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Generate unique ID for this component instance
-    const clipId = useMemo(
-      () =>
-        `arch-clip-${message.id || Math.random().toString(36).slice(2, 11)}`,
-      [message.id]
-    );
+  // Generate unique ID for this component instance
+  const clipId = useMemo(
+    () =>
+      `arch-clip-${message.id || Math.random().toString(36).slice(2, 11)}`,
+    [message.id]
+  );
 
-    const openImageInNewTab = () => {
-      const fullImage = message.content.full_image || message.content.thumbnail;
-      if (fullImage) {
-        window.open(fullImage, "_blank");
-      }
-    };
+  const handleOpenFullscreen = () => {
+    onOpenFullscreenViewer?.(message);
+  };
 
-    const openFullscreenViewer = () => {
-      onOpenFullscreenViewer?.(message);
-    };
+  const handleEdit = () => {
+    onEdit?.(message);
+  };
 
-    const handleEdit = () => {
-      onEdit?.(message);
-    };
+  const handleDelete = () => {
+    onDelete?.(message);
+  };
 
-    const handleDelete = () => {
-      onDelete?.(message);
-    };
+  const displayImage =
+    message.content.thumbnail || message.content.full_image;
 
-    useImperativeHandle(ref, () => ({
-      openImageInNewTab,
-      openFullscreenViewer,
-    }));
+  // Apply pixelation if content warning exists and image is not uncensored
+  const { url: processedImage, useCssFilter } = useBlurImage(
+    displayImage || "",
+    isImageUncensored
+      ? undefined
+      : message.content.content_warning || undefined
+  );
 
-    const displayImage =
-      message.content.thumbnail || message.content.full_image;
+  // Reset uncensor state when content warning changes
+  useEffect(() => {
+    setIsImageUncensored(false);
+  }, [message.content.content_warning]);
 
-    // Apply pixelation if content warning exists and image is not uncensored
-    const { url: processedImage, useCssFilter } = useBlurImage(
-      displayImage || "",
-      isImageUncensored ? undefined : message.content.content_warning || undefined
-    );
+  // Touch handlers for showing action menu on hold
+  const handleTouchStart = useCallback(() => {
+    holdTimerRef.current = setTimeout(() => {
+      setShowActionMenu(true);
+    }, HOLD_DURATION);
+  }, []);
 
-    // Reset uncensor state when content warning changes
-    useEffect(() => {
-      setIsImageUncensored(false);
-    }, [message.content.content_warning]);
+  const handleTouchEnd = useCallback(() => {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    // Keep menu visible for a bit after touch ends so user can interact with it
+    setTimeout(() => {
+      setShowActionMenu(false);
+    }, 3000);
+  }, []);
 
-    return (
-      <div className="guest-book-fanart">
-        {/* SVG Clip Path Definition - Responsive with objectBoundingBox */}
-        <svg width="0" height="0" style={{ position: "absolute" }}>
-          <defs>
-            <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-              <path d="M 0,1 L 0,0.375 A 0.5,0.375 0 0,1 1,0.375 L 1,1 Z" />
-            </clipPath>
-          </defs>
-        </svg>
+  const handleTouchCancel = useCallback(() => {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    setShowActionMenu(false);
+  }, []);
 
-        {/* Blinkies positioned above the frame */}
-        {message.content.blinkies && message.content.blinkies.length > 0 && (
-          <div className="fanart-blinkies">
-            {message.content.blinkies.slice(0, 3).map((blinkieUrl, index) => (
-              <div key={index} className="fanart-blinkie flex-center">
-                <img
-                  src={blinkieUrl}
-                  alt={`Blinkie ${index + 1}`}
-                  className="blinkie-image"
-                />
-              </div>
-            ))}
-          </div>
-        )}
+  return (
+    <div
+      className={`guest-book-fanart ${showActionMenu ? "show-action-menu" : ""}`}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchCancel}
+    >
+      {/* SVG Clip Path Definition - Responsive with objectBoundingBox */}
+      <svg width="0" height="0" style={{ position: "absolute" }}>
+        <defs>
+          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
+            <path d="M 0,1 L 0,0.375 A 0.5,0.375 0 0,1 1,0.375 L 1,1 Z" />
+          </clipPath>
+        </defs>
+      </svg>
 
-        {/* Window-like frame container */}
+      {/* Window frame wrapped in ButtonWrapper - clicking opens fullscreen */}
+      <ButtonWrapper onClick={handleOpenFullscreen} className="fanart-button">
         <div className="fanart-window-frame">
-          {/* Action menu for edit/delete */}
-          {(onEdit || onDelete) && (
-            <ActionMenu
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              className="fanart-action-menu"
-            />
-          )}
-
           {/* Image display area */}
           <div
             className="fanart-image-container flex-center"
@@ -119,7 +121,7 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
           >
             {!displayImage && (
               <div
-                className="fanart-placeholder flex-center "
+                className="fanart-placeholder flex-center"
                 style={{
                   clipPath: `url(#${clipId})`,
                 }}
@@ -131,16 +133,16 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
             {/* Artist info and caption - overlay on image */}
             <div className="fanart-info">
               <div className="fanart-header">
-                <span className="fanart-artist  text-shadow-dark">
+                <span className="fanart-artist text-shadow-dark">
                   {message.content.name}
                 </span>
-                <span className="fanart-date  text-shadow-dark">
+                <span className="fanart-date text-shadow-dark">
                   {new Date(message.created_at).toLocaleDateString()}
                 </span>
               </div>
 
               {message.content.caption && (
-                <div className="fanart-caption  text-shadow-dark">
+                <div className="fanart-caption text-shadow-dark">
                   {message.content.caption}
                 </div>
               )}
@@ -152,11 +154,15 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
             <div className="fanart-content-warning-overlay">
               <div className="fanart-content-warning-card">
                 <div className="fanart-content-warning-text">
-                  <strong>This contains:</strong> {message.content.content_warning}
+                  <strong>This contains:</strong>{" "}
+                  {message.content.content_warning}
                 </div>
                 <button
                   className="fanart-uncensor-button"
-                  onClick={() => setIsImageUncensored(true)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsImageUncensored(true);
+                  }}
                 >
                   Show!
                 </button>
@@ -164,11 +170,18 @@ const GuestBookFanArt = forwardRef<GuestBookFanArtRef, GuestBookFanArtProps>(
             </div>
           )}
         </div>
-      </div>
-    );
-  }
-);
+      </ButtonWrapper>
 
-GuestBookFanArt.displayName = "GuestBookFanArt";
+      {/* Action menu below the image - separate from the fullscreen button */}
+      {(onEdit || onDelete) && (
+        <ActionMenu
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          className="fanart-action-menu"
+        />
+      )}
+    </div>
+  );
+};
 
 export default GuestBookFanArt;
