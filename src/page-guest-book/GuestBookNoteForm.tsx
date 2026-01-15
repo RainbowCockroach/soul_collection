@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import GifSelector from "./GifSelector";
 import type { MessageContent } from "./types";
 import blinkies from "../data/guestbook-blinkies.json";
 import buttonSendNote from "../assets/button_send_note.gif";
@@ -61,28 +62,6 @@ const GuestBookNoteForm = ({
     }
   }, [isEditMode, initialData]);
 
-  const [blinkieDropdownOpen, setBlinkieDropdownOpen] = useState(false);
-  const blinkieDropdownRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        blinkieDropdownRef.current &&
-        !blinkieDropdownRef.current.contains(event.target as Node)
-      ) {
-        setBlinkieDropdownOpen(false);
-      }
-    };
-
-    if (blinkieDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [blinkieDropdownOpen]);
 
   const handleNoteInputChange = (
     e: React.ChangeEvent<
@@ -127,28 +106,11 @@ const GuestBookNoteForm = ({
     }
   };
 
-  const handleBlinkieSelect = (url: string) => {
-    setNoteForm((prev) => {
-      const currentBlinkies = prev.blinkies;
-
-      if (url === "") {
-        // Clear all blinkies
-        return { ...prev, blinkies: [] };
-      }
-
-      // Toggle blinkie selection
-      if (currentBlinkies.includes(url)) {
-        // Remove if already selected
-        return { ...prev, blinkies: currentBlinkies.filter((b) => b !== url) };
-      } else if (currentBlinkies.length < 3) {
-        // Add if less than 3 selected
-        return { ...prev, blinkies: [...currentBlinkies, url] };
-      }
-
-      // If 3 already selected, don't add more
-      return prev;
-    });
-    // Keep dropdown open for multiple selections
+  const handleBlinkiesChange = (newBlinkies: string[]) => {
+    setNoteForm((prev) => ({
+      ...prev,
+      blinkies: newBlinkies,
+    }));
   };
 
   // In edit mode, render form directly without container
@@ -171,65 +133,13 @@ const GuestBookNoteForm = ({
           </div>
 
           <div className="form-group blinkie-group">
-            <label>Blinkies (optional, max 3)</label>
-            <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
-              <div
-                className="blinkie-dropdown-trigger"
-                onClick={() => setBlinkieDropdownOpen(!blinkieDropdownOpen)}
-              >
-                {noteForm.blinkies.length > 0 ? (
-                  <div className="selected-blinkies">
-                    {noteForm.blinkies.map((url, index) => (
-                      <img
-                        key={index}
-                        src={url}
-                        alt={`Selected blinkie ${index + 1}`}
-                        className="selected-blinkie"
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <span className="blinkie-placeholder">Select blinkies</span>
-                )}
-                <span className="dropdown-arrow">▼</span>
-              </div>
-              {blinkieDropdownOpen && (
-                <div className="blinkie-dropdown-menu">
-                  <div
-                    className="blinkie-option"
-                    onClick={() => handleBlinkieSelect("")}
-                  >
-                    <span>Clear all</span>
-                  </div>
-                  {BLINKIES.map((url, index) => {
-                    const isSelected = noteForm.blinkies.includes(url);
-                    const canSelect =
-                      !isSelected && noteForm.blinkies.length < 3;
-                    return (
-                      <div
-                        key={index}
-                        className={`blinkie-option ${
-                          isSelected ? "selected" : ""
-                        } ${!canSelect && !isSelected ? "disabled" : ""}`}
-                        onClick={() => handleBlinkieSelect(url)}
-                        style={{
-                          opacity: !canSelect && !isSelected ? 0.5 : 1,
-                        }}
-                      >
-                        <img
-                          src={url}
-                          alt={`Blinkie ${index + 1}`}
-                          className="blinkie-preview"
-                        />
-                        {isSelected && (
-                          <span className="selection-indicator">✓</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+            <GifSelector
+              availableGifs={BLINKIES}
+              selectedGifs={noteForm.blinkies}
+              onSelectionChange={handleBlinkiesChange}
+              maxSelection={3}
+              label="Blinkies (optional, max 3)"
+            />
           </div>
         </div>
 
@@ -337,65 +247,13 @@ const GuestBookNoteForm = ({
             </div>
 
             <div className="form-group blinkie-group">
-              <label>Blinkies (optional, max 3)</label>
-              <div className="blinkie-dropdown" ref={blinkieDropdownRef}>
-                <div
-                  className="blinkie-dropdown-trigger"
-                  onClick={() => setBlinkieDropdownOpen(!blinkieDropdownOpen)}
-                >
-                  {noteForm.blinkies.length > 0 ? (
-                    <div className="selected-blinkies">
-                      {noteForm.blinkies.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`Selected blinkie ${index + 1}`}
-                          className="selected-blinkie"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="blinkie-placeholder">Select blinkies</span>
-                  )}
-                  <span className="dropdown-arrow">▼</span>
-                </div>
-                {blinkieDropdownOpen && (
-                  <div className="blinkie-dropdown-menu">
-                    <div
-                      className="blinkie-option"
-                      onClick={() => handleBlinkieSelect("")}
-                    >
-                      <span>Clear all</span>
-                    </div>
-                    {BLINKIES.map((url, index) => {
-                      const isSelected = noteForm.blinkies.includes(url);
-                      const canSelect =
-                        !isSelected && noteForm.blinkies.length < 3;
-                      return (
-                        <div
-                          key={index}
-                          className={`blinkie-option ${
-                            isSelected ? "selected" : ""
-                          } ${!canSelect && !isSelected ? "disabled" : ""}`}
-                          onClick={() => handleBlinkieSelect(url)}
-                          style={{
-                            opacity: !canSelect && !isSelected ? 0.5 : 1,
-                          }}
-                        >
-                          <img
-                            src={url}
-                            alt={`Blinkie ${index + 1}`}
-                            className="blinkie-preview"
-                          />
-                          {isSelected && (
-                            <span className="selection-indicator">✓</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+              <GifSelector
+                availableGifs={BLINKIES}
+                selectedGifs={noteForm.blinkies}
+                onSelectionChange={handleBlinkiesChange}
+                maxSelection={3}
+                label="Blinkies (optional, max 3)"
+              />
             </div>
           </div>
 

@@ -28,7 +28,6 @@ interface PaginatedResponse {
 
 interface GuestBookNoteSectionProps {
   notesPerPage?: number;
-  editMode?: boolean;
 }
 
 export interface GuestBookNoteSectionRef {
@@ -38,7 +37,7 @@ export interface GuestBookNoteSectionRef {
 const GuestBookNoteSection = forwardRef<
   GuestBookNoteSectionRef,
   GuestBookNoteSectionProps
->(({ notesPerPage: defaultNotesPerPage = 4, editMode = false }, ref) => {
+>(({ notesPerPage: defaultNotesPerPage = 4 }, ref) => {
   const notesPerPage = useResponsiveNotesPerPage(defaultNotesPerPage);
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -160,8 +159,8 @@ const GuestBookNoteSection = forwardRef<
           <GuestBookNote
             key={message.id}
             message={message}
-            onEdit={editMode ? handleEdit : undefined}
-            onDelete={editMode ? handleDelete : undefined}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
           />
         ))}
         <div className="pagination-nav-right pagination-nav-desktop">

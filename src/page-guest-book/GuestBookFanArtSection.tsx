@@ -7,10 +7,9 @@ import React, {
   forwardRef,
 } from "react";
 import type { Message } from "./types";
-import GuestBookFanArt, { type GuestBookFanArtRef } from "./GuestBookFanArt";
+import GuestBookFanArt from "./GuestBookFanArt";
 import EditMessageLightbox from "./EditMessageLightbox";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-import ButtonWrapper from "../common-components/ButtonWrapper";
 import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
@@ -29,7 +28,6 @@ interface PaginatedResponse {
 
 interface GuestBookFanArtSectionProps {
   fanArtPerPage?: number;
-  editMode?: boolean;
   onOpenFullscreenViewer?: (message: Message) => void;
 }
 
@@ -37,57 +35,10 @@ export interface GuestBookFanArtSectionRef {
   refresh: () => void;
 }
 
-// Wrapper component to handle refs properly
-const FanArtWithButton: React.FC<{
-  message: Message;
-  onEdit?: (message: Message) => void;
-  onDelete?: (message: Message) => void;
-  onOpenFullscreenViewer?: (message: Message) => void;
-  editMode?: boolean;
-}> = ({
-  message,
-  onEdit,
-  onDelete,
-  onOpenFullscreenViewer,
-  editMode = false,
-}) => {
-  const fanArtRef = useRef<GuestBookFanArtRef>(null);
-
-  const handleClick = () => {
-    fanArtRef.current?.openFullscreenViewer();
-  };
-
-  // In edit mode, render without ButtonWrapper to allow action menu clicks
-  if (editMode) {
-    return (
-      <GuestBookFanArt
-        ref={fanArtRef}
-        message={message}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        onOpenFullscreenViewer={onOpenFullscreenViewer}
-      />
-    );
-  }
-
-  // In normal mode, wrap with ButtonWrapper for click-to-open functionality
-  return (
-    <ButtonWrapper onClick={handleClick} className="">
-      <GuestBookFanArt
-        ref={fanArtRef}
-        message={message}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        onOpenFullscreenViewer={onOpenFullscreenViewer}
-      />
-    </ButtonWrapper>
-  );
-};
-
 const GuestBookFanArtSection = forwardRef<
   GuestBookFanArtSectionRef,
   GuestBookFanArtSectionProps
->(({ fanArtPerPage = 4, editMode = false, onOpenFullscreenViewer }, ref) => {
+>(({ fanArtPerPage = 4, onOpenFullscreenViewer }, ref) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -239,13 +190,12 @@ const GuestBookFanArtSection = forwardRef<
           )}
         </div>
         {data.messages.map((message) => (
-          <FanArtWithButton
+          <GuestBookFanArt
             key={message.id}
             message={message}
-            onEdit={editMode ? handleEdit : undefined}
-            onDelete={editMode ? handleDelete : undefined}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
             onOpenFullscreenViewer={onOpenFullscreenViewer}
-            editMode={editMode}
           />
         ))}
         <div className="pagination-nav-right pagination-nav-desktop">

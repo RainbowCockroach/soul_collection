@@ -51,7 +51,11 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
 
   return (
     <div className={`action-menu ${className}`}>
-      <div ref={triggerRef}>
+      <div
+        ref={triggerRef}
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+      >
         <ButtonWrapper
           onClick={handleToggleMenu}
           className="action-menu-trigger"
@@ -65,7 +69,12 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
       </div>
 
       {isOpen && (
-        <div ref={menuRef} className="action-menu-dropdown">
+        <div
+          ref={menuRef}
+          className="action-menu-dropdown"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <ButtonWrapper
             onClick={handleEdit}
             className="action-menu-item action-menu-edit"
