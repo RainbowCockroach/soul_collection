@@ -294,7 +294,7 @@ const PageDetail: React.FC = () => {
         {oc.tagDetails.map((tag, index) => (
           <span
             key={index}
-            className="oc-detail-tag div-3d-with-shadow"
+            className="oc-detail-tag div-3d-with-shadow-borderless"
             style={{
               backgroundColor: tag.backgroundColour,
               color: tag.textColour,

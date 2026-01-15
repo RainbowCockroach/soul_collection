@@ -37,10 +37,26 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+/* Button wrapper for clickable fan art */
+.fanart-button {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  cursor: pointer;
+  display: block;
+}
+
+.fanart-button:hover .fanart-window-frame {
+  transform: scale(1.02);
+}
+
 .fanart-window-frame {
   position: relative;
   width: 100%;
   box-sizing: border-box;
+  transition: transform 0.2s ease;
 }
 
 .fanart-image-container {

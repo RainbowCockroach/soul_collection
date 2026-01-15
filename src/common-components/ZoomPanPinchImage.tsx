@@ -15,6 +15,8 @@ import LoadingSpinner from "./LoadingSpinner";
 import "./ZoomPanPinchImage.css";
 import BBCodeDisplay from "./BBCodeDisplay";
 import { useBlurImage } from "../hooks/usePixelatedImage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 interface ZoomPanPinchImageProps {
   src: string;
@@ -108,7 +110,14 @@ const ZoomPanPinchImage = forwardRef<
         onClick={toggleInteractions}
         title={interactionsDisabled ? "Enable zoom/pan" : "Disable zoom/pan"}
       >
-        {interactionsDisabled ? "🔍" : "🔒"}
+        {interactionsDisabled ? (
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            style={{ color: "white" }}
+          />
+        ) : (
+          <FontAwesomeIcon icon={faLock} style={{ color: "white" }} />
+        )}
       </button>
 
       <TransformWrapper

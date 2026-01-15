@@ -1,0 +1,262 @@
+.gif-selector {
+  position: relative;
+}
+
+.gif-selector-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+/* Tray Styles */
+.gif-tray {
+  width: 100%;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  gap: 8px;
+}
+
+.gif-tray:hover,
+.gif-tray.expanded {
+  border-color: var(--color-green);
+}
+
+.gif-tray-items {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.gif-tray-item {
+  position: relative;
+  height: 32px;
+  width: 32px;
+  border-radius: 4px;
+  overflow: visible;
+  transition: transform 0.1s ease, opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gif-tray.expanded .gif-tray-item {
+  cursor: pointer;
+}
+
+.gif-tray.expanded .gif-tray-item:hover {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.gif-tray-item img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.gif-remove-indicator {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: rgba(255, 0, 0, 0.9);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.gif-tray-placeholder {
+  height: 32px;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #999;
+  padding: 0 6px;
+}
+
+.gif-tray-empty {
+  color: #999;
+  font-size: 14px;
+}
+
+.gif-tray-arrow {
+  margin-left: auto;
+  font-size: 12px;
+  color: #666;
+  transition: transform 0.2s ease;
+}
+
+.gif-tray-arrow.up {
+  transform: rotate(180deg);
+}
+
+/* Grid Container */
+.gif-grid-container {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid var(--color-green);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gif-grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  background-color: #fafafa;
+  border-radius: 8px 8px 0 0;
+}
+
+.gif-grid-counter {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.gif-clear-button {
+  background: none;
+  border: none;
+  color: var(--color-green);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.gif-clear-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Grid */
+.gif-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 12px;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 240px;
+}
+
+.gif-grid-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.1s ease, border-color 0.2s ease;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.gif-grid-item:not(.disabled):hover {
+  transform: scale(1.1);
+  border-color: var(--color-green);
+}
+
+.gif-grid-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.gif-grid-item img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.gif-disabled-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* Scrollbar styling */
+.gif-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gif-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.gif-grid::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.gif-grid::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .gif-tray {
+    min-height: 48px;
+  }
+
+  .gif-tray-item {
+    height: 26px;
+    width: 26px;
+  }
+
+  .gif-grid {
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .gif-grid-container {
+    max-height: 250px;
+  }
+
+  .gif-grid {
+    max-height: 190px;
+  }
+}
