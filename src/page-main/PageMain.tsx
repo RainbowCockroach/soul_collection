@@ -12,7 +12,6 @@ import type { OC } from "../page-oc-list/OcSlot";
 import { loadOCs, loadAds } from "../helpers/data-load";
 import type { AdItem } from "../helpers/objects";
 import AdSlideshow from "../common-components/AdSlideshow";
-import samLogo from "../assets/sam_logo.webp";
 import BioSection from "./BioSection";
 import "./PageMain.css";
 import Divider from "../common-components/Divider";
