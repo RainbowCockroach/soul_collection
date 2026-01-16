@@ -1,34 +1,34 @@
 /* Biography Section Styles */
 
 .bio-section {
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin: 0;
+  padding: 0 12px;
 }
 
 .bio-container {
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  max-width: 90%;
-  margin: 0 auto;
-  padding: 0 16px;
+  gap: 16px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .bio-artist {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 8px;
   align-items: center;
 }
 
 /* Image on left, text on right (even index) */
 .bio-artist-left {
+  grid-template-columns: 20fr 80fr;
   grid-template-areas: "portrait introduction";
 }
 
 .bio-artist-left .bio-portrait {
   grid-area: portrait;
-  justify-self: end;
+  justify-self: center;
 }
 
 .bio-artist-left .bio-introduction {
@@ -38,31 +38,31 @@
 
 /* Image on right, text on left (odd index) */
 .bio-artist-right {
+  grid-template-columns: 80fr 20fr;
   grid-template-areas: "introduction portrait";
 }
 
 .bio-artist-right .bio-portrait {
   grid-area: portrait;
-  justify-self: start;
+  justify-self: center;
 }
 
 .bio-artist-right .bio-introduction {
   grid-area: introduction;
   justify-self: end;
-  text-align: right;
 }
 
 .bio-portrait {
-  width: 300px;
-  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  overflow: hidden;
 }
 
 .bio-image {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 12px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -73,8 +73,8 @@
 }
 
 .bio-introduction {
-  max-width: 800px;
   width: 100%;
+  overflow: hidden;
 }
 
 /* Override ChatBubble's fixed positioning for bio section */
@@ -91,71 +91,20 @@
   top: auto !important;
 }
 
-/* Responsive Design - Mobile */
-@media (max-width: 768px) {
-  .bio-container {
-    gap: 32px;
-  }
-
-  .bio-artist {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  /* Stack vertically on mobile - always portrait first, then text */
-  .bio-artist-left,
-  .bio-artist-right {
-    grid-template-areas:
-      "portrait"
-      "introduction";
-  }
-
-  .bio-artist-left .bio-portrait,
-  .bio-artist-right .bio-portrait {
-    justify-self: center;
-  }
-
-  .bio-artist-left .bio-introduction,
-  .bio-artist-right .bio-introduction {
-    justify-self: center;
-    text-align: left;
-  }
-
-  .bio-portrait {
-    width: 250px;
-    height: 250px;
-  }
-
-  .bio-image {
-    width: 250px;
-    height: 250px;
-  }
-
-  .bio-introduction {
-    max-width: 100%;
-    width: 100%;
+/* Desktop - more padding on sides */
+@media (min-width: 769px) {
+  .bio-section {
+    padding: 0 15vw;
   }
 }
 
-/* Tablet adjustments */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .bio-artist {
-    grid-template-columns: 280px 1fr;
-    gap: 32px;
+/* Mobile - smaller font size for introduction */
+@media (max-width: 768px) {
+  .bio-introduction .chat-bubble-text {
+    font-size: 14px !important;
   }
 
-  .bio-portrait {
-    width: 250px;
-    height: 250px;
-  }
-
-  .bio-image {
-    width: 250px;
-    height: 250px;
-  }
-
-  .bio-introduction {
-    max-width: 600px;
-    width: 100%;
+  .bio-introduction .chat-bubble-speaker {
+    font-size: 16px !important;
   }
 }

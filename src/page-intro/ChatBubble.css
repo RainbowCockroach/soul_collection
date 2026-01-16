@@ -43,7 +43,7 @@
 .chat-bubble-header {
   display: flex;
   align-items: center;
-  padding: 16px 28px 12px;
+  padding: 0.64em 28px 0.48em;
   background: rgba(255, 255, 255, 0.4);
   border-bottom: 2px solid rgba(180, 163, 209, 0.5);
   gap: 12px;
@@ -74,7 +74,7 @@
 }
 
 .chat-bubble-content {
-  padding: 20px 28px 24px;
+  padding: 0.833em 28px 1em;
   position: relative;
 }
 
@@ -83,7 +83,7 @@
   font-family: inherit;
   font-size: 24px;
   line-height: 1.5;
-  min-height: 24px;
+  min-height: 1em;
   word-wrap: break-word;
 }
 
@@ -162,11 +162,11 @@
   }
 
   .chat-bubble-header {
-    padding: 14px 24px 10px;
+    padding: 0.64em 24px 0.45em;
   }
 
   .chat-bubble-content {
-    padding: 18px 24px 20px;
+    padding: 0.9em 24px 1em;
   }
 
   .chat-bubble-avatar {
@@ -206,11 +206,11 @@
   }
 
   .chat-bubble-header {
-    padding: 10px 16px 6px;
+    padding: 0.56em 16px 0.33em;
   }
 
   .chat-bubble-content {
-    padding: 12px 16px;
+    padding: 0.75em 16px;
   }
 
   .chat-bubble-avatar {
@@ -221,8 +221,8 @@
 
 /* Acknowledgment checkbox styles */
 .chat-bubble-acknowledgment {
-  margin-top: 16px;
-  padding: 12px 16px;
+  margin-top: 0.89em;
+  padding: 0.67em 16px;
   background: rgba(255, 255, 255, 0.5);
   border: 2px solid #e6d7f5;
   border-radius: 12px;
@@ -282,8 +282,8 @@
 
 @media (max-width: 768px) {
   .chat-bubble-acknowledgment {
-    margin-top: 12px;
-    padding: 10px 12px;
+    margin-top: 0.86em;
+    padding: 0.71em 12px;
   }
 
   .acknowledgment-checkbox {
