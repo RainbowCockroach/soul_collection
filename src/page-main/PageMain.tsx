@@ -48,7 +48,6 @@ const PageMain: React.FC = () => {
   return (
     <div>
       <div className="main-section space-below space-above">
-        <img src={samLogo} alt="Sam Logo" className="main-logo" />
         <h1 className="big-text-shadow">Welcome to my soul collection</h1>
       </div>
       <Divider />
