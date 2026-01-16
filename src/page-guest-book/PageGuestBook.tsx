@@ -10,6 +10,7 @@ import FullscreenImageViewer from "./FullscreenImageViewer";
 import type { MessageContent, Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
 import "./PageGuestBook.css";
+import Divider from "../common-components/Divider";
 
 const PageGuestBook = () => {
   const [error, setError] = useState<string | null>(null);
@@ -95,10 +96,9 @@ const PageGuestBook = () => {
       )}
 
       {/* Notes Section */}
-      <GuestBookNoteSection
-        ref={noteSectionRef}
-        notesPerPage={4}
-      />
+      <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} />
+
+      <Divider />
 
       {/* Fan Art Section */}
       <GuestBookFanArtSection
@@ -106,6 +106,8 @@ const PageGuestBook = () => {
         fanArtPerPage={4}
         onOpenFullscreenViewer={handleOpenFullscreenViewer}
       />
+
+      <Divider />
 
       {/* New GuestBookSubmission component */}
       <GuestBookSubmission
