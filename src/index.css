@@ -81,6 +81,14 @@
   background-color: rgba(106, 255, 168, 0.6);
 }
 
+.space-above {
+  margin-top: 60px;
+}
+
+.space-below {
+  margin-bottom: 60px;
+}
+
 a {
   font-weight: 500;
   text-decoration: inherit;
