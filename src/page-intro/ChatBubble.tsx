@@ -7,6 +7,7 @@ interface Props {
   speaker?: string;
   avatar?: string;
   speed?: number;
+  displayContinueIcon?: boolean;
   onComplete?: () => void;
   onFinish?: () => void;
 }
@@ -16,7 +17,18 @@ interface Ref {
 }
 
 const ChatBubble = forwardRef<Ref, Props>(
-  ({ texts, speaker, avatar, speed = 50, onComplete, onFinish }, ref) => {
+  (
+    {
+      texts,
+      speaker,
+      avatar,
+      speed = 50,
+      displayContinueIcon = true,
+      onComplete,
+      onFinish,
+    },
+    ref
+  ) => {
     const [dialogIndex, setDialogIndex] = useState(0);
     const [text, setText] = useState("");
     const [isTyping, setIsTyping] = useState(true);
@@ -132,7 +144,7 @@ const ChatBubble = forwardRef<Ref, Props>(
               </div>
             )}
 
-            {!isTyping && (
+            {!isTyping && displayContinueIcon && (
               <div className="chat-bubble-continue">
                 <span
                   className={`continue-arrow ${

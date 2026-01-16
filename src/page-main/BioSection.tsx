@@ -38,6 +38,7 @@ export const BioSection: React.FC = () => {
                 texts={[artist.introduction]}
                 speaker={artist.name}
                 speed={30}
+                displayContinueIcon={false}
               />
             </div>
           </div>
