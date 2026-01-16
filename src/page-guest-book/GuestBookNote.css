@@ -300,6 +300,10 @@
     flex-direction: column;
   }
 
+  .note-header {
+    margin-top: 6px;
+  }
+
   .note-name {
     font-size: 16px;
   }
