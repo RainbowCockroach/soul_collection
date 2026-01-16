@@ -15,6 +15,7 @@ import AdSlideshow from "../common-components/AdSlideshow";
 import samLogo from "../assets/sam_logo.webp";
 import BioSection from "./BioSection";
 import "./PageMain.css";
+import Divider from "../common-components/Divider";
 
 const PageMain: React.FC = () => {
   const favourites = [
@@ -46,11 +47,13 @@ const PageMain: React.FC = () => {
 
   return (
     <div>
-      <div className="main-section">
+      <div className="main-section space-below space-above">
         <img src={samLogo} alt="Sam Logo" className="main-logo" />
         <h1 className="big-text-shadow">Welcome to my soul collection</h1>
       </div>
+      <Divider />
       <BioSection />
+      <Divider />
       <div className="main-section">
         <h2 className="big-text-shadow">My favourites!</h2>
         <section className="favourites-section">
@@ -65,6 +68,7 @@ const PageMain: React.FC = () => {
         </section>
         <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
       </div>
+      <Divider />
       {/* For mobile and vertical tablet */}
       <div className="random-oc-button-section random-button-mobile">
         <p className="small-text-shadow">Click button for random character</p>
