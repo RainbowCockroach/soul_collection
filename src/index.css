@@ -181,8 +181,8 @@ h6 {
   position: relative;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
     rgba(0, 0, 0, 0.08) 100%
   );
   backdrop-filter: blur(12px);
@@ -191,8 +191,8 @@ h6 {
   border: 2px solid rgba(255, 255, 255, 0.6);
   border-bottom-color: rgba(0, 0, 0, 0.2);
   border-right-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 12px 40px rgba(0, 0, 0, 0.15),
-    inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 4px rgba(0, 0, 0, 0.15); */
 }
 
 /* Top glossy highlight shine */

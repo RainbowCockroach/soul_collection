@@ -77,7 +77,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
     <div className="oc-group">
       <ButtonWrapper
         onClick={() => onToggle(groupInfo.slug)}
-        className="div-3d-with-shadow group-header glass-effect"
+        className="glass-effect div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
       >
         <h2

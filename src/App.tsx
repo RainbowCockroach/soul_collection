@@ -149,6 +149,7 @@ function App() {
 
       <StarryTrail />
       <SamPopup />
+      {/* <div className="grain-overlay"></div> */}
     </MusicPlayerProvider>
   );
 }
