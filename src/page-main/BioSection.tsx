@@ -1,5 +1,5 @@
 import React from "react";
-import ChatBubble from "../page-intro/ChatBubble";
+import BioPlaque from "./BioPlaque";
 import bioDataImport from "../data/bio.json";
 import "./BioSection.css";
 
@@ -19,6 +19,7 @@ export const BioSection: React.FC = () => {
   return (
     <div className="main-section bio-section">
       <div className="bio-container">
+        <h2 className="big-text-shadow">Creators</h2>
         {bioData.map((artist, index) => (
           <div
             key={index}
@@ -34,12 +35,7 @@ export const BioSection: React.FC = () => {
               />
             </div>
             <div className="bio-introduction">
-              <ChatBubble
-                texts={[artist.introduction]}
-                speaker={artist.name}
-                speed={30}
-                displayContinueIcon={false}
-              />
+              <BioPlaque text={artist.introduction} speaker={artist.name} />
             </div>
           </div>
         ))}
