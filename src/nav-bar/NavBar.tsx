@@ -56,7 +56,7 @@ const Navbar = () => {
               disabled={item.disabled}
             >
               <div
-                className="button-with-underline nav-button"
+                className="glass-effect button-with-underline nav-button"
                 style={{
                   opacity: item.disabled ? 0.5 : 1,
                   cursor: item.disabled ? "not-allowed" : "pointer",
