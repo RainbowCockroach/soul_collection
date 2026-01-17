@@ -46,86 +46,101 @@ const PageMain: React.FC = () => {
 
   return (
     <div>
-      <div className="main-section space-below space-above">
-        <h1 className="big-text-shadow">Welcome to my soul collection</h1>
+      <div style={{ marginBottom: "20px" }}>
+        <div className="main-section space-below space-above">
+          <h1 className="big-text-shadow">Welcome to my soul collection</h1>
+        </div>
       </div>
+
       <Divider />
-      <BioSection />
-      <Divider />
-      <div className="main-section">
-        <h2 className="big-text-shadow">My favourites!</h2>
-        <section className="favourites-section">
-          {favourites.map((fav) => (
-            <FavouriteCharacter
-              key={fav.slug}
-              slug={fav.slug}
-              name={fav.name}
-              avatar={fav.avatar}
-            />
-          ))}
-        </section>
-        <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
+
+      <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+        <BioSection />
       </div>
+
       <Divider />
-      {/* For mobile and vertical tablet */}
-      <div className="random-oc-button-section random-button-mobile">
-        <p className="small-text-shadow">Click button for random character</p>
-        <RandomOcButton />
+
+      <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+        <div className="main-section">
+          <h2 className="big-text-shadow">My favourites!</h2>
+          <section className="favourites-section">
+            {favourites.map((fav) => (
+              <FavouriteCharacter
+                key={fav.slug}
+                slug={fav.slug}
+                name={fav.name}
+                avatar={fav.avatar}
+              />
+            ))}
+          </section>
+          <p className="small-text-shadow">♡ Cutest / dearest to me! ♡</p>
+        </div>
       </div>
-      {/* Protagonist and Sidebar section */}
-      <div className="main-section">
-        <div className="protagonist-sidebar-grid">
-          {/* Row 1, Col 1: Protagonist text box */}
-          <div className="protagonist-text-box-cell">
-            <div className="shadow-3d protagonist-text-box">
-              <h2>Protagonists</h2>
-            </div>
-            <p className="small-text-shadow">For my in-planning games</p>
-          </div>
 
-          {/* Row 1, Col 2: Random button */}
-          {/* For desktop and horizontal tablet */}
-          <div className="random-button-cell">
-            <div className="random-oc-button-section">
-              <p className="small-text-shadow">
-                Click button for random character
-              </p>
-              <RandomOcButton />
-            </div>
-          </div>
+      <Divider />
 
-          {/* Row 2, Col 1: Protagonist grid */}
-          <div className="protagonist-grid-cell">
-            <div className="protagonists-grid">
-              {protagonistOcs.map((oc) => (
-                <OcSlot
-                  key={oc.slug}
-                  oc={oc}
-                  frameColour="#44fcc2ff"
-                  textColour="#03291dff"
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Row 2, Col 2: Ad */}
-          <div className="ad-cell">
-            {sidebarAds.length > 0 && (
-              <div className="sidebar-ads-container">
-                <AdSlideshow ads={sidebarAds} className="sidebar-ad" />
+      <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+        {/* For mobile and vertical tablet */}
+        <div className="random-oc-button-section random-button-mobile">
+          <p className="small-text-shadow">Click button for random character</p>
+          <RandomOcButton />
+        </div>
+        {/* Protagonist and Sidebar section */}
+        <div className="main-section">
+          <div className="protagonist-sidebar-grid">
+            {/* Row 1, Col 1: Protagonist text box */}
+            <div className="protagonist-text-box-cell">
+              <div className="shadow-3d protagonist-text-box">
+                <h2>Protagonists</h2>
               </div>
-            )}
+              <p className="small-text-shadow">For my in-planning games</p>
+            </div>
+
+            {/* Row 1, Col 2: Random button */}
+            {/* For desktop and horizontal tablet */}
+            <div className="random-button-cell">
+              <div className="random-oc-button-section">
+                <p className="small-text-shadow">
+                  Click button for random character
+                </p>
+                <RandomOcButton />
+              </div>
+            </div>
+
+            {/* Row 2, Col 1: Protagonist grid */}
+            <div className="protagonist-grid-cell">
+              <div className="protagonists-grid">
+                {protagonistOcs.map((oc) => (
+                  <OcSlot
+                    key={oc.slug}
+                    oc={oc}
+                    frameColour="#44fcc2ff"
+                    textColour="#03291dff"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2, Col 2: Ad */}
+            <div className="ad-cell">
+              {sidebarAds.length > 0 && (
+                <div className="sidebar-ads-container">
+                  <AdSlideshow ads={sidebarAds} className="sidebar-ad" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
+        {/* Footer Ads section */}
+        {footerAds.length > 0 && (
+          <div className="main-section footer-ads-section">
+            <div className="footer-ads-container">
+              <AdSlideshow ads={footerAds} className="footer-ad" />
+            </div>
+          </div>
+        )}
       </div>
-      {/* Footer Ads section */}
-      {footerAds.length > 0 && (
-        <div className="main-section footer-ads-section">
-          <div className="footer-ads-container">
-            <AdSlideshow ads={footerAds} className="footer-ad" />
-          </div>
-        </div>
-      )}
+
       <Divider />
     </div>
   );
