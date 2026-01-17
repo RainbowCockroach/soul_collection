@@ -95,6 +95,14 @@ const PageGuestBook = () => {
         <div style={{ color: "red", marginBottom: "10px" }}>Error: {error}</div>
       )}
 
+      {/* New GuestBookSubmission component */}
+      <GuestBookSubmission
+        onSubmit={handleFormSubmit}
+        submitting={submitting}
+      />
+
+      <Divider />
+
       {/* Notes Section */}
       <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} />
 
@@ -105,14 +113,6 @@ const PageGuestBook = () => {
         ref={fanArtSectionRef}
         fanArtPerPage={4}
         onOpenFullscreenViewer={handleOpenFullscreenViewer}
-      />
-
-      <Divider />
-
-      {/* New GuestBookSubmission component */}
-      <GuestBookSubmission
-        onSubmit={handleFormSubmit}
-        submitting={submitting}
       />
 
       {/* Fullscreen Image Viewer */}

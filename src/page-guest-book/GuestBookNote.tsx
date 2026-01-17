@@ -11,7 +11,11 @@ interface GuestBookNoteProps {
 
 const HOLD_DURATION = 300; // ms to hold before showing menu
 
-const GuestBookNote: React.FC<GuestBookNoteProps> = ({ message, onEdit, onDelete }) => {
+const GuestBookNote: React.FC<GuestBookNoteProps> = ({
+  message,
+  onEdit,
+  onDelete,
+}) => {
   const [showActionMenu, setShowActionMenu] = useState(false);
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -71,7 +75,7 @@ const GuestBookNote: React.FC<GuestBookNoteProps> = ({ message, onEdit, onDelete
       )}
 
       {/* Paper note container */}
-      <div className="note-paper">
+      <div className="note-paper div-3d-with-shadow">
         {/* Action menu for edit/delete */}
         {(onEdit || onDelete) && (
           <ActionMenu
@@ -88,23 +92,7 @@ const GuestBookNote: React.FC<GuestBookNoteProps> = ({ message, onEdit, onDelete
           </span>
         </div>
 
-        <div className="note-content">
-          {message.content.content}
-        </div>
-
-        {/* Optional thumbnail/image if present */}
-        {message.content.thumbnail && (
-          <div className="note-image">
-            <img
-              src={message.content.thumbnail}
-              alt={message.content.caption || "Note image"}
-              className="note-thumbnail"
-            />
-            {message.content.caption && (
-              <div className="note-caption">{message.content.caption}</div>
-            )}
-          </div>
-        )}
+        <div className="note-content">{message.content.content}</div>
       </div>
     </div>
   );
