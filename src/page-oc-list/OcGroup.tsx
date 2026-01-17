@@ -77,10 +77,13 @@ const OcGroup: React.FC<OcGroupProps> = ({
     <div className="oc-group">
       <ButtonWrapper
         onClick={() => onToggle(groupInfo.slug)}
-        className="div-3d-with-shadow group-header"
+        className="div-3d-with-shadow group-header glass-effect"
         style={{ background: groupInfo.groupHeaderColour }}
       >
-        <h2 style={{ color: groupInfo.groupHeaderTextColour }}>
+        <h2
+          className="text-outline-thick"
+          style={{ color: groupInfo.groupHeaderTextColour }}
+        >
           <FontAwesomeIcon
             icon={faCaretDown}
             style={{

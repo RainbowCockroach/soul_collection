@@ -6,8 +6,8 @@
   --gap-tablet: 10px;
   --gap-mobile: 8px;
 
-  margin: 30px 0;
-  padding: 20px;
+  margin: 0;
+  padding: 0 20px;
 }
 
 /* Fan art display area */
@@ -137,8 +137,8 @@
 
 @media (max-width: 768px) {
   .guest-book-fanart-section {
-    padding: 15px;
-    margin: 20px 0;
+    padding: 0 15px;
+    margin: 0;
   }
 
   .fanart-display {
@@ -176,8 +176,8 @@
 
 @media (max-width: 480px) {
   .guest-book-fanart-section {
-    padding: 10px;
-    margin: 15px 0;
+    padding: 0 10px;
+    margin: 0;
   }
 
   .fanart-display {
