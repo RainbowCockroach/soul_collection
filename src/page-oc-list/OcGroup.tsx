@@ -80,7 +80,10 @@ const OcGroup: React.FC<OcGroupProps> = ({
         className="div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
       >
-        <h2 style={{ color: groupInfo.groupHeaderTextColour }}>
+        <h2
+          className="text-outline-thick"
+          style={{ color: groupInfo.groupHeaderTextColour }}
+        >
           <FontAwesomeIcon
             icon={faCaretDown}
             style={{
