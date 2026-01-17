@@ -17,7 +17,7 @@
 .bio-artist {
   display: grid;
   gap: 8px;
-  align-items: center;
+  align-items: end;
 }
 
 /* Image on left, text on right (even index) */
@@ -77,34 +77,20 @@
   overflow: hidden;
 }
 
-/* Override ChatBubble's fixed positioning for bio section */
-.bio-introduction .chat-bubble-container {
-  position: static !important;
-  transform: none !important;
-  max-width: 100% !important;
-  max-height: none !important;
-  width: 100% !important;
-  animation: none !important;
-  z-index: auto !important;
-  bottom: auto !important;
-  left: auto !important;
-  top: auto !important;
-}
-
-/* Desktop - more padding on sides */
-@media (min-width: 769px) {
+/* Desktop - two column layout */
+@media (min-width: 1024px) {
   .bio-section {
-    padding: 0 15vw;
-  }
-}
-
-/* Mobile - smaller font size for introduction */
-@media (max-width: 768px) {
-  .bio-introduction .chat-bubble-text {
-    font-size: 14px !important;
+    padding: 0 3vw;
   }
 
-  .bio-introduction .chat-bubble-speaker {
-    font-size: 16px !important;
+  .bio-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* "Creators" heading spans both columns */
+  .bio-container h2 {
+    grid-column: 1 / -1;
   }
 }
