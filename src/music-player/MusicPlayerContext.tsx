@@ -141,6 +141,10 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     const handleCanPlay = () => {
       setState((prev) => ({ ...prev, isLoading: false }));
       if (state.currentTrackIndex !== null) {
+        // Check if user explicitly paused the music - respect this preference
+        const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === "true";
+        if (userPausedMusic) return;
+
         // Only auto-play if user has interacted (hasAutoPlayedRef = true)
         // OR if this is NOT a first-time visitor (SamPopup already seen)
         // This allows returning visitors to auto-play while blocking first-timers until popup closes
