@@ -315,6 +315,14 @@
     flex-wrap: wrap;
     padding: 12px;
   }
+
+  /* Make track list dropdown expand upward on mobile */
+  .track-list-dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 2px;
+  }
 }
 
 @media (max-width: 600px) {
