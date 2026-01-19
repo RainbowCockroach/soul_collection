@@ -63,7 +63,7 @@
   cursor: pointer;
   color: rgba(255, 255, 255, 0.6);
   transition: all 0.2s ease;
-  margin-right: 4px;
+  margin-left: 4px;
 }
 
 .minimize-button:hover {
@@ -322,6 +322,14 @@
     bottom: 100%;
     margin-top: 0;
     margin-bottom: 2px;
+  }
+
+  /* Make volume slider expand upward on mobile */
+  .volume-slider-container {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
   }
 }
 
