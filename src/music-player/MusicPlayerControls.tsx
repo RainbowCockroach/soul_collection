@@ -89,15 +89,6 @@ export const MusicPlayerControls: React.FC = () => {
   return (
     <div className="music-player-fixed-container">
       <div className="music-player-controls">
-        {/* Minimize Button */}
-        <button
-          className="minimize-button"
-          onClick={() => setIsCollapsed(true)}
-          title="Minimize"
-        >
-          <FontAwesomeIcon icon={faXmark} style={{ color: "white", fontSize: "14px" }} />
-        </button>
-
         {/* Track Selection Dropdown */}
         <div className="track-selector">
           <button
@@ -217,6 +208,15 @@ export const MusicPlayerControls: React.FC = () => {
             <span className="time-total">{formatTime(state.duration)}</span>
           </div>
         )}
+
+        {/* Minimize Button */}
+        <button
+          className="minimize-button"
+          onClick={() => setIsCollapsed(true)}
+          title="Minimize"
+        >
+          <FontAwesomeIcon icon={faXmark} style={{ color: "white", fontSize: "14px" }} />
+        </button>
       </div>
     </div>
   );
