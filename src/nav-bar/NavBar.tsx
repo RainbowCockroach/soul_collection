@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { baseUrl } from "../helpers/constants";
@@ -9,6 +10,30 @@ import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Always show navbar when at top
+      if (currentScrollY < 10) {
+        setIsHidden(false);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down - hide navbar
+        setIsHidden(true);
+      } else {
+        // Scrolling up - show navbar
+        setIsHidden(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
   const menuItems = [
     {
       name: "Main",
@@ -33,7 +58,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div>
+    <div className={`navbar-wrapper ${isHidden ? "navbar-hidden" : ""}`}>
       <nav className="navbar">
         <div className="nav-bar-logo">
           <ButtonWrapper
