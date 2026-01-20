@@ -13,6 +13,7 @@
 
 /* Navbar Styles */
 .navbar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,6 +21,19 @@
   padding: 0.75rem 1rem;
   gap: 1rem;
   background-color: rgb(82, 5, 149, 0.7);
+}
+
+/* Soft fade at bottom edge */
+.navbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to bottom, rgb(82, 5, 149, 0.7), transparent);
+  transform: translateY(100%);
+  pointer-events: none;
 }
 
 /* Logo Styles */
