@@ -42,11 +42,13 @@ const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
       {isLoading ? (
         "..."
       ) : (
-        <img
-          src={randomButton}
-          alt="Random OC Button"
-          className="shadow-3d button-image"
-        />
+        <div className="button-glow-wrapper">
+          <img
+            src={randomButton}
+            alt="Random OC Button"
+            className="shadow-3d button-image"
+          />
+        </div>
       )}
     </ButtonWrapper>
   );
