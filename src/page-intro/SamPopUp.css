@@ -2,8 +2,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 10000;
   display: flex;
@@ -20,8 +20,8 @@
 .sam-popup-content {
   position: relative;
   background: color-mix(in srgb, var(--color-purple) 50%, transparent);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   animation: sam-popup-appear 0.3s ease-out;
 }

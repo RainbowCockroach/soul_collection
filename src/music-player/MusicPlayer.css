@@ -24,7 +24,9 @@
   /* Ensure it doesn't overflow horizontally on small screens if fixed right */
   margin-left: 10px;
   /* Animation properties */
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   transform-origin: top right;
 }
 
@@ -61,7 +63,9 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .music-player-floating-button.visible {
@@ -347,15 +351,18 @@
     align-items: center;
   }
 
-  /* Keep floating button positioned correctly on mobile */
-  .music-player-floating-button.visible {
-    position: relative;
+  /* Keep floating button positioned correctly on mobile/tablet */
+  .music-player-floating-button {
+    position: static;
     top: auto;
     right: auto;
   }
 
   .music-player-floating-button.hidden {
     position: absolute;
+    bottom: 0;
+    right: 0;
+    top: auto;
   }
 
   .music-player-controls {
@@ -366,7 +373,7 @@
     padding: 12px;
   }
 
-  /* Make track list dropdown expand upward on mobile */
+  /* Make track list dropdown expand upward on mobile/tablet */
   .track-list-dropdown {
     top: auto;
     bottom: 100%;
@@ -374,7 +381,7 @@
     margin-bottom: 2px;
   }
 
-  /* Make volume slider expand upward on mobile */
+  /* Make volume slider expand upward on mobile/tablet */
   .volume-slider-container {
     top: auto;
     bottom: 100%;

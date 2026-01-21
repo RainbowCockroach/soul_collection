@@ -58,43 +58,45 @@ const Navbar = () => {
   ];
 
   return (
-    <div className={`navbar-wrapper ${isHidden ? "navbar-hidden" : ""}`}>
-      <nav className="navbar">
-        <div className="nav-bar-logo">
-          <ButtonWrapper
-            onClick={() =>
-              (window.location.href = "https://itssammmm.carrd.co/")
-            }
-            hoverSoundFile={buttonSoundHover}
-          >
-            <img src={samLogoFull} alt="Logo" className="logo" />
-          </ButtonWrapper>
-        </div>
-
-        <div className="nav-links-desktop">
-          {menuItems.map((item) => (
+    <>
+      <div className={`navbar-wrapper ${isHidden ? "navbar-hidden" : ""}`}>
+        <nav className="navbar">
+          <div className="nav-bar-logo">
             <ButtonWrapper
-              key={item.name}
-              onClick={() => !item.disabled && navigate(item.href)}
+              onClick={() =>
+                (window.location.href = "https://itssammmm.carrd.co/")
+              }
               hoverSoundFile={buttonSoundHover}
-              soundFile={buttonSound}
-              disabled={item.disabled}
             >
-              <div
-                className="glass-effect button-with-underline nav-button"
-                style={{
-                  opacity: item.disabled ? 0.5 : 1,
-                  cursor: item.disabled ? "not-allowed" : "pointer",
-                }}
-              >
-                {item.name}
-              </div>
+              <img src={samLogoFull} alt="Logo" className="logo" />
             </ButtonWrapper>
-          ))}
-        </div>
-      </nav>
+          </div>
+
+          <div className="nav-links-desktop">
+            {menuItems.map((item) => (
+              <ButtonWrapper
+                key={item.name}
+                onClick={() => !item.disabled && navigate(item.href)}
+                hoverSoundFile={buttonSoundHover}
+                soundFile={buttonSound}
+                disabled={item.disabled}
+              >
+                <div
+                  className="glass-effect button-with-underline nav-button"
+                  style={{
+                    opacity: item.disabled ? 0.5 : 1,
+                    cursor: item.disabled ? "not-allowed" : "pointer",
+                  }}
+                >
+                  {item.name}
+                </div>
+              </ButtonWrapper>
+            ))}
+          </div>
+        </nav>
+      </div>
       <MusicPlayerControls />
-    </div>
+    </>
   );
 };
 
