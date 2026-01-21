@@ -1,10 +1,16 @@
-@keyframes retro-spin {
+@keyframes rainbow-chase {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg);
+    --angle: 0deg;
   }
   100% {
-    transform: translate(-50%, -50%) rotate(360deg);
+    --angle: 360deg;
   }
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
 .button-glow-wrapper {
@@ -17,23 +23,23 @@
 .button-glow-wrapper::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 150%;
-  aspect-ratio: 1 / 1;
-  background: repeating-conic-gradient(
-    from 0deg,
-    rgba(173, 255, 47, 0.5) 0deg 7.5deg,
-    rgba(255, 215, 0, 0.4) 7.5deg 15deg,
-    transparent 15deg 30deg
+  inset: -8px;
+  border-radius: 12px;
+  background: conic-gradient(
+    from var(--angle),
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #8b00ff,
+    #ff0000
   );
-  border-radius: 50%;
-  animation: retro-spin 10s linear infinite;
+  animation: rainbow-chase 3s linear infinite;
+  filter: blur(10px) brightness(1.5);
+  opacity: 1;
+  z-index: -1;
   pointer-events: none;
-  z-index: -100;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
 
 .button-image {
@@ -42,8 +48,5 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  box-shadow: 0 0 15px rgba(200, 255, 100, 0.5),
-              0 0 30px rgba(255, 215, 0, 0.3);
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  position: relative;
 }
