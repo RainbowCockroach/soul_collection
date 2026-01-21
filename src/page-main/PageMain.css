@@ -142,7 +142,7 @@ p {
   /* Favourites: All in one row */
   .favourites-section {
     flex-wrap: nowrap;
-    width: 100vw;
+    width: 100%;
   }
 
   .favourites-section > * {
