@@ -23,15 +23,17 @@
   aspect-ratio: 1 / 1;
   background: repeating-conic-gradient(
     from 0deg,
-    rgba(173, 255, 47, 0.9) 0deg 7.5deg,
-    rgba(255, 215, 0, 0.8) 7.5deg 15deg,
+    rgba(173, 255, 47, 0.5) 0deg 7.5deg,
+    rgba(255, 215, 0, 0.4) 7.5deg 15deg,
     transparent 15deg 30deg
   );
   border-radius: 50%;
   animation: retro-spin 10s linear infinite;
   pointer-events: none;
-  filter: blur(12px);
   z-index: -100;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .button-image {
@@ -40,6 +42,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  box-shadow: 0 0 15px rgba(200, 255, 100, 0.6),
-              0 0 30px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 15px rgba(200, 255, 100, 0.5),
+              0 0 30px rgba(255, 215, 0, 0.3);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
