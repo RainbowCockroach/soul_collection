@@ -27,6 +27,41 @@
   flex-shrink: 0;
 }
 
+/* Mobile logo at top (non-sticky) */
+.nav-bar-logo-mobile {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgb(82, 5, 149, 0.7);
+}
+
+.nav-bar-logo-mobile .logo {
+  height: 5rem;
+}
+
+/* Increase mobile logo size on small tablets */
+@media (min-width: 640px) {
+  .nav-bar-logo-mobile .logo {
+    height: 6rem;
+  }
+}
+
+/* Desktop logo inside navbar */
+.nav-bar-logo-desktop {
+  display: none;
+}
+
+/* Hide mobile logo on desktop, show desktop logo */
+@media (min-width: 768px) {
+  .nav-bar-logo-mobile {
+    display: none;
+  }
+
+  .nav-bar-logo-desktop {
+    display: block;
+  }
+}
+
 .logo {
   background: none;
   border: none;
@@ -74,6 +109,15 @@
   background-color: var(--color-green);
   transition: color 0.2s ease-in-out;
   border-radius: 4px;
+}
+
+/* Firefox-only fix for backdrop-filter rendering bug */
+@supports (-moz-appearance: none) {
+  .nav-button {
+    background: var(--color-green) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
 /* Music Player in Navbar */

@@ -216,7 +216,6 @@ h6 {
   );
   border-radius: 6px 6px 50% 50%;
   pointer-events: none;
-  z-index: -1;
 }
 
 /* God Form Color Inversion - Applied to html for maximum coverage */

@@ -59,9 +59,22 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Mobile-only logo at top (non-sticky) */}
+      <div className="nav-bar-logo-mobile">
+        <ButtonWrapper
+          onClick={() =>
+            (window.location.href = "https://itssammmm.carrd.co/")
+          }
+          hoverSoundFile={buttonSoundHover}
+        >
+          <img src={samLogoFull} alt="Logo" className="logo" />
+        </ButtonWrapper>
+      </div>
+
       <div className={`navbar-wrapper ${isHidden ? "navbar-hidden" : ""}`}>
         <nav className="navbar">
-          <div className="nav-bar-logo">
+          {/* Desktop-only logo inside navbar */}
+          <div className="nav-bar-logo nav-bar-logo-desktop">
             <ButtonWrapper
               onClick={() =>
                 (window.location.href = "https://itssammmm.carrd.co/")
