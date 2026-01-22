@@ -180,29 +180,93 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
     });
   };
 
+  const parseUserAgent = (ua: string) => {
+    // Detect browser
+    let browser = "Unknown";
+    let version = "";
+
+    if (ua.includes("Edg/")) {
+      browser = "Edge";
+      version = ua.match(/Edg\/([\d.]+)/)?.[1] || "";
+    } else if (ua.includes("OPR/") || ua.includes("Opera/")) {
+      browser = "Opera";
+      version = ua.match(/(?:OPR|Opera)\/([\d.]+)/)?.[1] || "";
+    } else if (ua.includes("Chrome/") && !ua.includes("Edg/")) {
+      browser = "Chrome";
+      version = ua.match(/Chrome\/([\d.]+)/)?.[1] || "";
+    } else if (ua.includes("Safari/") && !ua.includes("Chrome")) {
+      browser = "Safari";
+      version = ua.match(/Version\/([\d.]+)/)?.[1] || "";
+    } else if (ua.includes("Firefox/")) {
+      browser = "Firefox";
+      version = ua.match(/Firefox\/([\d.]+)/)?.[1] || "";
+    }
+
+    // Detect OS
+    let os = "Unknown";
+    if (ua.includes("Windows NT 10.0")) os = "Windows 10/11";
+    else if (ua.includes("Windows NT 6.3")) os = "Windows 8.1";
+    else if (ua.includes("Windows NT 6.2")) os = "Windows 8";
+    else if (ua.includes("Windows NT 6.1")) os = "Windows 7";
+    else if (ua.includes("Windows")) os = "Windows";
+    else if (ua.includes("Mac OS X")) {
+      const match = ua.match(/Mac OS X ([\d_]+)/);
+      if (match) {
+        os = `macOS ${match[1].replace(/_/g, ".")}`;
+      } else {
+        os = "macOS";
+      }
+    } else if (ua.includes("Android")) {
+      const match = ua.match(/Android ([\d.]+)/);
+      os = match ? `Android ${match[1]}` : "Android";
+    } else if (ua.includes("iOS") || ua.includes("iPhone") || ua.includes("iPad")) {
+      const match = ua.match(/OS ([\d_]+)/);
+      os = match ? `iOS ${match[1].replace(/_/g, ".")}` : "iOS";
+    } else if (ua.includes("Linux")) {
+      os = "Linux";
+    }
+
+    // Detect device type
+    let deviceType = "Desktop";
+    if (ua.includes("Mobile")) {
+      deviceType = "Mobile";
+    } else if (ua.includes("Tablet") || ua.includes("iPad")) {
+      deviceType = "Tablet";
+    }
+
+    return {
+      browser: version ? `${browser} ${version}` : browser,
+      os,
+      deviceType,
+    };
+  };
+
   const getBrowserInfo = () => {
+    const ua = navigator.userAgent;
+    const parsed = parseUserAgent(ua);
+
     // Detect touch support
     const hasTouch =
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0 ||
       ("msMaxTouchPoints" in navigator && (navigator as { msMaxTouchPoints: number }).msMaxTouchPoints > 0);
 
-    // Get screen dimensions
-    const screenInfo = `${window.innerWidth}x${window.innerHeight} (screen: ${screen.width}x${screen.height})`;
-
     // Get device pixel ratio
     const pixelRatio = window.devicePixelRatio || 1;
+    const pixelRatioLabel = pixelRatio > 1.5 ? `${pixelRatio} (Retina)` : `${pixelRatio}`;
 
     // Format browser info
     const browserInfo = [
       `**Browser Info:**`,
-      `User Agent: ${navigator.userAgent}`,
-      `Platform: ${navigator.platform}`,
+      `Browser: ${parsed.browser}`,
+      `OS: ${parsed.os}`,
+      `Device Type: ${parsed.deviceType}`,
       `Language: ${navigator.language}`,
-      `Screen: ${screenInfo}`,
-      `Pixel Ratio: ${pixelRatio}`,
+      `Screen: ${window.innerWidth}x${window.innerHeight} (physical: ${screen.width}x${screen.height})`,
+      `Pixel Ratio: ${pixelRatioLabel}`,
       `Touch Support: ${hasTouch ? "Yes" : "No"}`,
-      `Viewport: ${window.innerWidth}x${window.innerHeight}`,
+      ``,
+      `Raw User Agent: ${ua}`,
     ].join("\n");
 
     return browserInfo;
