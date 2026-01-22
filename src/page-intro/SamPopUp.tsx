@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import "./SamPopUp.css";
 import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
@@ -31,6 +31,21 @@ const SamPopup = () => {
     }
   }, []);
 
+  // Prevent body scroll when popup is visible
+  useEffect(() => {
+    if (isVisible) {
+      // Save current overflow value
+      const originalOverflow = document.body.style.overflow;
+      // Prevent scrolling
+      document.body.style.overflow = "hidden";
+
+      // Restore original overflow when popup is closed
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isVisible]);
+
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -61,20 +76,20 @@ const SamPopup = () => {
     }, 500);
   };
 
-  const handleTextChange = () => {
+  const handleTextChange = useCallback(() => {
     if (showDialog && chatBubbleRef.current) {
       chatBubbleRef.current.skip();
     }
-  };
+  }, [showDialog]);
 
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.code === "Space" || e.code === "Enter") {
       e.preventDefault();
       if (showDialog && chatBubbleRef.current) {
         chatBubbleRef.current.skip();
       }
     }
-  };
+  }, [showDialog]);
 
   useEffect(() => {
     if (isVisible) {
@@ -83,7 +98,7 @@ const SamPopup = () => {
         document.removeEventListener("keydown", handleKeyDown);
       };
     }
-  }, [isVisible, showDialog]);
+  }, [isVisible, showDialog, handleKeyDown]);
 
   if (!isVisible) return null;
 
