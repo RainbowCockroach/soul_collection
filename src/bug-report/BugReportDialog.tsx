@@ -180,6 +180,34 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
     });
   };
 
+  const getBrowserInfo = () => {
+    // Detect touch support
+    const hasTouch =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      ("msMaxTouchPoints" in navigator && (navigator as { msMaxTouchPoints: number }).msMaxTouchPoints > 0);
+
+    // Get screen dimensions
+    const screenInfo = `${window.innerWidth}x${window.innerHeight} (screen: ${screen.width}x${screen.height})`;
+
+    // Get device pixel ratio
+    const pixelRatio = window.devicePixelRatio || 1;
+
+    // Format browser info
+    const browserInfo = [
+      `**Browser Info:**`,
+      `User Agent: ${navigator.userAgent}`,
+      `Platform: ${navigator.platform}`,
+      `Language: ${navigator.language}`,
+      `Screen: ${screenInfo}`,
+      `Pixel Ratio: ${pixelRatio}`,
+      `Touch Support: ${hasTouch ? "Yes" : "No"}`,
+      `Viewport: ${window.innerWidth}x${window.innerHeight}`,
+    ].join("\n");
+
+    return browserInfo;
+  };
+
   const handleSubmit = async () => {
     if (!description.trim() && attachments.length === 0) {
       setSubmitError(
@@ -194,10 +222,13 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
     try {
       const formData = new FormData();
 
-      // Add text content with [BUG REPORT] prefix
-      const messageContent = description.trim() || "(No description provided)";
+      // Add text content with [BUG REPORT] prefix and browser info
+      const userDescription = description.trim() || "(No description provided)";
+      const browserInfo = getBrowserInfo();
+      const messageContent = `${userDescription}\n\n---\n${browserInfo}`;
+
       const payload = {
-        content: `${messageContent}`,
+        content: messageContent,
         username: "BUG REPORT",
       };
       formData.append("payload_json", JSON.stringify(payload));
