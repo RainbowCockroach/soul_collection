@@ -5,6 +5,7 @@ import type { MessageContent } from "./types";
 import blinkies from "../data/guestbook-blinkies.json";
 import buttonSendNote from "../assets/button_send_note.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
+import { notifyNewGuestBookEntry } from "../helpers/discord-notify";
 
 interface GuestBookNoteFormProps {
   onSubmit: (
@@ -86,6 +87,15 @@ const GuestBookNoteForm = ({
 
     try {
       await onSubmit(messageContent, "note", noteForm.password || null);
+
+      // Send Discord notification for new submissions (not edits)
+      if (!isEditMode) {
+        notifyNewGuestBookEntry("note", noteForm.name || "Anonymous").catch(
+          (err) => {
+            console.error("Discord notification failed:", err);
+          }
+        );
+      }
 
       // Reset form on successful submission
       setNoteForm({
