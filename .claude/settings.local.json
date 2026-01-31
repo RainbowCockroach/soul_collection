@@ -5,7 +5,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(cat:*)",
-      "Bash(yarn lint)"
+      "Bash(yarn lint)",
+      "Bash(npm run lint:*)"
     ],
     "deny": []
   }
