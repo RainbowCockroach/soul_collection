@@ -13,7 +13,6 @@ import SamPopup from "./page-intro/SamPopUp";
 import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
 import StarryTrail from "./common-components/StarryTrail";
 import PageGuestBook from "./page-guest-book/PageGuestBook";
-import Footer from "./footer/Footer";
 
 function App() {
   const location = useLocation();
@@ -138,7 +137,6 @@ function App() {
               <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
               <Route path={`${baseUrl}/editor`} element={<Editor />} />
             </Routes>
-            <Footer />
           </div>
         </div>
         {/* Keep this div untouched */}
