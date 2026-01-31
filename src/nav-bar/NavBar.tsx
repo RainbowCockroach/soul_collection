@@ -6,6 +6,8 @@ import samLogoFull from "../assets/sam_logo_full.webp";
 import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import BugReportDialog from "../bug-report/BugReportDialog";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookSkull, faBug } from "@fortawesome/free-solid-svg-icons";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
@@ -88,6 +90,7 @@ const Navbar = () => {
       name: "Lore",
       href: `${baseUrl}/lore`,
       disabled: true,
+      icon: faBookSkull,
     },
   ];
 
@@ -216,8 +219,9 @@ const Navbar = () => {
                       opacity: item.disabled ? 0.5 : 1,
                       cursor: item.disabled ? "not-allowed" : "pointer",
                     }}
+                    title={item.name}
                   >
-                    {item.name}
+                    <FontAwesomeIcon icon={item.icon} />
                   </div>
                 </ButtonWrapper>
               ))}
@@ -227,8 +231,8 @@ const Navbar = () => {
                 hoverSoundFile={buttonSoundHover}
                 soundFile={buttonSound}
               >
-                <div className="glass-effect nav-button mobile-dropdown-item">
-                  Bug Report
+                <div className="glass-effect nav-button mobile-dropdown-item" title="Bug Report">
+                  <FontAwesomeIcon icon={faBug} />
                 </div>
               </ButtonWrapper>
             </div>
