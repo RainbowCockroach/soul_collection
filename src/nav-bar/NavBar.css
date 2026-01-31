@@ -31,12 +31,12 @@
 .nav-bar-logo-mobile {
   display: flex;
   justify-content: center;
-  padding: 1rem;
-  background-color: rgba(47, 23, 36, 0.7);
+  padding: 5px;
+  background-color: rgba(192, 10, 195, 0.7);
 }
 
 .nav-bar-logo-mobile .logo {
-  height: 7rem;
+  height: 6rem;
 }
 
 /* Increase mobile logo size on small tablets */
