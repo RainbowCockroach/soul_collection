@@ -109,6 +109,7 @@
   background-color: var(--color-green);
   transition: color 0.2s ease-in-out;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
 /* Firefox-only fix for backdrop-filter rendering bug */
@@ -125,8 +126,40 @@
   flex-shrink: 0;
 }
 
+/* Smaller tablets (portrait) - Buttons spread out */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .nav-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    font-weight: bold;
+    font-family: var(--font-primary);
+  }
+
+  .nav-links-desktop {
+    position: static;
+    transform: none;
+    flex: 1;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+  }
+}
+
+/* Larger tablets (landscape) - Buttons centered like desktop */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .nav-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    font-weight: bold;
+    font-family: var(--font-primary);
+  }
+
+  .nav-links-desktop {
+    gap: 0.75rem;
+  }
+}
+
 /* Large devices and up (desktops) - Bigger nav buttons */
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .nav-button {
     font-size: 1.25rem;
     padding: 0.75rem 1.5rem;
@@ -154,12 +187,21 @@
 
 /* Mobile only - Adjust nav links layout */
 @media (max-width: 639px) {
+  .navbar {
+    justify-content: center;
+  }
+
   .nav-links-desktop {
     position: static;
     transform: none;
     flex: 1;
-    justify-content: space-evenly;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  /* Push More button to the right */
+  .mobile-menu-container {
+    margin-left: auto;
   }
 }
 
