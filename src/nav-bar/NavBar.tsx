@@ -85,7 +85,7 @@ const Navbar = () => {
     {
       name: "Height chart",
       href: `${baseUrl}/height-chart`,
-      disabled: true,
+      disabled: false,
     },
   ];
 
