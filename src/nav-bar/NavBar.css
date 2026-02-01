@@ -154,12 +154,21 @@
 
 /* Mobile only - Adjust nav links layout */
 @media (max-width: 639px) {
+  .navbar {
+    justify-content: center;
+  }
+
   .nav-links-desktop {
     position: static;
     transform: none;
     flex: 1;
-    justify-content: space-evenly;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  /* Push More button to the right */
+  .mobile-menu-container {
+    margin-left: auto;
   }
 }
 

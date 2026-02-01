@@ -82,6 +82,11 @@ const Navbar = () => {
       href: `${baseUrl}/guest-book`,
       disabled: false,
     },
+    {
+      name: "Height chart",
+      href: `${baseUrl}/height-chart`,
+      disabled: true,
+    },
   ];
 
   // Items that go in the "More" dropdown
