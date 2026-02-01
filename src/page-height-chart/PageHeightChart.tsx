@@ -5,8 +5,14 @@ import heightChartLines from "../assets/height_chart_lines.webp";
 
 // OC sprites available in public/height-chart/
 const OC_SPRITES = [
-  { id: "sam", filename: "height_chart_sam.webp", name: "Sam" },
-  { id: "non", filename: "height_chart_non.webp", name: "Non" },
+  { id: "sam-regular", filename: "height_chart_sam_regular.webp", name: "Sam" },
+  { id: "sam-lolita", filename: "height_chart_sam_lolita.webp", name: "Sam" },
+  { id: "non-modern", filename: "height_chart_non_modern.webp", name: "Non" },
+  {
+    id: "non-dreamweed",
+    filename: "height_chart_non_dreamweed.webp",
+    name: "Non",
+  },
   { id: "naame", filename: "heigh_chart_naame.webp", name: "Naame" },
 ];
 
@@ -65,7 +71,9 @@ export default function PageHeightChart() {
         if (activeOCId === ocId) {
           // Set active to last remaining OC or null
           const remaining = prev.filter((oc) => oc.id !== ocId);
-          setActiveOCId(remaining.length > 0 ? remaining[remaining.length - 1].id : null);
+          setActiveOCId(
+            remaining.length > 0 ? remaining[remaining.length - 1].id : null,
+          );
         }
         return prev.filter((oc) => oc.id !== ocId);
       } else {
@@ -90,7 +98,7 @@ export default function PageHeightChart() {
       const oc = selectedOCs.find((o) => o.id === ocId);
       setDragStartOCX(oc?.x || 0);
     },
-    [selectedOCs]
+    [selectedOCs],
   );
 
   const handleTouchStart = useCallback(
@@ -102,7 +110,7 @@ export default function PageHeightChart() {
       const oc = selectedOCs.find((o) => o.id === ocId);
       setDragStartOCX(oc?.x || 0);
     },
-    [selectedOCs]
+    [selectedOCs],
   );
 
   useEffect(() => {
@@ -112,8 +120,8 @@ export default function PageHeightChart() {
       const deltaX = e.clientX - dragStartX;
       setSelectedOCs((prev) =>
         prev.map((oc) =>
-          oc.id === draggingId ? { ...oc, x: dragStartOCX + deltaX } : oc
-        )
+          oc.id === draggingId ? { ...oc, x: dragStartOCX + deltaX } : oc,
+        ),
       );
     };
 
@@ -122,8 +130,8 @@ export default function PageHeightChart() {
       const deltaX = touch.clientX - dragStartX;
       setSelectedOCs((prev) =>
         prev.map((oc) =>
-          oc.id === draggingId ? { ...oc, x: dragStartOCX + deltaX } : oc
-        )
+          oc.id === draggingId ? { ...oc, x: dragStartOCX + deltaX } : oc,
+        ),
       );
     };
 
