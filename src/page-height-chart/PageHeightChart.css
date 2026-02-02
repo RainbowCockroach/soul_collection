@@ -86,6 +86,36 @@
   display: block;
 }
 
+.height-chart-sprite-close {
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 182, 193, 0.9);
+  border: 3px solid #ffb6c1;
+  color: #fff;
+  font-size: 56px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 20;
+  pointer-events: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.height-chart-sprite-close:hover {
+  background: rgba(255, 182, 193, 1);
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 3px 12px rgba(255, 182, 193, 0.6);
+}
+
 /* Bottom selector bar */
 .height-chart-selector {
   flex-shrink: 0;

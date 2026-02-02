@@ -208,6 +208,18 @@ export default function PageHeightChart() {
                 onTouchStart={(e) => handleTouchStart(e, oc.id)}
                 onClick={() => handleOCClick(oc.id)}
               >
+                {isActive && (
+                  <button
+                    className="height-chart-sprite-close"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOCSelect(oc.id);
+                    }}
+                    title="Remove sprite"
+                  >
+                    ×
+                  </button>
+                )}
                 <img
                   src={`${import.meta.env.BASE_URL}height-chart/${sprite.filename}`}
                   alt={sprite.name}
