@@ -165,8 +165,4 @@
   .height-chart-selector-item img {
     max-height: 48px;
   }
-
-  .height-chart-sprite img {
-    max-height: calc(100vh - 150px);
-  }
 }
