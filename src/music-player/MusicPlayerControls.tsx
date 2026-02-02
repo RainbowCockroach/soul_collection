@@ -72,23 +72,19 @@ export const MusicPlayerControls: React.FC = () => {
     };
   }, [showVolumeSlider]);
 
-  if (isCollapsed) {
-    return (
-      <div className="music-player-fixed-container">
-        <button
-          className="music-player-floating-button"
-          onClick={() => setIsCollapsed(false)}
-          title="Open Music Player"
-        >
-          <FontAwesomeIcon icon={faMusic} style={{ color: "white" }} />
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="music-player-fixed-container">
-      <div className="music-player-controls">
+      {/* Floating Button (Collapsed State) */}
+      <button
+        className={`music-player-floating-button ${isCollapsed ? "visible" : "hidden"}`}
+        onClick={() => setIsCollapsed(false)}
+        title="Open Music Player"
+      >
+        <FontAwesomeIcon icon={faMusic} style={{ color: "white" }} />
+      </button>
+
+      {/* Control Bar (Expanded State) */}
+      <div className={`music-player-controls ${isCollapsed ? "collapsed" : "expanded"}`}>
         {/* Track Selection Dropdown */}
         <div className="track-selector">
           <button

@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  /* Container for both button and controls - they stack */
 }
 
 .music-player-controls {
@@ -22,10 +23,34 @@
   position: relative;
   /* Ensure it doesn't overflow horizontally on small screens if fixed right */
   margin-left: 10px;
+  /* Animation properties */
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transform-origin: top right;
+}
+
+.music-player-controls.expanded {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+  position: relative;
+}
+
+.music-player-controls.collapsed {
+  opacity: 0;
+  transform: translateX(20px) scale(0.95);
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 /* Floating Button (Collapsed State) */
 .music-player-floating-button {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -38,13 +63,31 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.music-player-floating-button.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.music-player-floating-button.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
 }
 
 .music-player-floating-button:hover {
   transform: scale(1.1);
   background: rgba(0, 0, 0, 0.8);
   border-color: rgba(255, 255, 255, 0.4);
+}
+
+.music-player-floating-button.hidden:hover {
+  transform: scale(0.8);
 }
 
 .music-player-floating-button:active {
@@ -300,12 +343,26 @@
   }
 
   /* When expanded on mobile, center it or make it fit better */
-  .music-player-fixed-container:has(.music-player-controls) {
+  .music-player-fixed-container:has(.music-player-controls.expanded) {
     bottom: 20px;
     right: 50%;
     transform: translateX(50%);
     width: 90%;
     align-items: center;
+  }
+
+  /* Keep floating button positioned correctly on mobile/tablet */
+  .music-player-floating-button {
+    position: static;
+    top: auto;
+    right: auto;
+  }
+
+  .music-player-floating-button.hidden {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    top: auto;
   }
 
   .music-player-controls {
@@ -316,7 +373,7 @@
     padding: 12px;
   }
 
-  /* Make track list dropdown expand upward on mobile */
+  /* Make track list dropdown expand upward on mobile/tablet */
   .track-list-dropdown {
     top: auto;
     bottom: 100%;
@@ -324,7 +381,7 @@
     margin-bottom: 2px;
   }
 
-  /* Make volume slider expand upward on mobile */
+  /* Make volume slider expand upward on mobile/tablet */
   .volume-slider-container {
     top: auto;
     bottom: 100%;

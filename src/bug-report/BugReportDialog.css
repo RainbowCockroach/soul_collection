@@ -1,0 +1,201 @@
+.bug-report-dialog-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.bug-report-dialog {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.bug-report-title {
+  margin: 0 0 20px 0;
+  font-size: 24px;
+  color: rgb(52, 11, 86);
+  text-align: center;
+}
+
+.bug-report-dialog .form-group {
+  margin-bottom: 20px;
+}
+
+.bug-report-dialog .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: rgb(52, 11, 86);
+}
+
+.bug-report-dialog textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid rgb(52, 11, 86);
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.bug-report-dialog textarea:focus {
+  outline: none;
+  border-color: rgb(106, 255, 168);
+  box-shadow: 0 0 0 3px rgba(106, 255, 168, 0.3);
+}
+
+.attachments-section {
+  margin-bottom: 20px;
+}
+
+.attachments-section > label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: bold;
+  color: rgb(52, 11, 86);
+}
+
+.attachments-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.attachment-item {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgb(52, 11, 86);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.attachment-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-attachment {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.remove-attachment:hover {
+  background: rgb(220, 53, 69);
+}
+
+.attachment-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.attach-button {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgb(52, 11, 86);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: rgb(52, 11, 86);
+  font-weight: bold;
+}
+
+.attach-button:hover {
+  background-color: rgba(106, 255, 168, 0.3);
+}
+
+.screenshot-hint {
+  margin: 0;
+  font-size: 13px;
+  color: rgb(52, 11, 86);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success-message {
+  color: rgb(52, 11, 86);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.send-button {
+  background-color: rgb(106, 255, 168);
+  border: 2px solid rgb(52, 11, 86);
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 16px;
+  color: rgb(52, 11, 86);
+  font-weight: bold;
+  box-shadow: 0px 3px 0px rgb(52, 11, 86);
+}
+
+.send-button:hover {
+  background-color: rgb(140, 255, 190);
+}
+
+.send-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bug-report-dialog {
+    padding: 16px;
+    max-width: 95vw;
+  }
+
+  .bug-report-title {
+    font-size: 20px;
+  }
+
+  .attachment-buttons {
+    flex-direction: column;
+  }
+
+  .attach-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .screenshot-hint {
+    font-size: 12px;
+  }
+}

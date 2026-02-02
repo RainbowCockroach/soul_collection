@@ -13,6 +13,7 @@ import SamPopup from "./page-intro/SamPopUp";
 import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
 import StarryTrail from "./common-components/StarryTrail";
 import PageGuestBook from "./page-guest-book/PageGuestBook";
+import PageHeightChart from "./page-height-chart/PageHeightChart";
 
 function App() {
   const location = useLocation();
@@ -129,6 +130,10 @@ function App() {
               <Route
                 path={`${baseUrl}/guest-book`}
                 element={<PageGuestBook />}
+              />
+              <Route
+                path={`${baseUrl}/height-chart`}
+                element={<PageHeightChart />}
               />
               <Route
                 path={`${baseUrl}/search`}

@@ -6,6 +6,7 @@ import type { MessageContent } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
 import buttonSendArt from "../assets/button_send_art.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
+import { notifyNewGuestBookEntry } from "../helpers/discord-notify";
 
 interface GuestBookFanArtFormProps {
   onSubmit: (
@@ -165,6 +166,15 @@ const GuestBookFanArtForm = ({
 
     try {
       await onSubmit(messageContent, "fan art", fanArtForm.password || null);
+
+      // Send Discord notification for new submissions (not edits)
+      if (!isEditMode) {
+        notifyNewGuestBookEntry("fan art", fanArtForm.name || "Anonymous").catch(
+          (err) => {
+            console.error("Discord notification failed:", err);
+          }
+        );
+      }
 
       // Reset form on successful submission
       setFanArtForm({
