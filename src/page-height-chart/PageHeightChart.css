@@ -163,7 +163,7 @@
   border-top: 2px solid rgba(255, 182, 193, 0.5);
   padding: 10px 20px;
   position: relative;
-  z-index: 10;
+  z-index: 150;
   overflow: visible;
 }
 
@@ -233,7 +233,7 @@
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  z-index: 200;
   animation: slideUpFade 0.2s ease;
   white-space: nowrap;
 }
