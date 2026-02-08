@@ -75,3 +75,15 @@ export interface AdItem {
 }
 
 export type AdLocations = Record<string, AdItem[]>; // Key: location ID (e.g., "main-sidebar"), Value: array of ads
+
+export interface HeightChartSprite {
+  id: string;
+  filename: string;
+  height: string;
+}
+
+export interface HeightChartGroup {
+  name: string;
+  groupId: string;
+  variants: HeightChartSprite[];
+}

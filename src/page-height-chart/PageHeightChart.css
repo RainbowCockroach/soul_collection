@@ -71,11 +71,11 @@
 
 .height-chart-sprite.dragging {
   cursor: grabbing;
-  z-index: 10;
+  z-index: 100;
 }
 
 .height-chart-sprite.active {
-  z-index: 5;
+  z-index: 100;
 }
 
 .height-chart-sprite img {
@@ -86,33 +86,71 @@
   display: block;
 }
 
+/* Name and height label above sprite */
+.height-chart-sprite-label {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%) scale(var(--counter-scale, 1));
+  transform-origin: bottom center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.height-chart-sprite-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #4a148c;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 4px rgba(255, 255, 255, 0.7);
+}
+
+.height-chart-sprite-height {
+  font-size: 12px;
+  color: #6a1b9a;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 4px rgba(255, 255, 255, 0.7);
+}
+
+/* Close buttons layer - positioned outside container to avoid clipping */
+.height-chart-close-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Close button at bottom of sprite */
 .height-chart-sprite-close {
   position: absolute;
-  top: -45px;
-  left: 50%;
+  bottom: 90px;
   transform: translateX(-50%);
-  width: 80px;
-  height: 80px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(255, 182, 193, 0.9);
-  border: 3px solid #ffb6c1;
+  border: 2px solid #ffb6c1;
   color: #fff;
-  font-size: 56px;
+  font-size: 20px;
   font-weight: bold;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  z-index: 20;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
   pointer-events: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .height-chart-sprite-close:hover {
   background: rgba(255, 182, 193, 1);
-  transform: translateX(-50%) scale(1.1);
   box-shadow: 0 3px 12px rgba(255, 182, 193, 0.6);
 }
 
@@ -124,8 +162,9 @@
   -webkit-backdrop-filter: blur(10px);
   border-top: 2px solid rgba(255, 182, 193, 0.5);
   padding: 10px 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  position: relative;
+  z-index: 10;
+  overflow: visible;
 }
 
 .height-chart-selector-inner {
@@ -135,6 +174,13 @@
   justify-content: center;
   align-items: flex-end;
   min-height: 80px;
+}
+
+/* Group container for variants */
+.height-chart-selector-group {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
 }
 
 .height-chart-selector-item {
@@ -170,6 +216,66 @@
   object-position: bottom;
 }
 
+/* Variant popup */
+.height-chart-variant-popup {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 182, 193, 0.5);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  animation: slideUpFade 0.2s ease;
+  white-space: nowrap;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.height-chart-variant-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 182, 193, 0.3);
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 70px;
+  min-width: 50px;
+}
+
+.height-chart-variant-item:hover {
+  background: rgba(255, 182, 193, 0.3);
+  border-color: rgba(255, 182, 193, 0.8);
+  transform: translateY(-2px);
+}
+
+.height-chart-variant-item img {
+  max-height: 60px;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .height-chart-page {
@@ -193,6 +299,22 @@
   }
 
   .height-chart-selector-item img {
+    max-height: 48px;
+  }
+
+  .height-chart-variant-popup {
+    gap: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .height-chart-variant-item {
+    height: 55px;
+    min-width: 40px;
+    padding: 3px;
+  }
+
+  .height-chart-variant-item img {
     max-height: 48px;
   }
 }

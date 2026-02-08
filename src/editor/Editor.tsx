@@ -8,6 +8,7 @@ import EditorShip from "./EditorShip";
 import EditorDialog from "./EditorDialog";
 import EditorAd from "./EditorAd";
 import EditorBio from "./EditorBio";
+import EditorHeightChart from "./EditorHeightChart";
 import { EditorImageUpload } from "./EditorImageUpload";
 import { EditorSoundUpload } from "./EditorSoundUpload";
 import { baseUrl } from "../helpers/constants";
@@ -23,6 +24,7 @@ type EditorTab =
   | "dialogs"
   | "bio"
   | "ads"
+  | "height-chart"
   | "uploads"
   | "sounds";
 
@@ -42,6 +44,11 @@ export const Editor: React.FC = () => {
     { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
     { id: "bio" as const, label: "Biography", component: EditorBio },
     { id: "ads" as const, label: "Ads", component: EditorAd },
+    {
+      id: "height-chart" as const,
+      label: "Height Chart",
+      component: EditorHeightChart,
+    },
     {
       id: "uploads" as const,
       label: "Image Upload",
