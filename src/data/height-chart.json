@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Sam",
+    "groupId": "sam",
+    "variants": [
+      {
+        "id": "sam-regular",
+        "filename": "height_chart_sam_regular.webp",
+        "height": "1m75"
+      },
+      {
+        "id": "sam-lolita",
+        "filename": "height_chart_sam_lolita.webp",
+        "height": "1m75"
+      }
+    ]
+  },
+  {
+    "name": "Non",
+    "groupId": "non",
+    "variants": [
+      {
+        "id": "non-modern",
+        "filename": "height_chart_non_modern.webp",
+        "height": "1m70"
+      },
+      {
+        "id": "non-dreamweed",
+        "filename": "height_chart_non_dreamweed.webp",
+        "height": "1m70"
+      }
+    ]
+  },
+  {
+    "name": "Naame",
+    "groupId": "naame",
+    "variants": [
+      {
+        "id": "naame",
+        "filename": "heigh_chart_naame.webp",
+        "height": "2m"
+      }
+    ]
+  }
+]
