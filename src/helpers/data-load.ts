@@ -8,6 +8,7 @@ import type {
   DialogTexts,
   DialogEntry,
   AdLocations,
+  HeightChartGroup,
 } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
@@ -17,6 +18,7 @@ import tagData from "../data/tag.json";
 import shipData from "../data/ships.json";
 import dialogData from "../data/dialog.json";
 import adsData from "../data/ads.json";
+import heightChartData from "../data/height-chart.json";
 
 export interface LoadedData {
   ocs: OC[];
@@ -180,4 +182,8 @@ export async function loadAllData(): Promise<LoadedData> {
 
 export async function loadAds(): Promise<AdLocations> {
   return adsData as AdLocations;
+}
+
+export async function loadHeightChartGroups(): Promise<HeightChartGroup[]> {
+  return heightChartData as HeightChartGroup[];
 }
