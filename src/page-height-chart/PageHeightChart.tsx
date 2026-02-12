@@ -284,36 +284,23 @@ export default function PageHeightChart() {
                   alt={sprite.name}
                   draggable={false}
                 />
+                {/* Close button - positioned relative to sprite */}
+                {isActive && (
+                  <button
+                    className="height-chart-sprite-close"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleCharacterSelection(character.id);
+                    }}
+                    title="Remove character"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             );
           })}
         </div>
-      </div>
-
-      {/* Close buttons for active characters */}
-      <div className="height-chart-close-buttons">
-        {selectedCharacters.map((character) => {
-          const isActive = activeCharacterId === character.id || dragState?.id === character.id;
-          if (!isActive) return null;
-
-          return (
-            <button
-              key={character.id}
-              className="height-chart-sprite-close"
-              style={{
-                left: `${character.x}px`,
-                "--counter-scale": 1 / chartScale,
-              } as React.CSSProperties}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleCharacterSelection(character.id);
-              }}
-              title="Remove character"
-            >
-              ×
-            </button>
-          );
-        })}
       </div>
 
       {/* Bottom selection bar */}

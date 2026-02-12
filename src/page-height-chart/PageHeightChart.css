@@ -9,7 +9,8 @@
   --hc-item-img-height: 60px;
   --hc-border-radius: 8px;
   --hc-border-width: 2px;
-  --hc-text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 4px rgba(255, 255, 255, 0.7);
+  --hc-text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.9), 0 0 4px rgba(255, 255, 255, 0.7);
 }
 
 .height-chart-page {
@@ -129,22 +130,13 @@
   text-shadow: var(--hc-text-shadow);
 }
 
-/* Close buttons layer - positioned outside container to avoid clipping */
-.height-chart-close-buttons {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  pointer-events: none;
-  z-index: 100;
-}
-
-/* Close button at bottom of sprite */
+/* Close button - positioned relative to sprite */
 .height-chart-sprite-close {
   position: absolute;
   bottom: 90px;
-  transform: translateX(-50%);
+  left: 50%;
+  transform: translateX(-50%) scale(var(--counter-scale, 1));
+  transform-origin: center;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -158,9 +150,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--hc-transition-fast), box-shadow var(--hc-transition-fast);
+  transition:
+    background var(--hc-transition-fast),
+    box-shadow var(--hc-transition-fast);
   pointer-events: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
 }
 
 .height-chart-sprite-close:hover {
@@ -286,7 +281,7 @@
   }
 
   .height-chart-sprite-close {
-    bottom: calc(50vh - 50px);
+    bottom: 120px;
   }
 
   .height-chart-selector {
