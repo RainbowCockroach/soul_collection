@@ -7,7 +7,7 @@ import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import BugReportDialog from "../bug-report/BugReportDialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookSkull, faBug } from "@fortawesome/free-solid-svg-icons";
+import { faBookSkull, faBug, faBars } from "@fortawesome/free-solid-svg-icons";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
@@ -203,7 +203,7 @@ const Navbar = () => {
               className="more-button"
             >
               <div className="glass-effect button-with-underline nav-button">
-                More
+                <FontAwesomeIcon icon={faBars} />
               </div>
             </ButtonWrapper>
 
