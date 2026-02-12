@@ -281,6 +281,14 @@
     --hc-item-img-height: 48px;
   }
 
+  .height-chart-container {
+    max-height: 50vh;
+  }
+
+  .height-chart-sprite-close {
+    bottom: calc(50vh - 50px);
+  }
+
   .height-chart-selector {
     padding: 8px 10px;
   }
