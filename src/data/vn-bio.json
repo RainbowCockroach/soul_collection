@@ -1,0 +1,17 @@
+{
+  "backgroundUrl": "https://fastly.picsum.photos/id/894/1600/900.jpg?hmac=M_pAIVIjnPfXgiUeQMr3E1sctWFWjHexWE98lslWn0A",
+  "dialogs": [
+    {
+      "speaker": "Sam",
+      "text": "Horseshoe crab. Speaks and ships and draws stuff and have a thing for cults.",
+      "spriteUrl": "https://placehold.co/400x700/ff6b9d/ffffff?text=Sam",
+      "nameBadgeColor": "#ff6b9d"
+    },
+    {
+      "speaker": "Pink Truck V",
+      "text": "Cooking convulted lore and spaghetti code.",
+      "spriteUrl": "https://placehold.co/400x700/6ba3ff/ffffff?text=PinkTruckV",
+      "nameBadgeColor": "#6ba3ff"
+    }
+  ]
+}
