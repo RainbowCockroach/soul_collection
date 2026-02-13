@@ -9,16 +9,14 @@ Place character sprite PNG images in this directory. The sprites should be:
 - **Dimensions**: Recommended 400-600px width, 700-1000px height (portrait orientation)
 - **Style**: Full-body character illustrations
 
-## Referencing in Data
+## Referencing in Code
 
-Update `/src/data/vn-bio.json` to reference your sprites:
+The Visual Novel Bio data is hardcoded in `/src/page-main/VisualNovelBio.tsx` in the `VN_BIO_DATA` constant. Update the `spriteUrl` fields to reference your sprites:
 
-```json
-{
-  "spriteUrl": "/soul_collection/bio-character-sprites/your-character-name.png"
-}
+```typescript
+spriteUrl: "/soul_collection/bio-character-sprites/your-character-name.png"
 ```
 
 ## Current Placeholders
 
-The current implementation uses placeholder images from placehold.co. Replace these URLs in `vn-bio.json` with actual sprite paths when ready.
+The current implementation uses placeholder images from placehold.co for Pink Truck V, and a real sprite for Sam (`/soul_collection/ui/bio_sprite_sam.webp`). Replace placeholder URLs in `VisualNovelBio.tsx` with actual sprite paths when ready.
