@@ -21,6 +21,22 @@ p {
   font-size: 1.2em;
 }
 
+/* ==================== TITLE IMAGE ==================== */
+
+.title-image-container {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.title-image {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 /* ==================== FAVOURITES SECTION ==================== */
 
 .favourites-section {
