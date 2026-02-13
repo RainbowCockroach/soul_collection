@@ -9,8 +9,8 @@ import rilorLivAvatar from "../assets/fav_rilor_liv.webp";
 import FavouriteCharacter from "./FavouriteCharacter";
 import OcSlot from "../page-oc-list/OcSlot";
 import type { OC } from "../page-oc-list/OcSlot";
-import { loadOCs, loadAds, loadVNBioData } from "../helpers/data-load";
-import type { AdItem, VNBioData } from "../helpers/objects";
+import { loadOCs, loadAds } from "../helpers/data-load";
+import type { AdItem } from "../helpers/objects";
 import AdSlideshow from "../common-components/AdSlideshow";
 import VisualNovelBio from "./VisualNovelBio";
 import "./PageMain.css";
@@ -31,7 +31,6 @@ const PageMain: React.FC = () => {
   const [protagonistOcs, setProtagonistOcs] = useState<OC[]>([]);
   const [sidebarAds, setSidebarAds] = useState<AdItem[]>([]);
   const [footerAds, setFooterAds] = useState<AdItem[]>([]);
-  const [vnBioData, setVnBioData] = useState<VNBioData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +41,6 @@ const PageMain: React.FC = () => {
       const adsData = await loadAds();
       setSidebarAds(adsData["main-sidebar"] || []);
       setFooterAds(adsData["main-footer"] || []);
-
-      const bioData = await loadVNBioData();
-      setVnBioData(bioData);
     };
 
     fetchData();
@@ -66,12 +62,7 @@ const PageMain: React.FC = () => {
       </div>
 
       <div>
-        {vnBioData && (
-          <VisualNovelBio
-            dialogs={vnBioData.dialogs}
-            backgroundUrl={vnBioData.backgroundUrl}
-          />
-        )}
+        <VisualNovelBio />
       </div>
 
       <Divider />

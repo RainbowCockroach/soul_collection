@@ -83,11 +83,6 @@ export interface VNDialogEntry {
   characters: VNCharacterSprite[]; // Array of characters visible on screen (max 2)
 }
 
-export interface VNBioData {
-  backgroundUrl: string;
-  dialogs: VNDialogEntry[];
-}
-
 export interface AdItem {
   imageUrl: string;
   redirectUrl: string;
