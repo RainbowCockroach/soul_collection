@@ -304,4 +304,13 @@
     padding: 8px;
     margin-bottom: 8px;
   }
+
+  .height-chart-sprite-label {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .height-chart-sprite-height::before {
+    content: "- ";
+  }
 }
