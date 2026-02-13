@@ -94,23 +94,23 @@
 .vn-dialog-border {
   background: linear-gradient(
     135deg,
-    #ebe9f2 0%,
-    #d8d4e8 25%,
-    #ebe9f2 50%,
-    #d8d4e8 75%,
-    #ebe9f2 100%
+    rgba(235, 233, 242, 0.7) 0%,
+    rgba(216, 212, 232, 0.7) 25%,
+    rgba(235, 233, 242, 0.7) 50%,
+    rgba(216, 212, 232, 0.7) 75%,
+    rgba(235, 233, 242, 0.7) 100%
   );
-  padding: 8px;
+  padding: 4px;
   border-radius: 12px;
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.4),
     inset 0 2px 4px rgba(255, 255, 255, 0.6),
     inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-  border: 2px solid #c0bcd4;
+  border: 2px solid rgba(192, 188, 212, 0.8);
 }
 
 .vn-dialog-content {
-  background: rgba(42, 18, 66, 0.92);
+  background: rgba(42, 18, 66, 0.7);
   padding: 20px 24px;
   border-radius: 8px;
   position: relative;
