@@ -72,40 +72,52 @@ const VisualNovelBio: React.FC<Props> = ({
   };
 
   return (
-    <div
-      className="vn-bio-container"
-      style={{ backgroundImage: `url(${backgroundUrl})` }}
-      onClick={handleClick}
-    >
-      {/* Character Sprite */}
-      <div className="vn-character-sprite">
-        <img src={currentDialog.spriteUrl} alt={currentDialog.speaker} />
-      </div>
-
-      {/* Dialog Box */}
-      <div className="vn-dialog-box">
-        <div className="vn-dialog-border">
-          <div className="vn-dialog-content">
-            {/* Name Badge */}
+    <div className="vn-bio-wrapper">
+      <div className="vn-bio-frame">
+        <div
+          className="vn-bio-container"
+          style={{ backgroundImage: `url(${backgroundUrl})` }}
+          onClick={handleClick}
+        >
+          {/* Character Sprites */}
+          {currentDialog.characters.map((character) => (
             <div
-              className="vn-name-badge"
-              style={{ backgroundColor: currentDialog.nameBadgeColor }}
+              key={character.characterId}
+              className={`vn-character-sprite vn-character-${character.position}`}
+              style={{
+                opacity: character.characterId === currentDialog.speakerId ? 1 : 0.7,
+              }}
             >
-              {currentDialog.speaker}
+              <img src={character.spriteUrl} alt={character.characterId} />
             </div>
+          ))}
 
-            {/* Dialog Text */}
-            <div className="vn-dialog-text">
-              {displayedText}
-              {isTyping && <span className="vn-typing-cursor">▌</span>}
-            </div>
+          {/* Dialog Box */}
+          <div className="vn-dialog-box">
+            <div className="vn-dialog-border">
+              <div className="vn-dialog-content">
+                {/* Name Badge */}
+                <div
+                  className="vn-name-badge"
+                  style={{ backgroundColor: currentDialog.nameBadgeColor }}
+                >
+                  {currentDialog.speaker}
+                </div>
 
-            {/* Continue Indicator */}
-            {!isTyping && (
-              <div className="vn-continue-indicator">
-                {!isLastDialog ? "▼" : "✓"}
+                {/* Dialog Text */}
+                <div className="vn-dialog-text">
+                  {displayedText}
+                  {isTyping && <span className="vn-typing-cursor">▌</span>}
+                </div>
+
+                {/* Continue Indicator */}
+                {!isTyping && (
+                  <div className="vn-continue-indicator">
+                    {!isLastDialog ? "▼" : "✓"}
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

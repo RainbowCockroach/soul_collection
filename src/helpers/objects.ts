@@ -69,11 +69,18 @@ export type DialogEntry = string | DialogItem;
 
 export type DialogTexts = Record<string, DialogEntry[]>;
 
-export interface VNDialogEntry {
-  speaker: string;
-  text: string;
+export interface VNCharacterSprite {
+  characterId: string; // Unique ID for the character (e.g., "sam", "pink-truck-v")
   spriteUrl: string;
+  position: "left" | "right"; // Which side of the screen
+}
+
+export interface VNDialogEntry {
+  speaker: string; // Display name of the speaking character
+  text: string;
+  speakerId: string; // ID of the character speaking (matches characterId)
   nameBadgeColor: string;
+  characters: VNCharacterSprite[]; // Array of characters visible on screen (max 2)
 }
 
 export interface VNBioData {
