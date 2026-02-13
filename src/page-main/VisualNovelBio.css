@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   margin: 0 auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -165,6 +165,10 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+  .vn-bio-container {
+    aspect-ratio: 3 / 4;
+  }
+
   .vn-character-sprite {
     width: 70%;
     height: 60%;
@@ -205,7 +209,7 @@
 /* Landscape mobile adjustment */
 @media (max-width: 768px) and (orientation: landscape) {
   .vn-bio-container {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
   }
 
   .vn-character-sprite {
