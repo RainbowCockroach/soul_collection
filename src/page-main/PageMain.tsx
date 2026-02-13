@@ -52,7 +52,7 @@ const PageMain: React.FC = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: "20px" }}>
+      <div>
         <div className="main-section">
           <picture className="title-image-container">
             <source media="(max-width: 768px)" srcSet={titleMobile} />
@@ -65,7 +65,7 @@ const PageMain: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+      <div>
         {vnBioData && (
           <VisualNovelBio
             dialogs={vnBioData.dialogs}
