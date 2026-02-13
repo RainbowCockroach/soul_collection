@@ -4,14 +4,38 @@
     {
       "speaker": "Sam",
       "text": "Horseshoe crab. Speaks and ships and draws stuff and have a thing for cults.",
-      "spriteUrl": "https://placehold.co/400x700/ff6b9d/ffffff?text=Sam",
-      "nameBadgeColor": "#ff6b9d"
+      "speakerId": "sam",
+      "nameBadgeColor": "#ff6b9d",
+      "characters": [
+        {
+          "characterId": "sam",
+          "spriteUrl": "https://placehold.co/400x700/ff6b9d/ffffff?text=Sam",
+          "position": "left"
+        },
+        {
+          "characterId": "pink-truck-v",
+          "spriteUrl": "https://placehold.co/400x700/6ba3ff/ffffff?text=PinkTruckV",
+          "position": "right"
+        }
+      ]
     },
     {
       "speaker": "Pink Truck V",
       "text": "Cooking convulted lore and spaghetti code.",
-      "spriteUrl": "https://placehold.co/400x700/6ba3ff/ffffff?text=PinkTruckV",
-      "nameBadgeColor": "#6ba3ff"
+      "speakerId": "pink-truck-v",
+      "nameBadgeColor": "#6ba3ff",
+      "characters": [
+        {
+          "characterId": "sam",
+          "spriteUrl": "https://placehold.co/400x700/ff6b9d/ffffff?text=Sam",
+          "position": "left"
+        },
+        {
+          "characterId": "pink-truck-v",
+          "spriteUrl": "https://placehold.co/400x700/6ba3ff/ffffff?text=PinkTruckV",
+          "position": "right"
+        }
+      ]
     }
   ]
 }
