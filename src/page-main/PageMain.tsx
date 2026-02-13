@@ -15,6 +15,8 @@ import AdSlideshow from "../common-components/AdSlideshow";
 import VisualNovelBio from "./VisualNovelBio";
 import "./PageMain.css";
 import Divider from "../common-components/Divider";
+import titleMobile from "../assets/title_mobile.webp";
+import titleDesktop from "../assets/title_desktop.webp";
 
 const PageMain: React.FC = () => {
   const favourites = [
@@ -52,7 +54,14 @@ const PageMain: React.FC = () => {
     <div>
       <div style={{ marginBottom: "20px" }}>
         <div className="main-section space-below space-above">
-          <h1 className="big-text-shadow">Welcome to my soul collection</h1>
+          <picture className="title-image-container">
+            <source media="(max-width: 768px)" srcSet={titleMobile} />
+            <img
+              src={titleDesktop}
+              alt="Welcome to Soul Collection"
+              className="title-image"
+            />
+          </picture>
         </div>
       </div>
 
