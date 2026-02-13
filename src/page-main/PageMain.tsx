@@ -53,7 +53,7 @@ const PageMain: React.FC = () => {
   return (
     <div>
       <div style={{ marginBottom: "20px" }}>
-        <div className="main-section space-below space-above">
+        <div className="main-section">
           <picture className="title-image-container">
             <source media="(max-width: 768px)" srcSet={titleMobile} />
             <img

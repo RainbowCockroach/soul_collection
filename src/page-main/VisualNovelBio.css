@@ -51,7 +51,9 @@
   opacity: 0.7;
   transform: scale(1);
   transform-origin: bottom center;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -166,7 +168,6 @@
   }
 }
 
-
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1200px) {
   .vn-bio-wrapper {
@@ -178,8 +179,8 @@
   }
 
   .vn-character-sprite {
-    width: 32%;
-    height: 70%;
+    width: 45%;
+    height: 90%;
   }
 
   .vn-dialog-text {
@@ -209,16 +210,16 @@
   }
 
   .vn-character-sprite {
-    width: 38%;
-    height: 60%;
+    width: 80%;
+    height: 90%;
   }
 
   .vn-character-left {
-    left: 2%;
+    left: -16%;
   }
 
   .vn-character-right {
-    right: 2%;
+    right: -16%;
   }
 
   .vn-dialog-box {
@@ -254,8 +255,8 @@
   }
 
   .vn-character-sprite {
-    width: 28%;
-    height: 80%;
+    width: 40%;
+    height: 90%;
   }
 
   .vn-character-left {
