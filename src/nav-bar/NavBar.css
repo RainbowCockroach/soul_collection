@@ -194,14 +194,13 @@
   .nav-links-desktop {
     position: static;
     transform: none;
-    flex: 1;
     justify-content: center;
     gap: 0.75rem;
   }
 
-  /* Push More button to the right */
+  /* Keep More button centered with other nav items */
   .mobile-menu-container {
-    margin-left: auto;
+    margin-left: 0;
   }
 }
 
@@ -232,7 +231,8 @@
 .mobile-dropdown {
   position: absolute;
   top: 100%;
-  right: -1rem; /* Compensate for navbar padding to touch screen edge */
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -241,11 +241,10 @@
   z-index: 100;
   pointer-events: none;
   background-color: rgba(82, 5, 149, 0.9);
-  border-radius: 8px 0 0 8px; /* Round only left corners */
+  border-radius: 8px;
   padding: 0.5rem;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
 }
 
@@ -253,7 +252,7 @@
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 /* Individual dropdown items with staggered animation */
