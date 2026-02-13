@@ -1,5 +1,5 @@
 {
-  "backgroundUrl": "https://fastly.picsum.photos/id/894/1600/900.jpg?hmac=M_pAIVIjnPfXgiUeQMr3E1sctWFWjHexWE98lslWn0A",
+  "backgroundUrl": "/soul_collection/public/ui/bio_huge_lobby.webp",
   "dialogs": [
     {
       "speaker": "Sam",
@@ -9,7 +9,7 @@
       "characters": [
         {
           "characterId": "sam",
-          "spriteUrl": "https://placehold.co/400x700/ff6b9d/ffffff?text=Sam",
+          "spriteUrl": "/soul_collection/public/ui/bio_sprite_sam.webp",
           "position": "left"
         },
         {
