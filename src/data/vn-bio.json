@@ -1,5 +1,5 @@
 {
-  "backgroundUrl": "/soul_collection/public/ui/bio_huge_lobby.webp",
+  "backgroundUrl": "/soul_collection/ui/bio_huge_lobby.webp",
   "dialogs": [
     {
       "speaker": "Sam",
@@ -9,7 +9,7 @@
       "characters": [
         {
           "characterId": "sam",
-          "spriteUrl": "/soul_collection/public/ui/bio_sprite_sam.webp",
+          "spriteUrl": "/soul_collection/ui/bio_sprite_sam.webp",
           "position": "left"
         },
         {
