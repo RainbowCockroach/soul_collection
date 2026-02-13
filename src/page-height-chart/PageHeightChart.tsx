@@ -5,34 +5,40 @@ import heightChartLines from "../assets/height_chart_lines.webp";
 import type { HeightChartGroup } from "../helpers/objects";
 import { loadHeightChartGroups } from "../helpers/data-load";
 
-interface SelectedOC {
+interface SelectedCharacter {
   id: string;
-  x: number; // horizontal position
+  x: number;
+}
+
+interface DragState {
+  id: string;
+  startX: number;
+  startCharacterX: number;
 }
 
 export default function PageHeightChart() {
   const [spriteGroups, setSpriteGroups] = useState<HeightChartGroup[]>([]);
-  const [selectedOCs, setSelectedOCs] = useState<SelectedOC[]>([]);
-  const [activeOCId, setActiveOCId] = useState<string | null>(null);
-  const [draggingId, setDraggingId] = useState<string | null>(null);
-  const [dragStartX, setDragStartX] = useState(0);
-  const [dragStartOCX, setDragStartOCX] = useState(0);
+  const [selectedCharacters, setSelectedCharacters] = useState<SelectedCharacter[]>([]);
+  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(null);
+  const [dragState, setDragState] = useState<DragState | null>(null);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
-  const chartRef = useRef<HTMLDivElement>(null);
-  const numbersImgRef = useRef<HTMLImageElement>(null);
-  const variantPopupRef = useRef<HTMLDivElement>(null);
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
   const [chartScale, setChartScale] = useState(1);
   const [originalChartHeight, setOriginalChartHeight] = useState(0);
 
-  // Flat list of all sprites for lookup
-  const allSprites = useMemo(
-    () =>
-      spriteGroups.flatMap((group) =>
-        group.variants.map((sprite) => ({ ...sprite, name: group.name })),
-      ),
-    [spriteGroups],
-  );
+  const chartRef = useRef<HTMLDivElement>(null);
+  const variantPopupRef = useRef<HTMLDivElement>(null);
+
+  // Flat list of all sprites for quick lookup
+  const spriteById = useMemo(() => {
+    const map = new Map();
+    spriteGroups.forEach((group) => {
+      group.variants.forEach((sprite) => {
+        map.set(sprite.id, { ...sprite, name: group.name });
+      });
+    });
+    return map;
+  }, [spriteGroups]);
 
   // Load height chart data
   useEffect(() => {
@@ -69,130 +75,129 @@ export default function PageHeightChart() {
     return () => window.removeEventListener("resize", updateScale);
   }, [originalChartHeight]);
 
-  const handleGroupClick = (group: HeightChartGroup) => {
-    // Check if any sprite from this group is currently selected
-    const selectedSprite = selectedOCs.find((oc) =>
-      group.variants.some((sprite) => sprite.id === oc.id),
-    );
+  const isGroupSelected = useCallback(
+    (group: HeightChartGroup) =>
+      selectedCharacters.some((char) =>
+        group.variants.some((sprite) => sprite.id === char.id),
+      ),
+    [selectedCharacters],
+  );
 
-    if (selectedSprite) {
-      // Deselect the currently selected sprite from this group
-      handleOCSelect(selectedSprite.id);
-      setExpandedGroupId(null);
-    } else if (group.variants.length === 1) {
-      // Single variant - select immediately
-      handleOCSelect(group.variants[0].id);
-      setExpandedGroupId(null);
-    } else {
-      // Multiple variants - toggle variant popup
-      setExpandedGroupId((prev) =>
-        prev === group.groupId ? null : group.groupId,
-      );
-    }
-  };
+  const toggleCharacterSelection = useCallback((characterId: string) => {
+    setSelectedCharacters((prev) => {
+      const isSelected = prev.some((char) => char.id === characterId);
 
-  const handleOCSelect = (ocId: string) => {
-    setSelectedOCs((prev) => {
-      const existing = prev.find((oc) => oc.id === ocId);
-      if (existing) {
+      if (isSelected) {
         // Deselect
-        if (activeOCId === ocId) {
-          // Set active to last remaining OC or null
-          const remaining = prev.filter((oc) => oc.id !== ocId);
-          setActiveOCId(
-            remaining.length > 0 ? remaining[remaining.length - 1].id : null,
-          );
-        }
-        return prev.filter((oc) => oc.id !== ocId);
+        const remaining = prev.filter((char) => char.id !== characterId);
+        setActiveCharacterId(remaining.length > 0 ? remaining[remaining.length - 1].id : null);
+        return remaining;
       } else {
-        // Select - add at center of chart
-        setActiveOCId(ocId);
+        // Select - add at center
         const chartWidth = chartRef.current?.clientWidth || 800;
-        return [...prev, { id: ocId, x: chartWidth / 2 }];
+        setActiveCharacterId(characterId);
+        return [...prev, { id: characterId, x: chartWidth / 2 }];
       }
     });
-  };
-
-  const handleVariantSelect = (spriteId: string) => {
-    handleOCSelect(spriteId);
-    setExpandedGroupId(null);
-  };
-
-  const handleOCClick = (e: React.MouseEvent, ocId: string) => {
-    e.stopPropagation();
-    setActiveOCId(ocId);
-  };
-
-  const handleChartClick = useCallback(() => {
-    setActiveOCId(null);
   }, []);
 
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent, ocId: string) => {
-      e.preventDefault();
-      setDraggingId(ocId);
-      setActiveOCId(ocId);
-      setDragStartX(e.clientX);
-      const oc = selectedOCs.find((o) => o.id === ocId);
-      setDragStartOCX(oc?.x || 0);
+  const handleGroupClick = useCallback(
+    (group: HeightChartGroup) => {
+      const selectedFromGroup = selectedCharacters.find((char) =>
+        group.variants.some((sprite) => sprite.id === char.id),
+      );
+
+      if (selectedFromGroup) {
+        toggleCharacterSelection(selectedFromGroup.id);
+        setExpandedGroupId(null);
+      } else if (group.variants.length === 1) {
+        toggleCharacterSelection(group.variants[0].id);
+        setExpandedGroupId(null);
+      } else {
+        setExpandedGroupId((prev) => (prev === group.groupId ? null : group.groupId));
+      }
     },
-    [selectedOCs],
+    [selectedCharacters, toggleCharacterSelection],
+  );
+
+  const handleVariantSelect = useCallback(
+    (spriteId: string) => {
+      toggleCharacterSelection(spriteId);
+      setExpandedGroupId(null);
+    },
+    [toggleCharacterSelection],
+  );
+
+  const handleCharacterClick = useCallback((e: React.MouseEvent, characterId: string) => {
+    e.stopPropagation();
+    setActiveCharacterId(characterId);
+  }, []);
+
+  const handleChartClick = useCallback(() => {
+    setActiveCharacterId(null);
+  }, []);
+
+  const startDrag = useCallback(
+    (characterId: string, clientX: number) => {
+      const character = selectedCharacters.find((char) => char.id === characterId);
+      if (character) {
+        setDragState({
+          id: characterId,
+          startX: clientX,
+          startCharacterX: character.x,
+        });
+        setActiveCharacterId(characterId);
+      }
+    },
+    [selectedCharacters],
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent, characterId: string) => {
+      e.preventDefault();
+      startDrag(characterId, e.clientX);
+    },
+    [startDrag],
   );
 
   const handleTouchStart = useCallback(
-    (e: React.TouchEvent, ocId: string) => {
-      const touch = e.touches[0];
-      setDraggingId(ocId);
-      setActiveOCId(ocId);
-      setDragStartX(touch.clientX);
-      const oc = selectedOCs.find((o) => o.id === ocId);
-      setDragStartOCX(oc?.x || 0);
+    (e: React.TouchEvent, characterId: string) => {
+      startDrag(characterId, e.touches[0].clientX);
     },
-    [selectedOCs],
+    [startDrag],
   );
 
+  // Handle drag operations
   useEffect(() => {
-    if (!draggingId) return;
+    if (!dragState) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const deltaX = e.clientX - dragStartX;
-      setSelectedOCs((prev) =>
-        prev.map((oc) =>
-          oc.id === draggingId ? { ...oc, x: dragStartOCX + deltaX } : oc,
+    const updatePosition = (clientX: number) => {
+      const deltaX = clientX - dragState.startX;
+      setSelectedCharacters((prev) =>
+        prev.map((char) =>
+          char.id === dragState.id
+            ? { ...char, x: dragState.startCharacterX + deltaX }
+            : char,
         ),
       );
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      const deltaX = touch.clientX - dragStartX;
-      setSelectedOCs((prev) =>
-        prev.map((oc) =>
-          oc.id === draggingId ? { ...oc, x: dragStartOCX + deltaX } : oc,
-        ),
-      );
-    };
-
-    const handleMouseUp = () => {
-      setDraggingId(null);
-    };
-
-    const handleTouchEnd = () => {
-      setDraggingId(null);
-    };
+    const handleMouseMove = (e: MouseEvent) => updatePosition(e.clientX);
+    const handleTouchMove = (e: TouchEvent) => updatePosition(e.touches[0].clientX);
+    const endDrag = () => setDragState(null);
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseup", endDrag);
     window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("touchend", endDrag);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseup", endDrag);
       window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchend", endDrag);
     };
-  }, [draggingId, dragStartX, dragStartOCX]);
+  }, [dragState]);
 
   // Click outside to close variant popup
   useEffect(() => {
@@ -200,22 +205,15 @@ export default function PageHeightChart() {
 
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-
-      // Don't close if clicking inside the popup itself
-      if (variantPopupRef.current?.contains(target)) {
+      if (
+        variantPopupRef.current?.contains(target) ||
+        target.closest(".height-chart-selector-group")
+      ) {
         return;
       }
-
-      // Don't close if clicking on a selector group button (toggle behavior)
-      if (target.closest(".height-chart-selector-group")) {
-        return;
-      }
-
-      // Close popup for any other clicks
       setExpandedGroupId(null);
     };
 
-    // Use a small delay to prevent immediate closing on the same click that opened it
     const timeoutId = setTimeout(() => {
       document.addEventListener("mousedown", handleClickOutside);
     }, 0);
@@ -226,11 +224,6 @@ export default function PageHeightChart() {
     };
   }, [expandedGroupId]);
 
-  const isGroupSelected = (group: HeightChartGroup) =>
-    selectedOCs.some((oc) =>
-      group.variants.some((sprite) => sprite.id === oc.id),
-    );
-
   return (
     <div className="height-chart-page">
       {/* Main chart area */}
@@ -238,7 +231,6 @@ export default function PageHeightChart() {
         {/* Background with number scale and lines */}
         <div className="height-chart-background">
           <img
-            ref={numbersImgRef}
             src={heightChartNumber}
             alt="Height scale numbers"
             className="height-chart-numbers"
@@ -257,30 +249,31 @@ export default function PageHeightChart() {
           </div>
         </div>
 
-        {/* OC sprites */}
+        {/* Character sprites */}
         <div className="height-chart-sprites">
-          {selectedOCs.map((oc) => {
-            const sprite = allSprites.find((s) => s.id === oc.id);
+          {selectedCharacters.map((character) => {
+            const sprite = spriteById.get(character.id);
             if (!sprite) return null;
 
-            const isActive = activeOCId === oc.id || draggingId === oc.id;
+            const isActive = activeCharacterId === character.id;
+            const isDragging = dragState?.id === character.id;
 
             return (
               <div
-                key={oc.id}
+                key={character.id}
                 className={`height-chart-sprite ${isActive ? "active" : ""} ${
-                  draggingId === oc.id ? "dragging" : ""
+                  isDragging ? "dragging" : ""
                 }`}
                 style={{
-                  left: `${oc.x}px`,
+                  left: `${character.x}px`,
                   opacity: isActive ? 1 : 0.7,
                   transform: `translateX(-50%) scale(${chartScale})`,
                   transformOrigin: "bottom center",
                   "--counter-scale": 1 / chartScale,
                 } as React.CSSProperties}
-                onMouseDown={(e) => handleMouseDown(e, oc.id)}
-                onTouchStart={(e) => handleTouchStart(e, oc.id)}
-                onClick={(e) => handleOCClick(e, oc.id)}
+                onMouseDown={(e) => handleMouseDown(e, character.id)}
+                onTouchStart={(e) => handleTouchStart(e, character.id)}
+                onClick={(e) => handleCharacterClick(e, character.id)}
               >
                 <div className="height-chart-sprite-label">
                   <span className="height-chart-sprite-name">{sprite.name}</span>
@@ -291,39 +284,23 @@ export default function PageHeightChart() {
                   alt={sprite.name}
                   draggable={false}
                 />
+                {/* Close button - positioned relative to sprite */}
+                {isActive && (
+                  <button
+                    className="height-chart-sprite-close"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleCharacterSelection(character.id);
+                    }}
+                    title="Remove character"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             );
           })}
         </div>
-      </div>
-
-      {/* Close buttons layer (outside container to avoid overflow clipping) */}
-      <div className="height-chart-close-buttons">
-        {selectedOCs.map((oc) => {
-          const sprite = allSprites.find((s) => s.id === oc.id);
-          if (!sprite) return null;
-
-          const isActive = activeOCId === oc.id || draggingId === oc.id;
-          if (!isActive) return null;
-
-          return (
-            <button
-              key={oc.id}
-              className="height-chart-sprite-close"
-              style={{
-                left: `${oc.x}px`,
-                "--counter-scale": 1 / chartScale,
-              } as React.CSSProperties}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleOCSelect(oc.id);
-              }}
-              title="Remove sprite"
-            >
-              ×
-            </button>
-          );
-        })}
       </div>
 
       {/* Bottom selection bar */}

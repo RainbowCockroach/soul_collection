@@ -69,6 +69,18 @@ export type DialogEntry = string | DialogItem;
 
 export type DialogTexts = Record<string, DialogEntry[]>;
 
+export interface VNDialogEntry {
+  speaker: string;
+  text: string;
+  spriteUrl: string;
+  nameBadgeColor: string;
+}
+
+export interface VNBioData {
+  backgroundUrl: string;
+  dialogs: VNDialogEntry[];
+}
+
 export interface AdItem {
   imageUrl: string;
   redirectUrl: string;
