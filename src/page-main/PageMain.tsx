@@ -65,8 +65,6 @@ const PageMain: React.FC = () => {
         </div>
       </div>
 
-      <Divider />
-
       <div style={{ marginTop: "20px", marginBottom: "20px" }}>
         {vnBioData && (
           <VisualNovelBio
