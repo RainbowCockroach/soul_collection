@@ -20,7 +20,9 @@ const VisualNovelBio: React.FC<Props> = ({
   const [isTyping, setIsTyping] = useState(true);
 
   const currentDialog = dialogs[dialogIndex];
+  const currentText = currentDialog?.text || "";
   const isLastDialog = dialogIndex >= dialogs.length - 1;
+  const hasMore = dialogIndex < dialogs.length - 1;
 
   // Reset on new dialogs
   useEffect(() => {
@@ -29,16 +31,10 @@ const VisualNovelBio: React.FC<Props> = ({
     setIsTyping(true);
   }, [dialogs]);
 
-  // Reset when dialog changes
-  useEffect(() => {
-    setDisplayedText("");
-    setIsTyping(true);
-  }, [dialogIndex]);
-
   // Typing effect
   useEffect(() => {
-    if (!isTyping || displayedText.length >= currentDialog.text.length) {
-      if (displayedText.length >= currentDialog.text.length) {
+    if (!isTyping || displayedText.length >= currentText.length) {
+      if (displayedText.length >= currentText.length) {
         setIsTyping(false);
         if (isLastDialog) {
           onComplete?.();
@@ -48,22 +44,30 @@ const VisualNovelBio: React.FC<Props> = ({
     }
 
     const timer = setTimeout(() => {
-      setDisplayedText(currentDialog.text.slice(0, displayedText.length + 1));
+      setDisplayedText(currentText.slice(0, displayedText.length + 1));
     }, speed);
 
     return () => clearTimeout(timer);
-  }, [displayedText, currentDialog.text, isTyping, speed, isLastDialog, onComplete]);
+  }, [displayedText, currentText, isTyping, speed, isLastDialog, onComplete]);
+
+  const showFull = () => {
+    setDisplayedText(currentText);
+    setIsTyping(false);
+  };
+
+  const next = () => {
+    if (hasMore) {
+      setDialogIndex((prev) => prev + 1);
+      setDisplayedText("");
+      setIsTyping(true);
+    }
+  };
 
   const handleClick = () => {
     if (isTyping) {
-      // Show full text immediately
-      setDisplayedText(currentDialog.text);
-      setIsTyping(false);
+      showFull();
     } else {
-      // Advance to next dialog
-      if (!isLastDialog) {
-        setDialogIndex((prev) => prev + 1);
-      }
+      next();
     }
   };
 
