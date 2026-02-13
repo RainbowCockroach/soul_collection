@@ -3,6 +3,7 @@ import type { VNDialogEntry } from "../helpers/objects";
 import "./VisualNovelBio.css";
 import bioBackground from "../assets/bio_huge_lobby.webp";
 import samSprite from "../assets/bio_sprite_sam.webp";
+import vSprite from "../assets/bio_sprite_v.webp";
 
 // Hardcoded visual novel bio data
 const VN_BIO_DATA = {
@@ -10,7 +11,7 @@ const VN_BIO_DATA = {
   dialogs: [
     {
       speaker: "Sam",
-      text: "Horseshoe crab. Speaks and ships and draws stuff and have a thing for cults.",
+      text: "Hi! I'm Sam. I do the designs, illustrations, ships and a little bit of the story writting! Also, me have a thing for cults...",
       speakerId: "sam",
       nameBadgeColor: "#ff6b9d",
       characters: [
@@ -21,8 +22,7 @@ const VN_BIO_DATA = {
         },
         {
           characterId: "pink-truck-v",
-          spriteUrl:
-            "https://placehold.co/400x700/6ba3ff/ffffff?text=PinkTruckV",
+          spriteUrl: vSprite,
           position: "right" as const,
         },
       ],
@@ -35,13 +35,12 @@ const VN_BIO_DATA = {
       characters: [
         {
           characterId: "sam",
-          spriteUrl: "https://placehold.co/400x700/ff6b9d/ffffff?text=Sam",
+          spriteUrl: samSprite,
           position: "left" as const,
         },
         {
           characterId: "pink-truck-v",
-          spriteUrl:
-            "https://placehold.co/400x700/6ba3ff/ffffff?text=PinkTruckV",
+          spriteUrl: vSprite,
           position: "right" as const,
         },
       ],
