@@ -111,7 +111,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 0px;
   white-space: nowrap;
   pointer-events: none;
   z-index: 20;
@@ -239,8 +239,7 @@
 .height-chart-variant-popup {
   position: absolute;
   bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   margin-bottom: 10px;
   display: flex;
   gap: 10px;
@@ -259,11 +258,11 @@
 @keyframes slideUpFade {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 }
 
@@ -278,6 +277,7 @@
 
   .height-chart-container {
     max-height: 50vh;
+    padding-top: 40px;
   }
 
   .height-chart-sprite-close {
