@@ -10,7 +10,7 @@ const VN_BIO_DATA = {
   dialogs: [
     {
       speaker: "Sam",
-      text: "Horseshoe crab. Speaks and ships and draws stuff and have a thing for cults.",
+      text: "Hi! I'm Sam. I do the designs, illustrations, ships and a little bit of the story writting! Also, me have a thing for cults...",
       speakerId: "sam",
       nameBadgeColor: "#ff6b9d",
       characters: [
