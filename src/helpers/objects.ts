@@ -100,5 +100,6 @@ export interface HeightChartSprite {
 export interface HeightChartGroup {
   name: string;
   groupId: string;
+  thumbnail: string;
   variants: HeightChartSprite[];
 }
