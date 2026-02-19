@@ -280,7 +280,7 @@ export default function PageHeightChart() {
                   <span className="height-chart-sprite-height">{sprite.height}</span>
                 </div>
                 <img
-                  src={`${import.meta.env.BASE_URL}height-chart/${sprite.filename}`}
+                  src={sprite.url}
                   alt={sprite.name}
                   draggable={false}
                 />
@@ -320,7 +320,7 @@ export default function PageHeightChart() {
                   title={group.name}
                 >
                   <img
-                    src={`${import.meta.env.BASE_URL}height-chart/${previewSprite.filename}`}
+                    src={previewSprite.thumbnail}
                     alt={group.name}
                     draggable={false}
                   />
@@ -340,7 +340,7 @@ export default function PageHeightChart() {
                         title={group.name}
                       >
                         <img
-                          src={`${import.meta.env.BASE_URL}height-chart/${sprite.filename}`}
+                          src={sprite.thumbnail}
                           alt={group.name}
                           draggable={false}
                         />
