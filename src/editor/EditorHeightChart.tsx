@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { HeightChartGroup, HeightChartSprite } from "../helpers/objects";
-import { loadHeightChartGroups } from "../helpers/data-load";
+import { loadHeightChartGroups, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
-import slugify from "slugify";
 import {
   DndContext,
   closestCenter,
@@ -21,6 +20,7 @@ import {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./EditorCommon.css";
+import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
 interface SortableGroupItemProps {
   group: HeightChartGroup;
@@ -83,31 +83,26 @@ const SortableGroupItem: React.FC<SortableGroupItemProps> = ({
 
 const emptyVariant = (): HeightChartSprite => ({
   id: "",
-  filename: "",
+  url: "",
+  thumbnail: "",
   height: "",
 });
-
-// Generate variant ID from filename
-const generateVariantId = (filename: string): string => {
-  if (!filename) return "";
-
-  // Remove file extension
-  const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
-
-  // Convert to slug format using slugify
-  return slugify(nameWithoutExt, { lower: true, strict: true });
-};
 
 export const EditorHeightChart: React.FC = () => {
   const [groups, setGroups] = useState<HeightChartGroup[]>([]);
   const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | null>(
     null,
   );
+  const [ocOptions, setOcOptions] = useState<{ slug: string; name: string }[]>(
+    [],
+  );
   const [formData, setFormData] = useState<{
     name: string;
+    groupId: string;
     variants: HeightChartSprite[];
   }>({
     name: "",
+    groupId: "",
     variants: [emptyVariant()],
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -125,8 +120,16 @@ export const EditorHeightChart: React.FC = () => {
 
   const loadData = async () => {
     try {
-      const loaded = await loadHeightChartGroups();
+      const [loaded, ocs] = await Promise.all([
+        loadHeightChartGroups(),
+        loadOCs(),
+      ]);
       setGroups(loaded);
+      setOcOptions(
+        ocs
+          .map((oc) => ({ slug: oc.slug, name: oc.name }))
+          .sort((a, b) => a.slug.localeCompare(b.slug)),
+      );
     } catch (error) {
       console.error("Error loading height chart data:", error);
       toast.error("Failed to load height chart data");
@@ -139,6 +142,7 @@ export const EditorHeightChart: React.FC = () => {
       setSelectedGroupIndex(index);
       setFormData({
         name: group.name,
+        groupId: group.groupId,
         variants: group.variants.map((v) => ({ ...v })),
       });
       setIsEditing(true);
@@ -151,27 +155,21 @@ export const EditorHeightChart: React.FC = () => {
       return;
     }
 
-    // Auto-generate groupId from name
-    const groupId = slugify(formData.name, { lower: true, strict: true });
+    const groupId = formData.groupId;
 
     if (!groupId) {
-      toast.error(
-        "Group name must contain at least one alphanumeric character",
-      );
+      toast.error("Please select an OC slug for the Group ID");
       return;
     }
 
-    // Filter out empty variants and auto-generate IDs
-    const validVariants = formData.variants
-      .filter((v) => v.filename.trim() && v.height.trim())
-      .map((v) => ({
-        ...v,
-        id: generateVariantId(v.filename),
-      }));
+    // Filter out empty variants
+    const validVariants = formData.variants.filter(
+      (v) => v.url.trim() && v.height.trim() && v.id.trim(),
+    );
 
     if (validVariants.length === 0) {
       toast.error(
-        "At least one complete variant is required (filename and height)",
+        "At least one complete variant is required (ID, URL, and height)",
       );
       return;
     }
@@ -216,6 +214,7 @@ export const EditorHeightChart: React.FC = () => {
     setSelectedGroupIndex(null);
     setFormData({
       name: "",
+      groupId: "",
       variants: [emptyVariant()],
     });
     setIsEditing(false);
@@ -342,17 +341,24 @@ export const EditorHeightChart: React.FC = () => {
                 placeholder="e.g. Sam"
                 className="editor-input"
               />
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "var(--editor-gray-500)",
-                  marginTop: "4px",
-                }}
+            </div>
+
+            <div className="editor-field">
+              <label className="editor-label">OC:</label>
+              <select
+                value={formData.groupId}
+                onChange={(e) =>
+                  setFormData({ ...formData, groupId: e.target.value })
+                }
+                className="editor-input"
               >
-                ID will be auto-generated:{" "}
-                {slugify(formData.name, { lower: true, strict: true }) ||
-                  "(empty)"}
-              </div>
+                <option value="">— select an OC —</option>
+                {ocOptions.map((oc) => (
+                  <option key={oc.slug} value={oc.slug}>
+                    {oc.slug} (<BBCodeDisplay bbcode={oc.name} />)
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="editor-field">
@@ -405,28 +411,54 @@ export const EditorHeightChart: React.FC = () => {
                         className="editor-label"
                         style={{ fontSize: "12px" }}
                       >
-                        Filename:
+                        ID:
                       </label>
                       <input
                         type="text"
-                        value={variant.filename}
+                        value={variant.id}
                         onChange={(e) =>
-                          handleVariantChange(index, "filename", e.target.value)
+                          handleVariantChange(index, "id", e.target.value)
                         }
-                        placeholder="e.g. height_chart_sam_regular.webp"
+                        placeholder="e.g. sam-regular"
                         className="editor-input"
                         style={{ fontSize: "13px" }}
                       />
-                      <div
-                        style={{
-                          fontSize: "11px",
-                          color: "var(--editor-gray-500)",
-                          marginTop: "2px",
-                        }}
+                    </div>
+                    <div>
+                      <label
+                        className="editor-label"
+                        style={{ fontSize: "12px" }}
                       >
-                        ID will be:{" "}
-                        {generateVariantId(variant.filename) || "(empty)"}
-                      </div>
+                        Sprite URL:
+                      </label>
+                      <input
+                        type="text"
+                        value={variant.url}
+                        onChange={(e) =>
+                          handleVariantChange(index, "url", e.target.value)
+                        }
+                        placeholder="https://..."
+                        className="editor-input"
+                        style={{ fontSize: "13px" }}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        className="editor-label"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Thumbnail URL:
+                      </label>
+                      <input
+                        type="text"
+                        value={variant.thumbnail}
+                        onChange={(e) =>
+                          handleVariantChange(index, "thumbnail", e.target.value)
+                        }
+                        placeholder="https://..."
+                        className="editor-input"
+                        style={{ fontSize: "13px" }}
+                      />
                     </div>
                     <div>
                       <label

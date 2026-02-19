@@ -5,12 +5,8 @@
     "variants": [
       {
         "id": "sam-regular",
-        "filename": "height_chart_sam_regular.webp",
-        "height": "1m75"
-      },
-      {
-        "id": "sam-lolita",
-        "filename": "height_chart_sam_lolita.webp",
+        "url": "https://png.pngtree.com/png-clipart/20240428/original/pngtree-chicken-hen-png-image_14965893.png",
+        "thumbnail": "https://img.pikbest.com/png-images/20241022/chicken-meat-png-isolated-on-transparent-background-high-resolution_10991407.png!bw700",
         "height": "1m75"
       }
     ]
@@ -21,12 +17,14 @@
     "variants": [
       {
         "id": "non-modern",
-        "filename": "height_chart_non_modern.webp",
+        "url": "",
+        "thumbnail": "",
         "height": "1m70"
       },
       {
         "id": "non-dreamweed",
-        "filename": "height_chart_non_dreamweed.webp",
+        "url": "",
+        "thumbnail": "",
         "height": "1m70"
       }
     ]
@@ -37,7 +35,8 @@
     "variants": [
       {
         "id": "naame",
-        "filename": "heigh_chart_naame.webp",
+        "url": "",
+        "thumbnail": "",
         "height": "2m"
       }
     ]
