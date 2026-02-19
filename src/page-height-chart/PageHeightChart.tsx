@@ -4,6 +4,10 @@ import heightChartNumber from "../assets/height_chart_number.webp";
 import heightChartLines from "../assets/height_chart_lines.webp";
 import type { HeightChartGroup } from "../helpers/objects";
 import { loadHeightChartGroups } from "../helpers/data-load";
+import {
+  getHeightChartSelections,
+  setHeightChartSelections,
+} from "../helpers/height-chart-cart";
 
 interface SelectedCharacter {
   id: string;
@@ -25,6 +29,7 @@ export default function PageHeightChart() {
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
   const [chartScale, setChartScale] = useState(1);
   const [originalChartHeight, setOriginalChartHeight] = useState(0);
+  const [initializedFromStorage, setInitializedFromStorage] = useState(false);
 
   const chartRef = useRef<HTMLDivElement>(null);
   const variantPopupRef = useRef<HTMLDivElement>(null);
@@ -44,6 +49,29 @@ export default function PageHeightChart() {
   useEffect(() => {
     loadHeightChartGroups().then(setSpriteGroups);
   }, []);
+
+  // Initialize selectedCharacters from localStorage once data is loaded
+  useEffect(() => {
+    if (spriteGroups.length === 0 || initializedFromStorage) return;
+    setInitializedFromStorage(true);
+    const savedIds = getHeightChartSelections();
+    if (savedIds.length === 0) return;
+    const validIds = savedIds.filter((id) => spriteById.has(id));
+    if (validIds.length === 0) return;
+    const chartWidth = chartRef.current?.clientWidth || 800;
+    setSelectedCharacters(
+      validIds.map((id, index) => ({
+        id,
+        x: (chartWidth / (validIds.length + 1)) * (index + 1),
+      })),
+    );
+  }, [spriteGroups, initializedFromStorage, spriteById]);
+
+  // Sync selectedCharacters IDs back to localStorage whenever they change
+  useEffect(() => {
+    if (!initializedFromStorage) return;
+    setHeightChartSelections(selectedCharacters.map((c) => c.id));
+  }, [selectedCharacters, initializedFromStorage]);
 
   // Get original chart height from the numbers image
   useEffect(() => {
