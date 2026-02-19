@@ -111,7 +111,7 @@ const PageDetail: React.FC = () => {
       setCurrentDisplayAvatar(oc.gallery[0].image);
       setCurrentDisplayAvatarCaption(oc.gallery[0].caption || undefined);
       setCurrentDisplayAvatarContentWarning(
-        oc.gallery[0].contentWarning || undefined
+        oc.gallery[0].contentWarning || undefined,
       );
     }
   }, [oc]);
@@ -166,7 +166,7 @@ const PageDetail: React.FC = () => {
               setCurrentDisplayAvatar(galleryItem.image);
               setCurrentDisplayAvatarCaption(galleryItem.caption || undefined);
               setCurrentDisplayAvatarContentWarning(
-                galleryItem.contentWarning || undefined
+                galleryItem.contentWarning || undefined,
               );
             }}
           />
@@ -174,7 +174,6 @@ const PageDetail: React.FC = () => {
       </div>
       {oc.voiceSample && (
         <div className="detail-block-voice-sample div-3d-with-shadow">
-          <span>Voice reference:</span>
           <AudioPlayer src={oc.voiceSample} />
         </div>
       )}
