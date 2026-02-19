@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   loadOcBySlug,
   findLinkedOc,
@@ -17,9 +17,15 @@ import ImageWithInfoMany, {
 import SwitchFormButton from "./SwitchFormButton";
 import ArrowButton from "../common-components/ArrowButton";
 import AudioPlayer from "../common-components/AudioPlayer";
+import heightChartData from "../data/height-chart.json";
+import {
+  isInHeightChart,
+  toggleHeightChartSelection,
+} from "../helpers/height-chart-cart";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [oc, setOc] = useState<OcWithDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +43,12 @@ const PageDetail: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"info" | "backstory">("info");
   const [backstory, setBackstory] = useState<string | null>(null);
   const [backstoryLoading, setBackstoryLoading] = useState(false);
+  const [addedToHeightChart, setAddedToHeightChart] = useState(false);
+
+  // Find the first variant ID for this OC in the height chart data
+  const heightChartVariantId = heightChartData.find(
+    (group) => group.groupId === slug,
+  )?.variants[0]?.id;
 
   const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
   const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
@@ -49,6 +61,18 @@ const PageDetail: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  useEffect(() => {
+    if (heightChartVariantId) {
+      setAddedToHeightChart(isInHeightChart(heightChartVariantId));
+    }
+  }, [heightChartVariantId]);
+
+  const handleAddToHeightChart = () => {
+    if (!heightChartVariantId) return;
+    const nowAdded = toggleHeightChartSelection(heightChartVariantId);
+    setAddedToHeightChart(nowAdded);
+  };
 
   useEffect(() => {
     const loadOcData = async () => {
@@ -146,7 +170,7 @@ const PageDetail: React.FC = () => {
     <div
       className={`page-detail page-padded ${
         oc.voiceSample ? "" : "no-voice-sample"
-      }`}
+      } ${heightChartVariantId ? "has-height-chart-btn" : ""}`}
     >
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
@@ -175,6 +199,18 @@ const PageDetail: React.FC = () => {
       {oc.voiceSample && (
         <div className="detail-block-voice-sample div-3d-with-shadow">
           <AudioPlayer src={oc.voiceSample} />
+        </div>
+      )}
+      {heightChartVariantId && (
+        <div className="detail-block-height-chart-btn div-3d-with-shadow">
+          <button
+            className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}
+            onClick={handleAddToHeightChart}
+          >
+            {addedToHeightChart
+              ? "Added to height chart"
+              : "Add to height chart"}
+          </button>
         </div>
       )}
       <div className="detail-block-info div-3d-with-shadow">
