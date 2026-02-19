@@ -92,7 +92,8 @@ export type AdLocations = Record<string, AdItem[]>; // Key: location ID (e.g., "
 
 export interface HeightChartSprite {
   id: string;
-  filename: string;
+  url: string;
+  thumbnail: string;
   height: string;
 }
 
