@@ -36,6 +36,8 @@ The application manages several main data types defined in `src/helpers/objects.
 - **Ship**: Character relationship pairs with name, colored heart icon (hex color), and array of OC slugs
 - **FormLink**: Character form relationships represented as pairs of OC slugs
 - **DialogTexts**: Dialog system for character interactions with support for acknowledgment requirements
+- **AdItem**: Advertisement data with `imageUrl` and `redirectUrl`
+- **AdLocations**: Record mapping location IDs (e.g., "main-sidebar") to arrays of AdItems
 
 ### Data Management
 
@@ -48,6 +50,7 @@ The application manages several main data types defined in `src/helpers/objects.
   - `ships.json` - Ship/relationship data (array format)
   - `form-link.json` - Character form relationships/links
   - `dialog.json` - Dialog text content
+  - `ads.json` - Advertisement data organized by location ID
   - `settings.json` - Application settings
 
 - **Data Loading**: `src/helpers/data-load.ts` provides functions to load and transform data from JSON files into typed objects with automatic slug mapping
@@ -70,12 +73,16 @@ The application manages several main data types defined in `src/helpers/objects.
   - `src/page-detail/` - Character detail view components
     - `DetailBlockSpiecesInfo.tsx` - Enhanced species display with carousel galleries
     - `SpiecesInfo.tsx` - Species information component (in development)
-  - `src/editor/` - Data editing components (separate editors for OCs, groups, species)
+  - `src/page-main/` - Main landing page components
+    - `PageMain.tsx` - Two-column grid layout with protagonists and sidebar (random OC button + ads)
+  - `src/editor/` - Data editing components (separate editors for OCs, groups, species, tags, ships, ads, etc.)
+    - `EditorAd.tsx` - Advertisement editor with location-based management and drag-and-drop reordering
   - `src/common-components/` - Shared components including:
     - `BBCodeDisplay.tsx` - BBCode rendering
     - `GalleryBlock.tsx` - Gallery display component
     - `ImageWithInfo.tsx` and `ImageWithInfoMany.tsx` - Image display with metadata
     - `ZoomPanPinchImage.tsx` - Interactive image zoom/pan functionality
+    - `AdSlideshow.tsx` - Advertisement carousel with automatic slideshow and Google Ads styling
     - `StarryTrail.tsx` - Decorative mouse trail effect
     - `LoadingSpinner.tsx` - Loading state component
   - `src/nav-bar/` - Navigation components
@@ -112,7 +119,32 @@ The editor provides separate interfaces for managing:
   - Color picker for customizing ship heart icon color
   - Live preview showing FontAwesome heart icon with selected color
   - OC selection from available characters to assign to ships
+- Advertisement data (EditorAd.tsx)
+  - Location-based ad management (locations are hard-fixed in ads.json)
+  - Create, edit, delete, and reorder ads within each location using drag-and-drop
+  - Image preview and JSON export to clipboard
 - Form links (EditorFormLink.tsx)
 - Dialog text (EditorDialog.tsx)
 
 Changes are written back to the JSON files and can be committed using the provided batch scripts.
+
+### Advertisement System
+
+The application includes a location-based advertisement system for displaying promotional content:
+
+**Components:**
+- **AdSlideshow.tsx**: Reusable carousel component with automatic image cycling (3-7 second random intervals), Google Ads-style appearance with "Ad" label badge, fade transitions, and same-tab navigation on click
+- **EditorAd.tsx**: Editor interface for managing ads organized by location ID (e.g., "main-sidebar")
+
+**Features:**
+- Location-based organization with hard-fixed location IDs defined in ads.json
+- Automatic slideshow with random interval timing
+- Google Ads styling: subtle border, black background, minimal "Ad" label in top-left corner
+- Click-to-navigate functionality that allows browser back button usage
+- Object-fit contain for proper image scaling without clipping
+- 3:4 aspect ratio display on main page sidebar
+
+**Main Page Integration:**
+- Two-column grid layout: protagonists (left) and sidebar (right)
+- Sidebar displays random OC button above advertisement carousel
+- Ads load from "main-sidebar" location in ads.json
