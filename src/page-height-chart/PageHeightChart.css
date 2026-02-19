@@ -121,13 +121,11 @@
   font-size: 14px;
   font-weight: bold;
   color: var(--hc-primary-dark);
-  text-shadow: var(--hc-text-shadow);
 }
 
 .height-chart-sprite-height {
   font-size: 12px;
   color: var(--hc-primary-medium);
-  text-shadow: var(--hc-text-shadow);
 }
 
 /* Close button - positioned relative to sprite */
