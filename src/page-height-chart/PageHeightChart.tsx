@@ -335,7 +335,6 @@ export default function PageHeightChart() {
       <div className="height-chart-selector">
         <div className="height-chart-selector-inner">
           {spriteGroups.map((group) => {
-            const previewSprite = group.variants[0];
             const isExpanded = expandedGroupId === group.groupId;
 
             return (
@@ -348,7 +347,7 @@ export default function PageHeightChart() {
                   title={group.name}
                 >
                   <img
-                    src={previewSprite.thumbnail}
+                    src={group.thumbnail}
                     alt={group.name}
                     draggable={false}
                   />

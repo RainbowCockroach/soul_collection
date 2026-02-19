@@ -88,6 +88,13 @@ const emptyVariant = (): HeightChartSprite => ({
   height: "",
 });
 
+const emptyGroup = () => ({
+  name: "",
+  groupId: "",
+  thumbnail: "",
+  variants: [emptyVariant()],
+});
+
 export const EditorHeightChart: React.FC = () => {
   const [groups, setGroups] = useState<HeightChartGroup[]>([]);
   const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | null>(
@@ -99,12 +106,9 @@ export const EditorHeightChart: React.FC = () => {
   const [formData, setFormData] = useState<{
     name: string;
     groupId: string;
+    thumbnail: string;
     variants: HeightChartSprite[];
-  }>({
-    name: "",
-    groupId: "",
-    variants: [emptyVariant()],
-  });
+  }>(emptyGroup());
   const [isEditing, setIsEditing] = useState(false);
 
   const sensors = useSensors(
@@ -143,6 +147,7 @@ export const EditorHeightChart: React.FC = () => {
       setFormData({
         name: group.name,
         groupId: group.groupId,
+        thumbnail: group.thumbnail,
         variants: group.variants.map((v) => ({ ...v })),
       });
       setIsEditing(true);
@@ -177,6 +182,7 @@ export const EditorHeightChart: React.FC = () => {
     const newGroup: HeightChartGroup = {
       name: formData.name,
       groupId: groupId,
+      thumbnail: formData.thumbnail,
       variants: validVariants,
     };
 
@@ -212,11 +218,7 @@ export const EditorHeightChart: React.FC = () => {
 
   const handleCancelEdit = () => {
     setSelectedGroupIndex(null);
-    setFormData({
-      name: "",
-      groupId: "",
-      variants: [emptyVariant()],
-    });
+    setFormData(emptyGroup());
     setIsEditing(false);
   };
 
@@ -359,6 +361,19 @@ export const EditorHeightChart: React.FC = () => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className="editor-field">
+              <label className="editor-label">Group Thumbnail URL:</label>
+              <input
+                type="text"
+                value={formData.thumbnail}
+                onChange={(e) =>
+                  setFormData({ ...formData, thumbnail: e.target.value })
+                }
+                placeholder="https://..."
+                className="editor-input"
+              />
             </div>
 
             <div className="editor-field">

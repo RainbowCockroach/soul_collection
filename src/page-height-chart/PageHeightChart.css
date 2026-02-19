@@ -140,7 +140,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 182, 193, 0.9);
+  background: var(--color-purple);
   border: var(--hc-border-width) solid var(--hc-primary-color);
   color: #fff;
   font-size: 20px;
