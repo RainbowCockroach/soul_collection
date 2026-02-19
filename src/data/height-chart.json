@@ -5,9 +5,15 @@
     "variants": [
       {
         "id": "sam-regular",
-        "url": "https://png.pngtree.com/png-clipart/20240428/original/pngtree-chicken-hen-png-image_14965893.png",
+        "url": "https://i.pinimg.com/originals/d3/aa/98/d3aa9877349545cf44f77b705fdb7bdd.png",
         "thumbnail": "https://img.pikbest.com/png-images/20241022/chicken-meat-png-isolated-on-transparent-background-high-resolution_10991407.png!bw700",
-        "height": "1m75"
+        "height": "169cm (without shoes)"
+      },
+      {
+        "id": "sam-dress",
+        "url": "https://i.pinimg.com/originals/0b/30/9b/0b309b02bc6621306dd01ad6e7ea55bd.png",
+        "thumbnail": "",
+        "height": "169cm (without shoes)"
       }
     ]
   },
@@ -17,15 +23,15 @@
     "variants": [
       {
         "id": "non-modern",
-        "url": "",
+        "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
         "thumbnail": "",
-        "height": "1m70"
+        "height": "168cm (without shoes)"
       },
       {
         "id": "non-dreamweed",
-        "url": "",
+        "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
         "thumbnail": "",
-        "height": "1m70"
+        "height": "168cm (without shoes)"
       }
     ]
   },
@@ -35,9 +41,69 @@
     "variants": [
       {
         "id": "naame",
-        "url": "",
+        "url": "https://i.pinimg.com/originals/e8/4f/f8/e84ff8356a9f33253059bd069f55030a.png",
         "thumbnail": "",
-        "height": "2m"
+        "height": "205cm"
+      }
+    ]
+  },
+  {
+    "name": "Bush",
+    "groupId": "bush",
+    "variants": [
+      {
+        "id": "Bush",
+        "url": "https://i.pinimg.com/originals/e6/6b/ac/e66bac67d60b1bb0f5c011136ee35066.png",
+        "thumbnail": "",
+        "height": "110cm"
+      }
+    ]
+  },
+  {
+    "name": "Echo",
+    "groupId": "echo",
+    "variants": [
+      {
+        "id": "echo",
+        "url": "https://i.pinimg.com/originals/c7/c4/44/c7c444f07a2e2ad203418722fe21c2b1.png",
+        "thumbnail": "",
+        "height": "150cm"
+      }
+    ]
+  },
+  {
+    "name": "Cleo",
+    "groupId": "cleo",
+    "variants": [
+      {
+        "id": "cleo-regular",
+        "url": "https://i.pinimg.com/originals/29/03/49/290349b8097c1d598c737f9e17710353.png",
+        "thumbnail": "",
+        "height": "180cm"
+      }
+    ]
+  },
+  {
+    "name": "Agent W",
+    "groupId": "agent-w",
+    "variants": [
+      {
+        "id": "w",
+        "url": "https://i.pinimg.com/originals/43/9a/4e/439a4e5721d8b6343f63466e184a9e2b.png",
+        "thumbnail": "",
+        "height": "155cm"
+      }
+    ]
+  },
+  {
+    "name": "Seana",
+    "groupId": "seana",
+    "variants": [
+      {
+        "id": "seana",
+        "url": "https://i.pinimg.com/originals/6d/0a/01/6d0a0193ae30f28bc6d18806cc739958.png",
+        "thumbnail": "",
+        "height": "174cm"
       }
     ]
   }
