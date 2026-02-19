@@ -207,16 +207,10 @@ const PageDetail: React.FC = () => {
             className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}
             onClick={handleAddToHeightChart}
           >
-            {addedToHeightChart ? "★ In height chart" : "☆ Add to height chart"}
+            {addedToHeightChart
+              ? "Added to height chart"
+              : "Add to height chart"}
           </button>
-          {addedToHeightChart && (
-            <button
-              className="detail-height-chart-link"
-              onClick={() => navigate("/soul_collection/height-chart")}
-            >
-              View →
-            </button>
-          )}
         </div>
       )}
       <div className="detail-block-info div-3d-with-shadow">
