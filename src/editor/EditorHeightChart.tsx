@@ -44,7 +44,7 @@ const SortableGroupItem: React.FC<SortableGroupItemProps> = ({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: `hcgroup-${index}` });
+  } = useSortable({ id: group.groupId });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -110,6 +110,7 @@ export const EditorHeightChart: React.FC = () => {
     variants: HeightChartSprite[];
   }>(emptyGroup());
   const [isEditing, setIsEditing] = useState(false);
+  const [dragMode, setDragMode] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -128,7 +129,7 @@ export const EditorHeightChart: React.FC = () => {
         loadHeightChartGroups(),
         loadOCs(),
       ]);
-      setGroups(loaded);
+      setGroups(loaded.map((g, index) => ({ ...g, order: g.order ?? index })));
       setOcOptions(
         ocs
           .map((oc) => ({ slug: oc.slug, name: oc.name }))
@@ -184,6 +185,10 @@ export const EditorHeightChart: React.FC = () => {
       groupId: groupId,
       thumbnail: formData.thumbnail,
       variants: validVariants,
+      order:
+        isEditing && selectedGroupIndex !== null
+          ? groups[selectedGroupIndex].order
+          : groups.length,
     };
 
     let updatedGroups: HeightChartGroup[];
@@ -226,21 +231,29 @@ export const EditorHeightChart: React.FC = () => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      const activeIndex = parseInt(active.id.toString().split("-")[1]);
-      const overIndex = parseInt(over.id.toString().split("-")[1]);
+      const oldIndex = groups.findIndex((g) => g.groupId === active.id);
+      const newIndex = groups.findIndex((g) => g.groupId === over.id);
 
-      const newGroups = arrayMove(groups, activeIndex, overIndex);
+      const newGroups = arrayMove(groups, oldIndex, newIndex).map(
+        (g, index) => ({ ...g, order: index }),
+      );
       setGroups(newGroups);
 
-      if (selectedGroupIndex === activeIndex) {
-        setSelectedGroupIndex(overIndex);
-      } else if (selectedGroupIndex === overIndex) {
+      if (selectedGroupIndex === oldIndex) {
+        setSelectedGroupIndex(newIndex);
+      } else if (
+        selectedGroupIndex !== null &&
+        selectedGroupIndex >= Math.min(oldIndex, newIndex) &&
+        selectedGroupIndex <= Math.max(oldIndex, newIndex)
+      ) {
         setSelectedGroupIndex(
-          activeIndex > overIndex
+          oldIndex > newIndex
             ? selectedGroupIndex + 1
             : selectedGroupIndex - 1,
         );
       }
+
+      toast.success("Groups reordered! Use 'Copy to clipboard' to export.");
     }
   };
 
@@ -290,12 +303,20 @@ export const EditorHeightChart: React.FC = () => {
 
       <div className="editor-header">
         <h2>Height Chart Editor</h2>
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <button
+            onClick={() => setDragMode(!dragMode)}
+            className={`editor-button editor-button-secondary ${dragMode ? "active" : ""}`}
+          >
+            {dragMode ? "Exit Drag Mode" : "Rearrange Groups"}
+          </button>
+          <button
+            onClick={handleSaveToClipboard}
+            className="editor-button editor-button-success"
+          >
+            Copy to clipboard
+          </button>
+        </div>
       </div>
 
       <div className="editor-layout">
@@ -304,27 +325,54 @@ export const EditorHeightChart: React.FC = () => {
             <div className="editor-list-header">
               <h3>Groups ({groups.length})</h3>
             </div>
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={groups.map((_, index) => `hcgroup-${index}`)}
-                strategy={verticalListSortingStrategy}
+            {dragMode && <p>Drag the ⋮⋮ handle to reorder groups</p>}
+            {dragMode ? (
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
               >
-                {groups.map((group, index) => (
-                  <SortableGroupItem
-                    key={`hcgroup-${index}`}
-                    group={group}
-                    index={index}
-                    isSelected={selectedGroupIndex === index}
-                    onSelect={handleSelectGroup}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
+                <SortableContext
+                  items={groups.map((g) => g.groupId)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {groups.map((group, index) => (
+                    <SortableGroupItem
+                      key={group.groupId}
+                      group={group}
+                      index={index}
+                      isSelected={selectedGroupIndex === index}
+                      onSelect={handleSelectGroup}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
+            ) : (
+              groups.map((group, index) => (
+                <div
+                  key={group.groupId}
+                  className={`editor-item ${selectedGroupIndex === index ? "editor-item-selected" : ""}`}
+                  onClick={() => handleSelectGroup(index)}
+                >
+                  <div className="editor-item-content">
+                    <div className="editor-item-name">{group.name}</div>
+                    <div className="editor-item-slug">
+                      {group.variants.length} variant{group.variants.length !== 1 && "s"}
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(index);
+                    }}
+                    className="editor-button editor-button-danger editor-button-small"
+                  >
+                    🗑
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

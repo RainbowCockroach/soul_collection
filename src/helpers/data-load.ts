@@ -36,7 +36,7 @@ export async function loadOCs(): Promise<OC[]> {
       ...(oc as Omit<OC, "slug">),
     }))
     .sort(
-      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE)
+      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
     );
 }
 
@@ -47,7 +47,7 @@ export async function loadGroups(): Promise<Group[]> {
       ...(group as Omit<Group, "slug">),
     }))
     .sort(
-      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE)
+      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
     );
 }
 
@@ -76,7 +76,7 @@ export interface OcWithDetails extends OC {
 }
 
 export async function loadOcBySlug(
-  slug: string
+  slug: string,
 ): Promise<OcWithDetails | null> {
   const [ocs, groups, species, tags] = await Promise.all([
     loadOCs(),
@@ -92,7 +92,7 @@ export async function loadOcBySlug(
 
   const groupDetails = groups.filter((group) => oc.group.includes(group.slug));
   const speciesDetails = species.filter((species) =>
-    oc.spieces.includes(species.slug)
+    oc.spieces.includes(species.slug),
   );
   const tagDetails = tags.filter((tag) => oc.tags.includes(tag.slug));
 
@@ -127,7 +127,7 @@ export async function loadDialogs(): Promise<DialogTexts> {
 }
 
 export async function loadDialogByKey(
-  key: string
+  key: string,
 ): Promise<DialogEntry[] | null> {
   const dialogs = await loadDialogs();
   return dialogs[key] || null;
@@ -185,5 +185,12 @@ export async function loadAds(): Promise<AdLocations> {
 }
 
 export async function loadHeightChartGroups(): Promise<HeightChartGroup[]> {
-  return heightChartData as HeightChartGroup[];
+  return (heightChartData as HeightChartGroup[]).sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    if (a.order !== undefined) return -1;
+    if (b.order !== undefined) return 1;
+    return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+  });
 }
