@@ -1,82 +1,5 @@
 [
   {
-    "name": "Sam",
-    "groupId": "sam",
-    "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
-    "variants": [
-      {
-        "id": "sam-regular",
-        "url": "https://i.pinimg.com/originals/d3/aa/98/d3aa9877349545cf44f77b705fdb7bdd.png",
-        "thumbnail": "https://i.pinimg.com/originals/20/4f/a8/204fa841ab012a32d30973b4c239739b.png",
-        "height": "169cm (without heels)"
-      },
-      {
-        "id": "sam-dress",
-        "url": "https://i.pinimg.com/originals/0b/30/9b/0b309b02bc6621306dd01ad6e7ea55bd.png",
-        "thumbnail": "https://i.pinimg.com/originals/0a/ee/24/0aee24621a5f0bc8f681fd18f6cc3c2d.png",
-        "height": "169cm (without heels)"
-      }
-    ]
-  },
-  {
-    "name": "Non",
-    "groupId": "non-li",
-    "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
-    "variants": [
-      {
-        "id": "non-modern",
-        "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
-        "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
-        "height": "168cm (without heels)"
-      },
-      {
-        "id": "non-dreamweed",
-        "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
-        "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
-        "height": "168cm (without heels)"
-      }
-    ]
-  },
-  {
-    "name": "Naame",
-    "groupId": "naame",
-    "thumbnail": "https://i.pinimg.com/originals/d9/cd/9a/d9cd9ac99832bc58ea219718c767a898.png",
-    "variants": [
-      {
-        "id": "naame",
-        "url": "https://i.pinimg.com/originals/e8/4f/f8/e84ff8356a9f33253059bd069f55030a.png",
-        "thumbnail": "",
-        "height": "205cm"
-      }
-    ]
-  },
-  {
-    "name": "Bush",
-    "groupId": "bush",
-    "thumbnail": "https://i.pinimg.com/originals/9f/b3/6d/9fb36dbe48e0ce09fd13eded96489bc6.png",
-    "variants": [
-      {
-        "id": "Bush",
-        "url": "https://i.pinimg.com/originals/e6/6b/ac/e66bac67d60b1bb0f5c011136ee35066.png",
-        "thumbnail": "",
-        "height": "110cm"
-      }
-    ]
-  },
-  {
-    "name": "Echo",
-    "groupId": "echo",
-    "thumbnail": "https://i.pinimg.com/originals/a9/02/d3/a902d3e1cb9a81cac7c27d3af947bc06.png",
-    "variants": [
-      {
-        "id": "echo",
-        "url": "https://i.pinimg.com/originals/c7/c4/44/c7c444f07a2e2ad203418722fe21c2b1.png",
-        "thumbnail": "",
-        "height": "150cm"
-      }
-    ]
-  },
-  {
     "name": "Cleo",
     "groupId": "cleo",
     "thumbnail": "https://i.pinimg.com/originals/af/48/20/af4820b63923ae4e42decf30ead44496.png",
@@ -87,7 +10,8 @@
         "thumbnail": "",
         "height": "180cm"
       }
-    ]
+    ],
+    "order": 0
   },
   {
     "name": "Agent W",
@@ -100,7 +24,22 @@
         "thumbnail": "",
         "height": "155cm"
       }
-    ]
+    ],
+    "order": 1
+  },
+  {
+    "name": "Sammy Sa",
+    "groupId": "sammy-sa",
+    "thumbnail": "https://i.pinimg.com/originals/35/15/b7/3515b7c35c3c92d339d3061077ddf70e.png",
+    "variants": [
+      {
+        "id": "sammy",
+        "url": "https://i.pinimg.com/originals/2b/7b/1e/2b7b1eefae424c89e4fb3eb958279bb3.png",
+        "thumbnail": "",
+        "height": "170cm (without heels)"
+      }
+    ],
+    "order": 2
   },
   {
     "name": "Seana",
@@ -113,26 +52,8 @@
         "thumbnail": "",
         "height": "174cm"
       }
-    ]
-  },
-  {
-    "name": "not mad",
-    "groupId": "my-not-mad",
-    "thumbnail": "https://i.pinimg.com/originals/06/78/77/067877f0286c9e8012004c6fcd566114.png",
-    "variants": [
-      {
-        "id": "not mad-normal",
-        "url": "https://i.pinimg.com/originals/05/4e/4c/054e4cecb101ec71827558b5114ac7f5.png",
-        "thumbnail": "https://i.pinimg.com/originals/a4/60/13/a460133f85eb0c34462bdc6b35987b34.png",
-        "height": "185cm"
-      },
-      {
-        "id": "not mad-banana",
-        "url": "https://i.pinimg.com/originals/15/bd/29/15bd291b7ade9a946231385d7d0a60e9.png",
-        "thumbnail": "https://i.pinimg.com/originals/42/f3/c0/42f3c0f0aca11a53735067f3e9a739e1.png",
-        "height": "185cm"
-      }
-    ]
+    ],
+    "order": 3
   },
   {
     "name": "Akane",
@@ -151,19 +72,109 @@
         "thumbnail": "https://i.pinimg.com/originals/fa/78/5e/fa785e6222e60837b67d89f3eaba88ad.png",
         "height": "172cm"
       }
-    ]
+    ],
+    "order": 4
   },
   {
-    "name": "Sammy Sa",
-    "groupId": "sammy-sa",
-    "thumbnail": "https://i.pinimg.com/originals/35/15/b7/3515b7c35c3c92d339d3061077ddf70e.png",
+    "name": "not mad",
+    "groupId": "my-not-mad",
+    "thumbnail": "https://i.pinimg.com/originals/06/78/77/067877f0286c9e8012004c6fcd566114.png",
     "variants": [
       {
-        "id": "sammy",
-        "url": "https://i.pinimg.com/originals/2b/7b/1e/2b7b1eefae424c89e4fb3eb958279bb3.png",
-        "thumbnail": "",
-        "height": "170cm (without heels)"
+        "id": "not mad-normal",
+        "url": "https://i.pinimg.com/originals/05/4e/4c/054e4cecb101ec71827558b5114ac7f5.png",
+        "thumbnail": "https://i.pinimg.com/originals/a4/60/13/a460133f85eb0c34462bdc6b35987b34.png",
+        "height": "185cm"
+      },
+      {
+        "id": "not mad-banana",
+        "url": "https://i.pinimg.com/originals/15/bd/29/15bd291b7ade9a946231385d7d0a60e9.png",
+        "thumbnail": "https://i.pinimg.com/originals/42/f3/c0/42f3c0f0aca11a53735067f3e9a739e1.png",
+        "height": "185cm"
       }
-    ]
+    ],
+    "order": 5
+  },
+  {
+    "name": "Non",
+    "groupId": "non-li",
+    "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
+    "variants": [
+      {
+        "id": "non-modern",
+        "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
+        "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
+        "height": "168cm (without heels)"
+      },
+      {
+        "id": "non-dreamweed",
+        "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
+        "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
+        "height": "168cm (without heels)"
+      }
+    ],
+    "order": 6
+  },
+  {
+    "name": "Bush",
+    "groupId": "bush",
+    "thumbnail": "https://i.pinimg.com/originals/9f/b3/6d/9fb36dbe48e0ce09fd13eded96489bc6.png",
+    "variants": [
+      {
+        "id": "Bush",
+        "url": "https://i.pinimg.com/originals/e6/6b/ac/e66bac67d60b1bb0f5c011136ee35066.png",
+        "thumbnail": "",
+        "height": "110cm"
+      }
+    ],
+    "order": 7
+  },
+  {
+    "name": "Echo",
+    "groupId": "echo",
+    "thumbnail": "https://i.pinimg.com/originals/a9/02/d3/a902d3e1cb9a81cac7c27d3af947bc06.png",
+    "variants": [
+      {
+        "id": "echo",
+        "url": "https://i.pinimg.com/originals/c7/c4/44/c7c444f07a2e2ad203418722fe21c2b1.png",
+        "thumbnail": "",
+        "height": "150cm"
+      }
+    ],
+    "order": 8
+  },
+  {
+    "name": "Naame",
+    "groupId": "naame",
+    "thumbnail": "https://i.pinimg.com/originals/d9/cd/9a/d9cd9ac99832bc58ea219718c767a898.png",
+    "variants": [
+      {
+        "id": "naame",
+        "url": "https://i.pinimg.com/originals/e8/4f/f8/e84ff8356a9f33253059bd069f55030a.png",
+        "thumbnail": "",
+        "height": "205cm"
+      }
+    ],
+    "order": 9
+  },
+  {
+    "name": "Sam",
+    "groupId": "sam",
+    "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
+    "variants": [
+      {
+        "id": "sam-regular",
+        "url": "https://i.pinimg.com/originals/d3/aa/98/d3aa9877349545cf44f77b705fdb7bdd.png",
+        "thumbnail": "https://i.pinimg.com/originals/20/4f/a8/204fa841ab012a32d30973b4c239739b.png",
+        "height": "169cm (without heels)"
+      },
+      {
+        "id": "sam-dress",
+        "url": "https://i.pinimg.com/originals/0b/30/9b/0b309b02bc6621306dd01ad6e7ea55bd.png",
+        "thumbnail": "https://i.pinimg.com/originals/0a/ee/24/0aee24621a5f0bc8f681fd18f6cc3c2d.png",
+        "height": "169cm (without heels)"
+      }
+    ],
+    "order": 10
   }
 ]
