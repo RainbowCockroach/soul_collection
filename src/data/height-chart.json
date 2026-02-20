@@ -2,17 +2,18 @@
   {
     "name": "Sam",
     "groupId": "sam",
+    "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
     "variants": [
       {
         "id": "sam-regular",
         "url": "https://i.pinimg.com/originals/d3/aa/98/d3aa9877349545cf44f77b705fdb7bdd.png",
-        "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
+        "thumbnail": "https://i.pinimg.com/originals/20/4f/a8/204fa841ab012a32d30973b4c239739b.png",
         "height": "169cm (without shoes)"
       },
       {
         "id": "sam-dress",
         "url": "https://i.pinimg.com/originals/0b/30/9b/0b309b02bc6621306dd01ad6e7ea55bd.png",
-        "thumbnail": "",
+        "thumbnail": "https://i.pinimg.com/originals/0a/ee/24/0aee24621a5f0bc8f681fd18f6cc3c2d.png",
         "height": "169cm (without shoes)"
       }
     ]
@@ -20,17 +21,18 @@
   {
     "name": "Non",
     "groupId": "non",
+    "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
     "variants": [
       {
         "id": "non-modern",
         "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
-        "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
+        "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
         "height": "168cm (without shoes)"
       },
       {
         "id": "non-dreamweed",
         "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
-        "thumbnail": "",
+        "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
         "height": "168cm (without shoes)"
       }
     ]
@@ -38,11 +40,12 @@
   {
     "name": "Naame",
     "groupId": "naame",
+    "thumbnail": "https://i.pinimg.com/originals/d9/cd/9a/d9cd9ac99832bc58ea219718c767a898.png",
     "variants": [
       {
         "id": "naame",
         "url": "https://i.pinimg.com/originals/e8/4f/f8/e84ff8356a9f33253059bd069f55030a.png",
-        "thumbnail": "https://i.pinimg.com/originals/d9/cd/9a/d9cd9ac99832bc58ea219718c767a898.png",
+        "thumbnail": "",
         "height": "205cm"
       }
     ]
@@ -50,11 +53,12 @@
   {
     "name": "Bush",
     "groupId": "bush",
+    "thumbnail": "https://i.pinimg.com/originals/9f/b3/6d/9fb36dbe48e0ce09fd13eded96489bc6.png",
     "variants": [
       {
         "id": "Bush",
         "url": "https://i.pinimg.com/originals/e6/6b/ac/e66bac67d60b1bb0f5c011136ee35066.png",
-        "thumbnail": "https://i.pinimg.com/originals/9f/b3/6d/9fb36dbe48e0ce09fd13eded96489bc6.png",
+        "thumbnail": "",
         "height": "110cm"
       }
     ]
@@ -62,11 +66,12 @@
   {
     "name": "Echo",
     "groupId": "echo",
+    "thumbnail": "https://i.pinimg.com/originals/a9/02/d3/a902d3e1cb9a81cac7c27d3af947bc06.png",
     "variants": [
       {
         "id": "echo",
         "url": "https://i.pinimg.com/originals/c7/c4/44/c7c444f07a2e2ad203418722fe21c2b1.png",
-        "thumbnail": "https://i.pinimg.com/originals/a9/02/d3/a902d3e1cb9a81cac7c27d3af947bc06.png",
+        "thumbnail": "",
         "height": "150cm"
       }
     ]
@@ -74,11 +79,12 @@
   {
     "name": "Cleo",
     "groupId": "cleo",
+    "thumbnail": "https://i.pinimg.com/originals/af/48/20/af4820b63923ae4e42decf30ead44496.png",
     "variants": [
       {
         "id": "cleo-regular",
         "url": "https://i.pinimg.com/originals/29/03/49/290349b8097c1d598c737f9e17710353.png",
-        "thumbnail": "https://i.pinimg.com/originals/af/48/20/af4820b63923ae4e42decf30ead44496.png",
+        "thumbnail": "",
         "height": "180cm"
       }
     ]
@@ -86,11 +92,12 @@
   {
     "name": "Agent W",
     "groupId": "agent-w",
+    "thumbnail": "https://i.pinimg.com/originals/48/67/6b/48676bf21ff5302de0b3e3a915d54a59.png",
     "variants": [
       {
         "id": "w",
         "url": "https://i.pinimg.com/originals/43/9a/4e/439a4e5721d8b6343f63466e184a9e2b.png",
-        "thumbnail": "https://i.pinimg.com/originals/48/67/6b/48676bf21ff5302de0b3e3a915d54a59.png",
+        "thumbnail": "",
         "height": "155cm"
       }
     ]
@@ -98,11 +105,12 @@
   {
     "name": "Seana",
     "groupId": "seana",
+    "thumbnail": "https://i.pinimg.com/originals/ac/0b/80/ac0b80f8110596bdd4100a9837703662.png",
     "variants": [
       {
         "id": "seana",
         "url": "https://i.pinimg.com/originals/6d/0a/01/6d0a0193ae30f28bc6d18806cc739958.png",
-        "thumbnail": "https://i.pinimg.com/originals/ac/0b/80/ac0b80f8110596bdd4100a9837703662.png",
+        "thumbnail": "",
         "height": "174cm"
       }
     ]
