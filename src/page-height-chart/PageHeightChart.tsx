@@ -192,6 +192,12 @@ export default function PageHeightChart() {
     setActiveCharacterId(null);
   }, []);
 
+  const handleClearAll = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedCharacters([]);
+    setActiveCharacterId(null);
+  }, []);
+
   const startDrag = useCallback(
     (characterId: string, clientX: number) => {
       const character = selectedCharacters.find(
@@ -310,6 +316,17 @@ export default function PageHeightChart() {
             ))}
           </div>
         </div>
+
+        {/* Clear all button */}
+        {selectedCharacters.length > 0 && (
+          <button
+            className="height-chart-clear-all"
+            onClick={handleClearAll}
+            title="Clear all characters"
+          >
+            Clear all
+          </button>
+        )}
 
         {/* Character sprites */}
         <div className="height-chart-sprites">
