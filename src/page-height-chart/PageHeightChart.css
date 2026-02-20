@@ -235,12 +235,8 @@
   object-position: bottom;
 }
 
-/* Variant popup */
+/* Variant popup — rendered via React portal at body level */
 .height-chart-variant-popup {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  margin-bottom: 10px;
   display: flex;
   gap: 10px;
   background: rgba(0, 0, 0, 0.9);
@@ -250,7 +246,7 @@
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 200;
+  z-index: 9999;
   animation: slideUpFade var(--hc-transition-fast);
   white-space: nowrap;
 }

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { createPortal } from "react-dom";
 import "./PageHeightChart.css";
 import heightChartNumber from "../assets/height_chart_number.webp";
 import heightChartLines from "../assets/height_chart_lines.webp";
@@ -30,6 +31,10 @@ export default function PageHeightChart() {
   );
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
+  const [popupPosition, setPopupPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
   const [chartScale, setChartScale] = useState(1);
   const [originalChartHeight, setOriginalChartHeight] = useState(0);
@@ -37,6 +42,11 @@ export default function PageHeightChart() {
 
   const chartRef = useRef<HTMLDivElement>(null);
   const variantPopupRef = useRef<HTMLDivElement>(null);
+
+  const expandedGroup = useMemo(
+    () => spriteGroups.find((g) => g.groupId === expandedGroupId) ?? null,
+    [spriteGroups, expandedGroupId],
+  );
 
   // Flat list of all sprites for quick lookup
   const spriteById = useMemo(() => {
@@ -136,7 +146,7 @@ export default function PageHeightChart() {
   }, []);
 
   const handleGroupClick = useCallback(
-    (group: HeightChartGroup) => {
+    (group: HeightChartGroup, buttonEl: HTMLButtonElement) => {
       const selectedFromGroup = selectedCharacters.find((char) =>
         group.variants.some((sprite) => sprite.id === char.id),
       );
@@ -144,22 +154,28 @@ export default function PageHeightChart() {
       if (selectedFromGroup) {
         toggleCharacterSelection(selectedFromGroup.id);
         setExpandedGroupId(null);
+        setPopupPosition(null);
       } else if (group.variants.length === 1) {
         toggleCharacterSelection(group.variants[0].id);
         setExpandedGroupId(null);
+        setPopupPosition(null);
+      } else if (expandedGroupId === group.groupId) {
+        setExpandedGroupId(null);
+        setPopupPosition(null);
       } else {
-        setExpandedGroupId((prev) =>
-          prev === group.groupId ? null : group.groupId,
-        );
+        const rect = buttonEl.getBoundingClientRect();
+        setPopupPosition({ top: rect.top, left: rect.left });
+        setExpandedGroupId(group.groupId);
       }
     },
-    [selectedCharacters, toggleCharacterSelection],
+    [selectedCharacters, toggleCharacterSelection, expandedGroupId],
   );
 
   const handleVariantSelect = useCallback(
     (spriteId: string) => {
       toggleCharacterSelection(spriteId);
       setExpandedGroupId(null);
+      setPopupPosition(null);
     },
     [toggleCharacterSelection],
   );
@@ -362,8 +378,8 @@ export default function PageHeightChart() {
                 <button
                   className={`height-chart-selector-item ${
                     isGroupSelected(group) ? "selected" : ""
-                  }`}
-                  onClick={() => handleGroupClick(group)}
+                  } ${isExpanded ? "expanded" : ""}`}
+                  onClick={(e) => handleGroupClick(group, e.currentTarget)}
                   title={group.name}
                 >
                   <img
@@ -372,34 +388,43 @@ export default function PageHeightChart() {
                     draggable={false}
                   />
                 </button>
-
-                {/* Variant popup */}
-                {isExpanded && group.variants.length > 1 && (
-                  <div
-                    ref={variantPopupRef}
-                    className="height-chart-variant-popup"
-                  >
-                    {group.variants.map((sprite) => (
-                      <button
-                        key={sprite.id}
-                        className="height-chart-variant-item"
-                        onClick={() => handleVariantSelect(sprite.id)}
-                        title={group.name}
-                      >
-                        <img
-                          src={sprite.thumbnail}
-                          alt={group.name}
-                          draggable={false}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Variant popup — rendered at body level via portal to escape overflow clipping */}
+      {expandedGroup &&
+        expandedGroup.variants.length > 1 &&
+        popupPosition &&
+        createPortal(
+          <div
+            ref={variantPopupRef}
+            className="height-chart-variant-popup"
+            style={{
+              position: "fixed",
+              bottom: `${window.innerHeight - popupPosition.top + 10}px`,
+              left: `${popupPosition.left}px`,
+            }}
+          >
+            {expandedGroup.variants.map((sprite) => (
+              <button
+                key={sprite.id}
+                className="height-chart-variant-item"
+                onClick={() => handleVariantSelect(sprite.id)}
+                title={expandedGroup.name}
+              >
+                <img
+                  src={sprite.thumbnail}
+                  alt={expandedGroup.name}
+                  draggable={false}
+                />
+              </button>
+            ))}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
