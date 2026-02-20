@@ -20,7 +20,7 @@
   },
   {
     "name": "Non",
-    "groupId": "non",
+    "groupId": "non-li",
     "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
     "variants": [
       {
@@ -131,6 +131,25 @@
         "url": "https://i.pinimg.com/originals/15/bd/29/15bd291b7ade9a946231385d7d0a60e9.png",
         "thumbnail": "https://i.pinimg.com/originals/42/f3/c0/42f3c0f0aca11a53735067f3e9a739e1.png",
         "height": "185cm"
+      }
+    ]
+  },
+  {
+    "name": "akane",
+    "groupId": "akane",
+    "thumbnail": "https://i.pinimg.com/originals/66/66/b2/6666b2d4395df0e630dae44531f88cd0.png",
+    "variants": [
+      {
+        "id": "akane-normal",
+        "url": "https://i.pinimg.com/originals/8a/cd/6a/8acd6a012dc1d19e56f8eb4427a06075.png",
+        "thumbnail": "https://i.pinimg.com/originals/ea/69/07/ea6907b7f245086f9c730f1a2560db1f.png",
+        "height": "172cm"
+      },
+      {
+        "id": "akane-work",
+        "url": "https://i.pinimg.com/originals/7e/a6/55/7ea6552c19f5f37b779e9a018ad16ec1.png",
+        "thumbnail": "https://i.pinimg.com/originals/fa/78/5e/fa785e6222e60837b67d89f3eaba88ad.png",
+        "height": "172cm"
       }
     ]
   }
