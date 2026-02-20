@@ -8,13 +8,13 @@
         "id": "sam-regular",
         "url": "https://i.pinimg.com/originals/d3/aa/98/d3aa9877349545cf44f77b705fdb7bdd.png",
         "thumbnail": "https://i.pinimg.com/originals/20/4f/a8/204fa841ab012a32d30973b4c239739b.png",
-        "height": "169cm (without shoes)"
+        "height": "169cm (without heels)"
       },
       {
         "id": "sam-dress",
         "url": "https://i.pinimg.com/originals/0b/30/9b/0b309b02bc6621306dd01ad6e7ea55bd.png",
         "thumbnail": "https://i.pinimg.com/originals/0a/ee/24/0aee24621a5f0bc8f681fd18f6cc3c2d.png",
-        "height": "169cm (without shoes)"
+        "height": "169cm (without heels)"
       }
     ]
   },
@@ -27,13 +27,13 @@
         "id": "non-modern",
         "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
         "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
-        "height": "168cm (without shoes)"
+        "height": "168cm (without heels)"
       },
       {
         "id": "non-dreamweed",
         "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
         "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
-        "height": "168cm (without shoes)"
+        "height": "168cm (without heels)"
       }
     ]
   },
@@ -150,6 +150,19 @@
         "url": "https://i.pinimg.com/originals/7e/a6/55/7ea6552c19f5f37b779e9a018ad16ec1.png",
         "thumbnail": "https://i.pinimg.com/originals/fa/78/5e/fa785e6222e60837b67d89f3eaba88ad.png",
         "height": "172cm"
+      }
+    ]
+  },
+  {
+    "name": "Sammy Sa",
+    "groupId": "sammy-sa",
+    "thumbnail": "https://i.pinimg.com/originals/35/15/b7/3515b7c35c3c92d339d3061077ddf70e.png",
+    "variants": [
+      {
+        "id": "sammy",
+        "url": "https://i.pinimg.com/originals/2b/7b/1e/2b7b1eefae424c89e4fb3eb958279bb3.png",
+        "thumbnail": "",
+        "height": "170cm (without heels)"
       }
     ]
   }
