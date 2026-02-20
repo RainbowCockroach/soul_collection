@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { createPortal } from "react-dom";
 import "./PageHeightChart.css";
 import heightChartNumber from "../assets/height_chart_number.webp";
 import heightChartLines from "../assets/height_chart_lines.webp";
@@ -22,10 +23,18 @@ interface DragState {
 
 export default function PageHeightChart() {
   const [spriteGroups, setSpriteGroups] = useState<HeightChartGroup[]>([]);
-  const [selectedCharacters, setSelectedCharacters] = useState<SelectedCharacter[]>([]);
-  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(null);
+  const [selectedCharacters, setSelectedCharacters] = useState<
+    SelectedCharacter[]
+  >([]);
+  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(
+    null,
+  );
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
+  const [popupPosition, setPopupPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
   const [chartScale, setChartScale] = useState(1);
   const [originalChartHeight, setOriginalChartHeight] = useState(0);
@@ -33,6 +42,11 @@ export default function PageHeightChart() {
 
   const chartRef = useRef<HTMLDivElement>(null);
   const variantPopupRef = useRef<HTMLDivElement>(null);
+
+  const expandedGroup = useMemo(
+    () => spriteGroups.find((g) => g.groupId === expandedGroupId) ?? null,
+    [spriteGroups, expandedGroupId],
+  );
 
   // Flat list of all sprites for quick lookup
   const spriteById = useMemo(() => {
@@ -118,7 +132,9 @@ export default function PageHeightChart() {
       if (isSelected) {
         // Deselect
         const remaining = prev.filter((char) => char.id !== characterId);
-        setActiveCharacterId(remaining.length > 0 ? remaining[remaining.length - 1].id : null);
+        setActiveCharacterId(
+          remaining.length > 0 ? remaining[remaining.length - 1].id : null,
+        );
         return remaining;
       } else {
         // Select - add at center
@@ -130,7 +146,7 @@ export default function PageHeightChart() {
   }, []);
 
   const handleGroupClick = useCallback(
-    (group: HeightChartGroup) => {
+    (group: HeightChartGroup, buttonEl: HTMLButtonElement) => {
       const selectedFromGroup = selectedCharacters.find((char) =>
         group.variants.some((sprite) => sprite.id === char.id),
       );
@@ -138,36 +154,55 @@ export default function PageHeightChart() {
       if (selectedFromGroup) {
         toggleCharacterSelection(selectedFromGroup.id);
         setExpandedGroupId(null);
+        setPopupPosition(null);
       } else if (group.variants.length === 1) {
         toggleCharacterSelection(group.variants[0].id);
         setExpandedGroupId(null);
+        setPopupPosition(null);
+      } else if (expandedGroupId === group.groupId) {
+        setExpandedGroupId(null);
+        setPopupPosition(null);
       } else {
-        setExpandedGroupId((prev) => (prev === group.groupId ? null : group.groupId));
+        const rect = buttonEl.getBoundingClientRect();
+        setPopupPosition({ top: rect.top, left: rect.left });
+        setExpandedGroupId(group.groupId);
       }
     },
-    [selectedCharacters, toggleCharacterSelection],
+    [selectedCharacters, toggleCharacterSelection, expandedGroupId],
   );
 
   const handleVariantSelect = useCallback(
     (spriteId: string) => {
       toggleCharacterSelection(spriteId);
       setExpandedGroupId(null);
+      setPopupPosition(null);
     },
     [toggleCharacterSelection],
   );
 
-  const handleCharacterClick = useCallback((e: React.MouseEvent, characterId: string) => {
-    e.stopPropagation();
-    setActiveCharacterId(characterId);
-  }, []);
+  const handleCharacterClick = useCallback(
+    (e: React.MouseEvent, characterId: string) => {
+      e.stopPropagation();
+      setActiveCharacterId(characterId);
+    },
+    [],
+  );
 
   const handleChartClick = useCallback(() => {
     setActiveCharacterId(null);
   }, []);
 
+  const handleClearAll = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedCharacters([]);
+    setActiveCharacterId(null);
+  }, []);
+
   const startDrag = useCallback(
     (characterId: string, clientX: number) => {
-      const character = selectedCharacters.find((char) => char.id === characterId);
+      const character = selectedCharacters.find(
+        (char) => char.id === characterId,
+      );
       if (character) {
         setDragState({
           id: characterId,
@@ -211,7 +246,8 @@ export default function PageHeightChart() {
     };
 
     const handleMouseMove = (e: MouseEvent) => updatePosition(e.clientX);
-    const handleTouchMove = (e: TouchEvent) => updatePosition(e.touches[0].clientX);
+    const handleTouchMove = (e: TouchEvent) =>
+      updatePosition(e.touches[0].clientX);
     const endDrag = () => setDragState(null);
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -255,7 +291,11 @@ export default function PageHeightChart() {
   return (
     <div className="height-chart-page">
       {/* Main chart area */}
-      <div className="height-chart-container" ref={chartRef} onClick={handleChartClick}>
+      <div
+        className="height-chart-container"
+        ref={chartRef}
+        onClick={handleChartClick}
+      >
         {/* Background with number scale and lines */}
         <div className="height-chart-background">
           <img
@@ -277,6 +317,17 @@ export default function PageHeightChart() {
           </div>
         </div>
 
+        {/* Clear all button */}
+        {selectedCharacters.length > 0 && (
+          <button
+            className="height-chart-clear-all"
+            onClick={handleClearAll}
+            title="Clear all characters"
+          >
+            Clear all
+          </button>
+        )}
+
         {/* Character sprites */}
         <div className="height-chart-sprites">
           {selectedCharacters.map((character) => {
@@ -292,26 +343,28 @@ export default function PageHeightChart() {
                 className={`height-chart-sprite ${isActive ? "active" : ""} ${
                   isDragging ? "dragging" : ""
                 }`}
-                style={{
-                  left: `${character.x}px`,
-                  opacity: isActive ? 1 : 0.7,
-                  transform: `translateX(-50%) scale(${chartScale})`,
-                  transformOrigin: "bottom center",
-                  "--counter-scale": 1 / chartScale,
-                } as React.CSSProperties}
+                style={
+                  {
+                    left: `${character.x}px`,
+                    opacity: isActive ? 1 : 0.7,
+                    transform: `translateX(-50%) scale(${chartScale})`,
+                    transformOrigin: "bottom center",
+                    "--counter-scale": 1 / chartScale,
+                  } as React.CSSProperties
+                }
                 onMouseDown={(e) => handleMouseDown(e, character.id)}
                 onTouchStart={(e) => handleTouchStart(e, character.id)}
                 onClick={(e) => handleCharacterClick(e, character.id)}
               >
                 <div className="height-chart-sprite-label">
-                  <span className="height-chart-sprite-name">{sprite.name}</span>
-                  <span className="height-chart-sprite-height">{sprite.height}</span>
+                  <span className="height-chart-sprite-name">
+                    {sprite.name}
+                  </span>
+                  <span className="height-chart-sprite-height">
+                    {sprite.height}
+                  </span>
                 </div>
-                <img
-                  src={sprite.url}
-                  alt={sprite.name}
-                  draggable={false}
-                />
+                <img src={sprite.url} alt={sprite.name} draggable={false} />
                 {/* Close button - positioned relative to sprite */}
                 {isActive && (
                   <button
@@ -342,8 +395,8 @@ export default function PageHeightChart() {
                 <button
                   className={`height-chart-selector-item ${
                     isGroupSelected(group) ? "selected" : ""
-                  }`}
-                  onClick={() => handleGroupClick(group)}
+                  } ${isExpanded ? "expanded" : ""}`}
+                  onClick={(e) => handleGroupClick(group, e.currentTarget)}
                   title={group.name}
                 >
                   <img
@@ -351,35 +404,47 @@ export default function PageHeightChart() {
                     alt={group.name}
                     draggable={false}
                   />
+                  <span className="height-chart-selector-item-name">
+                    {group.name}
+                  </span>
                 </button>
-
-                {/* Variant popup */}
-                {isExpanded && group.variants.length > 1 && (
-                  <div
-                    ref={variantPopupRef}
-                    className="height-chart-variant-popup"
-                  >
-                    {group.variants.map((sprite) => (
-                      <button
-                        key={sprite.id}
-                        className="height-chart-variant-item"
-                        onClick={() => handleVariantSelect(sprite.id)}
-                        title={group.name}
-                      >
-                        <img
-                          src={sprite.thumbnail}
-                          alt={group.name}
-                          draggable={false}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Variant popup — rendered at body level via portal to escape overflow clipping */}
+      {expandedGroup &&
+        expandedGroup.variants.length > 1 &&
+        popupPosition &&
+        createPortal(
+          <div
+            ref={variantPopupRef}
+            className="height-chart-variant-popup"
+            style={{
+              position: "fixed",
+              bottom: `${window.innerHeight - popupPosition.top + 10}px`,
+              left: `${popupPosition.left}px`,
+            }}
+          >
+            {expandedGroup.variants.map((sprite) => (
+              <button
+                key={sprite.id}
+                className="height-chart-variant-item"
+                onClick={() => handleVariantSelect(sprite.id)}
+                title={expandedGroup.name}
+              >
+                <img
+                  src={sprite.thumbnail}
+                  alt={expandedGroup.name}
+                  draggable={false}
+                />
+              </button>
+            ))}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
