@@ -243,6 +243,25 @@
   min-width: 50px;
 }
 
+.height-chart-selector-item {
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  min-height: var(--hc-item-height);
+  padding-bottom: 0;
+}
+
+.height-chart-selector-item-name {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--color-white-sparkle);
+  white-space: nowrap;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 3px;
+}
+
 .height-chart-selector-item:hover,
 .height-chart-variant-item:hover {
   background: rgba(134, 78, 219, 0.2);

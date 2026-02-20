@@ -404,6 +404,9 @@ export default function PageHeightChart() {
                     alt={group.name}
                     draggable={false}
                   />
+                  <span className="height-chart-selector-item-name">
+                    {group.name}
+                  </span>
                 </button>
               </div>
             );
