@@ -171,15 +171,17 @@
   padding: 10px 20px;
   position: relative;
   z-index: 150;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 40vh;
 }
 
 .height-chart-selector-inner {
   display: flex;
+  flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
   align-items: flex-end;
-  min-height: var(--hc-selector-height);
 }
 
 .height-chart-selector-group {
@@ -284,11 +286,11 @@
 
   .height-chart-selector {
     padding: 8px 10px;
+    max-height: 35vh;
   }
 
   .height-chart-selector-inner {
     gap: 10px;
-    justify-content: flex-start;
   }
 
   .height-chart-selector-item,

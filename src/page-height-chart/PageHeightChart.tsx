@@ -22,8 +22,12 @@ interface DragState {
 
 export default function PageHeightChart() {
   const [spriteGroups, setSpriteGroups] = useState<HeightChartGroup[]>([]);
-  const [selectedCharacters, setSelectedCharacters] = useState<SelectedCharacter[]>([]);
-  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(null);
+  const [selectedCharacters, setSelectedCharacters] = useState<
+    SelectedCharacter[]
+  >([]);
+  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(
+    null,
+  );
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
@@ -118,7 +122,9 @@ export default function PageHeightChart() {
       if (isSelected) {
         // Deselect
         const remaining = prev.filter((char) => char.id !== characterId);
-        setActiveCharacterId(remaining.length > 0 ? remaining[remaining.length - 1].id : null);
+        setActiveCharacterId(
+          remaining.length > 0 ? remaining[remaining.length - 1].id : null,
+        );
         return remaining;
       } else {
         // Select - add at center
@@ -142,7 +148,9 @@ export default function PageHeightChart() {
         toggleCharacterSelection(group.variants[0].id);
         setExpandedGroupId(null);
       } else {
-        setExpandedGroupId((prev) => (prev === group.groupId ? null : group.groupId));
+        setExpandedGroupId((prev) =>
+          prev === group.groupId ? null : group.groupId,
+        );
       }
     },
     [selectedCharacters, toggleCharacterSelection],
@@ -156,10 +164,13 @@ export default function PageHeightChart() {
     [toggleCharacterSelection],
   );
 
-  const handleCharacterClick = useCallback((e: React.MouseEvent, characterId: string) => {
-    e.stopPropagation();
-    setActiveCharacterId(characterId);
-  }, []);
+  const handleCharacterClick = useCallback(
+    (e: React.MouseEvent, characterId: string) => {
+      e.stopPropagation();
+      setActiveCharacterId(characterId);
+    },
+    [],
+  );
 
   const handleChartClick = useCallback(() => {
     setActiveCharacterId(null);
@@ -167,7 +178,9 @@ export default function PageHeightChart() {
 
   const startDrag = useCallback(
     (characterId: string, clientX: number) => {
-      const character = selectedCharacters.find((char) => char.id === characterId);
+      const character = selectedCharacters.find(
+        (char) => char.id === characterId,
+      );
       if (character) {
         setDragState({
           id: characterId,
@@ -211,7 +224,8 @@ export default function PageHeightChart() {
     };
 
     const handleMouseMove = (e: MouseEvent) => updatePosition(e.clientX);
-    const handleTouchMove = (e: TouchEvent) => updatePosition(e.touches[0].clientX);
+    const handleTouchMove = (e: TouchEvent) =>
+      updatePosition(e.touches[0].clientX);
     const endDrag = () => setDragState(null);
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -255,7 +269,11 @@ export default function PageHeightChart() {
   return (
     <div className="height-chart-page">
       {/* Main chart area */}
-      <div className="height-chart-container" ref={chartRef} onClick={handleChartClick}>
+      <div
+        className="height-chart-container"
+        ref={chartRef}
+        onClick={handleChartClick}
+      >
         {/* Background with number scale and lines */}
         <div className="height-chart-background">
           <img
@@ -292,26 +310,28 @@ export default function PageHeightChart() {
                 className={`height-chart-sprite ${isActive ? "active" : ""} ${
                   isDragging ? "dragging" : ""
                 }`}
-                style={{
-                  left: `${character.x}px`,
-                  opacity: isActive ? 1 : 0.7,
-                  transform: `translateX(-50%) scale(${chartScale})`,
-                  transformOrigin: "bottom center",
-                  "--counter-scale": 1 / chartScale,
-                } as React.CSSProperties}
+                style={
+                  {
+                    left: `${character.x}px`,
+                    opacity: isActive ? 1 : 0.7,
+                    transform: `translateX(-50%) scale(${chartScale})`,
+                    transformOrigin: "bottom center",
+                    "--counter-scale": 1 / chartScale,
+                  } as React.CSSProperties
+                }
                 onMouseDown={(e) => handleMouseDown(e, character.id)}
                 onTouchStart={(e) => handleTouchStart(e, character.id)}
                 onClick={(e) => handleCharacterClick(e, character.id)}
               >
                 <div className="height-chart-sprite-label">
-                  <span className="height-chart-sprite-name">{sprite.name}</span>
-                  <span className="height-chart-sprite-height">{sprite.height}</span>
+                  <span className="height-chart-sprite-name">
+                    {sprite.name}
+                  </span>
+                  <span className="height-chart-sprite-height">
+                    {sprite.height}
+                  </span>
                 </div>
-                <img
-                  src={sprite.url}
-                  alt={sprite.name}
-                  draggable={false}
-                />
+                <img src={sprite.url} alt={sprite.name} draggable={false} />
                 {/* Close button - positioned relative to sprite */}
                 {isActive && (
                   <button
