@@ -185,7 +185,12 @@ export async function loadAds(): Promise<AdLocations> {
 }
 
 export async function loadHeightChartGroups(): Promise<HeightChartGroup[]> {
-  return (heightChartData as HeightChartGroup[]).sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-  );
+  return (heightChartData as HeightChartGroup[]).sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    if (a.order !== undefined) return -1;
+    if (b.order !== undefined) return 1;
+    return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+  });
 }
