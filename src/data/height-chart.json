@@ -114,5 +114,24 @@
         "height": "174cm"
       }
     ]
+  },
+  {
+    "name": "not mad",
+    "groupId": "my-not-mad",
+    "thumbnail": "https://i.pinimg.com/originals/06/78/77/067877f0286c9e8012004c6fcd566114.png",
+    "variants": [
+      {
+        "id": "not mad-normal",
+        "url": "https://i.pinimg.com/originals/05/4e/4c/054e4cecb101ec71827558b5114ac7f5.png",
+        "thumbnail": "https://i.pinimg.com/originals/a4/60/13/a460133f85eb0c34462bdc6b35987b34.png",
+        "height": "185cm"
+      },
+      {
+        "id": "not mad-banana",
+        "url": "https://i.pinimg.com/originals/15/bd/29/15bd291b7ade9a946231385d7d0a60e9.png",
+        "thumbnail": "https://i.pinimg.com/originals/42/f3/c0/42f3c0f0aca11a53735067f3e9a739e1.png",
+        "height": "185cm"
+      }
+    ]
   }
 ]
