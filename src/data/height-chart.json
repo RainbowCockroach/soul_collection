@@ -110,7 +110,47 @@
     "order": 6
   },
   {
-    "name": "Non",
+    "name": "Aya Li",
+    "groupId": "aya-li",
+    "thumbnail": "https://i.pinimg.com/originals/61/99/44/6199443a24e47746e148c6f6d93c0b3f.png",
+    "variants": [
+      {
+        "id": "aya1",
+        "url": "https://i.pinimg.com/originals/37/d0/98/37d0985e127405684966b033506b7e7d.png",
+        "thumbnail": "https://i.pinimg.com/originals/90/dc/f2/90dcf2a205c4a3b7f3f2360f5ca91ae9.png",
+        "height": "160cm"
+      },
+      {
+        "id": "aya2",
+        "url": "https://i.pinimg.com/originals/62/4d/7c/624d7cd81e8071e8a72cab92565ed2a5.png",
+        "thumbnail": "https://i.pinimg.com/originals/15/cd/a3/15cda3309b7620c9202e64903a0dda77.png",
+        "height": "160cm"
+      }
+    ],
+    "order": 7
+  },
+  {
+    "name": "Maya Li",
+    "groupId": "maya-li",
+    "thumbnail": "https://i.pinimg.com/originals/ad/da/39/adda39585ed76fe8883064d7ef21c6d2.png",
+    "variants": [
+      {
+        "id": "maya1",
+        "url": "https://i.pinimg.com/originals/ad/45/33/ad4533b7e037cec43a6e67a44cfc08bb.png",
+        "thumbnail": "https://i.pinimg.com/originals/38/2c/9b/382c9b117e3da662a14b2596759a1836.png",
+        "height": "160cm"
+      },
+      {
+        "id": "maya2",
+        "url": "https://i.pinimg.com/originals/5c/c2/1f/5cc21f805e55ec9730e512162f99b9a1.png",
+        "thumbnail": "https://i.pinimg.com/originals/a4/2f/16/a42f16f294299b633fd35e1cf0ad50d1.png",
+        "height": "160cm"
+      }
+    ],
+    "order": 8
+  },
+  {
+    "name": "Non Li",
     "groupId": "non-li",
     "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
     "variants": [
@@ -127,7 +167,7 @@
         "height": "168cm (without heels)"
       }
     ],
-    "order": 7
+    "order": 9
   },
   {
     "name": "Bush",
@@ -141,7 +181,7 @@
         "height": "110cm"
       }
     ],
-    "order": 8
+    "order": 10
   },
   {
     "name": "Echo",
@@ -155,7 +195,7 @@
         "height": "150cm"
       }
     ],
-    "order": 9
+    "order": 11
   },
   {
     "name": "Naame",
@@ -169,7 +209,7 @@
         "height": "205cm"
       }
     ],
-    "order": 10
+    "order": 12
   },
   {
     "name": "Sam",
@@ -189,6 +229,6 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 11
+    "order": 13
   }
 ]
