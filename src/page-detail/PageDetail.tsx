@@ -195,21 +195,23 @@ const PageDetail: React.FC = () => {
           />
         </div>
       </div>
-      {oc.voiceSample && (
-        <div className="detail-block-voice-sample div-3d-with-shadow">
-          <AudioPlayer src={oc.voiceSample} />
-        </div>
-      )}
-      {heightChartVariantId && (
-        <div className="detail-block-height-chart-btn div-3d-with-shadow">
-          <button
-            className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}
-            onClick={handleAddToHeightChart}
-          >
-            {addedToHeightChart
-              ? "Added to height chart"
-              : "Add to height chart"}
-          </button>
+      {(oc.voiceSample || heightChartVariantId) && (
+        <div className="detail-voice-height-row">
+          {oc.voiceSample && (
+            <div className="detail-block-voice-sample div-3d-with-shadow">
+              <AudioPlayer src={oc.voiceSample} />
+            </div>
+          )}
+          {heightChartVariantId && (
+            <div className="detail-block-height-chart-btn div-3d-with-shadow">
+              <button
+                className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}
+                onClick={handleAddToHeightChart}
+              >
+                {addedToHeightChart ? "Now in height chart" : "Add to height chart"}
+              </button>
+            </div>
+          )}
         </div>
       )}
       <div className="detail-block-info div-3d-with-shadow">
