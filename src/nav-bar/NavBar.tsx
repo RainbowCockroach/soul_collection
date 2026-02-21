@@ -43,7 +43,10 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest(".mobile-menu-container") && !target.closest(".more-button")) {
+      if (
+        !target.closest(".mobile-menu-container") &&
+        !target.closest(".more-button")
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -78,13 +81,13 @@ const Navbar = () => {
       disabled: false,
     },
     {
-      name: "Guest book",
-      href: `${baseUrl}/guest-book`,
+      name: "Height chart",
+      href: `${baseUrl}/height-chart`,
       disabled: false,
     },
     {
-      name: "Height chart",
-      href: `${baseUrl}/height-chart`,
+      name: "Guest book",
+      href: `${baseUrl}/guest-book`,
       disabled: false,
     },
   ];
@@ -116,9 +119,7 @@ const Navbar = () => {
       {/* Mobile-only logo at top (non-sticky) */}
       <div className="nav-bar-logo-mobile">
         <ButtonWrapper
-          onClick={() =>
-            (window.location.href = "https://itssammmm.carrd.co/")
-          }
+          onClick={() => (window.location.href = "https://itssammmm.carrd.co/")}
           hoverSoundFile={buttonSoundHover}
         >
           <img src={samLogoFull} alt="Logo" className="logo" />
@@ -208,7 +209,9 @@ const Navbar = () => {
             </ButtonWrapper>
 
             {/* Mobile dropdown menu */}
-            <div className={`mobile-dropdown ${isMobileMenuOpen ? "open" : ""}`}>
+            <div
+              className={`mobile-dropdown ${isMobileMenuOpen ? "open" : ""}`}
+            >
               {/* More menu items */}
               {moreMenuItems.map((item) => (
                 <ButtonWrapper
@@ -236,7 +239,10 @@ const Navbar = () => {
                 hoverSoundFile={buttonSoundHover}
                 soundFile={buttonSound}
               >
-                <div className="glass-effect nav-button mobile-dropdown-item" title="Bug Report">
+                <div
+                  className="glass-effect nav-button mobile-dropdown-item"
+                  title="Bug Report"
+                >
                   <FontAwesomeIcon icon={faBug} />
                 </div>
               </ButtonWrapper>
