@@ -170,21 +170,25 @@ export const EditorHeightChart: React.FC = () => {
 
     // Filter out empty variants
     const validVariants = formData.variants.filter(
-      (v) => v.url.trim() && v.height.trim() && v.id.trim(),
+      (v) => v.url.trim() && v.height.trim(),
     );
 
     if (validVariants.length === 0) {
-      toast.error(
-        "At least one complete variant is required (ID, URL, and height)",
-      );
+      toast.error("At least one complete variant is required (URL and height)");
       return;
     }
+
+    // Auto-generate IDs based on groupId and position
+    const variantsWithIds = validVariants.map((v, idx) => ({
+      ...v,
+      id: `${groupId}-${idx + 1}`,
+    }));
 
     const newGroup: HeightChartGroup = {
       name: formData.name,
       groupId: groupId,
       thumbnail: formData.thumbnail,
-      variants: validVariants,
+      variants: variantsWithIds,
       order:
         isEditing && selectedGroupIndex !== null
           ? groups[selectedGroupIndex].order
@@ -469,24 +473,6 @@ export const EditorHeightChart: React.FC = () => {
                       gap: "8px",
                     }}
                   >
-                    <div>
-                      <label
-                        className="editor-label"
-                        style={{ fontSize: "12px" }}
-                      >
-                        ID:
-                      </label>
-                      <input
-                        type="text"
-                        value={variant.id}
-                        onChange={(e) =>
-                          handleVariantChange(index, "id", e.target.value)
-                        }
-                        placeholder="e.g. sam-regular"
-                        className="editor-input"
-                        style={{ fontSize: "13px" }}
-                      />
-                    </div>
                     <div>
                       <label
                         className="editor-label"
