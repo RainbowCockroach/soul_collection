@@ -9,6 +9,11 @@
     gap: 20px;
   }
 
+  /* Wrapper is invisible on desktop so children participate directly in grid */
+  .detail-voice-height-row {
+    display: contents;
+  }
+
   /* Row 1: Voice sample (2 cols) + height chart button (2 cols), right side */
   .detail-block-voice-sample {
     grid-column: 12 / 14;
@@ -86,23 +91,31 @@
   .detail-block-gallery {
     order: 2;
   }
-  .detail-block-voice-sample {
+  .detail-voice-height-row {
     order: 3;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .detail-block-voice-sample {
+    flex: 1;
   }
   .detail-block-height-chart-btn {
-    order: 4;
+    flex: 1;
   }
   .detail-block-info {
-    order: 5;
+    order: 4;
   }
   .detail-block-species {
-    order: 6;
+    order: 5;
   }
   .detail-block-breadcrumbs {
-    order: 7;
+    order: 6;
   }
   .detail-block-tags {
-    order: 8;
+    order: 7;
   }
 }
 
