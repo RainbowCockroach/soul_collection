@@ -161,7 +161,7 @@ export default function PageHeightChart() {
             setPopupPosition(null);
           } else {
             const rect = buttonEl.getBoundingClientRect();
-            setPopupPosition({ top: rect.top, left: rect.left });
+            setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
             setExpandedGroupId(group.groupId);
           }
         }
@@ -174,7 +174,7 @@ export default function PageHeightChart() {
         setPopupPosition(null);
       } else {
         const rect = buttonEl.getBoundingClientRect();
-        setPopupPosition({ top: rect.top, left: rect.left });
+        setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
         setExpandedGroupId(group.groupId);
       }
     },
