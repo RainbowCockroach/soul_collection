@@ -1,5 +1,19 @@
 [
   {
+    "name": "Mia",
+    "groupId": "mia",
+    "thumbnail": "https://i.pinimg.com/originals/90/3f/ca/903fcab7a5df0a82ff48cdc36d75fde0.png",
+    "variants": [
+      {
+        "id": "mia",
+        "url": "https://i.pinimg.com/originals/0b/61/42/0b61422d6435ef6f5fb3f57d6ef6daed.png",
+        "thumbnail": "",
+        "height": "166cm (without heels)"
+      }
+    ],
+    "order": 0
+  },
+  {
     "name": "Cleo",
     "groupId": "cleo",
     "thumbnail": "https://i.pinimg.com/originals/af/48/20/af4820b63923ae4e42decf30ead44496.png",
@@ -11,7 +25,7 @@
         "height": "180cm"
       }
     ],
-    "order": 0
+    "order": 1
   },
   {
     "name": "Agent W",
@@ -25,7 +39,7 @@
         "height": "155cm"
       }
     ],
-    "order": 1
+    "order": 2
   },
   {
     "name": "Sammy Sa",
@@ -39,7 +53,7 @@
         "height": "170cm (without heels)"
       }
     ],
-    "order": 2
+    "order": 3
   },
   {
     "name": "Seana",
@@ -53,7 +67,7 @@
         "height": "174cm"
       }
     ],
-    "order": 3
+    "order": 4
   },
   {
     "name": "Akane",
@@ -73,7 +87,7 @@
         "height": "172cm"
       }
     ],
-    "order": 4
+    "order": 5
   },
   {
     "name": "not mad",
@@ -93,7 +107,7 @@
         "height": "185cm"
       }
     ],
-    "order": 5
+    "order": 6
   },
   {
     "name": "Non",
@@ -113,7 +127,7 @@
         "height": "168cm (without heels)"
       }
     ],
-    "order": 6
+    "order": 7
   },
   {
     "name": "Bush",
@@ -127,7 +141,7 @@
         "height": "110cm"
       }
     ],
-    "order": 7
+    "order": 8
   },
   {
     "name": "Echo",
@@ -141,7 +155,7 @@
         "height": "150cm"
       }
     ],
-    "order": 8
+    "order": 9
   },
   {
     "name": "Naame",
@@ -155,7 +169,7 @@
         "height": "205cm"
       }
     ],
-    "order": 9
+    "order": 10
   },
   {
     "name": "Sam",
@@ -175,6 +189,6 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 10
+    "order": 11
   }
 ]
