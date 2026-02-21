@@ -9,9 +9,14 @@
   --hc-item-img-height: 60px;
   --hc-border-radius: 8px;
   --hc-border-width: 2px;
-  --hc-text-shadow:
-    0 0 8px rgba(255, 255, 255, 0.9), 0 0 4px rgba(255, 255, 255, 0.7);
+  --hc-label-outline:
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
 }
+
+/* ─── Page Layout ────────────────────────────────────────────────────── */
 
 .height-chart-page {
   display: flex;
@@ -21,7 +26,6 @@
   overflow: hidden;
 }
 
-/* Main chart container */
 .height-chart-container {
   flex: 1;
   position: relative;
@@ -29,13 +33,11 @@
   min-height: 0;
 }
 
-/* Background with scale */
+/* ─── Background Scale ───────────────────────────────────────────────── */
+
 .height-chart-background {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  inset: 0;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -63,7 +65,8 @@
   display: block;
 }
 
-/* Clear all button */
+/* ─── Clear All Button ───────────────────────────────────────────────── */
+
 .height-chart-clear-all {
   position: absolute;
   top: 12px;
@@ -90,13 +93,11 @@
   box-shadow: 0 0 10px rgba(134, 78, 219, 0.4);
 }
 
-/* OC sprites layer */
+/* ─── Sprites Layer ──────────────────────────────────────────────────── */
+
 .height-chart-sprites {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  inset: 0;
   pointer-events: none;
 }
 
@@ -128,7 +129,8 @@
   display: block;
 }
 
-/* Name and height label above sprite */
+/* ─── Sprite Labels ──────────────────────────────────────────────────── */
+
 .height-chart-sprite-label {
   position: absolute;
   top: 0;
@@ -148,24 +150,17 @@
   font-size: 14px;
   font-weight: bold;
   color: var(--hc-primary-dark);
-  text-shadow:
-    -1px -1px 0 white,
-    1px -1px 0 white,
-    -1px 1px 0 white,
-    1px 1px 0 white;
+  text-shadow: var(--hc-label-outline);
 }
 
 .height-chart-sprite-height {
   font-size: 12px;
   color: var(--hc-primary-medium);
-  text-shadow:
-    -1px -1px 0 white,
-    1px -1px 0 white,
-    -1px 1px 0 white,
-    1px 1px 0 white;
+  text-shadow: var(--hc-label-outline);
 }
 
-/* Close button - positioned relative to sprite */
+/* ─── Sprite Close Button ────────────────────────────────────────────── */
+
 .height-chart-sprite-close {
   position: absolute;
   bottom: 90px;
@@ -198,7 +193,8 @@
   box-shadow: 0 3px 12px rgba(134, 78, 219, 0.6);
 }
 
-/* Bottom selector bar */
+/* ─── Bottom Selector Bar ────────────────────────────────────────────── */
+
 .height-chart-selector {
   flex-shrink: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -227,7 +223,8 @@
   align-items: flex-end;
 }
 
-/* Shared styles for selector and variant items */
+/* ─── Selector & Variant Items ───────────────────────────────────────── */
+
 .height-chart-selector-item,
 .height-chart-variant-item {
   background: rgba(255, 255, 255, 0.1);
@@ -262,10 +259,19 @@
   padding-top: 3px;
 }
 
+.height-chart-selector-item img,
+.height-chart-variant-item img {
+  max-height: var(--hc-item-img-height);
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+}
+
 .height-chart-selector-item:hover,
 .height-chart-variant-item:hover {
-  background: rgba(134, 78, 219, 0.2);
-  border-color: rgba(134, 78, 219, 0.6);
+  background: rgba(200, 150, 255, 0.15);
+  border-color: #c89fff;
+  box-shadow: 0 0 14px #c89fff, 0 0 30px rgba(200, 159, 255, 0.55);
 }
 
 .height-chart-selector-item:hover {
@@ -278,23 +284,18 @@
 }
 
 .height-chart-selector-item.selected {
-  background: rgba(134, 78, 219, 0.3);
-  border-color: var(--hc-primary-color);
-  box-shadow: 0 0 10px rgba(134, 78, 219, 0.5);
+  background: rgba(0, 255, 180, 0.1);
+  border-color: rgba(0, 255, 179, 0.7);
+  box-shadow: 0 0 8px rgba(0, 255, 179, 0.5), 0 0 18px rgba(0, 255, 179, 0.3);
 }
 
-.height-chart-selector-item img,
-.height-chart-variant-item img {
-  max-height: var(--hc-item-img-height);
-  width: auto;
-  object-fit: contain;
-  object-position: bottom;
-}
+/* ─── Variant Popup ──────────────────────────────────────────────────── */
 
-/* Variant popup — rendered via React portal at body level */
 .height-chart-variant-popup {
   display: flex;
+  flex-direction: column;
   gap: 10px;
+  transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -310,15 +311,16 @@
 @keyframes slideUpFade {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateX(-50%) translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
   }
 }
 
-/* Mobile adjustments */
+/* ─── Mobile ─────────────────────────────────────────────────────────── */
+
 @media (max-width: 768px) {
   :root {
     --hc-navbar-height: 60px;

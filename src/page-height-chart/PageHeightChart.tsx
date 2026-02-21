@@ -152,9 +152,19 @@ export default function PageHeightChart() {
       );
 
       if (selectedFromGroup) {
-        toggleCharacterSelection(selectedFromGroup.id);
-        setExpandedGroupId(null);
-        setPopupPosition(null);
+        // Focus the sprite on screen — never deselect
+        setActiveCharacterId(selectedFromGroup.id);
+        if (group.variants.length > 1) {
+          // Toggle popup for variant switching
+          if (expandedGroupId === group.groupId) {
+            setExpandedGroupId(null);
+            setPopupPosition(null);
+          } else {
+            const rect = buttonEl.getBoundingClientRect();
+            setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
+            setExpandedGroupId(group.groupId);
+          }
+        }
       } else if (group.variants.length === 1) {
         toggleCharacterSelection(group.variants[0].id);
         setExpandedGroupId(null);
@@ -164,7 +174,7 @@ export default function PageHeightChart() {
         setPopupPosition(null);
       } else {
         const rect = buttonEl.getBoundingClientRect();
-        setPopupPosition({ top: rect.top, left: rect.left });
+        setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
         setExpandedGroupId(group.groupId);
       }
     },
@@ -172,12 +182,26 @@ export default function PageHeightChart() {
   );
 
   const handleVariantSelect = useCallback(
-    (spriteId: string) => {
-      toggleCharacterSelection(spriteId);
+    (spriteId: string, groupVariants: HeightChartGroup["variants"]) => {
+      const existingFromGroup = selectedCharacters.find((char) =>
+        groupVariants.some((sprite) => sprite.id === char.id),
+      );
+
+      if (existingFromGroup) {
+        // Replace existing variant at same position
+        setSelectedCharacters((prev) =>
+          prev.map((char) =>
+            char.id === existingFromGroup.id ? { ...char, id: spriteId } : char,
+          ),
+        );
+        setActiveCharacterId(spriteId);
+      } else {
+        toggleCharacterSelection(spriteId);
+      }
       setExpandedGroupId(null);
       setPopupPosition(null);
     },
-    [toggleCharacterSelection],
+    [selectedCharacters, toggleCharacterSelection],
   );
 
   const handleCharacterClick = useCallback(
@@ -432,7 +456,7 @@ export default function PageHeightChart() {
               <button
                 key={sprite.id}
                 className="height-chart-variant-item"
-                onClick={() => handleVariantSelect(sprite.id)}
+                onClick={() => handleVariantSelect(sprite.id, expandedGroup.variants)}
                 title={expandedGroup.name}
               >
                 <img
