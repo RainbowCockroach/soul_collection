@@ -61,9 +61,15 @@
     "thumbnail": "https://i.pinimg.com/originals/ac/0b/80/ac0b80f8110596bdd4100a9837703662.png",
     "variants": [
       {
-        "id": "seana",
+        "id": "seana-1",
         "url": "https://i.pinimg.com/originals/6d/0a/01/6d0a0193ae30f28bc6d18806cc739958.png",
-        "thumbnail": "",
+        "thumbnail": "https://i.pinimg.com/originals/08/34/8e/08348eea431ee8dd8dfbf32d6d0e7b98.png",
+        "height": "174cm"
+      },
+      {
+        "id": "seana-2",
+        "url": "https://i.pinimg.com/originals/e3/8f/8b/e38f8b1b257f15df515edf7a7573e37e.png",
+        "thumbnail": "https://i.pinimg.com/originals/f0/63/a2/f063a21eb7b27d07f99520a93b7815f2.png",
         "height": "174cm"
       }
     ],
@@ -230,5 +236,25 @@
       }
     ],
     "order": 13
+  },
+  {
+    "name": "Jessica",
+    "groupId": "jessica",
+    "thumbnail": "https://i.pinimg.com/originals/b1/df/57/b1df577a14b96b103324743f80ed638a.png",
+    "variants": [
+      {
+        "id": "jessica-1",
+        "url": "https://i.pinimg.com/originals/cc/63/48/cc6348a63aeeb1e09f3127efdc8ddf62.png",
+        "thumbnail": "https://i.pinimg.com/originals/4a/4a/f5/4a4af5a914ce14dd149b0791d3db4827.png",
+        "height": "60cm"
+      },
+      {
+        "id": "jessica-2",
+        "url": "https://i.pinimg.com/originals/17/a1/b4/17a1b45b555ff3587f92965c7280d9ed.png",
+        "thumbnail": "https://i.pinimg.com/originals/63/66/29/636629f0c041389084318a47b4de9709.png",
+        "height": "60cm"
+      }
+    ],
+    "order": 14
   }
 ]
