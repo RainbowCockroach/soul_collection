@@ -208,7 +208,7 @@ const PageDetail: React.FC = () => {
                 className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}
                 onClick={handleAddToHeightChart}
               >
-                {addedToHeightChart ? "Now in height chart" : "Add to height chart"}
+                {addedToHeightChart ? "Added" : "Add to height chart"}
               </button>
             </div>
           )}
