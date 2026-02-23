@@ -156,6 +156,26 @@
     "order": 8
   },
   {
+    "name": "Celia Li",
+    "groupId": "celia-li",
+    "thumbnail": "https://i.pinimg.com/originals/02/8d/ad/028dad1e9c280a89b46d3586ccbbc2d5.png",
+    "variants": [
+      {
+        "id": "celia-li-1",
+        "url": "https://i.pinimg.com/originals/80/ea/cd/80eacd8013c0f762a308863cd1351ec4.png",
+        "thumbnail": "https://i.pinimg.com/originals/f0/e9/7e/f0e97e79a44566e0b9ebd6f27d0fdb6f.png",
+        "height": "162cm"
+      },
+      {
+        "id": "celia-li-2",
+        "url": "https://i.pinimg.com/originals/4c/42/e3/4c42e3c87efacaee8024f495aa14cbfd.png",
+        "thumbnail": "https://i.pinimg.com/originals/33/4e/59/334e592a0d7ee3956d6d937a475e25f8.png",
+        "height": "162cm"
+      }
+    ],
+    "order": 9
+  },
+  {
     "name": "Non Li",
     "groupId": "non-li",
     "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
@@ -173,7 +193,7 @@
         "height": "168cm (without heels)"
       }
     ],
-    "order": 9
+    "order": 10
   },
   {
     "name": "Bush",
@@ -187,7 +207,7 @@
         "height": "110cm"
       }
     ],
-    "order": 10
+    "order": 11
   },
   {
     "name": "Echo",
@@ -201,7 +221,7 @@
         "height": "150cm"
       }
     ],
-    "order": 11
+    "order": 12
   },
   {
     "name": "Naame",
@@ -227,7 +247,7 @@
         "height": "205cm"
       }
     ],
-    "order": 12
+    "order": 13
   },
   {
     "name": "Sam",
@@ -247,7 +267,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 13
+    "order": 14
   },
   {
     "name": "Jessica",
@@ -265,26 +285,6 @@
         "url": "https://i.pinimg.com/originals/17/a1/b4/17a1b45b555ff3587f92965c7280d9ed.png",
         "thumbnail": "https://i.pinimg.com/originals/63/66/29/636629f0c041389084318a47b4de9709.png",
         "height": "60cm"
-      }
-    ],
-    "order": 14
-  },
-  {
-    "name": "Celia Li",
-    "groupId": "celia-li",
-    "thumbnail": "https://i.pinimg.com/originals/02/8d/ad/028dad1e9c280a89b46d3586ccbbc2d5.png",
-    "variants": [
-      {
-        "id": "celia-li-1",
-        "url": "https://i.pinimg.com/originals/80/ea/cd/80eacd8013c0f762a308863cd1351ec4.png",
-        "thumbnail": "https://i.pinimg.com/originals/f0/e9/7e/f0e97e79a44566e0b9ebd6f27d0fdb6f.png",
-        "height": "162cm"
-      },
-      {
-        "id": "celia-li-2",
-        "url": "https://i.pinimg.com/originals/4c/42/e3/4c42e3c87efacaee8024f495aa14cbfd.png",
-        "thumbnail": "https://i.pinimg.com/originals/33/4e/59/334e592a0d7ee3956d6d937a475e25f8.png",
-        "height": "162cm"
       }
     ],
     "order": 15
