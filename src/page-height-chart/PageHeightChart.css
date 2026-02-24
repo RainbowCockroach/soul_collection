@@ -10,10 +10,7 @@
   --hc-border-radius: 8px;
   --hc-border-width: 2px;
   --hc-label-outline:
-    -1px -1px 0 white,
-    1px -1px 0 white,
-    -1px 1px 0 white,
-    1px 1px 0 white;
+    -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
 /* ─── Page Layout ────────────────────────────────────────────────────── */
@@ -206,7 +203,6 @@
   z-index: 150;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 40vh;
 }
 
 .height-chart-selector-inner {
@@ -271,7 +267,9 @@
 .height-chart-variant-item:hover {
   background: rgba(200, 150, 255, 0.15);
   border-color: #c89fff;
-  box-shadow: 0 0 14px #c89fff, 0 0 30px rgba(200, 159, 255, 0.55);
+  box-shadow:
+    0 0 14px #c89fff,
+    0 0 30px rgba(200, 159, 255, 0.55);
 }
 
 .height-chart-selector-item:hover {
@@ -286,7 +284,9 @@
 .height-chart-selector-item.selected {
   background: rgba(0, 255, 180, 0.1);
   border-color: rgba(0, 255, 179, 0.7);
-  box-shadow: 0 0 8px rgba(0, 255, 179, 0.5), 0 0 18px rgba(0, 255, 179, 0.3);
+  box-shadow:
+    0 0 8px rgba(0, 255, 179, 0.5),
+    0 0 18px rgba(0, 255, 179, 0.3);
 }
 
 /* ─── Variant Popup ──────────────────────────────────────────────────── */
@@ -340,7 +340,6 @@
 
   .height-chart-selector {
     padding: 8px 10px;
-    max-height: 35vh;
   }
 
   .height-chart-selector-inner {
