@@ -21,6 +21,7 @@
   height: calc(100vh - var(--hc-navbar-height));
   width: 100%;
   overflow: hidden;
+  margin-bottom: 0;
 }
 
 .height-chart-container {
