@@ -226,8 +226,9 @@
 
 /* ─── Selector & Variant Items ───────────────────────────────────────── */
 
-.height-chart-selector-item,
-.height-chart-variant-item {
+/* Override ButtonWrapper defaults for height chart buttons */
+.height-chart-selector-item.button-wrapper,
+.height-chart-variant-item.button-wrapper {
   background: rgba(255, 255, 255, 0.1);
   border: var(--hc-border-width) solid rgba(134, 78, 219, 0.3);
   border-radius: var(--hc-border-radius);
@@ -239,9 +240,11 @@
   justify-content: center;
   height: var(--hc-item-height);
   min-width: 50px;
+  filter: none;
+  transform: none;
 }
 
-.height-chart-selector-item {
+.height-chart-selector-item.button-wrapper {
   flex-direction: column;
   align-items: center;
   height: auto;
@@ -268,25 +271,26 @@
   object-position: bottom;
 }
 
-.height-chart-selector-item:hover,
-.height-chart-variant-item:hover {
+.height-chart-selector-item.button-wrapper:hover,
+.height-chart-variant-item.button-wrapper:hover {
   background: rgba(200, 150, 255, 0.15);
   border-color: #c89fff;
   box-shadow:
     0 0 14px #c89fff,
     0 0 30px rgba(200, 159, 255, 0.55);
+  filter: none;
 }
 
-.height-chart-selector-item:hover {
+.height-chart-selector-item.button-wrapper:hover {
   transform: translateY(-3px);
 }
 
-.height-chart-variant-item:hover {
+.height-chart-variant-item.button-wrapper:hover {
   transform: translateY(-2px);
   border-color: rgba(134, 78, 219, 0.8);
 }
 
-.height-chart-selector-item.selected {
+.height-chart-selector-item.button-wrapper.selected {
   background: rgba(0, 255, 180, 0.1);
   border-color: rgba(0, 255, 179, 0.7);
   box-shadow:
@@ -351,8 +355,8 @@
     gap: 10px;
   }
 
-  .height-chart-selector-item,
-  .height-chart-variant-item {
+  .height-chart-selector-item.button-wrapper,
+  .height-chart-variant-item.button-wrapper {
     min-width: 40px;
     padding: 3px;
   }

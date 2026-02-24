@@ -9,6 +9,10 @@ import {
   getHeightChartSelections,
   setHeightChartSelections,
 } from "../helpers/height-chart-cart";
+import ButtonWrapper from "../common-components/ButtonWrapper";
+
+const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
+const variantSound = "/soul_collection/sound-effect/button_gallery_item.mp3";
 
 interface SelectedCharacter {
   id: string;
@@ -146,7 +150,7 @@ export default function PageHeightChart() {
   }, []);
 
   const handleGroupClick = useCallback(
-    (group: HeightChartGroup, buttonEl: HTMLButtonElement) => {
+    (group: HeightChartGroup, containerEl: HTMLDivElement) => {
       const selectedFromGroup = selectedCharacters.find((char) =>
         group.variants.some((sprite) => sprite.id === char.id),
       );
@@ -160,7 +164,7 @@ export default function PageHeightChart() {
             setExpandedGroupId(null);
             setPopupPosition(null);
           } else {
-            const rect = buttonEl.getBoundingClientRect();
+            const rect = containerEl.getBoundingClientRect();
             setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
             setExpandedGroupId(group.groupId);
           }
@@ -173,7 +177,7 @@ export default function PageHeightChart() {
         setExpandedGroupId(null);
         setPopupPosition(null);
       } else {
-        const rect = buttonEl.getBoundingClientRect();
+        const rect = containerEl.getBoundingClientRect();
         setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
         setExpandedGroupId(group.groupId);
       }
@@ -415,13 +419,22 @@ export default function PageHeightChart() {
             const isExpanded = expandedGroupId === group.groupId;
 
             return (
-              <div key={group.groupId} className="height-chart-selector-group">
-                <button
+              <div
+                key={group.groupId}
+                className="height-chart-selector-group"
+                data-group-id={group.groupId}
+              >
+                <ButtonWrapper
                   className={`height-chart-selector-item ${
                     isGroupSelected(group) ? "selected" : ""
                   } ${isExpanded ? "expanded" : ""}`}
-                  onClick={(e) => handleGroupClick(group, e.currentTarget)}
-                  title={group.name}
+                  onClick={() => {
+                    const el = document.querySelector(
+                      `[data-group-id="${group.groupId}"]`,
+                    ) as HTMLDivElement | null;
+                    if (el) handleGroupClick(group, el);
+                  }}
+                  soundFile={selectorSound}
                 >
                   <img
                     src={group.thumbnail}
@@ -431,7 +444,7 @@ export default function PageHeightChart() {
                   <span className="height-chart-selector-item-name">
                     {group.name}
                   </span>
-                </button>
+                </ButtonWrapper>
               </div>
             );
           })}
@@ -453,18 +466,18 @@ export default function PageHeightChart() {
             }}
           >
             {expandedGroup.variants.map((sprite) => (
-              <button
+              <ButtonWrapper
                 key={sprite.id}
                 className="height-chart-variant-item"
                 onClick={() => handleVariantSelect(sprite.id, expandedGroup.variants)}
-                title={expandedGroup.name}
+                soundFile={variantSound}
               >
                 <img
                   src={sprite.thumbnail}
                   alt={expandedGroup.name}
                   draggable={false}
                 />
-              </button>
+              </ButtonWrapper>
             ))}
           </div>,
           document.body,
