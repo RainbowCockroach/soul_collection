@@ -15,6 +15,10 @@
 
 /* ─── Page Layout ────────────────────────────────────────────────────── */
 
+#page-container:has(.height-chart-page) {
+  margin-bottom: 0;
+}
+
 .height-chart-page {
   display: flex;
   flex-direction: column;
