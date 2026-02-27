@@ -1,0 +1,29 @@
+.sense-break-button {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  animation: sense-break-button-flip 3s ease-in-out infinite;
+}
+
+.sense-break-button:hover {
+  animation: sense-break-button-flip 1.5s ease-in-out infinite;
+}
+
+@keyframes sense-break-button-flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(180deg);
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
