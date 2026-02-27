@@ -22,6 +22,7 @@ import {
   isInHeightChart,
   toggleHeightChartSelection,
 } from "../helpers/height-chart-cart";
+import SenseBreakButton from "../sense-break/SenseBreakButton";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -340,6 +341,10 @@ const PageDetail: React.FC = () => {
           </span>
         ))}
       </div>
+
+      {(slug === "bush" || slug === "vhhz") && (
+        <SenseBreakButton chance={0.1} />
+      )}
     </div>
   );
 };
