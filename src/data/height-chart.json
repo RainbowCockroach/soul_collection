@@ -224,6 +224,26 @@
     "order": 12
   },
   {
+    "name": "Vhhz",
+    "groupId": "vhhz",
+    "thumbnail": "https://i.pinimg.com/originals/0d/90/c3/0d90c3cc72fdd11fe7d3ebcfe5a3055a.png",
+    "variants": [
+      {
+        "id": "vhhz-1",
+        "url": "https://i.pinimg.com/originals/5f/0a/dc/5f0adce37e70e73b0223494f23a71834.png",
+        "thumbnail": "https://i.pinimg.com/originals/d8/2e/d3/d82ed3818e479edfd58c5d51278629d1.png",
+        "height": "200cm"
+      },
+      {
+        "id": "vhhz-2",
+        "url": "https://i.pinimg.com/originals/e1/39/ee/e139ee40bda46d308febaca8175bcce8.png",
+        "thumbnail": "https://i.pinimg.com/originals/ac/f7/32/acf732578a5a2661fd071af110f7d1bc.png",
+        "height": "200cm"
+      }
+    ],
+    "order": 13
+  },
+  {
     "name": "Naame",
     "groupId": "naame",
     "thumbnail": "https://i.pinimg.com/originals/31/ae/a2/31aea2b7908b126cadc219f5e24e1630.png",
@@ -247,7 +267,7 @@
         "height": "205cm"
       }
     ],
-    "order": 13
+    "order": 14
   },
   {
     "name": "Sam",
@@ -267,7 +287,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 14
+    "order": 15
   },
   {
     "name": "Jessica",
@@ -287,6 +307,6 @@
         "height": "60cm"
       }
     ],
-    "order": 15
+    "order": 16
   }
 ]
