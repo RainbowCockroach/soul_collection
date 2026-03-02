@@ -292,6 +292,7 @@
   appearance: none;
   writing-mode: bt-lr;
   -webkit-appearance: slider-vertical;
+  touch-action: none;
 }
 
 .volume-slider::-webkit-slider-thumb {
