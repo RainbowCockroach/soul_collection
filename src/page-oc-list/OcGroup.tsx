@@ -23,6 +23,7 @@ interface OcGroupProps {
   onToggle: (categoryId: string) => void;
   ships: Ship[];
   selectedShips: string[];
+  restrictedSlugs?: Set<string>;
 }
 
 const OcGroup: React.FC<OcGroupProps> = ({
@@ -31,6 +32,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
   onToggle,
   ships,
   selectedShips,
+  restrictedSlugs,
 }) => {
   // Helper function to get ship colors for an OC
   const getShipColorsForOc = (ocSlug: string): string[] => {
@@ -107,6 +109,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
                 textColour={groupInfo.groupHeaderTextColour}
                 shipColors={getShipColorsForOc(oc.slug)}
                 shipTexts={getShipTextsForOc(oc.slug)}
+                disabled={restrictedSlugs?.has(oc.slug)}
               />
             ))}
           </div>

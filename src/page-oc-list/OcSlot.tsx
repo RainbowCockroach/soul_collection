@@ -22,6 +22,7 @@ interface OcSlotProps {
   textColour: string;
   shipColors?: string[]; // Array of hex color codes for ship heart icons
   shipTexts?: string[]; // Array of ship texts to display in tooltips
+  disabled?: boolean;
 }
 
 // Custom hook for overflow detection
@@ -71,21 +72,31 @@ const OcSlot: React.FC<OcSlotProps> = ({
   textColour,
   shipColors,
   shipTexts,
+  disabled,
 }) => {
   const navigate = useNavigate();
   const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
 
   const handleClick = () => {
+    if (disabled) return;
     navigate(`/soul_collection/ocs/${oc.slug}`);
   };
 
   return (
     <ButtonWrapper
       onClick={handleClick}
-      soundFile={buttonSoundOcSlot}
-      hoverSoundFile={buttonSoundHover}
+      soundFile={disabled ? undefined : buttonSoundOcSlot}
+      hoverSoundFile={disabled ? undefined : buttonSoundHover}
+      disabled={disabled}
     >
-      <div className="oc-slot-wrapper">
+      <div
+        className="oc-slot-wrapper"
+        style={
+          disabled
+            ? { filter: "grayscale(100%)", opacity: 0.4, cursor: "not-allowed" }
+            : undefined
+        }
+      >
         {/* Ship heart icons positioned above the frame */}
         {shipColors && shipColors.length > 0 && (
           <div className="oc-slot-ship-icons">

@@ -11,6 +11,7 @@ import { startContinuousSparkles } from "./background-sparkle/sparkles";
 import PageMain from "./page-main/PageMain";
 import SamPopup from "./page-intro/SamPopUp";
 import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
+import { KidModeProvider } from "./kid-mode/KidModeContext";
 import StarryTrail from "./common-components/StarryTrail";
 import PageGuestBook from "./page-guest-book/PageGuestBook";
 import PageHeightChart from "./page-height-chart/PageHeightChart";
@@ -114,6 +115,7 @@ function App() {
   }, []);
 
   return (
+    <KidModeProvider>
     <MusicPlayerProvider>
       <div>
         {/* Front elements */}
@@ -156,6 +158,7 @@ function App() {
       <SamPopup />
       {/* <div className="grain-overlay"></div> */}
     </MusicPlayerProvider>
+    </KidModeProvider>
   );
 }
 
