@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import OcGroup from "./OcGroup";
 import type { OcGroupInfo } from "./OcGroup";
 import FilterBlock from "./FilterBlock";
 import { loadAllData } from "../helpers/data-load";
 import type { OC, Group, Tag, Ship } from "../helpers/objects";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
 import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./OcGroup.css";
 import "./FilterBlock.css";
@@ -60,6 +61,7 @@ function formatDataForGroups(
 }
 
 const PageOcList: React.FC = () => {
+  const { isKidModeEnabled } = useKidMode();
   const [expandedGroups, setExpandedGroups] = useState<ExpandedGroups>({});
   const [groupWithOcsData, setGroupWithOcsData] = useState<OcGroupInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +72,18 @@ const PageOcList: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedShips, setSelectedShips] = useState<string[]>([]);
   const [showFilter, setShowFilter] = useState<boolean>(false);
+
+  const restrictedSlugs = useMemo(() => {
+    if (!isKidModeEnabled) return new Set<string>();
+    return new Set(
+      allOcs.filter((oc) => isOcRestricted(oc.tags)).map((oc) => oc.slug),
+    );
+  }, [isKidModeEnabled, allOcs]);
+
+  const visibleTags = useMemo(() => {
+    if (!isKidModeEnabled) return allTags;
+    return allTags.filter((tag) => !tag.kidModeCensored);
+  }, [isKidModeEnabled, allTags]);
 
   // Load data from helper function
   useEffect(() => {
@@ -173,7 +187,7 @@ const PageOcList: React.FC = () => {
       </div>
       {showFilter && (
         <FilterBlock
-          tags={allTags}
+          tags={visibleTags}
           selectedTags={selectedTags}
           onTagToggle={handleTagToggle}
           onClearAll={handleClearAllTags}
@@ -194,6 +208,7 @@ const PageOcList: React.FC = () => {
               onToggle={toggleGroup}
               ships={allShips}
               selectedShips={selectedShips}
+              restrictedSlugs={restrictedSlugs}
             />
           ))}
       </div>

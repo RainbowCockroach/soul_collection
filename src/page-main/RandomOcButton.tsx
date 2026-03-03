@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadOCs } from "../helpers/data-load";
+import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
 import "./RandomOcButton.css";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import randomButton from "../assets/button_random.gif";
@@ -13,12 +14,16 @@ interface RandomOcButtonProps {
 
 const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
   const navigate = useNavigate();
+  const { isKidModeEnabled } = useKidMode();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRandomOc = async () => {
     setIsLoading(true);
     try {
-      const ocs = await loadOCs();
+      let ocs = await loadOCs();
+      if (isKidModeEnabled) {
+        ocs = ocs.filter((oc) => !isOcRestricted(oc.tags));
+      }
       if (ocs.length > 0) {
         const randomIndex = Math.floor(Math.random() * ocs.length);
         const randomOc = ocs[randomIndex];

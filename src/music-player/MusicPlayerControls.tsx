@@ -180,15 +180,17 @@ export const MusicPlayerControls: React.FC = () => {
 
           {showVolumeSlider && (
             <div className="volume-slider-container">
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={state.volume}
-                onChange={handleVolumeChange}
-                className="volume-slider"
-              />
+              <div className="volume-slider-wrapper">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={state.volume}
+                  onChange={handleVolumeChange}
+                  className="volume-slider"
+                />
+              </div>
               <span className="volume-value">
                 {Math.round(state.volume * 100)}%
               </span>

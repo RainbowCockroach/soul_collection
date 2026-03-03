@@ -4,11 +4,12 @@ import "./PageHeightChart.css";
 import heightChartNumber from "../assets/height_chart_number.webp";
 import heightChartLines from "../assets/height_chart_lines.webp";
 import type { HeightChartGroup } from "../helpers/objects";
-import { loadHeightChartGroups } from "../helpers/data-load";
+import { loadHeightChartGroups, loadOCs } from "../helpers/data-load";
 import {
   getHeightChartSelections,
   setHeightChartSelections,
 } from "../helpers/height-chart-cart";
+import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 
 const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
@@ -26,7 +27,20 @@ interface DragState {
 }
 
 export default function PageHeightChart() {
-  const [spriteGroups, setSpriteGroups] = useState<HeightChartGroup[]>([]);
+  const { isKidModeEnabled } = useKidMode();
+  const [allSpriteGroups, setAllSpriteGroups] = useState<HeightChartGroup[]>(
+    [],
+  );
+  const [restrictedGroupIds, setRestrictedGroupIds] = useState<Set<string>>(
+    new Set(),
+  );
+
+  const spriteGroups = useMemo(() => {
+    if (!isKidModeEnabled) return allSpriteGroups;
+    return allSpriteGroups.filter(
+      (group) => !restrictedGroupIds.has(group.groupId),
+    );
+  }, [allSpriteGroups, isKidModeEnabled, restrictedGroupIds]);
   const [selectedCharacters, setSelectedCharacters] = useState<
     SelectedCharacter[]
   >([]);
@@ -63,9 +77,22 @@ export default function PageHeightChart() {
     return map;
   }, [spriteGroups]);
 
-  // Load height chart data
+  // Load height chart data and OC tags for kid mode filtering
   useEffect(() => {
-    loadHeightChartGroups().then(setSpriteGroups);
+    const loadData = async () => {
+      const [groups, ocs] = await Promise.all([
+        loadHeightChartGroups(),
+        loadOCs(),
+      ]);
+      setAllSpriteGroups(groups);
+      const restricted = new Set(
+        ocs
+          .filter((oc) => isOcRestricted(oc.tags))
+          .map((oc) => oc.slug),
+      );
+      setRestrictedGroupIds(restricted);
+    };
+    loadData();
   }, []);
 
   // Initialize selectedCharacters from localStorage once data is loaded

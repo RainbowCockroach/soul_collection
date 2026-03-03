@@ -7,12 +7,20 @@ import { MusicPlayerControls } from "../music-player/MusicPlayerControls";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import BugReportDialog from "../bug-report/BugReportDialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookSkull, faBug, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookSkull,
+  faBug,
+  faBars,
+  faEyeLowVision,
+  faPepperHot,
+} from "@fortawesome/free-solid-svg-icons";
+import { useKidMode } from "../kid-mode/KidModeContext";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { isKidModeEnabled, toggleKidMode } = useKidMode();
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -107,6 +115,11 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleKidModeClick = () => {
+    toggleKidMode();
+    setIsMobileMenuOpen(false);
+  };
+
   const handleMoreItemClick = (href: string, disabled: boolean) => {
     if (!disabled) {
       navigate(href);
@@ -182,6 +195,26 @@ const Navbar = () => {
                 </div>
               </ButtonWrapper>
             ))}
+            {/* Kid Mode toggle - desktop only */}
+            <ButtonWrapper
+              onClick={handleKidModeClick}
+              hoverSoundFile={buttonSoundHover}
+              soundFile={buttonSound}
+              className="bug-report-nav-button-desktop"
+            >
+              <div
+                className="glass-effect button-with-underline nav-button"
+                style={{
+                  background: isKidModeEnabled ? "#5bc0de" : "#ff4444",
+                }}
+              >
+                {isKidModeEnabled ? (
+                  <FontAwesomeIcon icon={faEyeLowVision} />
+                ) : (
+                  <FontAwesomeIcon icon={faPepperHot} />
+                )}
+              </div>
+            </ButtonWrapper>
             {/* Bug Report button - desktop only */}
             <ButtonWrapper
               onClick={handleBugReportClick}
@@ -233,6 +266,26 @@ const Navbar = () => {
                   </div>
                 </ButtonWrapper>
               ))}
+              {/* Kid Mode toggle */}
+              <ButtonWrapper
+                onClick={handleKidModeClick}
+                hoverSoundFile={buttonSoundHover}
+                soundFile={buttonSound}
+              >
+                <div
+                  className="glass-effect nav-button mobile-dropdown-item"
+                  style={{
+                    background: isKidModeEnabled ? "#5bc0de" : "#ff4444",
+                  }}
+                  title={isKidModeEnabled ? "Kid Mode ON" : "Spicy Mode"}
+                >
+                  {isKidModeEnabled ? (
+                    <FontAwesomeIcon icon={faEyeLowVision} />
+                  ) : (
+                    <FontAwesomeIcon icon={faPepperHot} />
+                  )}
+                </div>
+              </ButtonWrapper>
               {/* Bug Report */}
               <ButtonWrapper
                 onClick={handleBugReportClick}

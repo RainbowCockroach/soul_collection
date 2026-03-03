@@ -1,0 +1,265 @@
+/* ============================================================
+   SENSE BREAK — Escalating visual glitch/horror effects
+   Applied via .sense-break on <html>, phases added over time
+   All animations use steps() or step-end for jagged, sudden feel
+   ============================================================ */
+
+/* --- Scanline overlay (all phases) --- */
+.sense-break::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* ============================================================
+   PHASE 1 — "Something's wrong" (0-5s)
+   ============================================================ */
+
+/* Stepped hue — snaps between color states */
+.sense-break-phase-1 {
+  animation: sense-break-hue-slow 4s steps(6) infinite;
+}
+
+@keyframes sense-break-hue-slow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* Faint scanlines */
+.sense-break-phase-1::after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+}
+
+/* Sudden skew snaps on some elements */
+.sense-break-phase-1 *:nth-child(7n + 3) {
+  animation: sense-break-jitter-a 0.8s step-end infinite;
+}
+
+.sense-break-phase-1 *:nth-child(11n + 5) {
+  animation: sense-break-jitter-b 1.1s step-end infinite;
+}
+
+@keyframes sense-break-jitter-a {
+  0%, 70%, 100% { transform: none; }
+  71% { transform: skew(1.5deg, -0.5deg); }
+  85% { transform: skew(-0.8deg, 0.3deg); }
+}
+
+@keyframes sense-break-jitter-b {
+  0%, 60%, 100% { transform: none; }
+  61% { transform: skew(-1deg, 0.8deg); }
+  80% { transform: skew(0.5deg, -1deg); }
+}
+
+/* ============================================================
+   PHASE 2 — "Getting worse" (5-15s)
+   ============================================================ */
+
+/* Stepped hue with saturation — snaps faster */
+.sense-break-phase-2 {
+  animation: sense-break-hue-medium 2s steps(8) infinite;
+}
+
+@keyframes sense-break-hue-medium {
+  0% { filter: hue-rotate(0deg) saturate(1.2); }
+  100% { filter: hue-rotate(360deg) saturate(1.2); }
+}
+
+/* Stronger scanlines */
+.sense-break-phase-2::after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+}
+
+/* Chromatic aberration — snaps on/off */
+.sense-break-phase-2 h1,
+.sense-break-phase-2 h2,
+.sense-break-phase-2 p,
+.sense-break-phase-2 span,
+.sense-break-phase-2 a {
+  animation: sense-break-chromatic-snap 0.4s step-end infinite;
+}
+
+@keyframes sense-break-chromatic-snap {
+  0%, 60%, 100% { text-shadow: 2px 0 rgba(255, 0, 0, 0.5), -2px 0 rgba(0, 255, 255, 0.5); }
+  30% { text-shadow: -3px 0 rgba(255, 0, 0, 0.6), 3px 0 rgba(0, 255, 255, 0.6); }
+  61% { text-shadow: 1px 1px rgba(255, 0, 0, 0.3), -1px -1px rgba(0, 255, 255, 0.3); }
+}
+
+/* Image distortion — sudden snaps between positions */
+.sense-break-phase-2 img {
+  animation: sense-break-image-distort 0.6s step-end infinite;
+}
+
+@keyframes sense-break-image-distort {
+  0%, 50%, 100% { transform: none; }
+  10% { transform: skew(2deg, -1deg) scale(1.02); }
+  30% { transform: skew(-1.5deg, 0.5deg) scale(0.98); }
+  70% { transform: skew(1deg, -0.8deg) translateX(3px); }
+  90% { transform: skew(-0.5deg, 1.2deg) translateX(-2px); }
+}
+
+/* Glitch flicker on some elements */
+.sense-break-phase-2 .div-3d-with-shadow:nth-child(odd) {
+  animation: sense-break-glitch-flicker 0.15s step-end infinite;
+}
+
+@keyframes sense-break-glitch-flicker {
+  0%, 100% { opacity: 1; }
+  20% { opacity: 0; }
+  40% { opacity: 1; }
+  60% { opacity: 0.4; }
+  80% { opacity: 1; }
+}
+
+/* Screen tear — sharp horizontal slices */
+.sense-break-phase-2 body {
+  animation: sense-break-tear 2s step-end infinite;
+}
+
+@keyframes sense-break-tear {
+  0%, 82%, 88%, 94%, 100% { clip-path: inset(0); transform: none; }
+  83% { clip-path: inset(15% 0 65% 0); transform: translateX(8px); }
+  85% { clip-path: inset(0); transform: none; }
+  89% { clip-path: inset(55% 0 25% 0); transform: translateX(-12px); }
+  91% { clip-path: inset(0); transform: none; }
+  95% { clip-path: inset(35% 0 50% 0); transform: translateX(6px); }
+  97% { clip-path: inset(0); transform: none; }
+}
+
+/* ============================================================
+   PHASE 3 — "Full sense break" (15s+)
+   ============================================================ */
+
+/* Fast stepped hue + contrast spikes */
+.sense-break-phase-3 {
+  animation: sense-break-hue-fast 0.8s steps(12) infinite;
+}
+
+@keyframes sense-break-hue-fast {
+  0% { filter: hue-rotate(0deg) saturate(1.5) contrast(1.1); }
+  50% { filter: hue-rotate(180deg) saturate(2) contrast(1.5); }
+  100% { filter: hue-rotate(360deg) saturate(1.5) contrast(1.1); }
+}
+
+/* Intense scanlines with flicker */
+.sense-break-phase-3::after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.25) 2px,
+    rgba(0, 0, 0, 0.25) 4px
+  );
+  animation: sense-break-scanline-flicker 0.08s step-end infinite;
+}
+
+@keyframes sense-break-scanline-flicker {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Heavy chromatic aberration — rapid snapping */
+.sense-break-phase-3 h1,
+.sense-break-phase-3 h2,
+.sense-break-phase-3 p,
+.sense-break-phase-3 span,
+.sense-break-phase-3 a {
+  animation: sense-break-chromatic-wild 0.15s step-end infinite;
+}
+
+@keyframes sense-break-chromatic-wild {
+  0% { text-shadow: 4px 0 rgba(255, 0, 0, 0.7), -4px 0 rgba(0, 255, 255, 0.7); }
+  25% { text-shadow: -5px 1px rgba(255, 0, 0, 0.8), 5px -1px rgba(0, 255, 255, 0.8); }
+  50% { text-shadow: 3px -2px rgba(255, 0, 0, 0.5), -3px 2px rgba(0, 255, 255, 0.5); }
+  75% { text-shadow: -6px 0 rgba(255, 0, 0, 0.9), 6px 0 rgba(0, 255, 255, 0.9); }
+}
+
+/* Everything jerks around — sudden position snaps */
+.sense-break-phase-3 .div-3d-with-shadow {
+  animation: sense-break-jerk 0.2s step-end infinite;
+}
+
+.sense-break-phase-3 .div-3d-with-shadow:nth-child(even) {
+  animation-delay: -0.1s;
+}
+
+@keyframes sense-break-jerk {
+  0% { transform: rotate(-1deg) translateX(-3px); }
+  25% { transform: rotate(1.5deg) translateY(2px); }
+  50% { transform: rotate(-0.5deg) translateX(4px); }
+  75% { transform: rotate(1deg) translateY(-3px); }
+}
+
+/* Images snap between distorted states */
+.sense-break-phase-3 img {
+  animation: sense-break-image-wild 0.3s step-end infinite;
+}
+
+@keyframes sense-break-image-wild {
+  0% { transform: skew(3deg, -2deg) scale(1.03); }
+  20% { transform: skew(-2deg, 1deg) scale(0.97) rotate(1deg); }
+  40% { transform: skew(1deg, -3deg) translateX(5px); }
+  60% { transform: skew(-1deg, 2deg) scale(1.04) rotate(-1.5deg); }
+  80% { transform: skew(2deg, -1deg) translateX(-4px) translateY(2px); }
+}
+
+/* Invert flash pulses — sharp on/off */
+.sense-break-phase-3 body {
+  animation: sense-break-invert-flash 1.5s step-end infinite, sense-break-jolt 0.3s step-end infinite;
+}
+
+@keyframes sense-break-invert-flash {
+  0%, 75%, 82%, 90%, 100% { filter: none; }
+  76% { filter: invert(1); }
+  78% { filter: none; }
+  83% { filter: invert(1); }
+  85% { filter: none; }
+  91% { filter: invert(1) hue-rotate(90deg); }
+  93% { filter: none; }
+}
+
+/* Sudden scale jolts instead of smooth breathing */
+@keyframes sense-break-jolt {
+  0%, 60%, 100% { transform: scale(1); }
+  20% { transform: scale(1.04); }
+  40% { transform: scale(0.97); }
+  80% { transform: scale(1.03); }
+}
+
+/* Intense screen tear — more frequent, harder snaps */
+.sense-break-phase-3 .page-detail {
+  animation: sense-break-tear-intense 1s step-end infinite;
+}
+
+@keyframes sense-break-tear-intense {
+  0%, 100% { clip-path: inset(0); transform: none; }
+  10% { clip-path: inset(5% 0 80% 0); transform: translateX(15px); }
+  12% { clip-path: inset(0); transform: none; }
+  25% { clip-path: inset(40% 0 35% 0); transform: translateX(-20px); }
+  28% { clip-path: inset(0); transform: none; }
+  45% { clip-path: inset(70% 0 10% 0); transform: translateX(10px); }
+  48% { clip-path: inset(0); transform: none; }
+  65% { clip-path: inset(20% 0 60% 0); transform: translateX(-8px); }
+  67% { clip-path: inset(0); transform: none; }
+  80% { clip-path: inset(50% 0 30% 0); transform: translateX(12px); }
+  83% { clip-path: inset(0); transform: none; }
+}
+
+/* Ensure pointer-events still work */
+.sense-break * {
+  pointer-events: auto;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   loadOcBySlug,
   findLinkedOc,
@@ -22,9 +22,16 @@ import {
   isInHeightChart,
   toggleHeightChartSelection,
 } from "../helpers/height-chart-cart";
+import SenseBreakButton from "../sense-break/SenseBreakButton";
+import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
+import ButtonWrapper from "../common-components/ButtonWrapper";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
+import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const { isKidModeEnabled, toggleKidMode } = useKidMode();
   const [oc, setOc] = useState<OcWithDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -163,6 +170,36 @@ const PageDetail: React.FC = () => {
 
   if (!oc) {
     return <div>Character not found</div>;
+  }
+
+  if (isKidModeEnabled && isOcRestricted(oc.tags)) {
+    return (
+      <div className="page-padded kid-mode-block">
+        <h1 className="kid-mode-block-title">Beware!</h1>
+        <p className="kid-mode-block-message">
+          This OC might be too spicy for your delicate eyes and sanity. Didn't
+          you read the content warnings?
+        </p>
+        <div className="kid-mode-block-buttons">
+          <ButtonWrapper
+            className="div-3d-with-shadow kid-mode-block-btn kid-mode-block-btn--allow"
+            onClick={() => toggleKidMode()}
+            hoverSoundFile={buttonSoundHover}
+            soundFile={buttonSound}
+          >
+            Calloused mine can take it, let me in!
+          </ButtonWrapper>
+          <ButtonWrapper
+            className="div-3d-with-shadow kid-mode-block-btn kid-mode-block-btn--back"
+            onClick={() => navigate("/soul_collection/ocs")}
+            hoverSoundFile={buttonSoundHover}
+            soundFile={buttonSound}
+          >
+            Scary, take me home
+          </ButtonWrapper>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -340,6 +377,10 @@ const PageDetail: React.FC = () => {
           </span>
         ))}
       </div>
+
+      {(slug === "bush" || slug === "vhhz") && (
+        <SenseBreakButton chance={0.1} />
+      )}
     </div>
   );
 };
