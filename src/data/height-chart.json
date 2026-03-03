@@ -116,6 +116,46 @@
     "order": 6
   },
   {
+    "name": "Rilor",
+    "groupId": "rilor",
+    "thumbnail": "https://i.pinimg.com/originals/35/25/25/352525ed1a1b7794fdfdbec0b3791e06.png",
+    "variants": [
+      {
+        "id": "rilor-1",
+        "url": "https://i.pinimg.com/originals/d1/5c/35/d15c359ace1edb2e6b9c86bdf52821a7.png",
+        "thumbnail": "https://i.pinimg.com/originals/81/5a/f7/815af7babd35627b529a7f35be5c53fc.png",
+        "height": "165cm"
+      },
+      {
+        "id": "rilor-2",
+        "url": "https://i.pinimg.com/originals/61/6f/17/616f17b658fd0d00b1035f2eeca8f85e.png",
+        "thumbnail": "https://i.pinimg.com/originals/eb/7a/29/eb7a2919f8cceb033ff3424099e47527.png",
+        "height": "165cm"
+      }
+    ],
+    "order": 7
+  },
+  {
+    "name": "Liv",
+    "groupId": "liv",
+    "thumbnail": "https://i.pinimg.com/originals/f4/61/d2/f461d258c31b346072ed7316534b3e17.png",
+    "variants": [
+      {
+        "id": "liv-1",
+        "url": "https://i.pinimg.com/originals/5a/09/13/5a0913b59fe8024dade82a29cf822a6a.png",
+        "thumbnail": "https://i.pinimg.com/originals/a7/97/f5/a797f5f7b56a03f44c517b342243d2ec.png",
+        "height": "169cm"
+      },
+      {
+        "id": "liv-2",
+        "url": "https://i.pinimg.com/originals/c6/90/92/c69092d88491a5926f61afe186dd5b44.png",
+        "thumbnail": "https://i.pinimg.com/originals/a4/24/d0/a424d0cecbc06751f7793914f032f4ae.png",
+        "height": "169cm"
+      }
+    ],
+    "order": 8
+  },
+  {
     "name": "Aya Li",
     "groupId": "aya-li",
     "thumbnail": "https://i.pinimg.com/originals/61/99/44/6199443a24e47746e148c6f6d93c0b3f.png",
@@ -133,7 +173,7 @@
         "height": "160cm"
       }
     ],
-    "order": 7
+    "order": 9
   },
   {
     "name": "Maya Li",
@@ -153,7 +193,7 @@
         "height": "160cm"
       }
     ],
-    "order": 8
+    "order": 10
   },
   {
     "name": "Celia Li",
@@ -173,7 +213,7 @@
         "height": "162cm"
       }
     ],
-    "order": 9
+    "order": 11
   },
   {
     "name": "Non Li",
@@ -193,7 +233,7 @@
         "height": "168cm (without heels)"
       }
     ],
-    "order": 10
+    "order": 12
   },
   {
     "name": "Bush",
@@ -207,7 +247,7 @@
         "height": "110cm"
       }
     ],
-    "order": 11
+    "order": 13
   },
   {
     "name": "Echo",
@@ -221,7 +261,7 @@
         "height": "150cm"
       }
     ],
-    "order": 12
+    "order": 14
   },
   {
     "name": "Vhhz",
@@ -241,7 +281,7 @@
         "height": "200cm"
       }
     ],
-    "order": 13
+    "order": 15
   },
   {
     "name": "Naame",
@@ -267,7 +307,21 @@
         "height": "205cm"
       }
     ],
-    "order": 14
+    "order": 16
+  },
+  {
+    "name": "Uaawa",
+    "groupId": "uaawa",
+    "thumbnail": "https://i.pinimg.com/originals/85/19/00/851900e6e70d7748becf0c6f80451e95.png",
+    "variants": [
+      {
+        "id": "uaawa-1",
+        "url": "https://i.pinimg.com/originals/40/35/47/40354711824235df69c978d427f240ad.png",
+        "thumbnail": "",
+        "height": "198cm"
+      }
+    ],
+    "order": 17
   },
   {
     "name": "Sam",
@@ -287,7 +341,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 15
+    "order": 18
   },
   {
     "name": "Jessica",
@@ -307,6 +361,6 @@
         "height": "60cm"
       }
     ],
-    "order": 16
+    "order": 19
   }
 ]
