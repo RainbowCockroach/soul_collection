@@ -11,8 +11,6 @@ import {
   faBookSkull,
   faBug,
   faBars,
-  faShieldHalved,
-  faBaby,
   faEyeLowVision,
   faPepperHot,
 } from "@fortawesome/free-solid-svg-icons";
