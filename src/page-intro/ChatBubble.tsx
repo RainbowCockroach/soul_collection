@@ -10,6 +10,7 @@ interface Props {
   displayContinueIcon?: boolean;
   onComplete?: () => void;
   onFinish?: () => void;
+  onKidModeChoice?: () => void;
 }
 
 interface Ref {
@@ -26,8 +27,9 @@ const ChatBubble = forwardRef<Ref, Props>(
       displayContinueIcon = true,
       onComplete,
       onFinish,
+      onKidModeChoice,
     },
-    ref
+    ref,
   ) => {
     const [dialogIndex, setDialogIndex] = useState(0);
     const [text, setText] = useState("");
@@ -79,12 +81,7 @@ const ChatBubble = forwardRef<Ref, Props>(
       setIsTyping(false);
     };
 
-    const next = () => {
-      // Check if acknowledgment is required and not yet acknowledged
-      if (requiresAcknowledgment && !isAcknowledged) {
-        return;
-      }
-
+    const advance = () => {
       if (hasMore) {
         setDialogIndex((prev) => prev + 1);
         setText("");
@@ -92,6 +89,13 @@ const ChatBubble = forwardRef<Ref, Props>(
       } else {
         onFinish?.();
       }
+    };
+
+    const next = () => {
+      if (requiresAcknowledgment && !isAcknowledged) {
+        return;
+      }
+      advance();
     };
 
     const skip = () => {
@@ -102,10 +106,17 @@ const ChatBubble = forwardRef<Ref, Props>(
       }
     };
 
-    const handleAcknowledgmentChange = (
-      e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      setIsAcknowledged(e.target.checked);
+    const handleAcceptChoice = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setIsAcknowledged(true);
+      advance();
+    };
+
+    const handleKidModeChoiceClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setIsAcknowledged(true);
+      onKidModeChoice?.();
+      advance();
     };
 
     useImperativeHandle(ref, () => ({ skip }));
@@ -130,36 +141,37 @@ const ChatBubble = forwardRef<Ref, Props>(
               {isTyping && <span className="typing-cursor">▌</span>}
             </div>
 
-            {!isTyping && requiresAcknowledgment && (
-              <div className="chat-bubble-acknowledgment">
-                <label className="acknowledgment-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={isAcknowledged}
-                    onChange={handleAcknowledgmentChange}
-                    onClick={(e) => e.stopPropagation()}
-                  />
+            {!isTyping && requiresAcknowledgment && !isAcknowledged && (
+              <div className="chat-bubble-choices">
+                <button
+                  className="chat-bubble-choice chat-bubble-choice--accept"
+                  onClick={handleAcceptChoice}
+                >
                   OK, understood, won't complain
-                </label>
+                </button>
+                {onKidModeChoice && (
+                  <button
+                    className="chat-bubble-choice chat-bubble-choice--kid-mode"
+                    onClick={handleKidModeChoiceClick}
+                  >
+                    Shield my eyes from the wicked!
+                  </button>
+                )}
               </div>
             )}
 
-            {!isTyping && displayContinueIcon && (
-              <div className="chat-bubble-continue">
-                <span
-                  className={`continue-arrow ${
-                    requiresAcknowledgment && !isAcknowledged ? "disabled" : ""
-                  }`}
-                >
-                  {hasMore ? "▼" : "✓"}
-                </span>
-              </div>
-            )}
+            {!isTyping &&
+              displayContinueIcon &&
+              !(requiresAcknowledgment && !isAcknowledged) && (
+                <div className="chat-bubble-continue">
+                  <span className="continue-arrow">{hasMore ? "▼" : "✓"}</span>
+                </div>
+              )}
           </div>
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default ChatBubble;

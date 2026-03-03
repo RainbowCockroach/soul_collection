@@ -219,80 +219,76 @@
   }
 }
 
-/* Acknowledgment checkbox styles */
-.chat-bubble-acknowledgment {
+/* Choice buttons */
+.chat-bubble-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 0.89em;
-  padding: 0.67em 16px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 2px solid #e6d7f5;
-  border-radius: 12px;
-  box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.8),
-    inset -1px -1px 3px rgba(180, 163, 209, 0.3);
 }
 
-.acknowledgment-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+.chat-bubble-choice {
+  padding: 0.6em 16px;
+  border: 2px solid #e6d7f5;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.8),
+    inset -1px -1px 3px rgba(180, 163, 209, 0.3);
   color: #2e1a48;
   font-family: inherit;
   font-size: 18px;
   font-weight: 500;
-  user-select: none;
-}
-
-.acknowledgment-checkbox input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #7c5aa0;
   cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.1s ease;
 }
 
-.acknowledgment-checkbox:hover {
-  color: #1a0f26;
+.chat-bubble-choice:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #d4c5e8;
+  transform: translateX(4px);
 }
 
-/* Disabled continue arrow */
-.continue-arrow.disabled {
-  color: #b8b8b8;
-  animation: none;
-  cursor: not-allowed;
+.chat-bubble-choice:active {
+  transform: translateX(2px);
 }
 
-.chat-bubble-continue:has(.continue-arrow.disabled) {
-  cursor: not-allowed;
+.chat-bubble-choice--accept {
+  border-color: #f0c8c8;
+  background: rgba(255, 68, 68, 0.1);
 }
 
-.chat-bubble-continue:has(.continue-arrow.disabled):hover .continue-arrow {
-  color: #b8b8b8;
+.chat-bubble-choice--accept:hover {
+  border-color: #ff4444;
+  background: rgba(255, 68, 68, 0.2);
 }
 
-/* Responsive styles for acknowledgment */
+.chat-bubble-choice--kid-mode {
+  border-color: #b3d9ea;
+  background: rgba(91, 192, 222, 0.15);
+}
+
+.chat-bubble-choice--kid-mode:hover {
+  border-color: #5bc0de;
+  background: rgba(91, 192, 222, 0.3);
+}
+
+/* Responsive styles for choices */
 @media (min-width: 769px) and (max-width: 1200px) {
-  .acknowledgment-checkbox {
+  .chat-bubble-choice {
     font-size: 16px;
-  }
-
-  .acknowledgment-checkbox input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
   }
 }
 
 @media (max-width: 768px) {
-  .chat-bubble-acknowledgment {
+  .chat-bubble-choices {
     margin-top: 0.86em;
-    padding: 0.71em 12px;
+    gap: 6px;
   }
 
-  .acknowledgment-checkbox {
+  .chat-bubble-choice {
     font-size: 14px;
-    gap: 8px;
-  }
-
-  .acknowledgment-checkbox input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
+    padding: 0.5em 12px;
   }
 }
