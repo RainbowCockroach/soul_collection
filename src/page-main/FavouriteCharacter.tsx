@@ -9,26 +9,37 @@ interface FavouriteCharacterProps {
   slug: string;
   name: string;
   avatar: string;
+  disabled?: boolean;
 }
 
 const FavouriteCharacter: React.FC<FavouriteCharacterProps> = ({
   slug,
   name,
   avatar,
+  disabled,
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    if (disabled) return;
     navigate(`/soul_collection/ocs/${slug}`);
   };
 
   return (
     <ButtonWrapper
       onClick={handleClick}
-      hoverSoundFile={buttonSoundHover}
-      soundFile={buttonSoundOcSlot}
+      hoverSoundFile={disabled ? undefined : buttonSoundHover}
+      soundFile={disabled ? undefined : buttonSoundOcSlot}
+      disabled={disabled}
     >
-      <div className="favourite-character">
+      <div
+        className="favourite-character"
+        style={
+          disabled
+            ? { filter: "grayscale(100%)", opacity: 0.4, cursor: "not-allowed" }
+            : undefined
+        }
+      >
         <img src={avatar} alt={name} className="favourite-avatar" />
         <h3 className="favourite-name">{name}</h3>
       </div>

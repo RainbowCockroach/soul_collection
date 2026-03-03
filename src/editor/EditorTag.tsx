@@ -39,6 +39,7 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
   onSelect,
   onDelete,
 }) => {
+  const isCensored = tag.kidModeCensored === true;
   const {
     attributes,
     listeners,
@@ -73,6 +74,20 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
       >
         {tag.name}
       </div>
+      {isCensored && (
+        <span
+          style={{
+            fontSize: "0.7em",
+            padding: "2px 6px",
+            borderRadius: "4px",
+            backgroundColor: "#ff4444",
+            color: "#fff",
+            whiteSpace: "nowrap",
+          }}
+        >
+          CENSORED
+        </span>
+      )}
       <div className="editor-item-slug">{tag.slug}</div>
       <button
         onClick={(e) => {
@@ -95,14 +110,31 @@ const EditorTag: React.FC = () => {
     name: "",
     backgroundColour: "#3498DB",
     textColour: "#FFFFFF",
+    kidModeCensored: false,
   });
   const [isEditing, setIsEditing] = useState(false);
+
+  const buildTagData = (tagList: Tag[]): TagJsonData => {
+    const data: TagJsonData = {};
+    tagList.forEach((tag) => {
+      const entry: Omit<Tag, "slug"> = {
+        name: tag.name,
+        backgroundColour: tag.backgroundColour,
+        textColour: tag.textColour,
+      };
+      if (tag.kidModeCensored) {
+        entry.kidModeCensored = true;
+      }
+      data[tag.slug] = entry;
+    });
+    return data;
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -113,16 +145,7 @@ const EditorTag: React.FC = () => {
     try {
       const loadedTags = await loadTags();
       setTags(loadedTags);
-      
-      const jsonData: TagJsonData = {};
-      loadedTags.forEach((tag) => {
-        jsonData[tag.slug] = {
-          name: tag.name,
-          backgroundColour: tag.backgroundColour,
-          textColour: tag.textColour,
-        };
-      });
-      setTagData(jsonData);
+      setTagData(buildTagData(loadedTags));
     } catch (error) {
       console.error("Error loading tags:", error);
       toast.error("Failed to load tags");
@@ -130,10 +153,10 @@ const EditorTag: React.FC = () => {
   };
 
   const generateSlug = (name: string): string => {
-    return slugify(name, { 
-      lower: true, 
+    return slugify(name, {
+      lower: true,
       strict: true,
-      remove: /[*+~.()'"!:@]/g
+      remove: /[*+~.()'"!:@]/g,
     });
   };
 
@@ -145,6 +168,7 @@ const EditorTag: React.FC = () => {
         name: tag.name,
         backgroundColour: tag.backgroundColour,
         textColour: tag.textColour,
+        kidModeCensored: tag.kidModeCensored === true,
       });
       setIsEditing(true);
     }
@@ -156,8 +180,9 @@ const EditorTag: React.FC = () => {
       return;
     }
 
-    const slug = isEditing && selectedTag ? selectedTag : generateSlug(formData.name);
-    
+    const slug =
+      isEditing && selectedTag ? selectedTag : generateSlug(formData.name);
+
     if (!isEditing && tags.some((tag) => tag.slug === slug)) {
       toast.error("A tag with this name already exists");
       return;
@@ -168,28 +193,20 @@ const EditorTag: React.FC = () => {
       name: formData.name,
       backgroundColour: formData.backgroundColour,
       textColour: formData.textColour,
+      kidModeCensored: formData.kidModeCensored || undefined,
     };
 
     let updatedTags: Tag[];
     if (isEditing && selectedTag) {
       updatedTags = tags.map((tag) =>
-        tag.slug === selectedTag ? newTag : tag
+        tag.slug === selectedTag ? newTag : tag,
       );
     } else {
       updatedTags = [...tags, newTag];
     }
 
     setTags(updatedTags);
-
-    const updatedTagData: TagJsonData = {};
-    updatedTags.forEach((tag) => {
-      updatedTagData[tag.slug] = {
-        name: tag.name,
-        backgroundColour: tag.backgroundColour,
-        textColour: tag.textColour,
-      };
-    });
-    setTagData(updatedTagData);
+    setTagData(buildTagData(updatedTags));
 
     toast.success(isEditing ? "Tag updated" : "Tag created");
     handleCancelEdit();
@@ -199,16 +216,7 @@ const EditorTag: React.FC = () => {
     if (window.confirm("Are you sure you want to delete this tag?")) {
       const updatedTags = tags.filter((tag) => tag.slug !== slug);
       setTags(updatedTags);
-
-      const updatedTagData: TagJsonData = {};
-      updatedTags.forEach((tag) => {
-        updatedTagData[tag.slug] = {
-          name: tag.name,
-          backgroundColour: tag.backgroundColour,
-          textColour: tag.textColour,
-        };
-      });
-      setTagData(updatedTagData);
+      setTagData(buildTagData(updatedTags));
 
       if (selectedTag === slug) {
         handleCancelEdit();
@@ -223,6 +231,7 @@ const EditorTag: React.FC = () => {
       name: "",
       backgroundColour: "#3498DB",
       textColour: "#FFFFFF",
+      kidModeCensored: false,
     });
     setIsEditing(false);
   };
@@ -236,16 +245,7 @@ const EditorTag: React.FC = () => {
 
       const newTags = arrayMove(tags, oldIndex, newIndex);
       setTags(newTags);
-
-      const updatedTagData: TagJsonData = {};
-      newTags.forEach((tag) => {
-        updatedTagData[tag.slug] = {
-          name: tag.name,
-          backgroundColour: tag.backgroundColour,
-          textColour: tag.textColour,
-        };
-      });
-      setTagData(updatedTagData);
+      setTagData(buildTagData(newTags));
     }
   };
 
@@ -327,7 +327,10 @@ const EditorTag: React.FC = () => {
                   type="color"
                   value={formData.backgroundColour}
                   onChange={(e) =>
-                    setFormData({ ...formData, backgroundColour: e.target.value })
+                    setFormData({
+                      ...formData,
+                      backgroundColour: e.target.value,
+                    })
                   }
                   className="editor-color-picker"
                 />
@@ -335,7 +338,10 @@ const EditorTag: React.FC = () => {
                   type="text"
                   value={formData.backgroundColour}
                   onChange={(e) =>
-                    setFormData({ ...formData, backgroundColour: e.target.value })
+                    setFormData({
+                      ...formData,
+                      backgroundColour: e.target.value,
+                    })
                   }
                   placeholder="#000000"
                   className="editor-color-text"
@@ -376,11 +382,39 @@ const EditorTag: React.FC = () => {
                   padding: "8px 16px",
                   borderRadius: "16px",
                   textAlign: "center",
-                  fontWeight: "500"
+                  fontWeight: "500",
                 }}
               >
                 {formData.name || "Tag Preview"}
               </div>
+            </div>
+
+            <div className="editor-field">
+              <label
+                className="editor-label"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={formData.kidModeCensored}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      kidModeCensored: e.target.checked,
+                    })
+                  }
+                  style={{ width: "18px", height: "18px", cursor: "pointer" }}
+                />
+                Censored in Kid Mode
+              </label>
+              <p style={{ fontSize: "0.8em", color: "#888", marginTop: "4px" }}>
+                OCs with this tag will be restricted when Kid Mode is enabled.
+              </p>
             </div>
 
             <div className="editor-button-group">

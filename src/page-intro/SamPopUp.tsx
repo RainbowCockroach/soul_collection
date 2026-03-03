@@ -4,8 +4,10 @@ import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
 import { loadDialogByKey } from "../helpers/data-load";
 import type { DialogEntry } from "../helpers/objects";
+import { useKidMode } from "../kid-mode/KidModeContext";
 
 const SamPopup = () => {
+  const { isKidModeEnabled, toggleKidMode } = useKidMode();
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -122,6 +124,9 @@ const SamPopup = () => {
               speaker="Sam"
               onComplete={handleDialogComplete}
               onFinish={handleDialogFinish}
+              onKidModeChoice={
+                isKidModeEnabled ? undefined : toggleKidMode
+              }
             />
           )}
         </div>

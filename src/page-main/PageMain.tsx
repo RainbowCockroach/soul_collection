@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import RandomOcButton from "./RandomOcButton";
 import bushAvatar from "../assets/fav_bush.webp";
 import cupcakeAvatar from "../assets/fav_cupcake.webp";
@@ -8,17 +8,19 @@ import nonAvatar from "../assets/fav_non.webp";
 import rilorLivAvatar from "../assets/fav_rilor_liv.webp";
 import FavouriteCharacter from "./FavouriteCharacter";
 import OcSlot from "../page-oc-list/OcSlot";
-import type { OC } from "../page-oc-list/OcSlot";
 import { loadOCs, loadAds } from "../helpers/data-load";
+import type { OC as FullOC } from "../helpers/objects";
 import type { AdItem } from "../helpers/objects";
 import AdSlideshow from "../common-components/AdSlideshow";
 import VisualNovelBio from "./VisualNovelBio";
+import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
 import "./PageMain.css";
 import Divider from "../common-components/Divider";
 import titleMobile from "../assets/title_mobile.webp";
 import titleDesktop from "../assets/title_desktop.webp";
 
 const PageMain: React.FC = () => {
+  const { isKidModeEnabled } = useKidMode();
   const favourites = [
     { slug: "bush", name: "Bush", avatar: bushAvatar },
     { slug: "echo", name: "Cupcake", avatar: cupcakeAvatar },
@@ -28,14 +30,25 @@ const PageMain: React.FC = () => {
     { slug: "naame", name: "Naame", avatar: naameAvatar },
   ];
   const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
-  const [protagonistOcs, setProtagonistOcs] = useState<OC[]>([]);
+  const [protagonistOcs, setProtagonistOcs] = useState<FullOC[]>([]);
+  const [allOcs, setAllOcs] = useState<FullOC[]>([]);
   const [sidebarAds, setSidebarAds] = useState<AdItem[]>([]);
   const [footerAds, setFooterAds] = useState<AdItem[]>([]);
 
+  const restrictedSlugs = useMemo(() => {
+    if (!isKidModeEnabled) return new Set<string>();
+    return new Set(
+      allOcs.filter((oc) => isOcRestricted(oc.tags)).map((oc) => oc.slug),
+    );
+  }, [isKidModeEnabled, allOcs]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const allOcs = await loadOCs();
-      const filteredOcs = allOcs.filter((oc) => protagonists.includes(oc.slug));
+      const loadedOcs = await loadOCs();
+      setAllOcs(loadedOcs);
+      const filteredOcs = loadedOcs.filter((oc) =>
+        protagonists.includes(oc.slug),
+      );
       setProtagonistOcs(filteredOcs);
 
       const adsData = await loadAds();
@@ -77,6 +90,7 @@ const PageMain: React.FC = () => {
                 slug={fav.slug}
                 name={fav.name}
                 avatar={fav.avatar}
+                disabled={restrictedSlugs.has(fav.slug)}
               />
             ))}
           </section>
@@ -123,6 +137,7 @@ const PageMain: React.FC = () => {
                     oc={oc}
                     frameColour="#44fcc2ff"
                     textColour="#03291dff"
+                    disabled={restrictedSlugs.has(oc.slug)}
                   />
                 ))}
               </div>
