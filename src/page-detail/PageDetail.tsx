@@ -378,7 +378,7 @@ const PageDetail: React.FC = () => {
         ))}
       </div>
 
-      {(slug === "bush" || slug === "vhhz") && (
+      {!isKidModeEnabled && (slug === "bush" || slug === "vhhz") && (
         <SenseBreakButton chance={0.1} />
       )}
     </div>
