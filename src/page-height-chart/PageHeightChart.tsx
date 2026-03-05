@@ -55,10 +55,10 @@ export default function PageHeightChart() {
   } | null>(null);
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
   const [chartScale, setChartScale] = useState(1);
-  const [originalChartHeight, setOriginalChartHeight] = useState(0);
   const [initializedFromStorage, setInitializedFromStorage] = useState(false);
 
   const chartRef = useRef<HTMLDivElement>(null);
+  const numbersImgRef = useRef<HTMLImageElement>(null);
   const variantPopupRef = useRef<HTMLDivElement>(null);
 
   const expandedGroup = useMemo(
@@ -118,35 +118,27 @@ export default function PageHeightChart() {
     setHeightChartSelections(selectedCharacters.map((c) => c.id));
   }, [selectedCharacters, initializedFromStorage]);
 
-  // Get original chart height from the numbers image
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      setOriginalChartHeight(img.naturalHeight);
-    };
-    img.src = heightChartNumber;
-  }, []);
-
-  // Calculate scale factor and line repeat count
+  // Calculate scale factor and line repeat count from the rendered numbers image
   useEffect(() => {
     const updateScale = () => {
-      if (chartRef.current && originalChartHeight > 0) {
-        const containerHeight = chartRef.current.clientHeight;
-        const scale = containerHeight / originalChartHeight;
-        setChartScale(scale);
+      const imgEl = numbersImgRef.current;
+      const chartEl = chartRef.current;
+      if (!imgEl || !chartEl || imgEl.naturalHeight === 0) return;
 
-        // Calculate line repeat count based on scaled width
-        const chartWidth = chartRef.current.clientWidth;
-        const estimatedLineWidth = 50 * scale; // lines scale with chart
-        const count = Math.ceil(chartWidth / estimatedLineWidth) + 5;
-        setLineRepeatCount(count);
-      }
+      const containerHeight = chartEl.clientHeight;
+      const scale = containerHeight / imgEl.naturalHeight;
+      setChartScale(scale);
+
+      const chartWidth = chartEl.clientWidth;
+      const estimatedLineWidth = 50 * scale;
+      const count = Math.ceil(chartWidth / estimatedLineWidth) + 5;
+      setLineRepeatCount(count);
     };
 
     updateScale();
     window.addEventListener("resize", updateScale);
     return () => window.removeEventListener("resize", updateScale);
-  }, [originalChartHeight]);
+  }, []);
 
   const isGroupSelected = useCallback(
     (group: HeightChartGroup) =>
@@ -354,10 +346,22 @@ export default function PageHeightChart() {
         {/* Background with number scale and lines */}
         <div className="height-chart-background">
           <img
+            ref={numbersImgRef}
             src={heightChartNumber}
             alt="Height scale numbers"
             className="height-chart-numbers"
             draggable={false}
+            onLoad={() => {
+              const imgEl = numbersImgRef.current;
+              const chartEl = chartRef.current;
+              if (!imgEl || !chartEl || imgEl.naturalHeight === 0) return;
+              const containerHeight = chartEl.clientHeight;
+              const scale = containerHeight / imgEl.naturalHeight;
+              setChartScale(scale);
+              const chartWidth = chartEl.clientWidth;
+              const estimatedLineWidth = 50 * scale;
+              setLineRepeatCount(Math.ceil(chartWidth / estimatedLineWidth) + 5);
+            }}
           />
           <div className="height-chart-lines-container">
             {Array.from({ length: lineRepeatCount }).map((_, index) => (

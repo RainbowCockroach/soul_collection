@@ -3,7 +3,6 @@
   --hc-primary-dark: #4a148c;
   --hc-primary-medium: #6a1b9a;
   --hc-transition-fast: 0.2s ease;
-  --hc-navbar-height: 80px;
   --hc-selector-height: 80px;
   --hc-item-height: 70px;
   --hc-item-img-height: 60px;
@@ -15,24 +14,16 @@
 
 /* ─── Page Layout ────────────────────────────────────────────────────── */
 
-#page-container:has(.height-chart-page) {
-  margin-bottom: 0;
-}
-
 .height-chart-page {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--hc-navbar-height) + 15vh);
   width: 100%;
-  overflow: hidden;
-  margin-bottom: 0;
 }
 
 .height-chart-container {
-  flex: 1;
+  height: 70vh;
   position: relative;
   overflow: hidden;
-  min-height: 0;
 }
 
 /* ─── Background Scale ───────────────────────────────────────────────── */
@@ -332,15 +323,13 @@
 
 @media (max-width: 768px) {
   :root {
-    --hc-navbar-height: 60px;
     --hc-selector-height: 60px;
     --hc-item-height: 55px;
     --hc-item-img-height: 48px;
   }
 
   .height-chart-container {
-    max-height: 50vh;
-    padding-top: 40px;
+    height: 40vh;
   }
 
   .height-chart-sprite-close {
