@@ -3,7 +3,6 @@
   --hc-primary-dark: #4a148c;
   --hc-primary-medium: #6a1b9a;
   --hc-transition-fast: 0.2s ease;
-  --hc-navbar-height: 80px;
   --hc-selector-height: 80px;
   --hc-item-height: 70px;
   --hc-item-img-height: 60px;
@@ -15,24 +14,17 @@
 
 /* ─── Page Layout ────────────────────────────────────────────────────── */
 
-#page-container:has(.height-chart-page) {
-  margin-bottom: 0;
-}
-
 .height-chart-page {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--hc-navbar-height) + 15vh);
   width: 100%;
-  overflow: hidden;
-  margin-bottom: 0;
+  margin-bottom: -15vh;
 }
 
 .height-chart-container {
-  flex: 1;
+  height: 70vh;
   position: relative;
   overflow: hidden;
-  min-height: 0;
 }
 
 /* ─── Background Scale ───────────────────────────────────────────────── */
@@ -67,13 +59,22 @@
   display: block;
 }
 
+/* ─── Toolbar ────────────────────────────────────────────────────────── */
+
+.height-chart-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px;
+  min-height: 40px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 /* ─── Clear All Button ───────────────────────────────────────────────── */
 
 .height-chart-clear-all {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 200;
   background: rgba(120, 11, 121, 0.6);
   border: var(--hc-border-width) solid rgba(134, 78, 219, 0.5);
   border-radius: var(--hc-border-radius);
@@ -332,15 +333,13 @@
 
 @media (max-width: 768px) {
   :root {
-    --hc-navbar-height: 60px;
     --hc-selector-height: 60px;
     --hc-item-height: 55px;
     --hc-item-img-height: 48px;
   }
 
   .height-chart-container {
-    max-height: 50vh;
-    padding-top: 40px;
+    height: 40vh;
   }
 
   .height-chart-sprite-close {
