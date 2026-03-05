@@ -337,6 +337,19 @@ export default function PageHeightChart() {
 
   return (
     <div className="height-chart-page">
+      {/* Toolbar above chart */}
+      <div className="height-chart-toolbar">
+        {selectedCharacters.length > 0 && (
+          <button
+            className="height-chart-clear-all"
+            onClick={handleClearAll}
+            title="Clear all characters"
+          >
+            Clear all
+          </button>
+        )}
+      </div>
+
       {/* Main chart area */}
       <div
         className="height-chart-container"
@@ -375,17 +388,6 @@ export default function PageHeightChart() {
             ))}
           </div>
         </div>
-
-        {/* Clear all button */}
-        {selectedCharacters.length > 0 && (
-          <button
-            className="height-chart-clear-all"
-            onClick={handleClearAll}
-            title="Clear all characters"
-          >
-            Clear all
-          </button>
-        )}
 
         {/* Character sprites */}
         <div className="height-chart-sprites">
