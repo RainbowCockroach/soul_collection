@@ -162,6 +162,20 @@
     "order": 8
   },
   {
+    "name": "Liv the fox",
+    "groupId": "liv-the-fox",
+    "thumbnail": "https://i.pinimg.com/originals/03/8c/24/038c240c00cd59de1cd53237ff222009.png",
+    "variants": [
+      {
+        "id": "liv-the-fox-1",
+        "url": "https://i.pinimg.com/originals/f9/b7/7d/f9b77d20c09de0d10d3912bf7324d151.png",
+        "thumbnail": "",
+        "height": "75cm"
+      }
+    ],
+    "order": 9
+  },
+  {
     "name": "Aya Li",
     "groupId": "aya-li",
     "thumbnail": "https://i.pinimg.com/originals/61/99/44/6199443a24e47746e148c6f6d93c0b3f.png",
@@ -179,7 +193,7 @@
         "height": "160cm"
       }
     ],
-    "order": 9
+    "order": 10
   },
   {
     "name": "Maya Li",
@@ -199,7 +213,7 @@
         "height": "160cm"
       }
     ],
-    "order": 10
+    "order": 11
   },
   {
     "name": "Celia Li",
@@ -219,7 +233,7 @@
         "height": "162cm"
       }
     ],
-    "order": 11
+    "order": 12
   },
   {
     "name": "Non Li",
@@ -239,7 +253,7 @@
         "height": "168cm (without heels)"
       }
     ],
-    "order": 12
+    "order": 13
   },
   {
     "name": "Bush",
@@ -253,7 +267,7 @@
         "height": "110cm"
       }
     ],
-    "order": 13
+    "order": 14
   },
   {
     "name": "Echo",
@@ -267,7 +281,7 @@
         "height": "150cm"
       }
     ],
-    "order": 14
+    "order": 15
   },
   {
     "name": "Vhhz",
@@ -287,7 +301,7 @@
         "height": "200cm"
       }
     ],
-    "order": 15
+    "order": 16
   },
   {
     "name": "Leeo",
@@ -301,7 +315,7 @@
         "height": "195cm"
       }
     ],
-    "order": 16
+    "order": 17
   },
   {
     "name": "Naame",
@@ -325,9 +339,29 @@
         "url": "https://i.pinimg.com/originals/01/f5/7f/01f57f0dd3ae9a5ec5adb7f74e5094f0.png",
         "thumbnail": "https://i.pinimg.com/originals/79/7e/92/797e9289445bbd5474b7bd74c257e546.png",
         "height": "205cm"
+      },
+      {
+        "id": "naame-4",
+        "url": "https://i.pinimg.com/originals/ab/81/f6/ab81f6e775e5c5f9d1616107797eb7bd.png",
+        "thumbnail": "https://i.pinimg.com/originals/a4/22/1c/a4221c4c914c6b9b93a69e4033f02351.png",
+        "height": "205cm"
       }
     ],
-    "order": 17
+    "order": 18
+  },
+  {
+    "name": "Iggy",
+    "groupId": "iggy",
+    "thumbnail": "https://i.pinimg.com/originals/a8/04/2f/a8042f8db7c94a7b80e31564ab71a0cc.png",
+    "variants": [
+      {
+        "id": "iggy-1",
+        "url": "https://i.pinimg.com/originals/65/2d/75/652d755190ec271db4d704b6bfcf0527.png",
+        "thumbnail": "",
+        "height": "200cm"
+      }
+    ],
+    "order": 19
   },
   {
     "name": "Uaawa",
@@ -341,7 +375,7 @@
         "height": "198cm"
       }
     ],
-    "order": 18
+    "order": 20
   },
   {
     "name": "Sam",
@@ -361,7 +395,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 19
+    "order": 21
   },
   {
     "name": "Jessica",
@@ -381,6 +415,6 @@
         "height": "60cm"
       }
     ],
-    "order": 20
+    "order": 22
   }
 ]
