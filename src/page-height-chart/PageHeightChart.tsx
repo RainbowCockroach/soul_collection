@@ -9,7 +9,8 @@ import {
   getHeightChartSelections,
   setHeightChartSelections,
 } from "../helpers/height-chart-cart";
-import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
+import { useKidMode } from "../kid-mode/KidModeContext";
+import { isOcCensored } from "../kid-mode/kid-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 
 const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
@@ -87,7 +88,7 @@ export default function PageHeightChart() {
       setAllSpriteGroups(groups);
       const restricted = new Set(
         ocs
-          .filter((oc) => isOcRestricted(oc.tags))
+          .filter((oc) => isOcCensored(oc.slug))
           .map((oc) => oc.slug),
       );
       setRestrictedGroupIds(restricted);

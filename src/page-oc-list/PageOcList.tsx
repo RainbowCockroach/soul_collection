@@ -5,7 +5,8 @@ import FilterBlock from "./FilterBlock";
 import { loadAllData } from "../helpers/data-load";
 import type { OC, Group, Tag, Ship } from "../helpers/objects";
 import ButtonWrapper from "../common-components/ButtonWrapper";
-import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
+import { useKidMode } from "../kid-mode/KidModeContext";
+import { isOcCensored, isTagCensored } from "../kid-mode/kid-mode-censor";
 import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./OcGroup.css";
 import "./FilterBlock.css";
@@ -76,13 +77,13 @@ const PageOcList: React.FC = () => {
   const restrictedSlugs = useMemo(() => {
     if (!isKidModeEnabled) return new Set<string>();
     return new Set(
-      allOcs.filter((oc) => isOcRestricted(oc.tags)).map((oc) => oc.slug),
+      allOcs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug),
     );
   }, [isKidModeEnabled, allOcs]);
 
   const visibleTags = useMemo(() => {
     if (!isKidModeEnabled) return allTags;
-    return allTags.filter((tag) => !tag.kidModeCensored);
+    return allTags.filter((tag) => !isTagCensored(tag.slug));
   }, [isKidModeEnabled, allTags]);
 
   // Load data from helper function
