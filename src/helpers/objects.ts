@@ -51,7 +51,7 @@ export type Tag = {
   name: string;
   backgroundColour: string;
   textColour: string;
-  kidModeCensored?: boolean;
+
 };
 
 export interface Ship {

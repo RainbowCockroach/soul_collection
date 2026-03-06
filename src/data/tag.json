@@ -152,14 +152,12 @@
   "horny-beast": {
     "name": "Horny beast🥵",
     "backgroundColour": "#ff007b",
-    "textColour": "#FFFFFF",
-    "kidModeCensored": true
+    "textColour": "#FFFFFF"
   },
   "drug-user": {
     "name": "Drug user",
     "backgroundColour": "#6c721d",
-    "textColour": "#FFFFFF",
-    "kidModeCensored": true
+    "textColour": "#FFFFFF"
   },
   "short-hair": {
     "name": "Short hair",
