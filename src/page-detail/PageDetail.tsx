@@ -23,7 +23,8 @@ import {
   toggleHeightChartSelection,
 } from "../helpers/height-chart-cart";
 import SenseBreakButton from "../sense-break/SenseBreakButton";
-import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
+import { useKidMode } from "../kid-mode/KidModeContext";
+import { isOcCensored, isTagCensored } from "../kid-mode/kid-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
@@ -172,7 +173,7 @@ const PageDetail: React.FC = () => {
     return <div>Character not found</div>;
   }
 
-  if (isKidModeEnabled && isOcRestricted(oc.tags)) {
+  if (isKidModeEnabled && isOcCensored(oc.slug)) {
     return (
       <div className="page-padded kid-mode-block">
         <h1 className="kid-mode-block-title">Beware!</h1>
@@ -364,7 +365,7 @@ const PageDetail: React.FC = () => {
       </div>
 
       <div className="detail-block-tags">
-        {oc.tagDetails.map((tag, index) => (
+        {oc.tagDetails.filter((tag) => !isKidModeEnabled || !isTagCensored(tag.slug)).map((tag, index) => (
           <span
             key={index}
             className="oc-detail-tag div-3d-with-shadow-borderless"

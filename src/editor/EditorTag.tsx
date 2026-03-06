@@ -39,7 +39,6 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
   onSelect,
   onDelete,
 }) => {
-  const isCensored = tag.kidModeCensored === true;
   const {
     attributes,
     listeners,
@@ -74,20 +73,6 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
       >
         {tag.name}
       </div>
-      {isCensored && (
-        <span
-          style={{
-            fontSize: "0.7em",
-            padding: "2px 6px",
-            borderRadius: "4px",
-            backgroundColor: "#ff4444",
-            color: "#fff",
-            whiteSpace: "nowrap",
-          }}
-        >
-          CENSORED
-        </span>
-      )}
       <div className="editor-item-slug">{tag.slug}</div>
       <button
         onClick={(e) => {
@@ -110,22 +95,17 @@ const EditorTag: React.FC = () => {
     name: "",
     backgroundColour: "#3498DB",
     textColour: "#FFFFFF",
-    kidModeCensored: false,
   });
   const [isEditing, setIsEditing] = useState(false);
 
   const buildTagData = (tagList: Tag[]): TagJsonData => {
     const data: TagJsonData = {};
     tagList.forEach((tag) => {
-      const entry: Omit<Tag, "slug"> = {
+      data[tag.slug] = {
         name: tag.name,
         backgroundColour: tag.backgroundColour,
         textColour: tag.textColour,
       };
-      if (tag.kidModeCensored) {
-        entry.kidModeCensored = true;
-      }
-      data[tag.slug] = entry;
     });
     return data;
   };
@@ -168,7 +148,6 @@ const EditorTag: React.FC = () => {
         name: tag.name,
         backgroundColour: tag.backgroundColour,
         textColour: tag.textColour,
-        kidModeCensored: tag.kidModeCensored === true,
       });
       setIsEditing(true);
     }
@@ -193,7 +172,6 @@ const EditorTag: React.FC = () => {
       name: formData.name,
       backgroundColour: formData.backgroundColour,
       textColour: formData.textColour,
-      kidModeCensored: formData.kidModeCensored || undefined,
     };
 
     let updatedTags: Tag[];
@@ -231,7 +209,6 @@ const EditorTag: React.FC = () => {
       name: "",
       backgroundColour: "#3498DB",
       textColour: "#FFFFFF",
-      kidModeCensored: false,
     });
     setIsEditing(false);
   };
@@ -387,34 +364,6 @@ const EditorTag: React.FC = () => {
               >
                 {formData.name || "Tag Preview"}
               </div>
-            </div>
-
-            <div className="editor-field">
-              <label
-                className="editor-label"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  cursor: "pointer",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={formData.kidModeCensored}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      kidModeCensored: e.target.checked,
-                    })
-                  }
-                  style={{ width: "18px", height: "18px", cursor: "pointer" }}
-                />
-                Censored in Kid Mode
-              </label>
-              <p style={{ fontSize: "0.8em", color: "#888", marginTop: "4px" }}>
-                OCs with this tag will be restricted when Kid Mode is enabled.
-              </p>
             </div>
 
             <div className="editor-button-group">

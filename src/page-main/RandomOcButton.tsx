@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadOCs } from "../helpers/data-load";
-import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
+import { useKidMode } from "../kid-mode/KidModeContext";
+import { isOcCensored } from "../kid-mode/kid-mode-censor";
 import "./RandomOcButton.css";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import randomButton from "../assets/button_random.gif";
@@ -22,7 +23,7 @@ const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
     try {
       let ocs = await loadOCs();
       if (isKidModeEnabled) {
-        ocs = ocs.filter((oc) => !isOcRestricted(oc.tags));
+        ocs = ocs.filter((oc) => !isOcCensored(oc.slug));
       }
       if (ocs.length > 0) {
         const randomIndex = Math.floor(Math.random() * ocs.length);

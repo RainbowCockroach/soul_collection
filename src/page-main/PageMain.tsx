@@ -13,7 +13,8 @@ import type { OC as FullOC } from "../helpers/objects";
 import type { AdItem } from "../helpers/objects";
 import AdSlideshow from "../common-components/AdSlideshow";
 import VisualNovelBio from "./VisualNovelBio";
-import { useKidMode, isOcRestricted } from "../kid-mode/KidModeContext";
+import { useKidMode } from "../kid-mode/KidModeContext";
+import { isOcCensored } from "../kid-mode/kid-mode-censor";
 import "./PageMain.css";
 import Divider from "../common-components/Divider";
 import titleMobile from "../assets/title_mobile.webp";
@@ -38,7 +39,7 @@ const PageMain: React.FC = () => {
   const restrictedSlugs = useMemo(() => {
     if (!isKidModeEnabled) return new Set<string>();
     return new Set(
-      allOcs.filter((oc) => isOcRestricted(oc.tags)).map((oc) => oc.slug),
+      allOcs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug),
     );
   }, [isKidModeEnabled, allOcs]);
 
