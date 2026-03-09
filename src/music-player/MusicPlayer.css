@@ -1,6 +1,6 @@
 .music-player-fixed-container {
   position: fixed;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
   z-index: 1000;
   display: flex;
@@ -27,7 +27,7 @@
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
-  transform-origin: top right;
+  transform-origin: bottom right;
 }
 
 .music-player-controls.expanded {
@@ -42,14 +42,14 @@
   transform: translateX(20px) scale(0.95);
   pointer-events: none;
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
 }
 
 /* Floating Button (Collapsed State) */
 .music-player-floating-button {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: 40px;
   height: 40px;
@@ -155,7 +155,7 @@
 
 .track-list-dropdown {
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.9);
@@ -164,7 +164,7 @@
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
-  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .track-list-item {
@@ -265,7 +265,7 @@
 
 .volume-slider-container {
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
@@ -279,7 +279,7 @@
   z-index: 9999;
   min-width: 40px;
   backdrop-filter: blur(10px);
-  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .volume-slider-wrapper {
@@ -344,16 +344,8 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 1024px) {
-  .music-player-fixed-container {
-    top: auto;
-    bottom: 20px;
-    right: 20px;
-    align-items: flex-end;
-  }
-
   /* When expanded on mobile, center it or make it fit better */
   .music-player-fixed-container:has(.music-player-controls.expanded) {
-    bottom: 20px;
     right: 50%;
     transform: translateX(50%);
     width: 90%;
@@ -363,7 +355,7 @@
   /* Keep floating button positioned correctly on mobile/tablet */
   .music-player-floating-button {
     position: static;
-    top: auto;
+    bottom: auto;
     right: auto;
   }
 
@@ -371,7 +363,6 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    top: auto;
   }
 
   .music-player-controls {
@@ -380,22 +371,6 @@
     margin-left: 0;
     flex-wrap: wrap;
     padding: 12px;
-  }
-
-  /* Make track list dropdown expand upward on mobile/tablet */
-  .track-list-dropdown {
-    top: auto;
-    bottom: 100%;
-    margin-top: 0;
-    margin-bottom: 2px;
-  }
-
-  /* Make volume slider expand upward on mobile/tablet */
-  .volume-slider-container {
-    top: auto;
-    bottom: 100%;
-    margin-top: 0;
-    margin-bottom: 4px;
   }
 }
 
