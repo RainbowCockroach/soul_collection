@@ -1,223 +1,66 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import bioDataImport from "../data/bio.json";
+import type { VNBioData, VNBioDialog } from "../helpers/objects";
+import { loadVNBio } from "../helpers/data-load";
 import "./EditorCommon.css";
 
-interface BioData {
-  name?: string;
-  picture: string;
-  introduction: string;
-}
-
-interface SortableBioItemProps {
-  bio: BioData;
-  index: number;
-  isSelected: boolean;
-  onSelect: (index: number) => void;
-  onDelete: (index: number) => void;
-}
-
-const SortableBioItem: React.FC<SortableBioItemProps> = ({
-  bio,
-  index,
-  isSelected,
-  onSelect,
-  onDelete,
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `bio-${index}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  const getArtistLabel = (idx: number) => {
-    return bio.name || `Artist ${idx + 1}`;
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
-      onClick={() => onSelect(index)}
-    >
-      <div {...attributes} {...listeners} className="editor-drag-handle">
-        ⋮⋮
-      </div>
-      <div className="editor-item-content">
-        <div className="editor-item-name">{getArtistLabel(index)}</div>
-        <div className="editor-item-slug">
-          {bio.introduction.substring(0, 40)}
-          {bio.introduction.length > 40 ? "..." : ""}
-        </div>
-      </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(index);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        🗑
-      </button>
-    </div>
-  );
+const EMPTY_DIALOG: VNBioDialog = {
+  speaker: "",
+  text: "",
+  speakerId: "",
+  nameBadgeColor: "#ffffff",
+  spriteUrl: "",
 };
 
 export const EditorBio: React.FC = () => {
-  const [bioData, setBioData] = useState<BioData[]>([]);
-  const [selectedBioIndex, setSelectedBioIndex] = useState<number | null>(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    picture: "",
-    introduction: "",
+  const [bioData, setBioData] = useState<VNBioData>({
+    backgroundUrl: "",
+    dialogs: [],
   });
-  const [isEditing, setIsEditing] = useState(false);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [formData, setFormData] = useState<VNBioDialog>({ ...EMPTY_DIALOG });
 
   useEffect(() => {
-    loadBioData();
+    loadVNBio().then((data) => setBioData(data));
   }, []);
 
-  const loadBioData = () => {
-    try {
-      setBioData(bioDataImport);
-    } catch (error) {
-      console.error("Error loading bio data:", error);
-      toast.error("Failed to load bio data");
-    }
-  };
-
-  const handleSelectBio = (index: number) => {
-    const bio = bioData[index];
-    if (bio) {
-      setSelectedBioIndex(index);
-      setFormData({
-        name: bio.name || "",
-        picture: bio.picture,
-        introduction: bio.introduction,
-      });
-      setIsEditing(true);
+  const handleSelect = (index: number) => {
+    const dialog = bioData.dialogs[index];
+    if (dialog) {
+      setSelectedIndex(index);
+      setFormData({ ...dialog });
     }
   };
 
   const handleSave = () => {
-    if (!formData.picture.trim()) {
-      toast.error("Picture path cannot be empty");
+    if (!formData.speaker.trim()) {
+      toast.error("Speaker name is required");
+      return;
+    }
+    if (!formData.text.trim()) {
+      toast.error("Dialog text is required");
       return;
     }
 
-    if (!formData.introduction.trim()) {
-      toast.error("Introduction cannot be empty");
-      return;
-    }
-
-    const newBio: BioData = {
-      name: formData.name || undefined,
-      picture: formData.picture,
-      introduction: formData.introduction,
-    };
-
-    let updatedBioData: BioData[];
-    if (isEditing && selectedBioIndex !== null) {
-      updatedBioData = bioData.map((bio, idx) =>
-        idx === selectedBioIndex ? newBio : bio
-      );
-    } else {
-      updatedBioData = [...bioData, newBio];
-    }
-
-    setBioData(updatedBioData);
-    toast.success(isEditing ? "Artist updated" : "Artist added");
-    handleCancelEdit();
-  };
-
-  const handleDelete = (index: number) => {
-    if (window.confirm("Are you sure you want to delete this artist bio?")) {
-      const updatedBioData = bioData.filter((_, idx) => idx !== index);
-      setBioData(updatedBioData);
-
-      if (selectedBioIndex === index) {
-        handleCancelEdit();
-      } else if (selectedBioIndex !== null && selectedBioIndex > index) {
-        setSelectedBioIndex(selectedBioIndex - 1);
-      }
-      toast.success("Artist bio deleted");
+    if (selectedIndex !== null) {
+      const updated = [...bioData.dialogs];
+      updated[selectedIndex] = { ...formData };
+      setBioData({ ...bioData, dialogs: updated });
+      toast.success("Dialog updated");
     }
   };
 
-  const handleCancelEdit = () => {
-    setSelectedBioIndex(null);
-    setFormData({
-      name: "",
-      picture: "",
-      introduction: "",
-    });
-    setIsEditing(false);
-  };
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (over && active.id !== over.id) {
-      const activeIndex = parseInt(active.id.toString().split("-")[1]);
-      const overIndex = parseInt(over.id.toString().split("-")[1]);
-
-      const newBioData = arrayMove(bioData, activeIndex, overIndex);
-      setBioData(newBioData);
-
-      // Update selected index if needed
-      if (selectedBioIndex === activeIndex) {
-        setSelectedBioIndex(overIndex);
-      } else if (selectedBioIndex === overIndex) {
-        setSelectedBioIndex(
-          activeIndex > overIndex
-            ? selectedBioIndex + 1
-            : selectedBioIndex - 1
-        );
-      }
-    }
+  const handleCancel = () => {
+    setSelectedIndex(null);
+    setFormData({ ...EMPTY_DIALOG });
   };
 
   const handleSaveToClipboard = async () => {
     try {
       const jsonString = JSON.stringify(bioData, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      toast.success("Bio JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
+      toast.success("VN Bio JSON copied to clipboard!");
+    } catch {
       toast.error("Failed to copy to clipboard");
     }
   };
@@ -227,7 +70,7 @@ export const EditorBio: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Biography Editor</h2>
+        <h2>Visual Novel Bio Editor</h2>
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"
@@ -240,102 +83,202 @@ export const EditorBio: React.FC = () => {
         <div className="editor-left">
           <div className="editor-list">
             <div className="editor-list-header">
-              <h3>Artists ({bioData.length})</h3>
+              <h3>Characters ({bioData.dialogs.length})</h3>
             </div>
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={bioData.map((_, index) => `bio-${index}`)}
-                strategy={verticalListSortingStrategy}
+            {bioData.dialogs.map((dialog, index) => (
+              <div
+                key={dialog.speakerId}
+                className={`editor-item ${selectedIndex === index ? "editor-item-selected" : ""}`}
+                onClick={() => handleSelect(index)}
               >
-                {bioData.map((bio, index) => (
-                  <SortableBioItem
-                    key={`bio-${index}`}
-                    bio={bio}
-                    index={index}
-                    isSelected={selectedBioIndex === index}
-                    onSelect={handleSelectBio}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
+                <div className="editor-item-content">
+                  <div className="editor-item-name">
+                    <span
+                      style={{
+                        display: "inline-block",
+                        width: 12,
+                        height: 12,
+                        borderRadius: "50%",
+                        backgroundColor: dialog.nameBadgeColor,
+                        marginRight: 8,
+                        verticalAlign: "middle",
+                      }}
+                    />
+                    {dialog.speaker}
+                  </div>
+                  <div className="editor-item-slug">
+                    {dialog.text.substring(0, 50)}
+                    {dialog.text.length > 50 ? "..." : ""}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Background URL */}
+          <div className="editor-form" style={{ marginTop: 16 }}>
+            <h3>Background</h3>
+            <div className="editor-field">
+              <label className="editor-label">Background Image URL:</label>
+              <input
+                type="text"
+                value={bioData.backgroundUrl}
+                onChange={(e) =>
+                  setBioData({ ...bioData, backgroundUrl: e.target.value })
+                }
+                placeholder="Leave empty to use default bundled background"
+                className="editor-input"
+              />
+              <p className="editor-text-muted">
+                Leave empty to use the default bundled background image
+              </p>
+              {bioData.backgroundUrl && (
+                <img
+                  src={bioData.backgroundUrl}
+                  alt="Background preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: 150,
+                    marginTop: 8,
+                    borderRadius: 4,
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
 
         <div className="editor-right">
-          <div className="editor-form">
-            <h3>{isEditing ? "Edit Artist" : "Add New Artist"}</h3>
+          {selectedIndex !== null ? (
+            <div className="editor-form">
+              <h3>Edit {formData.speaker || "Dialog"}</h3>
 
-            <div className="editor-field">
-              <label className="editor-label">Name:</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                placeholder="e.g., Sam"
-                className="editor-input"
-              />
-              <p className="editor-text-muted">
-                Optional: Artist's name for the chat bubble header
-              </p>
-            </div>
+              <div className="editor-field">
+                <label className="editor-label">Speaker Name:</label>
+                <input
+                  type="text"
+                  value={formData.speaker}
+                  onChange={(e) =>
+                    setFormData({ ...formData, speaker: e.target.value })
+                  }
+                  placeholder="e.g., Sam"
+                  className="editor-input"
+                />
+              </div>
 
-            <div className="editor-field">
-              <label className="editor-label">Picture Path:</label>
-              <input
-                type="text"
-                value={formData.picture}
-                onChange={(e) =>
-                  setFormData({ ...formData, picture: e.target.value })
-                }
-                placeholder="e.g., soul_collection/assets/bio/artist.png"
-                className="editor-input"
-              />
-              <p className="editor-text-muted">
-                Path relative to public folder
-              </p>
-            </div>
+              <div className="editor-field">
+                <label className="editor-label">Speaker ID:</label>
+                <input
+                  type="text"
+                  value={formData.speakerId}
+                  className="editor-input"
+                  disabled
+                />
+                <p className="editor-text-muted">
+                  Fixed identifier (cannot be changed)
+                </p>
+              </div>
 
-            <div className="editor-field">
-              <label className="editor-label">Introduction:</label>
-              <textarea
-                value={formData.introduction}
-                onChange={(e) =>
-                  setFormData({ ...formData, introduction: e.target.value })
-                }
-                placeholder="Enter introduction text..."
-                className="editor-textarea"
-                rows={10}
-                style={{ minHeight: "200px" }}
-              />
-              <p className="editor-text-muted">
-                Text displayed in the chat bubble (no formatting)
-              </p>
-            </div>
+              <div className="editor-field">
+                <label className="editor-label">Dialog Text:</label>
+                <textarea
+                  value={formData.text}
+                  onChange={(e) =>
+                    setFormData({ ...formData, text: e.target.value })
+                  }
+                  placeholder="Enter dialog text..."
+                  className="editor-textarea"
+                  rows={6}
+                  style={{ minHeight: 120 }}
+                />
+              </div>
 
-            <div className="editor-button-group">
-              <button
-                onClick={handleSave}
-                className="editor-button editor-button-success"
-              >
-                {isEditing ? "Update" : "Add"} Artist
-              </button>
-              {isEditing && (
+              <div className="editor-field">
+                <label className="editor-label">Name Badge Color:</label>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <input
+                    type="color"
+                    value={formData.nameBadgeColor}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        nameBadgeColor: e.target.value,
+                      })
+                    }
+                    className="editor-color-picker"
+                  />
+                  <span
+                    style={{
+                      backgroundColor: formData.nameBadgeColor,
+                      color: "#fff",
+                      padding: "4px 12px",
+                      borderRadius: 4,
+                      fontSize: 14,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {formData.speaker || "Speaker"}
+                  </span>
+                  <span className="editor-text-muted">
+                    {formData.nameBadgeColor}
+                  </span>
+                </div>
+              </div>
+
+              <div className="editor-field">
+                <label className="editor-label">Sprite Image URL:</label>
+                <input
+                  type="text"
+                  value={formData.spriteUrl}
+                  onChange={(e) =>
+                    setFormData({ ...formData, spriteUrl: e.target.value })
+                  }
+                  placeholder="Leave empty to use default bundled sprite"
+                  className="editor-input"
+                />
+                <p className="editor-text-muted">
+                  Leave empty to use the default bundled sprite for{" "}
+                  {formData.speaker || "this character"}
+                </p>
+                {formData.spriteUrl && (
+                  <img
+                    src={formData.spriteUrl}
+                    alt="Sprite preview"
+                    style={{
+                      maxWidth: 200,
+                      maxHeight: 200,
+                      marginTop: 8,
+                      borderRadius: 4,
+                      objectFit: "contain",
+                      backgroundColor: "#1a1a2e",
+                    }}
+                  />
+                )}
+              </div>
+
+              <div className="editor-button-group">
                 <button
-                  onClick={handleCancelEdit}
+                  onClick={handleSave}
+                  className="editor-button editor-button-success"
+                >
+                  Update Dialog
+                </button>
+                <button
+                  onClick={handleCancel}
                   className="editor-button editor-button-secondary"
                 >
                   Cancel
                 </button>
-              )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="editor-form">
+              <p className="editor-text-muted">
+                Select a character from the list to edit their dialog
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

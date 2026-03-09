@@ -84,6 +84,19 @@ export interface VNDialogEntry {
   characters: VNCharacterSprite[]; // Array of characters visible on screen (max 2)
 }
 
+export interface VNBioDialog {
+  speaker: string;
+  text: string;
+  speakerId: string;
+  nameBadgeColor: string;
+  spriteUrl: string; // URL for the character sprite (empty string = use bundled default)
+}
+
+export interface VNBioData {
+  backgroundUrl: string; // URL for background image (empty string = use bundled default)
+  dialogs: VNBioDialog[];
+}
+
 export interface AdItem {
   imageUrl: string;
   redirectUrl: string;
