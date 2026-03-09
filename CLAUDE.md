@@ -32,7 +32,7 @@ The application manages several main data types defined in `src/helpers/objects.
   - **GalleryItem**: Gallery items with `image`, optional `thumbnail`, `caption`, and `contentWarning` fields
 - **Group**: Character groups with name, slug, frame colors, header colors, and display order
 - **Spieces**: Species with name, slug, description, gallery, and optional content warnings
-- **Tag**: Tags with name, slug, background color, and text color
+- **Tag**: Tags with name, slug, background color, and text color (no kid mode logic; censorship is managed separately in `kid-mode-censor.json`)
 - **Ship**: Character relationship pairs with name, colored heart icon (hex color), and array of OC slugs
 - **FormLink**: Character form relationships represented as pairs of OC slugs
 - **DialogTexts**: Dialog system for character interactions with support for acknowledgment requirements
@@ -51,6 +51,7 @@ The application manages several main data types defined in `src/helpers/objects.
   - `form-link.json` - Character form relationships/links
   - `dialog.json` - Dialog text content
   - `ads.json` - Advertisement data organized by location ID
+  - `kid-mode-censor.json` - Kid mode censorship lists (censored OC slugs and tag slugs)
   - `settings.json` - Application settings
 
 - **Data Loading**: `src/helpers/data-load.ts` provides functions to load and transform data from JSON files into typed objects with automatic slug mapping
@@ -123,6 +124,9 @@ The editor provides separate interfaces for managing:
   - Location-based ad management (locations are hard-fixed in ads.json)
   - Create, edit, delete, and reorder ads within each location using drag-and-drop
   - Image preview and JSON export to clipboard
+- Kid mode censorship (EditorKidModeCensor.tsx)
+  - Separate checkbox lists for censored OCs (hidden entirely) and censored tags (hidden from display only)
+  - JSON export to clipboard
 - Form links (EditorFormLink.tsx)
 - Dialog text (EditorDialog.tsx)
 
