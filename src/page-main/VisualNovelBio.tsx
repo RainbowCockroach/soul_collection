@@ -1,85 +1,58 @@
 import { useState, useEffect } from "react";
-import type { VNDialogEntry } from "../helpers/objects";
+import type { VNBioData, VNBioDialog } from "../helpers/objects";
+import { loadVNBio } from "../helpers/data-load";
 import "./VisualNovelBio.css";
 import bioBackground from "../assets/bio_huge_lobby.webp";
 import samSprite from "../assets/bio_sprite_sam.webp";
 import vSprite from "../assets/bio_sprite_v.webp";
 
-// Hardcoded visual novel bio data
-const VN_BIO_DATA = {
-  backgroundUrl: bioBackground,
-  dialogs: [
-    {
-      speaker: "Sam",
-      text: "Hi! I'm Sam. I do the designs, illustrations, ships and a little bit of the story writting! Also, me have a thing for cults...",
-      speakerId: "sam",
-      nameBadgeColor: "#ff6b9d",
-      characters: [
-        {
-          characterId: "sam",
-          spriteUrl: samSprite,
-          position: "left" as const,
-        },
-        {
-          characterId: "pink-truck-v",
-          spriteUrl: vSprite,
-          position: "right" as const,
-        },
-      ],
-    },
-    {
-      speaker: "Pink Truck V",
-      text: "Cooking convulted lore and spaghetti code.",
-      speakerId: "pink-truck-v",
-      nameBadgeColor: "#6ba3ff",
-      characters: [
-        {
-          characterId: "sam",
-          spriteUrl: samSprite,
-          position: "left" as const,
-        },
-        {
-          characterId: "pink-truck-v",
-          spriteUrl: vSprite,
-          position: "right" as const,
-        },
-      ],
-    },
-  ] as VNDialogEntry[],
+// Default bundled sprites keyed by speakerId
+const DEFAULT_SPRITES: Record<string, string> = {
+  sam: samSprite,
+  "pink-truck-v": vSprite,
 };
+
+// Fixed character positions
+const CHARACTER_POSITIONS: Record<string, "left" | "right"> = {
+  sam: "left",
+  "pink-truck-v": "right",
+};
+
+function getSpriteUrl(dialog: VNBioDialog): string {
+  return dialog.spriteUrl || DEFAULT_SPRITES[dialog.speakerId] || "";
+}
 
 interface Props {
   speed?: number;
 }
 
 const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
-  const { dialogs, backgroundUrl } = VN_BIO_DATA;
-  // Build a map from characterId to their dialog entry
-  const characterDialogMap = new Map<string, VNDialogEntry>();
+  const [bioData, setBioData] = useState<VNBioData | null>(null);
+  const [activeCharacterId, setActiveCharacterId] = useState("");
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    loadVNBio().then((data) => {
+      setBioData(data);
+      if (data.dialogs.length > 0) {
+        setActiveCharacterId(data.dialogs[0].speakerId);
+        setDisplayedText("");
+        setIsTyping(true);
+      }
+    });
+  }, []);
+
+  const dialogs = bioData?.dialogs ?? [];
+  const backgroundUrl = bioData?.backgroundUrl || bioBackground;
+
+  const dialogMap = new Map<string, VNBioDialog>();
   for (const dialog of dialogs) {
-    characterDialogMap.set(dialog.speakerId, dialog);
+    dialogMap.set(dialog.speakerId, dialog);
   }
 
-  // All characters (from the first dialog entry since they're consistent)
-  const characters = dialogs[0]?.characters ?? [];
-
-  // Active character starts as the left character (first in the array)
-  const [activeCharacterId, setActiveCharacterId] = useState(
-    characters[0]?.characterId ?? "",
-  );
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  const activeDialog = characterDialogMap.get(activeCharacterId);
+  const activeDialog = dialogMap.get(activeCharacterId);
   const currentText = activeDialog?.text ?? "";
-
-  // Reset when dialogs change
-  useEffect(() => {
-    const firstCharId = dialogs[0]?.characters[0]?.characterId ?? "";
-    setActiveCharacterId(firstCharId);
-    setDisplayedText("");
-    setIsTyping(true);
-  }, [dialogs]);
 
   // Typing effect
   useEffect(() => {
@@ -104,6 +77,8 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
     setIsTyping(true);
   };
 
+  if (!bioData) return null;
+
   return (
     <div className="vn-bio-wrapper">
       <div className="vn-bio-frame">
@@ -112,15 +87,17 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
           style={{ backgroundImage: `url(${backgroundUrl})` }}
         >
           {/* Character Sprites */}
-          {characters.map((character) => {
-            const isActive = character.characterId === activeCharacterId;
+          {dialogs.map((dialog) => {
+            const isActive = dialog.speakerId === activeCharacterId;
+            const position =
+              CHARACTER_POSITIONS[dialog.speakerId] ?? "left";
             return (
               <div
-                key={character.characterId}
-                className={`vn-character-sprite vn-character-${character.position}${isActive ? " vn-character-active" : ""}`}
-                onClick={() => handleCharacterClick(character.characterId)}
+                key={dialog.speakerId}
+                className={`vn-character-sprite vn-character-${position}${isActive ? " vn-character-active" : ""}`}
+                onClick={() => handleCharacterClick(dialog.speakerId)}
               >
-                <img src={character.spriteUrl} alt={character.characterId} />
+                <img src={getSpriteUrl(dialog)} alt={dialog.speakerId} />
               </div>
             );
           })}
@@ -130,15 +107,12 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
             <div className="vn-dialog-box">
               <div className="vn-dialog-border">
                 <div className="vn-dialog-content">
-                  {/* Name Badge */}
                   <div
                     className="vn-name-badge"
                     style={{ backgroundColor: activeDialog.nameBadgeColor }}
                   >
                     {activeDialog.speaker}
                   </div>
-
-                  {/* Dialog Text */}
                   <div className="vn-dialog-text">
                     {displayedText}
                     {isTyping && <span className="vn-typing-cursor">▌</span>}

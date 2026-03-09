@@ -9,6 +9,7 @@ import type {
   DialogEntry,
   AdLocations,
   HeightChartGroup,
+  VNBioData,
 } from "./objects";
 import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
@@ -19,6 +20,7 @@ import shipData from "../data/ships.json";
 import dialogData from "../data/dialog.json";
 import adsData from "../data/ads.json";
 import heightChartData from "../data/height-chart.json";
+import vnBioData from "../data/vn-bio.json";
 
 export interface LoadedData {
   ocs: OC[];
@@ -178,6 +180,10 @@ export async function loadAllData(): Promise<LoadedData> {
     ships,
     dialogs,
   };
+}
+
+export async function loadVNBio(): Promise<VNBioData> {
+  return vnBioData as VNBioData;
 }
 
 export async function loadAds(): Promise<AdLocations> {

@@ -14,12 +14,19 @@
 /* Navbar Styles */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   height: 4rem;
   padding: 0.75rem 1rem;
   gap: 1rem;
   background-color: rgb(82, 5, 149, 0.7);
+}
+
+/* Desktop: logo left, buttons centered, hamburger right */
+@media (min-width: 768px) {
+  .navbar {
+    justify-content: space-between;
+  }
 }
 
 /* Logo Styles */
@@ -103,13 +110,22 @@
   justify-content: center;
 }
 
+/* Desktop: center nav links absolutely so they're independent of logo/hamburger */
+@media (min-width: 768px) {
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .nav-button {
   background-color: var(--color-green);
   transition: color 0.2s ease-in-out;
   border-radius: 4px;
   white-space: nowrap;
-  font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
   font-weight: bold;
   font-family: var(--font-primary);
 }
