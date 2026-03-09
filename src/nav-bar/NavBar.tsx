@@ -153,8 +153,8 @@ const Navbar = () => {
             </ButtonWrapper>
           </div>
 
-          {/* Desktop nav links */}
-          <div className="nav-links-desktop">
+          {/* Main nav links - always inline */}
+          <div className="nav-links">
             {mainMenuItems.map((item) => (
               <ButtonWrapper
                 key={item.name}
@@ -174,61 +174,9 @@ const Navbar = () => {
                 </div>
               </ButtonWrapper>
             ))}
-            {/* More menu items - desktop only */}
-            {moreMenuItems.map((item) => (
-              <ButtonWrapper
-                key={item.name}
-                onClick={() => !item.disabled && navigate(item.href)}
-                hoverSoundFile={buttonSoundHover}
-                soundFile={buttonSound}
-                disabled={item.disabled}
-                className="more-menu-item-desktop"
-              >
-                <div
-                  className="glass-effect button-with-underline nav-button"
-                  style={{
-                    opacity: item.disabled ? 0.5 : 1,
-                    cursor: item.disabled ? "not-allowed" : "pointer",
-                  }}
-                >
-                  {item.name}
-                </div>
-              </ButtonWrapper>
-            ))}
-            {/* Kid Mode toggle - desktop only */}
-            <ButtonWrapper
-              onClick={handleKidModeClick}
-              hoverSoundFile={buttonSoundHover}
-              soundFile={buttonSound}
-              className="bug-report-nav-button-desktop"
-            >
-              <div
-                className="glass-effect button-with-underline nav-button"
-                style={{
-                  background: isKidModeEnabled ? "#5bc0de" : "#ff4444",
-                }}
-              >
-                {isKidModeEnabled ? (
-                  <FontAwesomeIcon icon={faEyeLowVision} />
-                ) : (
-                  <FontAwesomeIcon icon={faPepperHot} />
-                )}
-              </div>
-            </ButtonWrapper>
-            {/* Bug Report button - desktop only */}
-            <ButtonWrapper
-              onClick={handleBugReportClick}
-              hoverSoundFile={buttonSoundHover}
-              soundFile={buttonSound}
-              className="bug-report-nav-button-desktop"
-            >
-              <div className="glass-effect button-with-underline nav-button">
-                Bug Report
-              </div>
-            </ButtonWrapper>
           </div>
 
-          {/* Mobile: More button */}
+          {/* More button + dropdown */}
           <div className="mobile-menu-container">
             <ButtonWrapper
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -241,7 +189,7 @@ const Navbar = () => {
               </div>
             </ButtonWrapper>
 
-            {/* Mobile dropdown menu */}
+            {/* Dropdown menu */}
             <div
               className={`mobile-dropdown ${isMobileMenuOpen ? "open" : ""}`}
             >

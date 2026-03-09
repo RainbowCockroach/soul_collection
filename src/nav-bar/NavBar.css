@@ -96,13 +96,11 @@
   }
 }
 
-/* Desktop Navigation */
-.nav-links-desktop {
+/* Nav Links - always inline */
+.nav-links {
   display: flex;
-  gap: 2rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  gap: 0.75rem;
+  justify-content: center;
 }
 
 .nav-button {
@@ -110,6 +108,10 @@
   transition: color 0.2s ease-in-out;
   border-radius: 4px;
   white-space: nowrap;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  font-weight: bold;
+  font-family: var(--font-primary);
 }
 
 /* Firefox-only fix for backdrop-filter rendering bug */
@@ -121,91 +123,16 @@
   }
 }
 
-/* Music Player in Navbar */
-.navbar-music-player {
-  flex-shrink: 0;
-}
-
-/* Smaller tablets (portrait) - Buttons spread out */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .nav-button {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
-    font-weight: bold;
-    font-family: var(--font-primary);
-  }
-
-  .nav-links-desktop {
-    position: static;
-    transform: none;
-    flex: 1;
-    justify-content: space-evenly;
-    gap: 0.5rem;
-  }
-}
-
-/* Larger tablets (landscape) - Buttons centered like desktop */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .nav-button {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
-    font-weight: bold;
-    font-family: var(--font-primary);
-  }
-
-  .nav-links-desktop {
-    gap: 0.75rem;
-  }
-}
-
-/* Large devices and up (desktops) - Bigger nav buttons */
+/* Larger nav buttons on bigger screens */
 @media (min-width: 1280px) {
   .nav-button {
     font-size: 1.25rem;
     padding: 0.75rem 1.5rem;
-    font-weight: bold;
-    font-family: var(--font-primary);
-  }
-}
-
-/* Mobile and tablets - Music player on new line */
-@media (max-width: 1023px) {
-  .navbar-music-player {
-    order: 3;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding-bottom: 1rem;
-  }
-}
-
-/* Mobile only - Adjust nav links layout */
-@media (max-width: 639px) {
-  .navbar {
-    justify-content: center;
-  }
-
-  .nav-links-desktop {
-    position: static;
-    transform: none;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-
-  /* Keep More button centered with other nav items */
-  .mobile-menu-container {
-    margin-left: 0;
   }
 }
 
 /* ================================
-   Mobile "More" Menu Styles
+   "More" Menu Styles
    ================================ */
 
 /* Container for the More button and dropdown */
@@ -213,13 +140,6 @@
   position: relative;
   display: block;
   flex-shrink: 0;
-}
-
-/* Hide on desktop */
-@media (min-width: 768px) {
-  .mobile-menu-container {
-    display: none;
-  }
 }
 
 /* More button */
@@ -299,21 +219,4 @@
   height: 3rem;
   padding: 0;
   font-size: 1.25rem;
-}
-
-/* ================================
-   Desktop-only Nav Items (Lore, Bug Report)
-   ================================ */
-
-/* Hide these items on mobile - they appear in the More dropdown instead */
-.more-menu-item-desktop,
-.bug-report-nav-button-desktop {
-  display: none !important;
-}
-
-@media (min-width: 768px) {
-  .more-menu-item-desktop,
-  .bug-report-nav-button-desktop {
-    display: block !important;
-  }
 }
