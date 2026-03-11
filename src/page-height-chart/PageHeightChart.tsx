@@ -50,6 +50,7 @@ export default function PageHeightChart() {
     null,
   );
   const [dragState, setDragState] = useState<DragState | null>(null);
+  const [solidified, setSolidified] = useState(false);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
   const [popupPosition, setPopupPosition] = useState<{
     top: number;
@@ -234,6 +235,7 @@ export default function PageHeightChart() {
     (e: React.MouseEvent, characterId: string) => {
       e.stopPropagation();
       setActiveCharacterId(characterId);
+      setSolidified(false);
     },
     [],
   );
@@ -245,6 +247,11 @@ export default function PageHeightChart() {
   const handleClearAll = useCallback(() => {
     setSelectedCharacters([]);
     setActiveCharacterId(null);
+    setSolidified(false);
+  }, []);
+
+  const handleSolidifyAll = useCallback(() => {
+    setSolidified(true);
   }, []);
 
   const startDrag = useCallback(
@@ -342,13 +349,22 @@ export default function PageHeightChart() {
       {/* Toolbar above chart */}
       <div className="height-chart-toolbar">
         {selectedCharacters.length > 0 && (
-          <ButtonWrapper
-            className="height-chart-clear-all"
-            onClick={handleClearAll}
-            soundFile={buttonSound}
-          >
-            Clear all
-          </ButtonWrapper>
+          <>
+            <ButtonWrapper
+              className="height-chart-solidify-all"
+              onClick={handleSolidifyAll}
+              soundFile={buttonSound}
+            >
+              Solidify all
+            </ButtonWrapper>
+            <ButtonWrapper
+              className="height-chart-clear-all"
+              onClick={handleClearAll}
+              soundFile={buttonSound}
+            >
+              Clear all
+            </ButtonWrapper>
+          </>
         )}
       </div>
 
@@ -411,7 +427,7 @@ export default function PageHeightChart() {
                 style={
                   {
                     left: `${character.x}px`,
-                    opacity: isActive ? 1 : 0.7,
+                    opacity: solidified || isActive ? 1 : 0.7,
                     transform: `translateX(-50%) scale(${chartScale})`,
                     transformOrigin: "bottom center",
                     "--counter-scale": 1 / chartScale,

@@ -64,6 +64,7 @@
 .height-chart-toolbar {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
   padding: 8px 12px;
   min-height: 40px;
   box-sizing: border-box;
@@ -72,9 +73,10 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* ─── Clear All Button ───────────────────────────────────────────────── */
+/* ─── Toolbar Buttons ────────────────────────────────────────────────── */
 
-.height-chart-clear-all {
+.height-chart-clear-all,
+.height-chart-solidify-all {
   background: rgba(120, 11, 121, 0.6);
   border: var(--hc-border-width) solid rgba(134, 78, 219, 0.5);
   border-radius: var(--hc-border-radius);
@@ -89,7 +91,8 @@
   letter-spacing: 0.03em;
 }
 
-.height-chart-clear-all:hover {
+.height-chart-clear-all:hover,
+.height-chart-solidify-all:hover {
   background: rgba(134, 78, 219, 0.2);
   border-color: var(--hc-primary-color);
   color: var(--hc-primary-color);
