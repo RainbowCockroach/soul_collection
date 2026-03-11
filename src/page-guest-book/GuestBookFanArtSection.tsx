@@ -63,7 +63,7 @@ const GuestBookFanArtSection = forwardRef<
         }
 
         const response = await fetch(
-          `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`
+          `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`,
         );
 
         if (!response.ok) {
@@ -88,7 +88,7 @@ const GuestBookFanArtSection = forwardRef<
         }
       }
     },
-    [fanArtPerPage]
+    [fanArtPerPage],
   );
 
   // Expose refresh function to parent component
@@ -156,9 +156,6 @@ const GuestBookFanArtSection = forwardRef<
   if (!data || data.messages.length === 0) {
     return (
       <div className="guest-book-fanart-section" ref={sectionRef}>
-        <div>
-          <h1 className="big-text-shadow">Your art</h1>
-        </div>
         <p>No art? Put your art here!</p>
       </div>
     );
