@@ -12,6 +12,8 @@ import {
 import { useKidMode } from "../kid-mode/KidModeContext";
 import { isOcCensored } from "../kid-mode/kid-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 
 const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
@@ -353,16 +355,15 @@ export default function PageHeightChart() {
             <ButtonWrapper
               className="height-chart-solidify-all"
               onClick={handleSolidifyAll}
-              soundFile={buttonSound}
             >
-              Solidify all
+              <FontAwesomeIcon icon={faEye} />
             </ButtonWrapper>
             <ButtonWrapper
               className="height-chart-clear-all"
               onClick={handleClearAll}
               soundFile={buttonSound}
             >
-              Clear all
+              <FontAwesomeIcon icon={faTrash} />
             </ButtonWrapper>
           </>
         )}
