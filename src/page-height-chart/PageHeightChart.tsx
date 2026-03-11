@@ -12,6 +12,7 @@ import {
 import { useKidMode } from "../kid-mode/KidModeContext";
 import { isOcCensored } from "../kid-mode/kid-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 
 const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
 const variantSound = "/soul_collection/sound-effect/button_gallery_item.mp3";
@@ -49,6 +50,7 @@ export default function PageHeightChart() {
     null,
   );
   const [dragState, setDragState] = useState<DragState | null>(null);
+  const [solidified, setSolidified] = useState(false);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
   const [popupPosition, setPopupPosition] = useState<{
     top: number;
@@ -87,9 +89,7 @@ export default function PageHeightChart() {
       ]);
       setAllSpriteGroups(groups);
       const restricted = new Set(
-        ocs
-          .filter((oc) => isOcCensored(oc.slug))
-          .map((oc) => oc.slug),
+        ocs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug),
       );
       setRestrictedGroupIds(restricted);
     };
@@ -185,7 +185,10 @@ export default function PageHeightChart() {
             setPopupPosition(null);
           } else {
             const rect = containerEl.getBoundingClientRect();
-            setPopupPosition({ top: rect.top, left: rect.left + rect.width / 2 });
+            setPopupPosition({
+              top: rect.top,
+              left: rect.left + rect.width / 2,
+            });
             setExpandedGroupId(group.groupId);
           }
         }
@@ -232,6 +235,7 @@ export default function PageHeightChart() {
     (e: React.MouseEvent, characterId: string) => {
       e.stopPropagation();
       setActiveCharacterId(characterId);
+      setSolidified(false);
     },
     [],
   );
@@ -240,10 +244,14 @@ export default function PageHeightChart() {
     setActiveCharacterId(null);
   }, []);
 
-  const handleClearAll = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClearAll = useCallback(() => {
     setSelectedCharacters([]);
     setActiveCharacterId(null);
+    setSolidified(false);
+  }, []);
+
+  const handleSolidifyAll = useCallback(() => {
+    setSolidified(true);
   }, []);
 
   const startDrag = useCallback(
@@ -341,13 +349,22 @@ export default function PageHeightChart() {
       {/* Toolbar above chart */}
       <div className="height-chart-toolbar">
         {selectedCharacters.length > 0 && (
-          <button
-            className="height-chart-clear-all"
-            onClick={handleClearAll}
-            title="Clear all characters"
-          >
-            Clear all
-          </button>
+          <>
+            <ButtonWrapper
+              className="height-chart-solidify-all"
+              onClick={handleSolidifyAll}
+              soundFile={buttonSound}
+            >
+              Solidify all
+            </ButtonWrapper>
+            <ButtonWrapper
+              className="height-chart-clear-all"
+              onClick={handleClearAll}
+              soundFile={buttonSound}
+            >
+              Clear all
+            </ButtonWrapper>
+          </>
         )}
       </div>
 
@@ -374,7 +391,9 @@ export default function PageHeightChart() {
               setChartScale(scale);
               const chartWidth = chartEl.clientWidth;
               const estimatedLineWidth = 50 * scale;
-              setLineRepeatCount(Math.ceil(chartWidth / estimatedLineWidth) + 5);
+              setLineRepeatCount(
+                Math.ceil(chartWidth / estimatedLineWidth) + 5,
+              );
             }}
           />
           <div className="height-chart-lines-container">
@@ -408,7 +427,7 @@ export default function PageHeightChart() {
                 style={
                   {
                     left: `${character.x}px`,
-                    opacity: isActive ? 1 : 0.7,
+                    opacity: solidified || isActive ? 1 : 0.7,
                     transform: `translateX(-50%) scale(${chartScale})`,
                     transformOrigin: "bottom center",
                     "--counter-scale": 1 / chartScale,
@@ -503,7 +522,9 @@ export default function PageHeightChart() {
               <ButtonWrapper
                 key={sprite.id}
                 className="height-chart-variant-item"
-                onClick={() => handleVariantSelect(sprite.id, expandedGroup.variants)}
+                onClick={() =>
+                  handleVariantSelect(sprite.id, expandedGroup.variants)
+                }
                 soundFile={variantSound}
               >
                 <img
