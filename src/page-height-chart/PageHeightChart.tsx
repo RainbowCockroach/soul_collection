@@ -268,6 +268,7 @@ export default function PageHeightChart() {
           startCharacterX: character.x,
         });
         setActiveCharacterId(characterId);
+        setSolidified(false);
       }
     },
     [selectedCharacters],
