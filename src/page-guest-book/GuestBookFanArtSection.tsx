@@ -163,10 +163,6 @@ const GuestBookFanArtSection = forwardRef<
 
   return (
     <div className="guest-book-fanart-section" ref={sectionRef}>
-      <div>
-        <h1 className="big-text-shadow">Your art</h1>
-      </div>
-
       {/* Fan art display with navigation */}
       <div
         className="fanart-display"
