@@ -13,7 +13,11 @@ import { useKidMode } from "../kid-mode/KidModeContext";
 import { isOcCensored } from "../kid-mode/kid-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faEye,
+  faEyeLowVision,
+} from "@fortawesome/free-solid-svg-icons";
 import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 
 const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
@@ -253,7 +257,7 @@ export default function PageHeightChart() {
   }, []);
 
   const handleSolidifyAll = useCallback(() => {
-    setSolidified(true);
+    setSolidified((prev) => !prev);
   }, []);
 
   const startDrag = useCallback(
@@ -354,10 +358,10 @@ export default function PageHeightChart() {
         {selectedCharacters.length > 0 && (
           <>
             <ButtonWrapper
-              className="height-chart-solidify-all"
+              className={`height-chart-solidify-all${solidified ? " active" : ""}`}
               onClick={handleSolidifyAll}
             >
-              <FontAwesomeIcon icon={faEye} />
+              <FontAwesomeIcon icon={solidified ? faEye : faEyeLowVision} />
             </ButtonWrapper>
             <ButtonWrapper
               className="height-chart-clear-all"

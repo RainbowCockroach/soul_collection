@@ -91,6 +91,12 @@
   letter-spacing: 0.03em;
 }
 
+.height-chart-solidify-all.active {
+  background: rgba(134, 78, 219, 0.4);
+  border-color: var(--hc-primary-color);
+  color: var(--hc-primary-color);
+}
+
 .height-chart-clear-all:hover,
 .height-chart-solidify-all:hover {
   background: rgba(134, 78, 219, 0.2);
