@@ -40,9 +40,7 @@ const GifSelector = ({
   }, [isExpanded]);
 
   const handleTrayClick = () => {
-    if (!isExpanded) {
-      setIsExpanded(true);
-    }
+    setIsExpanded(!isExpanded);
   };
 
   const handleGifRemove = (index: number) => {
