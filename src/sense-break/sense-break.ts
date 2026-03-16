@@ -58,6 +58,21 @@ export function activateSenseBreak(): void {
   const root = document.documentElement;
   const timers: number[] = [];
 
+  // Start sense break music (stops naturally on page refresh)
+  const audio = new Audio("/soul_collection/sound-effect/sense_break.wav");
+  audio.loop = true;
+  audio.volume = 0.7;
+  audio.play().catch(() => {
+    // Autoplay blocked — try again on first user interaction
+    const resume = () => {
+      audio.play().catch(() => {});
+      document.removeEventListener("click", resume);
+      document.removeEventListener("keydown", resume);
+    };
+    document.addEventListener("click", resume);
+    document.addEventListener("keydown", resume);
+  });
+
   // Phase 1 — immediate
   root.classList.add("sense-break", "sense-break-phase-1");
 
