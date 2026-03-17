@@ -241,7 +241,6 @@ export default function PageHeightChart() {
     (e: React.MouseEvent, characterId: string) => {
       e.stopPropagation();
       setActiveCharacterId(characterId);
-      setSolidified(false);
     },
     [],
   );
@@ -272,7 +271,6 @@ export default function PageHeightChart() {
           startCharacterX: character.x,
         });
         setActiveCharacterId(characterId);
-        setSolidified(false);
       }
     },
     [selectedCharacters],
@@ -433,7 +431,15 @@ export default function PageHeightChart() {
                 style={
                   {
                     left: `${character.x}px`,
-                    opacity: solidified || isActive ? 1 : 0.7,
+                    opacity: solidified
+                      ? dragState
+                        ? isDragging
+                          ? 1
+                          : 0.7
+                        : 1
+                      : isActive
+                        ? 1
+                        : 0.7,
                     transform: `translateX(-50%) scale(${chartScale})`,
                     transformOrigin: "bottom center",
                     "--counter-scale": 1 / chartScale,
