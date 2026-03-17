@@ -263,3 +263,11 @@
 .sense-break * {
   pointer-events: auto;
 }
+
+/* Disable logo buttons during sense break */
+.sense-break .nav-bar-logo-mobile,
+.sense-break .nav-bar-logo-mobile *,
+.sense-break .nav-bar-logo-desktop,
+.sense-break .nav-bar-logo-desktop * {
+  pointer-events: none !important;
+}
