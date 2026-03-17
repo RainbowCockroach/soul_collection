@@ -59,13 +59,20 @@ export function activateSenseBreak(): void {
   const timers: number[] = [];
 
   // Start sense break music (stops naturally on page refresh)
-  const audio = new Audio("/soul_collection/sound-effect/sense_break.wav");
-  audio.loop = true;
-  audio.volume = 0.7;
-  audio.play().catch(() => {
+  const intro = new Audio("/soul_collection/sound-effect/sensebreak_intro.wav");
+  const loop = new Audio("/soul_collection/sound-effect/sensebreak_loop.wav");
+  intro.volume = 0.7;
+  loop.volume = 0.7;
+  loop.loop = true;
+
+  intro.addEventListener("ended", () => {
+    loop.play().catch(() => {});
+  });
+
+  intro.play().catch(() => {
     // Autoplay blocked — try again on first user interaction
     const resume = () => {
-      audio.play().catch(() => {});
+      intro.play().catch(() => {});
       document.removeEventListener("click", resume);
       document.removeEventListener("keydown", resume);
     };
