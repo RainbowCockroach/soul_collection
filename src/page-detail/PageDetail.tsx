@@ -23,8 +23,11 @@ import {
   toggleHeightChartSelection,
 } from "../helpers/height-chart-cart";
 import SenseBreakButton from "../sense-break/SenseBreakButton";
-import { useKidMode } from "../kid-mode/KidModeContext";
-import { isOcCensored, isTagCensored } from "../kid-mode/kid-mode-censor";
+import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
+import {
+  isOcCensored,
+  isTagCensored,
+} from "../vanilla-mode/vanilla-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
@@ -32,7 +35,7 @@ import buttonSound from "/sound-effect/button_oc_slot.mp3";
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { isKidModeEnabled, toggleKidMode } = useKidMode();
+  const { isVanillaModeEnabled, toggleVanillaMode } = useVanillaMode();
   const [oc, setOc] = useState<OcWithDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -173,25 +176,25 @@ const PageDetail: React.FC = () => {
     return <div>Character not found</div>;
   }
 
-  if (isKidModeEnabled && isOcCensored(oc.slug)) {
+  if (isVanillaModeEnabled && isOcCensored(oc.slug)) {
     return (
-      <div className="page-padded kid-mode-block">
-        <h1 className="kid-mode-block-title">Beware!</h1>
-        <p className="kid-mode-block-message">
+      <div className="page-padded vanilla-mode-block">
+        <h1 className="vanilla-mode-block-title">Beware!</h1>
+        <p className="vanilla-mode-block-message">
           This OC might be too spicy for your delicate eyes and sanity. Didn't
-          you read the content warnings?
+          you read ALL the content warnings?
         </p>
-        <div className="kid-mode-block-buttons">
+        <div className="vanilla-mode-block-buttons">
           <ButtonWrapper
-            className="div-3d-with-shadow kid-mode-block-btn kid-mode-block-btn--allow"
-            onClick={() => toggleKidMode()}
+            className="div-3d-with-shadow vanilla-mode-block-btn vanilla-mode-block-btn--allow"
+            onClick={() => toggleVanillaMode()}
             hoverSoundFile={buttonSoundHover}
             soundFile={buttonSound}
           >
-            Calloused mine can take it, let me in!
+            Calloused, won't complain, let me in!
           </ButtonWrapper>
           <ButtonWrapper
-            className="div-3d-with-shadow kid-mode-block-btn kid-mode-block-btn--back"
+            className="div-3d-with-shadow vanilla-mode-block-btn vanilla-mode-block-btn--back"
             onClick={() => navigate("/soul_collection/ocs")}
             hoverSoundFile={buttonSoundHover}
             soundFile={buttonSound}
@@ -365,21 +368,23 @@ const PageDetail: React.FC = () => {
       </div>
 
       <div className="detail-block-tags">
-        {oc.tagDetails.filter((tag) => !isKidModeEnabled || !isTagCensored(tag.slug)).map((tag, index) => (
-          <span
-            key={index}
-            className="oc-detail-tag div-3d-with-shadow-borderless"
-            style={{
-              backgroundColor: tag.backgroundColour,
-              color: tag.textColour,
-            }}
-          >
-            {tag.name}
-          </span>
-        ))}
+        {oc.tagDetails
+          .filter((tag) => !isVanillaModeEnabled || !isTagCensored(tag.slug))
+          .map((tag, index) => (
+            <span
+              key={index}
+              className="oc-detail-tag div-3d-with-shadow-borderless"
+              style={{
+                backgroundColor: tag.backgroundColour,
+                color: tag.textColour,
+              }}
+            >
+              {tag.name}
+            </span>
+          ))}
       </div>
 
-      {!isKidModeEnabled && (slug === "bush" || slug === "vhhz") && (
+      {!isVanillaModeEnabled && (slug === "bush" || slug === "vhhz") && (
         <SenseBreakButton chance={0.1} />
       )}
     </div>

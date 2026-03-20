@@ -7,7 +7,7 @@ import EditorTag from "./EditorTag";
 import EditorShip from "./EditorShip";
 import EditorDialog from "./EditorDialog";
 import EditorAd from "./EditorAd";
-import EditorKidModeCensor from "./EditorKidModeCensor";
+import EditorVanillaModeCensor from "./EditorVanillaModeCensor";
 import EditorBio from "./EditorBio";
 import EditorHeightChart from "./EditorHeightChart";
 import { EditorImageUpload } from "./EditorImageUpload";
@@ -25,7 +25,7 @@ type EditorTab =
   | "dialogs"
   | "bio"
   | "ads"
-  | "kid-mode-censor"
+  | "vanilla-mode-censor"
   | "height-chart"
   | "uploads"
   | "sounds";
@@ -47,9 +47,9 @@ export const Editor: React.FC = () => {
     { id: "bio" as const, label: "Biography", component: EditorBio },
     { id: "ads" as const, label: "Ads", component: EditorAd },
     {
-      id: "kid-mode-censor" as const,
-      label: "Kid Mode Censor",
-      component: EditorKidModeCensor,
+      id: "vanilla-mode-censor" as const,
+      label: "Vanilla Mode Censor",
+      component: EditorVanillaModeCensor,
     },
     {
       id: "height-chart" as const,
