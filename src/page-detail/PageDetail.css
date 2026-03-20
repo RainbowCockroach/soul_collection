@@ -328,44 +328,44 @@
 }
 
 /* ===================================
-   KID MODE BLOCK PAGE
+   VANILLA MODE BLOCK PAGE
    =================================== */
-.kid-mode-block {
+.vanilla-mode-block {
   text-align: center;
   padding-top: 80px;
 }
 
-.kid-mode-block-title {
+.vanilla-mode-block-title {
   margin-bottom: 16px;
   color: #fff;
 }
 
-.kid-mode-block-message {
+.vanilla-mode-block-message {
   margin-bottom: 32px;
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.85);
 }
 
-.kid-mode-block-buttons {
+.vanilla-mode-block-buttons {
   display: flex;
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.kid-mode-block-btn {
+.vanilla-mode-block-btn {
   padding: 12px 24px;
   font-size: 1rem;
   border: none;
   font-family: var(--font-primary);
 }
 
-.kid-mode-block-btn--allow {
+.vanilla-mode-block-btn--allow {
   background: #44fcc2;
   color: #03291d;
 }
 
-.kid-mode-block-btn--back {
+.vanilla-mode-block-btn--back {
   background: #ff6b8a;
   color: #fff;
 }

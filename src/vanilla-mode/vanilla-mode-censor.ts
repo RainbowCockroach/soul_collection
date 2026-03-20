@@ -1,11 +1,11 @@
-import censorData from "../data/kid-mode-censor.json";
+import censorData from "../data/vanilla-mode-censor.json";
 
-export interface KidModeCensorData {
+export interface VanillaModeCensorData {
   ocs: string[];
   tags: string[];
 }
 
-const censor: KidModeCensorData = censorData;
+const censor: VanillaModeCensorData = censorData;
 
 export function isOcCensored(slug: string): boolean {
   return censor.ocs.includes(slug);

@@ -5,8 +5,8 @@ import FilterBlock from "./FilterBlock";
 import { loadAllData } from "../helpers/data-load";
 import type { OC, Group, Tag, Ship } from "../helpers/objects";
 import ButtonWrapper from "../common-components/ButtonWrapper";
-import { useKidMode } from "../kid-mode/KidModeContext";
-import { isOcCensored, isTagCensored } from "../kid-mode/kid-mode-censor";
+import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
+import { isOcCensored, isTagCensored } from "../vanilla-mode/vanilla-mode-censor";
 import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./OcGroup.css";
 import "./FilterBlock.css";
@@ -62,7 +62,7 @@ function formatDataForGroups(
 }
 
 const PageOcList: React.FC = () => {
-  const { isKidModeEnabled } = useKidMode();
+  const { isVanillaModeEnabled } = useVanillaMode();
   const [expandedGroups, setExpandedGroups] = useState<ExpandedGroups>({});
   const [groupWithOcsData, setGroupWithOcsData] = useState<OcGroupInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,16 +75,16 @@ const PageOcList: React.FC = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
 
   const restrictedSlugs = useMemo(() => {
-    if (!isKidModeEnabled) return new Set<string>();
+    if (!isVanillaModeEnabled) return new Set<string>();
     return new Set(
       allOcs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug),
     );
-  }, [isKidModeEnabled, allOcs]);
+  }, [isVanillaModeEnabled, allOcs]);
 
   const visibleTags = useMemo(() => {
-    if (!isKidModeEnabled) return allTags;
+    if (!isVanillaModeEnabled) return allTags;
     return allTags.filter((tag) => !isTagCensored(tag.slug));
-  }, [isKidModeEnabled, allTags]);
+  }, [isVanillaModeEnabled, allTags]);
 
   // Load data from helper function
   useEffect(() => {

@@ -9,8 +9,8 @@ import {
   getHeightChartSelections,
   setHeightChartSelections,
 } from "../helpers/height-chart-cart";
-import { useKidMode } from "../kid-mode/KidModeContext";
-import { isOcCensored } from "../kid-mode/kid-mode-censor";
+import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
+import { isOcCensored } from "../vanilla-mode/vanilla-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -35,7 +35,7 @@ interface DragState {
 }
 
 export default function PageHeightChart() {
-  const { isKidModeEnabled } = useKidMode();
+  const { isVanillaModeEnabled } = useVanillaMode();
   const [allSpriteGroups, setAllSpriteGroups] = useState<HeightChartGroup[]>(
     [],
   );
@@ -44,11 +44,11 @@ export default function PageHeightChart() {
   );
 
   const spriteGroups = useMemo(() => {
-    if (!isKidModeEnabled) return allSpriteGroups;
+    if (!isVanillaModeEnabled) return allSpriteGroups;
     return allSpriteGroups.filter(
       (group) => !restrictedGroupIds.has(group.groupId),
     );
-  }, [allSpriteGroups, isKidModeEnabled, restrictedGroupIds]);
+  }, [allSpriteGroups, isVanillaModeEnabled, restrictedGroupIds]);
   const [selectedCharacters, setSelectedCharacters] = useState<
     SelectedCharacter[]
   >([]);
@@ -86,7 +86,7 @@ export default function PageHeightChart() {
     return map;
   }, [spriteGroups]);
 
-  // Load height chart data and OC tags for kid mode filtering
+  // Load height chart data and OC tags for vanilla mode filtering
   useEffect(() => {
     const loadData = async () => {
       const [groups, ocs] = await Promise.all([

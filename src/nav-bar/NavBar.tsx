@@ -14,13 +14,13 @@ import {
   faEyeLowVision,
   faPepperHot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useKidMode } from "../kid-mode/KidModeContext";
+import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isKidModeEnabled, toggleKidMode } = useKidMode();
+  const { isVanillaModeEnabled, toggleVanillaMode } = useVanillaMode();
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -115,8 +115,8 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleKidModeClick = () => {
-    toggleKidMode();
+  const handleVanillaModeClick = () => {
+    toggleVanillaMode();
     setIsMobileMenuOpen(false);
   };
 
@@ -214,20 +214,20 @@ const Navbar = () => {
                   </div>
                 </ButtonWrapper>
               ))}
-              {/* Kid Mode toggle */}
+              {/* Vanilla Mode toggle */}
               <ButtonWrapper
-                onClick={handleKidModeClick}
+                onClick={handleVanillaModeClick}
                 hoverSoundFile={buttonSoundHover}
                 soundFile={buttonSound}
               >
                 <div
                   className="glass-effect nav-button mobile-dropdown-item"
                   style={{
-                    background: isKidModeEnabled ? "#5bc0de" : "#ff4444",
+                    background: isVanillaModeEnabled ? "#5bc0de" : "#ff4444",
                   }}
-                  title={isKidModeEnabled ? "Kid Mode ON" : "Spicy Mode"}
+                  title={isVanillaModeEnabled ? "Vanilla Mode ON" : "Spicy Mode"}
                 >
-                  {isKidModeEnabled ? (
+                  {isVanillaModeEnabled ? (
                     <FontAwesomeIcon icon={faEyeLowVision} />
                   ) : (
                     <FontAwesomeIcon icon={faPepperHot} />
