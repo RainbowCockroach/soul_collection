@@ -83,6 +83,25 @@ export function activateSenseBreak(): void {
   // Phase 1 — immediate
   root.classList.add("sense-break", "sense-break-phase-1");
 
+  // Image blackening — starts immediately, images slowly go black over ~30s
+  const BLACKEN_DURATION = 30000; // 30 seconds to full black
+  const BLACKEN_INTERVAL = 200;
+  const blackenStart = Date.now();
+  const blackenTimer = window.setInterval(() => {
+    const elapsed = Date.now() - blackenStart;
+    const progress = Math.min(elapsed / BLACKEN_DURATION, 1);
+    const brightness = 1 - progress; // 1 → 0
+    const images = document.querySelectorAll<HTMLImageElement>("img");
+    images.forEach((img) => {
+      img.style.filter = `brightness(${brightness})`;
+      img.style.transition = `filter ${BLACKEN_INTERVAL}ms linear`;
+    });
+    if (progress >= 1) {
+      window.clearInterval(blackenTimer);
+    }
+  }, BLACKEN_INTERVAL);
+  timers.push(blackenTimer as unknown as number);
+
   // Phase 2 — after 5s
   timers.push(
     window.setTimeout(() => {
