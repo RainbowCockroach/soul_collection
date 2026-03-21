@@ -50,7 +50,7 @@ const ZoomPanPinchImage = forwardRef<
   const imageRef = useRef<HTMLImageElement>(null);
 
   // Apply pixelation if content warning exists and image is not uncensored
-  const { url: processedSrc, useCssFilter } = useBlurImage(
+  const { url: processedSrc, useCssFilter, displayWarning } = useBlurImage(
     src,
     isImageUncensored ? undefined : contentWarning
   );
@@ -177,11 +177,11 @@ const ZoomPanPinchImage = forwardRef<
       )}
 
       {/* Content Warning Display and Toggle - Centered */}
-      {contentWarning && !isImageUncensored && (
+      {useCssFilter && !isImageUncensored && (
         <div className="content-warning-overlay-center">
           <div className="content-warning-card">
             <div className="content-warning-text">
-              <strong>This contains:</strong> {contentWarning}
+              <strong>This contains:</strong> {displayWarning}
             </div>
             <button
               className="uncensor-toggle-button"

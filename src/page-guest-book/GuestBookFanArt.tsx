@@ -47,7 +47,7 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
     message.content.thumbnail || message.content.full_image;
 
   // Apply pixelation if content warning exists and image is not uncensored
-  const { url: processedImage, useCssFilter } = useBlurImage(
+  const { url: processedImage, useCssFilter, displayWarning } = useBlurImage(
     displayImage || "",
     isImageUncensored
       ? undefined
@@ -150,12 +150,12 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
           </div>
 
           {/* Content Warning Overlay */}
-          {message.content.content_warning && !isImageUncensored && (
+          {useCssFilter && !isImageUncensored && (
             <div className="fanart-content-warning-overlay">
               <div className="fanart-content-warning-card">
                 <div className="fanart-content-warning-text">
                   <strong>This contains:</strong>{" "}
-                  {message.content.content_warning}
+                  {displayWarning}
                 </div>
                 <button
                   className="fanart-uncensor-button"

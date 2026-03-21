@@ -35,6 +35,10 @@ import { CSS } from "@dnd-kit/utilities";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import CollapsibleWrapper from "../common-components/CollapsibleWrapper";
+import {
+  parseContentWarning,
+  buildContentWarning,
+} from "../helpers/content-warning";
 
 interface OcJsonData {
   [key: string]: Omit<OC, "slug">;
@@ -1048,19 +1052,72 @@ export const EditorOc: React.FC = () => {
                             <label className="editor-label">
                               Content Warning:
                             </label>
-                            <input
-                              type="text"
-                              value={galleryItem.contentWarning || ""}
-                              onChange={(e) =>
-                                handleGalleryFieldChange(
-                                  index,
-                                  "contentWarning",
-                                  e.target.value
-                                )
-                              }
-                              className="editor-input"
-                              placeholder="Content warning (optional)"
-                            />
+                            <div className="editor-input-with-button">
+                              <input
+                                type="text"
+                                value={
+                                  galleryItem.contentWarning
+                                    ? parseContentWarning(
+                                        galleryItem.contentWarning
+                                      ).text
+                                    : ""
+                                }
+                                onChange={(e) => {
+                                  const vanillaOnly = galleryItem.contentWarning
+                                    ? parseContentWarning(
+                                        galleryItem.contentWarning
+                                      ).vanillaOnly
+                                    : false;
+                                  handleGalleryFieldChange(
+                                    index,
+                                    "contentWarning",
+                                    e.target.value
+                                      ? buildContentWarning(
+                                          e.target.value,
+                                          vanillaOnly
+                                        )
+                                      : ""
+                                  );
+                                }}
+                                className="editor-input"
+                                placeholder="Content warning (optional)"
+                              />
+                              <button
+                                type="button"
+                                className={`editor-button editor-button-small ${
+                                  galleryItem.contentWarning &&
+                                  parseContentWarning(
+                                    galleryItem.contentWarning
+                                  ).vanillaOnly
+                                    ? "editor-button-toggle-active"
+                                    : "editor-button-secondary"
+                                }`}
+                                title="Toggle: show warning only in vanilla mode"
+                                onClick={() => {
+                                  const raw =
+                                    galleryItem.contentWarning || "";
+                                  const { text, vanillaOnly } =
+                                    parseContentWarning(raw);
+                                  if (text) {
+                                    handleGalleryFieldChange(
+                                      index,
+                                      "contentWarning",
+                                      buildContentWarning(
+                                        text,
+                                        !vanillaOnly
+                                      )
+                                    );
+                                  }
+                                }}
+                              >
+                                {galleryItem.contentWarning &&
+                                parseContentWarning(
+                                  galleryItem.contentWarning
+                                ).vanillaOnly
+                                  ? "🍦 Vanilla only"
+                                  : "🌶️ Both modes"}
+                              </button>
+                            </div>
                           </div>
                         </div>
                       }
@@ -1222,19 +1279,73 @@ export const EditorOc: React.FC = () => {
                             <label className="editor-label">
                               Content Warning:
                             </label>
-                            <input
-                              type="text"
-                              value={breadcrumb.contentWarning || ""}
-                              onChange={(e) =>
-                                handleBreadcrumbChange(
-                                  index,
-                                  "contentWarning",
-                                  e.target.value
-                                )
-                              }
-                              className="editor-input"
-                              placeholder="Content warning for breadcrumb images (optional)"
-                            />
+                            <div className="editor-input-with-button">
+                              <input
+                                type="text"
+                                value={
+                                  breadcrumb.contentWarning
+                                    ? parseContentWarning(
+                                        breadcrumb.contentWarning
+                                      ).text
+                                    : ""
+                                }
+                                onChange={(e) => {
+                                  const vanillaOnly =
+                                    breadcrumb.contentWarning
+                                      ? parseContentWarning(
+                                          breadcrumb.contentWarning
+                                        ).vanillaOnly
+                                      : false;
+                                  handleBreadcrumbChange(
+                                    index,
+                                    "contentWarning",
+                                    e.target.value
+                                      ? buildContentWarning(
+                                          e.target.value,
+                                          vanillaOnly
+                                        )
+                                      : ""
+                                  );
+                                }}
+                                className="editor-input"
+                                placeholder="Content warning for breadcrumb images (optional)"
+                              />
+                              <button
+                                type="button"
+                                className={`editor-button editor-button-small ${
+                                  breadcrumb.contentWarning &&
+                                  parseContentWarning(
+                                    breadcrumb.contentWarning
+                                  ).vanillaOnly
+                                    ? "editor-button-toggle-active"
+                                    : "editor-button-secondary"
+                                }`}
+                                title="Toggle: show warning only in vanilla mode"
+                                onClick={() => {
+                                  const raw =
+                                    breadcrumb.contentWarning || "";
+                                  const { text, vanillaOnly } =
+                                    parseContentWarning(raw);
+                                  if (text) {
+                                    handleBreadcrumbChange(
+                                      index,
+                                      "contentWarning",
+                                      buildContentWarning(
+                                        text,
+                                        !vanillaOnly
+                                      )
+                                    );
+                                  }
+                                }}
+                              >
+                                {breadcrumb.contentWarning &&
+                                parseContentWarning(
+                                  breadcrumb.contentWarning
+                                ).vanillaOnly
+                                  ? "🍦 Vanilla only"
+                                  : "🌶️ Both modes"}
+                              </button>
+                            </div>
                           </div>
 
                           <div className="editor-field">
