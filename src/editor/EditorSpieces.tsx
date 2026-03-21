@@ -4,6 +4,10 @@ import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import "./EditorCommon.css";
+import {
+  parseContentWarning,
+  buildContentWarning,
+} from "../helpers/content-warning";
 
 interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
@@ -257,18 +261,59 @@ export const EditorSpieces: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Content Warning:</label>
-                <input
-                  type="text"
-                  value={editingItem.contentWarning || ""}
-                  onChange={(e) =>
-                    setEditingItem({
-                      ...editingItem,
-                      contentWarning: e.target.value,
-                    })
-                  }
-                  className="editor-input"
-                  placeholder="Content warning for species images (optional)"
-                />
+                <div className="editor-input-with-button">
+                  <input
+                    type="text"
+                    value={
+                      editingItem.contentWarning
+                        ? parseContentWarning(editingItem.contentWarning).text
+                        : ""
+                    }
+                    onChange={(e) => {
+                      const vanillaOnly = editingItem.contentWarning
+                        ? parseContentWarning(editingItem.contentWarning)
+                            .vanillaOnly
+                        : false;
+                      setEditingItem({
+                        ...editingItem,
+                        contentWarning: e.target.value
+                          ? buildContentWarning(e.target.value, vanillaOnly)
+                          : "",
+                      });
+                    }}
+                    className="editor-input"
+                    placeholder="Content warning for species images (optional)"
+                  />
+                  <button
+                    type="button"
+                    className={`editor-button editor-button-small ${
+                      editingItem.contentWarning &&
+                      parseContentWarning(editingItem.contentWarning)
+                        .vanillaOnly
+                        ? "editor-button-toggle-active"
+                        : "editor-button-secondary"
+                    }`}
+                    title="Toggle: show warning only in vanilla mode"
+                    onClick={() => {
+                      const raw = editingItem.contentWarning || "";
+                      const { text, vanillaOnly } = parseContentWarning(raw);
+                      if (text) {
+                        setEditingItem({
+                          ...editingItem,
+                          contentWarning: buildContentWarning(
+                            text,
+                            !vanillaOnly
+                          ),
+                        });
+                      }
+                    }}
+                  >
+                    {editingItem.contentWarning &&
+                    parseContentWarning(editingItem.contentWarning).vanillaOnly
+                      ? "🍦 Vanilla only"
+                      : "🌶️ Both modes"}
+                  </button>
+                </div>
               </div>
 
               <div className="editor-field">

@@ -665,3 +665,29 @@
   object-fit: cover;
   border-radius: var(--editor-border-radius);
 }
+
+/* Content warning row: input + toggle button side by side */
+.editor-input-with-button {
+  display: flex;
+  gap: var(--editor-spacing-sm);
+  align-items: center;
+}
+
+.editor-input-with-button .editor-input {
+  flex: 1;
+}
+
+.editor-input-with-button .editor-button {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.editor-button-toggle-active {
+  background-color: #5bc0de;
+  color: white;
+  border-color: #46b8da;
+}
+
+.editor-button-toggle-active:hover:not(:disabled) {
+  background-color: #31b0d5;
+}
