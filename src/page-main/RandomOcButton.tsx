@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadOCs } from "../helpers/data-load";
-import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
-import { isOcCensored } from "../vanilla-mode/vanilla-mode-censor";
+import { useSafeMode } from "../safe-mode/SafeModeContext";
+import { isOcCensored } from "../safe-mode/safe-mode-censor";
 import "./RandomOcButton.css";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import randomButton from "../assets/button_random.gif";
@@ -15,14 +15,14 @@ interface RandomOcButtonProps {
 
 const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
   const navigate = useNavigate();
-  const { isVanillaModeEnabled } = useVanillaMode();
+  const { isSafeModeEnabled } = useSafeMode();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRandomOc = async () => {
     setIsLoading(true);
     try {
       let ocs = await loadOCs();
-      if (isVanillaModeEnabled) {
+      if (isSafeModeEnabled) {
         ocs = ocs.filter((oc) => !isOcCensored(oc.slug));
       }
       if (ocs.length > 0) {

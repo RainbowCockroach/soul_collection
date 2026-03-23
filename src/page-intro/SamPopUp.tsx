@@ -4,10 +4,10 @@ import SamStandee from "./SamStandee";
 import ChatBubble from "./ChatBubble";
 import { loadDialogByKey } from "../helpers/data-load";
 import type { DialogEntry } from "../helpers/objects";
-import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
+import { useSafeMode } from "../safe-mode/SafeModeContext";
 
 const SamPopup = () => {
-  const { isVanillaModeEnabled, toggleVanillaMode } = useVanillaMode();
+  const { isSafeModeEnabled, toggleSafeMode } = useSafeMode();
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -124,8 +124,8 @@ const SamPopup = () => {
               speaker="Sam"
               onComplete={handleDialogComplete}
               onFinish={handleDialogFinish}
-              onVanillaModeChoice={
-                isVanillaModeEnabled ? undefined : toggleVanillaMode
+              onSafeModeChoice={
+                isSafeModeEnabled ? undefined : toggleSafeMode
               }
             />
           )}
