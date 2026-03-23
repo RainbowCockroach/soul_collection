@@ -191,24 +191,6 @@ const EditorSafeModeCensor: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {(censoredOcs.length > 0 || censoredTags.length > 0) && (
-        <div className="editor-form" style={{ marginTop: "20px" }}>
-          <h3>Summary</h3>
-          {censoredOcs.length > 0 && (
-            <div style={{ marginBottom: "12px" }}>
-              <strong>Hidden OCs:</strong>{" "}
-              {censoredOcs.map((slug) => getOcName(slug)).join(", ")}
-            </div>
-          )}
-          {censoredTags.length > 0 && (
-            <div>
-              <strong>Hidden Tags:</strong>{" "}
-              {censoredTags.map((slug) => getTagName(slug)).join(", ")}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 };
