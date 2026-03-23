@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { OC, Tag } from "../helpers/objects";
 import { loadOCs, loadTags } from "../helpers/data-load";
-import censorData from "../data/vanilla-mode-censor.json";
+import censorData from "../data/safe-mode-censor.json";
 import toast, { Toaster } from "react-hot-toast";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -11,7 +11,7 @@ interface CensorLists {
   tags: string[];
 }
 
-const EditorVanillaModeCensor: React.FC = () => {
+const EditorSafeModeCensor: React.FC = () => {
   const [allOcs, setAllOcs] = useState<OC[]>([]);
   const [allTags, setAllTags] = useState<Tag[]>([]);
   const [censoredOcs, setCensoredOcs] = useState<string[]>([]);
@@ -50,7 +50,7 @@ const EditorVanillaModeCensor: React.FC = () => {
       const data: CensorLists = { ocs: censoredOcs, tags: censoredTags };
       const jsonString = JSON.stringify(data, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      toast.success("Vanilla Mode Censor JSON copied to clipboard!");
+      toast.success("Safe Mode Censor JSON copied to clipboard!");
     } catch (error) {
       console.error("Error copying to clipboard:", error);
       toast.error("Failed to copy to clipboard");
@@ -72,7 +72,7 @@ const EditorVanillaModeCensor: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Vanilla Mode Censor Editor</h2>
+        <h2>Safe Mode Censor Editor</h2>
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"
@@ -88,7 +88,7 @@ const EditorVanillaModeCensor: React.FC = () => {
             <p
               style={{ fontSize: "0.8em", color: "#888", marginBottom: "12px" }}
             >
-              These OCs will be completely hidden when Vanilla Mode is enabled.
+              These OCs will be completely hidden when Safe Mode is enabled.
             </p>
             <div
               style={{
@@ -139,7 +139,7 @@ const EditorVanillaModeCensor: React.FC = () => {
               style={{ fontSize: "0.8em", color: "#888", marginBottom: "12px" }}
             >
               These tags will be hidden from display (filter bar, OC detail
-              page) when Vanilla Mode is enabled. The OC itself remains visible.
+              page) when Safe Mode is enabled. The OC itself remains visible.
             </p>
             <div
               style={{
@@ -213,4 +213,4 @@ const EditorVanillaModeCensor: React.FC = () => {
   );
 };
 
-export default EditorVanillaModeCensor;
+export default EditorSafeModeCensor;

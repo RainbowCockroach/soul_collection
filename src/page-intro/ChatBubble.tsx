@@ -10,7 +10,7 @@ interface Props {
   displayContinueIcon?: boolean;
   onComplete?: () => void;
   onFinish?: () => void;
-  onVanillaModeChoice?: () => void;
+  onSafeModeChoice?: () => void;
 }
 
 interface Ref {
@@ -27,7 +27,7 @@ const ChatBubble = forwardRef<Ref, Props>(
       displayContinueIcon = true,
       onComplete,
       onFinish,
-      onVanillaModeChoice,
+      onSafeModeChoice,
     },
     ref,
   ) => {
@@ -112,10 +112,10 @@ const ChatBubble = forwardRef<Ref, Props>(
       advance();
     };
 
-    const handleVanillaModeChoiceClick = (e: React.MouseEvent) => {
+    const handleSafeModeChoiceClick = (e: React.MouseEvent) => {
       e.stopPropagation();
       setIsAcknowledged(true);
-      onVanillaModeChoice?.();
+      onSafeModeChoice?.();
       advance();
     };
 
@@ -149,10 +149,10 @@ const ChatBubble = forwardRef<Ref, Props>(
                 >
                   OK, understood, won't complain
                 </button>
-                {onVanillaModeChoice && (
+                {onSafeModeChoice && (
                   <button
-                    className="chat-bubble-choice chat-bubble-choice--vanilla-mode"
-                    onClick={handleVanillaModeChoiceClick}
+                    className="chat-bubble-choice chat-bubble-choice--safe-mode"
+                    onClick={handleSafeModeChoiceClick}
                   >
                     Shield my eyes from the wicked!
                   </button>

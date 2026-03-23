@@ -14,13 +14,13 @@ import {
   faEyeLowVision,
   faPepperHot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
+import { useSafeMode } from "../safe-mode/SafeModeContext";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isVanillaModeEnabled, toggleVanillaMode } = useVanillaMode();
+  const { isSafeModeEnabled, toggleSafeMode } = useSafeMode();
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -115,8 +115,8 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleVanillaModeClick = () => {
-    toggleVanillaMode();
+  const handleSafeModeClick = () => {
+    toggleSafeMode();
     setIsMobileMenuOpen(false);
   };
 
@@ -214,20 +214,20 @@ const Navbar = () => {
                   </div>
                 </ButtonWrapper>
               ))}
-              {/* Vanilla Mode toggle */}
+              {/* Safe Mode toggle */}
               <ButtonWrapper
-                onClick={handleVanillaModeClick}
+                onClick={handleSafeModeClick}
                 hoverSoundFile={buttonSoundHover}
                 soundFile={buttonSound}
               >
                 <div
                   className="glass-effect nav-button mobile-dropdown-item"
                   style={{
-                    background: isVanillaModeEnabled ? "#5bc0de" : "#ff4444",
+                    background: isSafeModeEnabled ? "#5bc0de" : "#ff4444",
                   }}
-                  title={isVanillaModeEnabled ? "Vanilla Mode ON" : "Spicy Mode"}
+                  title={isSafeModeEnabled ? "Safe Mode ON" : "Spicy Mode"}
                 >
-                  {isVanillaModeEnabled ? (
+                  {isSafeModeEnabled ? (
                     <FontAwesomeIcon icon={faEyeLowVision} />
                   ) : (
                     <FontAwesomeIcon icon={faPepperHot} />
