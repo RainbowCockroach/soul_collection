@@ -1,39 +1,45 @@
 /* ===== EDITOR COMMON STYLES =====
- * Unified styling for all editor components
- * Minimal, professional design with consistent spacing and colors
+ * Styled to match the site's purple/green magical atmosphere
  */
 
 /* CSS Custom Properties for consistent theming */
 :root {
-  --editor-primary: #2563eb;
-  --editor-primary-hover: #1d4ed8;
-  --editor-success: #059669;
-  --editor-success-hover: #047857;
-  --editor-danger: #dc2626;
-  --editor-danger-hover: #b91c1c;
-  --editor-warning: #d97706;
-  --editor-warning-hover: #b45309;
+  --editor-primary: #864edb;
+  --editor-primary-hover: #7039c9;
+  --editor-primary-light: rgba(134, 78, 219, 0.15);
+  --editor-success: #2ecc71;
+  --editor-success-hover: #27ae60;
+  --editor-danger: #e74c3c;
+  --editor-danger-hover: #c0392b;
+  --editor-warning: #f39c12;
+  --editor-warning-hover: #d68910;
 
-  --editor-gray-50: #f9fafb;
-  --editor-gray-100: #f3f4f6;
-  --editor-gray-200: #e5e7eb;
-  --editor-gray-300: #d1d5db;
-  --editor-gray-400: #9ca3af;
-  --editor-gray-500: #6b7280;
-  --editor-gray-600: #4b5563;
-  --editor-gray-700: #374151;
-  --editor-gray-800: #1f2937;
-  --editor-gray-900: #111827;
+  --editor-purple-50: #f3e9ff;
+  --editor-purple-100: #e8d5fc;
+  --editor-purple-200: #d4b8f0;
+  --editor-purple-300: #b893e0;
+  --editor-purple-400: #9a6dd0;
+  --editor-purple-500: #864edb;
+  --editor-purple-600: #6c3baf;
+  --editor-purple-700: #522d83;
+  --editor-purple-800: #3a1f5e;
+  --editor-purple-900: #240f3d;
+
+  --editor-green: #9acfb0;
+  --editor-green-bright: rgb(106, 255, 168);
+  --editor-green-bg: rgba(106, 255, 168, 0.15);
 
   --editor-border-radius: 6px;
   --editor-border-radius-sm: 4px;
   --editor-border-radius-lg: 8px;
 
-  --editor-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --editor-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1),
-    0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --editor-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --editor-shadow-3d:
+    0px 3px 0px rgb(52, 11, 86), 3px 3px 0px rgb(52, 11, 86),
+    0 0 12px rgba(52, 11, 86, 0.4);
+  --editor-shadow-3d-sm:
+    0px 2px 0px rgb(52, 11, 86), 2px 2px 0px rgb(52, 11, 86);
+  --editor-shadow-glow: 0 0 16px rgba(134, 78, 219, 0.3);
+  --editor-shadow-sm: 0 1px 3px rgba(52, 11, 86, 0.15);
 
   --editor-spacing-xs: 4px;
   --editor-spacing-sm: 8px;
@@ -45,12 +51,14 @@
 /* ===== CONTAINER & LAYOUT ===== */
 .editor-container {
   padding: var(--editor-spacing-lg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
   font-size: 14px;
-  color: var(--editor-gray-800);
-  background-color: rgba(77, 255, 237, 0.5);
+  color: var(--editor-purple-900);
+  background-color: transparent;
   width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .editor-header {
@@ -59,14 +67,15 @@
   align-items: center;
   margin-bottom: var(--editor-spacing-lg);
   padding-bottom: var(--editor-spacing-md);
-  border-bottom: 1px solid var(--editor-gray-200);
+  border-bottom: 2px solid rgba(106, 255, 168, 0.4);
 }
 
 .editor-header h2 {
   font-size: 24px;
-  font-weight: 600;
-  color: var(--editor-gray-900);
+  font-weight: 700;
+  color: var(--editor-purple-900);
   margin: 0;
+  text-shadow: 1px 1px 0px rgba(134, 78, 219, 0.2);
 }
 
 .editor-layout {
@@ -91,27 +100,27 @@
   align-items: center;
   gap: var(--editor-spacing-xs);
   padding: var(--editor-spacing-sm) var(--editor-spacing-md);
-  border: none;
+  border: 2px solid rgba(52, 11, 86, 0.3);
   border-radius: var(--editor-border-radius);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
-  box-shadow: var(--editor-shadow-sm);
+  box-shadow: var(--editor-shadow-3d-sm);
 }
 
 .editor-button:hover {
-  box-shadow: var(--editor-shadow-base);
+  box-shadow: var(--editor-shadow-3d);
   transform: translateY(-1px);
 }
 
 .editor-button:active {
-  transform: translateY(0);
-  box-shadow: var(--editor-shadow-sm);
+  transform: translateY(2px);
+  box-shadow: 0px 1px 0px rgb(52, 11, 86);
 }
 
 .editor-button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -121,6 +130,7 @@
 .editor-button-primary {
   background-color: var(--editor-primary);
   color: white;
+  border-color: var(--editor-purple-700);
 }
 
 .editor-button-primary:hover:not(:disabled) {
@@ -130,6 +140,7 @@
 .editor-button-success {
   background-color: var(--editor-success);
   color: white;
+  border-color: var(--editor-success-hover);
 }
 
 .editor-button-success:hover:not(:disabled) {
@@ -139,6 +150,7 @@
 .editor-button-danger {
   background-color: var(--editor-danger);
   color: white;
+  border-color: var(--editor-danger-hover);
 }
 
 .editor-button-danger:hover:not(:disabled) {
@@ -146,13 +158,14 @@
 }
 
 .editor-button-secondary {
-  background-color: var(--editor-gray-100);
-  color: var(--editor-gray-700);
-  border: 1px solid var(--editor-gray-300);
+  background-color: var(--editor-purple-50);
+  color: var(--editor-purple-700);
+  border-color: var(--editor-purple-200);
 }
 
 .editor-button-secondary:hover:not(:disabled) {
-  background-color: var(--editor-gray-200);
+  background-color: var(--editor-purple-100);
+  border-color: var(--editor-purple-300);
 }
 
 .editor-button-small {
@@ -167,8 +180,9 @@
 
 /* Active state for toggle buttons */
 .editor-button.active {
-  background-color: var(--editor-success);
-  color: white;
+  background-color: var(--editor-green);
+  color: var(--editor-purple-900);
+  border-color: var(--editor-success-hover);
 }
 
 /* Button groups */
@@ -184,11 +198,11 @@
 
 /* ===== FORMS ===== */
 .editor-form {
-  background-color: var(--editor-gray-50);
-  border: 1px solid var(--editor-gray-200);
+  background-color: rgba(243, 233, 255, 0.6);
+  border: 1px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius-lg);
   padding: var(--editor-spacing-lg);
-  box-shadow: var(--editor-shadow-sm);
+  box-shadow: var(--editor-shadow-3d-sm);
 }
 
 .editor-field {
@@ -201,8 +215,8 @@
 
 .editor-label {
   display: block;
-  font-weight: 500;
-  color: var(--editor-gray-700);
+  font-weight: 600;
+  color: var(--editor-purple-700);
   margin-bottom: var(--editor-spacing-xs);
   font-size: 13px;
   text-transform: uppercase;
@@ -212,59 +226,74 @@
 .editor-input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   font-size: 14px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background-color: white;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--editor-purple-900);
 }
 
 .editor-input:focus {
   outline: none;
   border-color: var(--editor-primary);
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+  box-shadow:
+    0 0 0 3px rgba(134, 78, 219, 0.2),
+    var(--editor-shadow-glow);
 }
 
 .editor-input:disabled {
-  background-color: var(--editor-gray-100);
-  color: var(--editor-gray-500);
+  background-color: var(--editor-purple-50);
+  color: var(--editor-purple-400);
   cursor: not-allowed;
 }
 
 .editor-textarea {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   font-size: 14px;
   font-family: inherit;
   resize: vertical;
   min-height: 80px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background-color: white;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--editor-purple-900);
 }
 
 .editor-textarea:focus {
   outline: none;
   border-color: var(--editor-primary);
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+  box-shadow:
+    0 0 0 3px rgba(134, 78, 219, 0.2),
+    var(--editor-shadow-glow);
 }
 
 .editor-select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   font-size: 14px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--editor-purple-900);
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .editor-select:focus {
   outline: none;
   border-color: var(--editor-primary);
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+  box-shadow:
+    0 0 0 3px rgba(134, 78, 219, 0.2),
+    var(--editor-shadow-glow);
 }
 
 /* Color inputs */
@@ -277,7 +306,7 @@
 .editor-color-picker {
   width: 80px;
   height: 40px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   cursor: pointer;
 }
@@ -285,10 +314,12 @@
 .editor-color-text {
   flex: 1;
   padding: 10px 12px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   font-size: 14px;
   font-family: monospace;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--editor-purple-900);
 }
 
 /* Color picker with preview */
@@ -297,45 +328,46 @@
   align-items: center;
   gap: var(--editor-spacing-sm);
   padding: var(--editor-spacing-sm) var(--editor-spacing-md);
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: var(--editor-border-radius);
-  border: 1px solid var(--editor-gray-200);
+  border: 1px solid var(--editor-purple-200);
 }
 
 .editor-color-preview-label {
   font-size: 14px;
-  color: var(--editor-gray-600);
+  color: var(--editor-purple-600);
 }
 
 .editor-color-preview-swatch {
   width: 32px;
   height: 32px;
   border-radius: var(--editor-border-radius-sm);
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
+  box-shadow: var(--editor-shadow-3d-sm);
 }
 
 /* ===== LISTS & ITEMS ===== */
 .editor-list {
-  background-color: white;
-  border: 1px solid var(--editor-gray-200);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius-lg);
-  box-shadow: var(--editor-shadow-sm);
+  box-shadow: var(--editor-shadow-3d-sm);
   max-height: 500px;
   overflow-y: auto;
 }
 
 .editor-list-header {
   padding: var(--editor-spacing-md);
-  border-bottom: 1px solid var(--editor-gray-200);
-  background-color: var(--editor-gray-50);
+  border-bottom: 2px solid var(--editor-purple-200);
+  background-color: rgba(243, 233, 255, 0.7);
   border-radius: var(--editor-border-radius-lg) var(--editor-border-radius-lg) 0
     0;
 }
 
 .editor-list-header h3 {
   font-size: 16px;
-  font-weight: 600;
-  color: var(--editor-gray-900);
+  font-weight: 700;
+  color: var(--editor-purple-800);
   margin: 0;
 }
 
@@ -344,7 +376,7 @@
   align-items: center;
   gap: var(--editor-spacing-sm);
   padding: var(--editor-spacing-md);
-  border-bottom: 1px solid var(--editor-gray-100);
+  border-bottom: 1px solid rgba(134, 78, 219, 0.1);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
@@ -354,11 +386,11 @@
 }
 
 .editor-item:hover {
-  background-color: var(--editor-gray-50);
+  background-color: var(--editor-green-bg);
 }
 
 .editor-item-selected {
-  background-color: rgb(37 99 235 / 0.1);
+  background-color: var(--editor-primary-light);
   border-left: 3px solid var(--editor-primary);
 }
 
@@ -371,12 +403,12 @@
 }
 
 .editor-item-name {
-  font-weight: 500;
-  color: var(--editor-gray-900);
+  font-weight: 600;
+  color: var(--editor-purple-800);
 }
 
 .editor-item-slug {
-  color: var(--editor-gray-500);
+  color: var(--editor-purple-400);
   font-size: 12px;
   font-family: monospace;
 }
@@ -395,7 +427,7 @@
 /* Drag handle */
 .editor-drag-handle {
   cursor: grab;
-  color: var(--editor-gray-400);
+  color: var(--editor-purple-300);
   font-weight: bold;
   padding: var(--editor-spacing-xs);
   user-select: none;
@@ -403,7 +435,7 @@
 }
 
 .editor-drag-handle:hover {
-  color: var(--editor-gray-600);
+  color: var(--editor-primary);
 }
 
 .editor-drag-handle:active {
@@ -421,26 +453,30 @@
 .editor-array-input {
   flex: 1;
   padding: var(--editor-spacing-sm) 12px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   font-size: 14px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--editor-purple-900);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .editor-array-input:focus {
   outline: none;
   border-color: var(--editor-primary);
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+  box-shadow: 0 0 0 3px rgba(134, 78, 219, 0.2);
 }
 
 /* ===== SECTIONS & GROUPS ===== */
 .editor-section {
-  background-color: white;
-  border: 1px solid var(--editor-gray-200);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius-lg);
   margin-bottom: var(--editor-spacing-md);
   overflow: hidden;
-  box-shadow: var(--editor-shadow-sm);
+  box-shadow: var(--editor-shadow-3d-sm);
 }
 
 .editor-section-header {
@@ -448,14 +484,14 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--editor-spacing-md);
-  background-color: var(--editor-gray-50);
-  border-bottom: 1px solid var(--editor-gray-200);
+  background-color: rgba(243, 233, 255, 0.6);
+  border-bottom: 1px solid var(--editor-purple-200);
 }
 
 .editor-section-header h4 {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--editor-gray-900);
+  font-weight: 700;
+  color: var(--editor-purple-800);
   margin: 0;
 }
 
@@ -465,8 +501,8 @@
 
 /* ===== CHECKBOXES ===== */
 .editor-checkbox-group {
-  background-color: white;
-  border: 1px solid var(--editor-gray-200);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   padding: var(--editor-spacing-sm);
   max-height: 150px;
@@ -492,11 +528,12 @@
 }
 
 .editor-checkbox-label:hover {
-  background-color: var(--editor-gray-50);
+  background-color: var(--editor-green-bg);
 }
 
 .editor-checkbox-label input[type="checkbox"] {
   margin: 0;
+  accent-color: var(--editor-primary);
 }
 
 /* ===== AVATAR & PREVIEW ELEMENTS ===== */
@@ -505,29 +542,30 @@
   height: 40px;
   border-radius: var(--editor-border-radius);
   object-fit: cover;
-  border: 1px solid var(--editor-gray-200);
+  border: 2px solid var(--editor-purple-200);
 }
 
 .editor-color-box {
   width: 20px;
   height: 20px;
-  border: 1px solid var(--editor-gray-300);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius-sm);
   flex-shrink: 0;
+  box-shadow: var(--editor-shadow-3d-sm);
 }
 
 .editor-tag-preview {
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   border: 1px solid rgba(0, 0, 0, 0.1);
   white-space: nowrap;
 }
 
 /* ===== UTILITIES ===== */
 .editor-text-muted {
-  color: var(--editor-gray-500);
+  color: var(--editor-purple-400);
   font-size: 12px;
 }
 
@@ -542,7 +580,7 @@
 .editor-empty-state {
   text-align: center;
   padding: var(--editor-spacing-xl);
-  color: var(--editor-gray-500);
+  color: var(--editor-purple-400);
   font-style: italic;
 }
 
@@ -591,7 +629,7 @@
 
 .editor-item.sortable-ghost {
   opacity: 0.4;
-  background-color: var(--editor-gray-100);
+  background-color: var(--editor-purple-50);
 }
 
 /* ===== FOCUS MANAGEMENT ===== */
@@ -605,7 +643,7 @@
 .editor-textarea:focus,
 .editor-select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.2);
+  box-shadow: 0 0 0 3px rgba(134, 78, 219, 0.25);
 }
 
 /* ===== BBCODE DISPLAY INLINE ===== */
@@ -624,39 +662,47 @@
   display: flex;
   align-items: center;
   padding: var(--editor-spacing-sm) var(--editor-spacing-md);
-  background-color: var(--editor-gray-100);
-  border: 1px solid var(--editor-gray-300);
+  background-color: var(--editor-purple-50);
+  border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
   user-select: none;
-  font-weight: 500;
-  color: var(--editor-gray-700);
+  font-weight: 600;
+  color: var(--editor-purple-700);
 }
 
 .editor-collapsible-button:hover {
-  background-color: var(--editor-gray-200);
-  border-color: var(--editor-gray-400);
+  background-color: var(--editor-purple-100);
+  border-color: var(--editor-purple-300);
 }
 
 .editor-collapsible-button:active {
-  background-color: var(--editor-gray-300);
+  background-color: var(--editor-purple-200);
 }
 
 /* ===== IMAGE UPLOAD STYLES ===== */
 .editor-upload-area-dragging {
-  background-color: var(--editor-gray-50) !important;
+  background-color: var(--editor-green-bg) !important;
   border-color: var(--editor-primary) !important;
 }
 
 .editor-loading-spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--editor-gray-200);
+  border: 2px solid var(--editor-purple-200);
   border-top: 2px solid var(--editor-primary);
   border-radius: 50%;
   animation: editor-spin 1s linear infinite;
   margin: 0 auto;
+}
+
+@keyframes editor-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .editor-avatar-preview {
@@ -664,6 +710,8 @@
   height: 100px;
   object-fit: cover;
   border-radius: var(--editor-border-radius);
+  border: 2px solid var(--editor-purple-200);
+  box-shadow: var(--editor-shadow-3d-sm);
 }
 
 /* Content warning row: input + toggle button side by side */
@@ -683,11 +731,11 @@
 }
 
 .editor-button-toggle-active {
-  background-color: #5bc0de;
-  color: white;
-  border-color: #46b8da;
+  background-color: var(--editor-green);
+  color: var(--editor-purple-900);
+  border-color: var(--editor-success-hover);
 }
 
 .editor-button-toggle-active:hover:not(:disabled) {
-  background-color: #31b0d5;
+  background-color: var(--editor-success);
 }
