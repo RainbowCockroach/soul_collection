@@ -13,15 +13,15 @@ import type { OC as FullOC } from "../helpers/objects";
 import type { AdItem } from "../helpers/objects";
 import AdSlideshow from "../common-components/AdSlideshow";
 import VisualNovelBio from "./VisualNovelBio";
-import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
-import { isOcCensored } from "../vanilla-mode/vanilla-mode-censor";
+import { useSafeMode } from "../safe-mode/SafeModeContext";
+import { isOcCensored } from "../safe-mode/safe-mode-censor";
 import "./PageMain.css";
 import Divider from "../common-components/Divider";
 import titleMobile from "../assets/title_mobile.webp";
 import titleDesktop from "../assets/title_desktop.webp";
 
 const PageMain: React.FC = () => {
-  const { isVanillaModeEnabled } = useVanillaMode();
+  const { isSafeModeEnabled } = useSafeMode();
   const favourites = [
     { slug: "bush", name: "Bush", avatar: bushAvatar },
     { slug: "echo", name: "Cupcake", avatar: cupcakeAvatar },
@@ -37,11 +37,11 @@ const PageMain: React.FC = () => {
   const [footerAds, setFooterAds] = useState<AdItem[]>([]);
 
   const restrictedSlugs = useMemo(() => {
-    if (!isVanillaModeEnabled) return new Set<string>();
+    if (!isSafeModeEnabled) return new Set<string>();
     return new Set(
       allOcs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug),
     );
-  }, [isVanillaModeEnabled, allOcs]);
+  }, [isSafeModeEnabled, allOcs]);
 
   useEffect(() => {
     const fetchData = async () => {

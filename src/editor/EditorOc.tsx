@@ -1063,10 +1063,10 @@ export const EditorOc: React.FC = () => {
                                     : ""
                                 }
                                 onChange={(e) => {
-                                  const vanillaOnly = galleryItem.contentWarning
+                                  const safeOnly = galleryItem.contentWarning
                                     ? parseContentWarning(
                                         galleryItem.contentWarning
-                                      ).vanillaOnly
+                                      ).safeOnly
                                     : false;
                                   handleGalleryFieldChange(
                                     index,
@@ -1074,7 +1074,7 @@ export const EditorOc: React.FC = () => {
                                     e.target.value
                                       ? buildContentWarning(
                                           e.target.value,
-                                          vanillaOnly
+                                          safeOnly
                                         )
                                       : ""
                                   );
@@ -1088,15 +1088,15 @@ export const EditorOc: React.FC = () => {
                                   galleryItem.contentWarning &&
                                   parseContentWarning(
                                     galleryItem.contentWarning
-                                  ).vanillaOnly
+                                  ).safeOnly
                                     ? "editor-button-toggle-active"
                                     : "editor-button-secondary"
                                 }`}
-                                title="Toggle: show warning only in vanilla mode"
+                                title="Toggle: show warning only in safe mode"
                                 onClick={() => {
                                   const raw =
                                     galleryItem.contentWarning || "";
-                                  const { text, vanillaOnly } =
+                                  const { text, safeOnly } =
                                     parseContentWarning(raw);
                                   if (text) {
                                     handleGalleryFieldChange(
@@ -1104,7 +1104,7 @@ export const EditorOc: React.FC = () => {
                                       "contentWarning",
                                       buildContentWarning(
                                         text,
-                                        !vanillaOnly
+                                        !safeOnly
                                       )
                                     );
                                   }
@@ -1113,8 +1113,8 @@ export const EditorOc: React.FC = () => {
                                 {galleryItem.contentWarning &&
                                 parseContentWarning(
                                   galleryItem.contentWarning
-                                ).vanillaOnly
-                                  ? "🍦 Vanilla only"
+                                ).safeOnly
+                                  ? "🛡️ Safe only"
                                   : "🌶️ Both modes"}
                               </button>
                             </div>
@@ -1290,11 +1290,11 @@ export const EditorOc: React.FC = () => {
                                     : ""
                                 }
                                 onChange={(e) => {
-                                  const vanillaOnly =
+                                  const safeOnly =
                                     breadcrumb.contentWarning
                                       ? parseContentWarning(
                                           breadcrumb.contentWarning
-                                        ).vanillaOnly
+                                        ).safeOnly
                                       : false;
                                   handleBreadcrumbChange(
                                     index,
@@ -1302,7 +1302,7 @@ export const EditorOc: React.FC = () => {
                                     e.target.value
                                       ? buildContentWarning(
                                           e.target.value,
-                                          vanillaOnly
+                                          safeOnly
                                         )
                                       : ""
                                   );
@@ -1316,15 +1316,15 @@ export const EditorOc: React.FC = () => {
                                   breadcrumb.contentWarning &&
                                   parseContentWarning(
                                     breadcrumb.contentWarning
-                                  ).vanillaOnly
+                                  ).safeOnly
                                     ? "editor-button-toggle-active"
                                     : "editor-button-secondary"
                                 }`}
-                                title="Toggle: show warning only in vanilla mode"
+                                title="Toggle: show warning only in safe mode"
                                 onClick={() => {
                                   const raw =
                                     breadcrumb.contentWarning || "";
-                                  const { text, vanillaOnly } =
+                                  const { text, safeOnly } =
                                     parseContentWarning(raw);
                                   if (text) {
                                     handleBreadcrumbChange(
@@ -1332,7 +1332,7 @@ export const EditorOc: React.FC = () => {
                                       "contentWarning",
                                       buildContentWarning(
                                         text,
-                                        !vanillaOnly
+                                        !safeOnly
                                       )
                                     );
                                   }
@@ -1341,8 +1341,8 @@ export const EditorOc: React.FC = () => {
                                 {breadcrumb.contentWarning &&
                                 parseContentWarning(
                                   breadcrumb.contentWarning
-                                ).vanillaOnly
-                                  ? "🍦 Vanilla only"
+                                ).safeOnly
+                                  ? "🛡️ Safe only"
                                   : "🌶️ Both modes"}
                               </button>
                             </div>

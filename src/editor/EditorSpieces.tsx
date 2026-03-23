@@ -270,14 +270,14 @@ export const EditorSpieces: React.FC = () => {
                         : ""
                     }
                     onChange={(e) => {
-                      const vanillaOnly = editingItem.contentWarning
+                      const safeOnly = editingItem.contentWarning
                         ? parseContentWarning(editingItem.contentWarning)
-                            .vanillaOnly
+                            .safeOnly
                         : false;
                       setEditingItem({
                         ...editingItem,
                         contentWarning: e.target.value
-                          ? buildContentWarning(e.target.value, vanillaOnly)
+                          ? buildContentWarning(e.target.value, safeOnly)
                           : "",
                       });
                     }}
@@ -289,28 +289,28 @@ export const EditorSpieces: React.FC = () => {
                     className={`editor-button editor-button-small ${
                       editingItem.contentWarning &&
                       parseContentWarning(editingItem.contentWarning)
-                        .vanillaOnly
+                        .safeOnly
                         ? "editor-button-toggle-active"
                         : "editor-button-secondary"
                     }`}
-                    title="Toggle: show warning only in vanilla mode"
+                    title="Toggle: show warning only in safe mode"
                     onClick={() => {
                       const raw = editingItem.contentWarning || "";
-                      const { text, vanillaOnly } = parseContentWarning(raw);
+                      const { text, safeOnly } = parseContentWarning(raw);
                       if (text) {
                         setEditingItem({
                           ...editingItem,
                           contentWarning: buildContentWarning(
                             text,
-                            !vanillaOnly
+                            !safeOnly
                           ),
                         });
                       }
                     }}
                   >
                     {editingItem.contentWarning &&
-                    parseContentWarning(editingItem.contentWarning).vanillaOnly
-                      ? "🍦 Vanilla only"
+                    parseContentWarning(editingItem.contentWarning).safeOnly
+                      ? "🛡️ Safe only"
                       : "🌶️ Both modes"}
                   </button>
                 </div>
