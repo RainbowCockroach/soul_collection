@@ -1,11 +1,11 @@
-import censorData from "../data/vanilla-mode-censor.json";
+import censorData from "../data/safe-mode-censor.json";
 
-export interface VanillaModeCensorData {
+export interface SafeModeCensorData {
   ocs: string[];
   tags: string[];
 }
 
-const censor: VanillaModeCensorData = censorData;
+const censor: SafeModeCensorData = censorData;
 
 export function isOcCensored(slug: string): boolean {
   return censor.ocs.includes(slug);

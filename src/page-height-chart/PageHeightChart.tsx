@@ -9,8 +9,8 @@ import {
   getHeightChartSelections,
   setHeightChartSelections,
 } from "../helpers/height-chart-cart";
-import { useVanillaMode } from "../vanilla-mode/VanillaModeContext";
-import { isOcCensored } from "../vanilla-mode/vanilla-mode-censor";
+import { useSafeMode } from "../safe-mode/SafeModeContext";
+import { isOcCensored } from "../safe-mode/safe-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -35,7 +35,7 @@ interface DragState {
 }
 
 export default function PageHeightChart() {
-  const { isVanillaModeEnabled } = useVanillaMode();
+  const { isSafeModeEnabled } = useSafeMode();
   const [allSpriteGroups, setAllSpriteGroups] = useState<HeightChartGroup[]>(
     [],
   );
@@ -44,11 +44,11 @@ export default function PageHeightChart() {
   );
 
   const spriteGroups = useMemo(() => {
-    if (!isVanillaModeEnabled) return allSpriteGroups;
+    if (!isSafeModeEnabled) return allSpriteGroups;
     return allSpriteGroups.filter(
       (group) => !restrictedGroupIds.has(group.groupId),
     );
-  }, [allSpriteGroups, isVanillaModeEnabled, restrictedGroupIds]);
+  }, [allSpriteGroups, isSafeModeEnabled, restrictedGroupIds]);
   const [selectedCharacters, setSelectedCharacters] = useState<
     SelectedCharacter[]
   >([]);
@@ -86,7 +86,7 @@ export default function PageHeightChart() {
     return map;
   }, [spriteGroups]);
 
-  // Load height chart data and OC tags for vanilla mode filtering
+  // Load height chart data and OC tags for safe mode filtering
   useEffect(() => {
     const loadData = async () => {
       const [groups, ocs] = await Promise.all([
