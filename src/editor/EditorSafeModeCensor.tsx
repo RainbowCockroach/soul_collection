@@ -57,16 +57,6 @@ const EditorSafeModeCensor: React.FC = () => {
     }
   };
 
-  const getOcName = (slug: string): string => {
-    const oc = allOcs.find((o) => o.slug === slug);
-    return oc ? oc.name : slug;
-  };
-
-  const getTagName = (slug: string): string => {
-    const tag = allTags.find((t) => t.slug === slug);
-    return tag ? tag.name : slug;
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
