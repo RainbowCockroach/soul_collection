@@ -432,6 +432,34 @@
     "order": 23
   },
   {
+    "name": "Miimi",
+    "groupId": "miimi",
+    "thumbnail": "https://i.pinimg.com/originals/72/18/c9/7218c99f39aa4d3e6e5c50988e2ae70d.png",
+    "variants": [
+      {
+        "id": "miimi-1",
+        "url": "https://i.pinimg.com/originals/96/14/d3/9614d3ad54fd82748376f6db80e5b6c4.png",
+        "thumbnail": "",
+        "height": "150cm"
+      }
+    ],
+    "order": 24
+  },
+  {
+    "name": "Joon",
+    "groupId": "joon",
+    "thumbnail": "https://i.pinimg.com/originals/7e/f4/c3/7ef4c3f8c3e3cd6ee27b78753ddd7380.png",
+    "variants": [
+      {
+        "id": "joon-1",
+        "url": "https://i.pinimg.com/originals/4c/b5/93/4cb593ff793b711ece8d193b2b4a88ee.png",
+        "thumbnail": "",
+        "height": "134cm"
+      }
+    ],
+    "order": 25
+  },
+  {
     "name": "Sam",
     "groupId": "sam",
     "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
@@ -449,7 +477,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 24
+    "order": 26
   },
   {
     "name": "Jessica",
@@ -469,6 +497,6 @@
         "height": "60cm"
       }
     ],
-    "order": 25
+    "order": 27
   }
 ]
