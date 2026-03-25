@@ -358,6 +358,20 @@
     "order": 19
   },
   {
+    "name": "Maary",
+    "groupId": "healthy-maary",
+    "thumbnail": "https://i.pinimg.com/originals/ea/f0/d3/eaf0d3b186f98fb16ca6c6e77a840389.png",
+    "variants": [
+      {
+        "id": "healthy-maary-1",
+        "url": "https://i.pinimg.com/originals/ca/14/10/ca1410ce3edb21a25f15270b65d0e808.png",
+        "thumbnail": "",
+        "height": "200cm"
+      }
+    ],
+    "order": 20
+  },
+  {
     "name": "Naame",
     "groupId": "naame",
     "thumbnail": "https://i.pinimg.com/originals/31/ae/a2/31aea2b7908b126cadc219f5e24e1630.png",
@@ -387,7 +401,7 @@
         "height": "205cm"
       }
     ],
-    "order": 20
+    "order": 21
   },
   {
     "name": "Iggy",
@@ -401,7 +415,7 @@
         "height": "200cm"
       }
     ],
-    "order": 21
+    "order": 22
   },
   {
     "name": "Uaawa",
@@ -415,7 +429,7 @@
         "height": "198cm"
       }
     ],
-    "order": 22
+    "order": 23
   },
   {
     "name": "Sam",
@@ -435,7 +449,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 23
+    "order": 24
   },
   {
     "name": "Jessica",
@@ -455,6 +469,6 @@
         "height": "60cm"
       }
     ],
-    "order": 24
+    "order": 25
   }
 ]
