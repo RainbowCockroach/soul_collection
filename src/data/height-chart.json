@@ -216,6 +216,26 @@
     "order": 11
   },
   {
+    "name": "Non Li",
+    "groupId": "non-li",
+    "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
+    "variants": [
+      {
+        "id": "non-modern",
+        "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
+        "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
+        "height": "168cm (without heels)"
+      },
+      {
+        "id": "non-dreamweed",
+        "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
+        "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
+        "height": "168cm (without heels)"
+      }
+    ],
+    "order": 12
+  },
+  {
     "name": "Toline Li",
     "groupId": "toline-li",
     "thumbnail": "https://i.pinimg.com/originals/c8/61/31/c86131c76e72d9dd2f6b444a2e0bc70c.png",
@@ -233,7 +253,7 @@
         "height": "170cm (without heels)"
       }
     ],
-    "order": 12
+    "order": 13
   },
   {
     "name": "Celia Li",
@@ -265,7 +285,7 @@
         "height": "162cm"
       }
     ],
-    "order": 13
+    "order": 14
   },
   {
     "name": "Heix Li",
@@ -285,27 +305,27 @@
         "height": "175cm"
       }
     ],
-    "order": 14
+    "order": 15
   },
   {
-    "name": "Non Li",
-    "groupId": "non-li",
-    "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
+    "name": "Potat",
+    "groupId": "potat",
+    "thumbnail": "https://i.pinimg.com/originals/c2/22/a7/c222a77c23949b3c40b3ca2d85fad5ec.png",
     "variants": [
       {
-        "id": "non-modern",
-        "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
-        "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
-        "height": "168cm (without heels)"
+        "id": "potat-1",
+        "url": "https://i.pinimg.com/originals/ef/53/05/ef5305e2a01450194c2d8b1af5b36c1d.png",
+        "thumbnail": "https://i.pinimg.com/originals/c2/22/a7/c222a77c23949b3c40b3ca2d85fad5ec.png",
+        "height": "210cm"
       },
       {
-        "id": "non-dreamweed",
-        "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
-        "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
-        "height": "168cm (without heels)"
+        "id": "potat-2",
+        "url": "https://i.pinimg.com/originals/66/d5/b7/66d5b7a430cdfb2b7e8b12b29dc5af57.png",
+        "thumbnail": "https://i.pinimg.com/originals/87/6e/69/876e69ebe89f71905a51739a2a1b912a.png",
+        "height": "210cm"
       }
     ],
-    "order": 15
+    "order": 16
   },
   {
     "name": "Bush",
@@ -319,7 +339,7 @@
         "height": "110cm"
       }
     ],
-    "order": 16
+    "order": 17
   },
   {
     "name": "Echo",
@@ -333,7 +353,7 @@
         "height": "150cm"
       }
     ],
-    "order": 17
+    "order": 18
   },
   {
     "name": "Vhhz",
@@ -353,7 +373,7 @@
         "height": "200cm"
       }
     ],
-    "order": 18
+    "order": 19
   },
   {
     "name": "Leeo",
@@ -367,7 +387,7 @@
         "height": "195cm"
       }
     ],
-    "order": 19
+    "order": 20
   },
   {
     "name": "Maary",
@@ -381,7 +401,7 @@
         "height": "200cm"
       }
     ],
-    "order": 20
+    "order": 21
   },
   {
     "name": "Naame",
@@ -413,7 +433,7 @@
         "height": "205cm"
       }
     ],
-    "order": 21
+    "order": 22
   },
   {
     "name": "Iggy",
@@ -427,7 +447,7 @@
         "height": "200cm"
       }
     ],
-    "order": 22
+    "order": 23
   },
   {
     "name": "Uaawa",
@@ -441,7 +461,7 @@
         "height": "198cm"
       }
     ],
-    "order": 23
+    "order": 24
   },
   {
     "name": "Miimi",
@@ -455,7 +475,7 @@
         "height": "150cm"
       }
     ],
-    "order": 24
+    "order": 25
   },
   {
     "name": "Joon",
@@ -469,7 +489,7 @@
         "height": "134cm"
       }
     ],
-    "order": 25
+    "order": 26
   },
   {
     "name": "Sam",
@@ -489,7 +509,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 26
+    "order": 27
   },
   {
     "name": "Jessica",
@@ -509,6 +529,6 @@
         "height": "60cm"
       }
     ],
-    "order": 27
+    "order": 28
   }
 ]
