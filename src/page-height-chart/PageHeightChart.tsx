@@ -17,6 +17,8 @@ import {
   faTrash,
   faEye,
   faEyeLowVision,
+  faFont,
+  faTextSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 
@@ -57,6 +59,7 @@ export default function PageHeightChart() {
   );
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [solidified, setSolidified] = useState(false);
+  const [hideLabels, setHideLabels] = useState(false);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
   const [popupPosition, setPopupPosition] = useState<{
     top: number;
@@ -356,6 +359,12 @@ export default function PageHeightChart() {
         {selectedCharacters.length > 0 && (
           <>
             <ButtonWrapper
+              className={`height-chart-hide-labels${hideLabels ? " active" : ""}`}
+              onClick={() => setHideLabels((prev) => !prev)}
+            >
+              <FontAwesomeIcon icon={hideLabels ? faTextSlash : faFont} />
+            </ButtonWrapper>
+            <ButtonWrapper
               className={`height-chart-solidify-all${solidified ? " active" : ""}`}
               onClick={handleSolidifyAll}
             >
@@ -449,7 +458,7 @@ export default function PageHeightChart() {
                 onTouchStart={(e) => handleTouchStart(e, character.id)}
                 onClick={(e) => handleCharacterClick(e, character.id)}
               >
-                <div className="height-chart-sprite-label">
+                <div className={`height-chart-sprite-label${hideLabels ? " hidden" : ""}`}>
                   <span className="height-chart-sprite-name">
                     {sprite.name}
                   </span>
