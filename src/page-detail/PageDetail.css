@@ -282,14 +282,19 @@
   cursor: pointer;
   font-family: var(--font-primary);
   font-size: 16px;
+  transition: background 0.2s;
 }
 
 .detail-height-chart-btn:hover {
-  background: rgba(255, 255, 255, 0.732);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .detail-height-chart-btn.added {
   background: rgba(255, 255, 255, 0.732);
+}
+
+.detail-height-chart-btn.added:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* ===================================
