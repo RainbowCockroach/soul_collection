@@ -15,7 +15,7 @@
   display: inline-block;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .button-wrapper:hover {
     filter: brightness(1.15) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
     transform: translateY(-3px) scale(1.02);
@@ -35,7 +35,7 @@
   filter: grayscale(0.5);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .button-wrapper.disabled:hover {
     filter: grayscale(0.5);
     transform: translateY(0);
