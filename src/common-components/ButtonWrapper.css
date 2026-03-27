@@ -15,9 +15,11 @@
   display: inline-block;
 }
 
-.button-wrapper:hover {
-  filter: brightness(1.15) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
-  transform: translateY(-3px) scale(1.02);
+@media (hover: hover) {
+  .button-wrapper:hover {
+    filter: brightness(1.15) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+    transform: translateY(-3px) scale(1.02);
+  }
 }
 
 .button-wrapper:active,
@@ -33,9 +35,11 @@
   filter: grayscale(0.5);
 }
 
-.button-wrapper.disabled:hover {
-  filter: grayscale(0.5);
-  transform: translateY(0);
+@media (hover: hover) {
+  .button-wrapper.disabled:hover {
+    filter: grayscale(0.5);
+    transform: translateY(0);
+  }
 }
 
 .button-wrapper.disabled:active {
