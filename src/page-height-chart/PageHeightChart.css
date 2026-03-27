@@ -76,7 +76,8 @@
 /* ─── Toolbar Buttons ────────────────────────────────────────────────── */
 
 .height-chart-clear-all,
-.height-chart-solidify-all {
+.height-chart-solidify-all,
+.height-chart-hide-labels {
   background: rgba(120, 11, 121, 0.6);
   border: var(--hc-border-width) solid rgba(134, 78, 219, 0.5);
   border-radius: var(--hc-border-radius);
@@ -91,14 +92,16 @@
   letter-spacing: 0.03em;
 }
 
-.height-chart-solidify-all.active {
+.height-chart-solidify-all.active,
+.height-chart-hide-labels.active {
   background: rgba(134, 78, 219, 0.4);
   border-color: var(--hc-primary-color);
   color: var(--hc-primary-color);
 }
 
 .height-chart-clear-all:hover,
-.height-chart-solidify-all:hover {
+.height-chart-solidify-all:hover,
+.height-chart-hide-labels:hover {
   background: rgba(134, 78, 219, 0.2);
   border-color: var(--hc-primary-color);
   color: var(--hc-primary-color);
@@ -156,6 +159,12 @@
   white-space: nowrap;
   pointer-events: none;
   z-index: 20;
+}
+
+.height-chart-sprite-label.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--hc-transition-fast);
 }
 
 .height-chart-sprite-name {
