@@ -20,6 +20,7 @@ import shipData from "../data/ships.json";
 import dialogData from "../data/dialog.json";
 import adsData from "../data/ads.json";
 import heightChartData from "../data/height-chart.json";
+import heightChartGodlyData from "../data/height-chart-godly.json";
 import vnBioData from "../data/vn-bio.json";
 
 export interface LoadedData {
@@ -190,8 +191,8 @@ export async function loadAds(): Promise<AdLocations> {
   return adsData as AdLocations;
 }
 
-export async function loadHeightChartGroups(): Promise<HeightChartGroup[]> {
-  return (heightChartData as HeightChartGroup[]).sort((a, b) => {
+function sortHeightChartGroups(groups: HeightChartGroup[]): HeightChartGroup[] {
+  return [...groups].sort((a, b) => {
     if (a.order !== undefined && b.order !== undefined) {
       return a.order - b.order;
     }
@@ -199,4 +200,14 @@ export async function loadHeightChartGroups(): Promise<HeightChartGroup[]> {
     if (b.order !== undefined) return 1;
     return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
   });
+}
+
+export async function loadHeightChartGroups(): Promise<HeightChartGroup[]> {
+  return sortHeightChartGroups(heightChartData as HeightChartGroup[]);
+}
+
+export async function loadGodlyHeightChartGroups(): Promise<
+  HeightChartGroup[]
+> {
+  return sortHeightChartGroups(heightChartGodlyData as HeightChartGroup[]);
 }

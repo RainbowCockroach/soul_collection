@@ -18,6 +18,7 @@ import SwitchFormButton from "./SwitchFormButton";
 import ArrowButton from "../common-components/ArrowButton";
 import AudioPlayer from "../common-components/AudioPlayer";
 import heightChartData from "../data/height-chart.json";
+import heightChartGodlyData from "../data/height-chart-godly.json";
 import {
   isInHeightChart,
   toggleHeightChartSelection,
@@ -55,10 +56,15 @@ const PageDetail: React.FC = () => {
   const [backstoryLoading, setBackstoryLoading] = useState(false);
   const [addedToHeightChart, setAddedToHeightChart] = useState(false);
 
-  // Find the first variant ID for this OC in the height chart data
-  const heightChartVariantId = heightChartData.find(
+  // Find the first variant ID for this OC in each height chart
+  const mortalChartVariantId = heightChartData.find(
     (group) => group.groupId === slug,
   )?.variants[0]?.id;
+  const godlyChartVariantId = heightChartGodlyData.find(
+    (group) => group.groupId === slug,
+  )?.variants[0]?.id;
+
+  const hasAnyHeightChart = !!(mortalChartVariantId || godlyChartVariantId);
 
   const speciesCarouselRef = useRef<ImageWithInfoManyRef>(null);
   const breadcrumbsCarouselRef = useRef<ImageWithInfoManyRef>(null);
@@ -73,14 +79,25 @@ const PageDetail: React.FC = () => {
   }, [slug]);
 
   useEffect(() => {
-    if (heightChartVariantId) {
-      setAddedToHeightChart(isInHeightChart(heightChartVariantId));
-    }
-  }, [heightChartVariantId]);
+    const inMortal = mortalChartVariantId
+      ? isInHeightChart(mortalChartVariantId, "mortal")
+      : false;
+    const inGodly = godlyChartVariantId
+      ? isInHeightChart(godlyChartVariantId, "godly")
+      : false;
+    setAddedToHeightChart(inMortal || inGodly);
+  }, [mortalChartVariantId, godlyChartVariantId]);
 
   const handleAddToHeightChart = () => {
-    if (!heightChartVariantId) return;
-    const nowAdded = toggleHeightChartSelection(heightChartVariantId);
+    if (!hasAnyHeightChart) return;
+    // Toggle all charts this OC appears in
+    let nowAdded = false;
+    if (mortalChartVariantId) {
+      nowAdded = toggleHeightChartSelection(mortalChartVariantId, "mortal");
+    }
+    if (godlyChartVariantId) {
+      nowAdded = toggleHeightChartSelection(godlyChartVariantId, "godly");
+    }
     setAddedToHeightChart(nowAdded);
   };
 
@@ -210,7 +227,7 @@ const PageDetail: React.FC = () => {
     <div
       className={`page-detail page-padded ${
         oc.voiceSample ? "" : "no-voice-sample"
-      } ${heightChartVariantId ? "has-height-chart-btn" : ""}`}
+      } ${hasAnyHeightChart ? "has-height-chart-btn" : ""}`}
     >
       {/* First row */}
       <div className="detail-block-image-view div-3d-with-shadow">
@@ -236,14 +253,14 @@ const PageDetail: React.FC = () => {
           />
         </div>
       </div>
-      {(oc.voiceSample || heightChartVariantId) && (
+      {(oc.voiceSample || hasAnyHeightChart) && (
         <div className="detail-voice-height-row">
           {oc.voiceSample && (
             <div className="detail-block-voice-sample div-3d-with-shadow">
               <AudioPlayer src={oc.voiceSample} />
             </div>
           )}
-          {heightChartVariantId && (
+          {hasAnyHeightChart && (
             <div className="detail-block-height-chart-btn div-3d-with-shadow">
               <button
                 className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}

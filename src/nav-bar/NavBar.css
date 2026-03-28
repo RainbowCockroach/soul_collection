@@ -26,6 +26,7 @@
 @media (min-width: 768px) {
   .navbar {
     justify-content: space-between;
+    background-color: rgba(192, 10, 195, 0.7);
   }
 }
 
@@ -181,7 +182,10 @@
   padding: 0.5rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
 }
 
 .mobile-dropdown.open {
@@ -196,7 +200,10 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-20px) scale(0.8);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
 }
 
 .mobile-dropdown.open .button-wrapper {
