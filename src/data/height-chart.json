@@ -376,20 +376,6 @@
     "order": 19
   },
   {
-    "name": "Leeo",
-    "groupId": "leeo",
-    "thumbnail": "https://i.pinimg.com/originals/12/5b/68/125b6819e827cc746af9f329119e7caa.png",
-    "variants": [
-      {
-        "id": "leeo-1",
-        "url": "https://i.pinimg.com/originals/37/5b/25/375b25eb0b91c13cb134b02e9d2714e8.png",
-        "thumbnail": "",
-        "height": "195cm"
-      }
-    ],
-    "order": 20
-  },
-  {
     "name": "Maary",
     "groupId": "healthy-maary",
     "thumbnail": "https://i.pinimg.com/originals/ea/f0/d3/eaf0d3b186f98fb16ca6c6e77a840389.png",

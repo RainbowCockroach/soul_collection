@@ -118,3 +118,5 @@ export interface HeightChartGroup {
   variants: HeightChartSprite[];
   order?: number;
 }
+
+export type HeightChartMode = "mortal" | "godly";

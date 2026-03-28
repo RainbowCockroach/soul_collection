@@ -73,6 +73,56 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* ─── Mode Tabs ─────────────────────────────────────────────────────── */
+
+.height-chart-tabs {
+  display: flex;
+  gap: 4px;
+  margin-right: auto;
+}
+
+.height-chart-tab.button-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  border: var(--hc-border-width) solid rgba(134, 78, 219, 0.3);
+  border-radius: var(--hc-border-radius);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: all var(--hc-transition-fast);
+  letter-spacing: 0.03em;
+  filter: none;
+  transform: none;
+}
+
+.height-chart-tab.button-wrapper:hover {
+  background: rgba(134, 78, 219, 0.15);
+  border-color: rgba(134, 78, 219, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+  filter: none;
+  transform: none;
+}
+
+.height-chart-tab.button-wrapper.active {
+  background: rgba(134, 78, 219, 0.35);
+  border-color: var(--hc-primary-color);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(134, 78, 219, 0.4);
+  filter: none;
+  transform: none;
+}
+
+/* ─── Godly mode overrides ──────────────────────────────────────────── */
+
+.height-chart-mode-godly .height-chart-sprite-name {
+  color: #b8860b;
+}
+
+.height-chart-mode-godly .height-chart-sprite-height {
+  color: #daa520;
+}
+
 /* ─── Toolbar Buttons ────────────────────────────────────────────────── */
 
 .height-chart-clear-all,

@@ -3,8 +3,12 @@ import { createPortal } from "react-dom";
 import "./PageHeightChart.css";
 import heightChartNumber from "../assets/height_chart_number.webp";
 import heightChartLines from "../assets/height_chart_lines.webp";
-import type { HeightChartGroup } from "../helpers/objects";
-import { loadHeightChartGroups, loadOCs } from "../helpers/data-load";
+import type { HeightChartGroup, HeightChartMode } from "../helpers/objects";
+import {
+  loadHeightChartGroups,
+  loadGodlyHeightChartGroups,
+  loadOCs,
+} from "../helpers/data-load";
 import {
   getHeightChartSelections,
   setHeightChartSelections,
@@ -25,6 +29,20 @@ import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 const selectorSound = "/soul_collection/sound-effect/button_oc_slot.mp3";
 const variantSound = "/soul_collection/sound-effect/button_gallery_item.mp3";
 
+// Background images per mode — godly falls back to mortal until custom assets are added
+const BACKGROUND_ASSETS: Record<
+  HeightChartMode,
+  { number: string; lines: string }
+> = {
+  mortal: { number: heightChartNumber, lines: heightChartLines },
+  godly: { number: heightChartNumber, lines: heightChartLines },
+};
+
+const TAB_LABELS: Record<HeightChartMode, string> = {
+  mortal: "Mortals",
+  godly: "God Forms",
+};
+
 interface SelectedCharacter {
   id: string;
   x: number;
@@ -38,12 +56,20 @@ interface DragState {
 
 export default function PageHeightChart() {
   const { isSafeModeEnabled } = useSafeMode();
-  const [allSpriteGroups, setAllSpriteGroups] = useState<HeightChartGroup[]>(
+
+  // ── Mode / Tab ──────────────────────────────────────────────────────
+  const [mode, setMode] = useState<HeightChartMode>("mortal");
+
+  // ── Data per mode ───────────────────────────────────────────────────
+  const [allMortalGroups, setAllMortalGroups] = useState<HeightChartGroup[]>(
     [],
   );
+  const [allGodlyGroups, setAllGodlyGroups] = useState<HeightChartGroup[]>([]);
   const [restrictedGroupIds, setRestrictedGroupIds] = useState<Set<string>>(
     new Set(),
   );
+
+  const allSpriteGroups = mode === "mortal" ? allMortalGroups : allGodlyGroups;
 
   const spriteGroups = useMemo(() => {
     if (!isSafeModeEnabled) return allSpriteGroups;
@@ -51,9 +77,15 @@ export default function PageHeightChart() {
       (group) => !restrictedGroupIds.has(group.groupId),
     );
   }, [allSpriteGroups, isSafeModeEnabled, restrictedGroupIds]);
-  const [selectedCharacters, setSelectedCharacters] = useState<
-    SelectedCharacter[]
-  >([]);
+
+  // ── Selections per mode (kept independently) ───────────────────────
+  const [mortalSelected, setMortalSelected] = useState<SelectedCharacter[]>([]);
+  const [godlySelected, setGodlySelected] = useState<SelectedCharacter[]>([]);
+
+  const selectedCharacters = mode === "mortal" ? mortalSelected : godlySelected;
+  const setSelectedCharacters =
+    mode === "mortal" ? setMortalSelected : setGodlySelected;
+
   const [activeCharacterId, setActiveCharacterId] = useState<string | null>(
     null,
   );
@@ -67,7 +99,13 @@ export default function PageHeightChart() {
   } | null>(null);
   const [lineRepeatCount, setLineRepeatCount] = useState(10);
   const [chartScale, setChartScale] = useState(1);
-  const [initializedFromStorage, setInitializedFromStorage] = useState(false);
+  const [mortalInitialized, setMortalInitialized] = useState(false);
+  const [godlyInitialized, setGodlyInitialized] = useState(false);
+
+  const initializedFromStorage =
+    mode === "mortal" ? mortalInitialized : godlyInitialized;
+  const setInitializedFromStorage =
+    mode === "mortal" ? setMortalInitialized : setGodlyInitialized;
 
   const chartRef = useRef<HTMLDivElement>(null);
   const numbersImgRef = useRef<HTMLImageElement>(null);
@@ -89,14 +127,19 @@ export default function PageHeightChart() {
     return map;
   }, [spriteGroups]);
 
-  // Load height chart data and OC tags for safe mode filtering
+  // Background images for current mode
+  const bgAssets = BACKGROUND_ASSETS[mode];
+
+  // ── Load data ───────────────────────────────────────────────────────
   useEffect(() => {
     const loadData = async () => {
-      const [groups, ocs] = await Promise.all([
+      const [mortal, godly, ocs] = await Promise.all([
         loadHeightChartGroups(),
+        loadGodlyHeightChartGroups(),
         loadOCs(),
       ]);
-      setAllSpriteGroups(groups);
+      setAllMortalGroups(mortal);
+      setAllGodlyGroups(godly);
       const restricted = new Set(
         ocs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug),
       );
@@ -109,7 +152,7 @@ export default function PageHeightChart() {
   useEffect(() => {
     if (spriteGroups.length === 0 || initializedFromStorage) return;
     setInitializedFromStorage(true);
-    const savedIds = getHeightChartSelections();
+    const savedIds = getHeightChartSelections(mode);
     if (savedIds.length === 0) return;
     const validIds = savedIds.filter((id) => spriteById.has(id));
     if (validIds.length === 0) return;
@@ -120,13 +163,31 @@ export default function PageHeightChart() {
         x: (chartWidth / (validIds.length + 1)) * (index + 1),
       })),
     );
-  }, [spriteGroups, initializedFromStorage, spriteById]);
+  }, [
+    spriteGroups,
+    initializedFromStorage,
+    spriteById,
+    mode,
+    setInitializedFromStorage,
+    setSelectedCharacters,
+  ]);
 
   // Sync selectedCharacters IDs back to localStorage whenever they change
   useEffect(() => {
-    if (!initializedFromStorage) return;
-    setHeightChartSelections(selectedCharacters.map((c) => c.id));
-  }, [selectedCharacters, initializedFromStorage]);
+    if (!mortalInitialized) return;
+    setHeightChartSelections(
+      mortalSelected.map((c) => c.id),
+      "mortal",
+    );
+  }, [mortalSelected, mortalInitialized]);
+
+  useEffect(() => {
+    if (!godlyInitialized) return;
+    setHeightChartSelections(
+      godlySelected.map((c) => c.id),
+      "godly",
+    );
+  }, [godlySelected, godlyInitialized]);
 
   // Calculate scale factor and line repeat count from the rendered numbers image
   useEffect(() => {
@@ -150,6 +211,20 @@ export default function PageHeightChart() {
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
+  // ── Tab switching ───────────────────────────────────────────────────
+  const handleModeSwitch = useCallback(
+    (newMode: HeightChartMode) => {
+      if (newMode === mode) return;
+      // Reset transient state
+      setActiveCharacterId(null);
+      setDragState(null);
+      setExpandedGroupId(null);
+      setPopupPosition(null);
+      setMode(newMode);
+    },
+    [mode],
+  );
+
   const isGroupSelected = useCallback(
     (group: HeightChartGroup) =>
       selectedCharacters.some((char) =>
@@ -158,25 +233,28 @@ export default function PageHeightChart() {
     [selectedCharacters],
   );
 
-  const toggleCharacterSelection = useCallback((characterId: string) => {
-    setSelectedCharacters((prev) => {
-      const isSelected = prev.some((char) => char.id === characterId);
+  const toggleCharacterSelection = useCallback(
+    (characterId: string) => {
+      setSelectedCharacters((prev) => {
+        const isSelected = prev.some((char) => char.id === characterId);
 
-      if (isSelected) {
-        // Deselect
-        const remaining = prev.filter((char) => char.id !== characterId);
-        setActiveCharacterId(
-          remaining.length > 0 ? remaining[remaining.length - 1].id : null,
-        );
-        return remaining;
-      } else {
-        // Select - add at center
-        const chartWidth = chartRef.current?.clientWidth || 800;
-        setActiveCharacterId(characterId);
-        return [...prev, { id: characterId, x: chartWidth / 2 }];
-      }
-    });
-  }, []);
+        if (isSelected) {
+          // Deselect
+          const remaining = prev.filter((char) => char.id !== characterId);
+          setActiveCharacterId(
+            remaining.length > 0 ? remaining[remaining.length - 1].id : null,
+          );
+          return remaining;
+        } else {
+          // Select - add at center
+          const chartWidth = chartRef.current?.clientWidth || 800;
+          setActiveCharacterId(characterId);
+          return [...prev, { id: characterId, x: chartWidth / 2 }];
+        }
+      });
+    },
+    [setSelectedCharacters],
+  );
 
   const handleGroupClick = useCallback(
     (group: HeightChartGroup, containerEl: HTMLDivElement) => {
@@ -237,7 +315,7 @@ export default function PageHeightChart() {
       setExpandedGroupId(null);
       setPopupPosition(null);
     },
-    [selectedCharacters, toggleCharacterSelection],
+    [selectedCharacters, toggleCharacterSelection, setSelectedCharacters],
   );
 
   const handleCharacterClick = useCallback(
@@ -256,7 +334,7 @@ export default function PageHeightChart() {
     setSelectedCharacters([]);
     setActiveCharacterId(null);
     setSolidified(false);
-  }, []);
+  }, [setSelectedCharacters]);
 
   const handleSolidifyAll = useCallback(() => {
     setSolidified((prev) => !prev);
@@ -325,7 +403,7 @@ export default function PageHeightChart() {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", endDrag);
     };
-  }, [dragState]);
+  }, [dragState, setSelectedCharacters]);
 
   // Click outside to close variant popup
   useEffect(() => {
@@ -353,9 +431,22 @@ export default function PageHeightChart() {
   }, [expandedGroupId]);
 
   return (
-    <div className="height-chart-page">
+    <div className={`height-chart-page height-chart-mode-${mode}`}>
       {/* Toolbar above chart */}
       <div className="height-chart-toolbar">
+        {/* Mode tabs */}
+        <div className="height-chart-tabs">
+          {(["mortal", "godly"] as HeightChartMode[]).map((m) => (
+            <ButtonWrapper
+              key={m}
+              className={`height-chart-tab${mode === m ? " active" : ""}`}
+              onClick={() => handleModeSwitch(m)}
+            >
+              {TAB_LABELS[m]}
+            </ButtonWrapper>
+          ))}
+        </div>
+
         {selectedCharacters.length > 0 && (
           <>
             <ButtonWrapper
@@ -391,7 +482,7 @@ export default function PageHeightChart() {
         <div className="height-chart-background">
           <img
             ref={numbersImgRef}
-            src={heightChartNumber}
+            src={bgAssets.number}
             alt="Height scale numbers"
             className="height-chart-numbers"
             draggable={false}
@@ -413,7 +504,7 @@ export default function PageHeightChart() {
             {Array.from({ length: lineRepeatCount }).map((_, index) => (
               <img
                 key={index}
-                src={heightChartLines}
+                src={bgAssets.lines}
                 alt=""
                 className="height-chart-lines"
                 draggable={false}
@@ -458,7 +549,9 @@ export default function PageHeightChart() {
                 onTouchStart={(e) => handleTouchStart(e, character.id)}
                 onClick={(e) => handleCharacterClick(e, character.id)}
               >
-                <div className={`height-chart-sprite-label${hideLabels ? " hidden" : ""}`}>
+                <div
+                  className={`height-chart-sprite-label${hideLabels ? " hidden" : ""}`}
+                >
                   <span className="height-chart-sprite-name">
                     {sprite.name}
                   </span>
