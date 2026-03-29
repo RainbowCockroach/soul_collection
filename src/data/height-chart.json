@@ -162,20 +162,6 @@
     "order": 8
   },
   {
-    "name": "Liv the fox",
-    "groupId": "liv-the-fox",
-    "thumbnail": "https://i.pinimg.com/originals/03/8c/24/038c240c00cd59de1cd53237ff222009.png",
-    "variants": [
-      {
-        "id": "liv-the-fox-1",
-        "url": "https://i.pinimg.com/originals/f9/b7/7d/f9b77d20c09de0d10d3912bf7324d151.png",
-        "thumbnail": "",
-        "height": "75cm"
-      }
-    ],
-    "order": 9
-  },
-  {
     "name": "Aya Li",
     "groupId": "aya-li",
     "thumbnail": "https://i.pinimg.com/originals/61/99/44/6199443a24e47746e148c6f6d93c0b3f.png",
