@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import "./PageHeightChart.css";
 import heightChartNumber from "../assets/height_chart_number.webp";
 import heightChartLines from "../assets/height_chart_lines.webp";
+import heightChartNumberGodly from "../assets/height_chart_number_godly.webp";
+import heightChartLinesGodly from "../assets/height_chart_lines_godly.webp";
 import type { HeightChartGroup, HeightChartMode } from "../helpers/objects";
 import {
   loadHeightChartGroups,
@@ -35,11 +37,11 @@ const BACKGROUND_ASSETS: Record<
   { number: string; lines: string }
 > = {
   mortal: { number: heightChartNumber, lines: heightChartLines },
-  godly: { number: heightChartNumber, lines: heightChartLines },
+  godly: { number: heightChartNumberGodly, lines: heightChartLinesGodly },
 };
 
 const TAB_LABELS: Record<HeightChartMode, string> = {
-  mortal: "Mortals",
+  mortal: "Birth Forms",
   godly: "God Forms",
 };
 
