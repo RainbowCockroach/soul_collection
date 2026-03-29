@@ -1,6 +1,14 @@
-import React, { useState, useEffect } from "react";
-import type { HeightChartGroup, HeightChartSprite } from "../helpers/objects";
-import { loadHeightChartGroups, loadOCs } from "../helpers/data-load";
+import React, { useState, useEffect, useCallback } from "react";
+import type {
+  HeightChartGroup,
+  HeightChartSprite,
+  HeightChartMode,
+} from "../helpers/objects";
+import {
+  loadHeightChartGroups,
+  loadGodlyHeightChartGroups,
+  loadOCs,
+} from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import {
   DndContext,
@@ -21,6 +29,16 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
+
+const TAB_LABELS: Record<HeightChartMode, string> = {
+  mortal: "Birth Forms",
+  godly: "God Forms",
+};
+
+const FILE_NAMES: Record<HeightChartMode, string> = {
+  mortal: "height-chart.json",
+  godly: "height-chart-godly.json",
+};
 
 interface SortableGroupItemProps {
   group: HeightChartGroup;
@@ -96,7 +114,9 @@ const emptyGroup = () => ({
 });
 
 export const EditorHeightChart: React.FC = () => {
-  const [groups, setGroups] = useState<HeightChartGroup[]>([]);
+  const [mode, setMode] = useState<HeightChartMode>("mortal");
+  const [mortalGroups, setMortalGroups] = useState<HeightChartGroup[]>([]);
+  const [godlyGroups, setGodlyGroups] = useState<HeightChartGroup[]>([]);
   const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | null>(
     null,
   );
@@ -112,6 +132,9 @@ export const EditorHeightChart: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [dragMode, setDragMode] = useState(false);
 
+  const groups = mode === "mortal" ? mortalGroups : godlyGroups;
+  const setGroups = mode === "mortal" ? setMortalGroups : setGodlyGroups;
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -125,11 +148,17 @@ export const EditorHeightChart: React.FC = () => {
 
   const loadData = async () => {
     try {
-      const [loaded, ocs] = await Promise.all([
+      const [mortal, godly, ocs] = await Promise.all([
         loadHeightChartGroups(),
+        loadGodlyHeightChartGroups(),
         loadOCs(),
       ]);
-      setGroups(loaded.map((g, index) => ({ ...g, order: g.order ?? index })));
+      setMortalGroups(
+        mortal.map((g, index) => ({ ...g, order: g.order ?? index })),
+      );
+      setGodlyGroups(
+        godly.map((g, index) => ({ ...g, order: g.order ?? index })),
+      );
       setOcOptions(
         ocs
           .map((oc) => ({ slug: oc.slug, name: oc.name }))
@@ -140,6 +169,19 @@ export const EditorHeightChart: React.FC = () => {
       toast.error("Failed to load height chart data");
     }
   };
+
+  const handleModeSwitch = useCallback(
+    (newMode: HeightChartMode) => {
+      if (newMode === mode) return;
+      // Reset editing state when switching tabs
+      setSelectedGroupIndex(null);
+      setFormData(emptyGroup());
+      setIsEditing(false);
+      setDragMode(false);
+      setMode(newMode);
+    },
+    [mode],
+  );
 
   const handleSelectGroup = (index: number) => {
     const group = groups[index];
@@ -265,7 +307,7 @@ export const EditorHeightChart: React.FC = () => {
     try {
       const jsonString = JSON.stringify(groups, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      toast.success("Height chart JSON copied to clipboard!");
+      toast.success(`${FILE_NAMES[mode]} copied to clipboard!`);
     } catch (error) {
       console.error("Error copying to clipboard:", error);
       toast.error("Failed to copy to clipboard");
@@ -308,6 +350,15 @@ export const EditorHeightChart: React.FC = () => {
       <div className="editor-header">
         <h2>Height Chart Editor</h2>
         <div className="editor-button-group">
+          {(["mortal", "godly"] as HeightChartMode[]).map((m) => (
+            <button
+              key={m}
+              onClick={() => handleModeSwitch(m)}
+              className={`editor-button ${mode === m ? "editor-button-primary" : "editor-button-secondary"}`}
+            >
+              {TAB_LABELS[m]}
+            </button>
+          ))}
           <button
             onClick={() => setDragMode(!dragMode)}
             className={`editor-button editor-button-secondary ${dragMode ? "active" : ""}`}
@@ -318,7 +369,7 @@ export const EditorHeightChart: React.FC = () => {
             onClick={handleSaveToClipboard}
             className="editor-button editor-button-success"
           >
-            Copy to clipboard
+            Copy to clipboard ({FILE_NAMES[mode]})
           </button>
         </div>
       </div>
@@ -327,7 +378,9 @@ export const EditorHeightChart: React.FC = () => {
         <div className="editor-left">
           <div className="editor-list">
             <div className="editor-list-header">
-              <h3>Groups ({groups.length})</h3>
+              <h3>
+                {TAB_LABELS[mode]} ({groups.length})
+              </h3>
             </div>
             {dragMode && <p>Drag the ⋮⋮ handle to reorder groups</p>}
             {dragMode ? (
@@ -362,7 +415,8 @@ export const EditorHeightChart: React.FC = () => {
                   <div className="editor-item-content">
                     <div className="editor-item-name">{group.name}</div>
                     <div className="editor-item-slug">
-                      {group.variants.length} variant{group.variants.length !== 1 && "s"}
+                      {group.variants.length} variant
+                      {group.variants.length !== 1 && "s"}
                     </div>
                   </div>
                   <button
