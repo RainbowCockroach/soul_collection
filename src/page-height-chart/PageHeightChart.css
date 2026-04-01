@@ -12,7 +12,7 @@
     -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
-/* ─── Page Layout ────────────────────────────────────────────────────── */
+/* ─── Page Layout ───────────────────────────────────────────────────── */
 
 .height-chart-page {
   display: flex;
@@ -27,13 +27,12 @@
   overflow: hidden;
 }
 
-/* ─── Background Scale ───────────────────────────────────────────────── */
+/* ─── Background Scale ──────────────────────────────────────────────── */
 
 .height-chart-background {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: row;
   align-items: stretch;
 }
 
@@ -46,7 +45,6 @@
 
 .height-chart-lines-container {
   display: flex;
-  flex-direction: row;
   height: 100%;
   flex: 1;
   overflow: hidden;
@@ -59,7 +57,7 @@
   display: block;
 }
 
-/* ─── Toolbar ────────────────────────────────────────────────────────── */
+/* ─── Toolbar ───────────────────────────────────────────────────────── */
 
 .height-chart-toolbar {
   display: flex;
@@ -73,7 +71,7 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* ─── Mode Tabs ─────────────────────────────────────────────────────── */
+/* ─── Mode Tabs ────────────────────────────────────────────────────── */
 
 .height-chart-tabs {
   display: flex;
@@ -113,17 +111,12 @@
   transform: none;
 }
 
-/* ─── Godly mode overrides ──────────────────────────────────────────── */
+/* ─── Godly Mode Overrides ──────────────────────────────────────────── */
 
-.height-chart-mode-godly .height-chart-sprite-name {
-  color: #b8860b;
-}
+.height-chart-mode-godly .height-chart-sprite-name { color: #b8860b; }
+.height-chart-mode-godly .height-chart-sprite-height { color: #daa520; }
 
-.height-chart-mode-godly .height-chart-sprite-height {
-  color: #daa520;
-}
-
-/* ─── Toolbar Buttons ────────────────────────────────────────────────── */
+/* ─── Toolbar Buttons (shared) ──────────────────────────────────────── */
 
 .height-chart-clear-all,
 .height-chart-solidify-all,
@@ -158,7 +151,7 @@
   box-shadow: 0 0 10px rgba(134, 78, 219, 0.4);
 }
 
-/* ─── Sprites Layer ──────────────────────────────────────────────────── */
+/* ─── Sprites Layer ─────────────────────────────────────────────────── */
 
 .height-chart-sprites {
   position: absolute;
@@ -177,14 +170,8 @@
   -webkit-user-select: none;
 }
 
-.height-chart-sprite.dragging {
-  cursor: grabbing;
-  z-index: 100;
-}
-
-.height-chart-sprite.active {
-  z-index: 100;
-}
+.height-chart-sprite.dragging { cursor: grabbing; z-index: 100; }
+.height-chart-sprite.active { z-index: 100; }
 
 .height-chart-sprite img {
   height: auto;
@@ -194,7 +181,7 @@
   display: block;
 }
 
-/* ─── Sprite Labels ──────────────────────────────────────────────────── */
+/* ─── Sprite Labels ─────────────────────────────────────────────────── */
 
 .height-chart-sprite-label {
   position: absolute;
@@ -205,7 +192,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0px;
+  gap: 0;
   white-space: nowrap;
   pointer-events: none;
   z-index: 20;
@@ -230,7 +217,7 @@
   text-shadow: var(--hc-label-outline);
 }
 
-/* ─── Sprite Close Button ────────────────────────────────────────────── */
+/* ─── Sprite Close Button ───────────────────────────────────────────── */
 
 .height-chart-sprite-close {
   position: absolute;
@@ -251,9 +238,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    background var(--hc-transition-fast),
-    box-shadow var(--hc-transition-fast);
+  transition: background var(--hc-transition-fast), box-shadow var(--hc-transition-fast);
   pointer-events: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   z-index: 10;
@@ -264,7 +249,7 @@
   box-shadow: 0 3px 12px rgba(134, 78, 219, 0.6);
 }
 
-/* ─── Bottom Selector Bar ────────────────────────────────────────────── */
+/* ─── Bottom Selector Bar ───────────────────────────────────────────── */
 
 .height-chart-selector {
   flex-shrink: 0;
@@ -293,9 +278,8 @@
   align-items: flex-end;
 }
 
-/* ─── Selector & Variant Items ───────────────────────────────────────── */
+/* ─── Selector & Variant Items (shared base) ────────────────────────── */
 
-/* Override ButtonWrapper defaults for height chart buttons */
 .height-chart-selector-item.button-wrapper,
 .height-chart-variant-item.button-wrapper {
   background: rgba(255, 255, 255, 0.1);
@@ -344,15 +328,11 @@
 .height-chart-variant-item.button-wrapper:hover {
   background: rgba(200, 150, 255, 0.15);
   border-color: #c89fff;
-  box-shadow:
-    0 0 14px #c89fff,
-    0 0 30px rgba(200, 159, 255, 0.55);
+  box-shadow: 0 0 14px #c89fff, 0 0 30px rgba(200, 159, 255, 0.55);
   filter: none;
 }
 
-.height-chart-selector-item.button-wrapper:hover {
-  transform: translateY(-3px);
-}
+.height-chart-selector-item.button-wrapper:hover { transform: translateY(-3px); }
 
 .height-chart-variant-item.button-wrapper:hover {
   transform: translateY(-2px);
@@ -362,12 +342,10 @@
 .height-chart-selector-item.button-wrapper.selected {
   background: rgba(0, 255, 180, 0.1);
   border-color: rgba(0, 255, 179, 0.7);
-  box-shadow:
-    0 0 8px rgba(0, 255, 179, 0.5),
-    0 0 18px rgba(0, 255, 179, 0.3);
+  box-shadow: 0 0 8px rgba(0, 255, 179, 0.5), 0 0 18px rgba(0, 255, 179, 0.3);
 }
 
-/* ─── Variant Popup ──────────────────────────────────────────────────── */
+/* ─── Variant Popup ─────────────────────────────────────────────────── */
 
 .height-chart-variant-popup {
   display: flex;
@@ -387,17 +365,11 @@
 }
 
 @keyframes slideUpFade {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* ─── Mobile ─────────────────────────────────────────────────────────── */
+/* ─── Mobile ────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
   :root {
@@ -406,21 +378,11 @@
     --hc-item-img-height: 48px;
   }
 
-  .height-chart-container {
-    height: 40vh;
-  }
+  .height-chart-container { height: 40vh; }
+  .height-chart-sprite-close { bottom: 120px; }
 
-  .height-chart-sprite-close {
-    bottom: 120px;
-  }
-
-  .height-chart-selector {
-    padding: 8px 10px 15vh;
-  }
-
-  .height-chart-selector-inner {
-    gap: 10px;
-  }
+  .height-chart-selector { padding: 8px 10px 15vh; }
+  .height-chart-selector-inner { gap: 10px; }
 
   .height-chart-selector-item.button-wrapper,
   .height-chart-variant-item.button-wrapper {
@@ -439,12 +401,6 @@
     gap: 6px;
   }
 
-  .height-chart-sprite-height::before {
-    content: "- ";
-  }
-
-  .height-chart-tab.button-wrapper {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
+  .height-chart-sprite-height::before { content: "- "; }
+  .height-chart-tab.button-wrapper { font-size: 11px; padding: 6px 10px; }
 }
