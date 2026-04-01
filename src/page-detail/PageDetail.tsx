@@ -32,6 +32,8 @@ import {
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
+import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
+import buttonSoundTabSwitch from "/sound-effect/button_tab_switch_info_backstory.mp3";
 
 const PageDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -262,12 +264,13 @@ const PageDetail: React.FC = () => {
           )}
           {hasAnyHeightChart && (
             <div className="detail-block-height-chart-btn div-3d-with-shadow">
-              <button
+              <ButtonWrapper
                 className={`detail-height-chart-btn${addedToHeightChart ? " added" : ""}`}
                 onClick={handleAddToHeightChart}
+                soundFile={buttonSoundGallery}
               >
                 {addedToHeightChart ? "Added" : "Add to height chart"}
-              </button>
+              </ButtonWrapper>
             </div>
           )}
         </div>
@@ -288,22 +291,26 @@ const PageDetail: React.FC = () => {
         {/* Tab Interface - only show tabs if backstory exists */}
         {backstory && (
           <div className="detail-info-tabs">
-            <button
+            <ButtonWrapper
               className={`detail-info-tab ${
                 activeTab === "info" ? "active" : ""
               }`}
               onClick={() => setActiveTab("info")}
+              soundFile={buttonSoundTabSwitch}
+              hoverSoundFile={buttonSoundHover}
             >
               Info
-            </button>
-            <button
+            </ButtonWrapper>
+            <ButtonWrapper
               className={`detail-info-tab ${
                 activeTab === "backstory" ? "active" : ""
               }`}
               onClick={() => setActiveTab("backstory")}
+              soundFile={buttonSoundTabSwitch}
+              hoverSoundFile={buttonSoundHover}
             >
               Backstory
-            </button>
+            </ButtonWrapper>
           </div>
         )}
 
