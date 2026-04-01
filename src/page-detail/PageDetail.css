@@ -277,16 +277,11 @@
 .detail-height-chart-btn {
   width: 100%;
   height: 100%;
-  background: transparent;
-  border: transparent;
-  cursor: pointer;
   font-family: var(--font-primary);
   font-size: 16px;
-  transition: background 0.2s;
-}
-
-.detail-height-chart-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .detail-height-chart-btn.added {
@@ -318,19 +313,6 @@
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.detail-info-tab:hover {
-  background-color: color-mix(in srgb, var(--color-green) 80%, black);
-}
-
-.detail-info-tab:active {
-  border-color: rgba(0, 0, 0, 0.2);
-  border-top-color: rgba(0, 0, 0, 0.2);
-  border-left-color: rgba(0, 0, 0, 0.1);
-  border-bottom-color: rgba(255, 255, 255, 0.6);
-  border-right-color: rgba(255, 255, 255, 0.6);
 }
 
 .detail-info-tab.active {
