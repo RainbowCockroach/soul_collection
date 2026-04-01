@@ -442,4 +442,9 @@
   .height-chart-sprite-height::before {
     content: "- ";
   }
+
+  .height-chart-tab.button-wrapper {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
 }
