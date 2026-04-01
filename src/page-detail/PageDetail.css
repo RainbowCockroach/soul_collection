@@ -302,30 +302,40 @@
    =================================== */
 .detail-info-tabs {
   display: flex;
-  border-bottom: 2px solid var(--color-green);
+  gap: 4px;
   margin-bottom: 15px;
 }
 
 .detail-info-tab {
   flex: 1;
-  padding: 10px 15px;
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
+  padding: 8px 15px;
+  background-color: var(--color-green);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-right-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
   font-family: var(--font-primary);
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .detail-info-tab:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: color-mix(in srgb, var(--color-green) 80%, black);
+}
+
+.detail-info-tab:active {
+  border-color: rgba(0, 0, 0, 0.2);
+  border-top-color: rgba(0, 0, 0, 0.2);
+  border-left-color: rgba(0, 0, 0, 0.1);
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+  border-right-color: rgba(255, 255, 255, 0.6);
 }
 
 .detail-info-tab.active {
-  background: var(--color-green);
+  background-color: var(--color-purple);
   color: white;
-  border-bottom-color: var(--color-green);
 }
 
 .detail-info-tab-content {
