@@ -40,5 +40,19 @@
       }
     ],
     "order": 2
+  },
+  {
+    "name": "Zarnok",
+    "groupId": "zarnok",
+    "thumbnail": "https://i.pinimg.com/originals/36/1f/25/361f253d4e970ab750501b90650226c8.png",
+    "variants": [
+      {
+        "id": "zarnok-1",
+        "url": "https://i.pinimg.com/originals/38/de/ec/38deecf58fd9a259c4d1d89dcab06182.png",
+        "thumbnail": "",
+        "height": "224cm"
+      }
+    ],
+    "order": 3
   }
 ]
