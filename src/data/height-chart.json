@@ -162,6 +162,26 @@
     "order": 8
   },
   {
+    "name": "Burger",
+    "groupId": "burger",
+    "thumbnail": "https://i.pinimg.com/originals/35/bb/fc/35bbfcb58028c2f5be2fb36f2fe28ec5.png",
+    "variants": [
+      {
+        "id": "burger-1",
+        "url": "https://i.pinimg.com/originals/fd/4a/d0/fd4ad0849a0ae73c658c59bf6a75e01c.png",
+        "thumbnail": "https://i.pinimg.com/originals/26/02/5d/26025d111ce9a6054ca5ab883b4d3e4a.png",
+        "height": "122cm"
+      },
+      {
+        "id": "burger-2",
+        "url": "https://i.pinimg.com/originals/a9/d8/4a/a9d84a33205b567c957bf74eadd4ba6f.png",
+        "thumbnail": "https://i.pinimg.com/originals/dc/a5/f2/dca5f2c56a641f316d5c64deaa75ecdd.png",
+        "height": "122cm"
+      }
+    ],
+    "order": 9
+  },
+  {
     "name": "Aya Li",
     "groupId": "aya-li",
     "thumbnail": "https://i.pinimg.com/originals/61/99/44/6199443a24e47746e148c6f6d93c0b3f.png",
@@ -179,7 +199,7 @@
         "height": "160cm"
       }
     ],
-    "order": 9
+    "order": 10
   },
   {
     "name": "Maya Li",
@@ -199,7 +219,7 @@
         "height": "160cm"
       }
     ],
-    "order": 10
+    "order": 11
   },
   {
     "name": "Non Li",
@@ -219,7 +239,7 @@
         "height": "168cm (without heels)"
       }
     ],
-    "order": 11
+    "order": 12
   },
   {
     "name": "Toline Li",
@@ -239,7 +259,7 @@
         "height": "170cm (without heels)"
       }
     ],
-    "order": 12
+    "order": 13
   },
   {
     "name": "Celia Li",
@@ -265,7 +285,7 @@
         "height": "162cm"
       }
     ],
-    "order": 13
+    "order": 14
   },
   {
     "name": "Heix Li",
@@ -285,7 +305,7 @@
         "height": "175cm"
       }
     ],
-    "order": 14
+    "order": 15
   },
   {
     "name": "Potat",
@@ -305,7 +325,7 @@
         "height": "210cm"
       }
     ],
-    "order": 15
+    "order": 16
   },
   {
     "name": "Bush",
@@ -319,7 +339,7 @@
         "height": "110cm"
       }
     ],
-    "order": 16
+    "order": 17
   },
   {
     "name": "Echo",
@@ -333,7 +353,7 @@
         "height": "150cm"
       }
     ],
-    "order": 17
+    "order": 18
   },
   {
     "name": "Vhhz",
@@ -353,7 +373,7 @@
         "height": "200cm"
       }
     ],
-    "order": 18
+    "order": 19
   },
   {
     "name": "Maary",
@@ -367,7 +387,7 @@
         "height": "200cm"
       }
     ],
-    "order": 19
+    "order": 20
   },
   {
     "name": "Naame",
@@ -399,7 +419,7 @@
         "height": "205cm"
       }
     ],
-    "order": 20
+    "order": 21
   },
   {
     "name": "Iggy",
@@ -413,7 +433,7 @@
         "height": "200cm"
       }
     ],
-    "order": 21
+    "order": 22
   },
   {
     "name": "Uaawa",
@@ -427,7 +447,7 @@
         "height": "198cm"
       }
     ],
-    "order": 22
+    "order": 23
   },
   {
     "name": "Miimi",
@@ -441,7 +461,7 @@
         "height": "150cm"
       }
     ],
-    "order": 23
+    "order": 24
   },
   {
     "name": "Joon",
@@ -455,7 +475,7 @@
         "height": "134cm"
       }
     ],
-    "order": 24
+    "order": 25
   },
   {
     "name": "Wsst",
@@ -469,7 +489,7 @@
         "height": "200cm"
       }
     ],
-    "order": 25
+    "order": 26
   },
   {
     "name": "Sam",
@@ -489,7 +509,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 26
+    "order": 27
   },
   {
     "name": "Jessica",
@@ -509,6 +529,6 @@
         "height": "60cm"
       }
     ],
-    "order": 27
+    "order": 28
   }
 ]
