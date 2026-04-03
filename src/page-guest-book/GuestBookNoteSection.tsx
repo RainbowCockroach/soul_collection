@@ -6,6 +6,7 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookNoteSection.css";
+import LoadingSpinner from "../common-components/LoadingSpinner";
 
 // Hook to get responsive notes per page - keeping 4 notes for both desktop and mobile
 const useResponsiveNotesPerPage = (defaultNotesPerPage: number) => {
@@ -118,9 +119,7 @@ const GuestBookNoteSection = forwardRef<
 
   if (loading) {
     return (
-      <div className="note-section-loading">
-        <div className="loading-spinner">Loading notes...</div>
-      </div>
+      <LoadingSpinner message="Loading notes..." />
     );
   }
 
@@ -134,7 +133,7 @@ const GuestBookNoteSection = forwardRef<
 
   if (!data || data.messages.length === 0) {
     return (
-      <div className="guest-book-note-section">
+      <div>
         <p>No notes! Leave a note?</p>
       </div>
     );

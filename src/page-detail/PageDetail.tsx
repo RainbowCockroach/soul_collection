@@ -30,6 +30,7 @@ import {
   isTagCensored,
 } from "../safe-mode/safe-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import LoadingSpinner from "../common-components/LoadingSpinner";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
@@ -184,7 +185,7 @@ const PageDetail: React.FC = () => {
   }, [isGodForm]);
 
   if (isLoading) {
-    return <div>Loading character...</div>;
+    return <LoadingSpinner message="Loading character..." />;
   }
 
   if (error) {
@@ -323,7 +324,7 @@ const PageDetail: React.FC = () => {
             <BBCodeDisplay bbcode={backstory} />
           )}
           {activeTab === "backstory" && backstoryLoading && (
-            <div>Loading backstory...</div>
+            <LoadingSpinner message="Loading backstory..." size="small" />
           )}
         </div>
       </div>

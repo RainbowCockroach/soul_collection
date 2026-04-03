@@ -13,6 +13,7 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
+import LoadingSpinner from "../common-components/LoadingSpinner";
 
 interface PaginatedResponse {
   messages: Message[];
@@ -139,9 +140,7 @@ const GuestBookFanArtSection = forwardRef<
 
   if (loading) {
     return (
-      <div className="fanart-section-loading">
-        <div className="loading-spinner">Loading art...</div>
-      </div>
+      <LoadingSpinner message="Loading art..." />
     );
   }
 
@@ -155,7 +154,7 @@ const GuestBookFanArtSection = forwardRef<
 
   if (!data || data.messages.length === 0) {
     return (
-      <div className="guest-book-fanart-section" ref={sectionRef}>
+      <div>
         <p>No art? Put your art here!</p>
       </div>
     );

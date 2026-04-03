@@ -55,8 +55,8 @@ const ImageWithInfoMany = forwardRef<
 
   if (!items || items.length === 0) {
     return (
-      <div className="image-with-info-many">
-        <div className="image-with-info-many-empty">No items to display</div>
+      <div>
+        <p>No items to display</p>
       </div>
     );
   }

@@ -8,6 +8,7 @@ import ButtonWrapper from "../common-components/ButtonWrapper";
 import { useSafeMode } from "../safe-mode/SafeModeContext";
 import { isOcCensored, isTagCensored } from "../safe-mode/safe-mode-censor";
 import buttonSound from "/sound-effect/button_gallery_item.mp3";
+import LoadingSpinner from "../common-components/LoadingSpinner";
 import "./OcGroup.css";
 import "./FilterBlock.css";
 
@@ -170,7 +171,7 @@ const PageOcList: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading characters...</div>;
+    return <LoadingSpinner message="Loading characters..." />;
   }
 
   return (
