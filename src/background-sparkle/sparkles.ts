@@ -24,7 +24,7 @@ const randomProperties = function (particle: HTMLElement) {
   const duration = randomBetween(1, 3);
   particle.style.setProperty("--duration", duration + "s");
 
-  const iteration = randomBetween(4, 10);
+  const iteration = randomBetween(2, 5);
   particle.style.setProperty("--iteration", iteration.toString());
 
   return { duration, iteration };
@@ -34,7 +34,7 @@ export const addSparkles = function (): void {
   const sparkleContainers = document.querySelectorAll(".sparkle-background");
   if (sparkleContainers.length === 0) return;
 
-  const maxCount = randomBetween(10, 100);
+  const maxCount = randomBetween(100, 1000);
 
   sparkleContainers.forEach((container) => {
     for (let i = 0; i < maxCount; i++) {
@@ -57,7 +57,7 @@ export const startContinuousSparkles = function (): () => void {
     const sparkleContainers = document.querySelectorAll(".sparkle-background");
     if (sparkleContainers.length === 0) return;
 
-    const count = randomBetween(5, 10);
+    const count = randomBetween(50, 100);
 
     sparkleContainers.forEach((container) => {
       for (let i = 0; i < count; i++) {
