@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 
 const EMPTY_DIALOG: VNBioDialog = {
@@ -71,6 +72,7 @@ export const EditorBio: React.FC = () => {
 
       <div className="editor-header">
         <h2>Visual Novel Bio Editor</h2>
+        <SavePushButton fileId="vn-bio" getData={() => bioData} />
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"

@@ -3,6 +3,7 @@ import type { Spieces } from "../helpers/objects";
 import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 import {
   parseContentWarning,
@@ -150,6 +151,7 @@ export const EditorSpieces: React.FC = () => {
       <div className="editor-header">
         <h2>Species Editor</h2>
         <div className="editor-button-group">
+          <SavePushButton fileId="spieces" getData={() => spiecesData} />
           <button
             onClick={handleSaveToClipboard}
             className="editor-button editor-button-success"

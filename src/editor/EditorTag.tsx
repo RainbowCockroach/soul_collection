@@ -20,6 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 
 interface TagJsonData {
@@ -243,6 +244,7 @@ const EditorTag: React.FC = () => {
 
       <div className="editor-header">
         <h2>Tag Editor</h2>
+        <SavePushButton fileId="tag" getData={() => tagData} />
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"
