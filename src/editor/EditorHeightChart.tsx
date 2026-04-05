@@ -27,6 +27,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
@@ -365,6 +366,7 @@ export const EditorHeightChart: React.FC = () => {
           >
             {dragMode ? "Exit Drag Mode" : "Rearrange Groups"}
           </button>
+          <SavePushButton fileId={mode === "mortal" ? "height-chart" : "height-chart-godly"} getData={() => groups} />
           <button
             onClick={handleSaveToClipboard}
             className="editor-button editor-button-success"

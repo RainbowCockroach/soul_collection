@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import type { FormLink, OC } from "../helpers/objects";
 import { loadFormLinks, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
@@ -130,6 +131,7 @@ export const EditorFormLink: React.FC = () => {
       <div className="editor-header">
         <h2>OC Link Editor</h2>
         <div className="editor-button-group">
+          <SavePushButton fileId="form-link" getData={() => formLinks} />
           <button
             onClick={handleSaveToClipboard}
             className="editor-button editor-button-success"

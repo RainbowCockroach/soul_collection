@@ -3,6 +3,7 @@ import type { OC, Tag } from "../helpers/objects";
 import { loadOCs, loadTags } from "../helpers/data-load";
 import censorData from "../data/safe-mode-censor.json";
 import toast, { Toaster } from "react-hot-toast";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
@@ -63,6 +64,7 @@ const EditorSafeModeCensor: React.FC = () => {
 
       <div className="editor-header">
         <h2>Safe Mode Censor Editor</h2>
+        <SavePushButton fileId="safe-mode-censor" getData={() => ({ ocs: censoredOcs, tags: censoredTags })} />
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"

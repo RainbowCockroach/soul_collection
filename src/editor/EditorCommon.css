@@ -739,3 +739,30 @@
 .editor-button-toggle-active:hover:not(:disabled) {
   background-color: var(--editor-success);
 }
+
+/* ===== PASSWORD OVERLAY ===== */
+.editor-password-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(36, 15, 61, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.editor-password-modal {
+  background-color: rgba(243, 233, 255, 0.95);
+  padding: var(--editor-spacing-xl);
+  border-radius: var(--editor-border-radius-lg);
+  width: 100%;
+  max-width: 400px;
+  margin: var(--editor-spacing-md);
+}
+
+.editor-password-form .editor-field {
+  margin-bottom: var(--editor-spacing-lg);
+}

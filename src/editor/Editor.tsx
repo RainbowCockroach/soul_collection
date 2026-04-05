@@ -12,6 +12,7 @@ import EditorBio from "./EditorBio";
 import EditorHeightChart from "./EditorHeightChart";
 import { EditorImageUpload } from "./EditorImageUpload";
 import { EditorSoundUpload } from "./EditorSoundUpload";
+import { EditorPasswordProvider } from "./EditorPasswordContext";
 import { baseUrl } from "../helpers/constants";
 import "./EditorCommon.css";
 
@@ -71,38 +72,40 @@ export const Editor: React.FC = () => {
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
   return (
-    <div className="editor-container page-padded">
-      <div className="editor-header">
-        <h2>Data Editor</h2>
-        <button
-          onClick={() => window.open(`/${baseUrl}/ocs`, "_blank")}
-          className="editor-button editor-button-secondary"
-        >
-          Open Preview
-        </button>
-      </div>
-
-      {/* Tab Navigation */}
-      <div className="editor-button-group">
-        {tabs.map((tab) => (
+    <EditorPasswordProvider>
+      <div className="editor-container page-padded">
+        <div className="editor-header">
+          <h2>Data Editor</h2>
           <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`editor-button ${
-              activeTab === tab.id
-                ? "editor-button-primary"
-                : "editor-button-secondary"
-            }`}
+            onClick={() => window.open(`/${baseUrl}/ocs`, "_blank")}
+            className="editor-button editor-button-secondary"
           >
-            {tab.label}
+            Open Preview
           </button>
-        ))}
-      </div>
+        </div>
 
-      {/* Active Tab Content */}
-      <div className="editor-content">
-        {ActiveComponent && <ActiveComponent />}
+        {/* Tab Navigation */}
+        <div className="editor-button-group">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`editor-button ${
+                activeTab === tab.id
+                  ? "editor-button-primary"
+                  : "editor-button-secondary"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Active Tab Content */}
+        <div className="editor-content">
+          {ActiveComponent && <ActiveComponent />}
+        </div>
       </div>
-    </div>
+    </EditorPasswordProvider>
   );
 };

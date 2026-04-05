@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import type { DialogTexts, DialogEntry } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 
 const EditorDialog: React.FC = () => {
@@ -115,6 +116,7 @@ const EditorDialog: React.FC = () => {
           >
             Add Dialog
           </button>
+          <SavePushButton fileId="dialog" getData={() => dialogs} />
           <button
             onClick={handleSaveToClipboard}
             className="editor-button editor-button-success"
