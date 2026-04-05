@@ -19,6 +19,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 
 interface SortableAdItemProps {
@@ -245,6 +246,7 @@ const EditorAd: React.FC = () => {
 
       <div className="editor-header">
         <h2>Advertisement Editor</h2>
+        <SavePushButton fileId="ads" getData={() => adsData} />
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"

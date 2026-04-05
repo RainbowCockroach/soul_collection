@@ -20,6 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 
 interface GroupJsonData {
@@ -269,6 +270,7 @@ export const EditorGroup: React.FC = () => {
       <div className="editor-header">
         <h2>Group Editor</h2>
         <div className="editor-button-group">
+          <SavePushButton fileId="group" getData={() => groupData} />
           <button
             onClick={handleSaveToClipboard}
             className="editor-button editor-button-success"

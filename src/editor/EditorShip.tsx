@@ -19,6 +19,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -278,6 +279,7 @@ export const EditorShip: React.FC = () => {
 
       <div className="editor-header">
         <h2>Ship Editor</h2>
+        <SavePushButton fileId="ships" getData={() => ships} />
         <button
           onClick={handleSaveToClipboard}
           className="editor-button editor-button-success"
