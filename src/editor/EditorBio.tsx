@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
+import BBCodePreview from "./BBCodePreview";
 import "./EditorCommon.css";
 
 const EMPTY_DIALOG: VNBioDialog = {
@@ -167,6 +168,7 @@ export const EditorBio: React.FC = () => {
                   placeholder="e.g., Sam"
                   className="editor-input"
                 />
+                <BBCodePreview value={formData.speaker} />
               </div>
 
               <div className="editor-field">
@@ -194,6 +196,7 @@ export const EditorBio: React.FC = () => {
                   rows={6}
                   style={{ minHeight: 120 }}
                 />
+                <BBCodePreview value={formData.text} />
               </div>
 
               <div className="editor-field">
