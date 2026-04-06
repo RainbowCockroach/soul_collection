@@ -1,107 +1,175 @@
+interface Particle {
+  x: number; // 0-1 normalized
+  y: number; // 0-1 normalized
+  size: number;
+  maxOpacity: number;
+  phase: number; // current animation phase in radians
+  speed: number; // radians per frame
+  lifetime: number; // total frames to live
+  age: number; // current frame age
+}
+
+const BATCH_INTERVAL = 2000;
+const SPARKLE_COLOR_R = 243;
+const SPARKLE_COLOR_G = 233;
+const SPARKLE_COLOR_B = 255;
+
+let canvas: HTMLCanvasElement | null = null;
+let ctx: CanvasRenderingContext2D | null = null;
+let particles: Particle[] = [];
+let animFrameId = 0;
+let intervalId = 0;
+let running = false;
+
 function randomBetween(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-function calculateTimeTillFinishAnimation(duration: number, iteration: number) {
-  return duration * iteration;
+function createParticle(): Particle {
+  const duration = randomBetween(1, 3);
+  const iteration = randomBetween(2, 5);
+  return {
+    x: Math.random(),
+    y: Math.random(),
+    size: randomBetween(2, 20),
+    maxOpacity: randomBetween(0.1, 1),
+    phase: 0,
+    speed: Math.PI / (duration * 60), // full cycle over duration seconds at ~60fps
+    lifetime: duration * iteration * 60,
+    age: 0,
+  };
 }
 
-const randomProperties = function (particle: HTMLElement) {
-  const left = randomBetween(1, 99);
-  particle.style.setProperty("--left", left + "%");
+function spawnBatch() {
+  const count = Math.round(randomBetween(50, 100));
+  for (let i = 0; i < count; i++) {
+    particles.push(createParticle());
+  }
+}
 
-  const top = randomBetween(1, 99);
-  particle.style.setProperty("--top", top + "%");
+// Draw a 4-pointed star shape
+function drawStar(
+  c: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  size: number,
+  opacity: number
+) {
+  const half = size / 2;
+  // Original clip-path inner points are at 40%/60% of bounding box
+  // That's 10% of full size from center = 20% of half
+  const inner = half * 0.2;
 
-  const size = randomBetween(2, 20);
-  particle.style.setProperty("--size", size + "px");
-  particle.style.setProperty("--blur", size * 4 + "px");
-  particle.style.setProperty("--spread", size + "px");
+  c.globalAlpha = opacity;
+  c.fillStyle = `rgb(${SPARKLE_COLOR_R},${SPARKLE_COLOR_G},${SPARKLE_COLOR_B})`;
+  c.beginPath();
+  // Top
+  c.moveTo(cx, cy - half);
+  // Upper-right inner
+  c.lineTo(cx + inner, cy - inner);
+  // Right
+  c.lineTo(cx + half, cy);
+  // Lower-right inner
+  c.lineTo(cx + inner, cy + inner);
+  // Bottom
+  c.lineTo(cx, cy + half);
+  // Lower-left inner
+  c.lineTo(cx - inner, cy + inner);
+  // Left
+  c.lineTo(cx - half, cy);
+  // Upper-left inner
+  c.lineTo(cx - inner, cy - inner);
+  c.closePath();
+  c.fill();
+}
 
-  const opacity = randomBetween(0.1, 1);
-  particle.style.setProperty("--opacity", opacity.toString());
+function tick() {
+  if (!ctx || !canvas) return;
 
-  const duration = randomBetween(1, 3);
-  particle.style.setProperty("--duration", duration + "s");
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const dpr = window.devicePixelRatio || 1;
 
-  const iteration = randomBetween(2, 5);
-  particle.style.setProperty("--iteration", iteration.toString());
+  // Resize canvas if needed
+  if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
 
-  return { duration, iteration };
-};
+  ctx.clearRect(0, 0, w, h);
 
-export const addSparkles = function (): void {
-  const sparkleContainers = document.querySelectorAll(".sparkle-background");
-  if (sparkleContainers.length === 0) return;
+  let i = particles.length;
+  while (i--) {
+    const p = particles[i];
+    p.age++;
+    p.phase += p.speed;
 
-  const maxCount = randomBetween(100, 1000);
-
-  sparkleContainers.forEach((container) => {
-    for (let i = 0; i < maxCount; i++) {
-      const sparkle = document.createElement("div");
-      sparkle.classList.add("particle");
-
-      randomProperties(sparkle);
-      container.appendChild(sparkle);
+    if (p.age >= p.lifetime) {
+      // Swap-remove for O(1) deletion
+      particles[i] = particles[particles.length - 1];
+      particles.pop();
+      continue;
     }
-  });
 
-  setTimeout(() => {
-    const particles = document.querySelectorAll(".particle");
-    particles.forEach((particle) => particle.remove());
-  }, 5000);
-};
+    // Sine-based opacity: smoothly fades in and out
+    const opacity = Math.sin(p.phase) * p.maxOpacity;
+    if (opacity <= 0) continue;
+
+    drawStar(ctx, p.x * w, p.y * h, p.size, opacity);
+  }
+
+  ctx.globalAlpha = 1;
+  animFrameId = requestAnimationFrame(tick);
+}
 
 export const startContinuousSparkles = function (): () => void {
-  const generateSparkles = () => {
-    const sparkleContainers = document.querySelectorAll(".sparkle-background");
-    if (sparkleContainers.length === 0) return;
+  if (running) return () => {};
 
-    const count = randomBetween(50, 100);
+  // Find the container and insert a canvas
+  const container = document.querySelector(".sparkle-background");
+  if (!container) return () => {};
 
-    sparkleContainers.forEach((container) => {
-      for (let i = 0; i < count; i++) {
-        const sparkle = document.createElement("div");
-        sparkle.classList.add("particle");
+  canvas = document.createElement("canvas");
+  canvas.style.position = "fixed";
+  canvas.style.top = "0";
+  canvas.style.left = "0";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "-1";
+  container.appendChild(canvas);
 
-        const { duration, iteration } = randomProperties(sparkle);
-        container.appendChild(sparkle);
+  ctx = canvas.getContext("2d");
+  if (!ctx) return () => {};
 
-        // Remove each sparkle after its animation completes
-        const animationDuration = calculateTimeTillFinishAnimation(
-          duration,
-          iteration
-        );
-        setTimeout(() => {
-          if (sparkle.parentNode) {
-            sparkle.remove();
-          }
-        }, animationDuration * 1000);
-      }
-    });
-  };
+  running = true;
+  particles = [];
 
-  // Generate sparkles immediately
-  generateSparkles();
+  spawnBatch();
+  intervalId = window.setInterval(spawnBatch, BATCH_INTERVAL);
+  animFrameId = requestAnimationFrame(tick);
 
-  // Then generate new sparkles every 2 seconds
-  const intervalId = window.setInterval(generateSparkles, 2000);
-
-  // Return cleanup function
   return () => {
-    if (intervalId) {
-      clearInterval(intervalId);
+    running = false;
+    clearInterval(intervalId);
+    cancelAnimationFrame(animFrameId);
+    particles = [];
+    if (canvas && canvas.parentNode) {
+      canvas.parentNode.removeChild(canvas);
     }
+    canvas = null;
+    ctx = null;
   };
+};
+
+// Legacy exports kept for compatibility
+export const addSparkles = function (): void {
+  startContinuousSparkles();
 };
 
 export const removeSparkles = function (): void {
-  const sparkle = document.getElementsByClassName("particle");
-
-  for (let i = 0; i < sparkle.length; i++) {
-    const parentNode = sparkle[i].parentNode;
-    if (parentNode) {
-      parentNode.removeChild(sparkle[i]);
-    }
-  }
+  // No-op; use the cleanup function from startContinuousSparkles instead
 };
