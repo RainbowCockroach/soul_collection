@@ -5,6 +5,7 @@ import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
 import "./EditorCommon.css";
+import ImagePreview from "./ImagePreview";
 
 const EMPTY_DIALOG: VNBioDialog = {
   speaker: "",
@@ -135,19 +136,7 @@ export const EditorBio: React.FC = () => {
               <p className="editor-text-muted">
                 Leave empty to use the default bundled background image
               </p>
-              {bioData.backgroundUrl && (
-                <img
-                  src={bioData.backgroundUrl}
-                  alt="Background preview"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: 150,
-                    marginTop: 8,
-                    borderRadius: 4,
-                    objectFit: "cover",
-                  }}
-                />
-              )}
+              <ImagePreview urls={[bioData.backgroundUrl]} />
             </div>
           </div>
         </div>
@@ -246,20 +235,7 @@ export const EditorBio: React.FC = () => {
                   Leave empty to use the default bundled sprite for{" "}
                   {formData.speaker || "this character"}
                 </p>
-                {formData.spriteUrl && (
-                  <img
-                    src={formData.spriteUrl}
-                    alt="Sprite preview"
-                    style={{
-                      maxWidth: 200,
-                      maxHeight: 200,
-                      marginTop: 8,
-                      borderRadius: 4,
-                      objectFit: "contain",
-                      backgroundColor: "#1a1a2e",
-                    }}
-                  />
-                )}
+                <ImagePreview urls={[formData.spriteUrl]} />
               </div>
 
               <div className="editor-button-group">
