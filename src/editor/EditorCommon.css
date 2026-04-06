@@ -49,6 +49,12 @@
 }
 
 /* ===== CONTAINER & LAYOUT ===== */
+.editor-container *,
+.editor-container *::before,
+.editor-container *::after {
+  box-sizing: border-box;
+}
+
 .editor-container {
   padding: var(--editor-spacing-lg);
   font-family:
@@ -225,6 +231,8 @@
 
 .editor-input {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 10px 12px;
   border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
@@ -252,6 +260,8 @@
 
 .editor-textarea {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 10px 12px;
   border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
@@ -276,6 +286,8 @@
 
 .editor-select {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 10px 12px;
   border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
@@ -452,6 +464,7 @@
 
 .editor-array-input {
   flex: 1;
+  min-width: 0;
   padding: var(--editor-spacing-sm) 12px;
   border: 2px solid var(--editor-purple-200);
   border-radius: var(--editor-border-radius);
@@ -586,8 +599,13 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+  .editor-container {
+    padding: var(--editor-spacing-sm);
+  }
+
   .editor-layout {
     flex-direction: column;
+    min-height: unset;
   }
 
   .editor-left,
@@ -597,12 +615,54 @@
 
   .editor-button-group {
     flex-wrap: wrap;
+    gap: var(--editor-spacing-xs);
+  }
+
+  .editor-button-group .editor-button {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 
   .editor-header {
     flex-direction: column;
     gap: var(--editor-spacing-md);
     align-items: stretch;
+  }
+
+  .editor-form {
+    padding: var(--editor-spacing-md);
+  }
+
+  .editor-section-content {
+    padding: var(--editor-spacing-sm);
+  }
+
+  .editor-array-item {
+    flex-wrap: wrap;
+  }
+
+  .editor-array-input {
+    min-width: 0;
+  }
+
+  .editor-input-with-button {
+    flex-wrap: wrap;
+  }
+
+  .editor-input-with-button .editor-input {
+    min-width: 0;
+  }
+
+  .editor-color-group {
+    flex-wrap: wrap;
+  }
+
+  .editor-item-actions {
+    opacity: 1;
+  }
+
+  .editor-list {
+    max-height: 300px;
   }
 }
 
@@ -768,6 +828,40 @@
 }
 
 /* ===== BBCODE PREVIEW ===== */
+.editor-image-preview-wrapper {
+  margin-top: var(--editor-spacing-xs);
+}
+
+.editor-image-preview-toggle {
+  font-size: 11px !important;
+  padding: 2px 8px !important;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.editor-image-preview-toggle:hover {
+  opacity: 1;
+}
+
+.editor-image-preview-box {
+  margin-top: var(--editor-spacing-xs);
+  padding: var(--editor-spacing-sm) var(--editor-spacing-md);
+  background-color: transparent;
+  border: 1px dashed var(--editor-purple-300);
+  border-radius: var(--editor-border-radius);
+  animation: editor-fadeIn 0.15s ease;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--editor-spacing-sm);
+}
+
+.editor-image-preview-img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: var(--editor-border-radius);
+}
+
 .editor-bbcode-preview-wrapper {
   margin-top: var(--editor-spacing-xs);
 }

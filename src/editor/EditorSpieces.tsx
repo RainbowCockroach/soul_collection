@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
+import ImagePreview from "./ImagePreview";
 import "./EditorCommon.css";
 import {
   parseContentWarning,
@@ -348,6 +349,7 @@ export const EditorSpieces: React.FC = () => {
                 >
                   Add Gallery Item
                 </button>
+                <ImagePreview urls={editingItem.gallery} />
               </div>
 
               <div className="editor-button-group">
