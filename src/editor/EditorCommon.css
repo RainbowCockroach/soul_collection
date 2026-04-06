@@ -194,6 +194,7 @@
 /* Button groups */
 .editor-button-group {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--editor-spacing-sm);
   margin-bottom: var(--editor-spacing-lg);
 }
