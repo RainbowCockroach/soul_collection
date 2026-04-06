@@ -14,6 +14,7 @@ import {
   loadTags,
 } from "../helpers/data-load";
 import BBCodePreview from "./BBCodePreview";
+import ImagePreview from "./ImagePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import {
@@ -835,6 +836,7 @@ export const EditorOc: React.FC = () => {
                 >
                   Add Avatar
                 </button>
+                <ImagePreview urls={editingItem.avatar} />
               </div>
 
               <div className="editor-field">
@@ -1015,6 +1017,7 @@ export const EditorOc: React.FC = () => {
                               className="editor-input"
                               placeholder="Image URL"
                             />
+                            <ImagePreview urls={[galleryItem.image]} />
                           </div>
 
                           <div className="editor-field">
@@ -1034,6 +1037,7 @@ export const EditorOc: React.FC = () => {
                               className="editor-input"
                               placeholder="Thumbnail URL (optional)"
                             />
+                            <ImagePreview urls={[galleryItem.thumbnail || ""]} />
                           </div>
 
                           <div className="editor-field">
@@ -1397,6 +1401,7 @@ export const EditorOc: React.FC = () => {
                             >
                               Add Image
                             </button>
+                            <ImagePreview urls={breadcrumb.images || []} />
                           </div>
                         </div>
                       }

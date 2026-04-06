@@ -21,6 +21,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
+import ImagePreview from "./ImagePreview";
 
 interface SortableAdItemProps {
   ad: AdItem;
@@ -355,34 +356,7 @@ const EditorAd: React.FC = () => {
               />
             </div>
 
-            {formData.imageUrl && (
-              <div className="editor-field">
-                <label className="editor-label">Preview:</label>
-                <div
-                  style={{
-                    border: "1px solid var(--editor-gray-300)",
-                    borderRadius: "var(--editor-border-radius)",
-                    padding: "16px",
-                    backgroundColor: "white",
-                    textAlign: "center",
-                  }}
-                >
-                  <img
-                    src={formData.imageUrl}
-                    alt="Ad preview"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "200px",
-                      objectFit: "contain",
-                    }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                      toast.error("Failed to load image");
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+            <ImagePreview urls={[formData.imageUrl]} />
 
             <div className="editor-button-group">
               <button

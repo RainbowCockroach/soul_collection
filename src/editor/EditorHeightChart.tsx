@@ -30,6 +30,7 @@ import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
+import ImagePreview from "./ImagePreview";
 
 const TAB_LABELS: Record<HeightChartMode, string> = {
   mortal: "Birth Forms",
@@ -482,6 +483,7 @@ export const EditorHeightChart: React.FC = () => {
                 placeholder="https://..."
                 className="editor-input"
               />
+              <ImagePreview urls={[formData.thumbnail]} />
             </div>
 
             <div className="editor-field">
@@ -546,6 +548,7 @@ export const EditorHeightChart: React.FC = () => {
                         className="editor-input"
                         style={{ fontSize: "13px" }}
                       />
+                      <ImagePreview urls={[variant.url]} />
                     </div>
                     <div>
                       <label
@@ -564,6 +567,7 @@ export const EditorHeightChart: React.FC = () => {
                         className="editor-input"
                         style={{ fontSize: "13px" }}
                       />
+                      <ImagePreview urls={[variant.thumbnail]} />
                     </div>
                     <div>
                       <label
