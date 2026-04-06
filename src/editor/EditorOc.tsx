@@ -13,6 +13,7 @@ import {
   loadSpecies,
   loadTags,
 } from "../helpers/data-load";
+import BBCodePreview from "./BBCodePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import {
@@ -794,6 +795,7 @@ export const EditorOc: React.FC = () => {
                   }}
                   className="editor-input"
                 />
+                <BBCodePreview value={editingItem.name} />
               </div>
 
               <div className="editor-field">
@@ -906,6 +908,7 @@ export const EditorOc: React.FC = () => {
                   rows={4}
                   className="editor-textarea"
                 />
+                <BBCodePreview value={editingItem.info} />
               </div>
 
               <div className="editor-field">
@@ -1048,6 +1051,7 @@ export const EditorOc: React.FC = () => {
                               className="editor-input"
                               placeholder="Caption (optional)"
                             />
+                            <BBCodePreview value={galleryItem.caption || ""} />
                           </div>
 
                           <div className="editor-field">
@@ -1239,6 +1243,7 @@ export const EditorOc: React.FC = () => {
                               className="editor-input"
                               placeholder="Breadcrumb title"
                             />
+                            <BBCodePreview value={breadcrumb.title || ""} />
                           </div>
 
                           <div className="editor-field">
@@ -1256,6 +1261,7 @@ export const EditorOc: React.FC = () => {
                               className="editor-textarea"
                               placeholder="Breadcrumb description"
                             />
+                            <BBCodePreview value={breadcrumb.description} />
                           </div>
 
                           <div className="editor-field">

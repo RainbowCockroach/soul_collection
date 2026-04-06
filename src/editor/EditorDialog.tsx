@@ -3,6 +3,7 @@ import type { DialogTexts, DialogEntry } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import BBCodePreview from "./BBCodePreview";
 import "./EditorCommon.css";
 
 const EditorDialog: React.FC = () => {
@@ -174,16 +175,18 @@ const EditorDialog: React.FC = () => {
                   <label className="editor-label">Dialog Texts:</label>
                   {selectedTexts.map((text, index) => (
                     <div key={index} className="editor-array-item">
-                      <textarea
-                        value={typeof text === 'string' ? text : JSON.stringify(text)}
-                        onChange={(e) =>
-                          handleTextChange(index, e.target.value)
-                        }
-                        disabled={!isEditing}
-                        rows={3}
-                        className="editor-textarea"
-                        style={{ flex: 1 }}
-                      />
+                      <div style={{ flex: 1 }}>
+                        <textarea
+                          value={typeof text === 'string' ? text : JSON.stringify(text)}
+                          onChange={(e) =>
+                            handleTextChange(index, e.target.value)
+                          }
+                          disabled={!isEditing}
+                          rows={3}
+                          className="editor-textarea"
+                        />
+                        <BBCodePreview value={typeof text === 'string' ? text : JSON.stringify(text)} />
+                      </div>
                       {isEditing && selectedTexts.length > 1 && (
                         <button
                           onClick={() => handleRemoveText(index)}

@@ -4,6 +4,7 @@ import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
+import BBCodePreview from "./BBCodePreview";
 import "./EditorCommon.css";
 import {
   parseContentWarning,
@@ -244,6 +245,7 @@ export const EditorSpieces: React.FC = () => {
                   }}
                   className="editor-input"
                 />
+                <BBCodePreview value={editingItem.name} />
               </div>
 
               <div className="editor-field">
@@ -259,6 +261,7 @@ export const EditorSpieces: React.FC = () => {
                   rows={4}
                   className="editor-textarea"
                 />
+                <BBCodePreview value={editingItem.description} />
               </div>
 
               <div className="editor-field">

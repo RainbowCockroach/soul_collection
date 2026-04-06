@@ -766,3 +766,28 @@
 .editor-password-form .editor-field {
   margin-bottom: var(--editor-spacing-lg);
 }
+
+/* ===== BBCODE PREVIEW ===== */
+.editor-bbcode-preview-wrapper {
+  margin-top: var(--editor-spacing-xs);
+}
+
+.editor-bbcode-preview-toggle {
+  font-size: 11px !important;
+  padding: 2px 8px !important;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.editor-bbcode-preview-toggle:hover {
+  opacity: 1;
+}
+
+.editor-bbcode-preview-box {
+  margin-top: var(--editor-spacing-xs);
+  padding: var(--editor-spacing-sm) var(--editor-spacing-md);
+  background-color: transparent;
+  border: 1px dashed var(--editor-purple-300);
+  border-radius: var(--editor-border-radius);
+  animation: editor-fadeIn 0.15s ease;
+}
