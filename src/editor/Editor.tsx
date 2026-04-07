@@ -9,6 +9,7 @@ import EditorDialog from "./EditorDialog";
 import EditorAd from "./EditorAd";
 import EditorSafeModeCensor from "./EditorSafeModeCensor";
 import EditorBio from "./EditorBio";
+import EditorBackstory from "./EditorBackstory";
 import EditorHeightChart from "./EditorHeightChart";
 import { EditorImageUpload } from "./EditorImageUpload";
 import { EditorSoundUpload } from "./EditorSoundUpload";
@@ -27,6 +28,7 @@ type EditorTab =
   | "bio"
   | "ads"
   | "safe-mode-censor"
+  | "backstory"
   | "height-chart"
   | "uploads"
   | "sounds";
@@ -46,6 +48,7 @@ export const Editor: React.FC = () => {
     },
     { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
     { id: "bio" as const, label: "Biography", component: EditorBio },
+    { id: "backstory" as const, label: "Backstory", component: EditorBackstory },
     { id: "ads" as const, label: "Ads", component: EditorAd },
     {
       id: "safe-mode-censor" as const,
