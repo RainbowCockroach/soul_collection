@@ -51,6 +51,8 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
         src={displayImage}
         alt={galleryItem.caption || `${characterName} gallery ${index + 1}`}
         title={galleryItem.caption} // Show caption as tooltip
+        loading="lazy"
+        decoding="async"
         style={
           censorImage
             ? {

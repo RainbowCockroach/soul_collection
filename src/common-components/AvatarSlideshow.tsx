@@ -102,6 +102,8 @@ const AvatarSlideshow: React.FC<AvatarSlideshowProps> = ({ images, alt, classNam
         src={images[currentIndex]}
         alt={alt}
         className={className}
+        loading="lazy"
+        decoding="async"
       />
       <div className={`avatar-slideshow-overlay ${isFlashing ? 'flashing' : ''}`} />
     </div>

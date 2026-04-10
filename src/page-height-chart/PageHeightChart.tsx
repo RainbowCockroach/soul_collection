@@ -478,7 +478,7 @@ export default function PageHeightChart() {
                 }}
                 soundFile={selectorSound}
               >
-                <img src={group.thumbnail} alt={group.name} draggable={false} />
+                <img src={group.thumbnail} alt={group.name} draggable={false} loading="lazy" decoding="async" />
                 <span className="height-chart-selector-item-name">{group.name}</span>
               </ButtonWrapper>
             </div>
@@ -505,7 +505,7 @@ export default function PageHeightChart() {
                 onClick={() => handleVariantSelect(sprite.id, expandedGroup.variants)}
                 soundFile={variantSoundFile}
               >
-                <img src={sprite.thumbnail} alt={expandedGroup.name} draggable={false} />
+                <img src={sprite.thumbnail} alt={expandedGroup.name} draggable={false} loading="lazy" decoding="async" />
               </ButtonWrapper>
             ))}
           </div>,
