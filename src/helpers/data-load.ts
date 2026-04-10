@@ -11,7 +11,6 @@ import type {
   HeightChartGroup,
   VNBioData,
 } from "./objects";
-import ocData from "../data/oc.json";
 import groupData from "../data/group.json";
 import speciesData from "../data/spieces.json";
 import formLinkData from "../data/form-link.json";
@@ -32,11 +31,22 @@ export interface LoadedData {
   dialogs: DialogTexts;
 }
 
+let ocDataPromise: Promise<Record<string, Omit<OC, "slug">>> | null = null;
+function getOcData(): Promise<Record<string, Omit<OC, "slug">>> {
+  if (!ocDataPromise) {
+    ocDataPromise = import("../data/oc.json").then(
+      (m) => m.default as Record<string, Omit<OC, "slug">>,
+    );
+  }
+  return ocDataPromise;
+}
+
 export async function loadOCs(): Promise<OC[]> {
+  const ocData = await getOcData();
   return Object.entries(ocData)
     .map(([slug, oc]) => ({
       slug,
-      ...(oc as Omit<OC, "slug">),
+      ...oc,
     }))
     .sort(
       (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
