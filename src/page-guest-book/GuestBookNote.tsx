@@ -68,6 +68,8 @@ const GuestBookNote: React.FC<GuestBookNoteProps> = ({
                 src={blinkieUrl}
                 alt={`Blinkie ${index + 1}`}
                 className="blinkie-image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           ))}
