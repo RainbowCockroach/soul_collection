@@ -11,7 +11,7 @@ interface PinApiResponse {
   original: string;
 }
 
-const PIN_API_BASE = "https://09176645.xyz/pin-image-url";
+const PIN_API_BASE = "https://09176645.xyz/pin-image-urls";
 
 export const EditorPinImageUrl: React.FC = () => {
   const [pinUrl, setPinUrl] = useState("");
