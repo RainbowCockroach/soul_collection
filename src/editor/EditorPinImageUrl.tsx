@@ -28,7 +28,7 @@ export const EditorPinImageUrl: React.FC = () => {
     setResult(null);
 
     try {
-      const apiUrl = `${PIN_API_BASE}?url=${encodeURIComponent(pinUrl.trim())}`;
+      const apiUrl = `${PIN_API_BASE}/?url=${encodeURIComponent(pinUrl.trim())}`;
       const response = await fetch(apiUrl);
 
       if (!response.ok) {
