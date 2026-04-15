@@ -13,6 +13,7 @@ import EditorBackstory from "./EditorBackstory";
 import EditorHeightChart from "./EditorHeightChart";
 import { EditorImageUpload } from "./EditorImageUpload";
 import { EditorSoundUpload } from "./EditorSoundUpload";
+import { EditorPinImageUrl } from "./EditorPinImageUrl";
 import { EditorPasswordProvider } from "./EditorPasswordContext";
 import { baseUrl } from "../helpers/constants";
 import "./EditorCommon.css";
@@ -31,7 +32,8 @@ type EditorTab =
   | "backstory"
   | "height-chart"
   | "uploads"
-  | "sounds";
+  | "sounds"
+  | "pin-image-url";
 
 export const Editor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>("species");
@@ -69,6 +71,11 @@ export const Editor: React.FC = () => {
       id: "sounds" as const,
       label: "Sound Upload",
       component: EditorSoundUpload,
+    },
+    {
+      id: "pin-image-url" as const,
+      label: "Get Pin image url",
+      component: EditorPinImageUrl,
     },
   ];
 
