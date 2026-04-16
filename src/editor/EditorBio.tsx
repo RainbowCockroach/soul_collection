@@ -4,6 +4,7 @@ import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
+import { SCEditor } from "sceditor-react";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
 
@@ -175,17 +176,14 @@ export const EditorBio: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Dialog Text:</label>
-                <textarea
+                <SCEditor
+                  format="bbcode"
                   value={formData.text}
-                  onChange={(e) =>
-                    setFormData({ ...formData, text: e.target.value })
+                  onChange={(value) =>
+                    setFormData({ ...formData, text: value })
                   }
-                  placeholder="Enter dialog text..."
-                  className="editor-textarea"
-                  rows={6}
-                  style={{ minHeight: 120 }}
+                  height={200}
                 />
-                <BBCodePreview value={formData.text} />
               </div>
 
               <div className="editor-field">

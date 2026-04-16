@@ -4,6 +4,7 @@ import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
+import { SCEditor } from "sceditor-react";
 import "./EditorCommon.css";
 
 const EditorDialog: React.FC = () => {
@@ -176,16 +177,15 @@ const EditorDialog: React.FC = () => {
                   {selectedTexts.map((text, index) => (
                     <div key={index} className="editor-array-item">
                       <div style={{ flex: 1 }}>
-                        <textarea
+                        <SCEditor
+                          format="bbcode"
                           value={typeof text === 'string' ? text : JSON.stringify(text)}
-                          onChange={(e) =>
-                            handleTextChange(index, e.target.value)
+                          onChange={(value) =>
+                            handleTextChange(index, value)
                           }
-                          disabled={!isEditing}
-                          rows={3}
-                          className="editor-textarea"
+                          readOnly={!isEditing}
+                          height={150}
                         />
-                        <BBCodePreview value={typeof text === 'string' ? text : JSON.stringify(text)} />
                       </div>
                       {isEditing && selectedTexts.length > 1 && (
                         <button

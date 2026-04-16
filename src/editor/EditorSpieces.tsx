@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
+import { SCEditor } from "sceditor-react";
 import ImagePreview from "./ImagePreview";
 import "./EditorCommon.css";
 import {
@@ -251,18 +252,17 @@ export const EditorSpieces: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Description:</label>
-                <textarea
+                <SCEditor
+                  format="bbcode"
                   value={editingItem.description}
-                  onChange={(e) =>
+                  onChange={(value) =>
                     setEditingItem({
                       ...editingItem,
-                      description: e.target.value,
+                      description: value,
                     })
                   }
-                  rows={4}
-                  className="editor-textarea"
+                  height={200}
                 />
-                <BBCodePreview value={editingItem.description} />
               </div>
 
               <div className="editor-field">

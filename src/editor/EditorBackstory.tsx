@@ -4,6 +4,7 @@ import { loadOCs, loadOcBackstory } from "../helpers/data-load";
 import type { OC } from "../helpers/objects";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
+import { SCEditor } from "sceditor-react";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
@@ -121,15 +122,12 @@ export const EditorBackstory: React.FC = () => {
 
                 <div className="editor-field">
                   <label className="editor-label">Backstory Content:</label>
-                  <textarea
+                  <SCEditor
+                    format="bbcode"
                     value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    placeholder="Write this character's backstory..."
-                    className="editor-textarea"
-                    rows={20}
-                    style={{ minHeight: 400, fontFamily: "inherit" }}
+                    onChange={(value) => setContent(value)}
+                    height={400}
                   />
-                  <BBCodePreview value={content} />
                 </div>
 
                 <div className="editor-button-group">
