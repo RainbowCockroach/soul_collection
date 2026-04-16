@@ -732,7 +732,17 @@
     "info": "",
     "gallery": [],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "normal-human",
+      "main-character",
+      "single",
+      "under-age",
+      "male",
+      "short-hair",
+      "blue",
+      "black",
+      "purple"
+    ],
     "order": 10
   },
   "king-rilor": {
@@ -3829,7 +3839,17 @@
     "info": "",
     "gallery": [],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "vrev",
+      "female",
+      "under-age",
+      "long-hair",
+      "pink",
+      "black",
+      "brown",
+      "single",
+      "side-character"
+    ],
     "order": 64
   }
 }
