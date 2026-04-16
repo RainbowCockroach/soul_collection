@@ -531,7 +531,8 @@
       "yellow",
       "white",
       "side-character",
-      "gold"
+      "gold",
+      "what"
     ],
     "order": 7,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478117753-j2gfz3.mp3"
@@ -741,7 +742,8 @@
       "short-hair",
       "blue",
       "black",
-      "purple"
+      "purple",
+      "what"
     ],
     "order": 10
   },
@@ -1071,7 +1073,8 @@
       "white",
       "gold",
       "glasses",
-      "side-character"
+      "side-character",
+      "what"
     ],
     "order": 14,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626807908-izz5yz.mp3"
@@ -2707,7 +2710,6 @@
       "adult",
       "black-ring",
       "blue",
-      "what",
       "main-character"
     ],
     "order": 37,
@@ -3044,7 +3046,6 @@
     ],
     "breadcrumbs": [],
     "tags": [
-      "what",
       "god",
       "no-gender",
       "adult",
@@ -3572,7 +3573,7 @@
       }
     ],
     "tags": [
-      "what",
+      "other",
       "female",
       "adult",
       "taken",
@@ -3635,7 +3636,17 @@
       }
     ],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "what",
+      "female",
+      "adult",
+      "single",
+      "long-hair",
+      "yellow",
+      "black",
+      "purple",
+      "side-character"
+    ],
     "order": 57
   },
   "lacey": {
@@ -3801,12 +3812,12 @@
     ],
     "breadcrumbs": [],
     "tags": [
-      "what",
       "no-gender",
       "adult",
       "lore-outsider",
       "green",
-      "long-hair"
+      "long-hair",
+      "other"
     ],
     "order": 62
   },
@@ -3830,13 +3841,13 @@
     ],
     "breadcrumbs": [],
     "tags": [
-      "what",
       "no-gender",
       "lore-outsider",
       "short-hair",
       "red",
       "yellow",
-      "blue"
+      "blue",
+      "other"
     ],
     "order": 63
   },
