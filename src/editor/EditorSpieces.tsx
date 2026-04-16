@@ -6,6 +6,8 @@ import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
+
+const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import ImagePreview from "./ImagePreview";
 import "./EditorCommon.css";
 import {
@@ -254,6 +256,7 @@ export const EditorSpieces: React.FC = () => {
                 <label className="editor-label">Description:</label>
                 <SCEditor
                   format="bbcode"
+                  toolbar={BBCODE_TOOLBAR}
                   value={editingItem.description}
                   onChange={(value) =>
                     setEditingItem({

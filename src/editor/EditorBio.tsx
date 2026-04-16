@@ -5,6 +5,8 @@ import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
 import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
+
+const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
 
@@ -178,6 +180,7 @@ export const EditorBio: React.FC = () => {
                 <label className="editor-label">Dialog Text:</label>
                 <SCEditor
                   format="bbcode"
+                  toolbar={BBCODE_TOOLBAR}
                   value={formData.text}
                   onChange={(value) =>
                     setFormData({ ...formData, text: value })
