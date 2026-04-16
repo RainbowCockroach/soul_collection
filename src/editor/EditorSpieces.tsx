@@ -4,10 +4,10 @@ import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
-import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
+const BBCODE_TOOLBAR_MINIMAL = "image|source";
 import ImagePreview from "./ImagePreview";
 import "./EditorCommon.css";
 import {
@@ -235,11 +235,12 @@ export const EditorSpieces: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Name:</label>
-                <input
-                  type="text"
+                <SCEditor
+                  format="bbcode"
+                  toolbar={BBCODE_TOOLBAR_MINIMAL}
                   value={editingItem.name}
-                  onChange={(e) => {
-                    const newName = e.target.value;
+                  onChange={(value) => {
+                    const newName = value;
                     if (isNewItem()) {
                       const newSlug = slugify(newName, { lower: true, strict: true });
                       setEditingItem({ ...editingItem, name: newName, slug: newSlug });
@@ -247,9 +248,8 @@ export const EditorSpieces: React.FC = () => {
                       setEditingItem({ ...editingItem, name: newName });
                     }
                   }}
-                  className="editor-input"
+                  height={100}
                 />
-                <BBCodePreview value={editingItem.name} />
               </div>
 
               <div className="editor-field">

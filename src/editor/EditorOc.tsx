@@ -13,10 +13,10 @@ import {
   loadSpecies,
   loadTags,
 } from "../helpers/data-load";
-import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
+const BBCODE_TOOLBAR_MINIMAL = "image|source";
 import ImagePreview from "./ImagePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
@@ -778,11 +778,12 @@ export const EditorOc: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Name:</label>
-                <input
-                  type="text"
+                <SCEditor
+                  format="bbcode"
+                  toolbar={BBCODE_TOOLBAR_MINIMAL}
                   value={editingItem.name}
-                  onChange={(e) => {
-                    const newName = e.target.value;
+                  onChange={(value) => {
+                    const newName = value;
                     if (isNewItem()) {
                       const newSlug = slugify(newName, {
                         lower: true,
@@ -797,9 +798,8 @@ export const EditorOc: React.FC = () => {
                       setEditingItem({ ...editingItem, name: newName });
                     }
                   }}
-                  className="editor-input"
+                  height={100}
                 />
-                <BBCodePreview value={editingItem.name} />
               </div>
 
               <div className="editor-field">
@@ -1045,20 +1045,19 @@ export const EditorOc: React.FC = () => {
 
                           <div className="editor-field">
                             <label className="editor-label">Caption:</label>
-                            <input
-                              type="text"
+                            <SCEditor
+                              format="bbcode"
+                              toolbar={BBCODE_TOOLBAR_MINIMAL}
                               value={galleryItem.caption || ""}
-                              onChange={(e) =>
+                              onChange={(value) =>
                                 handleGalleryFieldChange(
                                   index,
                                   "caption",
-                                  e.target.value
+                                  value
                                 )
                               }
-                              className="editor-input"
-                              placeholder="Caption (optional)"
+                              height={100}
                             />
-                            <BBCodePreview value={galleryItem.caption || ""} />
                           </div>
 
                           <div className="editor-field">
@@ -1237,20 +1236,19 @@ export const EditorOc: React.FC = () => {
 
                           <div className="editor-field">
                             <label className="editor-label">Title:</label>
-                            <input
-                              type="text"
+                            <SCEditor
+                              format="bbcode"
+                              toolbar={BBCODE_TOOLBAR_MINIMAL}
                               value={breadcrumb.title || ""}
-                              onChange={(e) =>
+                              onChange={(value) =>
                                 handleBreadcrumbChange(
                                   index,
                                   "title",
-                                  e.target.value
+                                  value
                                 )
                               }
-                              className="editor-input"
-                              placeholder="Breadcrumb title"
+                              height={100}
                             />
-                            <BBCodePreview value={breadcrumb.title || ""} />
                           </div>
 
                           <div className="editor-field">

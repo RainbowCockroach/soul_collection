@@ -3,10 +3,10 @@ import toast, { Toaster } from "react-hot-toast";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
-import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
+const BBCODE_TOOLBAR_MINIMAL = "image|source";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
 
@@ -151,16 +151,15 @@ export const EditorBio: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Speaker Name:</label>
-                <input
-                  type="text"
+                <SCEditor
+                  format="bbcode"
+                  toolbar={BBCODE_TOOLBAR_MINIMAL}
                   value={formData.speaker}
-                  onChange={(e) =>
-                    setFormData({ ...formData, speaker: e.target.value })
+                  onChange={(value) =>
+                    setFormData({ ...formData, speaker: value })
                   }
-                  placeholder="e.g., Sam"
-                  className="editor-input"
+                  height={100}
                 />
-                <BBCodePreview value={formData.speaker} />
               </div>
 
               <div className="editor-field">
