@@ -3,8 +3,9 @@ import type { DialogTexts, DialogEntry } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
-import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
+
+const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import "./EditorCommon.css";
 
 const EditorDialog: React.FC = () => {
@@ -134,24 +135,24 @@ const EditorDialog: React.FC = () => {
             <div className="editor-list-header">
               <h3>Dialogs</h3>
             </div>
-          {Object.keys(dialogs).map((key) => (
-            <div
-              key={key}
-              className={`editor-item ${selectedKey === key ? "editor-item-selected" : ""}`}
-              onClick={() => handleSelectDialog(key)}
-            >
-              <div className="editor-item-content">
-                <div>
-                  <div className="editor-item-name">{key}</div>
-                  <div className="editor-item-slug">
-                    {typeof dialogs[key][0] === 'string'
-                      ? dialogs[key][0].substring(0, 50) + '...'
-                      : 'Dialog item...'}
+            {Object.keys(dialogs).map((key) => (
+              <div
+                key={key}
+                className={`editor-item ${selectedKey === key ? "editor-item-selected" : ""}`}
+                onClick={() => handleSelectDialog(key)}
+              >
+                <div className="editor-item-content">
+                  <div>
+                    <div className="editor-item-name">{key}</div>
+                    <div className="editor-item-slug">
+                      {typeof dialogs[key][0] === "string"
+                        ? dialogs[key][0].substring(0, 50) + "..."
+                        : "Dialog item..."}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </div>
 
@@ -179,10 +180,13 @@ const EditorDialog: React.FC = () => {
                       <div style={{ flex: 1 }}>
                         <SCEditor
                           format="bbcode"
-                          value={typeof text === 'string' ? text : JSON.stringify(text)}
-                          onChange={(value) =>
-                            handleTextChange(index, value)
+                          toolbar={BBCODE_TOOLBAR}
+                          value={
+                            typeof text === "string"
+                              ? text
+                              : JSON.stringify(text)
                           }
+                          onChange={(value) => handleTextChange(index, value)}
                           readOnly={!isEditing}
                           height={150}
                         />

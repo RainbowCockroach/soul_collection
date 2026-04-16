@@ -3,8 +3,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { loadOCs, loadOcBackstory } from "../helpers/data-load";
 import type { OC } from "../helpers/objects";
 import SavePushButton from "./SavePushButton";
-import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
+
+const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
@@ -124,6 +125,7 @@ export const EditorBackstory: React.FC = () => {
                   <label className="editor-label">Backstory Content:</label>
                   <SCEditor
                     format="bbcode"
+                    toolbar={BBCODE_TOOLBAR}
                     value={content}
                     onChange={(value) => setContent(value)}
                     height={400}

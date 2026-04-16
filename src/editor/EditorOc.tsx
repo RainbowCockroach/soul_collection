@@ -15,6 +15,8 @@ import {
 } from "../helpers/data-load";
 import BBCodePreview from "./BBCodePreview";
 import { SCEditor } from "sceditor-react";
+
+const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import ImagePreview from "./ImagePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
@@ -905,6 +907,7 @@ export const EditorOc: React.FC = () => {
                 <label className="editor-label">Info:</label>
                 <SCEditor
                   format="bbcode"
+                  toolbar={BBCODE_TOOLBAR}
                   value={editingItem.info}
                   onChange={(value) =>
                     setEditingItem({ ...editingItem, info: value })
@@ -1254,6 +1257,7 @@ export const EditorOc: React.FC = () => {
                             <label className="editor-label">Description:</label>
                             <SCEditor
                               format="bbcode"
+                  toolbar={BBCODE_TOOLBAR}
                               value={breadcrumb.description}
                               onChange={(value) =>
                                 handleBreadcrumbChange(
