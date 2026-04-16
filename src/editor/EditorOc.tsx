@@ -14,6 +14,7 @@ import {
   loadTags,
 } from "../helpers/data-load";
 import BBCodePreview from "./BBCodePreview";
+import { SCEditor } from "sceditor-react";
 import ImagePreview from "./ImagePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
@@ -902,15 +903,14 @@ export const EditorOc: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Info:</label>
-                <textarea
+                <SCEditor
+                  format="bbcode"
                   value={editingItem.info}
-                  onChange={(e) =>
-                    setEditingItem({ ...editingItem, info: e.target.value })
+                  onChange={(value) =>
+                    setEditingItem({ ...editingItem, info: value })
                   }
-                  rows={4}
-                  className="editor-textarea"
+                  height={200}
                 />
-                <BBCodePreview value={editingItem.info} />
               </div>
 
               <div className="editor-field">
@@ -1252,20 +1252,18 @@ export const EditorOc: React.FC = () => {
 
                           <div className="editor-field">
                             <label className="editor-label">Description:</label>
-                            <textarea
+                            <SCEditor
+                              format="bbcode"
                               value={breadcrumb.description}
-                              onChange={(e) =>
+                              onChange={(value) =>
                                 handleBreadcrumbChange(
                                   index,
                                   "description",
-                                  e.target.value
+                                  value
                                 )
                               }
-                              rows={3}
-                              className="editor-textarea"
-                              placeholder="Breadcrumb description"
+                              height={150}
                             />
-                            <BBCodePreview value={breadcrumb.description} />
                           </div>
 
                           <div className="editor-field">
