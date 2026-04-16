@@ -3814,5 +3814,22 @@
       "blue"
     ],
     "order": 63
+  },
+  "petunia": {
+    "name": "Petunia",
+    "avatar": [
+      "https://www.willemsefrance.fr/cdn/shop/files/HOR_100240_1_1747317230211.jpg?v=1763559109"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [],
+    "order": 64
   }
 }
