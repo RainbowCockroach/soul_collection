@@ -9,6 +9,7 @@ import { SCEditor } from "sceditor-react";
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 const BBCODE_TOOLBAR_MINIMAL = "image|source";
 import ImagePreview from "./ImagePreview";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import {
   parseContentWarning,
@@ -191,15 +192,12 @@ export const EditorSpieces: React.FC = () => {
                 <div onClick={() => handleSelectItem(slug)}>
                   <strong>{item.name}</strong> ({slug})
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(slug);
-                  }}
-                  className="editor-button editor-button-danger editor-button-small"
-                >
-                  Delete
-                </button>
+                <span onClick={(e) => e.stopPropagation()}>
+                  <DeleteButton
+                    onClick={() => handleDelete(slug)}
+                    title="Delete species"
+                  />
+                </span>
               </div>
             ))}
           </div>
@@ -338,12 +336,10 @@ export const EditorSpieces: React.FC = () => {
                       className="editor-array-input"
                       placeholder="Image URL"
                     />
-                    <button
+                    <DeleteButton
                       onClick={() => handleRemoveArrayItem("gallery", index)}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Remove
-                    </button>
+                      title="Remove gallery item"
+                    />
                   </div>
                 ))}
                 <button

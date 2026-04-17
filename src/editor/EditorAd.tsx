@@ -4,6 +4,7 @@ import { loadAds } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
 
@@ -50,15 +51,9 @@ const AdListItem: React.FC<AdListItemProps> = ({
           </div>
         </div>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(index);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        🗑
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(index)} title="Delete ad" />
+      </span>
     </div>
   );
 };

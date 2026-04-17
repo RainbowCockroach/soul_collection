@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import ImageUploadInput from "../common-components/ImageUploadInput";
 import { apiBaseUrl } from "../helpers/constants";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
 interface UploadedImage {
@@ -204,12 +205,10 @@ export const EditorImageUpload: React.FC = () => {
                 <div key={`urls-${image.id}`} className="editor-field" style={{ marginBottom: "var(--editor-spacing-lg)" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--editor-spacing-sm)" }}>
                     <h4 style={{ margin: 0 }}>Uploaded {image.uploadedAt}</h4>
-                    <button
+                    <DeleteButton
                       onClick={() => removeImage(image.id)}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Dismiss
-                    </button>
+                      title="Dismiss"
+                    />
                   </div>
 
                   <div className="editor-field">

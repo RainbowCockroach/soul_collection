@@ -4,6 +4,7 @@ import { loadShips, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,15 +39,9 @@ const ShipItem: React.FC<ShipItemProps> = ({
         <div className="editor-item-name">{ship.name}</div>
         <div className="editor-item-slug">OCs: {ship.oc.join(", ")}</div>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(index);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        🗑
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(index)} title="Delete ship" />
+      </span>
     </div>
   );
 };
@@ -351,12 +346,10 @@ export const EditorShip: React.FC = () => {
                           <span style={{ fontWeight: "bold" }}>
                             <BBCodeDisplay bbcode={oc ? oc.name : ocSlug} />
                           </span>
-                          <button
+                          <DeleteButton
                             onClick={() => handleRemoveOc(ocSlug)}
-                            className="editor-button editor-button-danger editor-button-small"
-                          >
-                            Remove
-                          </button>
+                            title="Remove OC from ship"
+                          />
                         </div>
                         <div>
                           <label

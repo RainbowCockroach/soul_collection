@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
 interface GroupJsonData {
@@ -49,15 +50,9 @@ const GroupItem: React.FC<GroupItemProps> = ({
           <strong>{group.name}</strong> ({group.slug})
         </span>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(group.slug);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        Delete
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(group.slug)} title="Delete group" />
+      </span>
     </div>
   );
 };

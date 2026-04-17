@@ -12,6 +12,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import ImagePreview from "./ImagePreview";
@@ -57,15 +58,9 @@ const GroupItem: React.FC<GroupItemProps> = ({
           {group.variants.length} variant{group.variants.length !== 1 && "s"}
         </div>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(index);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        🗑
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(index)} title="Delete group" />
+      </span>
     </div>
   );
 };
@@ -422,12 +417,10 @@ export const EditorHeightChart: React.FC = () => {
                     >
                       Variant {index + 1}
                     </span>
-                    <button
+                    <DeleteButton
                       onClick={() => handleRemoveVariant(index)}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Remove
-                    </button>
+                      title="Remove variant"
+                    />
                   </div>
 
                   <div

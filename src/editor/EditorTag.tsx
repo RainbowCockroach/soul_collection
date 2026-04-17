@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
 interface TagJsonData {
@@ -46,15 +47,9 @@ const TagItem: React.FC<TagItemProps> = ({
         {tag.name}
       </div>
       <div className="editor-item-slug">{tag.slug}</div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(tag.slug);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        🗑
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(tag.slug)} title="Delete tag" />
+      </span>
     </div>
   );
 };

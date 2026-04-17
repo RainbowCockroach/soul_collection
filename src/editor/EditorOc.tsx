@@ -22,6 +22,7 @@ import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import CollapsibleWrapper from "../common-components/CollapsibleWrapper";
@@ -74,15 +75,9 @@ const OcListItem: React.FC<OcListItemProps> = ({
           <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
         </span>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(oc.slug);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        Delete
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(oc.slug)} title="Delete OC" />
+      </span>
     </div>
   );
 };
@@ -589,17 +584,15 @@ export const EditorOc: React.FC = () => {
                       className="editor-array-input"
                       placeholder="https://example.com/avatar.jpg"
                     />
-                    <button
+                    <DeleteButton
                       onClick={() => {
                         const newAvatars = editingItem.avatar.filter(
                           (_, i) => i !== index,
                         );
                         setEditingItem({ ...editingItem, avatar: newAvatars });
                       }}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Remove
-                    </button>
+                      title="Remove avatar"
+                    />
                   </div>
                 ))}
                 <button
@@ -722,12 +715,10 @@ export const EditorOc: React.FC = () => {
                           <div key={index} className="editor-section">
                             <div className="editor-section-header">
                               <h4>Gallery Item {index + 1}</h4>
-                              <button
+                              <DeleteButton
                                 onClick={() => handleRemoveGalleryItem(index)}
-                                className="editor-button editor-button-danger editor-button-small"
-                              >
-                                Remove
-                              </button>
+                                title="Remove gallery item"
+                              />
                             </div>
 
                             <div className="editor-field">
@@ -898,12 +889,10 @@ export const EditorOc: React.FC = () => {
                           <div className="editor-section">
                             <div className="editor-section-header">
                               <h4>Breadcrumb {index + 1}</h4>
-                              <button
+                              <DeleteButton
                                 onClick={() => handleRemoveBreadcrumb(index)}
-                                className="editor-button editor-button-danger editor-button-small"
-                              >
-                                Remove Breadcrumb
-                              </button>
+                                title="Remove breadcrumb"
+                              />
                             </div>
 
                             <div className="editor-field">
@@ -1045,17 +1034,15 @@ export const EditorOc: React.FC = () => {
                                       className="editor-array-input"
                                       placeholder="Image URL"
                                     />
-                                    <button
+                                    <DeleteButton
                                       onClick={() =>
                                         handleRemoveBreadcrumbImage(
                                           index,
                                           imageIndex,
                                         )
                                       }
-                                      className="editor-button editor-button-danger editor-button-small"
-                                    >
-                                      Remove
-                                    </button>
+                                      title="Remove image"
+                                    />
                                   </div>
                                 ),
                               )}
@@ -1112,12 +1099,10 @@ export const EditorOc: React.FC = () => {
                           {tagInfo.name}
                         </div>
                       )}
-                      <button
+                      <DeleteButton
                         onClick={() => handleRemoveArrayItem("tags", index)}
-                        className="editor-button editor-button-danger editor-button-small"
-                      >
-                        Remove
-                      </button>
+                        title="Remove tag"
+                      />
                     </div>
                   );
                 })}
