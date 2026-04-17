@@ -3,70 +3,41 @@ import type { Group } from "../helpers/objects";
 import { loadGroups } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
+import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
 interface GroupJsonData {
   [key: string]: Omit<Group, "slug">;
 }
 
-interface SortableGroupItemProps {
+interface GroupItemProps {
   group: Group;
+  index: number;
+  total: number;
   isSelected: boolean;
   onSelect: (slug: string) => void;
   onDelete: (slug: string) => void;
+  onMove: (index: number, direction: -1 | 1) => void;
 }
 
-const SortableGroupItem: React.FC<SortableGroupItemProps> = ({
+const GroupItem: React.FC<GroupItemProps> = ({
   group,
+  index,
+  total,
   isSelected,
   onSelect,
   onDelete,
+  onMove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: group.slug });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
     <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
       className={`editor-item ${
         isSelected ? "editor-item-selected" : ""
       }`}
     >
-      <div className="editor-drag-handle" {...listeners}>
-        ⋮⋮
-      </div>
+      <ReorderButtons index={index} total={total} onMove={onMove} />
       <div
         onClick={() => onSelect(group.slug)}
         className="editor-item-content"
@@ -79,15 +50,9 @@ const SortableGroupItem: React.FC<SortableGroupItemProps> = ({
           <strong>{group.name}</strong> ({group.slug})
         </span>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(group.slug);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        Delete
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(group.slug)} title="Delete group" />
+      </span>
     </div>
   );
 };
@@ -98,14 +63,6 @@ export const EditorGroup: React.FC = () => {
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [editingItem, setEditingItem] = useState<Group | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [dragMode, setDragMode] = useState(false);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   useEffect(() => {
     loadGroupData();
@@ -148,35 +105,29 @@ export const EditorGroup: React.FC = () => {
     return editingItem && !groupData[editingItem.slug];
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMove = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= groupsArray.length) return;
 
-    if (active.id !== over?.id) {
-      const oldIndex = groupsArray.findIndex(
-        (group) => group.slug === active.id
-      );
-      const newIndex = groupsArray.findIndex(
-        (group) => group.slug === over?.id
-      );
+    const newGroupsArray = [...groupsArray];
+    [newGroupsArray[index], newGroupsArray[newIndex]] = [
+      newGroupsArray[newIndex],
+      newGroupsArray[index],
+    ];
 
-      const newGroupsArray = arrayMove(groupsArray, oldIndex, newIndex);
+    const updatedGroupsArray = newGroupsArray.map((group, idx) => ({
+      ...group,
+      order: idx,
+    }));
 
-      const updatedGroupsArray = newGroupsArray.map((group, index) => ({
-        ...group,
-        order: index,
-      }));
+    setGroupsArray(updatedGroupsArray);
 
-      setGroupsArray(updatedGroupsArray);
-
-      const updatedData: GroupJsonData = {};
-      updatedGroupsArray.forEach((group) => {
-        const { slug, ...rest } = group;
-        updatedData[slug] = rest;
-      });
-      setGroupData(updatedData);
-
-      toast.success("Groups reordered! Use 'Copy to clipboard' to export.");
-    }
+    const updatedData: GroupJsonData = {};
+    updatedGroupsArray.forEach((group) => {
+      const { slug, ...rest } = group;
+      updatedData[slug] = rest;
+    });
+    setGroupData(updatedData);
   };
 
   const handleSave = () => {
@@ -284,12 +235,6 @@ export const EditorGroup: React.FC = () => {
         <button onClick={handleAddNew} className="editor-button editor-button-primary">
           Add New Group
         </button>
-        <button
-          onClick={() => setDragMode(!dragMode)}
-          className={`editor-button editor-button-secondary ${dragMode ? "active" : ""}`}
-        >
-          {dragMode ? "Exit Drag Mode" : "Rearrange Groups"}
-        </button>
       </div>
 
       <div className="editor-layout">
@@ -298,66 +243,20 @@ export const EditorGroup: React.FC = () => {
             <div className="editor-list-header">
               <h3>Group List</h3>
             </div>
-          {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
-          {dragMode ? (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={groupsArray.map((group) => group.slug)}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="editor-list">
-                  {groupsArray.map((group) => (
-                    <SortableGroupItem
-                      key={group.slug}
-                      group={group}
-                      isSelected={selectedSlug === group.slug}
-                      onSelect={handleSelectItem}
-                      onDelete={handleDelete}
-                    />
-                  ))}
-                </div>
-              </SortableContext>
-            </DndContext>
-          ) : (
             <div className="editor-list">
-              {groupsArray.map((group) => (
-                <div
+              {groupsArray.map((group, index) => (
+                <GroupItem
                   key={group.slug}
-                  className={`editor-item ${
-                    selectedSlug === group.slug
-                      ? "editor-item-selected"
-                      : ""
-                  }`}
-                >
-                  <div
-                    onClick={() => handleSelectItem(group.slug)}
-                    className="editor-item-content"
-                  >
-                    <div
-                      className="editor-color-box"
-                      style={{ backgroundColor: group.frameColour }}
-                    />
-                    <span>
-                      <strong>{group.name}</strong> ({group.slug})
-                    </span>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(group.slug);
-                    }}
-                    className="editor-button editor-button-danger editor-button-small"
-                  >
-                    Delete
-                  </button>
-                </div>
+                  group={group}
+                  index={index}
+                  total={groupsArray.length}
+                  isSelected={selectedSlug === group.slug}
+                  onSelect={handleSelectItem}
+                  onDelete={handleDelete}
+                  onMove={handleMove}
+                />
               ))}
             </div>
-          )}
           </div>
         </div>
 

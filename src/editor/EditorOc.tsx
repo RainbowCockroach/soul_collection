@@ -20,24 +20,9 @@ const BBCODE_TOOLBAR_MINIMAL = "image|source";
 import ImagePreview from "./ImagePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
+import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import CollapsibleWrapper from "../common-components/CollapsibleWrapper";
@@ -58,71 +43,28 @@ interface SpiecesJsonData {
   [key: string]: Omit<Spieces, "slug">;
 }
 
-interface SortableOcItemProps {
+interface OcListItemProps {
   oc: OC;
+  index: number;
+  total: number;
   isSelected: boolean;
   onSelect: (slug: string) => void;
   onDelete: (slug: string) => void;
+  onMove: (index: number, direction: -1 | 1) => void;
 }
 
-interface SortableBreadcrumbItemProps {
-  breadcrumb: BreadcrumbItem;
-  index: number;
-  onRemove: (index: number) => void;
-  onTitleChange: (index: number, value: string) => void;
-  onDescriptionChange: (index: number, value: string) => void;
-  onVideoChange: (index: number, value: string) => void;
-  onContentWarningChange: (index: number, value: string) => void;
-  onImageChange: (
-    breadcrumbIndex: number,
-    imageIndex: number,
-    value: string
-  ) => void;
-  onAddImage: (breadcrumbIndex: number) => void;
-  onRemoveImage: (breadcrumbIndex: number, imageIndex: number) => void;
-}
-
-interface SortableGalleryItemProps {
-  galleryItem: GalleryItem;
-  index: number;
-  onRemove: (index: number) => void;
-  onImageChange: (index: number, value: string) => void;
-  onThumbnailChange: (index: number, value: string) => void;
-  onCaptionChange: (index: number, value: string) => void;
-  onContentWarningChange: (index: number, value: string) => void;
-}
-
-const SortableOcItem: React.FC<SortableOcItemProps> = ({
+const OcListItem: React.FC<OcListItemProps> = ({
   oc,
+  index,
+  total,
   isSelected,
   onSelect,
   onDelete,
+  onMove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: oc.slug });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
-    >
-      <div className="editor-drag-handle" {...listeners}>
-        ⋮⋮
-      </div>
+    <div className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}>
+      <ReorderButtons index={index} total={total} onMove={onMove} />
       <div onClick={() => onSelect(oc.slug)} className="editor-item-content">
         <img
           src={oc.avatar?.[0] || "https://placehold.co/40"}
@@ -130,110 +72,12 @@ const SortableOcItem: React.FC<SortableOcItemProps> = ({
           className="editor-avatar"
         />
         <span>
-          <strong>{oc.name}</strong> ({oc.slug})
+          <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
         </span>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(oc.slug);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        Delete
-      </button>
-    </div>
-  );
-};
-
-const SortableBreadcrumbItem: React.FC<SortableBreadcrumbItemProps> = ({
-  breadcrumb,
-  index,
-  onRemove,
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `breadcrumb-${index}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      className="editor-section"
-    >
-      <div className="editor-section-header">
-        <div className="editor-drag-handle" {...listeners}>
-          ⋮⋮
-        </div>
-        <h4>
-          Breadcrumb {index + 1}
-          {breadcrumb.title && ` - ${breadcrumb.title}`}
-        </h4>
-        <button
-          onClick={() => onRemove(index)}
-          className="editor-button editor-button-danger editor-button-small"
-        >
-          Remove Breadcrumb
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const SortableGalleryItem: React.FC<SortableGalleryItemProps> = ({
-  galleryItem,
-  index,
-  onRemove,
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `gallery-${index}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      className="editor-section"
-    >
-      <div className="editor-section-header">
-        <div className="editor-drag-handle" {...listeners}>
-          ⋮⋮
-        </div>
-        <h4>
-          Gallery Item {index + 1}
-          {galleryItem.caption && ` - ${galleryItem.caption}`}
-        </h4>
-        <button
-          onClick={() => onRemove(index)}
-          className="editor-button editor-button-danger editor-button-small"
-        >
-          Remove
-        </button>
-      </div>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(oc.slug)} title="Delete OC" />
+      </span>
     </div>
   );
 };
@@ -247,16 +91,6 @@ export const EditorOc: React.FC = () => {
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [editingItem, setEditingItem] = useState<OC | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [dragMode, setDragMode] = useState(false);
-  const [breadcrumbDragMode, setBreadcrumbDragMode] = useState(false);
-  const [galleryDragMode, setGalleryDragMode] = useState(false);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   useEffect(() => {
     loadData();
@@ -291,7 +125,7 @@ export const EditorOc: React.FC = () => {
         ocsArray.map((oc, index) => ({
           ...oc,
           order: oc.order ?? index,
-        }))
+        })),
       );
       setGroupData(groupData);
       setSpiecesData(spiecesData);
@@ -311,69 +145,55 @@ export const EditorOc: React.FC = () => {
     return editingItem && !ocData[editingItem.slug];
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMoveOc = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= ocsArray.length) return;
 
-    if (active.id !== over?.id) {
-      const oldIndex = ocsArray.findIndex((oc) => oc.slug === active.id);
-      const newIndex = ocsArray.findIndex((oc) => oc.slug === over?.id);
+    const newOcsArray = [...ocsArray];
+    [newOcsArray[index], newOcsArray[newIndex]] = [
+      newOcsArray[newIndex],
+      newOcsArray[index],
+    ];
 
-      const newOcsArray = arrayMove(ocsArray, oldIndex, newIndex);
+    const updatedOcsArray = newOcsArray.map((oc, idx) => ({
+      ...oc,
+      order: idx,
+    }));
 
-      const updatedOcsArray = newOcsArray.map((oc, index) => ({
-        ...oc,
-        order: index,
-      }));
+    setOcsArray(updatedOcsArray);
 
-      setOcsArray(updatedOcsArray);
-
-      const updatedData: OcJsonData = {};
-      updatedOcsArray.forEach((oc) => {
-        const { slug, ...rest } = oc;
-        updatedData[slug] = rest;
-      });
-      setOcData(updatedData);
-
-      toast.success("OCs reordered! Use 'Copy to clipboard' to export.");
-    }
+    const updatedData: OcJsonData = {};
+    updatedOcsArray.forEach((oc) => {
+      const { slug, ...rest } = oc;
+      updatedData[slug] = rest;
+    });
+    setOcData(updatedData);
   };
 
-  const handleBreadcrumbDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMoveBreadcrumb = (index: number, direction: -1 | 1) => {
+    if (!editingItem) return;
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= editingItem.breadcrumbs.length) return;
 
-    if (active.id !== over?.id && editingItem) {
-      const activeIndex = parseInt(
-        active.id.toString().replace("breadcrumb-", "")
-      );
-      const overIndex = parseInt(
-        over?.id.toString().replace("breadcrumb-", "") || "0"
-      );
-
-      const newBreadcrumbs = arrayMove(
-        editingItem.breadcrumbs,
-        activeIndex,
-        overIndex
-      );
-      setEditingItem({ ...editingItem, breadcrumbs: newBreadcrumbs });
-      toast.success("Breadcrumbs reordered!");
-    }
+    const newBreadcrumbs = [...editingItem.breadcrumbs];
+    [newBreadcrumbs[index], newBreadcrumbs[newIndex]] = [
+      newBreadcrumbs[newIndex],
+      newBreadcrumbs[index],
+    ];
+    setEditingItem({ ...editingItem, breadcrumbs: newBreadcrumbs });
   };
 
-  const handleGalleryDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMoveGallery = (index: number, direction: -1 | 1) => {
+    if (!editingItem) return;
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= editingItem.gallery.length) return;
 
-    if (active.id !== over?.id && editingItem) {
-      const activeIndex = parseInt(
-        active.id.toString().replace("gallery-", "")
-      );
-      const overIndex = parseInt(
-        over?.id.toString().replace("gallery-", "") || "0"
-      );
-
-      const newGallery = arrayMove(editingItem.gallery, activeIndex, overIndex);
-      setEditingItem({ ...editingItem, gallery: newGallery });
-      toast.success("Gallery images reordered!");
-    }
+    const newGallery = [...editingItem.gallery];
+    [newGallery[index], newGallery[newIndex]] = [
+      newGallery[newIndex],
+      newGallery[index],
+    ];
+    setEditingItem({ ...editingItem, gallery: newGallery });
   };
 
   const handleSave = () => {
@@ -384,7 +204,7 @@ export const EditorOc: React.FC = () => {
     updatedData[slug] = itemData;
 
     const updatedOcsArray = ocsArray.map((oc) =>
-      oc.slug === slug ? editingItem : oc
+      oc.slug === slug ? editingItem : oc,
     );
     if (!ocsArray.find((oc) => oc.slug === slug)) {
       updatedOcsArray.push(editingItem);
@@ -470,7 +290,7 @@ export const EditorOc: React.FC = () => {
   const handleArrayFieldChange = (
     field: "tags",
     index: number,
-    value: string
+    value: string,
   ) => {
     if (!editingItem) return;
 
@@ -482,7 +302,7 @@ export const EditorOc: React.FC = () => {
   const handleGalleryFieldChange = (
     index: number,
     field: "image" | "thumbnail" | "caption" | "contentWarning",
-    value: string
+    value: string,
   ) => {
     if (!editingItem) return;
 
@@ -528,7 +348,7 @@ export const EditorOc: React.FC = () => {
   const handleBreadcrumbChange = (
     index: number,
     field: "title" | "description" | "video" | "contentWarning" | "images",
-    value: string | string[]
+    value: string | string[],
   ) => {
     if (!editingItem) return;
 
@@ -565,7 +385,7 @@ export const EditorOc: React.FC = () => {
   const handleBreadcrumbImageChange = (
     breadcrumbIndex: number,
     imageIndex: number,
-    value: string
+    value: string,
   ) => {
     if (!editingItem) return;
 
@@ -594,7 +414,7 @@ export const EditorOc: React.FC = () => {
 
   const handleRemoveBreadcrumbImage = (
     breadcrumbIndex: number,
-    imageIndex: number
+    imageIndex: number,
   ) => {
     if (!editingItem) return;
 
@@ -602,7 +422,7 @@ export const EditorOc: React.FC = () => {
     updatedBreadcrumbs[breadcrumbIndex] = {
       ...updatedBreadcrumbs[breadcrumbIndex],
       images: (updatedBreadcrumbs[breadcrumbIndex].images || []).filter(
-        (_, i) => i !== imageIndex
+        (_, i) => i !== imageIndex,
       ),
     };
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
@@ -628,7 +448,7 @@ export const EditorOc: React.FC = () => {
     if (!editingItem) return;
 
     const updatedBreadcrumbs = editingItem.breadcrumbs.filter(
-      (_, i) => i !== index
+      (_, i) => i !== index,
     );
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
@@ -668,14 +488,6 @@ export const EditorOc: React.FC = () => {
         >
           Add New OC
         </button>
-        <button
-          onClick={() => setDragMode(!dragMode)}
-          className={`editor-button editor-button-secondary ${
-            dragMode ? "active" : ""
-          }`}
-        >
-          {dragMode ? "Exit Drag Mode" : "Rearrange OCs"}
-        </button>
       </div>
 
       <div className="editor-layout">
@@ -684,65 +496,20 @@ export const EditorOc: React.FC = () => {
             <div className="editor-list-header">
               <h3>OC List</h3>
             </div>
-            {dragMode && <p>Drag the ⋮⋮ handle to reorder items</p>}
-            {dragMode ? (
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext
-                  items={ocsArray.map((oc) => oc.slug)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <div className="editor-list">
-                    {ocsArray.map((oc) => (
-                      <SortableOcItem
-                        key={oc.slug}
-                        oc={oc}
-                        isSelected={selectedSlug === oc.slug}
-                        onSelect={handleSelectItem}
-                        onDelete={handleDelete}
-                      />
-                    ))}
-                  </div>
-                </SortableContext>
-              </DndContext>
-            ) : (
-              <div className="editor-list">
-                {ocsArray.map((oc) => (
-                  <div
-                    key={oc.slug}
-                    className={`editor-item ${
-                      selectedSlug === oc.slug ? "editor-item-selected" : ""
-                    }`}
-                  >
-                    <div
-                      onClick={() => handleSelectItem(oc.slug)}
-                      className="editor-item-content"
-                    >
-                      <img
-                        src={oc.avatar?.[0] || "https://placehold.co/40"}
-                        alt={oc.name}
-                        className="editor-avatar"
-                      />
-                      <span>
-                        <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
-                      </span>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(oc.slug);
-                      }}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="editor-list">
+              {ocsArray.map((oc, index) => (
+                <OcListItem
+                  key={oc.slug}
+                  oc={oc}
+                  index={index}
+                  total={ocsArray.length}
+                  isSelected={selectedSlug === oc.slug}
+                  onSelect={handleSelectItem}
+                  onDelete={handleDelete}
+                  onMove={handleMoveOc}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -817,17 +584,15 @@ export const EditorOc: React.FC = () => {
                       className="editor-array-input"
                       placeholder="https://example.com/avatar.jpg"
                     />
-                    <button
+                    <DeleteButton
                       onClick={() => {
                         const newAvatars = editingItem.avatar.filter(
-                          (_, i) => i !== index
+                          (_, i) => i !== index,
                         );
                         setEditingItem({ ...editingItem, avatar: newAvatars });
                       }}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Remove
-                    </button>
+                      title="Remove avatar"
+                    />
                   </div>
                 ))}
                 <button
@@ -917,225 +682,176 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-field">
-                <div className="editor-field">
-                  <label className="editor-label">Gallery:</label>
-                  <button
-                    onClick={() => setGalleryDragMode(!galleryDragMode)}
-                    className={`editor-button editor-button-secondary ${
-                      galleryDragMode ? "active" : ""
-                    }`}
+                <label className="editor-label">Gallery:</label>
+                {editingItem.gallery.map((galleryItem, index) => (
+                  <div
+                    key={index}
                     style={{
-                      marginLeft: "10px",
-                      fontSize: "12px",
-                      padding: "4px 8px",
+                      display: "flex",
+                      alignItems: "stretch",
+                      gap: "8px",
                     }}
                   >
-                    {galleryDragMode ? "Exit Drag Mode" : "Rearrange Gallery"}
-                  </button>
-                </div>
-                {galleryDragMode && editingItem.gallery.length > 0 && (
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "#666",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Drag the ⋮⋮ handle to reorder gallery images
-                  </p>
-                )}
-                {galleryDragMode ? (
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragEnd={handleGalleryDragEnd}
-                  >
-                    <SortableContext
-                      items={editingItem.gallery.map(
-                        (_, index) => `gallery-${index}`
-                      )}
-                      strategy={verticalListSortingStrategy}
-                    >
-                      {editingItem.gallery.map((galleryItem, index) => (
-                        <SortableGalleryItem
-                          key={`gallery-${index}`}
-                          galleryItem={galleryItem}
-                          index={index}
-                          onRemove={handleRemoveGalleryItem}
-                          onImageChange={(idx, value) =>
-                            handleGalleryFieldChange(idx, "image", value)
-                          }
-                          onThumbnailChange={(idx, value) =>
-                            handleGalleryFieldChange(idx, "thumbnail", value)
-                          }
-                          onCaptionChange={(idx, value) =>
-                            handleGalleryFieldChange(idx, "caption", value)
-                          }
-                          onContentWarningChange={(idx, value) =>
-                            handleGalleryFieldChange(
-                              idx,
-                              "contentWarning",
-                              value
-                            )
-                          }
-                        />
-                      ))}
-                    </SortableContext>
-                  </DndContext>
-                ) : (
-                  editingItem.gallery.map((galleryItem, index) => (
-                    <CollapsibleWrapper
-                      key={index}
-                      button={
-                        <>
-                          Image {index + 1}
-                          {galleryItem.caption && ` - ${galleryItem.caption}`}
-                        </>
-                      }
-                      buttonClassName="editor-collapsible-button"
-                      container={
-                        <div key={index} className="editor-section">
-                          <div className="editor-section-header">
-                            <h4>Gallery Item {index + 1}</h4>
-                            <button
-                              onClick={() => handleRemoveGalleryItem(index)}
-                              className="editor-button editor-button-danger editor-button-small"
-                            >
-                              Remove
-                            </button>
-                          </div>
+                    <ReorderButtons
+                      index={index}
+                      total={editingItem.gallery.length}
+                      onMove={handleMoveGallery}
+                    />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <CollapsibleWrapper
+                        button={
+                          <>
+                            Image {index + 1}
+                            {galleryItem.caption && (
+                              <>
+                                {" - "}
+                                <BBCodeDisplay bbcode={galleryItem.caption} />
+                              </>
+                            )}
+                          </>
+                        }
+                        buttonClassName="editor-collapsible-button"
+                        container={
+                          <div key={index} className="editor-section">
+                            <div className="editor-section-header">
+                              <h4>Gallery Item {index + 1}</h4>
+                              <DeleteButton
+                                onClick={() => handleRemoveGalleryItem(index)}
+                                title="Remove gallery item"
+                              />
+                            </div>
 
-                          <div className="editor-field">
-                            <label className="editor-label">Image URL:</label>
-                            <input
-                              type="text"
-                              value={galleryItem.image}
-                              onChange={(e) =>
-                                handleGalleryFieldChange(
-                                  index,
-                                  "image",
-                                  e.target.value
-                                )
-                              }
-                              className="editor-input"
-                              placeholder="Image URL"
-                            />
-                            <ImagePreview urls={[galleryItem.image]} />
-                          </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">
-                              Thumbnail URL:
-                            </label>
-                            <input
-                              type="text"
-                              value={galleryItem.thumbnail || ""}
-                              onChange={(e) =>
-                                handleGalleryFieldChange(
-                                  index,
-                                  "thumbnail",
-                                  e.target.value
-                                )
-                              }
-                              className="editor-input"
-                              placeholder="Thumbnail URL (optional)"
-                            />
-                            <ImagePreview urls={[galleryItem.thumbnail || ""]} />
-                          </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">Caption:</label>
-                            <SCEditor
-                              format="bbcode"
-                              toolbar={BBCODE_TOOLBAR_MINIMAL}
-                              value={galleryItem.caption || ""}
-                              onChange={(value) =>
-                                handleGalleryFieldChange(
-                                  index,
-                                  "caption",
-                                  value
-                                )
-                              }
-                              height={100}
-                            />
-                          </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">
-                              Content Warning:
-                            </label>
-                            <div className="editor-input-with-button">
+                            <div className="editor-field">
+                              <label className="editor-label">Image URL:</label>
                               <input
                                 type="text"
-                                value={
-                                  galleryItem.contentWarning
-                                    ? parseContentWarning(
-                                        galleryItem.contentWarning
-                                      ).text
-                                    : ""
-                                }
-                                onChange={(e) => {
-                                  const safeOnly = galleryItem.contentWarning
-                                    ? parseContentWarning(
-                                        galleryItem.contentWarning
-                                      ).safeOnly
-                                    : false;
+                                value={galleryItem.image}
+                                onChange={(e) =>
                                   handleGalleryFieldChange(
                                     index,
-                                    "contentWarning",
-                                    e.target.value
-                                      ? buildContentWarning(
-                                          e.target.value,
-                                          safeOnly
-                                        )
-                                      : ""
-                                  );
-                                }}
+                                    "image",
+                                    e.target.value,
+                                  )
+                                }
                                 className="editor-input"
-                                placeholder="Content warning (optional)"
+                                placeholder="Image URL"
                               />
-                              <button
-                                type="button"
-                                className={`editor-button editor-button-small ${
-                                  galleryItem.contentWarning &&
-                                  parseContentWarning(
+                              <ImagePreview urls={[galleryItem.image]} />
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">
+                                Thumbnail URL:
+                              </label>
+                              <input
+                                type="text"
+                                value={galleryItem.thumbnail || ""}
+                                onChange={(e) =>
+                                  handleGalleryFieldChange(
+                                    index,
+                                    "thumbnail",
+                                    e.target.value,
+                                  )
+                                }
+                                className="editor-input"
+                                placeholder="Thumbnail URL (optional)"
+                              />
+                              <ImagePreview
+                                urls={[galleryItem.thumbnail || ""]}
+                              />
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">Caption:</label>
+                              <SCEditor
+                                format="bbcode"
+                                toolbar={BBCODE_TOOLBAR_MINIMAL}
+                                value={galleryItem.caption || ""}
+                                onChange={(value) =>
+                                  handleGalleryFieldChange(
+                                    index,
+                                    "caption",
+                                    value,
+                                  )
+                                }
+                                height={100}
+                              />
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">
+                                Content Warning:
+                              </label>
+                              <div className="editor-input-with-button">
+                                <input
+                                  type="text"
+                                  value={
                                     galleryItem.contentWarning
-                                  ).safeOnly
-                                    ? "editor-button-toggle-active"
-                                    : "editor-button-secondary"
-                                }`}
-                                title="Toggle: show warning only in safe mode"
-                                onClick={() => {
-                                  const raw =
-                                    galleryItem.contentWarning || "";
-                                  const { text, safeOnly } =
-                                    parseContentWarning(raw);
-                                  if (text) {
+                                      ? parseContentWarning(
+                                          galleryItem.contentWarning,
+                                        ).text
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    const safeOnly = galleryItem.contentWarning
+                                      ? parseContentWarning(
+                                          galleryItem.contentWarning,
+                                        ).safeOnly
+                                      : false;
                                     handleGalleryFieldChange(
                                       index,
                                       "contentWarning",
-                                      buildContentWarning(
-                                        text,
-                                        !safeOnly
-                                      )
+                                      e.target.value
+                                        ? buildContentWarning(
+                                            e.target.value,
+                                            safeOnly,
+                                          )
+                                        : "",
                                     );
-                                  }
-                                }}
-                              >
-                                {galleryItem.contentWarning &&
-                                parseContentWarning(
-                                  galleryItem.contentWarning
-                                ).safeOnly
-                                  ? "🛡️ Safe only"
-                                  : "🌶️ Both modes"}
-                              </button>
+                                  }}
+                                  className="editor-input"
+                                  placeholder="Content warning (optional)"
+                                />
+                                <button
+                                  type="button"
+                                  className={`editor-button editor-button-small ${
+                                    galleryItem.contentWarning &&
+                                    parseContentWarning(
+                                      galleryItem.contentWarning,
+                                    ).safeOnly
+                                      ? "editor-button-toggle-active"
+                                      : "editor-button-secondary"
+                                  }`}
+                                  title="Toggle: show warning only in safe mode"
+                                  onClick={() => {
+                                    const raw =
+                                      galleryItem.contentWarning || "";
+                                    const { text, safeOnly } =
+                                      parseContentWarning(raw);
+                                    if (text) {
+                                      handleGalleryFieldChange(
+                                        index,
+                                        "contentWarning",
+                                        buildContentWarning(text, !safeOnly),
+                                      );
+                                    }
+                                  }}
+                                >
+                                  {galleryItem.contentWarning &&
+                                  parseContentWarning(
+                                    galleryItem.contentWarning,
+                                  ).safeOnly
+                                    ? "🛡️ Safe only"
+                                    : "🌶️ Both modes"}
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      }
-                    />
-                  ))
-                )}
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
                 <button
                   onClick={handleAddGalleryItem}
                   className="editor-button editor-button-primary editor-button-small"
@@ -1145,269 +861,205 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-field">
-                <div className="editor-field">
-                  <label className="editor-label">Breadcrumbs:</label>
-                  <button
-                    onClick={() => setBreadcrumbDragMode(!breadcrumbDragMode)}
-                    className={`editor-button editor-button-secondary ${
-                      breadcrumbDragMode ? "active" : ""
-                    }`}
+                <label className="editor-label">Breadcrumbs:</label>
+                {editingItem.breadcrumbs.map((breadcrumb, index) => (
+                  <div
+                    key={index}
                     style={{
-                      marginLeft: "10px",
-                      fontSize: "12px",
-                      padding: "4px 8px",
+                      display: "flex",
+                      alignItems: "stretch",
+                      gap: "8px",
                     }}
                   >
-                    {breadcrumbDragMode
-                      ? "Exit Drag Mode"
-                      : "Rearrange Breadcrumbs"}
-                  </button>
-                </div>
-                {breadcrumbDragMode && editingItem.breadcrumbs.length > 0 && (
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "#666",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Drag the ⋮⋮ handle to reorder breadcrumbs
-                  </p>
-                )}
-                {breadcrumbDragMode ? (
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragEnd={handleBreadcrumbDragEnd}
-                  >
-                    <SortableContext
-                      items={editingItem.breadcrumbs.map(
-                        (_, index) => `breadcrumb-${index}`
-                      )}
-                      strategy={verticalListSortingStrategy}
-                    >
-                      {editingItem.breadcrumbs.map((breadcrumb, index) => (
-                        <SortableBreadcrumbItem
-                          key={`breadcrumb-${index}`}
-                          breadcrumb={breadcrumb}
-                          index={index}
-                          onRemove={handleRemoveBreadcrumb}
-                          onTitleChange={(idx, value) =>
-                            handleBreadcrumbChange(idx, "title", value)
-                          }
-                          onDescriptionChange={(idx, value) =>
-                            handleBreadcrumbChange(idx, "description", value)
-                          }
-                          onVideoChange={(idx, value) =>
-                            handleBreadcrumbChange(idx, "video", value)
-                          }
-                          onContentWarningChange={(idx, value) =>
-                            handleBreadcrumbChange(idx, "contentWarning", value)
-                          }
-                          onImageChange={handleBreadcrumbImageChange}
-                          onAddImage={handleAddBreadcrumbImage}
-                          onRemoveImage={handleRemoveBreadcrumbImage}
-                        />
-                      ))}
-                    </SortableContext>
-                  </DndContext>
-                ) : (
-                  editingItem.breadcrumbs.map((breadcrumb, index) => (
-                    <CollapsibleWrapper
-                      key={index}
-                      button={
-                        <>
-                          Breadcrumb {index + 1}
-                          {breadcrumb.title && ` - ${breadcrumb.title}`}
-                        </>
-                      }
-                      buttonClassName="editor-collapsible-button"
-                      container={
-                        <div className="editor-section">
-                          <div className="editor-section-header">
-                            <h4>Breadcrumb {index + 1}</h4>
-                            <button
-                              onClick={() => handleRemoveBreadcrumb(index)}
-                              className="editor-button editor-button-danger editor-button-small"
-                            >
-                              Remove Breadcrumb
-                            </button>
-                          </div>
+                    <ReorderButtons
+                      index={index}
+                      total={editingItem.breadcrumbs.length}
+                      onMove={handleMoveBreadcrumb}
+                    />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <CollapsibleWrapper
+                        button={
+                          <>
+                            Breadcrumb {index + 1}
+                            {breadcrumb.title && ` - ${breadcrumb.title}`}
+                          </>
+                        }
+                        buttonClassName="editor-collapsible-button"
+                        container={
+                          <div className="editor-section">
+                            <div className="editor-section-header">
+                              <h4>Breadcrumb {index + 1}</h4>
+                              <DeleteButton
+                                onClick={() => handleRemoveBreadcrumb(index)}
+                                title="Remove breadcrumb"
+                              />
+                            </div>
 
-                          <div className="editor-field">
-                            <label className="editor-label">Title:</label>
-                            <SCEditor
-                              format="bbcode"
-                              toolbar={BBCODE_TOOLBAR_MINIMAL}
-                              value={breadcrumb.title || ""}
-                              onChange={(value) =>
-                                handleBreadcrumbChange(
-                                  index,
-                                  "title",
-                                  value
-                                )
-                              }
-                              height={100}
-                            />
-                          </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">Description:</label>
-                            <SCEditor
-                              format="bbcode"
-                  toolbar={BBCODE_TOOLBAR}
-                              value={breadcrumb.description}
-                              onChange={(value) =>
-                                handleBreadcrumbChange(
-                                  index,
-                                  "description",
-                                  value
-                                )
-                              }
-                              height={150}
-                            />
-                          </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">
-                              YouTube Video Embed:
-                            </label>
-                            <textarea
-                              value={breadcrumb.video || ""}
-                              onChange={(e) =>
-                                handleBreadcrumbChange(
-                                  index,
-                                  "video",
-                                  e.target.value
-                                )
-                              }
-                              rows={3}
-                              className="editor-textarea"
-                              placeholder="Paste YouTube iframe embed code here"
-                            />
-                          </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">
-                              Content Warning:
-                            </label>
-                            <div className="editor-input-with-button">
-                              <input
-                                type="text"
-                                value={
-                                  breadcrumb.contentWarning
-                                    ? parseContentWarning(
-                                        breadcrumb.contentWarning
-                                      ).text
-                                    : ""
+                            <div className="editor-field">
+                              <label className="editor-label">Title:</label>
+                              <SCEditor
+                                format="bbcode"
+                                toolbar={BBCODE_TOOLBAR_MINIMAL}
+                                value={breadcrumb.title || ""}
+                                onChange={(value) =>
+                                  handleBreadcrumbChange(index, "title", value)
                                 }
-                                onChange={(e) => {
-                                  const safeOnly =
-                                    breadcrumb.contentWarning
-                                      ? parseContentWarning(
-                                          breadcrumb.contentWarning
-                                        ).safeOnly
-                                      : false;
+                                height={100}
+                              />
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">
+                                Description:
+                              </label>
+                              <SCEditor
+                                format="bbcode"
+                                toolbar={BBCODE_TOOLBAR}
+                                value={breadcrumb.description}
+                                onChange={(value) =>
                                   handleBreadcrumbChange(
                                     index,
-                                    "contentWarning",
-                                    e.target.value
-                                      ? buildContentWarning(
-                                          e.target.value,
-                                          safeOnly
-                                        )
-                                      : ""
-                                  );
-                                }}
-                                className="editor-input"
-                                placeholder="Content warning for breadcrumb images (optional)"
+                                    "description",
+                                    value,
+                                  )
+                                }
+                                height={150}
                               />
-                              <button
-                                type="button"
-                                className={`editor-button editor-button-small ${
-                                  breadcrumb.contentWarning &&
-                                  parseContentWarning(
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">
+                                YouTube Video Embed:
+                              </label>
+                              <textarea
+                                value={breadcrumb.video || ""}
+                                onChange={(e) =>
+                                  handleBreadcrumbChange(
+                                    index,
+                                    "video",
+                                    e.target.value,
+                                  )
+                                }
+                                rows={3}
+                                className="editor-textarea"
+                                placeholder="Paste YouTube iframe embed code here"
+                              />
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">
+                                Content Warning:
+                              </label>
+                              <div className="editor-input-with-button">
+                                <input
+                                  type="text"
+                                  value={
                                     breadcrumb.contentWarning
-                                  ).safeOnly
-                                    ? "editor-button-toggle-active"
-                                    : "editor-button-secondary"
-                                }`}
-                                title="Toggle: show warning only in safe mode"
-                                onClick={() => {
-                                  const raw =
-                                    breadcrumb.contentWarning || "";
-                                  const { text, safeOnly } =
-                                    parseContentWarning(raw);
-                                  if (text) {
+                                      ? parseContentWarning(
+                                          breadcrumb.contentWarning,
+                                        ).text
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    const safeOnly = breadcrumb.contentWarning
+                                      ? parseContentWarning(
+                                          breadcrumb.contentWarning,
+                                        ).safeOnly
+                                      : false;
                                     handleBreadcrumbChange(
                                       index,
                                       "contentWarning",
-                                      buildContentWarning(
-                                        text,
-                                        !safeOnly
-                                      )
+                                      e.target.value
+                                        ? buildContentWarning(
+                                            e.target.value,
+                                            safeOnly,
+                                          )
+                                        : "",
                                     );
-                                  }
-                                }}
+                                  }}
+                                  className="editor-input"
+                                  placeholder="Content warning for breadcrumb images (optional)"
+                                />
+                                <button
+                                  type="button"
+                                  className={`editor-button editor-button-small ${
+                                    breadcrumb.contentWarning &&
+                                    parseContentWarning(
+                                      breadcrumb.contentWarning,
+                                    ).safeOnly
+                                      ? "editor-button-toggle-active"
+                                      : "editor-button-secondary"
+                                  }`}
+                                  title="Toggle: show warning only in safe mode"
+                                  onClick={() => {
+                                    const raw = breadcrumb.contentWarning || "";
+                                    const { text, safeOnly } =
+                                      parseContentWarning(raw);
+                                    if (text) {
+                                      handleBreadcrumbChange(
+                                        index,
+                                        "contentWarning",
+                                        buildContentWarning(text, !safeOnly),
+                                      );
+                                    }
+                                  }}
+                                >
+                                  {breadcrumb.contentWarning &&
+                                  parseContentWarning(breadcrumb.contentWarning)
+                                    .safeOnly
+                                    ? "🛡️ Safe only"
+                                    : "🌶️ Both modes"}
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="editor-field">
+                              <label className="editor-label">Images:</label>
+                              {(breadcrumb.images || []).map(
+                                (imageUrl, imageIndex) => (
+                                  <div
+                                    key={imageIndex}
+                                    className="editor-array-item"
+                                  >
+                                    <input
+                                      type="text"
+                                      value={imageUrl}
+                                      onChange={(e) =>
+                                        handleBreadcrumbImageChange(
+                                          index,
+                                          imageIndex,
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="editor-array-input"
+                                      placeholder="Image URL"
+                                    />
+                                    <DeleteButton
+                                      onClick={() =>
+                                        handleRemoveBreadcrumbImage(
+                                          index,
+                                          imageIndex,
+                                        )
+                                      }
+                                      title="Remove image"
+                                    />
+                                  </div>
+                                ),
+                              )}
+                              <button
+                                onClick={() => handleAddBreadcrumbImage(index)}
+                                className="editor-button editor-button-primary editor-button-small"
                               >
-                                {breadcrumb.contentWarning &&
-                                parseContentWarning(
-                                  breadcrumb.contentWarning
-                                ).safeOnly
-                                  ? "🛡️ Safe only"
-                                  : "🌶️ Both modes"}
+                                Add Image
                               </button>
+                              <ImagePreview urls={breadcrumb.images || []} />
                             </div>
                           </div>
-
-                          <div className="editor-field">
-                            <label className="editor-label">Images:</label>
-                            {(breadcrumb.images || []).map(
-                              (imageUrl, imageIndex) => (
-                                <div
-                                  key={imageIndex}
-                                  className="editor-array-item"
-                                >
-                                  <input
-                                    type="text"
-                                    value={imageUrl}
-                                    onChange={(e) =>
-                                      handleBreadcrumbImageChange(
-                                        index,
-                                        imageIndex,
-                                        e.target.value
-                                      )
-                                    }
-                                    className="editor-array-input"
-                                    placeholder="Image URL"
-                                  />
-                                  <button
-                                    onClick={() =>
-                                      handleRemoveBreadcrumbImage(
-                                        index,
-                                        imageIndex
-                                      )
-                                    }
-                                    className="editor-button editor-button-danger editor-button-small"
-                                  >
-                                    Remove
-                                  </button>
-                                </div>
-                              )
-                            )}
-                            <button
-                              onClick={() => handleAddBreadcrumbImage(index)}
-                              className="editor-button editor-button-primary editor-button-small"
-                            >
-                              Add Image
-                            </button>
-                            <ImagePreview urls={breadcrumb.images || []} />
-                          </div>
-                        </div>
-                      }
-                    />
-                  ))
-                )}
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
                 <button
                   onClick={handleAddBreadcrumb}
                   className="editor-button editor-button-primary editor-button-small"
@@ -1447,12 +1099,10 @@ export const EditorOc: React.FC = () => {
                           {tagInfo.name}
                         </div>
                       )}
-                      <button
+                      <DeleteButton
                         onClick={() => handleRemoveArrayItem("tags", index)}
-                        className="editor-button editor-button-danger editor-button-small"
-                      >
-                        Remove
-                      </button>
+                        title="Remove tag"
+                      />
                     </div>
                   );
                 })}

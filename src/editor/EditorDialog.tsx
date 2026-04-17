@@ -4,6 +4,7 @@ import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import { SCEditor } from "sceditor-react";
+import DeleteButton from "./DeleteButton";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import "./EditorCommon.css";
@@ -192,12 +193,10 @@ const EditorDialog: React.FC = () => {
                         />
                       </div>
                       {isEditing && selectedTexts.length > 1 && (
-                        <button
+                        <DeleteButton
                           onClick={() => handleRemoveText(index)}
-                          className="editor-button editor-button-danger editor-button-small"
-                        >
-                          Remove
-                        </button>
+                          title="Remove text"
+                        />
                       )}
                     </div>
                   ))}
@@ -235,12 +234,10 @@ const EditorDialog: React.FC = () => {
                       >
                         Edit
                       </button>
-                      <button
+                      <DeleteButton
                         onClick={handleDeleteDialog}
-                        className="editor-button editor-button-danger"
-                      >
-                        Delete
-                      </button>
+                        title="Delete dialog"
+                      />
                     </>
                   )}
                 </div>

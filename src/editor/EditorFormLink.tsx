@@ -3,6 +3,7 @@ import type { FormLink, OC } from "../helpers/objects";
 import { loadFormLinks, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
@@ -173,12 +174,10 @@ export const EditorFormLink: React.FC = () => {
                     >
                       Edit
                     </button>
-                    <button
+                    <DeleteButton
                       onClick={() => handleDelete(index)}
-                      className="editor-button editor-button-danger editor-button-small"
-                    >
-                      Delete
-                    </button>
+                      title="Delete link"
+                    />
                   </div>
                 </div>
               ))}

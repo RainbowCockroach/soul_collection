@@ -3,68 +3,40 @@ import type { Tag } from "../helpers/objects";
 import { loadTags } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
+import ReorderButtons from "./ReorderButtons";
+import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
 interface TagJsonData {
   [key: string]: Omit<Tag, "slug">;
 }
 
-interface SortableTagItemProps {
+interface TagItemProps {
   tag: Tag;
+  index: number;
+  total: number;
   isSelected: boolean;
   onSelect: (slug: string) => void;
   onDelete: (slug: string) => void;
+  onMove: (index: number, direction: -1 | 1) => void;
 }
 
-const SortableTagItem: React.FC<SortableTagItemProps> = ({
+const TagItem: React.FC<TagItemProps> = ({
   tag,
+  index,
+  total,
   isSelected,
   onSelect,
   onDelete,
+  onMove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: tag.slug });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
     <div
-      ref={setNodeRef}
-      style={style}
       className={`editor-item ${isSelected ? "selected" : ""}`}
       onClick={() => onSelect(tag.slug)}
     >
-      <div {...attributes} {...listeners} className="editor-drag-handle">
-        ⋮⋮
-      </div>
+      <ReorderButtons index={index} total={total} onMove={onMove} />
       <div
         className="editor-tag-preview"
         style={{
@@ -75,15 +47,9 @@ const SortableTagItem: React.FC<SortableTagItemProps> = ({
         {tag.name}
       </div>
       <div className="editor-item-slug">{tag.slug}</div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(tag.slug);
-        }}
-        className="editor-button editor-button-danger editor-button-small"
-      >
-        🗑
-      </button>
+      <span onClick={(e) => e.stopPropagation()}>
+        <DeleteButton onClick={() => onDelete(tag.slug)} title="Delete tag" />
+      </span>
     </div>
   );
 };
@@ -110,13 +76,6 @@ const EditorTag: React.FC = () => {
     });
     return data;
   };
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
 
   useEffect(() => {
     loadTagsData();
@@ -214,17 +173,14 @@ const EditorTag: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMove = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= tags.length) return;
 
-    if (over && active.id !== over.id) {
-      const oldIndex = tags.findIndex((tag) => tag.slug === active.id);
-      const newIndex = tags.findIndex((tag) => tag.slug === over.id);
-
-      const newTags = arrayMove(tags, oldIndex, newIndex);
-      setTags(newTags);
-      setTagData(buildTagData(newTags));
-    }
+    const newTags = [...tags];
+    [newTags[index], newTags[newIndex]] = [newTags[newIndex], newTags[index]];
+    setTags(newTags);
+    setTagData(buildTagData(newTags));
   };
 
   const handleSaveToClipboard = async () => {
@@ -259,26 +215,18 @@ const EditorTag: React.FC = () => {
             <div className="editor-list-header">
               <h3>Tags ({tags.length})</h3>
             </div>
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={tags.map((tag) => tag.slug)}
-                strategy={verticalListSortingStrategy}
-              >
-                {tags.map((tag) => (
-                  <SortableTagItem
-                    key={tag.slug}
-                    tag={tag}
-                    isSelected={selectedTag === tag.slug}
-                    onSelect={handleSelectTag}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
+            {tags.map((tag, index) => (
+              <TagItem
+                key={tag.slug}
+                tag={tag}
+                index={index}
+                total={tags.length}
+                isSelected={selectedTag === tag.slug}
+                onSelect={handleSelectTag}
+                onDelete={handleDelete}
+                onMove={handleMove}
+              />
+            ))}
           </div>
         </div>
 
