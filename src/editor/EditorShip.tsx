@@ -2,69 +2,38 @@ import React, { useState, useEffect } from "react";
 import type { Ship, OC } from "../helpers/objects";
 import { loadShips, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
+import ReorderButtons from "./ReorderButtons";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-interface SortableShipItemProps {
+interface ShipItemProps {
   ship: Ship;
   index: number;
+  total: number;
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
+  onMove: (index: number, direction: -1 | 1) => void;
 }
 
-const SortableShipItem: React.FC<SortableShipItemProps> = ({
+const ShipItem: React.FC<ShipItemProps> = ({
   ship,
   index,
+  total,
   isSelected,
   onSelect,
   onDelete,
+  onMove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `ship-${index}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
     <div
-      ref={setNodeRef}
-      style={style}
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <div {...attributes} {...listeners} className="editor-drag-handle">
-        ⋮⋮
-      </div>
+      <ReorderButtons index={index} total={total} onMove={onMove} />
       <div className="editor-item-content">
         <div className="editor-item-name">{ship.name}</div>
         <div className="editor-item-slug">OCs: {ship.oc.join(", ")}</div>
@@ -96,13 +65,6 @@ export const EditorShip: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [availableOcs, setAvailableOcs] = useState<OC[]>([]);
   const [newOcSlug, setNewOcSlug] = useState("");
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   useEffect(() => {
     loadShipsData();
@@ -201,26 +163,18 @@ export const EditorShip: React.FC = () => {
     setNewOcSlug("");
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMove = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= ships.length) return;
 
-    if (over && active.id !== over.id) {
-      const activeIndex = parseInt(active.id.toString().split("-")[1]);
-      const overIndex = parseInt(over.id.toString().split("-")[1]);
+    const newShips = [...ships];
+    [newShips[index], newShips[newIndex]] = [newShips[newIndex], newShips[index]];
+    setShips(newShips);
 
-      const newShips = arrayMove(ships, activeIndex, overIndex);
-      setShips(newShips);
-
-      // Update selected index if needed
-      if (selectedShipIndex === activeIndex) {
-        setSelectedShipIndex(overIndex);
-      } else if (selectedShipIndex === overIndex) {
-        setSelectedShipIndex(
-          activeIndex > overIndex
-            ? selectedShipIndex + 1
-            : selectedShipIndex - 1
-        );
-      }
+    if (selectedShipIndex === index) {
+      setSelectedShipIndex(newIndex);
+    } else if (selectedShipIndex === newIndex) {
+      setSelectedShipIndex(index);
     }
   };
 
@@ -294,27 +248,18 @@ export const EditorShip: React.FC = () => {
             <div className="editor-list-header">
               <h3>Ships ({ships.length})</h3>
             </div>
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={ships.map((_, index) => `ship-${index}`)}
-                strategy={verticalListSortingStrategy}
-              >
-                {ships.map((ship, index) => (
-                  <SortableShipItem
-                    key={`ship-${index}`}
-                    ship={ship}
-                    index={index}
-                    isSelected={selectedShipIndex === index}
-                    onSelect={handleSelectShip}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
+            {ships.map((ship, index) => (
+              <ShipItem
+                key={`ship-${index}`}
+                ship={ship}
+                index={index}
+                total={ships.length}
+                isSelected={selectedShipIndex === index}
+                onSelect={handleSelectShip}
+                onDelete={handleDelete}
+                onMove={handleMove}
+              />
+            ))}
           </div>
         </div>
 

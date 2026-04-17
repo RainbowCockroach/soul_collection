@@ -437,22 +437,36 @@
   opacity: 1;
 }
 
-/* Drag handle */
-.editor-drag-handle {
-  cursor: grab;
-  color: var(--editor-purple-300);
-  font-weight: bold;
-  padding: var(--editor-spacing-xs);
+/* Reorder buttons (replaces drag handle) */
+.editor-reorder-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--editor-spacing-xs) 0;
   user-select: none;
-  transition: color 0.15s ease;
 }
 
-.editor-drag-handle:hover {
-  color: var(--editor-primary);
+.editor-reorder-button {
+  background: transparent;
+  border: 1px solid var(--editor-purple-300);
+  border-radius: 4px;
+  color: var(--editor-purple-300);
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1;
+  padding: 4px 6px;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.editor-drag-handle:active {
-  cursor: grabbing;
+.editor-reorder-button:hover:not(:disabled) {
+  background-color: var(--editor-primary);
+  border-color: var(--editor-primary);
+  color: white;
+}
+
+.editor-reorder-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* ===== ARRAY FIELDS ===== */

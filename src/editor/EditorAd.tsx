@@ -2,67 +2,36 @@ import React, { useState, useEffect } from "react";
 import type { AdLocations, AdItem } from "../helpers/objects";
 import { loadAds } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import SavePushButton from "./SavePushButton";
+import ReorderButtons from "./ReorderButtons";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
 
-interface SortableAdItemProps {
+interface AdListItemProps {
   ad: AdItem;
   index: number;
+  total: number;
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
+  onMove: (index: number, direction: -1 | 1) => void;
 }
 
-const SortableAdItem: React.FC<SortableAdItemProps> = ({
+const AdListItem: React.FC<AdListItemProps> = ({
   ad,
   index,
+  total,
   isSelected,
   onSelect,
   onDelete,
+  onMove,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `ad-${index}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
     <div
-      ref={setNodeRef}
-      style={style}
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <div {...attributes} {...listeners} className="editor-drag-handle">
-        ⋮⋮
-      </div>
+      <ReorderButtons index={index} total={total} onMove={onMove} />
       <div className="editor-item-content">
         {ad.imageUrl && (
           <img
@@ -103,13 +72,6 @@ const EditorAd: React.FC = () => {
     redirectUrl: "",
   });
   const [isEditing, setIsEditing] = useState(false);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   useEffect(() => {
     loadAdsData();
@@ -203,29 +165,21 @@ const EditorAd: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleMove = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= currentAds.length) return;
 
-    if (over && active.id !== over.id) {
-      const activeIndex = parseInt(active.id.toString().split("-")[1]);
-      const overIndex = parseInt(over.id.toString().split("-")[1]);
+    const newAds = [...currentAds];
+    [newAds[index], newAds[newIndex]] = [newAds[newIndex], newAds[index]];
+    setAdsData({
+      ...adsData,
+      [selectedLocation]: newAds,
+    });
 
-      const newAds = arrayMove(currentAds, activeIndex, overIndex);
-      setAdsData({
-        ...adsData,
-        [selectedLocation]: newAds,
-      });
-
-      // Update selected index if needed
-      if (selectedAdIndex === activeIndex) {
-        setSelectedAdIndex(overIndex);
-      } else if (selectedAdIndex === overIndex) {
-        setSelectedAdIndex(
-          activeIndex > overIndex
-            ? selectedAdIndex + 1
-            : selectedAdIndex - 1
-        );
-      }
+    if (selectedAdIndex === index) {
+      setSelectedAdIndex(newIndex);
+    } else if (selectedAdIndex === newIndex) {
+      setSelectedAdIndex(index);
     }
   };
 
@@ -290,27 +244,20 @@ const EditorAd: React.FC = () => {
               </h3>
             </div>
             {selectedLocation && currentAds.length > 0 && (
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext
-                  items={currentAds.map((_, index) => `ad-${index}`)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  {currentAds.map((ad, index) => (
-                    <SortableAdItem
-                      key={`ad-${index}`}
-                      ad={ad}
-                      index={index}
-                      isSelected={selectedAdIndex === index}
-                      onSelect={handleSelectAd}
-                      onDelete={handleDeleteAd}
-                    />
-                  ))}
-                </SortableContext>
-              </DndContext>
+              <>
+                {currentAds.map((ad, index) => (
+                  <AdListItem
+                    key={`ad-${index}`}
+                    ad={ad}
+                    index={index}
+                    total={currentAds.length}
+                    isSelected={selectedAdIndex === index}
+                    onSelect={handleSelectAd}
+                    onDelete={handleDeleteAd}
+                    onMove={handleMove}
+                  />
+                ))}
+              </>
             )}
             {selectedLocation && currentAds.length === 0 && (
               <div className="editor-empty-state">No ads in this location</div>
