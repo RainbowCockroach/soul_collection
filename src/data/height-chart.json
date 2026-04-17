@@ -550,5 +550,19 @@
       }
     ],
     "order": 29
+  },
+  {
+    "name": "Petunia",
+    "groupId": "petunia",
+    "thumbnail": "https://i.pinimg.com/originals/64/a2/3f/64a23f8b466993b146ef7d7a68cc23f1.png",
+    "variants": [
+      {
+        "id": "petunia-1",
+        "url": "https://i.pinimg.com/originals/7c/b2/b0/7cb2b03bdfe3905bd6c8bc8aa2712210.png",
+        "thumbnail": "",
+        "height": "143cm"
+      }
+    ],
+    "order": 30
   }
 ]
