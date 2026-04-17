@@ -6,6 +6,7 @@ import ButtonWrapper from "../common-components/ButtonWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import "./OcGroup.css";
+import buttonSoundCollapseGroup from "/sound-effect/button_tab_switch_info_backstory.mp3";
 
 export interface OcGroupInfo {
   slug: string;
@@ -42,7 +43,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
       return selectedShips
         .map((shipName) => {
           const ship = ships.find(
-            (s) => s.name === shipName && s.oc.includes(ocSlug)
+            (s) => s.name === shipName && s.oc.includes(ocSlug),
           );
           return ship ? ship.color : null;
         })
@@ -61,7 +62,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
       return selectedShips
         .map((shipName) => {
           const ship = ships.find(
-            (s) => s.name === shipName && s.oc.includes(ocSlug)
+            (s) => s.name === shipName && s.oc.includes(ocSlug),
           );
           return ship ? ship.shipText?.[ocSlug] : null;
         })
@@ -81,6 +82,7 @@ const OcGroup: React.FC<OcGroupProps> = ({
         onClick={() => onToggle(groupInfo.slug)}
         className="glass-effect div-3d-with-shadow group-header"
         style={{ background: groupInfo.groupHeaderColour }}
+        soundFile={buttonSoundCollapseGroup}
       >
         <h2
           className="text-outline-thick"
