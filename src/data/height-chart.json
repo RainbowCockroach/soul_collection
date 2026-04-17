@@ -512,6 +512,20 @@
     "order": 27
   },
   {
+    "name": "Petunia",
+    "groupId": "petunia",
+    "thumbnail": "https://i.pinimg.com/originals/64/a2/3f/64a23f8b466993b146ef7d7a68cc23f1.png",
+    "variants": [
+      {
+        "id": "petunia-1",
+        "url": "https://i.pinimg.com/originals/7c/b2/b0/7cb2b03bdfe3905bd6c8bc8aa2712210.png",
+        "thumbnail": "",
+        "height": "143cm"
+      }
+    ],
+    "order": 28
+  },
+  {
     "name": "Sam",
     "groupId": "sam",
     "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
@@ -529,7 +543,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 28
+    "order": 29
   },
   {
     "name": "Jessica",
@@ -547,20 +561,6 @@
         "url": "https://i.pinimg.com/originals/17/a1/b4/17a1b45b555ff3587f92965c7280d9ed.png",
         "thumbnail": "https://i.pinimg.com/originals/63/66/29/636629f0c041389084318a47b4de9709.png",
         "height": "60cm"
-      }
-    ],
-    "order": 29
-  },
-  {
-    "name": "Petunia",
-    "groupId": "petunia",
-    "thumbnail": "https://i.pinimg.com/originals/64/a2/3f/64a23f8b466993b146ef7d7a68cc23f1.png",
-    "variants": [
-      {
-        "id": "petunia-1",
-        "url": "https://i.pinimg.com/originals/7c/b2/b0/7cb2b03bdfe3905bd6c8bc8aa2712210.png",
-        "thumbnail": "",
-        "height": "143cm"
       }
     ],
     "order": 30
