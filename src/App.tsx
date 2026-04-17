@@ -19,6 +19,9 @@ const PageHeightChart = lazy(() => import("./page-height-chart/PageHeightChart")
 const Editor = lazy(() =>
   import("./editor/Editor").then((m) => ({ default: m.Editor })),
 );
+const PageSetPassword = lazy(
+  () => import("./page-set-password/PageSetPassword"),
+);
 
 function App() {
   const location = useLocation();
@@ -148,6 +151,10 @@ function App() {
                 />
                 <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
                 <Route path={`${baseUrl}/editor`} element={<Editor />} />
+                <Route
+                  path={`${baseUrl}/set-password`}
+                  element={<PageSetPassword />}
+                />
               </Routes>
             </Suspense>
           </div>
