@@ -2538,7 +2538,7 @@
   "petunia": {
     "name": "Petunia",
     "avatar": [
-      "https://www.willemsefrance.fr/cdn/shop/files/HOR_100240_1_1747317230211.jpg?v=1763559109"
+      "https://i.pinimg.com/236x/30/fd/27/30fd2767925680e120a19d466c65d912.jpg"
     ],
     "group": [
       "vrev"
@@ -2554,11 +2554,10 @@
       "female",
       "under-age",
       "long-hair",
-      "pink",
       "black",
-      "brown",
       "single",
-      "side-character"
+      "side-character",
+      "silver"
     ],
     "order": 35
   },
