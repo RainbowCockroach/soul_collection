@@ -3,7 +3,7 @@ import type { DialogTexts, DialogEntry } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
-import { SCEditor } from "sceditor-react";
+import { SCEditor } from "./BBCodeEditor";
 import DeleteButton from "./DeleteButton";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";

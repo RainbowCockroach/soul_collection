@@ -3,7 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
-import { SCEditor } from "sceditor-react";
+import { SCEditor } from "./BBCodeEditor";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 const BBCODE_TOOLBAR_MINIMAL = "image|source";

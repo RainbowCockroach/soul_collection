@@ -13,7 +13,7 @@ import {
   loadSpecies,
   loadTags,
 } from "../helpers/data-load";
-import { SCEditor } from "sceditor-react";
+import { SCEditor } from "./BBCodeEditor";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 const BBCODE_TOOLBAR_MINIMAL = "image|source";

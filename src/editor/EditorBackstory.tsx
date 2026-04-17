@@ -3,7 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { loadOCs, loadOcBackstory } from "../helpers/data-load";
 import type { OC } from "../helpers/objects";
 import SavePushButton from "./SavePushButton";
-import { SCEditor } from "sceditor-react";
+import { SCEditor } from "./BBCodeEditor";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 import "./EditorCommon.css";
