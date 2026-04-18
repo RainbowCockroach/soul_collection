@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove, trackMovedIndex } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
@@ -16,7 +17,7 @@ interface AdListItemProps {
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const AdListItem: React.FC<AdListItemProps> = ({
@@ -33,7 +34,7 @@ const AdListItem: React.FC<AdListItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div className="editor-item-content">
         {ad.imageUrl && (
           <img
@@ -175,22 +176,14 @@ const EditorAd: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= currentAds.length) return;
-
-    const newAds = [...currentAds];
-    [newAds[index], newAds[newIndex]] = [newAds[newIndex], newAds[index]];
+  const handleMove = (from: number, to: number) => {
+    const newAds = arrayMove(currentAds, from, to);
+    if (newAds === currentAds) return;
     setAdsData({
       ...adsData,
       [selectedLocation]: newAds,
     });
-
-    if (selectedAdIndex === index) {
-      setSelectedAdIndex(newIndex);
-    } else if (selectedAdIndex === newIndex) {
-      setSelectedAdIndex(index);
-    }
+    setSelectedAdIndex(trackMovedIndex(selectedAdIndex, from, to));
   };
 
   return (

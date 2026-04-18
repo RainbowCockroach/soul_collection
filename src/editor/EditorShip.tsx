@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove, trackMovedIndex } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -18,7 +19,7 @@ interface ShipItemProps {
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const ShipItem: React.FC<ShipItemProps> = ({
@@ -35,7 +36,7 @@ const ShipItem: React.FC<ShipItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div className="editor-item-content">
         <div className="editor-item-name">{ship.name}</div>
         <div className="editor-item-slug">OCs: {ship.oc.join(", ")}</div>
@@ -159,22 +160,11 @@ export const EditorShip: React.FC = () => {
     setNewOcSlug("");
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= ships.length) return;
-
-    const newShips = [...ships];
-    [newShips[index], newShips[newIndex]] = [
-      newShips[newIndex],
-      newShips[index],
-    ];
+  const handleMove = (from: number, to: number) => {
+    const newShips = arrayMove(ships, from, to);
+    if (newShips === ships) return;
     setShips(newShips);
-
-    if (selectedShipIndex === index) {
-      setSelectedShipIndex(newIndex);
-    } else if (selectedShipIndex === newIndex) {
-      setSelectedShipIndex(index);
-    }
+    setSelectedShipIndex(trackMovedIndex(selectedShipIndex, from, to));
   };
 
   const handleAddOc = () => {

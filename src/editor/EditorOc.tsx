@@ -23,6 +23,7 @@ import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -51,7 +52,7 @@ interface OcListItemProps {
   isSelected: boolean;
   onSelect: (slug: string) => void;
   onDelete: (slug: string) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const OcListItem: React.FC<OcListItemProps> = ({
@@ -65,7 +66,7 @@ const OcListItem: React.FC<OcListItemProps> = ({
 }) => {
   return (
     <div className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}>
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div onClick={() => onSelect(oc.slug)} className="editor-item-content">
         <img
           src={oc.avatar?.[0] || "https://placehold.co/40"}
@@ -146,15 +147,9 @@ export const EditorOc: React.FC = () => {
     return editingItem && !ocData[editingItem.slug];
   };
 
-  const handleMoveOc = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= ocsArray.length) return;
-
-    const newOcsArray = [...ocsArray];
-    [newOcsArray[index], newOcsArray[newIndex]] = [
-      newOcsArray[newIndex],
-      newOcsArray[index],
-    ];
+  const handleMoveOc = (from: number, to: number) => {
+    const newOcsArray = arrayMove(ocsArray, from, to);
+    if (newOcsArray === ocsArray) return;
 
     const updatedOcsArray = newOcsArray.map((oc, idx) => ({
       ...oc,
@@ -171,29 +166,17 @@ export const EditorOc: React.FC = () => {
     setOcData(updatedData);
   };
 
-  const handleMoveBreadcrumb = (index: number, direction: -1 | 1) => {
+  const handleMoveBreadcrumb = (from: number, to: number) => {
     if (!editingItem) return;
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= editingItem.breadcrumbs.length) return;
-
-    const newBreadcrumbs = [...editingItem.breadcrumbs];
-    [newBreadcrumbs[index], newBreadcrumbs[newIndex]] = [
-      newBreadcrumbs[newIndex],
-      newBreadcrumbs[index],
-    ];
+    const newBreadcrumbs = arrayMove(editingItem.breadcrumbs, from, to);
+    if (newBreadcrumbs === editingItem.breadcrumbs) return;
     setEditingItem({ ...editingItem, breadcrumbs: newBreadcrumbs });
   };
 
-  const handleMoveGallery = (index: number, direction: -1 | 1) => {
+  const handleMoveGallery = (from: number, to: number) => {
     if (!editingItem) return;
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= editingItem.gallery.length) return;
-
-    const newGallery = [...editingItem.gallery];
-    [newGallery[index], newGallery[newIndex]] = [
-      newGallery[newIndex],
-      newGallery[index],
-    ];
+    const newGallery = arrayMove(editingItem.gallery, from, to);
+    if (newGallery === editingItem.gallery) return;
     setEditingItem({ ...editingItem, gallery: newGallery });
   };
 
@@ -679,7 +662,7 @@ export const EditorOc: React.FC = () => {
                     <ReorderButtons
                       index={index}
                       total={editingItem.gallery.length}
-                      onMove={handleMoveGallery}
+                      onMoveTo={handleMoveGallery}
                     />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <CollapsibleWrapper
@@ -858,7 +841,7 @@ export const EditorOc: React.FC = () => {
                     <ReorderButtons
                       index={index}
                       total={editingItem.breadcrumbs.length}
-                      onMove={handleMoveBreadcrumb}
+                      onMoveTo={handleMoveBreadcrumb}
                     />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <CollapsibleWrapper

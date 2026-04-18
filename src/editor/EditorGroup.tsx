@@ -6,6 +6,7 @@ import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
@@ -20,7 +21,7 @@ interface GroupItemProps {
   isSelected: boolean;
   onSelect: (slug: string) => void;
   onDelete: (slug: string) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const GroupItem: React.FC<GroupItemProps> = ({
@@ -34,7 +35,7 @@ const GroupItem: React.FC<GroupItemProps> = ({
 }) => {
   return (
     <div className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}>
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div onClick={() => onSelect(group.slug)} className="editor-item-content">
         <div
           className="editor-color-box"
@@ -102,15 +103,9 @@ export const EditorGroup: React.FC = () => {
     return editingItem && !groupData[editingItem.slug];
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= groupsArray.length) return;
-
-    const newGroupsArray = [...groupsArray];
-    [newGroupsArray[index], newGroupsArray[newIndex]] = [
-      newGroupsArray[newIndex],
-      newGroupsArray[index],
-    ];
+  const handleMove = (from: number, to: number) => {
+    const newGroupsArray = arrayMove(groupsArray, from, to);
+    if (newGroupsArray === groupsArray) return;
 
     const updatedGroupsArray = newGroupsArray.map((group, idx) => ({
       ...group,

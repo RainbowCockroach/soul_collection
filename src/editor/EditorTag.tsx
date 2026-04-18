@@ -6,6 +6,7 @@ import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 
@@ -20,7 +21,7 @@ interface TagItemProps {
   isSelected: boolean;
   onSelect: (slug: string) => void;
   onDelete: (slug: string) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const TagItem: React.FC<TagItemProps> = ({
@@ -37,7 +38,7 @@ const TagItem: React.FC<TagItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(tag.slug)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div
         className="editor-tag-preview"
         style={{
@@ -173,12 +174,9 @@ const EditorTag: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= tags.length) return;
-
-    const newTags = [...tags];
-    [newTags[index], newTags[newIndex]] = [newTags[newIndex], newTags[index]];
+  const handleMove = (from: number, to: number) => {
+    const newTags = arrayMove(tags, from, to);
+    if (newTags === tags) return;
     setTags(newTags);
     setTagData(buildTagData(newTags));
   };

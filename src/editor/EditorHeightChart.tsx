@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
 import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove, trackMovedIndex } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -35,7 +36,7 @@ interface GroupItemProps {
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const GroupItem: React.FC<GroupItemProps> = ({
@@ -52,7 +53,7 @@ const GroupItem: React.FC<GroupItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div className="editor-item-content">
         <div className="editor-item-name">{group.name}</div>
         <div className="editor-item-slug">
@@ -231,23 +232,12 @@ export const EditorHeightChart: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= groups.length) return;
-
-    const newGroups = [...groups];
-    [newGroups[index], newGroups[newIndex]] = [
-      newGroups[newIndex],
-      newGroups[index],
-    ];
+  const handleMove = (from: number, to: number) => {
+    const newGroups = arrayMove(groups, from, to);
+    if (newGroups === groups) return;
     const updatedGroups = newGroups.map((g, idx) => ({ ...g, order: idx }));
     setGroups(updatedGroups);
-
-    if (selectedGroupIndex === index) {
-      setSelectedGroupIndex(newIndex);
-    } else if (selectedGroupIndex === newIndex) {
-      setSelectedGroupIndex(index);
-    }
+    setSelectedGroupIndex(trackMovedIndex(selectedGroupIndex, from, to));
   };
 
   const handleAddVariant = () => {
