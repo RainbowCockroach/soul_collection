@@ -9,10 +9,11 @@ export function arrayMove<T>(arr: T[], from: number, to: number): T[] {
 }
 
 export function trackMovedIndex(
-  tracked: number,
+  tracked: number | null,
   from: number,
   to: number
-): number {
+): number | null {
+  if (tracked === null) return tracked;
   if (tracked < 0) return tracked;
   if (tracked === from) return to;
   if (from < tracked && to >= tracked) return tracked - 1;
