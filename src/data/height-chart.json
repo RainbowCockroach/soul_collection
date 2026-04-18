@@ -564,5 +564,19 @@
       }
     ],
     "order": 30
+  },
+  {
+    "name": "Timur Li",
+    "groupId": "timur",
+    "thumbnail": "https://i.pinimg.com/originals/5f/32/d0/5f32d0c2bf02f766784f3030fc671631.png",
+    "variants": [
+      {
+        "id": "timur-1",
+        "url": "https://i.pinimg.com/originals/8c/18/15/8c1815fc04195dc8bc132a485b462554.png",
+        "thumbnail": "",
+        "height": "145cm"
+      }
+    ],
+    "order": 31
   }
 ]
