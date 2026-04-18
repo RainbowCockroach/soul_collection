@@ -4,6 +4,7 @@ import { loadTags } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
@@ -33,7 +34,7 @@ const TagItem: React.FC<TagItemProps> = ({
 }) => {
   return (
     <div
-      className={`editor-item ${isSelected ? "selected" : ""}`}
+      className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(tag.slug)}
     >
       <ReorderButtons index={index} total={total} onMove={onMove} />
@@ -46,7 +47,6 @@ const TagItem: React.FC<TagItemProps> = ({
       >
         {tag.name}
       </div>
-      <div className="editor-item-slug">{tag.slug}</div>
       <span onClick={(e) => e.stopPropagation()}>
         <DeleteButton onClick={() => onDelete(tag.slug)} title="Delete tag" />
       </span>
@@ -183,30 +183,18 @@ const EditorTag: React.FC = () => {
     setTagData(buildTagData(newTags));
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(tagData, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Tag JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Tag Editor</h2>
-        <SavePushButton fileId="tag" getData={() => tagData} />
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <SavePushButton fileId="tag" getData={() => tagData} />
+          <CopyToClipboardButton
+            getData={() => tagData}
+            entityLabel="Tag JSON"
+          />
+        </div>
       </div>
 
       <div className="editor-layout">
@@ -321,14 +309,14 @@ const EditorTag: React.FC = () => {
                 onClick={handleSave}
                 className="editor-button editor-button-success"
               >
-                {isEditing ? "Update" : "Add"} Tag
+                Save
               </button>
               {isEditing && (
                 <button
                   onClick={handleCancelEdit}
                   className="editor-button editor-button-secondary"
                 >
-                  Cancel
+                Cancel
                 </button>
               )}
             </div>

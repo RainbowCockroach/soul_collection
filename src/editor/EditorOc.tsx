@@ -21,6 +21,7 @@ import ImagePreview from "./ImagePreview";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
@@ -453,31 +454,14 @@ export const EditorOc: React.FC = () => {
     setEditingItem({ ...editingItem, breadcrumbs: updatedBreadcrumbs });
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(ocData, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("OC JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Error copying to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>OC Editor</h2>
         <div className="editor-button-group">
           <SavePushButton fileId="oc" getData={() => ocData} />
-          <button
-            onClick={handleSaveToClipboard}
-            className="editor-button editor-button-success"
-          >
-            Copy to clipboard
-          </button>
+          <CopyToClipboardButton getData={() => ocData} entityLabel="OC JSON" />
         </div>
       </div>
 

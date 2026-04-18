@@ -3,6 +3,7 @@ import type { Ship, OC } from "../helpers/objects";
 import { loadShips, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
@@ -49,7 +50,7 @@ const ShipItem: React.FC<ShipItemProps> = ({
 export const EditorShip: React.FC = () => {
   const [ships, setShips] = useState<Ship[]>([]);
   const [selectedShipIndex, setSelectedShipIndex] = useState<number | null>(
-    null
+    null,
   );
   const [formData, setFormData] = useState({
     name: "",
@@ -121,7 +122,7 @@ export const EditorShip: React.FC = () => {
     let updatedShips: Ship[];
     if (isEditing && selectedShipIndex !== null) {
       updatedShips = ships.map((ship, idx) =>
-        idx === selectedShipIndex ? newShip : ship
+        idx === selectedShipIndex ? newShip : ship,
       );
     } else {
       updatedShips = [...ships, newShip];
@@ -163,24 +164,16 @@ export const EditorShip: React.FC = () => {
     if (newIndex < 0 || newIndex >= ships.length) return;
 
     const newShips = [...ships];
-    [newShips[index], newShips[newIndex]] = [newShips[newIndex], newShips[index]];
+    [newShips[index], newShips[newIndex]] = [
+      newShips[newIndex],
+      newShips[index],
+    ];
     setShips(newShips);
 
     if (selectedShipIndex === index) {
       setSelectedShipIndex(newIndex);
     } else if (selectedShipIndex === newIndex) {
       setSelectedShipIndex(index);
-    }
-  };
-
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(ships, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Ship JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
     }
   };
 
@@ -227,14 +220,13 @@ export const EditorShip: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Ship Editor</h2>
-        <SavePushButton fileId="ships" getData={() => ships} />
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <SavePushButton fileId="ships" getData={() => ships} />
+          <CopyToClipboardButton
+            getData={() => ships}
+            entityLabel="Ship JSON"
+          />
+        </div>
       </div>
 
       <div className="editor-layout">
@@ -383,7 +375,7 @@ export const EditorShip: React.FC = () => {
                 onClick={handleSave}
                 className="editor-button editor-button-success"
               >
-                {isEditing ? "Update" : "Add"} Ship
+                Save
               </button>
               {isEditing && (
                 <button

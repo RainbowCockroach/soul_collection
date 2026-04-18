@@ -73,7 +73,7 @@ export const EditorFormLink: React.FC = () => {
     if (editingIndex !== null) {
       // Editing existing link
       updatedLinks = formLinks.map((link, index) =>
-        index === editingIndex ? editingLink : link
+        index === editingIndex ? editingLink : link,
       );
     } else {
       // Adding new link
@@ -130,7 +130,6 @@ export const EditorFormLink: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>OC Link Editor</h2>
         <div className="editor-button-group">
           <SavePushButton fileId="form-link" getData={() => formLinks} />
           <button

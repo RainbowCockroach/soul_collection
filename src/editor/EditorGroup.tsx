@@ -4,6 +4,7 @@ import { loadGroups } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
@@ -32,16 +33,9 @@ const GroupItem: React.FC<GroupItemProps> = ({
   onMove,
 }) => {
   return (
-    <div
-      className={`editor-item ${
-        isSelected ? "editor-item-selected" : ""
-      }`}
-    >
+    <div className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}>
       <ReorderButtons index={index} total={total} onMove={onMove} />
-      <div
-        onClick={() => onSelect(group.slug)}
-        className="editor-item-content"
-      >
+      <div onClick={() => onSelect(group.slug)} className="editor-item-content">
         <div
           className="editor-color-box"
           style={{ backgroundColor: group.frameColour }}
@@ -51,7 +45,10 @@ const GroupItem: React.FC<GroupItemProps> = ({
         </span>
       </div>
       <span onClick={(e) => e.stopPropagation()}>
-        <DeleteButton onClick={() => onDelete(group.slug)} title="Delete group" />
+        <DeleteButton
+          onClick={() => onDelete(group.slug)}
+          title="Delete group"
+        />
       </span>
     </div>
   );
@@ -81,7 +78,7 @@ export const EditorGroup: React.FC = () => {
         groupsArray.map((group, index) => ({
           ...group,
           order: group.order ?? index,
-        }))
+        })),
       );
     } catch (error) {
       console.error("Error loading group data:", error);
@@ -138,7 +135,7 @@ export const EditorGroup: React.FC = () => {
     updatedData[slug] = itemData;
 
     const updatedGroupsArray = groupsArray.map((group) =>
-      group.slug === slug ? editingItem : group
+      group.slug === slug ? editingItem : group,
     );
     if (!groupsArray.find((g) => g.slug === slug)) {
       updatedGroupsArray.push(editingItem);
@@ -182,14 +179,14 @@ export const EditorGroup: React.FC = () => {
   const handleDelete = (slug: string) => {
     if (
       confirm(
-        `Are you sure you want to delete group "${groupData[slug].name}"?`
+        `Are you sure you want to delete group "${groupData[slug].name}"?`,
       )
     ) {
       const updatedData = { ...groupData };
       delete updatedData[slug];
 
       const updatedGroupsArray = groupsArray.filter(
-        (group) => group.slug !== slug
+        (group) => group.slug !== slug,
       );
 
       setGroupData(updatedData);
@@ -203,36 +200,25 @@ export const EditorGroup: React.FC = () => {
     }
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(groupData, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Group JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Error copying to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Group Editor</h2>
         <div className="editor-button-group">
           <SavePushButton fileId="group" getData={() => groupData} />
-          <button
-            onClick={handleSaveToClipboard}
-            className="editor-button editor-button-success"
-          >
-            Copy to clipboard
-          </button>
+          <CopyToClipboardButton
+            getData={() => groupData}
+            entityLabel="Group JSON"
+          />
         </div>
       </div>
 
       <div className="editor-button-group">
-        <button onClick={handleAddNew} className="editor-button editor-button-primary">
+        <button
+          onClick={handleAddNew}
+          className="editor-button editor-button-primary"
+        >
           Add New Group
         </button>
       </div>
@@ -281,13 +267,9 @@ export const EditorGroup: React.FC = () => {
                   }}
                   className="editor-input"
                   disabled={!isNewItem()}
-                  style={{
-                    backgroundColor: !isNewItem() ? "#f5f5f5" : "white",
-                    cursor: !isNewItem() ? "not-allowed" : "text",
-                  }}
                 />
                 {!isNewItem() && (
-                  <small style={{ color: "#666", fontSize: "12px" }}>
+                  <small className="editor-text-muted">
                     URL names cannot be changed for existing groups to prevent
                     data corruption
                   </small>
@@ -370,9 +352,7 @@ export const EditorGroup: React.FC = () => {
               </div>
 
               <div className="editor-field">
-                <label className="editor-label">
-                  Header Text Colour:
-                </label>
+                <label className="editor-label">Header Text Colour:</label>
                 <div className="editor-color-group">
                   <input
                     type="color"
@@ -389,7 +369,9 @@ export const EditorGroup: React.FC = () => {
                     <span className="editor-color-preview-label">Preview:</span>
                     <div
                       className="editor-color-preview-swatch"
-                      style={{ backgroundColor: editingItem.groupHeaderTextColour }}
+                      style={{
+                        backgroundColor: editingItem.groupHeaderTextColour,
+                      }}
                     />
                   </div>
                 </div>

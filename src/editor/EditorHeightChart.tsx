@@ -11,6 +11,7 @@ import {
 } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
@@ -249,17 +250,6 @@ export const EditorHeightChart: React.FC = () => {
     }
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(groups, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success(`${FILE_NAMES[mode]} copied to clipboard!`);
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
-  };
-
   const handleAddVariant = () => {
     setFormData({
       ...formData,
@@ -294,7 +284,6 @@ export const EditorHeightChart: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Height Chart Editor</h2>
         <div className="editor-button-group">
           {(["mortal", "godly"] as HeightChartMode[]).map((m) => (
             <button
@@ -305,13 +294,15 @@ export const EditorHeightChart: React.FC = () => {
               {TAB_LABELS[m]}
             </button>
           ))}
-          <SavePushButton fileId={mode === "mortal" ? "height-chart" : "height-chart-godly"} getData={() => groups} />
-          <button
-            onClick={handleSaveToClipboard}
-            className="editor-button editor-button-success"
-          >
-            Copy to clipboard ({FILE_NAMES[mode]})
-          </button>
+          <SavePushButton
+            fileId={mode === "mortal" ? "height-chart" : "height-chart-godly"}
+            getData={() => groups}
+          />
+          <CopyToClipboardButton
+            getData={() => groups}
+            label={`Copy to clipboard (${FILE_NAMES[mode]})`}
+            entityLabel={FILE_NAMES[mode]}
+          />
         </div>
       </div>
 
@@ -460,7 +451,11 @@ export const EditorHeightChart: React.FC = () => {
                         type="text"
                         value={variant.thumbnail}
                         onChange={(e) =>
-                          handleVariantChange(index, "thumbnail", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "thumbnail",
+                            e.target.value,
+                          )
                         }
                         placeholder="https://..."
                         className="editor-input"
@@ -503,7 +498,7 @@ export const EditorHeightChart: React.FC = () => {
                 onClick={handleSave}
                 className="editor-button editor-button-success"
               >
-                {isEditing ? "Update" : "Add"} Group
+                Save
               </button>
               {isEditing && (
                 <button
