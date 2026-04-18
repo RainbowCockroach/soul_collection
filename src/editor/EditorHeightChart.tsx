@@ -11,7 +11,9 @@ import {
 } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove, trackMovedIndex } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -34,7 +36,7 @@ interface GroupItemProps {
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const GroupItem: React.FC<GroupItemProps> = ({
@@ -51,7 +53,7 @@ const GroupItem: React.FC<GroupItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div className="editor-item-content">
         <div className="editor-item-name">{group.name}</div>
         <div className="editor-item-slug">
@@ -230,34 +232,12 @@ export const EditorHeightChart: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= groups.length) return;
-
-    const newGroups = [...groups];
-    [newGroups[index], newGroups[newIndex]] = [
-      newGroups[newIndex],
-      newGroups[index],
-    ];
+  const handleMove = (from: number, to: number) => {
+    const newGroups = arrayMove(groups, from, to);
+    if (newGroups === groups) return;
     const updatedGroups = newGroups.map((g, idx) => ({ ...g, order: idx }));
     setGroups(updatedGroups);
-
-    if (selectedGroupIndex === index) {
-      setSelectedGroupIndex(newIndex);
-    } else if (selectedGroupIndex === newIndex) {
-      setSelectedGroupIndex(index);
-    }
-  };
-
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(groups, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success(`${FILE_NAMES[mode]} copied to clipboard!`);
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
+    setSelectedGroupIndex(trackMovedIndex(selectedGroupIndex, from, to));
   };
 
   const handleAddVariant = () => {
@@ -294,7 +274,6 @@ export const EditorHeightChart: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Height Chart Editor</h2>
         <div className="editor-button-group">
           {(["mortal", "godly"] as HeightChartMode[]).map((m) => (
             <button
@@ -305,13 +284,15 @@ export const EditorHeightChart: React.FC = () => {
               {TAB_LABELS[m]}
             </button>
           ))}
-          <SavePushButton fileId={mode === "mortal" ? "height-chart" : "height-chart-godly"} getData={() => groups} />
-          <button
-            onClick={handleSaveToClipboard}
-            className="editor-button editor-button-success"
-          >
-            Copy to clipboard ({FILE_NAMES[mode]})
-          </button>
+          <SavePushButton
+            fileId={mode === "mortal" ? "height-chart" : "height-chart-godly"}
+            getData={() => groups}
+          />
+          <CopyToClipboardButton
+            getData={() => groups}
+            label={`Copy to clipboard (${FILE_NAMES[mode]})`}
+            entityLabel={FILE_NAMES[mode]}
+          />
         </div>
       </div>
 
@@ -460,7 +441,11 @@ export const EditorHeightChart: React.FC = () => {
                         type="text"
                         value={variant.thumbnail}
                         onChange={(e) =>
-                          handleVariantChange(index, "thumbnail", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "thumbnail",
+                            e.target.value,
+                          )
                         }
                         placeholder="https://..."
                         className="editor-input"
@@ -503,7 +488,7 @@ export const EditorHeightChart: React.FC = () => {
                 onClick={handleSave}
                 className="editor-button editor-button-success"
               >
-                {isEditing ? "Update" : "Add"} Group
+                Save
               </button>
               {isEditing && (
                 <button

@@ -1,34 +1,41 @@
 import React from "react";
 import { toast } from "react-hot-toast";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 interface CopyToClipboardButtonProps {
-  text: string;
+  text?: string;
+  getData?: () => unknown;
+  entityLabel?: string;
   label?: string;
+  className?: string;
 }
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
   text,
-  label = "Copy",
+  getData,
+  entityLabel,
+  label = "Copy to clipboard",
+  className = "editor-button editor-button-success",
 }) => {
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
-    } catch {
-      toast.error("Failed to copy");
+      const payload =
+        text !== undefined
+          ? text
+          : JSON.stringify(getData?.() ?? null, null, 2);
+      await navigator.clipboard.writeText(payload);
+      toast.success(
+        entityLabel
+          ? `${entityLabel} copied to clipboard!`
+          : "Copied to clipboard!",
+      );
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
+      toast.error("Failed to copy to clipboard");
     }
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      className="editor-button editor-button-secondary editor-button-small"
-      aria-label={`Copy ${label}`}
-    >
-      <FontAwesomeIcon icon={faCopy} style={{ marginRight: "6px" }} />
+    <button type="button" onClick={handleCopy} className={className}>
       {label}
     </button>
   );

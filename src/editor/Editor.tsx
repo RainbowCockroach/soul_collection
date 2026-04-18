@@ -50,7 +50,11 @@ export const Editor: React.FC = () => {
     },
     { id: "dialogs" as const, label: "Dialogs", component: EditorDialog },
     { id: "bio" as const, label: "Biography", component: EditorBio },
-    { id: "backstory" as const, label: "Backstory", component: EditorBackstory },
+    {
+      id: "backstory" as const,
+      label: "Backstory",
+      component: EditorBackstory,
+    },
     { id: "ads" as const, label: "Ads", component: EditorAd },
     {
       id: "safe-mode-censor" as const,
@@ -85,7 +89,6 @@ export const Editor: React.FC = () => {
     <EditorPasswordProvider>
       <div className="editor-container page-padded">
         <div className="editor-header">
-          <h2>Data Editor</h2>
           <button
             onClick={() => window.open(`/${baseUrl}/ocs`, "_blank")}
             className="editor-button editor-button-secondary"

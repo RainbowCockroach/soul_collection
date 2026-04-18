@@ -3,6 +3,7 @@ import type { DialogTexts, DialogEntry } from "../helpers/objects";
 import { loadDialogs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import { SCEditor } from "./BBCodeEditor";
 import DeleteButton from "./DeleteButton";
 
@@ -47,19 +48,6 @@ const EditorDialog: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleAddDialog = () => {
-    const newKey = `dialog-${Date.now()}`;
-    const newTexts = ["New dialog text"];
-    const updatedDialogs = {
-      ...dialogs,
-      [newKey]: newTexts,
-    };
-    setDialogs(updatedDialogs);
-    setSelectedKey(newKey);
-    setSelectedTexts([...newTexts]);
-    setIsEditing(true);
-  };
-
   const handleDeleteDialog = () => {
     if (selectedKey) {
       const updatedDialogs = { ...dialogs };
@@ -98,35 +86,16 @@ const EditorDialog: React.FC = () => {
     }
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(dialogs, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Dialog JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
+      <Toaster position="top-right" />
       <div className="editor-header">
-        <h2>Dialog Editor</h2>
         <div className="editor-button-group">
-          <button
-            onClick={handleAddDialog}
-            className="editor-button editor-button-primary"
-          >
-            Add Dialog
-          </button>
           <SavePushButton fileId="dialog" getData={() => dialogs} />
-          <button
-            onClick={handleSaveToClipboard}
-            className="editor-button editor-button-success"
-          >
-            Copy to clipboard
-          </button>
+          <CopyToClipboardButton
+            getData={() => dialogs}
+            entityLabel="Dialog JSON"
+          />
         </div>
       </div>
 
@@ -250,7 +219,6 @@ const EditorDialog: React.FC = () => {
           </div>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 };

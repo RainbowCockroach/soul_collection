@@ -4,6 +4,7 @@ import { loadSpecies } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import slugify from "slugify";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import { SCEditor } from "./BBCodeEditor";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
@@ -97,7 +98,7 @@ export const EditorSpieces: React.FC = () => {
   const handleDelete = (slug: string) => {
     if (
       confirm(
-        `Are you sure you want to delete species "${spiecesData[slug].name}"?`
+        `Are you sure you want to delete species "${spiecesData[slug].name}"?`,
       )
     ) {
       const updatedData = { ...spiecesData };
@@ -116,7 +117,7 @@ export const EditorSpieces: React.FC = () => {
   const handleArrayFieldChange = (
     field: "gallery",
     index: number,
-    value: string
+    value: string,
   ) => {
     if (!editingItem) return;
 
@@ -139,36 +140,25 @@ export const EditorSpieces: React.FC = () => {
     setEditingItem({ ...editingItem, [field]: updatedArray });
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(spiecesData, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Species JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Error copying to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Species Editor</h2>
         <div className="editor-button-group">
           <SavePushButton fileId="spieces" getData={() => spiecesData} />
-          <button
-            onClick={handleSaveToClipboard}
-            className="editor-button editor-button-success"
-          >
-            Copy to clipboard
-          </button>
+          <CopyToClipboardButton
+            getData={() => spiecesData}
+            entityLabel="Species JSON"
+          />
         </div>
       </div>
 
       <div className="editor-button-group">
-        <button onClick={handleAddNew} className="editor-button editor-button-primary">
+        <button
+          onClick={handleAddNew}
+          className="editor-button editor-button-primary"
+        >
           Add New Species
         </button>
       </div>
@@ -179,28 +169,26 @@ export const EditorSpieces: React.FC = () => {
             <div className="editor-list-header">
               <h3>Species List</h3>
             </div>
-          <div className="editor-list">
-            {Object.entries(spiecesData).map(([slug, item]) => (
-              <div
-                key={slug}
-                className={`editor-item ${
-                  selectedSlug === slug
-                    ? "editor-item-selected"
-                    : ""
-                }`}
-              >
-                <div onClick={() => handleSelectItem(slug)}>
-                  <strong>{item.name}</strong> ({slug})
+            <div className="editor-list">
+              {Object.entries(spiecesData).map(([slug, item]) => (
+                <div
+                  key={slug}
+                  className={`editor-item ${
+                    selectedSlug === slug ? "editor-item-selected" : ""
+                  }`}
+                >
+                  <div onClick={() => handleSelectItem(slug)}>
+                    <strong>{item.name}</strong> ({slug})
+                  </div>
+                  <span onClick={(e) => e.stopPropagation()}>
+                    <DeleteButton
+                      onClick={() => handleDelete(slug)}
+                      title="Delete species"
+                    />
+                  </span>
                 </div>
-                <span onClick={(e) => e.stopPropagation()}>
-                  <DeleteButton
-                    onClick={() => handleDelete(slug)}
-                    title="Delete species"
-                  />
-                </span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -214,19 +202,22 @@ export const EditorSpieces: React.FC = () => {
                   value={editingItem.slug}
                   onChange={(e) => {
                     if (isNewItem()) {
-                      setEditingItem({ ...editingItem, slug: slugify(e.target.value, { lower: true, strict: true }) });
+                      setEditingItem({
+                        ...editingItem,
+                        slug: slugify(e.target.value, {
+                          lower: true,
+                          strict: true,
+                        }),
+                      });
                     }
                   }}
                   className="editor-input"
                   disabled={!isNewItem()}
-                  style={{ 
-                    backgroundColor: !isNewItem() ? '#f5f5f5' : 'white',
-                    cursor: !isNewItem() ? 'not-allowed' : 'text'
-                  }}
                 />
                 {!isNewItem() && (
-                  <small style={{ color: '#666', fontSize: '12px' }}>
-                    URL names cannot be changed for existing species to prevent data corruption
+                  <small className="editor-text-muted">
+                    URL names cannot be changed for existing species to prevent
+                    data corruption
                   </small>
                 )}
               </div>
@@ -240,8 +231,15 @@ export const EditorSpieces: React.FC = () => {
                   onChange={(value) => {
                     const newName = value;
                     if (isNewItem()) {
-                      const newSlug = slugify(newName, { lower: true, strict: true });
-                      setEditingItem({ ...editingItem, name: newName, slug: newSlug });
+                      const newSlug = slugify(newName, {
+                        lower: true,
+                        strict: true,
+                      });
+                      setEditingItem({
+                        ...editingItem,
+                        name: newName,
+                        slug: newSlug,
+                      });
                     } else {
                       setEditingItem({ ...editingItem, name: newName });
                     }
@@ -295,8 +293,7 @@ export const EditorSpieces: React.FC = () => {
                     type="button"
                     className={`editor-button editor-button-small ${
                       editingItem.contentWarning &&
-                      parseContentWarning(editingItem.contentWarning)
-                        .safeOnly
+                      parseContentWarning(editingItem.contentWarning).safeOnly
                         ? "editor-button-toggle-active"
                         : "editor-button-secondary"
                     }`}
@@ -307,10 +304,7 @@ export const EditorSpieces: React.FC = () => {
                       if (text) {
                         setEditingItem({
                           ...editingItem,
-                          contentWarning: buildContentWarning(
-                            text,
-                            !safeOnly
-                          ),
+                          contentWarning: buildContentWarning(text, !safeOnly),
                         });
                       }
                     }}

@@ -4,13 +4,10 @@ import { loadOCs, loadTags } from "../helpers/data-load";
 import censorData from "../data/safe-mode-censor.json";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
 
-interface CensorLists {
-  ocs: string[];
-  tags: string[];
-}
 
 const EditorSafeModeCensor: React.FC = () => {
   const [allOcs, setAllOcs] = useState<OC[]>([]);
@@ -46,31 +43,21 @@ const EditorSafeModeCensor: React.FC = () => {
     );
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const data: CensorLists = { ocs: censoredOcs, tags: censoredTags };
-      const jsonString = JSON.stringify(data, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Safe Mode Censor JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Safe Mode Censor Editor</h2>
-        <SavePushButton fileId="safe-mode-censor" getData={() => ({ ocs: censoredOcs, tags: censoredTags })} />
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <SavePushButton
+            fileId="safe-mode-censor"
+            getData={() => ({ ocs: censoredOcs, tags: censoredTags })}
+          />
+          <CopyToClipboardButton
+            getData={() => ({ ocs: censoredOcs, tags: censoredTags })}
+            entityLabel="Safe Mode Censor JSON"
+          />
+        </div>
       </div>
 
       <div className="editor-layout">
@@ -173,9 +160,6 @@ const EditorSafeModeCensor: React.FC = () => {
                     }}
                   >
                     {tag.name}
-                  </span>
-                  <span style={{ fontSize: "0.75em", color: "#888" }}>
-                    ({tag.slug})
                   </span>
                 </label>
               ))}

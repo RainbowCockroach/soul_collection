@@ -3,7 +3,9 @@ import type { Ship, OC } from "../helpers/objects";
 import { loadShips, loadOCs } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove, trackMovedIndex } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -17,7 +19,7 @@ interface ShipItemProps {
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const ShipItem: React.FC<ShipItemProps> = ({
@@ -34,7 +36,7 @@ const ShipItem: React.FC<ShipItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div className="editor-item-content">
         <div className="editor-item-name">{ship.name}</div>
         <div className="editor-item-slug">OCs: {ship.oc.join(", ")}</div>
@@ -49,7 +51,7 @@ const ShipItem: React.FC<ShipItemProps> = ({
 export const EditorShip: React.FC = () => {
   const [ships, setShips] = useState<Ship[]>([]);
   const [selectedShipIndex, setSelectedShipIndex] = useState<number | null>(
-    null
+    null,
   );
   const [formData, setFormData] = useState({
     name: "",
@@ -121,7 +123,7 @@ export const EditorShip: React.FC = () => {
     let updatedShips: Ship[];
     if (isEditing && selectedShipIndex !== null) {
       updatedShips = ships.map((ship, idx) =>
-        idx === selectedShipIndex ? newShip : ship
+        idx === selectedShipIndex ? newShip : ship,
       );
     } else {
       updatedShips = [...ships, newShip];
@@ -158,30 +160,11 @@ export const EditorShip: React.FC = () => {
     setNewOcSlug("");
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= ships.length) return;
-
-    const newShips = [...ships];
-    [newShips[index], newShips[newIndex]] = [newShips[newIndex], newShips[index]];
+  const handleMove = (from: number, to: number) => {
+    const newShips = arrayMove(ships, from, to);
+    if (newShips === ships) return;
     setShips(newShips);
-
-    if (selectedShipIndex === index) {
-      setSelectedShipIndex(newIndex);
-    } else if (selectedShipIndex === newIndex) {
-      setSelectedShipIndex(index);
-    }
-  };
-
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(ships, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Ship JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
+    setSelectedShipIndex(trackMovedIndex(selectedShipIndex, from, to));
   };
 
   const handleAddOc = () => {
@@ -227,14 +210,13 @@ export const EditorShip: React.FC = () => {
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Ship Editor</h2>
-        <SavePushButton fileId="ships" getData={() => ships} />
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <SavePushButton fileId="ships" getData={() => ships} />
+          <CopyToClipboardButton
+            getData={() => ships}
+            entityLabel="Ship JSON"
+          />
+        </div>
       </div>
 
       <div className="editor-layout">
@@ -383,7 +365,7 @@ export const EditorShip: React.FC = () => {
                 onClick={handleSave}
                 className="editor-button editor-button-success"
               >
-                {isEditing ? "Update" : "Add"} Ship
+                Save
               </button>
               {isEditing && (
                 <button

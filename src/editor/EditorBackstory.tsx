@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { loadOCs, loadOcBackstory } from "../helpers/data-load";
 import type { OC } from "../helpers/objects";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import { SCEditor } from "./BBCodeEditor";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
@@ -48,9 +49,7 @@ export const EditorBackstory: React.FC = () => {
     <div className="editor-container">
       <Toaster position="top-right" />
 
-      <div className="editor-header">
-        <h2>Backstory Editor</h2>
-      </div>
+      <div className="editor-header"></div>
 
       <div className="editor-layout">
         <div className="editor-left">
@@ -145,19 +144,10 @@ export const EditorBackstory: React.FC = () => {
                   >
                     Revert Changes
                   </button>
-                  <button
-                    onClick={async () => {
-                      try {
-                        await navigator.clipboard.writeText(content);
-                        toast.success("Copied to clipboard!");
-                      } catch {
-                        toast.error("Failed to copy");
-                      }
-                    }}
-                    className="editor-button editor-button-success"
-                  >
-                    Copy to Clipboard
-                  </button>
+                  <CopyToClipboardButton
+                    text={content}
+                    entityLabel="Backstory"
+                  />
                 </div>
               </div>
             )

@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import { SCEditor } from "./BBCodeEditor";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
@@ -61,29 +62,18 @@ export const EditorBio: React.FC = () => {
     setFormData({ ...EMPTY_DIALOG });
   };
 
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(bioData, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("VN Bio JSON copied to clipboard!");
-    } catch {
-      toast.error("Failed to copy to clipboard");
-    }
-  };
-
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Visual Novel Bio Editor</h2>
-        <SavePushButton fileId="vn-bio" getData={() => bioData} />
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <SavePushButton fileId="vn-bio" getData={() => bioData} />
+          <CopyToClipboardButton
+            getData={() => bioData}
+            entityLabel="VN Bio JSON"
+          />
+        </div>
       </div>
 
       <div className="editor-layout">

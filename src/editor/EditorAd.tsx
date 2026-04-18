@@ -3,7 +3,9 @@ import type { AdLocations, AdItem } from "../helpers/objects";
 import { loadAds } from "../helpers/data-load";
 import toast, { Toaster } from "react-hot-toast";
 import SavePushButton from "./SavePushButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
+import { arrayMove, trackMovedIndex } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import "./EditorCommon.css";
 import ImagePreview from "./ImagePreview";
@@ -15,7 +17,7 @@ interface AdListItemProps {
   isSelected: boolean;
   onSelect: (index: number) => void;
   onDelete: (index: number) => void;
-  onMove: (index: number, direction: -1 | 1) => void;
+  onMove: (from: number, to: number) => void;
 }
 
 const AdListItem: React.FC<AdListItemProps> = ({
@@ -32,7 +34,7 @@ const AdListItem: React.FC<AdListItemProps> = ({
       className={`editor-item ${isSelected ? "editor-item-selected" : ""}`}
       onClick={() => onSelect(index)}
     >
-      <ReorderButtons index={index} total={total} onMove={onMove} />
+      <ReorderButtons index={index} total={total} onMoveTo={onMove} />
       <div className="editor-item-content">
         {ad.imageUrl && (
           <img
@@ -43,10 +45,24 @@ const AdListItem: React.FC<AdListItemProps> = ({
           />
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div className="editor-item-name" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <div
+            className="editor-item-name"
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             {ad.imageUrl || "No image"}
           </div>
-          <div className="editor-item-slug" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <div
+            className="editor-item-slug"
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             {ad.redirectUrl || "No redirect URL"}
           </div>
         </div>
@@ -160,49 +176,28 @@ const EditorAd: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleMove = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= currentAds.length) return;
-
-    const newAds = [...currentAds];
-    [newAds[index], newAds[newIndex]] = [newAds[newIndex], newAds[index]];
+  const handleMove = (from: number, to: number) => {
+    const newAds = arrayMove(currentAds, from, to);
+    if (newAds === currentAds) return;
     setAdsData({
       ...adsData,
       [selectedLocation]: newAds,
     });
-
-    if (selectedAdIndex === index) {
-      setSelectedAdIndex(newIndex);
-    } else if (selectedAdIndex === newIndex) {
-      setSelectedAdIndex(index);
-    }
+    setSelectedAdIndex(trackMovedIndex(selectedAdIndex, from, to));
   };
-
-  const handleSaveToClipboard = async () => {
-    try {
-      const jsonString = JSON.stringify(adsData, null, 2);
-      await navigator.clipboard.writeText(jsonString);
-      toast.success("Ads JSON copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      toast.error("Failed to copy to clipboard");
-    }
-  };
-
 
   return (
     <div className="editor-container">
       <Toaster position="top-right" />
 
       <div className="editor-header">
-        <h2>Advertisement Editor</h2>
-        <SavePushButton fileId="ads" getData={() => adsData} />
-        <button
-          onClick={handleSaveToClipboard}
-          className="editor-button editor-button-success"
-        >
-          Copy to clipboard
-        </button>
+        <div className="editor-button-group">
+          <SavePushButton fileId="ads" getData={() => adsData} />
+          <CopyToClipboardButton
+            getData={() => adsData}
+            entityLabel="Ads JSON"
+          />
+        </div>
       </div>
 
       <div className="editor-layout">
@@ -265,7 +260,10 @@ const EditorAd: React.FC = () => {
             <h3>{isEditing ? "Edit Ad" : "Add New Ad"}</h3>
 
             {!selectedLocation && (
-              <div className="editor-text-muted" style={{ marginBottom: "16px" }}>
+              <div
+                className="editor-text-muted"
+                style={{ marginBottom: "16px" }}
+              >
                 Please select or create a location first
               </div>
             )}
@@ -306,7 +304,7 @@ const EditorAd: React.FC = () => {
                 className="editor-button editor-button-success"
                 disabled={!selectedLocation}
               >
-                {isEditing ? "Update" : "Add"} Ad
+                Save
               </button>
               {isEditing && (
                 <button
