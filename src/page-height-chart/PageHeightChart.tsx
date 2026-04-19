@@ -25,6 +25,8 @@ import {
   faEyeLowVision,
   faFont,
   faTextSlash,
+  faLock,
+  faLockOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import buttonSound from "/sound-effect/button_oc_slot_aggressive.mp3";
 import switchToGodSound from "/sound-effect/switch_form_birth_to_god.mp3";
@@ -80,6 +82,7 @@ export default function PageHeightChart() {
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [solidified, setSolidified] = useState(false);
   const [hideLabels, setHideLabels] = useState(false);
+  const [locked, setLocked] = useState(false);
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
   const [popupPosition, setPopupPosition] = useState<{
     top: number;
@@ -292,12 +295,13 @@ export default function PageHeightChart() {
   // ── Drag handling ─────────────────────────────────────────────────────
   const startDrag = useCallback(
     (characterId: string, clientX: number) => {
+      if (locked) return;
       const character = selectedCharacters.find((c) => c.id === characterId);
       if (!character) return;
       setDragState({ id: characterId, startX: clientX, startCharacterX: character.x });
       setActiveCharacterId(characterId);
     },
-    [selectedCharacters],
+    [locked, selectedCharacters],
   );
 
   useEffect(() => {
@@ -384,6 +388,13 @@ export default function PageHeightChart() {
               soundFile={variantSoundFile}
             >
               <FontAwesomeIcon icon={solidified ? faEye : faEyeLowVision} />
+            </ButtonWrapper>
+            <ButtonWrapper
+              className={`height-chart-lock-movement${locked ? " active" : ""}`}
+              onClick={() => setLocked((v) => !v)}
+              soundFile={variantSoundFile}
+            >
+              <FontAwesomeIcon icon={locked ? faLock : faLockOpen} />
             </ButtonWrapper>
             <ButtonWrapper
               className="height-chart-clear-all"
