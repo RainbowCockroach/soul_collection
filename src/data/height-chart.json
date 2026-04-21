@@ -582,12 +582,12 @@
   {
     "name": "Peony",
     "groupId": "peony",
-    "thumbnail": "",
+    "thumbnail": "https://i.pinimg.com/originals/37/63/93/376393e0057ae0fb741b738649c7a9bc.png",
     "variants": [
       {
         "id": "peony-1",
         "url": "https://i.pinimg.com/originals/83/79/38/83793889f8ef1b60d99a81766c6e23fc.png",
-        "thumbnail": "https://i.pinimg.com/originals/37/63/93/376393e0057ae0fb741b738649c7a9bc.png",
+        "thumbnail": "",
         "height": "139cm"
       }
     ],
