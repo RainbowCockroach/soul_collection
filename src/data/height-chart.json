@@ -580,6 +580,20 @@
     "order": 31
   },
   {
+    "name": "Peony",
+    "groupId": "peony",
+    "thumbnail": "",
+    "variants": [
+      {
+        "id": "peony-1",
+        "url": "https://i.pinimg.com/originals/83/79/38/83793889f8ef1b60d99a81766c6e23fc.png",
+        "thumbnail": "https://i.pinimg.com/originals/37/63/93/376393e0057ae0fb741b738649c7a9bc.png",
+        "height": "139cm"
+      }
+    ],
+    "order": 32
+  },
+  {
     "name": "Sam",
     "groupId": "sam",
     "thumbnail": "https://i.pinimg.com/originals/a2/c3/61/a2c36135ecde3aba3d4fdc65a18a839c.png",
@@ -597,7 +611,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 32
+    "order": 33
   },
   {
     "name": "Jessica",
@@ -617,6 +631,6 @@
         "height": "60cm"
       }
     ],
-    "order": 33
+    "order": 34
   }
 ]
