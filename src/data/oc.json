@@ -2571,7 +2571,7 @@
   "peony": {
     "name": "Peony",
     "avatar": [
-      "https://i.pinimg.com/236x/e0/bb/49/e0bb4970d8b197d4786f21eba15c1b19.jpg"
+      "https://i.pinimg.com/236x/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.jpg"
     ],
     "group": [
       "vrev"
@@ -2580,7 +2580,14 @@
       "vrev"
     ],
     "info": "[url=https://rainbowcockroach.github.io/soul_collection/ocs/naame]Naame's[/url] second daughter",
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.png",
+        "thumbnail": "https://i.pinimg.com/236x/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
     "breadcrumbs": [],
     "tags": [
       "vrev",
