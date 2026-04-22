@@ -3,28 +3,28 @@
     "name": "✦ Human ✦",
     "frameColour": "#ffd57a",
     "groupHeaderColour": "#ffd57a",
-    "groupHeaderTextColour": "#6e4827",
+    "groupHeaderTextColour": "#cf6000",
     "order": 0
   },
   "zo": {
     "name": "✦ Zo ✦",
     "frameColour": "#8be8a1",
     "groupHeaderColour": "#8be8a1",
-    "groupHeaderTextColour": "#035446",
+    "groupHeaderTextColour": "#0091a1",
     "order": 1
   },
   "candy-cockroach": {
     "name": "✦ Candy roachie ✦",
     "frameColour": "#80d9ff",
     "groupHeaderColour": "#80d9ff",
-    "groupHeaderTextColour": "#07347e",
+    "groupHeaderTextColour": "#6500bd",
     "order": 2
   },
   "vrev": {
     "name": "✦ Vrev ✦",
     "frameColour": "#bfadff",
     "groupHeaderColour": "#bfadff",
-    "groupHeaderTextColour": "#66007a",
+    "groupHeaderTextColour": "#801bb3",
     "order": 3
   },
   "god": {
