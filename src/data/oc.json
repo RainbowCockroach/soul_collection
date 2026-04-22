@@ -2538,7 +2538,7 @@
   "petunia": {
     "name": "Petunia",
     "avatar": [
-      "https://i.pinimg.com/236x/30/fd/27/30fd2767925680e120a19d466c65d912.jpg"
+      "https://i.pinimg.com/236x/1b/81/f6/1b81f69a2c42103e5ddb885983f545a8.jpg"
     ],
     "group": [
       "vrev"
@@ -2547,7 +2547,14 @@
       "vrev"
     ],
     "info": "[url=https://rainbowcockroach.github.io/soul_collection/ocs/naame]Naame's[/url] first daughter",
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/e4/ea/7c/e4ea7c402557afc4006f12d46753736d.png",
+        "thumbnail": "https://i.pinimg.com/236x/e4/ea/7c/e4ea7c402557afc4006f12d46753736d.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
     "breadcrumbs": [],
     "tags": [
       "vrev",
