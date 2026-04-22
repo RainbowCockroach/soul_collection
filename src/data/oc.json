@@ -720,7 +720,7 @@
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766481282755-3zcajc.mp3"
   },
   "burger": {
-    "name": "Burger",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/i484zy.gif[/img] Burger [img]https://poempuppy.neocities.org/resources/pixels/i484zy.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/04/4c/b2/044cb25a9c82b974842ac93d8d00caa0.jpg"
     ],
@@ -1080,7 +1080,7 @@
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626807908-izz5yz.mp3"
   },
   "davaphorict-li": {
-    "name": "Davaphorict Li",
+    "name": "Davaphorict Li [img]https://poempuppy.neocities.org/resources/pixels/w9t3z6.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/f8/d6/6f/f8d66fc25624206eff126f6876de3fb3.jpg",
       "https://i.pinimg.com/236x/07/cc/7e/07cc7e42d4c25fcc27e2a57c62ebda77.jpg"
@@ -1882,7 +1882,7 @@
     "order": 24
   },
   "zorl": {
-    "name": "Zorl",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/38v286.gif[/img] Zorl [img]https://poempuppy.neocities.org/resources/pixels/38v286.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/23/9b/9d/239b9d39c0070e25071f3f7bc760baf7.jpg"
     ],
@@ -2436,7 +2436,7 @@
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766408097344-c5qc0r.mp3"
   },
   "miimi": {
-    "name": "Miimi",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat14.gif[/img] Miimi [img]https://poempuppy.neocities.org/resources/pixels/Cat10.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/47/fe/76/47fe76d871e4afa91b0b7d57542d0ef5.jpg"
     ],
@@ -2450,7 +2450,8 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
-        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png"
+        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -2467,7 +2468,7 @@
     "order": 32
   },
   "joon": {
-    "name": "Joon",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/e3/e7/2c/e3e72cc1c1725b94eb16051ac5f5f49e.jpg"
     ],
@@ -2481,7 +2482,8 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
-        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png"
+        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -2498,7 +2500,7 @@
     "order": 33
   },
   "wsst": {
-    "name": "Wsst",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/fmmonz.gif[/img]Wsst[img]https://poempuppy.neocities.org/resources/pixels/fmmonz.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/e4/35/c8/e435c8fd6b439daf0a7a731e63527202.jpg"
     ],
@@ -2536,7 +2538,7 @@
     "order": 34
   },
   "petunia": {
-    "name": "Petunia",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/s43rsm.webp[/img] Petunia [img]https://poempuppy.neocities.org/resources/pixels/qr2ahq.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/1b/81/f6/1b81f69a2c42103e5ddb885983f545a8.jpg"
     ],
@@ -2569,7 +2571,7 @@
     "order": 35
   },
   "peony": {
-    "name": "Peony",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/rjs87g.gif[/img] Peony [img]https://poempuppy.neocities.org/resources/pixels/emdmvf.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.jpg"
     ],
@@ -3047,7 +3049,7 @@
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626839433-sh3g2j.mp3"
   },
   "raki-chan": {
-    "name": "Raki chan~",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/rthg6b.gif[/img] Raki chan~",
     "avatar": [
       "https://i.pinimg.com/236x/23/43/2d/23432d3f7adec315eeaf18e5403bcca9.jpg"
     ],
@@ -3827,7 +3829,7 @@
     "order": 62
   },
   "goon": {
-    "name": "[img]https://poempuppy.neocities.org/resources/pixels/xxd009.gif[/img] Goon [img]https://poempuppy.neocities.org/resources/pixels/xxd009.gif[/img]",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/nmkfy1.gif[/img] Goon [img]https://poempuppy.neocities.org/resources/pixels/nmkfy1.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/73/4b/47/734b474a6a63c045bf139b8f70039676.jpg"
     ],
