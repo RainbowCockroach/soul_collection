@@ -1,41 +1,41 @@
 {
   "human": {
-    "name": "⟡ Human ⟡",
+    "name": "Human ✦",
     "frameColour": "#ffd57a",
     "groupHeaderColour": "#ffd57a",
     "groupHeaderTextColour": "#6e4827",
     "order": 0
   },
   "zo": {
-    "name": "⟡ Zo ⟡",
+    "name": "Zo ✦",
     "frameColour": "#8be8a1",
     "groupHeaderColour": "#8be8a1",
     "groupHeaderTextColour": "#035446",
     "order": 1
   },
   "candy-cockroach": {
-    "name": "⟡ Candy cockroach",
+    "name": "Candy cockroach ✦",
     "frameColour": "#80d9ff",
     "groupHeaderColour": "#80d9ff",
     "groupHeaderTextColour": "#07347e",
     "order": 2
   },
   "vrev": {
-    "name": "⟡ Vrev ⟡",
+    "name": "Vrev ✦",
     "frameColour": "#bfadff",
     "groupHeaderColour": "#bfadff",
     "groupHeaderTextColour": "#66007a",
     "order": 3
   },
   "god": {
-    "name": "⟡ God ⟡",
+    "name": "God ✦",
     "frameColour": "#ffb3e3",
     "groupHeaderColour": "#ffb3e3",
     "groupHeaderTextColour": "#880231",
     "order": 4
   },
   "other": {
-    "name": "⟡ Other ⟡",
+    "name": "Other ✦",
     "frameColour": "#ebff85",
     "groupHeaderColour": "#ebff85",
     "groupHeaderTextColour": "#176501",
