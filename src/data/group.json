@@ -17,7 +17,7 @@
     "name": "✦ Candy roachie ✦",
     "frameColour": "#80d9ff",
     "groupHeaderColour": "#80d9ff",
-    "groupHeaderTextColour": "#6500bd",
+    "groupHeaderTextColour": "#006db5",
     "order": 2
   },
   "vrev": {
@@ -31,7 +31,7 @@
     "name": "✦ God ✦",
     "frameColour": "#ffb3e3",
     "groupHeaderColour": "#ffb3e3",
-    "groupHeaderTextColour": "#880231",
+    "groupHeaderTextColour": "#ba1c6b",
     "order": 4
   },
   "other": {
