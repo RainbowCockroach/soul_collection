@@ -66,17 +66,13 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
   position: relative;
   width: 100%;
   box-sizing: border-box;
   min-height: 150px;
   overflow-x: hidden; /* Prevent horizontal content overflow */
   overflow-y: auto; /* Allow vertical scrolling if needed */
-  transition: all 0.3s ease;
-
   /* Paper texture effect */
   background-image: linear-gradient(#eee 0.1em, transparent 0.1em);
   background-size: 100% 1.2em;
@@ -155,13 +151,7 @@
    INTERACTIVE STATES
    ----------------------------------------------------------------------------- */
 
-/* Hover effect for the note */
-.guest-book-note:hover .note-paper {
-  transform: translateY(-2px);
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.15),
-    0 3px 6px rgba(0, 0, 0, 0.1);
-}
+/* Hover effect delegated to .effect-subtle-rise utility class on .note-paper */
 
 /* =============================================================================
    RESPONSIVE DESIGN

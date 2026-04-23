@@ -103,7 +103,7 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
 
       {/* Window frame wrapped in ButtonWrapper - clicking opens fullscreen */}
       <ButtonWrapper onClick={handleOpenFullscreen} className="fanart-button">
-        <div className="fanart-window-frame">
+        <div className="fanart-window-frame effect-subtle-rise">
           {/* Image display area */}
           <div
             className="fanart-image-container flex-center"

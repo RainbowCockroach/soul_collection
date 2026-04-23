@@ -48,15 +48,11 @@
   display: block;
 }
 
-.fanart-button:hover .fanart-window-frame {
-  transform: scale(1.02);
-}
-
 .fanart-window-frame {
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
 }
 
 .fanart-image-container {

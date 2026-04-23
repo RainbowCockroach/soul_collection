@@ -77,7 +77,7 @@ const GuestBookNote: React.FC<GuestBookNoteProps> = ({
       )}
 
       {/* Paper note container */}
-      <div className="note-paper div-3d-with-shadow">
+      <div className="note-paper div-3d-with-shadow effect-subtle-rise">
         {/* Action menu for edit/delete */}
         {(onEdit || onDelete) && (
           <ActionMenu
