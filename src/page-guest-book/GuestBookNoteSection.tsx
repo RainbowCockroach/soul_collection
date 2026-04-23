@@ -117,7 +117,7 @@ const GuestBookNoteSection = forwardRef<
     handleModalClose();
   };
 
-  if (loading) {
+  if (loading && !data) {
     return (
       <LoadingSpinner message="Loading notes..." />
     );
