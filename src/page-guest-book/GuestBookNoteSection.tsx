@@ -82,14 +82,24 @@ const GuestBookNoteSection = forwardRef<
     fetchNotes(currentPage);
   }, [currentPage, notesPerPage]);
 
+  const [loadingDirection, setLoadingDirection] = useState<
+    "left" | "right" | null
+  >(null);
+
+  useEffect(() => {
+    if (!loading) setLoadingDirection(null);
+  }, [loading]);
+
   const handlePrevPage = () => {
-    if (data?.pagination.hasPrev) {
+    if (data?.pagination.hasPrev && !loading) {
+      setLoadingDirection("left");
       setCurrentPage((prev) => prev - 1);
     }
   };
 
   const handleNextPage = () => {
-    if (data?.pagination.hasNext) {
+    if (data?.pagination.hasNext && !loading) {
+      setLoadingDirection("right");
       setCurrentPage((prev) => prev + 1);
     }
   };
@@ -144,7 +154,9 @@ const GuestBookNoteSection = forwardRef<
       {/* Notes display */}
       <div className="notes-display">
         <div className="pagination-nav-left pagination-nav-desktop">
-          {data.pagination.hasPrev ? (
+          {loadingDirection === "left" ? (
+            <LoadingSpinner size="small" message="" />
+          ) : data.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
               className="section-nav-button"
@@ -163,7 +175,9 @@ const GuestBookNoteSection = forwardRef<
           />
         ))}
         <div className="pagination-nav-right pagination-nav-desktop">
-          {data.pagination.hasNext ? (
+          {loadingDirection === "right" ? (
+            <LoadingSpinner size="small" message="" />
+          ) : data.pagination.hasNext ? (
             <ArrowButton
               direction="right"
               className="section-nav-button"
@@ -179,7 +193,9 @@ const GuestBookNoteSection = forwardRef<
       <div className="pagination-nav">
         {/* Left navigation arrow */}
         <div className="pagination-nav-left pagination-nav-mobile">
-          {data.pagination.hasPrev ? (
+          {loadingDirection === "left" ? (
+            <LoadingSpinner size="small" message="" />
+          ) : data.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
               className="section-nav-button"
@@ -197,7 +213,9 @@ const GuestBookNoteSection = forwardRef<
 
         {/* Right navigation arrow */}
         <div className="pagination-nav-right pagination-nav-mobile">
-          {data.pagination.hasNext ? (
+          {loadingDirection === "right" ? (
+            <LoadingSpinner size="small" message="" />
+          ) : data.pagination.hasNext ? (
             <ArrowButton
               direction="right"
               className="section-nav-button"
