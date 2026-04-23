@@ -29,19 +29,20 @@
   min-width: 32px !important;
   min-height: 32px !important;
   border-radius: 50%;
-  background: rgba(134, 78, 219, 0.12);
-  border: 1.5px solid rgba(134, 78, 219, 0.25) !important;
+  background: #f3e9ff !important;
+  border: 1.5px solid rgba(134, 78, 219, 0.45) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 !important;
-  box-shadow: none !important;
-  transition: background 0.2s ease, border-color 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(52, 11, 86, 0.2) !important;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 
 .action-menu-trigger:hover {
-  background: rgba(134, 78, 219, 0.22) !important;
-  border-color: rgba(134, 78, 219, 0.5) !important;
+  background: #e8d5ff !important;
+  border-color: rgba(134, 78, 219, 0.75) !important;
+  box-shadow: 0 2px 5px rgba(52, 11, 86, 0.3) !important;
   transform: none !important;
 }
 
@@ -55,10 +56,9 @@
 .three-dots span {
   width: 3px;
   height: 3px;
-  background-color: #864edb;
+  background-color: #5a2fa0;
   border-radius: 50%;
   display: block;
-  opacity: 0.7;
 }
 
 .action-menu-dropdown {
@@ -159,12 +159,12 @@
 }
 
 .guest-book-note .action-menu-trigger {
-  background: rgba(134, 78, 219, 0.08);
-  border-color: rgba(134, 78, 219, 0.2) !important;
+  background: #f3e9ff !important;
+  border-color: rgba(134, 78, 219, 0.45) !important;
 }
 
 .guest-book-note .action-menu-trigger:hover {
-  background: rgba(134, 78, 219, 0.18) !important;
+  background: #e8d5ff !important;
 }
 
 /* Special positioning for fan art - below the image */
