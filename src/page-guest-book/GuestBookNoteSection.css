@@ -154,6 +154,13 @@
   }
 }
 
+/* Tablet portrait (iPad Air etc) - tighter layout */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .notes-display {
+    gap: 5px;
+  }
+}
+
 /* Tablet/Mobile - Switch to 2x2 grid layout */
 @media (max-width: 768px) {
   .guest-book-note-section {
