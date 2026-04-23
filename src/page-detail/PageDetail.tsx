@@ -25,10 +25,7 @@ import {
 } from "../helpers/height-chart-cart";
 import SenseBreakButton from "../sense-break/SenseBreakButton";
 import { useSafeMode } from "../safe-mode/SafeModeContext";
-import {
-  isOcCensored,
-  isTagCensored,
-} from "../safe-mode/safe-mode-censor";
+import { isOcCensored, isTagCensored } from "../safe-mode/safe-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import LoadingSpinner from "../common-components/LoadingSpinner";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
@@ -328,6 +325,22 @@ const PageDetail: React.FC = () => {
           )}
         </div>
       </div>
+      <div className="detail-block-tags">
+        {oc.tagDetails
+          .filter((tag) => !isSafeModeEnabled || !isTagCensored(tag.slug))
+          .map((tag, index) => (
+            <span
+              key={index}
+              className="oc-detail-tag div-3d-with-shadow-borderless"
+              style={{
+                backgroundColor: tag.backgroundColour,
+                color: tag.textColour,
+              }}
+            >
+              {tag.name}
+            </span>
+          ))}
+      </div>
       <div className="detail-block-species">
         <div className="div-3d-with-shadow detail-section-header">
           {displayButtonSpecies && (
@@ -390,23 +403,6 @@ const PageDetail: React.FC = () => {
             showButtons={false}
           />
         </div>
-      </div>
-
-      <div className="detail-block-tags">
-        {oc.tagDetails
-          .filter((tag) => !isSafeModeEnabled || !isTagCensored(tag.slug))
-          .map((tag, index) => (
-            <span
-              key={index}
-              className="oc-detail-tag div-3d-with-shadow-borderless"
-              style={{
-                backgroundColor: tag.backgroundColour,
-                color: tag.textColour,
-              }}
-            >
-              {tag.name}
-            </span>
-          ))}
       </div>
 
       {!isSafeModeEnabled && (slug === "bush" || slug === "vhhz") && (
