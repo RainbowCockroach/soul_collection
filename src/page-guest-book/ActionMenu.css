@@ -172,17 +172,14 @@
   right: auto;
   display: flex;
   justify-content: center;
-  margin-top: 0;
-  height: 0;
-  overflow: hidden;
+  margin-top: 8px;
+  visibility: hidden;
 }
 
-/* Show action menu and restore height on hover/touch */
+/* Show action menu on hover/touch */
 .guest-book-fanart:hover .action-menu,
 .guest-book-fanart.show-action-menu .action-menu {
-  height: auto;
-  margin-top: 8px;
-  overflow: visible;
+  visibility: visible;
 }
 
 .guest-book-fanart .action-menu-trigger {
