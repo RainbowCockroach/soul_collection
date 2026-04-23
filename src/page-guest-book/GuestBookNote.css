@@ -237,6 +237,32 @@
   }
 }
 
+/* Tablet portrait (iPad Air etc) - smaller margins and text */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .guest-book-note {
+    margin: 4px;
+    width: auto;
+    flex: 1;
+  }
+
+  .note-paper {
+    padding: 8px;
+  }
+
+  .note-name {
+    font-size: 17px;
+  }
+
+  .note-date {
+    font-size: 13px;
+  }
+
+  .note-content {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+}
+
 /* Tablet/Mobile - fill grid cells completely */
 @media (max-width: 768px) {
   .guest-book-note {
