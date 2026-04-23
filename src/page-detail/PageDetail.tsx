@@ -325,7 +325,7 @@ const PageDetail: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="detail-block-tags">
+      <div className="detail-block-tags div-3d-with-shadow">
         {oc.tagDetails
           .filter((tag) => !isSafeModeEnabled || !isTagCensored(tag.slug))
           .map((tag, index) => (
