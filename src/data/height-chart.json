@@ -558,6 +558,20 @@
     "order": 29
   },
   {
+    "name": "Yttu",
+    "groupId": "yttu",
+    "thumbnail": "https://i.pinimg.com/originals/c7/14/ea/c714ea85e494db1c79d796eee0706b2d.png",
+    "variants": [
+      {
+        "id": "yttu-1",
+        "url": "https://i.pinimg.com/originals/a3/68/74/a36874446d0541cf5e674b3f59ec839b.png",
+        "thumbnail": "",
+        "height": "193cm"
+      }
+    ],
+    "order": 30
+  },
+  {
     "name": "Miimi",
     "groupId": "miimi",
     "thumbnail": "https://i.pinimg.com/originals/72/18/c9/7218c99f39aa4d3e6e5c50988e2ae70d.png",
@@ -569,7 +583,7 @@
         "height": "150cm"
       }
     ],
-    "order": 30
+    "order": 31
   },
   {
     "name": "Joon",
@@ -583,7 +597,7 @@
         "height": "134cm"
       }
     ],
-    "order": 31
+    "order": 32
   },
   {
     "name": "Petunia",
@@ -597,7 +611,7 @@
         "height": "143cm"
       }
     ],
-    "order": 32
+    "order": 33
   },
   {
     "name": "Peony",
@@ -611,7 +625,7 @@
         "height": "139cm"
       }
     ],
-    "order": 33
+    "order": 34
   },
   {
     "name": "Sam",
@@ -631,7 +645,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 34
+    "order": 35
   },
   {
     "name": "Jessica",
@@ -651,6 +665,6 @@
         "height": "60cm"
       }
     ],
-    "order": 35
+    "order": 36
   }
 ]
