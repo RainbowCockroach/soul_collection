@@ -1,5 +1,6 @@
 import React from "react";
 import type { Tag, Ship } from "../helpers/objects";
+import OcTag from "../common-components/OcTag";
 import "./FilterBlock.css";
 
 interface FilterBlockProps {
@@ -79,26 +80,14 @@ const FilterBlock: React.FC<FilterBlockProps> = ({
         )}
       </div>
       <div className="tag-list">
-        {tags.map((tag) => {
-          const isSelected = selectedTags.includes(tag.slug);
-          return (
-            <button
-              key={tag.slug}
-              className={`oc-detail-tag div-3d-with-shadow tag-button ${
-                isSelected ? "selected" : ""
-              }`}
-              style={{
-                backgroundColor: tag.backgroundColour,
-                color: tag.textColour,
-                opacity: isSelected ? 1 : 0.6,
-              }}
-              onClick={() => handleTagClick(tag.slug)}
-              title={`Click to ${isSelected ? "remove" : "add"} filter`}
-            >
-              {tag.name}
-            </button>
-          );
-        })}
+        {tags.map((tag) => (
+          <OcTag
+            key={tag.slug}
+            tag={tag}
+            isSelected={selectedTags.includes(tag.slug)}
+            onClick={handleTagClick}
+          />
+        ))}
       </div>
     </div>
   );

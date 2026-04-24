@@ -1,0 +1,41 @@
+.oc-detail-tag {
+  display: inline-block;
+  padding: 3px 6px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 2px solid var(--color-white-sparkle);
+  box-shadow: none;
+  cursor: default;
+  user-select: none;
+}
+
+.tag-button {
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition:
+    opacity 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tag-button:hover {
+  border-color: #fff;
+  opacity: 0.85 !important;
+}
+
+.tag-button.selected {
+  border-color: #fff;
+  opacity: 1 !important;
+}
+
+.tag-button:active {
+  opacity: 0.7 !important;
+}
+
+@media (max-width: 768px) {
+  .tag-button {
+    font-size: 0.85em;
+    padding: 5px 10px;
+  }
+}
