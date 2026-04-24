@@ -27,6 +27,7 @@ import SenseBreakButton from "../sense-break/SenseBreakButton";
 import { useSafeMode } from "../safe-mode/SafeModeContext";
 import { isOcCensored, isTagCensored } from "../safe-mode/safe-mode-censor";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import OcTag from "../common-components/OcTag";
 import LoadingSpinner from "../common-components/LoadingSpinner";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import buttonSound from "/sound-effect/button_oc_slot.mp3";
@@ -329,16 +330,7 @@ const PageDetail: React.FC = () => {
         {oc.tagDetails
           .filter((tag) => !isSafeModeEnabled || !isTagCensored(tag.slug))
           .map((tag, index) => (
-            <span
-              key={index}
-              className="oc-detail-tag div-3d-with-shadow-borderless"
-              style={{
-                backgroundColor: tag.backgroundColour,
-                color: tag.textColour,
-              }}
-            >
-              {tag.name}
-            </span>
+            <OcTag key={index} tag={tag} />
           ))}
       </div>
       <div className="detail-block-species">
