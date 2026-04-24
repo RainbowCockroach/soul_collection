@@ -4098,5 +4098,33 @@
       "other"
     ],
     "order": 69
+  },
+  "foole": {
+    "name": "Foole",
+    "avatar": [
+      "https://i.pinimg.com/236x/ee/67/b2/ee67b28ae3906ac982d6d4046c00dc85.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "yellow",
+      "blue",
+      "pink",
+      "green"
+    ],
+    "order": 70
   }
 }
