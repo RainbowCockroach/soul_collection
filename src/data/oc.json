@@ -2240,7 +2240,10 @@
       "horny-beast",
       "my-personal-favorite",
       "main-character",
-      "drug-user"
+      "drug-user",
+      "glasses",
+      "purple",
+      "yellow"
     ],
     "order": 29,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626346431-ldrn4e.mp3"
@@ -2462,7 +2465,18 @@
       }
     ],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "vrev",
+      "female",
+      "adult",
+      "taken",
+      "side-character",
+      "long-hair",
+      "blue",
+      "purple",
+      "white",
+      "pink"
+    ],
     "order": 32
   },
   "yttu": {
@@ -2492,7 +2506,18 @@
       }
     ],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "vrev",
+      "female",
+      "side-character",
+      "single",
+      "adult",
+      "long-hair",
+      "brown",
+      "pink",
+      "yellow",
+      "purple"
+    ],
     "order": 33
   },
   "wsst": {
@@ -2560,7 +2585,17 @@
       }
     ],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "pink",
+      "blue",
+      "purple",
+      "vrev",
+      "male",
+      "adult",
+      "taken",
+      "side-character",
+      "long-hair"
+    ],
     "order": 35
   },
   "giio": {
@@ -2577,7 +2612,19 @@
     "info": "",
     "gallery": [],
     "breadcrumbs": [],
-    "tags": [],
+    "tags": [
+      "green",
+      "brown",
+      "pink",
+      "purple",
+      "blue",
+      "vrev",
+      "male",
+      "adult",
+      "taken",
+      "side-character",
+      "long-hair"
+    ],
     "order": 36
   },
   "miimi": {
@@ -2673,7 +2720,8 @@
       "black",
       "single",
       "side-character",
-      "silver"
+      "silver",
+      "red"
     ],
     "order": 39
   },
@@ -2707,8 +2755,8 @@
       "single",
       "under-age",
       "pink",
-      "purple",
-      "black"
+      "black",
+      "glasses"
     ],
     "order": 40
   },
