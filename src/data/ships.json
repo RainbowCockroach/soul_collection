@@ -120,5 +120,17 @@
       "sammy-sa": "Girlfriend of T",
       "tylor": "Hell nah"
     }
+  },
+  {
+    "name": "UaawaOppiji",
+    "color": "#deff21",
+    "oc": [
+      "uaawa",
+      "oppiji"
+    ],
+    "shipText": {
+      "uaawa": "Boyfriend of Oppiji",
+      "oppiji": "Girlfriend of Uaawa"
+    }
   }
 ]
