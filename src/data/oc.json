@@ -2447,7 +2447,20 @@
       "vrev"
     ],
     "info": "She/her\nAge: ?\nHeight:200cm\nWeight: 95kg\n[img]https://poempuppy.neocities.org/resources/stamps/0273.gif[/img][img]https://poempuppy.neocities.org/resources/stamps/0438.png[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/tq0pxy.gif[/img] Girlfriend of [url=https://rainbowcockroach.github.io/soul_collection/ocs/uaawa]Uaawa[/url] [img]https://poempuppy.neocities.org/resources/pixels/45ehi3.gif[/img]\nLearn the traditional craft of making zarnok [img]https://poempuppy.neocities.org/resources/pixels/igr8bt.png[/img]\nLoves gossip [img]https://poempuppy.neocities.org/resources/pixels/2d29s1.gif[/img]\nCan't stop flexing [url=https://rainbowcockroach.github.io/soul_collection/ocs/uaawa]Uaawa[/url] to everybody in town [img]https://poempuppy.neocities.org/resources/pixels/3cwkdn.gif[/img]\n",
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.png",
+        "thumbnail": "https://i.pinimg.com/236x/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
     "breadcrumbs": [],
     "tags": [],
     "order": 32
@@ -2464,7 +2477,20 @@
       "vrev"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.png",
+        "thumbnail": "https://i.pinimg.com/236x/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
     "breadcrumbs": [],
     "tags": [],
     "order": 33
@@ -2485,6 +2511,12 @@
       {
         "image": "https://i.pinimg.com/originals/e4/35/c8/e435c8fd6b439daf0a7a731e63527202.png",
         "thumbnail": "https://i.pinimg.com/236x/e4/35/c8/e435c8fd6b439daf0a7a731e63527202.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
         "caption": "",
         "contentWarning": ""
       }
@@ -2519,7 +2551,14 @@
       "vrev"
     ],
     "info": "",
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
     "breadcrumbs": [],
     "tags": [],
     "order": 35
