@@ -2646,6 +2646,115 @@
     ],
     "order": 36
   },
+  "xooni": {
+    "name": "Xooni",
+    "avatar": [
+      "https://i.pinimg.com/236x/21/10/62/211062d65c39ce1c45b0225b44b5f856.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "side-character",
+      "under-age",
+      "single",
+      "long-hair",
+      "red",
+      "orange",
+      "green"
+    ],
+    "order": 37
+  },
+  "foole": {
+    "name": "Foole",
+    "avatar": [
+      "https://i.pinimg.com/236x/ee/67/b2/ee67b28ae3906ac982d6d4046c00dc85.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "yellow",
+      "blue",
+      "pink",
+      "green"
+    ],
+    "order": 38
+  },
+  "utta": {
+    "name": "Utta",
+    "avatar": [
+      "https://i.pinimg.com/236x/ef/b6/89/efb689b19ec15d6380264efd89c0e607.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "purple",
+      "pink",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "order": 39
+  },
+  "ann": {
+    "name": "Ann",
+    "avatar": [
+      "https://i.pinimg.com/236x/ab/a6/c5/aba6c5b0dd6f7bf6420d35d9e5dfc5d1.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "female",
+      "vrev",
+      "under-age",
+      "long-hair",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "order": 40
+  },
   "miimi": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat14.gif[/img] Miimi [img]https://poempuppy.neocities.org/resources/pixels/Cat10.gif[/img]",
     "avatar": [
@@ -2676,7 +2785,7 @@
       "pink",
       "side-character"
     ],
-    "order": 37
+    "order": 41
   },
   "joon": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
@@ -2708,91 +2817,7 @@
       "green",
       "side-character"
     ],
-    "order": 38
-  },
-  "xooni": {
-    "name": "Xooni",
-    "avatar": [
-      "https://i.pinimg.com/236x/21/10/62/211062d65c39ce1c45b0225b44b5f856.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "vrev",
-      "male",
-      "side-character",
-      "under-age",
-      "single",
-      "long-hair",
-      "red",
-      "orange",
-      "green"
-    ],
-    "order": 39
-  },
-  "foole": {
-    "name": "Foole",
-    "avatar": [
-      "https://i.pinimg.com/236x/ee/67/b2/ee67b28ae3906ac982d6d4046c00dc85.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "vrev",
-      "male",
-      "under-age",
-      "single",
-      "side-character",
-      "long-hair",
-      "yellow",
-      "blue",
-      "pink",
-      "green"
-    ],
-    "order": 40
-  },
-  "utta": {
-    "name": "Utta",
-    "avatar": [
-      "https://i.pinimg.com/236x/ef/b6/89/efb689b19ec15d6380264efd89c0e607.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "vrev",
-      "female",
-      "under-age",
-      "single",
-      "side-character",
-      "long-hair",
-      "purple",
-      "pink",
-      "blue",
-      "white",
-      "yellow"
-    ],
-    "order": 41
+    "order": 42
   },
   "petunia": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/s43rsm.webp[/img] Petunia [img]https://poempuppy.neocities.org/resources/pixels/qr2ahq.gif[/img]",
@@ -2826,7 +2851,7 @@
       "silver",
       "red"
     ],
-    "order": 42
+    "order": 43
   },
   "peony": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/rjs87g.gif[/img] Peony [img]https://poempuppy.neocities.org/resources/pixels/emdmvf.gif[/img]",
@@ -2861,7 +2886,7 @@
       "black",
       "glasses"
     ],
-    "order": 43
+    "order": 44
   },
   "leeo": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat23.gif[/img] Leeo [img]https://poempuppy.neocities.org/resources/pixels/Cat29.gif[/img]",
@@ -2928,7 +2953,7 @@
       "cultist",
       "main-character"
     ],
-    "order": 44,
+    "order": 45,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626527213-ktm3f0.mp3"
   },
   "maary": {
@@ -3008,7 +3033,7 @@
       "main-character",
       "drug-user"
     ],
-    "order": 45,
+    "order": 46,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478142026-t37o1b.mp3"
   },
   "lord-vhhz": {
@@ -3040,7 +3065,7 @@
       "blue",
       "main-character"
     ],
-    "order": 46,
+    "order": 47,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626633380-kz0u7f.mp3"
   },
   "zarnok": {
@@ -3095,7 +3120,7 @@
       "my-personal-favorite",
       "side-character"
     ],
-    "order": 47,
+    "order": 48,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626346431-ldrn4e.mp3"
   },
   "echo": {
@@ -3184,7 +3209,7 @@
       "my-personal-favorite",
       "main-character"
     ],
-    "order": 48,
+    "order": 49,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766484636671-nx1p6u.mp3"
   },
   "elha": {
@@ -3232,7 +3257,7 @@
       "side-character",
       "silver"
     ],
-    "order": 49
+    "order": 50
   },
   "the-queen": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/hpl2ib.gif[/img] The queen [img]https://poempuppy.neocities.org/resources/pixels/qxh94y.gif[/img]",
@@ -3271,7 +3296,7 @@
       "side-character",
       "gold"
     ],
-    "order": 50
+    "order": 51
   },
   "non": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/u1a3mv.gif[/img] Non [img]https://poempuppy.neocities.org/resources/pixels/aj0cqr.gif[/img]",
@@ -3303,7 +3328,7 @@
       "horny-beast",
       "side-character"
     ],
-    "order": 51,
+    "order": 52,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626839433-sh3g2j.mp3"
   },
   "raki-chan": {
@@ -3349,7 +3374,7 @@
       "blue",
       "side-character"
     ],
-    "order": 52,
+    "order": 53,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478089931-77eit2.mp3"
   },
   "pizza-vibrator": {
@@ -3383,7 +3408,7 @@
       "yellow",
       "side-character"
     ],
-    "order": 53,
+    "order": 54,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626698994-f2x214.mp3"
   },
   "deep-sea-girl": {
@@ -3436,7 +3461,7 @@
       "cultist",
       "side-character"
     ],
-    "order": 54,
+    "order": 55,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626755027-0xr4j6.mp3"
   },
   "kira-kira-kiki": {
@@ -3470,7 +3495,7 @@
       "horny-beast",
       "side-character"
     ],
-    "order": 55,
+    "order": 56,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765627027482-ir935a.mp3"
   },
   "dark-lone-wolf-fallen-angel": {
@@ -3505,7 +3530,7 @@
       "horny-beast",
       "side-character"
     ],
-    "order": 56,
+    "order": 57,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478223051-4rlqri.mp3"
   },
   "c0d34": {
@@ -3543,7 +3568,7 @@
       "brown",
       "white"
     ],
-    "order": 57,
+    "order": 58,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626941403-wvzkko.mp3"
   },
   "xanthe": {
@@ -3586,7 +3611,7 @@
       "pink",
       "black"
     ],
-    "order": 58
+    "order": 59
   },
   "bee": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/cw6237.gif[/img] Bee [img]https://poempuppy.neocities.org/resources/pixels/cw6237.gif[/img]",
@@ -3627,7 +3652,7 @@
       "long-hair",
       "black"
     ],
-    "order": 59
+    "order": 60
   },
   "hikagi": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/r3b7x2.webp[/img] Hikagi [img]https://poempuppy.neocities.org/resources/pixels/ps7p0f.webp[/img]",
@@ -3678,7 +3703,7 @@
       "black",
       "white"
     ],
-    "order": 60,
+    "order": 61,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626990187-vu4b93.mp3"
   },
   "kumi": {
@@ -3736,7 +3761,7 @@
       "horny-beast",
       "drug-user"
     ],
-    "order": 61
+    "order": 62
   },
   "esme": {
     "name": "[img]https://64.media.tumblr.com/611a63073d2b533ba319cd186a8f1fd0/9b63290278d92294-4d/s75x75_c1/48190fb519cbdf434cbe907b349c16ad590132ab.gifv[/img] Esme [img]https://64.media.tumblr.com/611a63073d2b533ba319cd186a8f1fd0/9b63290278d92294-4d/s75x75_c1/48190fb519cbdf434cbe907b349c16ad590132ab.gifv[/img]",
@@ -3781,7 +3806,7 @@
       "black",
       "adult"
     ],
-    "order": 62
+    "order": 63
   },
   "hydra": {
     "name": "[img]https://64.media.tumblr.com/65acc4d09c132d973251518edaf17fa0/eea0c14fd3e547c5-94/s75x75_c1/5e7e888e7d35609064cf2718c64b683728948ea1.gifv[/img] Hydra [img]https://64.media.tumblr.com/65acc4d09c132d973251518edaf17fa0/eea0c14fd3e547c5-94/s75x75_c1/5e7e888e7d35609064cf2718c64b683728948ea1.gifv[/img]",
@@ -3828,7 +3853,7 @@
       "black",
       "horny-beast"
     ],
-    "order": 63
+    "order": 64
   },
   "sam": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/h5h7yd.webp[/img] Sam [img]https://poempuppy.neocities.org/resources/pixels/2ha1xk.gif[/img]",
@@ -3911,7 +3936,7 @@
       "green",
       "black"
     ],
-    "order": 64
+    "order": 65
   },
   "huge": {
     "name": "[img]https://64.media.tumblr.com/9b2ea6092bf9f89b6b40d5814d5c62d6/3c0f8e8f1373e1ad-26/s75x75_c1/ec1f56226209c4ad250cc52c9b34ba36098ebb41.gifv[/img] Huge [img]https://64.media.tumblr.com/6f79690b292ddc6a867232b98904691d/3c0f8e8f1373e1ad-15/s75x75_c1/efad8197a24aa985bd522d3ca7b1dd6a2e3d4780.gifv[/img]",
@@ -3944,7 +3969,7 @@
       "main-character",
       "adult"
     ],
-    "order": 65
+    "order": 66
   },
   "jessica": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/7kltbb.gif[/img] Jessica [img]https://poempuppy.neocities.org/resources/pixels/7kltbb.gif[/img]",
@@ -3976,7 +4001,7 @@
       "purple",
       "side-character"
     ],
-    "order": 66
+    "order": 67
   },
   "lacey": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/dvbibk.gif[/img] Lacey [img]https://poempuppy.neocities.org/resources/pixels/8sjjy0.webp[/img]",
@@ -4010,7 +4035,7 @@
       "female",
       "adult"
     ],
-    "order": 67
+    "order": 68
   },
   "fire-fall": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/btr65e.gif[/img] Fire Fall [img]https://poempuppy.neocities.org/resources/pixels/btr65e.gif[/img]",
@@ -4045,7 +4070,7 @@
       "female",
       "adult"
     ],
-    "order": 68
+    "order": 69
   },
   "mussy": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/k9eq2r.gif[/img] Mussy [img]https://poempuppy.neocities.org/resources/pixels/k9eq2r.gif[/img]",
@@ -4084,7 +4109,7 @@
       "gold",
       "adult"
     ],
-    "order": 69
+    "order": 70
   },
   "goon": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/nmkfy1.gif[/img] Goon [img]https://poempuppy.neocities.org/resources/pixels/nmkfy1.gif[/img]",
@@ -4122,7 +4147,7 @@
       "silver",
       "male"
     ],
-    "order": 70
+    "order": 71
   },
   "fatumir": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/85mz39.gif[/img] Fatumir [img]https://poempuppy.neocities.org/resources/pixels/pzo7af.gif[/img]",
@@ -4151,7 +4176,7 @@
       "long-hair",
       "other"
     ],
-    "order": 71
+    "order": 72
   },
   "caelwyn": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/jyradd.gif[/img] Caelwyn [img]https://poempuppy.neocities.org/resources/pixels/484om9.gif[/img]",
@@ -4180,31 +4205,6 @@
       "yellow",
       "blue",
       "other"
-    ],
-    "order": 72
-  },
-  "ann": {
-    "name": "Ann",
-    "avatar": [
-      "https://i.pinimg.com/236x/ab/a6/c5/aba6c5b0dd6f7bf6420d35d9e5dfc5d1.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "female",
-      "vrev",
-      "under-age",
-      "long-hair",
-      "blue",
-      "white",
-      "yellow"
     ],
     "order": 73
   }
