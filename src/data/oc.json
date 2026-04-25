@@ -2646,115 +2646,6 @@
     ],
     "order": 36
   },
-  "xooni": {
-    "name": "Xooni",
-    "avatar": [
-      "https://i.pinimg.com/236x/21/10/62/211062d65c39ce1c45b0225b44b5f856.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "vrev",
-      "male",
-      "side-character",
-      "under-age",
-      "single",
-      "long-hair",
-      "red",
-      "orange",
-      "green"
-    ],
-    "order": 37
-  },
-  "foole": {
-    "name": "Foole",
-    "avatar": [
-      "https://i.pinimg.com/236x/ee/67/b2/ee67b28ae3906ac982d6d4046c00dc85.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "vrev",
-      "male",
-      "under-age",
-      "single",
-      "side-character",
-      "long-hair",
-      "yellow",
-      "blue",
-      "pink",
-      "green"
-    ],
-    "order": 38
-  },
-  "utta": {
-    "name": "Utta",
-    "avatar": [
-      "https://i.pinimg.com/236x/ef/b6/89/efb689b19ec15d6380264efd89c0e607.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "vrev",
-      "female",
-      "under-age",
-      "single",
-      "side-character",
-      "long-hair",
-      "purple",
-      "pink",
-      "blue",
-      "white",
-      "yellow"
-    ],
-    "order": 39
-  },
-  "ann": {
-    "name": "Ann",
-    "avatar": [
-      "https://i.pinimg.com/236x/ab/a6/c5/aba6c5b0dd6f7bf6420d35d9e5dfc5d1.jpg"
-    ],
-    "group": [
-      "vrev"
-    ],
-    "spieces": [
-      "vrev"
-    ],
-    "info": "",
-    "gallery": [],
-    "breadcrumbs": [],
-    "tags": [
-      "female",
-      "vrev",
-      "under-age",
-      "long-hair",
-      "blue",
-      "white",
-      "yellow"
-    ],
-    "order": 40
-  },
   "miimi": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat14.gif[/img] Miimi [img]https://poempuppy.neocities.org/resources/pixels/Cat10.gif[/img]",
     "avatar": [
@@ -2785,7 +2676,7 @@
       "pink",
       "side-character"
     ],
-    "order": 41
+    "order": 37
   },
   "joon": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
@@ -2816,6 +2707,115 @@
       "yellow",
       "green",
       "side-character"
+    ],
+    "order": 38
+  },
+  "xooni": {
+    "name": "Xooni",
+    "avatar": [
+      "https://i.pinimg.com/236x/21/10/62/211062d65c39ce1c45b0225b44b5f856.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "side-character",
+      "under-age",
+      "single",
+      "long-hair",
+      "red",
+      "orange",
+      "green"
+    ],
+    "order": 39
+  },
+  "foole": {
+    "name": "Foole",
+    "avatar": [
+      "https://i.pinimg.com/236x/ee/67/b2/ee67b28ae3906ac982d6d4046c00dc85.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "yellow",
+      "blue",
+      "pink",
+      "green"
+    ],
+    "order": 40
+  },
+  "ann": {
+    "name": "Ann",
+    "avatar": [
+      "https://i.pinimg.com/236x/ab/a6/c5/aba6c5b0dd6f7bf6420d35d9e5dfc5d1.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "female",
+      "vrev",
+      "under-age",
+      "long-hair",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "order": 41
+  },
+  "utta": {
+    "name": "Utta",
+    "avatar": [
+      "https://i.pinimg.com/236x/ef/b6/89/efb689b19ec15d6380264efd89c0e607.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "purple",
+      "pink",
+      "blue",
+      "white",
+      "yellow"
     ],
     "order": 42
   },
