@@ -628,6 +628,62 @@
     "order": 34
   },
   {
+    "name": "Xooni",
+    "groupId": "xooni",
+    "thumbnail": "https://i.pinimg.com/originals/2a/20/62/2a20624c453da8107c6c884389a52f3f.png",
+    "variants": [
+      {
+        "id": "xooni-1",
+        "url": "https://i.pinimg.com/originals/49/4c/87/494c87174ced687ebadd865b2c465dde.png",
+        "thumbnail": "",
+        "height": "161cm"
+      }
+    ],
+    "order": 35
+  },
+  {
+    "name": "Foole",
+    "groupId": "foole",
+    "thumbnail": "https://i.pinimg.com/originals/3b/d4/47/3bd447c5115d4345b94b8b196cadbdf5.png",
+    "variants": [
+      {
+        "id": "foole-1",
+        "url": "https://i.pinimg.com/originals/b0/57/92/b0579202b67bd300fd58e6f9b3d82f30.png",
+        "thumbnail": "",
+        "height": "163cm"
+      }
+    ],
+    "order": 36
+  },
+  {
+    "name": "Ann",
+    "groupId": "ann",
+    "thumbnail": "https://i.pinimg.com/originals/03/5c/7d/035c7daa396b9274286c40d6c23c5dc3.png",
+    "variants": [
+      {
+        "id": "ann-1",
+        "url": "https://i.pinimg.com/originals/cb/36/5a/cb365ab083752677602052188f778c6d.png",
+        "thumbnail": "",
+        "height": "166cm"
+      }
+    ],
+    "order": 37
+  },
+  {
+    "name": "Utta",
+    "groupId": "utta",
+    "thumbnail": "https://i.pinimg.com/originals/d1/bf/30/d1bf3057087aefc0d1d8e12bc7d6469e.png",
+    "variants": [
+      {
+        "id": "utta-1",
+        "url": "https://i.pinimg.com/originals/ae/b2/4d/aeb24d5baee8fefc9b06602baa23757d.png",
+        "thumbnail": "",
+        "height": "153cm"
+      }
+    ],
+    "order": 38
+  },
+  {
     "name": "Petunia",
     "groupId": "petunia",
     "thumbnail": "https://i.pinimg.com/originals/64/a2/3f/64a23f8b466993b146ef7d7a68cc23f1.png",
@@ -639,7 +695,7 @@
         "height": "143cm"
       }
     ],
-    "order": 35
+    "order": 39
   },
   {
     "name": "Peony",
@@ -653,7 +709,7 @@
         "height": "139cm"
       }
     ],
-    "order": 36
+    "order": 40
   },
   {
     "name": "Sam",
@@ -673,7 +729,7 @@
         "height": "169cm (without heels)"
       }
     ],
-    "order": 37
+    "order": 41
   },
   {
     "name": "Jessica",
@@ -693,6 +749,6 @@
         "height": "60cm"
       }
     ],
-    "order": 38
+    "order": 42
   }
 ]
