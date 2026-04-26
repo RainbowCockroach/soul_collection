@@ -15,6 +15,7 @@ import "./OcGroupCover.css";
 import "./PageOcList.css";
 import "./OcGroup.css";
 import "./FilterBlock.css";
+import Divider from "../common-components/Divider";
 
 const DEFAULT_FRAME_COLOUR = "#ffffff";
 const DEFAULT_TEXT_COLOUR = "#000000";
@@ -148,7 +149,7 @@ const PageOcList: React.FC = () => {
 
   return (
     <div className="page-padded">
-      <div className="oc-group-cover-grid">
+      <div className="oc-group-cover-grid space-above space-below">
         {groups.map((group) => (
           <ButtonWrapper
             key={group.slug}
@@ -170,7 +171,9 @@ const PageOcList: React.FC = () => {
         ))}
       </div>
 
-      <div className="filter-toggle-container">
+      <Divider />
+
+      <div className="filter-toggle-container space-above">
         <ButtonWrapper
           className="filter-toggle-button div-3d-with-shadow"
           onClick={toggleFilterVisibility}
@@ -194,7 +197,7 @@ const PageOcList: React.FC = () => {
         />
       )}
 
-      <div className="oc-list-flat-content">
+      <div className="oc-list-flat-content space-above">
         <div className="oc-group-grid">
           {filteredOcs.map((oc) => {
             const colours = getColoursForOc(oc);
