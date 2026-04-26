@@ -40,7 +40,9 @@
 /* Common button styles */
 .button-with-underline {
   border: 2px solid black;
-  box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
     0 0 20px rgba(52, 11, 86, 0.6);
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -49,7 +51,9 @@
 }
 
 .div-3d-with-shadow {
-  box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
     0 0 20px rgba(52, 11, 86, 0.6);
   border: 1px solid rgb(106, 255, 168);
   border-radius: 4px;
@@ -57,25 +61,33 @@
 }
 
 .div-3d-with-shadow-borderless {
-  box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
     0 0 20px rgba(52, 11, 86, 0.6);
   border-radius: 4px;
   background-color: rgba(106, 255, 168, 0.6);
 }
 
 .button-3d-with-shadow {
-  box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
     0 0 20px rgba(52, 11, 86, 0.6);
   border-radius: 4px;
 }
 
 .shadow-3d {
-  box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
     0 0 20px rgba(52, 11, 86, 0.6);
 }
 
 .effect-subtle-rise {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .effect-subtle-rise:hover {
@@ -91,28 +103,60 @@
 }
 
 .space-above {
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 .space-below {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 /* Text outline utility classes */
 .text-outline {
-  text-shadow: 0 -2px 0 white, 0 2px 0 white, -2px 0 0 white, 2px 0 0 white,
-    -1px -2px 0 white, 1px -2px 0 white, -1px 2px 0 white, 1px 2px 0 white,
-    -2px -1px 0 white, 2px -1px 0 white, -2px 1px 0 white, 2px 1px 0 white,
-    -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+  text-shadow:
+    0 -2px 0 white,
+    0 2px 0 white,
+    -2px 0 0 white,
+    2px 0 0 white,
+    -1px -2px 0 white,
+    1px -2px 0 white,
+    -1px 2px 0 white,
+    1px 2px 0 white,
+    -2px -1px 0 white,
+    2px -1px 0 white,
+    -2px 1px 0 white,
+    2px 1px 0 white,
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
 }
 
 .text-outline-thick {
-  text-shadow: 0 -3px 0 white, 0 3px 0 white, -3px 0 0 white, 3px 0 0 white,
-    -1px -3px 0 white, 1px -3px 0 white, -1px 3px 0 white, 1px 3px 0 white,
-    -3px -1px 0 white, 3px -1px 0 white, -3px 1px 0 white, 3px 1px 0 white,
-    -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white,
-    -2px -3px 0 white, 2px -3px 0 white, -2px 3px 0 white, 2px 3px 0 white,
-    -3px -2px 0 white, 3px -2px 0 white, -3px 2px 0 white, 3px 2px 0 white;
+  text-shadow:
+    0 -3px 0 white,
+    0 3px 0 white,
+    -3px 0 0 white,
+    3px 0 0 white,
+    -1px -3px 0 white,
+    1px -3px 0 white,
+    -1px 3px 0 white,
+    1px 3px 0 white,
+    -3px -1px 0 white,
+    3px -1px 0 white,
+    -3px 1px 0 white,
+    3px 1px 0 white,
+    -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white,
+    -2px -3px 0 white,
+    2px -3px 0 white,
+    -2px 3px 0 white,
+    2px 3px 0 white,
+    -3px -2px 0 white,
+    3px -2px 0 white,
+    -3px 2px 0 white,
+    3px 2px 0 white;
 }
 
 a {
