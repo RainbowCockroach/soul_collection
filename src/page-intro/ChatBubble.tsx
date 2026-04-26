@@ -1,10 +1,12 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import "./ChatBubble.css";
 import type { DialogEntry } from "../helpers/objects";
+import { playBlip } from "../helpers/dialogBlip";
 
 interface Props {
   texts: DialogEntry[];
   speaker?: string;
+  speakerId?: string;
   avatar?: string;
   speed?: number;
   displayContinueIcon?: boolean;
@@ -22,8 +24,9 @@ const ChatBubble = forwardRef<Ref, Props>(
     {
       texts,
       speaker,
+      speakerId = "sam",
       avatar,
-      speed = 50,
+      speed = 25,
       displayContinueIcon = true,
       onComplete,
       onFinish,
@@ -70,11 +73,16 @@ const ChatBubble = forwardRef<Ref, Props>(
       }
 
       const timer = setTimeout(() => {
-        setText(currentText.slice(0, text.length + 1));
+        const nextLen = text.length + 1;
+        const ch = currentText[text.length];
+        if (nextLen % 2 === 0 && ch && /\S/.test(ch) && !/[.,!?…:;]/.test(ch)) {
+          playBlip(speakerId);
+        }
+        setText(currentText.slice(0, nextLen));
       }, speed);
 
       return () => clearTimeout(timer);
-    }, [text, currentText, isTyping, speed, isLastDialog, onComplete]);
+    }, [text, currentText, isTyping, speed, isLastDialog, onComplete, speakerId]);
 
     const showFull = () => {
       setText(currentText);
