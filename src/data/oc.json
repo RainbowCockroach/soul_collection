@@ -4210,5 +4210,22 @@
       "other"
     ],
     "order": 73
+  },
+  "innki": {
+    "name": "Innki",
+    "avatar": [
+      "https://i.pinimg.com/236x/78/d8/13/78d81394630c66d70c2c1b4e45e2aed6.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [],
+    "order": 74
   }
 }
