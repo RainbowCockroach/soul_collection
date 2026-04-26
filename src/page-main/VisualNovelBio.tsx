@@ -29,6 +29,7 @@ interface Props {
 const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
   const [bioData, setBioData] = useState<VNBioData | null>(null);
   const [activeCharacterId, setActiveCharacterId] = useState("");
+  const [dialogIndexes, setDialogIndexes] = useState<Record<string, number>>({});
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
@@ -52,7 +53,8 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
   }
 
   const activeDialog = dialogMap.get(activeCharacterId);
-  const currentText = activeDialog?.text ?? "";
+  const activeIndex = dialogIndexes[activeCharacterId] ?? 0;
+  const currentText = activeDialog?.text[activeIndex] ?? "";
 
   // Typing effect
   useEffect(() => {
@@ -71,10 +73,26 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
   }, [displayedText, currentText, isTyping, speed]);
 
   const handleCharacterClick = (characterId: string) => {
-    if (characterId === activeCharacterId) return;
-    setActiveCharacterId(characterId);
-    setDisplayedText("");
-    setIsTyping(true);
+    const dialog = dialogMap.get(characterId);
+    if (!dialog) return;
+
+    if (characterId === activeCharacterId) {
+      // Advance to next line, looping back to start
+      if (isTyping) {
+        // Skip to end of current line
+        setDisplayedText(currentText);
+        setIsTyping(false);
+      } else {
+        const nextIndex = (activeIndex + 1) % dialog.text.length;
+        setDialogIndexes((prev) => ({ ...prev, [characterId]: nextIndex }));
+        setDisplayedText("");
+        setIsTyping(true);
+      }
+    } else {
+      setActiveCharacterId(characterId);
+      setDisplayedText("");
+      setIsTyping(true);
+    }
   };
 
   if (!bioData) return null;
@@ -104,7 +122,7 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
 
           {/* Dialog Box */}
           {activeDialog && (
-            <div className="vn-dialog-box">
+            <div className="vn-dialog-box" onClick={() => handleCharacterClick(activeCharacterId)}>
               <div className="vn-dialog-border">
                 <div className="vn-dialog-content">
                   <div

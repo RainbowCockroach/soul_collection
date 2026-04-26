@@ -13,7 +13,7 @@ import ImagePreview from "./ImagePreview";
 
 const EMPTY_DIALOG: VNBioDialog = {
   speaker: "",
-  text: "",
+  text: [],
   speakerId: "",
   nameBadgeColor: "#ffffff",
   spriteUrl: "",
@@ -44,8 +44,8 @@ export const EditorBio: React.FC = () => {
       toast.error("Speaker name is required");
       return;
     }
-    if (!formData.text.trim()) {
-      toast.error("Dialog text is required");
+    if (formData.text.length === 0 || formData.text.every((t) => !t.trim())) {
+      toast.error("At least one dialog line is required");
       return;
     }
 
@@ -55,6 +55,29 @@ export const EditorBio: React.FC = () => {
       setBioData({ ...bioData, dialogs: updated });
       toast.success("Dialog updated");
     }
+  };
+
+  const handleTextChange = (lineIndex: number, value: string) => {
+    const newText = [...formData.text];
+    newText[lineIndex] = value;
+    setFormData({ ...formData, text: newText });
+  };
+
+  const handleAddLine = () => {
+    setFormData({ ...formData, text: [...formData.text, ""] });
+  };
+
+  const handleRemoveLine = (lineIndex: number) => {
+    const newText = formData.text.filter((_, i) => i !== lineIndex);
+    setFormData({ ...formData, text: newText });
+  };
+
+  const handleMoveLine = (lineIndex: number, direction: -1 | 1) => {
+    const newText = [...formData.text];
+    const target = lineIndex + direction;
+    if (target < 0 || target >= newText.length) return;
+    [newText[lineIndex], newText[target]] = [newText[target], newText[lineIndex]];
+    setFormData({ ...formData, text: newText });
   };
 
   const handleCancel = () => {
@@ -104,8 +127,9 @@ export const EditorBio: React.FC = () => {
                     {dialog.speaker}
                   </div>
                   <div className="editor-item-slug">
-                    {dialog.text.substring(0, 50)}
-                    {dialog.text.length > 50 ? "..." : ""}
+                    {dialog.text[0]?.substring(0, 50) ?? ""}
+                    {(dialog.text[0]?.length ?? 0) > 50 ? "..." : ""}
+                    {dialog.text.length > 1 ? ` (+${dialog.text.length - 1} more)` : ""}
                   </div>
                 </div>
               </div>
@@ -113,7 +137,7 @@ export const EditorBio: React.FC = () => {
           </div>
 
           {/* Background URL */}
-          <div className="editor-form" style={{ marginTop: 16 }}>
+          <div className="editor-form" style={{ marginTop: "var(--editor-spacing-md)" }}>
             <h3>Background</h3>
             <div className="editor-field">
               <label className="editor-label">Background Image URL:</label>
@@ -166,21 +190,60 @@ export const EditorBio: React.FC = () => {
               </div>
 
               <div className="editor-field">
-                <label className="editor-label">Dialog Text:</label>
-                <SCEditor
-                  format="bbcode"
-                  toolbar={BBCODE_TOOLBAR}
-                  value={formData.text}
-                  onChange={(value) =>
-                    setFormData({ ...formData, text: value })
-                  }
-                  height={200}
-                />
+                <label className="editor-label">
+                  Dialog Lines ({formData.text.length}):
+                </label>
+                {formData.text.map((line, i) => (
+                  <div key={i} className="editor-section">
+                    <div className="editor-section-header">
+                      <h4>Line {i + 1}</h4>
+                      <div className="editor-reorder-buttons">
+                        <div className="editor-reorder-arrows">
+                          <button
+                            onClick={() => handleMoveLine(i, -1)}
+                            disabled={i === 0}
+                            className="editor-reorder-button"
+                          >
+                            ↑
+                          </button>
+                          <button
+                            onClick={() => handleMoveLine(i, 1)}
+                            disabled={i === formData.text.length - 1}
+                            className="editor-reorder-button"
+                          >
+                            ↓
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => handleRemoveLine(i)}
+                          className="editor-button editor-button-danger editor-button-small"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                    <div className="editor-section-content">
+                      <SCEditor
+                        format="bbcode"
+                        toolbar={BBCODE_TOOLBAR}
+                        value={line}
+                        onChange={(value) => handleTextChange(i, value)}
+                        height={150}
+                      />
+                    </div>
+                  </div>
+                ))}
+                <button
+                  onClick={handleAddLine}
+                  className="editor-button editor-button-primary"
+                >
+                  + Add Line
+                </button>
               </div>
 
               <div className="editor-field">
                 <label className="editor-label">Name Badge Color:</label>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div className="editor-color-preview-container">
                   <input
                     type="color"
                     value={formData.nameBadgeColor}
@@ -192,19 +255,10 @@ export const EditorBio: React.FC = () => {
                     }
                     className="editor-color-picker"
                   />
-                  <span
-                    style={{
-                      backgroundColor: formData.nameBadgeColor,
-                      color: "#fff",
-                      padding: "4px 12px",
-                      borderRadius: 4,
-                      fontSize: 14,
-                      fontWeight: 600,
-                    }}
-                  >
+                  <span className="editor-tag-preview" style={{ backgroundColor: formData.nameBadgeColor, color: "#fff" }}>
                     {formData.speaker || "Speaker"}
                   </span>
-                  <span className="editor-text-muted">
+                  <span className="editor-text-muted editor-text-mono">
                     {formData.nameBadgeColor}
                   </span>
                 </div>

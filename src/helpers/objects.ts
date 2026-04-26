@@ -87,7 +87,7 @@ export interface VNDialogEntry {
 
 export interface VNBioDialog {
   speaker: string;
-  text: string;
+  text: string[];
   speakerId: string;
   nameBadgeColor: string;
   spriteUrl: string; // URL for the character sprite (empty string = use bundled default)

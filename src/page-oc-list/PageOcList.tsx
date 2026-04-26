@@ -16,6 +16,7 @@ import "./PageOcList.css";
 import "./OcGroup.css";
 import "./FilterBlock.css";
 import Divider from "../common-components/Divider";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
 const DEFAULT_FRAME_COLOUR = "#ffffff";
 const DEFAULT_TEXT_COLOUR = "#000000";
@@ -160,6 +161,7 @@ const PageOcList: React.FC = () => {
             className="oc-group-cover-button"
             onClick={() => navigate(`${baseUrl}/group/${group.slug}`)}
             soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
           >
             <OcGroupCover
               groupInfo={{
@@ -182,6 +184,7 @@ const PageOcList: React.FC = () => {
           className="filter-toggle-button div-3d-with-shadow"
           onClick={toggleFilterVisibility}
           soundFile={buttonSound}
+          hoverSoundFile={buttonSoundHover}
         >
           {showFilter ? "Hide search" : "🔍 Search"}
           {(selectedTags.length > 0 || selectedShips.length > 0) &&

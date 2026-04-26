@@ -3,14 +3,20 @@
   "dialogs": [
     {
       "speaker": "Sam",
-      "text": "Hi! I'm Sam. I do the designs, illustrations, ships and a little bit of the story writing!",
+      "text": [
+        "Hi! I'm Sam. I do the designs, illustrations, ships and a little bit of the story writing!",
+        "I have a thing for vrevs and cults."
+      ],
       "speakerId": "sam",
       "nameBadgeColor": "#ff6b9d",
       "spriteUrl": ""
     },
     {
       "speaker": "Pink Truck V",
-      "text": "Cooking convulted lore and spaghetti code.",
+      "text": [
+        "Cooking convulted lore and spaghetti code.",
+        "The underside of Huge is nightmare fuel."
+      ],
       "speakerId": "pink-truck-v",
       "nameBadgeColor": "#6ba3ff",
       "spriteUrl": ""
