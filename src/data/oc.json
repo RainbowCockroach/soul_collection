@@ -59,7 +59,8 @@
         "images": [
           "https://i.pinimg.com/originals/43/89/81/4389814f58c4f96496e683e909ac8570.png"
         ],
-        "description": "I wish I kept her dress that day"
+        "description": "I wish I kept her dress that day",
+        "contentWarning": "[safeOnly]Bloody abuse"
       }
     ],
     "tags": [
@@ -84,7 +85,7 @@
   "cleo": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/7s6r8n.gif[/img] Cleo [img]https://poempuppy.neocities.org/resources/pixels/vrqls3.gif[/img]",
     "avatar": [
-      "https://i.pinimg.com/236x/af/1b/73/af1b73efe478076c3728b52850839a7a.jpg"
+      "https://i.pinimg.com/236x/a9/73/2e/a9732ef64cb062f2935fad602a1ee0bd.jpg"
     ],
     "group": [
       "human"
@@ -97,6 +98,12 @@
       {
         "image": "https://i.pinimg.com/originals/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.png",
         "thumbnail": "https://i.pinimg.com/236x/30/55/3c/30553cc8c8d0fcf0b5ec76aa037657f1.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/5f/1a/f8/5f1af88bedc7c306033729ae5e3f3f5b.png",
+        "thumbnail": "https://i.pinimg.com/236x/5f/1a/f8/5f1af88bedc7c306033729ae5e3f3f5b.jpg",
+        "caption": "",
+        "contentWarning": "[safeOnly]Implication of drug use"
       },
       {
         "image": "https://i.pinimg.com/originals/57/d4/aa/57d4aa0a45cef8271088924be0a9cf1c.png",
@@ -130,7 +137,8 @@
         "images": [
           "https://i.pinimg.com/originals/e7/5d/9b/e75d9bdd1542fa6fe2d07c62096b155b.jpg"
         ],
-        "description": "To stop mind reader from reading mind"
+        "description": "To stop mind reader from reading mind",
+        "contentWarning": "[safeOnly]Drug"
       }
     ],
     "tags": [
@@ -193,7 +201,8 @@
         "images": [
           "https://i.pinimg.com/originals/e7/5d/9b/e75d9bdd1542fa6fe2d07c62096b155b.jpg"
         ],
-        "description": "To stop mind reader from reading mind"
+        "description": "To stop mind reader from reading mind",
+        "contentWarning": "[safeOnly]Drug"
       }
     ],
     "tags": [
@@ -238,9 +247,25 @@
       {
         "image": "https://i.pinimg.com/originals/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.png",
         "thumbnail": "https://i.pinimg.com/236x/ee/02/7d/ee027d3ea5161883d82b3e4b0d5638b7.jpg"
+      },
+      {
+        "image": "https://i.pinimg.com/originals/ea/55/26/ea5526821e032b4cce88b3a59380c5b2.png",
+        "thumbnail": "https://i.pinimg.com/236x/ea/55/26/ea5526821e032b4cce88b3a59380c5b2.jpg",
+        "caption": "Character on the right belong to [url=https://www.instagram.com/metahomocide/]metahomocide[/url]",
+        "contentWarning": ""
       }
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "title": "Mind reader repellant",
+        "images": [
+          "https://i.pinimg.com/originals/e7/5d/9b/e75d9bdd1542fa6fe2d07c62096b155b.jpg"
+        ],
+        "video": "",
+        "description": "To stop mind reader from reading mind",
+        "contentWarning": "[safeOnly]Drug"
+      }
+    ],
     "tags": [
       "normal-human",
       "male",
@@ -506,7 +531,8 @@
       "yellow",
       "white",
       "side-character",
-      "gold"
+      "gold",
+      "what"
     ],
     "order": 7,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478117753-j2gfz3.mp3"
@@ -621,7 +647,62 @@
         "caption": ""
       }
     ],
-    "breadcrumbs": [],
+    "breadcrumbs": [
+      {
+        "title": "Liv's fursona",
+        "images": [
+          "https://64.media.tumblr.com/97e903ed451ef5b2acfdb8fa9d56ceee/f7255cc213b4a8bc-8f/s250x400/2345d5c20a91878119bc9573e5afca854a74048f.gifv"
+        ],
+        "video": "",
+        "description": "[url=https://rainbowcockroach.github.io/soul_collection/ocs/liv-the-fox]Liv the fox[/url] is Liv’s fursona! She wish to make herself a fursuit someday![img]https://poempuppy.neocities.org/resources/pixels/dojall.gif[/img]",
+        "contentWarning": ""
+      },
+      {
+        "title": "Cosplayer Liv!",
+        "images": [
+          "https://i.pinimg.com/236x/eb/dc/11/ebdc11dabac824d8669a93cd797a626f.jpg"
+        ],
+        "video": "",
+        "description": "Liv spends all her lunch money for cosplay stuff! Liv either starve or eat Rilor's food at school",
+        "contentWarning": ""
+      },
+      {
+        "title": "Called a tsundere by Rilor",
+        "images": [
+          "https://i.pinimg.com/736x/86/5d/76/865d767e78367cd9d15564df3ebd4879.jpg"
+        ],
+        "video": "",
+        "description": "Liv personally think she's really kind. It's Rilor's stupidity that makes her rage.",
+        "contentWarning": ""
+      },
+      {
+        "title": "Allergic to shrimp",
+        "images": [
+          "https://media1.tenor.com/m/OsAN0fMp-Q0AAAAC/shrimp-working.gif"
+        ],
+        "video": "",
+        "description": "Althought her hair is shrimp color, Liv can't eat shrimp [img]https://poempuppy.neocities.org/resources/pixels/pg2bv7.gif[/img]",
+        "contentWarning": ""
+      },
+      {
+        "title": "A very sad Liv",
+        "images": [
+          "https://media.tenor.com/sCZ6fh4G1CIAAAAj/cry-crying.gif"
+        ],
+        "video": "",
+        "description": "The world is dying and same with Liv's hope and dreams [img]https://poempuppy.neocities.org/resources/pixels/6s6xez.gif[/img]\nSad Liv took everything out on herself",
+        "contentWarning": ""
+      },
+      {
+        "title": "Not smart enough",
+        "images": [
+          "https://media1.tenor.com/m/OKLA5J5PN50AAAAC/asian-boy.gif"
+        ],
+        "video": "",
+        "description": "Liv is not suitable for her new Asian school! School feels like university already!",
+        "contentWarning": ""
+      }
+    ],
     "tags": [
       "female",
       "improved-human",
@@ -637,6 +718,34 @@
     ],
     "order": 9,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766481282755-3zcajc.mp3"
+  },
+  "burger": {
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/i484zy.gif[/img] Burger [img]https://poempuppy.neocities.org/resources/pixels/i484zy.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/04/4c/b2/044cb25a9c82b974842ac93d8d00caa0.jpg"
+    ],
+    "group": [
+      "human"
+    ],
+    "spieces": [
+      "human"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "normal-human",
+      "main-character",
+      "single",
+      "under-age",
+      "male",
+      "short-hair",
+      "blue",
+      "black",
+      "purple",
+      "what"
+    ],
+    "order": 10
   },
   "king-rilor": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/xw51g3.gif[/img] King Rilor [img]https://poempuppy.neocities.org/resources/pixels/2o32ca.gif[/img]",
@@ -715,7 +824,7 @@
       "black",
       "my-personal-favorite"
     ],
-    "order": 10,
+    "order": 11,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765627063718-wabs3w.mp3"
   },
   "liv-the-fox": {
@@ -792,7 +901,7 @@
       "main-character",
       "red"
     ],
-    "order": 11,
+    "order": 12,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766481256372-6tcpq9.mp3"
   },
   "bush": {
@@ -843,6 +952,11 @@
         "thumbnail": "https://i.pinimg.com/236x/a5/0b/63/a50b634c3a55a8b23945005e4efb902c.jpg"
       },
       {
+        "image": "https://i.pinimg.com/originals/d4/61/23/d461239630cb91c31e58d77c4800f3a7.jpg",
+        "thumbnail": "https://i.pinimg.com/236x/d4/61/23/d461239630cb91c31e58d77c4800f3a7.jpg",
+        "caption": ""
+      },
+      {
         "image": "https://i.pinimg.com/originals/f1/24/b0/f124b03a5191d621f07b2cb4d85411b0.png",
         "thumbnail": "https://i.pinimg.com/236x/f1/24/b0/f124b03a5191d621f07b2cb4d85411b0.jpg"
       },
@@ -859,11 +973,6 @@
       {
         "image": "https://i.pinimg.com/originals/7f/88/51/7f88514f0a616c4764c774526bcfe8c7.jpg",
         "thumbnail": "https://i.pinimg.com/236x/7f/88/51/7f88514f0a616c4764c774526bcfe8c7.jpg",
-        "caption": ""
-      },
-      {
-        "image": "https://i.pinimg.com/originals/d4/61/23/d461239630cb91c31e58d77c4800f3a7.jpg",
-        "thumbnail": "https://i.pinimg.com/236x/d4/61/23/d461239630cb91c31e58d77c4800f3a7.jpg",
         "caption": ""
       }
     ],
@@ -904,7 +1013,7 @@
       "main-character",
       "cultist"
     ],
-    "order": 12,
+    "order": 13,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766484665830-9jzq7c.mp3"
   },
   "timur": {
@@ -964,15 +1073,16 @@
       "white",
       "gold",
       "glasses",
-      "side-character"
+      "side-character",
+      "what"
     ],
-    "order": 13,
+    "order": 14,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626807908-izz5yz.mp3"
   },
   "davaphorict-li": {
-    "name": "Davaphorict Li",
+    "name": "Davaphorict Li [img]https://poempuppy.neocities.org/resources/pixels/w9t3z6.gif[/img]",
     "avatar": [
-      "https://i.pinimg.com/236x/f5/2b/ab/f52bab25d9a267fe10aa986851cd3403.jpg",
+      "https://i.pinimg.com/236x/f8/d6/6f/f8d66fc25624206eff126f6876de3fb3.jpg",
       "https://i.pinimg.com/236x/07/cc/7e/07cc7e42d4c25fcc27e2a57c62ebda77.jpg"
     ],
     "group": [
@@ -981,7 +1091,7 @@
     "spieces": [
       "not-pure-zo"
     ],
-    "info": "he/him\nAge: 200\nHeight: 182cm\nWeight: 63kg\n*  *\n*\nNormal human\nFinance\nTrust fund\nGreen eyes",
+    "info": "he/him\nAge: 200\nHeight: 185cm\nWeight: 64kg\n*  *\n*\nNormal human\nFinance\nTrust fund\nGreen eyes",
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/33/4d/79/334d793eb7b016ca7f371a9b0fb42086.png",
@@ -1007,7 +1117,7 @@
       "side-character",
       "glasses"
     ],
-    "order": 14,
+    "order": 15,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478251933-dwqpcw.mp3"
   },
   "aya-li": {
@@ -1075,7 +1185,7 @@
       "silver",
       "green"
     ],
-    "order": 15,
+    "order": 16,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766483293070-24vxve.mp3"
   },
   "maya-li": {
@@ -1143,7 +1253,7 @@
       "silver",
       "green"
     ],
-    "order": 16,
+    "order": 17,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766483293070-24vxve.mp3"
   },
   "non-li": {
@@ -1225,7 +1335,8 @@
           "https://i.pinimg.com/originals/e3/3e/dd/e33edd4e3b335d9c21693158ee412f88.png",
           "https://i.pinimg.com/originals/01/37/aa/0137aa8cb5cd2aa2d2d5262ccac55ddf.png"
         ],
-        "description": "It was nice, [url=https://rainbowcockroach.github.io/soul_collection/ocs/heix-li]his [/url] dick was actually quite big."
+        "description": "It was nice, [url=https://rainbowcockroach.github.io/soul_collection/ocs/heix-li]his [/url] dick was actually quite big.",
+        "contentWarning": "[safeOnly]Sexual content"
       },
       {
         "title": "Returning to home planet",
@@ -1243,6 +1354,16 @@
         ],
         "video": "",
         "description": "Non often have a pack of powder in her pocket for convenient 🤍",
+        "contentWarning": "[safeOnly]Drug"
+      },
+      {
+        "title": "Loves giving ",
+        "images": [
+          "https://i.pinimg.com/originals/23/c3/a2/23c3a286b6088104aa6656c304af8835.png",
+          "https://i.pinimg.com/originals/90/27/20/90272030c5e9954d2a1bfcc1e064ae28.png"
+        ],
+        "video": "",
+        "description": "[img]https://poempuppy.neocities.org/resources/pixels/eumxu3.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/divnix.gif[/img] Non loves giving to his loved one [img]https://poempuppy.neocities.org/resources/pixels/divnix.gif[/img]",
         "contentWarning": ""
       }
     ],
@@ -1260,10 +1381,9 @@
       "horny-beast",
       "my-personal-favorite",
       "main-character",
-      "gold",
-      "drug-user"
+      "gold"
     ],
-    "order": 17
+    "order": 18
   },
   "steele-li": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/ysdmp7.gif[/img] Steele Li [img]https://poempuppy.neocities.org/resources/pixels/4akj7e.gif[/img]",
@@ -1378,7 +1498,7 @@
       "main-character",
       "drug-user"
     ],
-    "order": 18,
+    "order": 19,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478089931-77eit2.mp3"
   },
   "toline-li": {
@@ -1474,7 +1594,7 @@
       "gold",
       "glasses"
     ],
-    "order": 19,
+    "order": 20,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626698994-f2x214.mp3"
   },
   "celia-li": {
@@ -1548,7 +1668,7 @@
       "cultist",
       "gold"
     ],
-    "order": 20,
+    "order": 21,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626755027-0xr4j6.mp3"
   },
   "killfy": {
@@ -1619,7 +1739,7 @@
       "gold",
       "drug-user"
     ],
-    "order": 21,
+    "order": 22,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765627027482-ir935a.mp3"
   },
   "heix-li": {
@@ -1718,7 +1838,7 @@
       "drug-user",
       "hacker"
     ],
-    "order": 22,
+    "order": 23,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478223051-4rlqri.mp3"
   },
   "potat": {
@@ -1759,10 +1879,10 @@
       "brown",
       "side-character"
     ],
-    "order": 23
+    "order": 24
   },
   "zorl": {
-    "name": "Zorl",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/38v286.gif[/img] Zorl [img]https://poempuppy.neocities.org/resources/pixels/38v286.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/23/9b/9d/239b9d39c0070e25071f3f7bc760baf7.jpg"
     ],
@@ -1804,7 +1924,7 @@
       "purple",
       "black"
     ],
-    "order": 24
+    "order": 25
   },
   "vhhz": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/ntxwtm.gif[/img] Vhhz [img]https://poempuppy.neocities.org/resources/pixels/ntxwtm.gif[/img]",
@@ -1890,7 +2010,7 @@
       "glasses",
       "cultist"
     ],
-    "order": 25,
+    "order": 26,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626633380-kz0u7f.mp3"
   },
   "pastel-leeo": {
@@ -1930,7 +2050,7 @@
       "side-character",
       "drug-user"
     ],
-    "order": 26,
+    "order": 27,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626527213-ktm3f0.mp3"
   },
   "healthy-maary": {
@@ -1944,7 +2064,7 @@
     "spieces": [
       "vrev"
     ],
-    "info": "",
+    "info": "this is a vrev, totally great mental health",
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/c4/ee/1d/c4ee1da4e701434e12bfaa20da8e1947.png",
@@ -1969,7 +2089,7 @@
       "brown",
       "side-character"
     ],
-    "order": 27,
+    "order": 28,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478142026-t37o1b.mp3"
   },
   "naame": {
@@ -2033,16 +2153,25 @@
         "thumbnail": "https://i.pinimg.com/236x/e4/aa/0d/e4aa0de3d7cd22eaa0ecffdecf1d8257.jpg"
       },
       {
+        "image": "https://i.pinimg.com/originals/23/c3/a2/23c3a286b6088104aa6656c304af8835.png",
+        "thumbnail": "https://i.pinimg.com/236x/23/c3/a2/23c3a286b6088104aa6656c304af8835.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/90/27/20/90272030c5e9954d2a1bfcc1e064ae28.png",
+        "thumbnail": "https://i.pinimg.com/236x/90/27/20/90272030c5e9954d2a1bfcc1e064ae28.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
         "image": "https://i.pinimg.com/originals/d3/72/8e/d3728e17e1ff79b4444bba868ddea605.png",
         "thumbnail": "https://i.pinimg.com/236x/d3/72/8e/d3728e17e1ff79b4444bba868ddea605.jpg"
       },
       {
-        "image": "https://i.pinimg.com/originals/62/f9/f5/62f9f59f2d113963b094c80afb632584.png",
-        "thumbnail": "https://i.pinimg.com/236x/62/f9/f5/62f9f59f2d113963b094c80afb632584.jpg"
-      },
-      {
         "image": "https://i.pinimg.com/originals/33/11/3e/33113ed6e6650d426aac2816e730d8e5.png",
-        "thumbnail": "https://i.pinimg.com/236x/33/11/3e/33113ed6e6650d426aac2816e730d8e5.jpg"
+        "thumbnail": "https://i.pinimg.com/236x/33/11/3e/33113ed6e6650d426aac2816e730d8e5.jpg",
+        "caption": "Naame but realistic"
       }
     ],
     "breadcrumbs": [
@@ -2111,9 +2240,12 @@
       "horny-beast",
       "my-personal-favorite",
       "main-character",
-      "drug-user"
+      "drug-user",
+      "glasses",
+      "purple",
+      "yellow"
     ],
-    "order": 28,
+    "order": 29,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626346431-ldrn4e.mp3"
   },
   "iggy": {
@@ -2208,9 +2340,10 @@
       "orange",
       "pink",
       "green",
-      "blue"
+      "blue",
+      "silver"
     ],
-    "order": 29,
+    "order": 30,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478189399-b8o0pv.mp3"
   },
   "uaawa": {
@@ -2302,11 +2435,219 @@
       "purple",
       "side-character"
     ],
-    "order": 30,
+    "order": 31,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766408097344-c5qc0r.mp3"
   },
+  "oppiji": {
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/igr8bt.png[/img] Oppiji [img]https://poempuppy.neocities.org/resources/pixels/ggkshn.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/62/88/d9/6288d949e8a1f52196f464463c6159af.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "She/her\nAge: ?\nHeight:200cm\nWeight: 95kg\n[img]https://poempuppy.neocities.org/resources/stamps/0273.gif[/img][img]https://poempuppy.neocities.org/resources/stamps/0438.png[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/tq0pxy.gif[/img] Girlfriend of [url=https://rainbowcockroach.github.io/soul_collection/ocs/uaawa]Uaawa[/url] [img]https://poempuppy.neocities.org/resources/pixels/45ehi3.gif[/img]\nLearn the traditional craft of making zarnok [img]https://poempuppy.neocities.org/resources/pixels/igr8bt.png[/img]\nLoves gossip [img]https://poempuppy.neocities.org/resources/pixels/2d29s1.gif[/img]\nCan't stop flexing [url=https://rainbowcockroach.github.io/soul_collection/ocs/uaawa]Uaawa[/url] to everybody in town [img]https://poempuppy.neocities.org/resources/pixels/3cwkdn.gif[/img]\n",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.png",
+        "thumbnail": "https://i.pinimg.com/236x/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "adult",
+      "taken",
+      "side-character",
+      "long-hair",
+      "blue",
+      "purple",
+      "white",
+      "pink"
+    ],
+    "order": 32
+  },
+  "yttu": {
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/l5kuzb.gif[/img] Yttu [img]https://poempuppy.neocities.org/resources/pixels/l5kuzb.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/68/27/c4/6827c4cb667359adfb5e6381a3d37edf.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "She/her\nAge: ?\nHeight: 193cm\nWeight: 90kg\n[img]https://poempuppy.neocities.org/resources/stamps/1154.webp[/img]\nDoesn't go out much [img]https://poempuppy.neocities.org/resources/pixels/p685se.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/40ganz.gif[/img] Learning traditional tailoring [img]https://poempuppy.neocities.org/resources/pixels/40ganz.gif[/img]\nTrying to impress a [url=https://rainbowcockroach.github.io/soul_collection/ocs/naame]certain someone[/url] [img]https://poempuppy.neocities.org/resources/pixels/d835ah.gif[/img]\nGentle and kind [img]https://poempuppy.neocities.org/resources/pixels/7ov0t2.png[/img]\nLoves bad boy [img]https://poempuppy.neocities.org/resources/pixels/k5xp9g.gif[/img]",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.png",
+        "thumbnail": "https://i.pinimg.com/236x/e6/b9/02/e6b9029f5f6629ed722f41a4784d0c73.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "side-character",
+      "single",
+      "adult",
+      "long-hair",
+      "brown",
+      "pink",
+      "yellow",
+      "purple"
+    ],
+    "order": 33
+  },
+  "wsst": {
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/fmmonz.gif[/img]Wsst[img]https://poempuppy.neocities.org/resources/pixels/fmmonz.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/e4/35/c8/e435c8fd6b439daf0a7a731e63527202.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "he/him\nAge: ?\nHeight:200cm\nWeight: 118kg\n[img]https://adriansblinkiecollection.neocities.org/a39.gif[/img][img]https://adriansblinkiecollection.neocities.org/d79.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/nuv35t.gif[/img] Local doctor [img]https://poempuppy.neocities.org/resources/pixels/red-025.png[/img]\nLocal fuck boy [img]https://poempuppy.neocities.org/resources/pixels/kf84dg.gif[/img]\nHated by males in his generation [img]https://poempuppy.neocities.org/resources/pixels/fwmsk6.gif[/img]\nLoved by tourists [img]https://poempuppy.neocities.org/resources/pixels/j5mao6.gif[/img]",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/e4/35/c8/e435c8fd6b439daf0a7a731e63527202.png",
+        "thumbnail": "https://i.pinimg.com/236x/e4/35/c8/e435c8fd6b439daf0a7a731e63527202.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/b6/f1/78/b6f178c456647ff0d7d12f7f86bce073.png",
+        "thumbnail": "https://i.pinimg.com/236x/b6/f1/78/b6f178c456647ff0d7d12f7f86bce073.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "adult",
+      "single",
+      "doctor",
+      "side-character",
+      "horny-beast",
+      "drug-user",
+      "long-hair",
+      "red",
+      "green",
+      "blue",
+      "silver"
+    ],
+    "order": 34
+  },
+  "qrrt": {
+    "name": "Qrrt",
+    "avatar": [
+      "https://i.pinimg.com/236x/d8/90/b9/d890b9ccdc687b6fc67ca0c9aadaceb4.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/3c/88/98/3c88981198d623adc756229642915347.png",
+        "thumbnail": "https://i.pinimg.com/236x/3c/88/98/3c88981198d623adc756229642915347.jpg",
+        "caption": "",
+        "contentWarning": ""
+      },
+      {
+        "image": "https://i.pinimg.com/originals/b6/f1/78/b6f178c456647ff0d7d12f7f86bce073.png",
+        "thumbnail": "https://i.pinimg.com/236x/b6/f1/78/b6f178c456647ff0d7d12f7f86bce073.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "pink",
+      "blue",
+      "purple",
+      "vrev",
+      "male",
+      "adult",
+      "taken",
+      "side-character",
+      "long-hair"
+    ],
+    "order": 35
+  },
+  "giio": {
+    "name": "Giio",
+    "avatar": [
+      "https://i.pinimg.com/236x/0c/92/bd/0c92bd4a62b81d57817fa71d05933658.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/b6/f1/78/b6f178c456647ff0d7d12f7f86bce073.png",
+        "thumbnail": "https://i.pinimg.com/236x/b6/f1/78/b6f178c456647ff0d7d12f7f86bce073.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "green",
+      "brown",
+      "pink",
+      "purple",
+      "blue",
+      "vrev",
+      "male",
+      "adult",
+      "taken",
+      "side-character",
+      "long-hair"
+    ],
+    "order": 36
+  },
   "miimi": {
-    "name": "Miimi",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat14.gif[/img] Miimi [img]https://poempuppy.neocities.org/resources/pixels/Cat10.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/47/fe/76/47fe76d871e4afa91b0b7d57542d0ef5.jpg"
     ],
@@ -2320,7 +2661,8 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
-        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png"
+        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -2334,10 +2676,10 @@
       "pink",
       "side-character"
     ],
-    "order": 31
+    "order": 37
   },
   "joon": {
-    "name": "Joon",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/e3/e7/2c/e3e72cc1c1725b94eb16051ac5f5f49e.jpg"
     ],
@@ -2351,7 +2693,8 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
-        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png"
+        "thumbnail": "https://i.pinimg.com/originals/ed/b4/51/edb451125adbe42093787317179e7aad.png",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -2365,7 +2708,185 @@
       "green",
       "side-character"
     ],
-    "order": 32
+    "order": 38
+  },
+  "xooni": {
+    "name": "Xooni",
+    "avatar": [
+      "https://i.pinimg.com/236x/21/10/62/211062d65c39ce1c45b0225b44b5f856.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "side-character",
+      "under-age",
+      "single",
+      "long-hair",
+      "red",
+      "orange",
+      "green"
+    ],
+    "order": 39
+  },
+  "foole": {
+    "name": "Foole",
+    "avatar": [
+      "https://i.pinimg.com/236x/ee/67/b2/ee67b28ae3906ac982d6d4046c00dc85.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "male",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "yellow",
+      "blue",
+      "pink",
+      "green"
+    ],
+    "order": 40
+  },
+  "ann": {
+    "name": "Ann",
+    "avatar": [
+      "https://i.pinimg.com/236x/ab/a6/c5/aba6c5b0dd6f7bf6420d35d9e5dfc5d1.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "female",
+      "vrev",
+      "under-age",
+      "long-hair",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "order": 41
+  },
+  "utta": {
+    "name": "Utta",
+    "avatar": [
+      "https://i.pinimg.com/236x/ef/b6/89/efb689b19ec15d6380264efd89c0e607.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "",
+    "gallery": [],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "under-age",
+      "single",
+      "side-character",
+      "long-hair",
+      "purple",
+      "pink",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "order": 42
+  },
+  "petunia": {
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/s43rsm.webp[/img] Petunia [img]https://poempuppy.neocities.org/resources/pixels/qr2ahq.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/1b/81/f6/1b81f69a2c42103e5ddb885983f545a8.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "[url=https://rainbowcockroach.github.io/soul_collection/ocs/naame]Naame's[/url] first daughter",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/e4/ea/7c/e4ea7c402557afc4006f12d46753736d.png",
+        "thumbnail": "https://i.pinimg.com/236x/e4/ea/7c/e4ea7c402557afc4006f12d46753736d.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "under-age",
+      "long-hair",
+      "black",
+      "single",
+      "side-character",
+      "silver",
+      "red"
+    ],
+    "order": 43
+  },
+  "peony": {
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/rjs87g.gif[/img] Peony [img]https://poempuppy.neocities.org/resources/pixels/emdmvf.gif[/img]",
+    "avatar": [
+      "https://i.pinimg.com/236x/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.jpg"
+    ],
+    "group": [
+      "vrev"
+    ],
+    "spieces": [
+      "vrev"
+    ],
+    "info": "[url=https://rainbowcockroach.github.io/soul_collection/ocs/naame]Naame's[/url] second daughter",
+    "gallery": [
+      {
+        "image": "https://i.pinimg.com/originals/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.png",
+        "thumbnail": "https://i.pinimg.com/236x/c5/1e/30/c51e30dba73ff1944fcaf08402887d87.jpg",
+        "caption": "",
+        "contentWarning": ""
+      }
+    ],
+    "breadcrumbs": [],
+    "tags": [
+      "vrev",
+      "female",
+      "side-character",
+      "long-hair",
+      "red",
+      "single",
+      "under-age",
+      "pink",
+      "black",
+      "glasses"
+    ],
+    "order": 44
   },
   "leeo": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat23.gif[/img] Leeo [img]https://poempuppy.neocities.org/resources/pixels/Cat29.gif[/img]",
@@ -2432,7 +2953,7 @@
       "cultist",
       "main-character"
     ],
-    "order": 33,
+    "order": 45,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626527213-ktm3f0.mp3"
   },
   "maary": {
@@ -2512,7 +3033,7 @@
       "main-character",
       "drug-user"
     ],
-    "order": 34,
+    "order": 46,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478142026-t37o1b.mp3"
   },
   "lord-vhhz": {
@@ -2542,10 +3063,9 @@
       "adult",
       "black-ring",
       "blue",
-      "what",
       "main-character"
     ],
-    "order": 35,
+    "order": 47,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626633380-kz0u7f.mp3"
   },
   "zarnok": {
@@ -2600,7 +3120,7 @@
       "my-personal-favorite",
       "side-character"
     ],
-    "order": 36,
+    "order": 48,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626346431-ldrn4e.mp3"
   },
   "echo": {
@@ -2689,7 +3209,7 @@
       "my-personal-favorite",
       "main-character"
     ],
-    "order": 37,
+    "order": 49,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766484636671-nx1p6u.mp3"
   },
   "elha": {
@@ -2737,7 +3257,7 @@
       "side-character",
       "silver"
     ],
-    "order": 38
+    "order": 50
   },
   "the-queen": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/hpl2ib.gif[/img] The queen [img]https://poempuppy.neocities.org/resources/pixels/qxh94y.gif[/img]",
@@ -2776,7 +3296,7 @@
       "side-character",
       "gold"
     ],
-    "order": 39
+    "order": 51
   },
   "non": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/u1a3mv.gif[/img] Non [img]https://poempuppy.neocities.org/resources/pixels/aj0cqr.gif[/img]",
@@ -2808,11 +3328,11 @@
       "horny-beast",
       "side-character"
     ],
-    "order": 40,
+    "order": 52,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626839433-sh3g2j.mp3"
   },
   "raki-chan": {
-    "name": "Raki chan~",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/rthg6b.gif[/img] Raki chan~",
     "avatar": [
       "https://i.pinimg.com/236x/23/43/2d/23432d3f7adec315eeaf18e5403bcca9.jpg"
     ],
@@ -2854,7 +3374,7 @@
       "blue",
       "side-character"
     ],
-    "order": 41,
+    "order": 53,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478089931-77eit2.mp3"
   },
   "pizza-vibrator": {
@@ -2879,7 +3399,6 @@
     ],
     "breadcrumbs": [],
     "tags": [
-      "what",
       "god",
       "no-gender",
       "adult",
@@ -2889,7 +3408,7 @@
       "yellow",
       "side-character"
     ],
-    "order": 42,
+    "order": 54,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626698994-f2x214.mp3"
   },
   "deep-sea-girl": {
@@ -2903,7 +3422,7 @@
     "spieces": [
       "god"
     ],
-    "info": "[img]https://64.media.tumblr.com/86b48124d93c44388719bf352cbadfb9/0a11a47c43145bbe-53/s75x75_c1/f3d072dd9985b287737f048a5800cb7394fe935f.gifv[/img]\nshe/her\nAge: ?\nHeight: 162cm\nWeight: 54kg\n[img]https://64.media.tumblr.com/5e9b0561e8b9e542b0e18860a8f829ee/7a2a2ebc0f619da5-a3/s400x600/94e14f0212265eb59eb52c2c66e371393bc5b538.pnj[/img]\nPretty girl doing pretty things [img]https://64.media.tumblr.com/d2b3ebae699c12c14d583d908760f319/eea0c14fd3e547c5-ea/s75x75_c1/62b06df4742243b27e08a017062903636aebf08f.gifv[/img]\nLoves sea creatures [img]https://poempuppy.neocities.org/resources/pixels/033cw5.gif[/img]",
+    "info": "[img]https://64.media.tumblr.com/86b48124d93c44388719bf352cbadfb9/0a11a47c43145bbe-53/s75x75_c1/f3d072dd9985b287737f048a5800cb7394fe935f.gifv[/img]\nshe/her\nAge: ?\nHeight: 162cm\nWeight: 54kg\n[img]https://64.media.tumblr.com/5e9b0561e8b9e542b0e18860a8f829ee/7a2a2ebc0f619da5-a3/s400x600/94e14f0212265eb59eb52c2c66e371393bc5b538.pnj[/img]\nPretty girl doing pretty things [img]https://64.media.tumblr.com/d2b3ebae699c12c14d583d908760f319/eea0c14fd3e547c5-ea/s75x75_c1/62b06df4742243b27e08a017062903636aebf08f.gifv[/img]\nLoves sea creatures [img]https://poempuppy.neocities.org/resources/pixels/033cw5.gif[/img]\n[url=https://rainbowcockroach.github.io/soul_collection/ocs/hydra]Hydra's[/url] wife 🖤",
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/2d/7d/b5/2d7db57e9e55ca89f59b306e06dc6af0.png",
@@ -2936,13 +3455,13 @@
       "black-ring",
       "long-hair",
       "brown",
-      "pink",
+      "black",
       "green",
       "horny-beast",
       "cultist",
       "side-character"
     ],
-    "order": 43,
+    "order": 55,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626755027-0xr4j6.mp3"
   },
   "kira-kira-kiki": {
@@ -2976,7 +3495,7 @@
       "horny-beast",
       "side-character"
     ],
-    "order": 44,
+    "order": 56,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765627027482-ir935a.mp3"
   },
   "dark-lone-wolf-fallen-angel": {
@@ -3011,7 +3530,7 @@
       "horny-beast",
       "side-character"
     ],
-    "order": 45,
+    "order": 57,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1766478223051-4rlqri.mp3"
   },
   "c0d34": {
@@ -3049,7 +3568,7 @@
       "brown",
       "white"
     ],
-    "order": 46,
+    "order": 58,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626941403-wvzkko.mp3"
   },
   "xanthe": {
@@ -3063,7 +3582,7 @@
     "spieces": [
       "god"
     ],
-    "info": "she/her\nAge: 78\nHeight: 157cm\nWeight: 50kg\n[img]https://adriansblinkiecollection.neocities.org/n9.gif[/img][img]https://i6.glitter-graphics.org/pub/1289/1289276cej2kymrha.gif[/img]\n[url=https://rainbowcockroach.github.io/soul_collection/ocs/bush][img]https://i4.glitter-graphics.org/pub/2518/2518874avbb3t1onu.gif[/img][/url][img]https://poempuppy.neocities.org/resources/stamps/9283b229843eb63d50b62771b8fc61a1081ac155-pnj.png[/img]\nWants to talk to your manager [img]https://poempuppy.neocities.org/resources/pixels/ym4i4r.gif[/img]\nAnnoyed easily [img]https://poempuppy.neocities.org/resources/pixels/8djjy6.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/9b46si.gif[/img] Goes to church everyday [img]https://poempuppy.neocities.org/resources/pixels/9b46si.gif[/img]",
+    "info": "she/her\nAge: 56\nHeight: 157cm\nWeight: 50kg\n[img]https://adriansblinkiecollection.neocities.org/n9.gif[/img][img]https://i6.glitter-graphics.org/pub/1289/1289276cej2kymrha.gif[/img]\n[url=https://rainbowcockroach.github.io/soul_collection/ocs/bush][img]https://i4.glitter-graphics.org/pub/2518/2518874avbb3t1onu.gif[/img][/url][img]https://poempuppy.neocities.org/resources/stamps/9283b229843eb63d50b62771b8fc61a1081ac155-pnj.png[/img]\nWants to talk to your manager [img]https://poempuppy.neocities.org/resources/pixels/ym4i4r.gif[/img]\nAnnoyed easily [img]https://poempuppy.neocities.org/resources/pixels/8djjy6.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/9b46si.gif[/img] Goes to church everyday [img]https://poempuppy.neocities.org/resources/pixels/9b46si.gif[/img]",
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/98/d6/82/98d682227d15fe7cc6944351f29f4357.png",
@@ -3092,7 +3611,7 @@
       "pink",
       "black"
     ],
-    "order": 47
+    "order": 59
   },
   "bee": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/cw6237.gif[/img] Bee [img]https://poempuppy.neocities.org/resources/pixels/cw6237.gif[/img]",
@@ -3133,7 +3652,7 @@
       "long-hair",
       "black"
     ],
-    "order": 48
+    "order": 60
   },
   "hikagi": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/r3b7x2.webp[/img] Hikagi [img]https://poempuppy.neocities.org/resources/pixels/ps7p0f.webp[/img]",
@@ -3184,7 +3703,7 @@
       "black",
       "white"
     ],
-    "order": 49,
+    "order": 61,
     "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626990187-vu4b93.mp3"
   },
   "kumi": {
@@ -3242,7 +3761,7 @@
       "horny-beast",
       "drug-user"
     ],
-    "order": 50
+    "order": 62
   },
   "esme": {
     "name": "[img]https://64.media.tumblr.com/611a63073d2b533ba319cd186a8f1fd0/9b63290278d92294-4d/s75x75_c1/48190fb519cbdf434cbe907b349c16ad590132ab.gifv[/img] Esme [img]https://64.media.tumblr.com/611a63073d2b533ba319cd186a8f1fd0/9b63290278d92294-4d/s75x75_c1/48190fb519cbdf434cbe907b349c16ad590132ab.gifv[/img]",
@@ -3287,7 +3806,7 @@
       "black",
       "adult"
     ],
-    "order": 51
+    "order": 63
   },
   "hydra": {
     "name": "[img]https://64.media.tumblr.com/65acc4d09c132d973251518edaf17fa0/eea0c14fd3e547c5-94/s75x75_c1/5e7e888e7d35609064cf2718c64b683728948ea1.gifv[/img] Hydra [img]https://64.media.tumblr.com/65acc4d09c132d973251518edaf17fa0/eea0c14fd3e547c5-94/s75x75_c1/5e7e888e7d35609064cf2718c64b683728948ea1.gifv[/img]",
@@ -3300,7 +3819,7 @@
     "spieces": [
       "god"
     ],
-    "info": "[img]https://poempuppy.neocities.org/resources/stamps/ddd2t55-4ab87ca7-a10b-4dfd-a383-dc6218d2a7f6.gif[/img]",
+    "info": "[img]https://64.media.tumblr.com/86b48124d93c44388719bf352cbadfb9/0a11a47c43145bbe-53/s75x75_c1/f3d072dd9985b287737f048a5800cb7394fe935f.gifv[/img]\nshe/her\nAge: ?\nHeight: 187cm\nWeight: 70kg\n[img]https://poempuppy.neocities.org/resources/stamps/ddd2t55-4ab87ca7-a10b-4dfd-a383-dc6218d2a7f6.gif[/img][img]https://64.media.tumblr.com/957e1a3fb9aade38bc1266db5311dc21/86408c0474108007-05/s100x200/fa4285c4e1eef1c2fd563c8713f1f2c8e56cfa0b.gifv[/img]\n[url=https://rainbowcockroach.github.io/soul_collection/ocs/deep-sea-girl][img]https://poempuppy.neocities.org/resources/pixels/k57ouk.gif[/img] Deep sea girl's[/url] wife [img]https://poempuppy.neocities.org/resources/pixels/k57ouk.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/cbkp83.gif[/img] Loves sea creatures [img]https://poempuppy.neocities.org/resources/pixels/cbkp83.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/cbkp83.gif[/img] Can't breath on land [img]https://poempuppy.neocities.org/resources/pixels/cbkp83.gif[/img]\n[img]https://poempuppy.neocities.org/resources/pixels/iiae3x.gif[/img] Design based on [url=https://vi.wikipedia.org/wiki/Th%E1%BB%A7y_t%E1%BB%A9c]hydra[/url] [img]https://poempuppy.neocities.org/resources/pixels/iiae3x.gif[/img]",
     "gallery": [
       {
         "image": "https://i.pinimg.com/originals/04/27/be/0427be16508b3e1a07ca114e833c8a1b.png",
@@ -3334,7 +3853,7 @@
       "black",
       "horny-beast"
     ],
-    "order": 52
+    "order": 64
   },
   "sam": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/h5h7yd.webp[/img] Sam [img]https://poempuppy.neocities.org/resources/pixels/2ha1xk.gif[/img]",
@@ -3407,7 +3926,7 @@
       }
     ],
     "tags": [
-      "what",
+      "other",
       "female",
       "adult",
       "taken",
@@ -3417,7 +3936,7 @@
       "green",
       "black"
     ],
-    "order": 53
+    "order": 65
   },
   "huge": {
     "name": "[img]https://64.media.tumblr.com/9b2ea6092bf9f89b6b40d5814d5c62d6/3c0f8e8f1373e1ad-26/s75x75_c1/ec1f56226209c4ad250cc52c9b34ba36098ebb41.gifv[/img] Huge [img]https://64.media.tumblr.com/6f79690b292ddc6a867232b98904691d/3c0f8e8f1373e1ad-15/s75x75_c1/efad8197a24aa985bd522d3ca7b1dd6a2e3d4780.gifv[/img]",
@@ -3428,7 +3947,7 @@
       "other"
     ],
     "spieces": [],
-    "info": "[url=https://glitter-graphics.com/myspace/text_generator.php][img]https://text.glitter-graphics.net/psy/h.gif[/img][img]https://text.glitter-graphics.net/psy/u.gif[/img][img]https://text.glitter-graphics.net/psy/g.gif[/img][img]https://text.glitter-graphics.net/psy/e.gif[/img][/url]\n[img]https://64.media.tumblr.com/154148711df8f28d724040d28ae2270a/bb4192f734a09dc9-0e/s250x400/3026f995a16d3b5940be3928d73d92411ff7747c.gifv[/img]\nshe/her\nAge: ?\nThickness: 18cm\nLength: 60cm\nWidth: 25cm\n Weight: 7kg\n[img]https://64.media.tumblr.com/02b2db4a07a71f9d1cb7341487d4d84e/7916c225bdfe704e-3f/s400x600/1dccf70e4979e2aeb6fd8ac8e20b2e7b093970a6.gifv[/img]\nBeloved family cockroach\nBig huge massive\nFluffy\nNo thought just rainbow\n[img]https://64.media.tumblr.com/57b7b4c3266011b77b123bd559f74a45/a990a44c6bd5e369-79/s250x400/0b232338f383a30c8144f1ff7642aa85fc3b73e2.pnj[/img]\n",
+    "info": "[url=https://glitter-graphics.com/myspace/text_generator.php][img]https://text.glitter-graphics.net/psy/h.gif[/img][img]https://text.glitter-graphics.net/psy/u.gif[/img][img]https://text.glitter-graphics.net/psy/g.gif[/img][img]https://text.glitter-graphics.net/psy/e.gif[/img][/url]\n[img]https://64.media.tumblr.com/154148711df8f28d724040d28ae2270a/bb4192f734a09dc9-0e/s250x400/3026f995a16d3b5940be3928d73d92411ff7747c.gifv[/img]\nshe/her\nAge: ?\nThickness: 18cm\nLength: 60cm\nWidth: 25cm\nWeight: 7kg\n[img]https://64.media.tumblr.com/02b2db4a07a71f9d1cb7341487d4d84e/7916c225bdfe704e-3f/s400x600/1dccf70e4979e2aeb6fd8ac8e20b2e7b093970a6.gifv[/img]\nBeloved family cockroach\nBig huge massive\nFluffy\nNo thought just rainbow\n[img]https://64.media.tumblr.com/57b7b4c3266011b77b123bd559f74a45/a990a44c6bd5e369-79/s250x400/0b232338f383a30c8144f1ff7642aa85fc3b73e2.pnj[/img]\n",
     "gallery": [
       {
         "image": "https://i.pinimg.com/736x/3a/17/41/3a1741d45b3f9130ac8c4281772089b0.jpg",
@@ -3447,9 +3966,10 @@
       "li-family",
       "what",
       "long-hair",
-      "main-character"
+      "main-character",
+      "adult"
     ],
-    "order": 54
+    "order": 66
   },
   "jessica": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/7kltbb.gif[/img] Jessica [img]https://poempuppy.neocities.org/resources/pixels/7kltbb.gif[/img]",
@@ -3470,8 +3990,18 @@
       }
     ],
     "breadcrumbs": [],
-    "tags": [],
-    "order": 55
+    "tags": [
+      "what",
+      "female",
+      "adult",
+      "single",
+      "long-hair",
+      "yellow",
+      "black",
+      "purple",
+      "side-character"
+    ],
+    "order": 67
   },
   "lacey": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/dvbibk.gif[/img] Lacey [img]https://poempuppy.neocities.org/resources/pixels/8sjjy0.webp[/img]",
@@ -3502,9 +4032,10 @@
       "lore-outsider",
       "blue",
       "long-hair",
-      "female"
+      "female",
+      "adult"
     ],
-    "order": 56
+    "order": 68
   },
   "fire-fall": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/btr65e.gif[/img] Fire Fall [img]https://poempuppy.neocities.org/resources/pixels/btr65e.gif[/img]",
@@ -3536,9 +4067,10 @@
       "orange",
       "yellow",
       "long-hair",
-      "female"
+      "female",
+      "adult"
     ],
-    "order": 57
+    "order": 69
   },
   "mussy": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/k9eq2r.gif[/img] Mussy [img]https://poempuppy.neocities.org/resources/pixels/k9eq2r.gif[/img]",
@@ -3574,12 +4106,13 @@
       "orange",
       "red",
       "yellow",
-      "gold"
+      "gold",
+      "adult"
     ],
-    "order": 58
+    "order": 70
   },
   "goon": {
-    "name": "[img]https://poempuppy.neocities.org/resources/pixels/xxd009.gif[/img] Goon [img]https://poempuppy.neocities.org/resources/pixels/xxd009.gif[/img]",
+    "name": "[img]https://poempuppy.neocities.org/resources/pixels/nmkfy1.gif[/img] Goon [img]https://poempuppy.neocities.org/resources/pixels/nmkfy1.gif[/img]",
     "avatar": [
       "https://i.pinimg.com/236x/73/4b/47/734b474a6a63c045bf139b8f70039676.jpg"
     ],
@@ -3614,7 +4147,7 @@
       "silver",
       "male"
     ],
-    "order": 59
+    "order": 71
   },
   "fatumir": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/85mz39.gif[/img] Fatumir [img]https://poempuppy.neocities.org/resources/pixels/pzo7af.gif[/img]",
@@ -3636,14 +4169,14 @@
     ],
     "breadcrumbs": [],
     "tags": [
-      "what",
       "no-gender",
       "adult",
       "lore-outsider",
       "green",
-      "long-hair"
+      "long-hair",
+      "other"
     ],
-    "order": 60
+    "order": 72
   },
   "caelwyn": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/jyradd.gif[/img] Caelwyn [img]https://poempuppy.neocities.org/resources/pixels/484om9.gif[/img]",
@@ -3665,14 +4198,14 @@
     ],
     "breadcrumbs": [],
     "tags": [
-      "what",
       "no-gender",
       "lore-outsider",
       "short-hair",
       "red",
       "yellow",
-      "blue"
+      "blue",
+      "other"
     ],
-    "order": 61
+    "order": 73
   }
 }
