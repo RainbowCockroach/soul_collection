@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
+import { playBlip } from "../helpers/dialogBlip";
 import "./VisualNovelBio.css";
 import bioBackground from "../assets/bio_huge_lobby.webp";
 import samSprite from "../assets/bio_sprite_sam.webp";
@@ -26,7 +27,7 @@ interface Props {
   speed?: number;
 }
 
-const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
+const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
   const [bioData, setBioData] = useState<VNBioData | null>(null);
   const [activeCharacterId, setActiveCharacterId] = useState("");
   const [dialogIndexes, setDialogIndexes] = useState<Record<string, number>>({});
@@ -66,11 +67,16 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 50 }) => {
     }
 
     const timer = setTimeout(() => {
-      setDisplayedText(currentText.slice(0, displayedText.length + 1));
+      const nextLen = displayedText.length + 1;
+      const ch = currentText[displayedText.length];
+      if (nextLen % 2 === 0 && ch && /\S/.test(ch) && !/[.,!?…:;]/.test(ch)) {
+        playBlip(activeCharacterId);
+      }
+      setDisplayedText(currentText.slice(0, nextLen));
     }, speed);
 
     return () => clearTimeout(timer);
-  }, [displayedText, currentText, isTyping, speed]);
+  }, [displayedText, currentText, isTyping, speed, activeCharacterId]);
 
   const handleCharacterClick = (characterId: string) => {
     const dialog = dialogMap.get(characterId);
