@@ -4,6 +4,7 @@ export interface Group {
   frameColour: string; // Hex code
   groupHeaderColour: string; // Hex code
   groupHeaderTextColour: string; // Hex code
+  headerImage: string; // Image URL for the group cover
   order?: number; // Display order
 }
 

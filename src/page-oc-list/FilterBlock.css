@@ -33,9 +33,10 @@
 
 .filter-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 15px;
+  gap: 10px;
 }
 
 .filter-header h3 {
@@ -62,6 +63,7 @@
 .tag-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   text-align: center;
 }
 

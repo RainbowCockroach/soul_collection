@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
-import OcGroup from "./OcGroup";
-import type { OcGroupInfo } from "./OcGroup";
+import { useNavigate } from "react-router-dom";
+import OcGroupCover from "./OcGroupCover";
+import OcSlot from "./OcSlot";
 import FilterBlock from "./FilterBlock";
 import { loadAllData } from "../helpers/data-load";
 import type { OC, Group, Tag, Ship } from "../helpers/objects";
@@ -9,71 +10,26 @@ import { useSafeMode } from "../safe-mode/SafeModeContext";
 import { isOcCensored, isTagCensored } from "../safe-mode/safe-mode-censor";
 import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import LoadingSpinner from "../common-components/LoadingSpinner";
+import { baseUrl } from "../helpers/constants";
+import "./OcGroupCover.css";
+import "./PageOcList.css";
 import "./OcGroup.css";
 import "./FilterBlock.css";
 
-interface ExpandedGroups {
-  [groupId: string]: boolean;
-}
-
-// Helper function to format data into required structure
-function formatDataForGroups(
-  ocs: OC[],
-  groups: Group[],
-  selectedTags: string[],
-  selectedShips: string[],
-  ships: Ship[]
-): OcGroupInfo[] {
-  return groups.map((group) => {
-    let groupOCs = ocs.filter((oc) => oc.group.includes(group.slug));
-
-    // Filter by selected tags if any are selected
-    if (selectedTags.length > 0) {
-      groupOCs = groupOCs.filter((oc) =>
-        selectedTags.every((tagSlug) => oc.tags.includes(tagSlug))
-      );
-    }
-
-    // Filter by selected ships if any are selected
-    if (selectedShips.length > 0) {
-      groupOCs = groupOCs.filter((oc) =>
-        selectedShips.some((shipName) => {
-          // Find the ship with this name
-          const ship = ships.find((s) => s.name === shipName);
-          // Check if this OC is in the ship
-          return ship ? ship.oc.includes(oc.slug) : false;
-        })
-      );
-    }
-
-    return {
-      slug: group.slug,
-      name: group.name,
-      frameColour: group.frameColour,
-      textColour: group.groupHeaderTextColour,
-      groupHeaderColour: group.groupHeaderColour,
-      groupHeaderTextColour: group.groupHeaderTextColour,
-      ocList: groupOCs.map((oc) => ({
-        slug: oc.slug,
-        name: oc.name,
-        avatar: oc.avatar,
-      })),
-    };
-  });
-}
+const DEFAULT_FRAME_COLOUR = "#ffffff";
+const DEFAULT_TEXT_COLOUR = "#000000";
 
 const PageOcList: React.FC = () => {
+  const navigate = useNavigate();
   const { isSafeModeEnabled } = useSafeMode();
-  const [expandedGroups, setExpandedGroups] = useState<ExpandedGroups>({});
-  const [groupWithOcsData, setGroupWithOcsData] = useState<OcGroupInfo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [groups, setGroups] = useState<Group[]>([]);
   const [allOcs, setAllOcs] = useState<OC[]>([]);
-  const [allGroups, setAllGroups] = useState<Group[]>([]);
   const [allTags, setAllTags] = useState<Tag[]>([]);
   const [allShips, setAllShips] = useState<Ship[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedShips, setSelectedShips] = useState<string[]>([]);
   const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const restrictedSlugs = useMemo(() => {
     if (!isSafeModeEnabled) return new Set<string>();
@@ -87,88 +43,104 @@ const PageOcList: React.FC = () => {
     return allTags.filter((tag) => !isTagCensored(tag.slug));
   }, [isSafeModeEnabled, allTags]);
 
-  // Load data from helper function
+  const groupBySlug = useMemo(() => {
+    const map = new Map<string, Group>();
+    groups.forEach((g) => map.set(g.slug, g));
+    return map;
+  }, [groups]);
+
+  const filteredOcs = useMemo(() => {
+    return allOcs.filter((oc) => {
+      if (selectedTags.length > 0) {
+        if (!selectedTags.every((t) => oc.tags.includes(t))) return false;
+      }
+      if (selectedShips.length > 0) {
+        const inAnyShip = selectedShips.some((shipName) => {
+          const ship = allShips.find((s) => s.name === shipName);
+          return ship ? ship.oc.includes(oc.slug) : false;
+        });
+        if (!inAnyShip) return false;
+      }
+      return true;
+    });
+  }, [allOcs, selectedTags, selectedShips, allShips]);
+
   useEffect(() => {
-    const loadData = async () => {
+    const load = async () => {
       try {
         setIsLoading(true);
         const { ocs, groups, tags, ships } = await loadAllData();
+        setGroups(groups);
         setAllOcs(ocs);
-        setAllGroups(groups);
         setAllTags(tags);
         setAllShips(ships);
-
-        const formattedData = formatDataForGroups(ocs, groups, [], [], ships);
-        setGroupWithOcsData(formattedData);
-
-        // Initialize all groups as expanded
-        const initialState: ExpandedGroups = {};
-        formattedData.forEach((group) => {
-          initialState[group.slug] = true;
-        });
-        setExpandedGroups(initialState);
       } catch (error) {
         console.error("Error loading OC data:", error);
       } finally {
         setIsLoading(false);
       }
     };
-
-    loadData();
+    load();
   }, []);
 
-  // Update filtered data when selected tags or ships change
-  useEffect(() => {
-    if (allOcs.length > 0 && allGroups.length > 0) {
-      const formattedData = formatDataForGroups(
-        allOcs,
-        allGroups,
-        selectedTags,
-        selectedShips,
-        allShips
-      );
-      setGroupWithOcsData(formattedData);
+  const getShipColorsForOc = (ocSlug: string): string[] => {
+    if (selectedShips.length > 0) {
+      return selectedShips
+        .map((shipName) => {
+          const ship = allShips.find(
+            (s) => s.name === shipName && s.oc.includes(ocSlug),
+          );
+          return ship ? ship.color : null;
+        })
+        .filter((c): c is string => c !== null);
     }
-  }, [selectedTags, selectedShips, allOcs, allGroups, allShips]);
+    return allShips.filter((s) => s.oc.includes(ocSlug)).map((s) => s.color);
+  };
 
-  const toggleGroup = (groupId: string): void => {
-    setExpandedGroups((prev) => ({
-      ...prev,
-      [groupId]: !prev[groupId],
-    }));
+  const getShipTextsForOc = (ocSlug: string): string[] => {
+    if (selectedShips.length > 0) {
+      return selectedShips
+        .map((shipName) => {
+          const ship = allShips.find(
+            (s) => s.name === shipName && s.oc.includes(ocSlug),
+          );
+          return ship ? ship.shipText?.[ocSlug] : null;
+        })
+        .filter((t): t is string => !!t);
+    }
+    return allShips
+      .filter((s) => s.oc.includes(ocSlug))
+      .map((s) => s.shipText?.[ocSlug])
+      .filter((t): t is string => !!t);
+  };
+
+  const getColoursForOc = (oc: OC): { frame: string; text: string } => {
+    const firstGroup = oc.group.map((g) => groupBySlug.get(g)).find(Boolean);
+    return {
+      frame: firstGroup?.frameColour ?? DEFAULT_FRAME_COLOUR,
+      text: firstGroup?.groupHeaderTextColour ?? DEFAULT_TEXT_COLOUR,
+    };
   };
 
   const handleTagToggle = (tagSlug: string): void => {
-    setSelectedTags((prev) => {
-      if (prev.includes(tagSlug)) {
-        return prev.filter((tag) => tag !== tagSlug);
-      } else {
-        return [...prev, tagSlug];
-      }
-    });
+    setSelectedTags((prev) =>
+      prev.includes(tagSlug)
+        ? prev.filter((t) => t !== tagSlug)
+        : [...prev, tagSlug],
+    );
   };
 
   const handleShipToggle = (shipName: string): void => {
-    setSelectedShips((prev) => {
-      if (prev.includes(shipName)) {
-        return prev.filter((ship) => ship !== shipName);
-      } else {
-        return [...prev, shipName];
-      }
-    });
+    setSelectedShips((prev) =>
+      prev.includes(shipName)
+        ? prev.filter((s) => s !== shipName)
+        : [...prev, shipName],
+    );
   };
 
-  const handleClearAllTags = (): void => {
-    setSelectedTags([]);
-  };
-
-  const handleClearAllShips = (): void => {
-    setSelectedShips([]);
-  };
-
-  const toggleFilterVisibility = (): void => {
-    setShowFilter((prev) => !prev);
-  };
+  const handleClearAllTags = (): void => setSelectedTags([]);
+  const handleClearAllShips = (): void => setSelectedShips([]);
+  const toggleFilterVisibility = (): void => setShowFilter((prev) => !prev);
 
   if (isLoading) {
     return <LoadingSpinner message="Loading characters..." />;
@@ -176,6 +148,28 @@ const PageOcList: React.FC = () => {
 
   return (
     <div className="page-padded">
+      <div className="oc-group-cover-grid">
+        {groups.map((group) => (
+          <ButtonWrapper
+            key={group.slug}
+            className="oc-group-cover-button"
+            onClick={() => navigate(`${baseUrl}/group/${group.slug}`)}
+            soundFile={buttonSound}
+          >
+            <OcGroupCover
+              groupInfo={{
+                slug: group.slug,
+                name: group.name,
+                frameColour: group.frameColour,
+                groupHeaderColour: group.groupHeaderColour,
+                groupHeaderTextColour: group.groupHeaderTextColour,
+                headerImage: group.headerImage,
+              }}
+            />
+          </ButtonWrapper>
+        ))}
+      </div>
+
       <div className="filter-toggle-container">
         <ButtonWrapper
           className="filter-toggle-button div-3d-with-shadow"
@@ -199,20 +193,24 @@ const PageOcList: React.FC = () => {
           onClearAllShips={handleClearAllShips}
         />
       )}
-      <div>
-        {groupWithOcsData
-          .filter((groupInfo) => groupInfo.ocList.length > 0)
-          .map((groupInfo) => (
-            <OcGroup
-              key={groupInfo.slug}
-              groupInfo={groupInfo}
-              isExpanded={expandedGroups[groupInfo.slug]}
-              onToggle={toggleGroup}
-              ships={allShips}
-              selectedShips={selectedShips}
-              restrictedSlugs={restrictedSlugs}
-            />
-          ))}
+
+      <div className="oc-list-flat-content">
+        <div className="oc-group-grid">
+          {filteredOcs.map((oc) => {
+            const colours = getColoursForOc(oc);
+            return (
+              <OcSlot
+                key={oc.slug}
+                oc={{ slug: oc.slug, name: oc.name, avatar: oc.avatar }}
+                frameColour={colours.frame}
+                textColour={colours.text}
+                shipColors={getShipColorsForOc(oc.slug)}
+                shipTexts={getShipTextsForOc(oc.slug)}
+                disabled={restrictedSlugs.has(oc.slug)}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

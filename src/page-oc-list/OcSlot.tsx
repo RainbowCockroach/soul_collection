@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./OcSlot.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -25,46 +25,6 @@ interface OcSlotProps {
   disabled?: boolean;
 }
 
-// Custom hook for overflow detection
-const useOverflowDetection = (text: string) => {
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const ref = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    const checkOverflow = () => {
-      if (ref.current) {
-        // Create a temporary span to measure the actual text width
-        const tempSpan = document.createElement("span");
-        tempSpan.style.visibility = "hidden";
-        tempSpan.style.position = "absolute";
-        tempSpan.style.whiteSpace = "nowrap";
-        tempSpan.style.font = window.getComputedStyle(ref.current).font;
-        tempSpan.textContent = text;
-
-        document.body.appendChild(tempSpan);
-        const textWidth = tempSpan.offsetWidth;
-        document.body.removeChild(tempSpan);
-
-        const containerWidth = ref.current.clientWidth;
-        setIsOverflowing(textWidth > containerWidth);
-      }
-    };
-
-    const timeoutId = setTimeout(checkOverflow, 100);
-
-    const resizeObserver = new ResizeObserver(checkOverflow);
-    if (ref.current) {
-      resizeObserver.observe(ref.current);
-    }
-
-    return () => {
-      clearTimeout(timeoutId);
-      resizeObserver.disconnect();
-    };
-  }, [text]);
-
-  return { ref, isOverflowing };
-};
 
 const OcSlot: React.FC<OcSlotProps> = ({
   oc,
@@ -75,8 +35,6 @@ const OcSlot: React.FC<OcSlotProps> = ({
   disabled,
 }) => {
   const navigate = useNavigate();
-  const { ref: containerRef, isOverflowing } = useOverflowDetection(oc.name);
-
   const handleClick = () => {
     if (disabled) return;
     navigate(`/soul_collection/ocs/${oc.slug}`);
@@ -124,11 +82,10 @@ const OcSlot: React.FC<OcSlotProps> = ({
           />
           <div className="oc-slot-name-box">
             <h3
-              ref={containerRef}
               className="oc-name"
               style={{ color: textColour }}
             >
-              <Marquee pauseOnHover={true} play={isOverflowing}>
+              <Marquee pauseOnHover={true} play={true}>
                 <BBCodeDisplay bbcode={oc.name} />
               </Marquee>
             </h3>
