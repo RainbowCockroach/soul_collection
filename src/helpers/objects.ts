@@ -6,6 +6,7 @@ export interface Group {
   groupHeaderTextColour: string; // Hex code
   headerImage: string; // Image URL for the group cover
   order?: number; // Display order
+  description?: string; // BBCode description shown on the group page
 }
 
 export interface Spieces {

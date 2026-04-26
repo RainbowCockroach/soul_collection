@@ -9,6 +9,7 @@ import ReorderButtons from "./ReorderButtons";
 import { arrayMove } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import ImagePreview from "./ImagePreview";
+import BBCodePreview from "./BBCodePreview";
 import "./EditorCommon.css";
 
 interface GroupJsonData {
@@ -97,6 +98,7 @@ export const EditorGroup: React.FC = () => {
       groupHeaderColour: group.groupHeaderColour || "#ffffff",
       groupHeaderTextColour: group.groupHeaderTextColour || "#000000",
       headerImage: group.headerImage || "",
+      description: group.description || "",
     });
     setIsEditing(true);
   };
@@ -164,6 +166,7 @@ export const EditorGroup: React.FC = () => {
           groupHeaderColour: "#ffffff",
           groupHeaderTextColour: "#000000",
           headerImage: "",
+          description: "",
           order: groupsArray.length,
         });
         setSelectedSlug(newSlug);
@@ -390,6 +393,22 @@ export const EditorGroup: React.FC = () => {
                   placeholder="https://example.com/image.png"
                 />
                 <ImagePreview urls={[editingItem.headerImage]} />
+              </div>
+
+              <div className="editor-field">
+                <label className="editor-label">Description (BBCode):</label>
+                <textarea
+                  value={editingItem.description ?? ""}
+                  onChange={(e) =>
+                    setEditingItem({
+                      ...editingItem,
+                      description: e.target.value,
+                    })
+                  }
+                  className="editor-textarea"
+                  placeholder="Group description shown on the group page. BBCode supported."
+                />
+                <BBCodePreview value={editingItem.description ?? ""} />
               </div>
 
               <div className="editor-button-group">
