@@ -5,7 +5,7 @@
       "https://i.pinimg.com/236x/b9/9d/7d/b99d7dab8bc7188b51b99f46583aa949.jpg"
     ],
     "group": [
-      "human"
+      "zo"
     ],
     "spieces": [
       "improved-human"
@@ -88,7 +88,8 @@
       "https://i.pinimg.com/236x/a9/73/2e/a9732ef64cb062f2935fad602a1ee0bd.jpg"
     ],
     "group": [
-      "human"
+      "zo",
+      "candy-cockroach"
     ],
     "spieces": [
       "gods-favorite-human"
@@ -166,7 +167,7 @@
       "https://i.pinimg.com/236x/ee/ab/d7/eeabd78df8f12b5dcc5f20af306d8855.jpg"
     ],
     "group": [
-      "human"
+      "zo"
     ],
     "spieces": [
       "gods-favorite-human"
@@ -229,7 +230,8 @@
       "https://i.pinimg.com/236x/3c/04/3e/3c043e5f44739aa41ff11d4f2024f841.jpg"
     ],
     "group": [
-      "human"
+      "zo",
+      "candy-cockroach"
     ],
     "spieces": [
       "human"
@@ -289,7 +291,7 @@
       "https://i.pinimg.com/236x/6d/55/33/6d5533e380786d007874de62e117cfd0.jpg"
     ],
     "group": [
-      "human"
+      "zo"
     ],
     "spieces": [
       "improved-human"
@@ -543,7 +545,7 @@
       "https://i.pinimg.com/236x/16/37/a5/1637a5cc6036836f24c80a138568c7bd.jpg"
     ],
     "group": [
-      "human"
+      "god"
     ],
     "spieces": [
       "improved-human"
@@ -604,7 +606,7 @@
       "https://i.pinimg.com/236x/f3/8c/7c/f38c7c982ce3586253b85a0cbbe7d98a.jpg"
     ],
     "group": [
-      "human"
+      "god"
     ],
     "spieces": [
       "improved-human"
@@ -725,7 +727,7 @@
       "https://i.pinimg.com/236x/04/4c/b2/044cb25a9c82b974842ac93d8d00caa0.jpg"
     ],
     "group": [
-      "human"
+      "candy-cockroach"
     ],
     "spieces": [
       "human"
@@ -995,7 +997,8 @@
     ],
     "group": [
       "li-family",
-      "zo"
+      "zo",
+      "candy-cockroach"
     ],
     "spieces": [
       "slime-non",
@@ -1618,7 +1621,7 @@
       "https://i.pinimg.com/236x/23/9b/9d/239b9d39c0070e25071f3f7bc760baf7.jpg"
     ],
     "group": [
-      "zo"
+      "candy-cockroach"
     ],
     "spieces": [
       "zo"
@@ -1663,8 +1666,7 @@
       "https://64.media.tumblr.com/7d3feec8258a7057c563bff44bd6f2d8/d02fb0aadf57e69e-64/s400x600/7c269c8f0e206feaa7dd757ed9cd28d14568bb83.gifv"
     ],
     "group": [
-      "god",
-      "candy-cockroach"
+      "god"
     ],
     "spieces": [
       "god",
@@ -1776,7 +1778,7 @@
       "https://i.pinimg.com/236x/16/b2/4b/16b24b61e5d3a14bf35ce91e002546aa.jpg"
     ],
     "group": [
-      "candy-cockroach"
+      "god"
     ],
     "spieces": [
       "candy-cockroach"
@@ -1864,7 +1866,7 @@
       "https://i.pinimg.com/236x/4a/e5/77/4ae5771c250876d4fd7239b0703d807e.jpg"
     ],
     "group": [
-      "candy-cockroach"
+      "god"
     ],
     "spieces": [
       "candy-cockroach"
@@ -1911,7 +1913,7 @@
       "https://i.pinimg.com/236x/9e/0d/ef/9e0def7d9d9578fd5b0952bea85d7a61.jpg"
     ],
     "group": [
-      "candy-cockroach"
+      "god"
     ],
     "spieces": [
       "candy-cockroach"
@@ -1952,7 +1954,7 @@
     ],
     "group": [
       "black-ring",
-      "vrev"
+      "god"
     ],
     "spieces": [
       "vrev"
