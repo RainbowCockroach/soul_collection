@@ -15,7 +15,9 @@ import LoadingSpinner from "./common-components/LoadingSpinner";
 const PageOcList = lazy(() => import("./page-oc-list/PageOcList"));
 const PageDetail = lazy(() => import("./page-detail/PageDetail"));
 const PageGuestBook = lazy(() => import("./page-guest-book/PageGuestBook"));
-const PageHeightChart = lazy(() => import("./page-height-chart/PageHeightChart"));
+const PageHeightChart = lazy(
+  () => import("./page-height-chart/PageHeightChart"),
+);
 const Editor = lazy(() =>
   import("./editor/Editor").then((m) => ({ default: m.Editor })),
 );
@@ -50,7 +52,7 @@ function App() {
         document.body.scrollHeight,
         document.documentElement.scrollHeight,
         document.body.offsetHeight,
-        document.documentElement.offsetHeight
+        document.documentElement.offsetHeight,
       );
 
       backgroundEls.forEach((el) => {
@@ -123,54 +125,60 @@ function App() {
 
   return (
     <SafeModeProvider>
-    <MusicPlayerProvider>
-      <div>
-        {/* Front elements */}
-        <div ref={frontElementsRef}>
-          <Navbar />
-          <div id="page-container" ref={pageContainerRef}>
-            <Suspense fallback={<LoadingSpinner />}>
-              <Routes>
-                <Route path={`${baseUrl}/`} element={<PageMain />} />
-                <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
-                <Route
-                  path={`${baseUrl}/lore`}
-                  element={<div className="page-padded">Lore Page</div>}
-                />
-                <Route
-                  path={`${baseUrl}/guest-book`}
-                  element={<PageGuestBook />}
-                />
-                <Route
-                  path={`${baseUrl}/height-chart`}
-                  element={<PageHeightChart />}
-                />
-                <Route
-                  path={`${baseUrl}/search`}
-                  element={<div className="page-padded">Search Page</div>}
-                />
-                <Route path={`${baseUrl}/ocs/:slug`} element={<PageDetail />} />
-                <Route path={`${baseUrl}/editor`} element={<Editor />} />
-                <Route
-                  path={`${baseUrl}/set-password`}
-                  element={<PageSetPassword />}
-                />
-              </Routes>
-            </Suspense>
+      <MusicPlayerProvider>
+        <div>
+          {/* Front elements */}
+          <div ref={frontElementsRef}>
+            <Navbar />
+            <div id="page-container" ref={pageContainerRef}>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Routes>
+                  <Route path={`${baseUrl}/`} element={<PageMain />} />
+                  <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
+                  <Route
+                    path={`${baseUrl}/lore`}
+                    element={<div className="page-padded">Lore Page</div>}
+                  />
+                  <Route
+                    path={`${baseUrl}/guest-book`}
+                    element={<PageGuestBook />}
+                  />
+                  <Route
+                    path={`${baseUrl}/height-chart`}
+                    element={<PageHeightChart />}
+                  />
+                  <Route
+                    path={`${baseUrl}/search`}
+                    element={<div className="page-padded">Search Page</div>}
+                  />
+                  <Route
+                    path={`${baseUrl}/ocs/:slug`}
+                    element={<PageDetail />}
+                  />
+                  <Route path={`${baseUrl}/editor`} element={<Editor />} />
+                  <Route
+                    path={`${baseUrl}/set-password`}
+                    element={<PageSetPassword />}
+                  />
+                </Routes>
+              </Suspense>
+            </div>
           </div>
+          {/* Keep this div untouched */}
+          <div className="sparkle-background"></div>
+          {/* Background elements that needs scrolling */}
+          <div ref={backgroundBlobRef} className="background-blob"></div>
+          <div ref={decorativeLeftRef} className="decorative-frame-left"></div>
+          <div
+            ref={decorativeRightRef}
+            className="decorative-frame-right"
+          ></div>
         </div>
-        {/* Keep this div untouched */}
-        <div className="sparkle-background"></div>
-        {/* Background elements that needs scrolling */}
-        <div ref={backgroundBlobRef} className="background-blob"></div>
-        <div ref={decorativeLeftRef} className="decorative-frame-left"></div>
-        <div ref={decorativeRightRef} className="decorative-frame-right"></div>
-      </div>
 
-      <StarryTrail />
-      <SamPopup />
-      {/* <div className="grain-overlay"></div> */}
-    </MusicPlayerProvider>
+        <StarryTrail />
+        <SamPopup />
+        {/* <div className="grain-overlay"></div> */}
+      </MusicPlayerProvider>
     </SafeModeProvider>
   );
 }

@@ -8,6 +8,7 @@ import CopyToClipboardButton from "./CopyToClipboardButton";
 import ReorderButtons from "./ReorderButtons";
 import { arrayMove } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
+import ImagePreview from "./ImagePreview";
 import "./EditorCommon.css";
 
 interface GroupJsonData {
@@ -95,6 +96,7 @@ export const EditorGroup: React.FC = () => {
       // Provide defaults for backward compatibility
       groupHeaderColour: group.groupHeaderColour || "#ffffff",
       groupHeaderTextColour: group.groupHeaderTextColour || "#000000",
+      headerImage: group.headerImage || "",
     });
     setIsEditing(true);
   };
@@ -161,6 +163,7 @@ export const EditorGroup: React.FC = () => {
           frameColour: "#000000",
           groupHeaderColour: "#ffffff",
           groupHeaderTextColour: "#000000",
+          headerImage: "",
           order: groupsArray.length,
         });
         setSelectedSlug(newSlug);
@@ -370,6 +373,23 @@ export const EditorGroup: React.FC = () => {
                     />
                   </div>
                 </div>
+              </div>
+
+              <div className="editor-field">
+                <label className="editor-label">Header Image URL:</label>
+                <input
+                  type="text"
+                  value={editingItem.headerImage}
+                  onChange={(e) =>
+                    setEditingItem({
+                      ...editingItem,
+                      headerImage: e.target.value,
+                    })
+                  }
+                  className="editor-input"
+                  placeholder="https://example.com/image.png"
+                />
+                <ImagePreview urls={[editingItem.headerImage]} />
               </div>
 
               <div className="editor-button-group">
