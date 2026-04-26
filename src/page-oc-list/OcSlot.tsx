@@ -25,7 +25,6 @@ interface OcSlotProps {
   disabled?: boolean;
 }
 
-
 const OcSlot: React.FC<OcSlotProps> = ({
   oc,
   frameColour,
@@ -69,7 +68,7 @@ const OcSlot: React.FC<OcSlotProps> = ({
         )}
 
         <div
-          className="div-3d-with-shadow oc-slot"
+          className="div-3d-no-shadow oc-slot"
           style={{
             backgroundColor: frameColour,
             border: `5px solid ${frameColour}`,
@@ -81,10 +80,7 @@ const OcSlot: React.FC<OcSlotProps> = ({
             className="oc-avatar"
           />
           <div className="oc-slot-name-box">
-            <h3
-              className="oc-name"
-              style={{ color: textColour }}
-            >
+            <h3 className="oc-name" style={{ color: textColour }}>
               <Marquee pauseOnHover={true} play={true}>
                 <BBCodeDisplay bbcode={oc.name} />
               </Marquee>

@@ -75,8 +75,32 @@ const PageMain: React.FC = () => {
         </div>
       </div>
 
-      <div>
+      <div className="vnbio-side-wrapper">
+        <div className="vnbio-side-column">
+          <img
+            className="vnbio-side-image"
+            src="https://64.media.tumblr.com/90a69950150571b39880604bf5924a90/ab79700c434e201a-31/s100x200/927d44f4a4580416d6860d5324587c518b7e1900.gif"
+            alt=""
+          />
+          <img
+            className="vnbio-side-image"
+            src="https://i4.glitter-graphics.org/pub/2518/2518874avbb3t1onu.gif"
+            alt=""
+          />
+        </div>
         <VisualNovelBio />
+        <div className="vnbio-side-column">
+          <img
+            className="vnbio-side-image"
+            src="https://i4.glitter-graphics.org/pub/2518/2518874avbb3t1onu.gif"
+            alt=""
+          />
+          <img
+            className="vnbio-side-image"
+            src="https://64.media.tumblr.com/90a69950150571b39880604bf5924a90/ab79700c434e201a-31/s100x200/927d44f4a4580416d6860d5324587c518b7e1900.gif"
+            alt=""
+          />
+        </div>
       </div>
 
       <Divider />

@@ -15,6 +15,8 @@ import "./OcGroupCover.css";
 import "./PageOcList.css";
 import "./OcGroup.css";
 import "./FilterBlock.css";
+import Divider from "../common-components/Divider";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
 const DEFAULT_FRAME_COLOUR = "#ffffff";
 const DEFAULT_TEXT_COLOUR = "#000000";
@@ -148,13 +150,18 @@ const PageOcList: React.FC = () => {
 
   return (
     <div className="page-padded">
-      <div className="oc-group-cover-grid">
+      <img
+        src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
+        style={{ width: "64px", height: "64px" }}
+      />
+      <div className="oc-group-cover-grid space-above space-below">
         {groups.map((group) => (
           <ButtonWrapper
             key={group.slug}
             className="oc-group-cover-button"
             onClick={() => navigate(`${baseUrl}/group/${group.slug}`)}
             soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
           >
             <OcGroupCover
               groupInfo={{
@@ -170,11 +177,14 @@ const PageOcList: React.FC = () => {
         ))}
       </div>
 
-      <div className="filter-toggle-container">
+      <Divider />
+
+      <div className="filter-toggle-container space-above">
         <ButtonWrapper
           className="filter-toggle-button div-3d-with-shadow"
           onClick={toggleFilterVisibility}
           soundFile={buttonSound}
+          hoverSoundFile={buttonSoundHover}
         >
           {showFilter ? "Hide search" : "🔍 Search"}
           {(selectedTags.length > 0 || selectedShips.length > 0) &&
@@ -194,7 +204,7 @@ const PageOcList: React.FC = () => {
         />
       )}
 
-      <div className="oc-list-flat-content">
+      <div className="oc-list-flat-content space-above">
         <div className="oc-group-grid">
           {filteredOcs.map((oc) => {
             const colours = getColoursForOc(oc);
