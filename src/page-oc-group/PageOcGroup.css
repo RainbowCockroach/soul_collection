@@ -1,0 +1,61 @@
+.page-oc-group-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px 10px;
+  align-items: stretch;
+  padding: 0 5vw;
+}
+
+.page-oc-group-cover {
+  min-width: 0;
+}
+
+.page-oc-group-description {
+  padding: 20px;
+  min-width: 0;
+  word-break: break-word;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+@media (max-width: 768px) {
+  .page-oc-group-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.page-oc-group .oc-list-flat-content .oc-group-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 28px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page-oc-group .oc-list-flat-content .oc-group-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-oc-group .oc-list-flat-content .oc-group-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.page-oc-group .oc-list-flat-content .ship-icon-image {
+  width: 36px;
+  height: 36px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page-oc-group .oc-list-flat-content .ship-icon-image {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-oc-group .oc-list-flat-content .ship-icon-image {
+    width: max(44px, 3.75vw);
+    height: max(44px, 3.75vw);
+  }
+}

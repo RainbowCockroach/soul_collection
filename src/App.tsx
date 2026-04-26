@@ -13,6 +13,7 @@ import StarryTrail from "./common-components/StarryTrail";
 import LoadingSpinner from "./common-components/LoadingSpinner";
 
 const PageOcList = lazy(() => import("./page-oc-list/PageOcList"));
+const PageOcGroup = lazy(() => import("./page-oc-group/PageOcGroup"));
 const PageDetail = lazy(() => import("./page-detail/PageDetail"));
 const PageGuestBook = lazy(() => import("./page-guest-book/PageGuestBook"));
 const PageHeightChart = lazy(
@@ -135,6 +136,10 @@ function App() {
                 <Routes>
                   <Route path={`${baseUrl}/`} element={<PageMain />} />
                   <Route path={`${baseUrl}/ocs`} element={<PageOcList />} />
+                  <Route
+                    path={`${baseUrl}/group/:slug`}
+                    element={<PageOcGroup />}
+                  />
                   <Route
                     path={`${baseUrl}/lore`}
                     element={<div className="page-padded">Lore Page</div>}

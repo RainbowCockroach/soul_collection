@@ -159,7 +159,7 @@ const PageOcList: React.FC = () => {
           <ButtonWrapper
             key={group.slug}
             className="oc-group-cover-button"
-            onClick={() => navigate(`${baseUrl}/group/${group.slug}`)}
+            onClick={() => navigate(`/${baseUrl}/group/${group.slug}`)}
             soundFile={buttonSound}
             hoverSoundFile={buttonSoundHover}
           >
