@@ -9,8 +9,10 @@ import ReorderButtons from "./ReorderButtons";
 import { arrayMove } from "./reorder-utils";
 import DeleteButton from "./DeleteButton";
 import ImagePreview from "./ImagePreview";
-import BBCodePreview from "./BBCodePreview";
+import { SCEditor } from "./BBCodeEditor";
 import "./EditorCommon.css";
+
+const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 
 interface GroupJsonData {
   [key: string]: Omit<Group, "slug">;
@@ -397,18 +399,18 @@ export const EditorGroup: React.FC = () => {
 
               <div className="editor-field">
                 <label className="editor-label">Description (BBCode):</label>
-                <textarea
+                <SCEditor
+                  format="bbcode"
+                  toolbar={BBCODE_TOOLBAR}
                   value={editingItem.description ?? ""}
-                  onChange={(e) =>
+                  onChange={(value) =>
                     setEditingItem({
                       ...editingItem,
-                      description: e.target.value,
+                      description: value,
                     })
                   }
-                  className="editor-textarea"
-                  placeholder="Group description shown on the group page. BBCode supported."
+                  height={300}
                 />
-                <BBCodePreview value={editingItem.description ?? ""} />
               </div>
 
               <div className="editor-button-group">
