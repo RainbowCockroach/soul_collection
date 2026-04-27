@@ -187,7 +187,7 @@ const PageOcList: React.FC = () => {
           src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
           className="oc-list-intro-image"
         />
-        <p>These are OCs. All of them</p>
+        <p>These are all of them. Wall of OCs warning.</p>
       </div>
 
       <div className="filter-toggle-container space-above">
