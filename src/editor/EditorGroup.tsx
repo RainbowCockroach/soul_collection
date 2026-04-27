@@ -328,31 +328,6 @@ export const EditorGroup: React.FC = () => {
                 </div>
               </div>
 
-              <div className="editor-field">
-                <label className="editor-label">
-                  Header Background Colour:
-                </label>
-                <div className="editor-color-group">
-                  <input
-                    type="color"
-                    value={editingItem.groupHeaderColour}
-                    onChange={(e) =>
-                      setEditingItem({
-                        ...editingItem,
-                        groupHeaderColour: e.target.value,
-                      })
-                    }
-                    className="editor-color-picker"
-                  />
-                  <div className="editor-color-preview-container">
-                    <span className="editor-color-preview-label">Preview:</span>
-                    <div
-                      className="editor-color-preview-swatch"
-                      style={{ backgroundColor: editingItem.groupHeaderColour }}
-                    />
-                  </div>
-                </div>
-              </div>
 
               <div className="editor-field">
                 <label className="editor-label">Header Text Colour:</label>

@@ -5,7 +5,6 @@ export interface OcGroupCoverInfo {
   slug: string;
   name: string;
   frameColour: string;
-  groupHeaderColour: string;
   groupHeaderTextColour: string;
   headerImage: string;
 }

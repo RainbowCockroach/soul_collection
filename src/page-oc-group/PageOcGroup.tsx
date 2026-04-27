@@ -73,7 +73,6 @@ const PageOcGroup: React.FC = () => {
               slug: group.slug,
               name: group.name,
               frameColour: group.frameColour,
-              groupHeaderColour: group.groupHeaderColour,
               groupHeaderTextColour: group.groupHeaderTextColour,
               headerImage: group.headerImage,
             }}
