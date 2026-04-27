@@ -14,8 +14,7 @@
     "groupHeaderColour": "#8be8a1",
     "groupHeaderTextColour": "#0091a1",
     "order": 1,
-    "headerImage": "https://i.pinimg.com/originals/ca/85/a2/ca85a25934fa7c60d0c733f6e58b9b1e.png",
-    "description": ""
+    "headerImage": "https://i.pinimg.com/originals/f4/74/d5/f474d54875f80a6e71e6806d067d4a0d.png"
   },
   "oboet": {
     "name": "Oboet",
@@ -49,5 +48,14 @@
     "groupHeaderTextColour": "#176501",
     "order": 5,
     "headerImage": "https://i.pinimg.com/originals/fb/ef/b4/fbefb4d647c3e86e05b61e69c4645bd6.jpg"
+  },
+  "it-just-red": {
+    "name": "It just red",
+    "frameColour": "#ff0000",
+    "groupHeaderColour": "#ffffff",
+    "groupHeaderTextColour": "#a00000",
+    "headerImage": "https://i.pinimg.com/originals/3b/7f/51/3b7f51f34a03e378cef3f3ef0cc1e425.png",
+    "description": "",
+    "order": 6
   }
 }
