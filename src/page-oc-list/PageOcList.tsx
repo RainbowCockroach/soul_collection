@@ -150,10 +150,14 @@ const PageOcList: React.FC = () => {
 
   return (
     <div className="page-padded">
-      <img
-        src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
-        style={{ width: "64px", height: "64px" }}
-      />
+      <div className="div-3d-with-shadow-borderless oc-list-intro-box space-above">
+        <img
+          src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
+          className="oc-list-intro-image"
+        />
+        <p>These are OC groups</p>
+      </div>
+
       <div className="oc-group-cover-grid space-above space-below">
         {groups.map((group) => (
           <ButtonWrapper
@@ -177,6 +181,14 @@ const PageOcList: React.FC = () => {
       </div>
 
       <Divider />
+
+      <div className="div-3d-with-shadow-borderless oc-list-intro-box space-above">
+        <img
+          src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
+          className="oc-list-intro-image"
+        />
+        <p>These are OCs. All of them</p>
+      </div>
 
       <div className="filter-toggle-container space-above">
         <ButtonWrapper
