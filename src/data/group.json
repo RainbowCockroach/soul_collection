@@ -2,7 +2,6 @@
   "my-not-mad": {
     "name": "My not mad",
     "frameColour": "#ffd57a",
-    "groupHeaderColour": "#ffd57a",
     "groupHeaderTextColour": "#cf6000",
     "order": 0,
     "headerImage": "https://i.pinimg.com/originals/7f/a8/17/7fa817e0dada4cd2d0a60839f21bb1eb.png",
@@ -11,7 +10,6 @@
   "hill-of-drama": {
     "name": "Hill of drama",
     "frameColour": "#8be8a1",
-    "groupHeaderColour": "#8be8a1",
     "groupHeaderTextColour": "#0091a1",
     "order": 1,
     "headerImage": "https://i.pinimg.com/originals/ca/85/a2/ca85a25934fa7c60d0c733f6e58b9b1e.png",
@@ -20,7 +18,6 @@
   "oboet": {
     "name": "Oboet",
     "frameColour": "#ffb3e3",
-    "groupHeaderColour": "#ffb3e3",
     "groupHeaderTextColour": "#ba1c6b",
     "order": 2,
     "headerImage": "https://i.pinimg.com/originals/ed/8a/e8/ed8ae8807e9228517e9414f96bd7c85e.png",
@@ -29,7 +26,6 @@
   "so-wrong": {
     "name": "So wrong",
     "frameColour": "#80d9ff",
-    "groupHeaderColour": "#80d9ff",
     "groupHeaderTextColour": "#006db5",
     "order": 3,
     "headerImage": "https://i.pinimg.com/originals/ec/7c/7a/ec7c7aa3d69f75034be582833065a1e0.png"
@@ -37,7 +33,6 @@
   "naame-your-sufferings": {
     "name": "Naame your sufferings",
     "frameColour": "#bfadff",
-    "groupHeaderColour": "#bfadff",
     "groupHeaderTextColour": "#801bb3",
     "order": 4,
     "headerImage": "https://i.pinimg.com/originals/4c/1f/93/4c1f93d809b0e7d3b9336a4d233e8259.png",
@@ -46,7 +41,6 @@
   "other": {
     "name": "✦ Other ✦",
     "frameColour": "#ebff85",
-    "groupHeaderColour": "#ebff85",
     "groupHeaderTextColour": "#176501",
     "order": 5,
     "headerImage": "https://i.pinimg.com/originals/51/d2/31/51d231fc9864e43365734ba1dac820fd.png",
