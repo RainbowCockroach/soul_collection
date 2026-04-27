@@ -97,7 +97,6 @@ export const EditorGroup: React.FC = () => {
       ...group,
       slug,
       // Provide defaults for backward compatibility
-      groupHeaderColour: group.groupHeaderColour || "#ffffff",
       groupHeaderTextColour: group.groupHeaderTextColour || "#000000",
       headerImage: group.headerImage || "",
       description: group.description || "",
@@ -165,7 +164,6 @@ export const EditorGroup: React.FC = () => {
           slug: newSlug,
           name: groupName,
           frameColour: "#000000",
-          groupHeaderColour: "#ffffff",
           groupHeaderTextColour: "#000000",
           headerImage: "",
           description: "",
@@ -327,7 +325,6 @@ export const EditorGroup: React.FC = () => {
                   </div>
                 </div>
               </div>
-
 
               <div className="editor-field">
                 <label className="editor-label">Header Text Colour:</label>
