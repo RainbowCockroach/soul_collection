@@ -16,6 +16,7 @@ import "./PageOcList.css";
 import "./OcGroup.css";
 import "./FilterBlock.css";
 import Divider from "../common-components/Divider";
+import Stack from "../common-components/Stack";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
 const DEFAULT_FRAME_COLOUR = "#ffffff";
@@ -149,91 +150,95 @@ const PageOcList: React.FC = () => {
   }
 
   return (
-    <div className="page-padded">
-      <div className="div-3d-with-shadow-borderless oc-list-intro-box">
-        <img
-          src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
-          className="oc-list-intro-image"
-        />
-        <p>These are characters grouped by their stories.</p>
-      </div>
+    <Stack gap="md" className="page-padded oc-list-page">
+      <Stack gap="sm">
+        <div className="div-3d-with-shadow-borderless oc-list-intro-box">
+          <img
+            src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
+            className="oc-list-intro-image"
+          />
+          <p>These are characters grouped by their stories.</p>
+        </div>
 
-      <div className="oc-group-cover-grid space-above space-below">
-        {groups.map((group) => (
-          <ButtonWrapper
-            key={group.slug}
-            className="oc-group-cover-button"
-            onClick={() => navigate(`/${baseUrl}/group/${group.slug}`)}
-            soundFile={buttonSound}
-            hoverSoundFile={buttonSoundHover}
-          >
-            <OcGroupCover
-              groupInfo={{
-                slug: group.slug,
-                name: group.name,
-                frameColour: group.frameColour,
-                groupHeaderTextColour: group.groupHeaderTextColour,
-                headerImage: group.headerImage,
-              }}
-            />
-          </ButtonWrapper>
-        ))}
-      </div>
+        <div className="oc-group-cover-grid">
+          {groups.map((group) => (
+            <ButtonWrapper
+              key={group.slug}
+              className="oc-group-cover-button"
+              onClick={() => navigate(`/${baseUrl}/group/${group.slug}`)}
+              soundFile={buttonSound}
+              hoverSoundFile={buttonSoundHover}
+            >
+              <OcGroupCover
+                groupInfo={{
+                  slug: group.slug,
+                  name: group.name,
+                  frameColour: group.frameColour,
+                  groupHeaderTextColour: group.groupHeaderTextColour,
+                  headerImage: group.headerImage,
+                }}
+              />
+            </ButtonWrapper>
+          ))}
+        </div>
+      </Stack>
 
       <Divider />
 
-      <div className="div-3d-with-shadow-borderless oc-list-intro-box space-above">
-        <img
-          src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
-          className="oc-list-intro-image"
-        />
-        <p>These are all of them. Wall of OCs warning.</p>
-      </div>
-
-      <div className="filter-toggle-container space-above">
-        <ButtonWrapper
-          className="filter-toggle-button div-3d-with-shadow"
-          onClick={toggleFilterVisibility}
-          soundFile={buttonSound}
-          hoverSoundFile={buttonSoundHover}
-        >
-          {showFilter ? "Hide search" : "🔍 Search"}
-          {(selectedTags.length > 0 || selectedShips.length > 0) &&
-            ` (${selectedTags.length + selectedShips.length} active)`}
-        </ButtonWrapper>
-      </div>
-      {showFilter && (
-        <FilterBlock
-          tags={visibleTags}
-          selectedTags={selectedTags}
-          onTagToggle={handleTagToggle}
-          onClearAll={handleClearAllTags}
-          ships={allShips}
-          selectedShips={selectedShips}
-          onShipToggle={handleShipToggle}
-          onClearAllShips={handleClearAllShips}
-        />
-      )}
-
-      <div className="oc-list-flat-content space-above">
-        <div className="oc-group-grid">
-          {filteredOcs.map((oc) => {
-            const colours = getColoursForOc(oc);
-            return (
-              <OcSlot
-                key={oc.slug}
-                oc={{ slug: oc.slug, name: oc.name, avatar: oc.avatar }}
-                frameColour={colours.frame}
-                textColour={colours.text}
-                shipColors={getShipColorsForOc(oc.slug)}
-                shipTexts={getShipTextsForOc(oc.slug)}
-                disabled={restrictedSlugs.has(oc.slug)}
-              />
-            );
-          })}
+      <Stack gap="sm">
+        <div className="div-3d-with-shadow-borderless oc-list-intro-box">
+          <img
+            src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
+            className="oc-list-intro-image"
+          />
+          <p>These are all of them. Wall of OCs warning.</p>
         </div>
-      </div>
-    </div>
+
+        <div className="filter-toggle-container">
+          <ButtonWrapper
+            className="filter-toggle-button div-3d-with-shadow"
+            onClick={toggleFilterVisibility}
+            soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
+          >
+            {showFilter ? "Hide search" : "🔍 Search"}
+            {(selectedTags.length > 0 || selectedShips.length > 0) &&
+              ` (${selectedTags.length + selectedShips.length} active)`}
+          </ButtonWrapper>
+        </div>
+        {showFilter && (
+          <FilterBlock
+            tags={visibleTags}
+            selectedTags={selectedTags}
+            onTagToggle={handleTagToggle}
+            onClearAll={handleClearAllTags}
+            ships={allShips}
+            selectedShips={selectedShips}
+            onShipToggle={handleShipToggle}
+            onClearAllShips={handleClearAllShips}
+          />
+        )}
+
+        <div className="oc-list-flat-content">
+          <div className="oc-group-grid">
+            {filteredOcs.map((oc) => {
+              const colours = getColoursForOc(oc);
+              return (
+                <OcSlot
+                  key={oc.slug}
+                  oc={{ slug: oc.slug, name: oc.name, avatar: oc.avatar }}
+                  frameColour={colours.frame}
+                  textColour={colours.text}
+                  shipColors={getShipColorsForOc(oc.slug)}
+                  shipTexts={getShipTextsForOc(oc.slug)}
+                  disabled={restrictedSlugs.has(oc.slug)}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </Stack>
+    </Stack>
   );
 };
 
