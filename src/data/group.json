@@ -48,11 +48,19 @@
     "description": "",
     "order": 5
   },
+  "lost-in-murs-mind": {
+    "name": "Lost in Mur’s mind",
+    "frameColour": "#e38bfe",
+    "groupHeaderTextColour": "#a86ad3",
+    "headerImage": "https://i.pinimg.com/originals/f2/7f/77/f27f77a83df87392587021a752543f1d.png",
+    "description": "",
+    "order": 6
+  },
   "other": {
     "name": "✦ Other ✦",
     "frameColour": "#ebff85",
     "groupHeaderTextColour": "#176501",
-    "order": 6,
+    "order": 7,
     "headerImage": "https://i.pinimg.com/originals/51/d2/31/51d231fc9864e43365734ba1dac820fd.png",
     "description": "These are all my \"just here\" characters. They just exist because they are cool, have no story tie to them whatsoever.\n[img=150x150]https://animationfactory.com/siteimages/articles/article3.gif[/img]"
   }
