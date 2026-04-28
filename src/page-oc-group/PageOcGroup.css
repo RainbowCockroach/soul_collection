@@ -3,7 +3,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 20px 10px;
   align-items: stretch;
-  padding: 0 5vw;
+  padding: 0 7vw;
 }
 
 .page-oc-group-cover {
@@ -24,9 +24,19 @@
   }
 }
 
+.page-oc-group .oc-list-flat-content {
+  padding-left: 7vw;
+  padding-right: 7vw;
+}
+
+.page-oc-group .oc-list-flat-content .oc-slot-wrapper,
+.page-oc-group .oc-list-flat-content .oc-slot {
+  box-sizing: border-box;
+}
+
 .page-oc-group .oc-list-flat-content .oc-group-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px 28px;
+  gap: 18px 6px;
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -42,20 +52,20 @@
 }
 
 .page-oc-group .oc-list-flat-content .ship-icon-image {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .page-oc-group .oc-list-flat-content .ship-icon-image {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
 }
 
 @media (min-width: 1024px) {
   .page-oc-group .oc-list-flat-content .ship-icon-image {
-    width: max(44px, 3.75vw);
-    height: max(44px, 3.75vw);
+    width: max(36px, 3vw);
+    height: max(36px, 3vw);
   }
 }
