@@ -79,7 +79,7 @@ const PageOcGroup: React.FC = () => {
           />
         </div>
         {group.description && (
-          <div className="page-oc-group-description" style={{ backgroundColor: frameColour + "B3" }}>
+          <div className="page-oc-group-description">
             <BBCodeDisplay bbcode={group.description} />
           </div>
         )}
