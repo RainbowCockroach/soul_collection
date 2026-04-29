@@ -1,32 +1,60 @@
 .page-oc-group-header {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 20px 10px;
-  align-items: stretch;
-  padding: 0 7vw;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  min-height: 42vh;
+  overflow: hidden;
 }
 
 .page-oc-group-cover {
+  position: relative;
   min-width: 0;
+  overflow: hidden;
 }
 
+/* Remove border/radius from image in this banner context */
+.page-oc-group-cover .oc-group-cover {
+  border: none;
+  border-radius: 0;
+  height: 100%;
+  transition: none;
+}
+
+.page-oc-group-cover .oc-group-cover-image-wrapper {
+  height: 100%;
+  aspect-ratio: unset;
+}
+
+
 .page-oc-group-description {
-  padding: 20px;
+  padding: 24px 32px;
   min-width: 0;
   word-break: break-word;
   overflow-y: auto;
-  max-height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
 }
 
 @media (max-width: 768px) {
   .page-oc-group-header {
     grid-template-columns: minmax(0, 1fr);
+    min-height: unset;
+  }
+
+  .page-oc-group-cover .oc-group-cover-image-wrapper {
+    aspect-ratio: 7 / 3;
+    height: auto;
+  }
+
+.page-oc-group-description {
+    padding: 16px 20px;
   }
 }
 
 .page-oc-group .oc-list-flat-content {
-  padding-left: 7vw;
-  padding-right: 7vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 .page-oc-group .oc-list-flat-content .oc-slot-wrapper,
@@ -36,7 +64,7 @@
 
 .page-oc-group .oc-list-flat-content .oc-group-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 6px;
+  gap: 18px 16px;
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
