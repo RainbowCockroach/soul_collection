@@ -65,7 +65,7 @@ const PageOcGroup: React.FC = () => {
   }
 
   return (
-    <div className="page-padded page-oc-group">
+    <div className="page-oc-group">
       <div className="page-oc-group-header">
         <div className="page-oc-group-cover">
           <OcGroupCover
@@ -79,7 +79,7 @@ const PageOcGroup: React.FC = () => {
           />
         </div>
         {group.description && (
-          <div className="page-oc-group-description div-3d-with-shadow">
+          <div className="page-oc-group-description" style={{ backgroundColor: frameColour + "B3" }}>
             <BBCodeDisplay bbcode={group.description} />
           </div>
         )}
