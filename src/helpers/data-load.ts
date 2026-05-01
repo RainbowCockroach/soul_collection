@@ -123,16 +123,18 @@ export async function loadFormLinks(): Promise<FormLink[]> {
 
 export async function findLinkedOc(
   ocSlug: string,
-): Promise<{ linkedSlug: string; isGodForm: boolean } | null> {
+): Promise<{ linkedSlug: string | null; isGodForm: boolean } | null> {
   const formLinks = await loadFormLinks();
 
   for (const link of formLinks) {
     if (link[0] === ocSlug) {
-      // Current OC is birth form (index 0), linked is god form (index 1)
-      return { linkedSlug: link[1], isGodForm: false };
+      // Current OC is birth form (index 0)
+      const godSlug = link[1] || null;
+      return { linkedSlug: godSlug, isGodForm: false };
     } else if (link[1] === ocSlug) {
-      // Current OC is god form (index 1), linked is birth form (index 0)
-      return { linkedSlug: link[0], isGodForm: true };
+      // Current OC is god form (index 1)
+      const birthSlug = link[0] || null;
+      return { linkedSlug: birthSlug, isGodForm: true };
     }
   }
 

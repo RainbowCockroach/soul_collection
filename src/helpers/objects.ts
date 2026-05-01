@@ -45,7 +45,8 @@ export interface OC {
   order?: number; // Display order
 }
 
-export type FormLink = [string, string]; // Array of two OC slugs representing linked characters
+// index 0 = birth form slug (empty string if none), index 1 = god form slug (empty string if none)
+export type FormLink = [string, string];
 
 export type Tag = {
   slug: string;
