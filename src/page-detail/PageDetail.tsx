@@ -122,13 +122,13 @@ const PageDetail: React.FC = () => {
         } else {
           setOc(ocData);
           console.log("Loaded OC data:", ocData);
-          setIsGodForm(ocData.group.includes("god"));
         }
 
         if (linkedSlug) {
-          setLinkedOcSlug(linkedSlug);
+          setLinkedOcSlug(linkedSlug.linkedSlug);
+          setIsGodForm(linkedSlug.isGodForm);
           // Load the linked OC's name
-          const linkedOcData = await loadOcBySlug(linkedSlug);
+          const linkedOcData = await loadOcBySlug(linkedSlug.linkedSlug);
           setLinkedOcName(linkedOcData?.name || null);
         } else {
           setLinkedOcSlug(null);
@@ -283,7 +283,7 @@ const PageDetail: React.FC = () => {
           <SwitchFormButton
             linkedOcSlug={linkedOcSlug}
             linkedOcName={linkedOcName}
-            isGodForm={oc.group.includes("god")}
+            isGodForm={isGodForm}
           />
         )}
 

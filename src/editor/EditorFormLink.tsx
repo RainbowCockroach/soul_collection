@@ -161,12 +161,29 @@ export const EditorFormLink: React.FC = () => {
                 <div key={index} className="editor-item">
                   <div className="editor-item-content">
                     <div className="editor-oc-link-inline">
+                      <span className="editor-text-small">birth:</span>
                       <BBCodeDisplay bbcode={getOcName(link[0])} />
-                      <span>-</span>
+                      <span>→</span>
+                      <span className="editor-text-small">god:</span>
                       <BBCodeDisplay bbcode={getOcName(link[1])} />
                     </div>
                   </div>
                   <div className="editor-item-actions">
+                    <button
+                      onClick={() => {
+                        const updatedLinks = formLinks.map((l, i) =>
+                          i === index ? ([l[1], l[0]] as FormLink) : l,
+                        );
+                        setFormLinks(updatedLinks);
+                        toast.success(
+                          "Swapped! Use 'Copy to clipboard' to export.",
+                        );
+                      }}
+                      className="editor-button editor-button-secondary editor-button-small"
+                      title="Swap birth and god form"
+                    >
+                      ⇅
+                    </button>
                     <button
                       onClick={() => handleEdit(index)}
                       className="editor-button editor-button-secondary editor-button-small"
@@ -194,6 +211,7 @@ export const EditorFormLink: React.FC = () => {
             <div className="editor-form">
               <h3>{editingIndex !== null ? "Edit Link" : "Add New Link"}</h3>
               <div className="editor-field">
+                <label className="editor-label">Birth Form</label>
                 <select
                   value={editingLink[0]}
                   onChange={(e) =>
@@ -201,7 +219,7 @@ export const EditorFormLink: React.FC = () => {
                   }
                   className="editor-select"
                 >
-                  <option value="">Select First OC</option>
+                  <option value="">Select Birth Form OC</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
                       <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
@@ -213,13 +231,21 @@ export const EditorFormLink: React.FC = () => {
                     className="editor-text-small"
                     style={{ marginTop: "4px" }}
                   >
-                    Preview:{" "}
                     <BBCodeDisplay bbcode={getOcName(editingLink[0])} />
                   </div>
                 )}
               </div>
 
+              <button
+                onClick={() => setEditingLink([editingLink[1], editingLink[0]])}
+                className="editor-button editor-button-secondary"
+                title="Swap birth form and god form"
+              >
+                ⇅ Swap
+              </button>
+
               <div className="editor-field">
+                <label className="editor-label">God Form</label>
                 <select
                   value={editingLink[1]}
                   onChange={(e) =>
@@ -227,7 +253,7 @@ export const EditorFormLink: React.FC = () => {
                   }
                   className="editor-select"
                 >
-                  <option value="">Select Second OC</option>
+                  <option value="">Select God Form OC</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
                       <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
@@ -239,7 +265,6 @@ export const EditorFormLink: React.FC = () => {
                     className="editor-text-small"
                     style={{ marginTop: "4px" }}
                   >
-                    Preview:{" "}
                     <BBCodeDisplay bbcode={getOcName(editingLink[1])} />
                   </div>
                 )}

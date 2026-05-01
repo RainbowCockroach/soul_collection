@@ -121,14 +121,18 @@ export async function loadFormLinks(): Promise<FormLink[]> {
   return formLinkData as FormLink[];
 }
 
-export async function findLinkedOc(ocSlug: string): Promise<string | null> {
+export async function findLinkedOc(
+  ocSlug: string,
+): Promise<{ linkedSlug: string; isGodForm: boolean } | null> {
   const formLinks = await loadFormLinks();
 
   for (const link of formLinks) {
     if (link[0] === ocSlug) {
-      return link[1];
+      // Current OC is birth form (index 0), linked is god form (index 1)
+      return { linkedSlug: link[1], isGodForm: false };
     } else if (link[1] === ocSlug) {
-      return link[0];
+      // Current OC is god form (index 1), linked is birth form (index 0)
+      return { linkedSlug: link[0], isGodForm: true };
     }
   }
 
