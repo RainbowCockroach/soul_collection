@@ -125,11 +125,15 @@ const PageDetail: React.FC = () => {
         }
 
         if (linkedSlug) {
-          setLinkedOcSlug(linkedSlug.linkedSlug);
           setIsGodForm(linkedSlug.isGodForm);
-          // Load the linked OC's name
-          const linkedOcData = await loadOcBySlug(linkedSlug.linkedSlug);
-          setLinkedOcName(linkedOcData?.name || null);
+          if (linkedSlug.linkedSlug) {
+            setLinkedOcSlug(linkedSlug.linkedSlug);
+            const linkedOcData = await loadOcBySlug(linkedSlug.linkedSlug);
+            setLinkedOcName(linkedOcData?.name || null);
+          } else {
+            setLinkedOcSlug(null);
+            setLinkedOcName(null);
+          }
         } else {
           setLinkedOcSlug(null);
           setLinkedOcName(null);
