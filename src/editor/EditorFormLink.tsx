@@ -45,12 +45,12 @@ export const EditorFormLink: React.FC = () => {
   };
 
   const handleSave = () => {
-    if (!editingLink[0] || !editingLink[1]) {
-      toast.error("Both OCs must be selected");
+    if (!editingLink[0] && !editingLink[1]) {
+      toast.error("At least one OC must be selected");
       return;
     }
 
-    if (editingLink[0] === editingLink[1]) {
+    if (editingLink[0] && editingLink[1] && editingLink[0] === editingLink[1]) {
       toast.error("Cannot link an OC to itself");
       return;
     }
@@ -161,10 +161,8 @@ export const EditorFormLink: React.FC = () => {
                 <div key={index} className="editor-item">
                   <div className="editor-item-content">
                     <div className="editor-oc-link-inline">
-                      <span className="editor-text-small">birth:</span>
                       <BBCodeDisplay bbcode={getOcName(link[0])} />
-                      <span>→</span>
-                      <span className="editor-text-small">god:</span>
+                      <span>-</span>
                       <BBCodeDisplay bbcode={getOcName(link[1])} />
                     </div>
                   </div>
@@ -219,7 +217,7 @@ export const EditorFormLink: React.FC = () => {
                   }
                   className="editor-select"
                 >
-                  <option value="">Select Birth Form OC</option>
+                  <option value="">(none)</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
                       <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
@@ -253,7 +251,7 @@ export const EditorFormLink: React.FC = () => {
                   }
                   className="editor-select"
                 >
-                  <option value="">Select God Form OC</option>
+                  <option value="">(none)</option>
                   {ocs.map((oc) => (
                     <option key={oc.slug} value={oc.slug}>
                       <BBCodeDisplay bbcode={oc.name} /> ({oc.slug})
