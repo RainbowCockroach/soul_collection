@@ -21,6 +21,26 @@ const GuestBookSubmission = ({
   const [showNoteForm, setShowNoteForm] = useState(false);
   const [showFanArtForm, setShowFanArtForm] = useState(false);
 
+  const isMobile = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 768px)").matches;
+
+  const handleNoteToggle = () => {
+    const next = !showNoteForm;
+    setShowNoteForm(next);
+    if (next && isMobile()) {
+      setShowFanArtForm(false);
+    }
+  };
+
+  const handleFanArtToggle = () => {
+    const next = !showFanArtForm;
+    setShowFanArtForm(next);
+    if (next && isMobile()) {
+      setShowNoteForm(false);
+    }
+  };
+
   return (
     <div className="guest-book-submission">
       <h2 className="big-text-shadow">Wanna leave something here?</h2>
@@ -30,14 +50,14 @@ const GuestBookSubmission = ({
           onSubmit={onSubmit}
           submitting={submitting}
           showForm={showNoteForm}
-          onToggle={() => setShowNoteForm(!showNoteForm)}
+          onToggle={handleNoteToggle}
         />
 
         <GuestBookFanArtForm
           onSubmit={onSubmit}
           submitting={submitting}
           showForm={showFanArtForm}
-          onToggle={() => setShowFanArtForm(!showFanArtForm)}
+          onToggle={handleFanArtToggle}
         />
       </div>
 
