@@ -140,7 +140,7 @@
 
   .notes-display {
     gap: max(15px, 1.5vw); /* Responsive gap that scales with viewport */
-    height: 280px; /* Fixed height for consistent note alignment */
+    height: 196px; /* Fixed height for consistent note alignment */
     align-items: stretch; /* Make all notes same height */
     justify-content: space-evenly; /* Better distribution of flexible-width notes */
     overflow: hidden; /* Prevent any overflow from causing scroll bars */
@@ -175,7 +175,7 @@
     gap: 6px;
     justify-items: stretch;
     align-items: stretch;
-    height: 500px;
+    height: 350px;
     margin-bottom: 15px;
     overflow-x: hidden; /* Prevent horizontal scroll only */
   }
@@ -198,7 +198,7 @@
 
   .notes-display {
     gap: 4px;
-    height: 440px;
+    height: 308px;
     margin-bottom: 10px;
   }
 

@@ -1,8 +1,8 @@
 .page-oc-group-header {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  min-height: 42vh;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: stretch;
   overflow: hidden;
 }
 
@@ -16,13 +16,15 @@
 .page-oc-group-cover .oc-group-cover {
   border: none;
   border-radius: 0;
-  height: 100%;
   transition: none;
 }
 
 .page-oc-group-cover .oc-group-cover-image-wrapper {
-  height: 100%;
-  aspect-ratio: unset;
+  aspect-ratio: 7 / 3;
+}
+
+.page-oc-group-cover .oc-group-cover-image {
+  object-fit: contain;
 }
 
 .page-oc-group-description {
