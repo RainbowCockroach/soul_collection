@@ -70,7 +70,7 @@
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  min-height: 150px;
+  min-height: 105px;
   overflow-x: hidden; /* Prevent horizontal content overflow */
   overflow-y: auto; /* Allow vertical scrolling if needed */
   /* Paper texture effect */
@@ -183,7 +183,7 @@
   .note-paper {
     padding: 16px;
     height: 100%;
-    max-height: 240px;
+    max-height: 168px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -268,7 +268,7 @@
   .note-paper {
     padding: 8px;
     height: 100%;
-    max-height: 230px;
+    max-height: 161px;
     width: 100%;
     box-sizing: border-box;
     overflow-y: auto;
@@ -309,7 +309,7 @@
   .note-paper {
     padding: 6px;
     height: 100%;
-    max-height: 200px;
+    max-height: 140px;
     width: 100%;
     box-sizing: border-box;
     overflow-y: auto;

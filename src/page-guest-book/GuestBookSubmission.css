@@ -204,7 +204,9 @@
   .fanart-form-container > .form-toggle-button {
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    padding: 0;
+    background: none;
+    border: none;
   }
 
   .note-form-container > .form-toggle-button img,
@@ -232,7 +234,12 @@
   }
 
   .guest-book-submission {
-    padding: 15px;
+    padding: 15px 5px;
+  }
+
+  .forms-container {
+    column-gap: 10px;
+    margin-top: 15px;
   }
 
   .blinkie-dropdown-menu {
