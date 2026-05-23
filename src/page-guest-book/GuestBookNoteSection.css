@@ -11,7 +11,7 @@
 .guest-book-note-section {
   margin: 0;
   padding: 0 20px;
-  overflow: hidden; /* Prevent section from causing scroll bars */
+  overflow-x: hidden; /* Prevent horizontal scroll only */
 }
 
 /* Notes display area - flexbox on desktop, grid on mobile */
@@ -140,10 +140,10 @@
 
   .notes-display {
     gap: max(15px, 1.5vw); /* Responsive gap that scales with viewport */
-    height: 196px; /* Fixed height for consistent note alignment */
+    height: 220px; /* Fixed height keeps all notes evenly sized */
     align-items: stretch; /* Make all notes same height */
     justify-content: space-evenly; /* Better distribution of flexible-width notes */
-    overflow: hidden; /* Prevent any overflow from causing scroll bars */
+    overflow: visible;
   }
 }
 
