@@ -69,6 +69,8 @@
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 200;
 }
 
 /* ─── Mode Tabs ────────────────────────────────────────────────────── */
@@ -152,6 +154,53 @@
   border-color: var(--hc-primary-color);
   color: var(--hc-primary-color);
   box-shadow: 0 0 10px rgba(134, 78, 219, 0.4);
+}
+
+/* ─── Toolbar Tooltips ──────────────────────────────────────────────── */
+
+.height-chart-toolbar .button-wrapper[data-tooltip] {
+  position: relative;
+}
+
+.height-chart-toolbar .button-wrapper[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(20, 6, 36, 0.95);
+  color: var(--color-white-sparkle, #fff);
+  border: 1px solid rgba(134, 78, 219, 0.6);
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 9999;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  transition: opacity var(--hc-transition-fast),
+    transform var(--hc-transition-fast);
+}
+
+.height-chart-toolbar .button-wrapper[data-tooltip]:hover::after,
+.height-chart-toolbar .button-wrapper[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Rightmost button: anchor tooltip to the right so it doesn't clip off-screen */
+.height-chart-toolbar .height-chart-clear-all[data-tooltip]::after {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+
+.height-chart-toolbar .height-chart-clear-all[data-tooltip]:hover::after,
+.height-chart-toolbar .height-chart-clear-all[data-tooltip]:focus-visible::after {
+  transform: translateY(0);
 }
 
 /* ─── Sprites Layer ─────────────────────────────────────────────────── */

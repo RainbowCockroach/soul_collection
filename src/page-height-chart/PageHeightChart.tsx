@@ -106,12 +106,19 @@ export default function PageHeightChart() {
   );
 
   const setSelectedCharacters = useCallback(
-    (updater: SelectedCharacter[] | ((prev: SelectedCharacter[]) => SelectedCharacter[])) =>
+    (
+      updater:
+        | SelectedCharacter[]
+        | ((prev: SelectedCharacter[]) => SelectedCharacter[]),
+    ) =>
       setModeData((prev) => ({
         ...prev,
         [mode]: {
           ...prev[mode],
-          selected: typeof updater === "function" ? updater(prev[mode].selected) : updater,
+          selected:
+            typeof updater === "function"
+              ? updater(prev[mode].selected)
+              : updater,
         },
       })),
     [mode],
@@ -128,7 +135,16 @@ export default function PageHeightChart() {
   );
 
   const spriteById = useMemo(() => {
-    const map = new Map<string, { url: string; thumbnail: string; height: string; id: string; name: string }>();
+    const map = new Map<
+      string,
+      {
+        url: string;
+        thumbnail: string;
+        height: string;
+        id: string;
+        name: string;
+      }
+    >();
     for (const group of spriteGroups) {
       for (const sprite of group.variants) {
         map.set(sprite.id, { ...sprite, name: group.name });
@@ -152,15 +168,17 @@ export default function PageHeightChart() {
 
   // ── Load data ─────────────────────────────────────────────────────────
   useEffect(() => {
-    Promise.all([loadHeightChartGroups(), loadGodlyHeightChartGroups(), loadOCs()]).then(
-      ([mortal, godly, ocs]) => {
-        updateMode("mortal", { groups: mortal });
-        updateMode("godly", { groups: godly });
-        setRestrictedGroupIds(
-          new Set(ocs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug)),
-        );
-      },
-    );
+    Promise.all([
+      loadHeightChartGroups(),
+      loadGodlyHeightChartGroups(),
+      loadOCs(),
+    ]).then(([mortal, godly, ocs]) => {
+      updateMode("mortal", { groups: mortal });
+      updateMode("godly", { groups: godly });
+      setRestrictedGroupIds(
+        new Set(ocs.filter((oc) => isOcCensored(oc.slug)).map((oc) => oc.slug)),
+      );
+    });
   }, [updateMode]);
 
   // Restore selections from localStorage once groups are loaded
@@ -168,7 +186,9 @@ export default function PageHeightChart() {
     if (spriteGroups.length === 0 || current.initialized) return;
     updateMode(mode, { initialized: true });
 
-    const savedIds = getHeightChartSelections(mode).filter((id) => spriteById.has(id));
+    const savedIds = getHeightChartSelections(mode).filter((id) =>
+      spriteById.has(id),
+    );
     if (savedIds.length === 0) return;
 
     const chartWidth = chartRef.current?.clientWidth || 800;
@@ -178,17 +198,30 @@ export default function PageHeightChart() {
         x: (chartWidth / (savedIds.length + 1)) * (i + 1),
       })),
     );
-  }, [spriteGroups, current.initialized, spriteById, mode, updateMode, setSelectedCharacters]);
+  }, [
+    spriteGroups,
+    current.initialized,
+    spriteById,
+    mode,
+    updateMode,
+    setSelectedCharacters,
+  ]);
 
   // Persist selections to localStorage
   useEffect(() => {
     if (!modeData.mortal.initialized) return;
-    setHeightChartSelections(modeData.mortal.selected.map((c) => c.id), "mortal");
+    setHeightChartSelections(
+      modeData.mortal.selected.map((c) => c.id),
+      "mortal",
+    );
   }, [modeData.mortal.selected, modeData.mortal.initialized]);
 
   useEffect(() => {
     if (!modeData.godly.initialized) return;
-    setHeightChartSelections(modeData.godly.selected.map((c) => c.id), "godly");
+    setHeightChartSelections(
+      modeData.godly.selected.map((c) => c.id),
+      "godly",
+    );
   }, [modeData.godly.selected, modeData.godly.initialized]);
 
   // Recalculate scale on resize
@@ -233,7 +266,10 @@ export default function PageHeightChart() {
           return remaining;
         }
         setActiveCharacterId(characterId);
-        return [...prev, { id: characterId, x: (chartRef.current?.clientWidth || 800) / 2 }];
+        return [
+          ...prev,
+          { id: characterId, x: (chartRef.current?.clientWidth || 800) / 2 },
+        ];
       });
     },
     [setSelectedCharacters],
@@ -281,7 +317,9 @@ export default function PageHeightChart() {
 
       if (existingFromGroup) {
         setSelectedCharacters((prev) =>
-          prev.map((c) => (c.id === existingFromGroup.id ? { ...c, id: spriteId } : c)),
+          prev.map((c) =>
+            c.id === existingFromGroup.id ? { ...c, id: spriteId } : c,
+          ),
         );
         setActiveCharacterId(spriteId);
       } else {
@@ -289,7 +327,12 @@ export default function PageHeightChart() {
       }
       closePopup();
     },
-    [selectedCharacters, toggleCharacterSelection, setSelectedCharacters, closePopup],
+    [
+      selectedCharacters,
+      toggleCharacterSelection,
+      setSelectedCharacters,
+      closePopup,
+    ],
   );
 
   // ── Drag handling ─────────────────────────────────────────────────────
@@ -298,7 +341,11 @@ export default function PageHeightChart() {
       if (locked) return;
       const character = selectedCharacters.find((c) => c.id === characterId);
       if (!character) return;
-      setDragState({ id: characterId, startX: clientX, startCharacterX: character.x });
+      setDragState({
+        id: characterId,
+        startX: clientX,
+        startCharacterX: character.x,
+      });
       setActiveCharacterId(characterId);
     },
     [locked, selectedCharacters],
@@ -311,7 +358,9 @@ export default function PageHeightChart() {
       const deltaX = clientX - dragState.startX;
       setSelectedCharacters((prev) =>
         prev.map((c) =>
-          c.id === dragState.id ? { ...c, x: dragState.startCharacterX + deltaX } : c,
+          c.id === dragState.id
+            ? { ...c, x: dragState.startCharacterX + deltaX }
+            : c,
         ),
       );
     };
@@ -338,12 +387,18 @@ export default function PageHeightChart() {
 
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (variantPopupRef.current?.contains(target) || target.closest(".height-chart-selector-group"))
+      if (
+        variantPopupRef.current?.contains(target) ||
+        target.closest(".height-chart-selector-group")
+      )
         return;
       closePopup();
     };
 
-    const timeoutId = setTimeout(() => document.addEventListener("mousedown", handleClickOutside), 0);
+    const timeoutId = setTimeout(
+      () => document.addEventListener("mousedown", handleClickOutside),
+      0,
+    );
     return () => {
       clearTimeout(timeoutId);
       document.removeEventListener("mousedown", handleClickOutside);
@@ -379,6 +434,7 @@ export default function PageHeightChart() {
               className={`height-chart-hide-labels${hideLabels ? " active" : ""}`}
               onClick={() => setHideLabels((v) => !v)}
               soundFile={variantSoundFile}
+              tooltip={hideLabels ? "Show name" : "Hide name"}
             >
               <FontAwesomeIcon icon={hideLabels ? faTextSlash : faFont} />
             </ButtonWrapper>
@@ -386,6 +442,7 @@ export default function PageHeightChart() {
               className={`height-chart-solidify-all${solidified ? " active" : ""}`}
               onClick={() => setSolidified((v) => !v)}
               soundFile={variantSoundFile}
+              tooltip={solidified ? "Fade unselected" : "All solid"}
             >
               <FontAwesomeIcon icon={solidified ? faEye : faEyeLowVision} />
             </ButtonWrapper>
@@ -393,6 +450,7 @@ export default function PageHeightChart() {
               className={`height-chart-lock-movement${locked ? " active" : ""}`}
               onClick={() => setLocked((v) => !v)}
               soundFile={variantSoundFile}
+              tooltip={locked ? "Unlock dragging" : "Lock positions"}
             >
               <FontAwesomeIcon icon={locked ? faLock : faLockOpen} />
             </ButtonWrapper>
@@ -404,6 +462,7 @@ export default function PageHeightChart() {
                 setSolidified(false);
               }}
               soundFile={buttonSound}
+              tooltip="Delete all"
             >
               <FontAwesomeIcon icon={faTrash} />
             </ButtonWrapper>
@@ -428,7 +487,13 @@ export default function PageHeightChart() {
           />
           <div className="height-chart-lines-container">
             {Array.from({ length: lineRepeatCount }, (_, i) => (
-              <img key={i} src={bgAssets.lines} alt="" className="height-chart-lines" draggable={false} />
+              <img
+                key={i}
+                src={bgAssets.lines}
+                alt=""
+                className="height-chart-lines"
+                draggable={false}
+              />
             ))}
           </div>
         </div>
@@ -445,26 +510,45 @@ export default function PageHeightChart() {
               <div
                 key={character.id}
                 className={`height-chart-sprite${isActive ? " active" : ""}${isDragging ? " dragging" : ""}`}
-                style={{
-                  left: `${character.x}px`,
-                  opacity: getSpriteOpacity(isActive, isDragging),
-                  transform: `translateX(-50%) scale(${chartScale})`,
-                  transformOrigin: "bottom center",
-                  "--counter-scale": 1 / chartScale,
-                } as React.CSSProperties}
-                onMouseDown={(e) => { e.preventDefault(); startDrag(character.id, e.clientX); }}
-                onTouchStart={(e) => startDrag(character.id, e.touches[0].clientX)}
-                onClick={(e) => { e.stopPropagation(); setActiveCharacterId(character.id); }}
+                style={
+                  {
+                    left: `${character.x}px`,
+                    opacity: getSpriteOpacity(isActive, isDragging),
+                    transform: `translateX(-50%) scale(${chartScale})`,
+                    transformOrigin: "bottom center",
+                    "--counter-scale": 1 / chartScale,
+                  } as React.CSSProperties
+                }
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  startDrag(character.id, e.clientX);
+                }}
+                onTouchStart={(e) =>
+                  startDrag(character.id, e.touches[0].clientX)
+                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveCharacterId(character.id);
+                }}
               >
-                <div className={`height-chart-sprite-label${hideLabels ? " hidden" : ""}`}>
-                  <span className="height-chart-sprite-name">{sprite.name}</span>
-                  <span className="height-chart-sprite-height">{sprite.height}</span>
+                <div
+                  className={`height-chart-sprite-label${hideLabels ? " hidden" : ""}`}
+                >
+                  <span className="height-chart-sprite-name">
+                    {sprite.name}
+                  </span>
+                  <span className="height-chart-sprite-height">
+                    {sprite.height}
+                  </span>
                 </div>
                 <img src={sprite.url} alt={sprite.name} draggable={false} />
                 {isActive && (
                   <button
                     className="height-chart-sprite-close"
-                    onClick={(e) => { e.stopPropagation(); toggleCharacterSelection(character.id); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleCharacterSelection(character.id);
+                    }}
                     title="Remove character"
                   >
                     ×
@@ -480,17 +564,31 @@ export default function PageHeightChart() {
       <div className="height-chart-selector">
         <div className="height-chart-selector-inner">
           {spriteGroups.map((group) => (
-            <div key={group.groupId} className="height-chart-selector-group" data-group-id={group.groupId}>
+            <div
+              key={group.groupId}
+              className="height-chart-selector-group"
+              data-group-id={group.groupId}
+            >
               <ButtonWrapper
                 className={`height-chart-selector-item${isGroupSelected(group) ? " selected" : ""}${expandedGroupId === group.groupId ? " expanded" : ""}`}
                 onClick={() => {
-                  const el = document.querySelector(`[data-group-id="${group.groupId}"]`) as HTMLDivElement | null;
+                  const el = document.querySelector(
+                    `[data-group-id="${group.groupId}"]`,
+                  ) as HTMLDivElement | null;
                   if (el) handleGroupClick(group, el);
                 }}
                 soundFile={selectorSound}
               >
-                <img src={group.thumbnail} alt={group.name} draggable={false} loading="lazy" decoding="async" />
-                <span className="height-chart-selector-item-name">{group.name}</span>
+                <img
+                  src={group.thumbnail}
+                  alt={group.name}
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span className="height-chart-selector-item-name">
+                  {group.name}
+                </span>
               </ButtonWrapper>
             </div>
           ))}
@@ -498,7 +596,9 @@ export default function PageHeightChart() {
       </div>
 
       {/* Variant popup (portal) */}
-      {expandedGroup && expandedGroup.variants.length > 1 && popupPosition &&
+      {expandedGroup &&
+        expandedGroup.variants.length > 1 &&
+        popupPosition &&
         createPortal(
           <div
             ref={variantPopupRef}
@@ -513,10 +613,18 @@ export default function PageHeightChart() {
               <ButtonWrapper
                 key={sprite.id}
                 className="height-chart-variant-item"
-                onClick={() => handleVariantSelect(sprite.id, expandedGroup.variants)}
+                onClick={() =>
+                  handleVariantSelect(sprite.id, expandedGroup.variants)
+                }
                 soundFile={variantSoundFile}
               >
-                <img src={sprite.thumbnail} alt={expandedGroup.name} draggable={false} loading="lazy" decoding="async" />
+                <img
+                  src={sprite.thumbnail}
+                  alt={expandedGroup.name}
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                />
               </ButtonWrapper>
             ))}
           </div>,
