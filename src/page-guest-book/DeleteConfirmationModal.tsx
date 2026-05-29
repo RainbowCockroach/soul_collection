@@ -79,6 +79,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       showCloseButton={true}
+      ariaLabel="Confirm deletion"
     >
       <div className="div-3d-with-shadow delete-confirmation-lightbox">
         <div className="password-step">

@@ -128,6 +128,7 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       showCloseButton={step === "password"}
+      ariaLabel={step === "password" ? "Verify password to edit" : "Edit message"}
     >
       <div className="div-3d-with-shadow edit-message-lightbox">
         {step === "password" ? (

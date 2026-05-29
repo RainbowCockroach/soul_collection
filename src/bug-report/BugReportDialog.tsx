@@ -402,7 +402,7 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
   }, [isOpen, attachments.length]);
 
   return (
-    <Lightbox isOpen={isOpen} onClose={handleClose}>
+    <Lightbox isOpen={isOpen} onClose={handleClose} ariaLabel="Bug report">
       <div className="bug-report-dialog-wrapper">
         <div className="div-3d-with-shadow bug-report-dialog">
           <h2 className="bug-report-title">Report a Bug</h2>
