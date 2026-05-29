@@ -13,6 +13,7 @@ interface ButtonWrapperProps {
   hoverSoundFile?: string;
   hoverSoundVolume?: number;
   type?: "button" | "submit" | "reset";
+  tooltip?: string;
 }
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
@@ -26,6 +27,7 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   hoverSoundFile,
   hoverSoundVolume = 0.5,
   type = "button",
+  tooltip,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [playSound] = useSound(soundFile || "", { volume: soundVolume });
@@ -75,6 +77,8 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
       disabled={disabled}
+      data-tooltip={tooltip || undefined}
+      aria-label={tooltip || undefined}
     >
       {children}
     </button>
