@@ -1,4 +1,4 @@
-import React, { type ReactNode, useState } from "react";
+import React, { type ReactNode, useId, useState } from "react";
 import "./CollapsibleWrapper.css";
 
 interface CollapsibleWrapperProps {
@@ -15,6 +15,7 @@ const CollapsibleWrapper: React.FC<CollapsibleWrapperProps> = ({
   buttonClassName = "",
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+  const containerId = useId();
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -22,13 +23,17 @@ const CollapsibleWrapper: React.FC<CollapsibleWrapperProps> = ({
 
   return (
     <div className="collapsible-wrapper">
-      <div
+      <button
+        type="button"
         className={`collapsible-button ${buttonClassName}`}
         onClick={toggleCollapse}
+        aria-expanded={!isCollapsed}
+        aria-controls={containerId}
       >
         {button}
-      </div>
+      </button>
       <div
+        id={containerId}
         className={`collapsible-container ${isCollapsed ? "collapsed" : "expanded"}`}
       >
         {container}

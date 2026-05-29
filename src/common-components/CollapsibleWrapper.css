@@ -1,5 +1,15 @@
 .collapsible-button {
   cursor: pointer;
+  /* Reset native button styling so it matches the previous <div> */
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
 }
 
 .collapsible-container.collapsed {
