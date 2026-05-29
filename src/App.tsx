@@ -130,8 +130,11 @@ function App() {
         <div>
           {/* Front elements */}
           <div ref={frontElementsRef}>
+            <a href="#page-container" className="skip-to-content">
+              Skip to content
+            </a>
             <Navbar />
-            <div id="page-container" ref={pageContainerRef}>
+            <div id="page-container" ref={pageContainerRef} tabIndex={-1}>
               <Suspense fallback={<LoadingSpinner />}>
                 <Routes>
                   <Route path={`${baseUrl}/`} element={<PageMain />} />

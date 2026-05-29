@@ -7,7 +7,9 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(cat:*)",
       "Bash(yarn lint)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)"
     ],
     "deny": []
   }

@@ -65,14 +65,26 @@ const Navbar = () => {
       }
     };
 
+    // Close on Escape and return focus to the toggle button (keyboard users)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+        const moreButton =
+          document.querySelector<HTMLButtonElement>(".more-button");
+        moreButton?.focus();
+      }
+    };
+
     if (isMobileMenuOpen) {
       document.addEventListener("click", handleClickOutside);
       window.addEventListener("scroll", handleScroll);
+      document.addEventListener("keydown", handleKeyDown);
     }
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isMobileMenuOpen]);
 
@@ -183,6 +195,10 @@ const Navbar = () => {
               hoverSoundFile={buttonSoundHover}
               soundFile={buttonSound}
               className="more-button"
+              tooltip="More menu"
+              ariaHasPopup="menu"
+              ariaExpanded={isMobileMenuOpen}
+              ariaControls="nav-more-menu"
             >
               <div className="glass-effect button-with-underline nav-button">
                 <FontAwesomeIcon icon={faBars} />
@@ -191,6 +207,7 @@ const Navbar = () => {
 
             {/* Dropdown menu */}
             <div
+              id="nav-more-menu"
               className={`mobile-dropdown ${isMobileMenuOpen ? "open" : ""}`}
             >
               {/* More menu items */}
@@ -201,6 +218,7 @@ const Navbar = () => {
                   hoverSoundFile={buttonSoundHover}
                   soundFile={buttonSound}
                   disabled={item.disabled}
+                  tooltip={item.name}
                 >
                   <div
                     className="glass-effect nav-button mobile-dropdown-item"
@@ -219,13 +237,17 @@ const Navbar = () => {
                 onClick={handleSafeModeClick}
                 hoverSoundFile={buttonSoundHover}
                 soundFile={buttonSound}
+                tooltip={
+                  isSafeModeEnabled
+                    ? "Safe Mode on — switch to Spicy Mode"
+                    : "Spicy Mode on — switch to Safe Mode"
+                }
               >
                 <div
                   className="glass-effect nav-button mobile-dropdown-item"
                   style={{
                     background: isSafeModeEnabled ? "#5bc0de" : "#ff4444",
                   }}
-                  title={isSafeModeEnabled ? "Safe Mode ON" : "Spicy Mode"}
                 >
                   {isSafeModeEnabled ? (
                     <FontAwesomeIcon icon={faEyeLowVision} />
@@ -239,11 +261,9 @@ const Navbar = () => {
                 onClick={handleBugReportClick}
                 hoverSoundFile={buttonSoundHover}
                 soundFile={buttonSound}
+                tooltip="Bug Report"
               >
-                <div
-                  className="glass-effect nav-button mobile-dropdown-item"
-                  title="Bug Report"
-                >
+                <div className="glass-effect nav-button mobile-dropdown-item">
                   <FontAwesomeIcon icon={faBug} />
                 </div>
               </ButtonWrapper>
