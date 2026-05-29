@@ -20,10 +20,11 @@ const ArrowButton: React.FC<ArrowButtonProps> = ({
       className={`arrow-button arrow-button--${direction} ${className}`}
       onClick={onClick}
       soundFile={buttonSound}
+      tooltip={direction === "left" ? "Previous" : "Next"}
     >
       <img
         src={arrowButton}
-        alt={direction === "left" ? "Left" : "Right"}
+        alt=""
         style={{
           transform: direction === "left" ? "scaleX(-1)" : "scaleX(1)",
         }}
