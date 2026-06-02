@@ -1,4 +1,10 @@
-import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import "./ChatBubble.css";
 import type { DialogEntry } from "../helpers/objects";
 import { playBlip } from "../helpers/dialogBlip";
@@ -38,6 +44,7 @@ const ChatBubble = forwardRef<Ref, Props>(
     const [text, setText] = useState("");
     const [isTyping, setIsTyping] = useState(true);
     const [isAcknowledged, setIsAcknowledged] = useState(false);
+    const choicesRef = useRef<HTMLDivElement>(null);
 
     const currentEntry = texts[dialogIndex];
     const currentText =
@@ -61,6 +68,14 @@ const ChatBubble = forwardRef<Ref, Props>(
     useEffect(() => {
       setIsAcknowledged(false);
     }, [dialogIndex]);
+
+    // Move focus to the first choice button when choices appear, so keyboard
+    // users can pick without hunting for them
+    useEffect(() => {
+      if (!isTyping && requiresAcknowledgment && !isAcknowledged) {
+        choicesRef.current?.querySelector("button")?.focus();
+      }
+    }, [isTyping, requiresAcknowledgment, isAcknowledged]);
 
     // Typing effect
     useEffect(() => {
@@ -150,8 +165,9 @@ const ChatBubble = forwardRef<Ref, Props>(
             </div>
 
             {!isTyping && requiresAcknowledgment && !isAcknowledged && (
-              <div className="chat-bubble-choices">
+              <div className="chat-bubble-choices" ref={choicesRef}>
                 <button
+                  type="button"
                   className="chat-bubble-choice chat-bubble-choice--accept"
                   onClick={handleAcceptChoice}
                 >
@@ -159,6 +175,7 @@ const ChatBubble = forwardRef<Ref, Props>(
                 </button>
                 {onSafeModeChoice && (
                   <button
+                    type="button"
                     className="chat-bubble-choice chat-bubble-choice--safe-mode"
                     onClick={handleSafeModeChoiceClick}
                   >

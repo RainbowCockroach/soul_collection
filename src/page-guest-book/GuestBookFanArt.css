@@ -37,6 +37,13 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+/* Positioning context for the content-warning overlay, which is a sibling
+   of the fullscreen button (so the uncensor button isn't nested in a button) */
+.fanart-frame-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 /* Button wrapper for clickable fan art */
 .fanart-button {
   background: none !important;

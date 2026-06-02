@@ -16,6 +16,15 @@
   pointer-events: auto;
 }
 
+/* Show when any element inside the parent has keyboard focus, so the menu
+   is reachable and visible without a mouse */
+.guest-book-note:focus-within .action-menu,
+.guest-book-fanart:focus-within .action-menu,
+.button-wrapper:focus-within .action-menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* Show when parent has 'show-action-menu' class (for touch devices) */
 .guest-book-note.show-action-menu .action-menu,
 .guest-book-fanart.show-action-menu .action-menu {

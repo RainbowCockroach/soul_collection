@@ -94,6 +94,7 @@ export default function PageHeightChart() {
   const chartRef = useRef<HTMLDivElement>(null);
   const numbersImgRef = useRef<HTMLImageElement>(null);
   const variantPopupRef = useRef<HTMLDivElement>(null);
+  const variantTriggerRef = useRef<HTMLElement | null>(null);
 
   // ── Derived state ─────────────────────────────────────────────────────
   const current = modeData[mode];
@@ -254,6 +255,8 @@ export default function PageHeightChart() {
   const closePopup = useCallback(() => {
     setExpandedGroupId(null);
     setPopupPosition(null);
+    // Return focus to the group button that opened the popup (keyboard users)
+    variantTriggerRef.current?.focus();
   }, []);
 
   const toggleCharacterSelection = useCallback(
@@ -277,6 +280,11 @@ export default function PageHeightChart() {
 
   const handleGroupClick = useCallback(
     (group: HeightChartGroup, containerEl: HTMLDivElement) => {
+      // Remember the trigger so focus can return to it when the popup closes
+      variantTriggerRef.current = containerEl.querySelector<HTMLElement>(
+        ".height-chart-selector-item",
+      );
+
       const selectedFromGroup = selectedCharacters.find((c) =>
         group.variants.some((v) => v.id === c.id),
       );
@@ -395,15 +403,68 @@ export default function PageHeightChart() {
       closePopup();
     };
 
+    // Close the variant popup on Escape (keyboard users)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closePopup();
+    };
+
     const timeoutId = setTimeout(
       () => document.addEventListener("mousedown", handleClickOutside),
       0,
     );
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
       clearTimeout(timeoutId);
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [expandedGroupId, closePopup]);
+
+  // ── Keyboard repositioning (drag alternative) ────────────────────────
+  const handleSpriteKeyDown = useCallback(
+    (e: React.KeyboardEvent, characterId: string) => {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (locked) return;
+        e.preventDefault();
+        const step = e.shiftKey ? 1 : 10;
+        const dir = e.key === "ArrowLeft" ? -1 : 1;
+        setActiveCharacterId(characterId);
+        setSelectedCharacters((prev) =>
+          prev.map((c) =>
+            c.id === characterId ? { ...c, x: c.x + dir * step } : c,
+          ),
+        );
+      } else if (e.key === "Delete" || e.key === "Backspace") {
+        e.preventDefault();
+        toggleCharacterSelection(characterId);
+      }
+    },
+    [locked, setSelectedCharacters, toggleCharacterSelection],
+  );
+
+  // Move focus into the variant popup when it opens so the variants are
+  // reachable by keyboard (they render in a portal at the end of the DOM)
+  useEffect(() => {
+    if (!expandedGroupId || !popupPosition) return;
+    variantPopupRef.current?.querySelector<HTMLElement>("button")?.focus();
+  }, [expandedGroupId, popupPosition]);
+
+  // Trap Tab within the variant popup while it is open
+  const handlePopupKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== "Tab" || !variantPopupRef.current) return;
+    const focusable =
+      variantPopupRef.current.querySelectorAll<HTMLElement>("button");
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, []);
 
   // ── Sprite opacity helper ─────────────────────────────────────────────
   const getSpriteOpacity = (isActive: boolean, isDragging: boolean) => {
@@ -509,6 +570,11 @@ export default function PageHeightChart() {
             return (
               <div
                 key={character.id}
+                role="button"
+                tabIndex={0}
+                aria-label={`${sprite.name}, ${sprite.height}.${
+                  locked ? "" : " Use arrow keys to move,"
+                } press Delete to remove`}
                 className={`height-chart-sprite${isActive ? " active" : ""}${isDragging ? " dragging" : ""}`}
                 style={
                   {
@@ -530,6 +596,8 @@ export default function PageHeightChart() {
                   e.stopPropagation();
                   setActiveCharacterId(character.id);
                 }}
+                onFocus={() => setActiveCharacterId(character.id)}
+                onKeyDown={(e) => handleSpriteKeyDown(e, character.id)}
               >
                 <div
                   className={`height-chart-sprite-label${hideLabels ? " hidden" : ""}`}
@@ -550,6 +618,7 @@ export default function PageHeightChart() {
                       toggleCharacterSelection(character.id);
                     }}
                     title="Remove character"
+                    aria-label={`Remove ${sprite.name}`}
                   >
                     ×
                   </button>
@@ -603,13 +672,16 @@ export default function PageHeightChart() {
           <div
             ref={variantPopupRef}
             className="height-chart-variant-popup"
+            role="menu"
+            aria-label={`${expandedGroup.name} variants`}
+            onKeyDown={handlePopupKeyDown}
             style={{
               position: "fixed",
               bottom: `${window.innerHeight - popupPosition.top + 10}px`,
               left: `${popupPosition.left}px`,
             }}
           >
-            {expandedGroup.variants.map((sprite) => (
+            {expandedGroup.variants.map((sprite, index) => (
               <ButtonWrapper
                 key={sprite.id}
                 className="height-chart-variant-item"
@@ -617,10 +689,11 @@ export default function PageHeightChart() {
                   handleVariantSelect(sprite.id, expandedGroup.variants)
                 }
                 soundFile={variantSoundFile}
+                tooltip={`${expandedGroup.name} variant ${index + 1}`}
               >
                 <img
                   src={sprite.thumbnail}
-                  alt={expandedGroup.name}
+                  alt=""
                   draggable={false}
                   loading="lazy"
                   decoding="async"

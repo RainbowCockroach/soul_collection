@@ -200,6 +200,7 @@ const PageOcList: React.FC = () => {
             onClick={toggleFilterVisibility}
             soundFile={buttonSound}
             hoverSoundFile={buttonSoundHover}
+            ariaExpanded={showFilter}
           >
             {showFilter ? "Hide search" : "🔍 Search"}
             {(selectedTags.length > 0 || selectedShips.length > 0) &&

@@ -48,6 +48,8 @@ const ZoomPanPinchImage = forwardRef<
   );
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   // Apply pixelation if content warning exists and image is not uncensored
   const { url: processedSrc, useCssFilter, displayWarning } = useBlurImage(
@@ -63,7 +65,57 @@ const ZoomPanPinchImage = forwardRef<
   }, []);
 
   const toggleInteractions = () => {
-    setInteractionsDisabled(!interactionsDisabled);
+    setInteractionsDisabled((prev) => !prev);
+  };
+
+  // When zoom/pan is unlocked, move focus into the viewport so the keyboard
+  // controls take effect immediately
+  useEffect(() => {
+    if (!interactionsDisabled) {
+      viewportRef.current?.focus();
+    }
+  }, [interactionsDisabled]);
+
+  // Keyboard equivalents for the pan/zoom gestures
+  const handleViewportKeyDown = (e: React.KeyboardEvent) => {
+    const t = transformRef.current;
+    if (!t) return;
+
+    switch (e.key) {
+      case "+":
+      case "=":
+        e.preventDefault();
+        t.zoomIn();
+        break;
+      case "-":
+      case "_":
+        e.preventDefault();
+        t.zoomOut();
+        break;
+      case "0":
+        e.preventDefault();
+        t.resetTransform();
+        break;
+      case "Escape":
+        e.preventDefault();
+        setInteractionsDisabled(true);
+        toggleButtonRef.current?.focus();
+        break;
+      case "ArrowUp":
+      case "ArrowDown":
+      case "ArrowLeft":
+      case "ArrowRight": {
+        e.preventDefault();
+        const step = 50;
+        const { positionX, positionY, scale } = t.instance.transformState;
+        const dx =
+          e.key === "ArrowLeft" ? step : e.key === "ArrowRight" ? -step : 0;
+        const dy =
+          e.key === "ArrowUp" ? step : e.key === "ArrowDown" ? -step : 0;
+        t.setTransform(positionX + dx, positionY + dy, scale);
+        break;
+      }
+    }
   };
 
   useImperativeHandle(ref, () => ({
@@ -106,9 +158,12 @@ const ZoomPanPinchImage = forwardRef<
       {isLoading && <LoadingSpinner message={loadingMessage} />}
 
       <button
+        ref={toggleButtonRef}
         className="zoom-toggle-button"
         onClick={toggleInteractions}
         title={interactionsDisabled ? "Enable zoom/pan" : "Disable zoom/pan"}
+        aria-label={interactionsDisabled ? "Enable zoom/pan" : "Disable zoom/pan"}
+        aria-pressed={!interactionsDisabled}
       >
         {interactionsDisabled ? (
           <FontAwesomeIcon
@@ -120,18 +175,26 @@ const ZoomPanPinchImage = forwardRef<
         )}
       </button>
 
-      <TransformWrapper
-        ref={transformRef}
-        initialScale={1}
-        minScale={0.5}
-        maxScale={4}
-        wheel={{ step: 0.1, disabled: interactionsDisabled }}
-        doubleClick={{ disabled: interactionsDisabled }}
-        panning={{ disabled: interactionsDisabled }}
-        pinch={{ disabled: interactionsDisabled }}
-        centerOnInit={true}
+      <div
+        ref={viewportRef}
+        className="zoom-pan-pinch-viewport"
+        tabIndex={interactionsDisabled ? -1 : 0}
+        role="application"
+        aria-label={`Image viewer for ${alt}. Arrow keys to pan, plus and minus to zoom, 0 to reset, Escape to exit.`}
+        onKeyDown={handleViewportKeyDown}
       >
-        <TransformComponent>
+        <TransformWrapper
+          ref={transformRef}
+          initialScale={1}
+          minScale={0.5}
+          maxScale={4}
+          wheel={{ step: 0.1, disabled: interactionsDisabled }}
+          doubleClick={{ disabled: interactionsDisabled }}
+          panning={{ disabled: interactionsDisabled }}
+          pinch={{ disabled: interactionsDisabled }}
+          centerOnInit={true}
+        >
+          <TransformComponent>
           <div
             style={{
               display: "flex",
@@ -168,8 +231,9 @@ const ZoomPanPinchImage = forwardRef<
               onError={handleImageError}
             />
           </div>
-        </TransformComponent>
-      </TransformWrapper>
+          </TransformComponent>
+        </TransformWrapper>
+      </div>
       {caption && (
         <div className="zoom-pan-pinch-caption">
           <BBCodeDisplay bbcode={caption} />

@@ -26,11 +26,23 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
       }
     };
 
+    // Close on Escape and return focus to the trigger (keyboard users)
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        setIsOpen(false);
+        triggerRef.current
+          ?.querySelector<HTMLButtonElement>(".action-menu-trigger")
+          ?.focus();
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [isOpen]);
 
   const handleToggleMenu = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -59,6 +71,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
         <ButtonWrapper
           onClick={handleToggleMenu}
           className="action-menu-trigger"
+          tooltip="More actions"
+          ariaHasPopup="menu"
+          ariaExpanded={isOpen}
         >
           <div className="three-dots">
             <span></span>

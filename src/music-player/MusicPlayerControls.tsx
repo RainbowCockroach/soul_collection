@@ -72,6 +72,21 @@ export const MusicPlayerControls: React.FC = () => {
     };
   }, [showVolumeSlider]);
 
+  // Close open dropdowns on Escape (keyboard users)
+  useEffect(() => {
+    if (!showVolumeSlider && !showTrackList) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowVolumeSlider(false);
+        setShowTrackList(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showVolumeSlider, showTrackList]);
+
   return (
     <div className="music-player-fixed-container">
       {/* Floating Button (Collapsed State) */}
@@ -91,6 +106,8 @@ export const MusicPlayerControls: React.FC = () => {
             className="track-selector-button"
             onClick={() => setShowTrackList(!showTrackList)}
             title="Select Track"
+            aria-haspopup="listbox"
+            aria-expanded={showTrackList}
           >
             <span className="track-name">
               {currentTrack ? currentTrack.name : "Select Track"}
@@ -174,6 +191,8 @@ export const MusicPlayerControls: React.FC = () => {
             className="volume-button"
             onClick={() => setShowVolumeSlider(!showVolumeSlider)}
             title="Volume"
+            aria-haspopup="true"
+            aria-expanded={showVolumeSlider}
           >
             <VolumeIcon fill="white" />
           </button>
@@ -189,6 +208,8 @@ export const MusicPlayerControls: React.FC = () => {
                   value={state.volume}
                   onChange={handleVolumeChange}
                   className="volume-slider"
+                  aria-label="Volume"
+                  aria-valuetext={`${Math.round(state.volume * 100)}%`}
                 />
               </div>
               <span className="volume-value">

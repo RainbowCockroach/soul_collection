@@ -48,7 +48,7 @@ const SamPopup = () => {
     }
   }, [isVisible]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsClosing(true);
     setTimeout(() => {
       setIsVisible(false);
@@ -57,7 +57,7 @@ const SamPopup = () => {
       // Dispatch custom event to notify music player that popup is closed
       window.dispatchEvent(new CustomEvent("samPopupClosed"));
     }, 300); // Match the CSS transition duration
-  };
+  }, []);
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -84,14 +84,27 @@ const SamPopup = () => {
     }
   }, [showDialog]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.code === "Space" || e.code === "Enter") {
-      e.preventDefault();
-      if (showDialog && chatBubbleRef.current) {
-        chatBubbleRef.current.skip();
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      // Escape dismisses the whole intro
+      if (e.code === "Escape") {
+        e.preventDefault();
+        handleClose();
+        return;
       }
-    }
-  }, [showDialog]);
+
+      // Let focused buttons (e.g. the safe-mode choices) handle their own keys
+      if ((e.target as HTMLElement)?.closest("button")) return;
+
+      if (e.code === "Space" || e.code === "Enter") {
+        e.preventDefault();
+        if (showDialog && chatBubbleRef.current) {
+          chatBubbleRef.current.skip();
+        }
+      }
+    },
+    [showDialog, handleClose],
+  );
 
   useEffect(() => {
     if (isVisible) {
@@ -109,7 +122,13 @@ const SamPopup = () => {
       className={`sam-popup-overlay ${isClosing ? "closing" : ""}`}
       onClick={handleOverlayClick}
     >
-      <div className="sam-popup-content" onClick={handleOverlayClick}>
+      <div
+        className="sam-popup-content"
+        onClick={handleOverlayClick}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Welcome message from Sam"
+      >
         <div className="sam-popup-body">
           <SamStandee
             onAnimationChange={handleSamClick}

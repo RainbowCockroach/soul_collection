@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import "./GifSelector.css";
 
 interface GifSelectorProps {
@@ -18,6 +18,8 @@ const GifSelector = ({
 }: GifSelectorProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const trayRef = useRef<HTMLButtonElement>(null);
+  const gridId = useId();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -30,12 +32,22 @@ const GifSelector = ({
       }
     };
 
+    // Close on Escape and return focus to the tray toggle (keyboard users)
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isExpanded) {
+        setIsExpanded(false);
+        trayRef.current?.focus();
+      }
+    };
+
     if (isExpanded) {
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isExpanded]);
 
@@ -43,16 +55,15 @@ const GifSelector = ({
     setIsExpanded(!isExpanded);
   };
 
-  const handleGifRemove = (index: number) => {
-    if (isExpanded) {
+  // Toggle a GIF in the grid: remove it if already selected, otherwise add it
+  // (when under the max). This keeps every action reachable by keyboard.
+  const handleGifToggle = (gifUrl: string) => {
+    const index = selectedGifs.indexOf(gifUrl);
+    if (index !== -1) {
       const newSelection = [...selectedGifs];
       newSelection.splice(index, 1);
       onSelectionChange(newSelection);
-    }
-  };
-
-  const handleGifSelect = (gifUrl: string) => {
-    if (selectedGifs.length < maxSelection) {
+    } else if (selectedGifs.length < maxSelection) {
       onSelectionChange([...selectedGifs, gifUrl]);
     }
   };
@@ -65,48 +76,46 @@ const GifSelector = ({
 
   return (
     <div className="gif-selector" ref={containerRef}>
-      {label && <label className="gif-selector-label">{label}</label>}
+      {label && (
+        <span className="gif-selector-label" id={`${gridId}-label`}>
+          {label}
+        </span>
+      )}
 
-      {/* Tray */}
-      <div
+      {/* Tray (toggle) */}
+      <button
+        type="button"
+        ref={trayRef}
         className={`gif-tray ${isExpanded ? "expanded" : "collapsed"}`}
         onClick={handleTrayClick}
+        aria-expanded={isExpanded}
+        aria-controls={gridId}
+        aria-labelledby={label ? `${gridId}-label` : undefined}
       >
         {selectedGifs.length > 0 ? (
-          <div className="gif-tray-items">
+          <span className="gif-tray-items">
             {selectedGifs.map((gifUrl, index) => (
-              <div
-                key={index}
-                className="gif-tray-item"
-                onClick={(e) => {
-                  if (isExpanded) {
-                    e.stopPropagation();
-                    handleGifRemove(index);
-                  }
-                }}
-                title={isExpanded ? "Click to remove" : "Click tray to expand"}
-              >
+              <span key={index} className="gif-tray-item">
                 <img src={gifUrl} alt={`Selected GIF ${index + 1}`} />
-                {isExpanded && <span className="gif-remove-indicator">×</span>}
-              </div>
+              </span>
             ))}
             {selectedGifs.length < maxSelection && (
-              <div className="gif-tray-placeholder">
+              <span className="gif-tray-placeholder">
                 {maxSelection - selectedGifs.length} more
-              </div>
+              </span>
             )}
-          </div>
+          </span>
         ) : (
           <span className="gif-tray-empty">Can pick {maxSelection}!</span>
         )}
         <span className={`gif-tray-arrow ${isExpanded ? "up" : "down"}`}>
           ▼
         </span>
-      </div>
+      </button>
 
       {/* Grid */}
       {isExpanded && (
-        <div className="gif-grid-container">
+        <div className="gif-grid-container" id={gridId}>
           <div className="gif-grid-header">
             <span className="gif-grid-counter">
               {selectedGifs.length}/{maxSelection}
@@ -122,21 +131,32 @@ const GifSelector = ({
             )}
           </div>
           <div className="gif-grid">
-            {availableGifs.map((gifUrl, index) => (
-              <div
-                key={index}
-                className={`gif-grid-item ${!canSelectMore ? "disabled" : ""}`}
-                onClick={() => handleGifSelect(gifUrl)}
-                title={
-                  canSelectMore
-                    ? "Click to select"
-                    : `Maximum ${maxSelection} GIFs selected`
-                }
-              >
-                <img src={gifUrl} alt={`GIF ${index + 1}`} />
-                {!canSelectMore && <div className="gif-disabled-overlay" />}
-              </div>
-            ))}
+            {availableGifs.map((gifUrl, index) => {
+              const isSelected = selectedGifs.includes(gifUrl);
+              const isDisabled = !isSelected && !canSelectMore;
+              return (
+                <button
+                  type="button"
+                  key={index}
+                  className={`gif-grid-item ${isSelected ? "selected" : ""} ${
+                    isDisabled ? "disabled" : ""
+                  }`}
+                  onClick={() => handleGifToggle(gifUrl)}
+                  disabled={isDisabled}
+                  aria-pressed={isSelected}
+                  aria-label={
+                    isSelected
+                      ? `Remove GIF ${index + 1}`
+                      : isDisabled
+                        ? `GIF ${index + 1} (maximum ${maxSelection} selected)`
+                        : `Select GIF ${index + 1}`
+                  }
+                >
+                  <img src={gifUrl} alt="" />
+                  {isDisabled && <div className="gif-disabled-overlay" />}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

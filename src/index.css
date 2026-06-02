@@ -170,6 +170,50 @@ a {
   text-decoration: inherit;
 }
 
+/* ===== Global keyboard focus indicator =====
+ * Baseline visible focus for every focusable element. :focus-visible only
+ * activates for keyboard navigation, so mouse users see no change.
+ * Inputs use box-shadow because several component CSS files set
+ * `outline: none` on :focus (which can't override a box-shadow). */
+:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #864edb;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px rgba(134, 78, 219, 0.45);
+}
+
+/* Skip-to-content link: hidden until focused via Tab */
+.skip-to-content {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 10000;
+  padding: 0.6rem 1.2rem;
+  background: var(--color-purple);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 0 0 8px 8px;
+  font-weight: bold;
+  transition: transform 0.15s ease-in-out;
+}
+
+.skip-to-content:focus {
+  transform: translate(-50%, 0);
+}
+
+/* Skip target is a layout container, not a control — no focus ring on it */
+#page-container:focus,
+#page-container:focus-visible {
+  outline: none;
+}
+
 html,
 body {
   margin: 0;

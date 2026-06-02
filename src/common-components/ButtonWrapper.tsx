@@ -14,6 +14,9 @@ interface ButtonWrapperProps {
   hoverSoundVolume?: number;
   type?: "button" | "submit" | "reset";
   tooltip?: string;
+  ariaExpanded?: boolean;
+  ariaControls?: string;
+  ariaHasPopup?: boolean | "menu" | "dialog" | "listbox" | "true";
 }
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
@@ -28,6 +31,9 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   hoverSoundVolume = 0.5,
   type = "button",
   tooltip,
+  ariaExpanded,
+  ariaControls,
+  ariaHasPopup,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [playSound] = useSound(soundFile || "", { volume: soundVolume });
@@ -79,6 +85,9 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
       disabled={disabled}
       data-tooltip={tooltip || undefined}
       aria-label={tooltip || undefined}
+      aria-expanded={ariaExpanded}
+      aria-controls={ariaControls}
+      aria-haspopup={ariaHasPopup}
     >
       {children}
     </button>

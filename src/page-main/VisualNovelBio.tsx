@@ -78,6 +78,16 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
     return () => clearTimeout(timer);
   }, [displayedText, currentText, isTyping, speed, activeCharacterId]);
 
+  const handleCharacterActivateKey = (
+    e: React.KeyboardEvent,
+    characterId: string,
+  ) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCharacterClick(characterId);
+    }
+  };
+
   const handleCharacterClick = (characterId: string) => {
     const dialog = dialogMap.get(characterId);
     if (!dialog) return;
@@ -118,8 +128,18 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
             return (
               <div
                 key={dialog.speakerId}
+                role="button"
+                tabIndex={0}
+                aria-label={
+                  isActive
+                    ? `${dialog.speaker}: advance dialogue`
+                    : `Switch to ${dialog.speaker}'s dialogue`
+                }
                 className={`vn-character-sprite vn-character-${position}${isActive ? " vn-character-active" : ""}`}
                 onClick={() => handleCharacterClick(dialog.speakerId)}
+                onKeyDown={(e) =>
+                  handleCharacterActivateKey(e, dialog.speakerId)
+                }
               >
                 <img src={getSpriteUrl(dialog)} alt={dialog.speakerId} />
               </div>
@@ -128,7 +148,14 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
 
           {/* Dialog Box */}
           {activeDialog && (
-            <div className="vn-dialog-box" onClick={() => handleCharacterClick(activeCharacterId)}>
+            <div
+              className="vn-dialog-box"
+              role="button"
+              tabIndex={0}
+              aria-label="Advance dialogue"
+              onClick={() => handleCharacterClick(activeCharacterId)}
+              onKeyDown={(e) => handleCharacterActivateKey(e, activeCharacterId)}
+            >
               <div className="vn-dialog-border">
                 <div className="vn-dialog-content">
                   <div
