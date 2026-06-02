@@ -64,11 +64,11 @@ p {
 .protagonists-grid {
   display: grid;
   justify-content: center;
-  gap: 20px 10px;
+  gap: 20px 18px;
   padding: 0;
   margin: 0;
   width: 100%;
-  grid-template-columns: repeat(2, 1fr); /* Mobile: 2 columns */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns per row */
 }
 
 .protagonist-text-box {
@@ -171,7 +171,7 @@ p {
 
   /* Protagonists: 3 columns */
   .protagonists-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -198,6 +198,18 @@ p {
 /* ==================== MOBILE & SMALL TABLET (max-width: 899px) ==================== */
 
 @media (max-width: 899px) {
+  /* Let protagonist slots shrink to fit 3 per row (override OcSlot fixed widths) */
+  .protagonists-grid .oc-slot-wrapper,
+  .protagonists-grid .oc-slot {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .protagonists-grid .oc-slot-name-box {
+    overflow: hidden;
+  }
+
   /* Stack protagonist grid vertically */
   .protagonist-text-box-cell {
     grid-row: 1;
