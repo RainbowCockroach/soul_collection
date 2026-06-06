@@ -1,23 +1,53 @@
 .site-footer {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
-  margin-top: 40px;
+  gap: 16px;
+  width: 100%;
+  padding: 1rem;
+  background-color: rgb(82, 5, 149, 0.7);
+  position: relative;
+  z-index: 200;
 }
 
-.bug-report-button {
-  background-color: rgba(106, 255, 168, 0.6);
-  border: 1px solid rgb(106, 255, 168);
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 14px;
+/* Double the footer height on mobile */
+@media (max-width: 767px) {
+  .site-footer {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.social-link:hover {
+  background-color: rgba(106, 255, 168, 0.9);
   color: rgb(52, 11, 86);
-  font-weight: bold;
-  box-shadow: 0px 4px 0px rgb(52, 11, 86), 4px 4px 0px rgb(52, 11, 86),
-    0 0 20px rgba(52, 11, 86, 0.6);
+  transform: translateY(-2px);
 }
 
-.bug-report-button:hover {
-  background-color: rgba(106, 255, 168, 0.8);
+.social-link:active {
+  transform: translateY(1px);
 }
