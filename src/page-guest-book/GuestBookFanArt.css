@@ -37,22 +37,51 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* Positioning context for the content-warning overlay, which is a sibling
-   of the fullscreen button (so the uncensor button isn't nested in a button) */
+/* Positioning context for the fullscreen zone, content-warning overlay and
+   action menu, which are siblings of the frame (so those buttons aren't nested
+   inside the fullscreen button) */
 .fanart-frame-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* Button wrapper for clickable fan art */
-.fanart-button {
+/* Visually-hidden label for the transparent fullscreen button */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Transparent click zone covering only the TOP of the image. Clicking it opens
+   the fullscreen viewer; the lower-right is left free for the action menu. */
+.fanart-fullscreen-zone {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 72%;
+  margin: 0 !important;
+  padding: 0 !important;
   background: none !important;
   border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  width: 100%;
+  border-radius: 0 !important;
+  filter: none !important;
   cursor: pointer;
-  display: block;
+  z-index: 5;
+}
+
+/* Keep the transparent zone from scaling/shadowing on hover or press */
+.fanart-fullscreen-zone:hover,
+.fanart-fullscreen-zone:active,
+.fanart-fullscreen-zone.pressed {
+  transform: none !important;
+  filter: none !important;
 }
 
 .fanart-window-frame {

@@ -18,7 +18,8 @@
   gap: var(--gap-desktop);
   flex-wrap: nowrap;
   overflow-x: hidden;
-  min-height: var(--container-height);
+  /* Hug the actual content; no fixed minimum so partial pages
+     (e.g. only 1-2 images) don't reserve blank space for a full set */
   margin-bottom: 20px;
   padding: 5px;
 }
@@ -144,11 +145,12 @@
   .fanart-display {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
+    /* Rows are created only as needed, so a partial last page (1-2 images)
+       doesn't reserve an empty second row */
+    grid-auto-rows: auto;
     gap: var(--gap-mobile);
     justify-items: center;
     align-items: flex-start;
-    min-height: 360px;
     margin-bottom: 15px;
     overflow: visible;
   }
@@ -182,7 +184,6 @@
 
   .fanart-display {
     gap: 5px;
-    min-height: var(--container-height);
     margin-bottom: 10px;
   }
 

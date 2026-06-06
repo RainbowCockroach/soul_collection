@@ -101,57 +101,65 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
         </defs>
       </svg>
 
-      {/* Frame + content-warning overlay are siblings so the uncensor button
-          is never nested inside the fullscreen <button> (invalid HTML). */}
+      {/* Frame, fullscreen zone, content-warning overlay and action menu are
+          siblings so the uncensor / action buttons are never nested inside the
+          fullscreen <button> (invalid HTML). */}
       <div className="fanart-frame-wrapper">
-        {/* Window frame wrapped in ButtonWrapper - clicking opens fullscreen */}
-        <ButtonWrapper onClick={handleOpenFullscreen} className="fanart-button">
-          <div className="fanart-window-frame effect-subtle-rise">
-            {/* Image display area */}
-            <div
-              className="fanart-image-container flex-center"
-              style={{
-                backgroundImage: displayImage
-                  ? `url(${processedImage})`
-                  : undefined,
-                clipPath: `url(#${clipId})`,
-                ...(useCssFilter
-                  ? {
-                      filter: "blur(20px) brightness(0.8) contrast(1.1)",
-                    }
-                  : {}),
-              }}
-            >
-              {!displayImage && (
-                <div
-                  className="fanart-placeholder flex-center"
-                  style={{
-                    clipPath: `url(#${clipId})`,
-                  }}
-                >
-                  <span>No Image</span>
+        <div className="fanart-window-frame effect-subtle-rise">
+          {/* Image display area */}
+          <div
+            className="fanart-image-container flex-center"
+            style={{
+              backgroundImage: displayImage
+                ? `url(${processedImage})`
+                : undefined,
+              clipPath: `url(#${clipId})`,
+              ...(useCssFilter
+                ? {
+                    filter: "blur(20px) brightness(0.8) contrast(1.1)",
+                  }
+                : {}),
+            }}
+          >
+            {!displayImage && (
+              <div
+                className="fanart-placeholder flex-center"
+                style={{
+                  clipPath: `url(#${clipId})`,
+                }}
+              >
+                <span>No Image</span>
+              </div>
+            )}
+
+            {/* Artist info and caption - overlay on image */}
+            <div className="fanart-info">
+              <div className="fanart-header">
+                <span className="fanart-artist text-shadow-dark">
+                  {message.content.name}
+                </span>
+                <span className="fanart-date text-shadow-dark">
+                  {new Date(message.created_at).toLocaleDateString()}
+                </span>
+              </div>
+
+              {message.content.caption && (
+                <div className="fanart-caption text-shadow-dark">
+                  {message.content.caption}
                 </div>
               )}
-
-              {/* Artist info and caption - overlay on image */}
-              <div className="fanart-info">
-                <div className="fanart-header">
-                  <span className="fanart-artist text-shadow-dark">
-                    {message.content.name}
-                  </span>
-                  <span className="fanart-date text-shadow-dark">
-                    {new Date(message.created_at).toLocaleDateString()}
-                  </span>
-                </div>
-
-                {message.content.caption && (
-                  <div className="fanart-caption text-shadow-dark">
-                    {message.content.caption}
-                  </div>
-                )}
-              </div>
             </div>
           </div>
+        </div>
+
+        {/* Transparent overlay covering only the top of the image - clicking
+            opens fullscreen. Leaves the lower-right free for the action menu. */}
+        <ButtonWrapper
+          onClick={handleOpenFullscreen}
+          className="fanart-fullscreen-zone"
+          tooltip="Click to expand"
+        >
+          <span className="sr-only">View full screen</span>
         </ButtonWrapper>
 
         {/* Content Warning Overlay - sibling of the fullscreen button */}
@@ -172,16 +180,16 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
             </div>
           </div>
         )}
-      </div>
 
-      {/* Action menu below the image - separate from the fullscreen button */}
-      {(onEdit || onDelete) && (
-        <ActionMenu
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          className="fanart-action-menu"
-        />
-      )}
+        {/* Action menu - lower right of the image, above the fullscreen zone */}
+        {(onEdit || onDelete) && (
+          <ActionMenu
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            className="fanart-action-menu"
+          />
+        )}
+      </div>
     </div>
   );
 };
