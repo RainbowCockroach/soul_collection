@@ -139,9 +139,7 @@ const GuestBookFanArtSection = forwardRef<
   }, [currentPage, fetchFanArt, handleModalClose]);
 
   if (loading) {
-    return (
-      <LoadingSpinner message="Loading art..." />
-    );
+    return <LoadingSpinner message="Loading art..." />;
   }
 
   if (error) {

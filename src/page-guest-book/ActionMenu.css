@@ -176,32 +176,35 @@
   background: #e8d5ff !important;
 }
 
-/* Special positioning for fan art - below the image */
+/* Special positioning for fan art - lower-right corner, overlaying the image */
 .guest-book-fanart .action-menu {
-  position: relative;
+  position: absolute;
   top: auto;
-  right: auto;
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-  /* opacity: 0 + pointer-events: none from base class keep it hidden */
-  /* no height: 0 so it always takes up space, preventing layout jumps */
+  left: auto;
+  bottom: 18px;
+  right: 8px;
+  z-index: 20;
+  margin: 0;
+  /* opacity: 0 + pointer-events: none from base class keep it hidden until
+     hover/focus/touch reveals it */
 }
 
 .guest-book-fanart .action-menu-trigger {
-  background: rgba(134, 78, 219, 0.12);
-  border-color: rgba(134, 78, 219, 0.3) !important;
+  background: rgba(243, 233, 255, 0.92) !important;
+  border-color: rgba(134, 78, 219, 0.45) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35) !important;
 }
 
 .guest-book-fanart .action-menu-trigger:hover {
-  background: rgba(134, 78, 219, 0.22) !important;
-  border-color: rgba(134, 78, 219, 0.5) !important;
+  background: #e8d5ff !important;
+  border-color: rgba(134, 78, 219, 0.75) !important;
 }
 
+/* Dropdown opens upward, aligned to the right edge of the trigger */
 .guest-book-fanart .action-menu-dropdown {
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
+  left: auto;
+  right: 0;
+  transform: none;
   top: auto;
   bottom: 42px;
 }

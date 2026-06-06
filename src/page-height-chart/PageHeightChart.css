@@ -18,7 +18,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: -15vh;
 }
 
 .height-chart-container {
@@ -309,7 +308,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-top: var(--hc-border-width) solid rgba(134, 78, 219, 0.5);
-  padding: 10px 20px 15vh;
+  padding: 10px 20px 20px;
   position: relative;
   z-index: 150;
   overflow-x: hidden;
@@ -433,7 +432,7 @@
   .height-chart-container { height: 40vh; }
   .height-chart-sprite-close { bottom: 120px; }
 
-  .height-chart-selector { padding: 8px 10px 15vh; }
+  .height-chart-selector { padding: 8px 10px 16px; }
   .height-chart-selector-inner { gap: 10px; }
 
   .height-chart-selector-item.button-wrapper,

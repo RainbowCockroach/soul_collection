@@ -88,7 +88,6 @@ p {
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto auto;
   padding: 0 8%;
-  gap: 20px;
 }
 
 .sidebar-ads-container {

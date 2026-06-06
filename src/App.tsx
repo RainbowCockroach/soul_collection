@@ -11,6 +11,7 @@ import { MusicPlayerProvider } from "./music-player/MusicPlayerContext";
 import { SafeModeProvider } from "./safe-mode/SafeModeContext";
 import StarryTrail from "./common-components/StarryTrail";
 import LoadingSpinner from "./common-components/LoadingSpinner";
+import Footer from "./footer/Footer";
 
 const PageOcList = lazy(() => import("./page-oc-list/PageOcList"));
 const PageOcGroup = lazy(() => import("./page-oc-group/PageOcGroup"));
@@ -171,6 +172,7 @@ function App() {
                 </Routes>
               </Suspense>
             </div>
+            <Footer />
           </div>
           {/* Keep this div untouched */}
           <div className="sparkle-background"></div>
