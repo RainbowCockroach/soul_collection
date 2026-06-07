@@ -84,8 +84,11 @@ const EditorAd: React.FC = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
 
+  // Load once on mount. loadAdsData reads selectedLocation, so adding it as a
+  // dep would re-fetch on every selection change — not what we want here.
   useEffect(() => {
     loadAdsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadAdsData = async () => {

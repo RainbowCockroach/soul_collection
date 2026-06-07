@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OcSlot.css";
 import BBCodeDisplay from "../common-components/BBCodeDisplay";
@@ -92,4 +92,6 @@ const OcSlot: React.FC<OcSlotProps> = ({
   );
 };
 
-export default OcSlot;
+// Memoized: the OC list renders many slots and re-renders on every filter
+// toggle. Slots only need to re-render when their own props change.
+export default memo(OcSlot);

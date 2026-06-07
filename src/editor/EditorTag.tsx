@@ -78,8 +78,10 @@ const EditorTag: React.FC = () => {
     return data;
   };
 
+  // Load tags once on mount.
   useEffect(() => {
     loadTagsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadTagsData = async () => {

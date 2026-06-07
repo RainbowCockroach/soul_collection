@@ -17,6 +17,8 @@ interface EditorPasswordContextType {
 
 const EditorPasswordContext = createContext<EditorPasswordContextType | null>(null);
 
+// Hook co-located with its provider; full reload on edit is acceptable here.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useEditorPassword(): EditorPasswordContextType {
   const context = useContext(EditorPasswordContext);
   if (!context) {

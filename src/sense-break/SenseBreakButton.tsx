@@ -9,6 +9,9 @@ interface SenseBreakButtonProps {
 const SenseBreakButton: React.FC<SenseBreakButtonProps> = ({
   chance = 0.1,
 }) => {
+  // Decide once on mount whether to show; intentionally ignores later `chance`
+  // changes so the button doesn't flicker in/out on re-render.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const shouldShow = useMemo(() => Math.random() < chance, []);
   const [visible, setVisible] = useState(true);
 

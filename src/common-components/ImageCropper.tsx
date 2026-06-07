@@ -5,8 +5,22 @@ import * as SmartCrop from "smartcrop";
 import Lightbox from "./Lightbox";
 import "./ImageCropper.css";
 
-// Handle different module export formats
-const smartcrop = (SmartCrop as any).default || SmartCrop || (SmartCrop as any).smartcrop;
+// Minimal typing for the parts of the smartcrop API we use.
+interface SmartCropResult {
+  topCrop: { x: number; y: number; width: number; height: number };
+}
+interface SmartCropApi {
+  crop(
+    image: HTMLImageElement,
+    options: { width: number; height: number }
+  ): Promise<SmartCropResult>;
+}
+
+// Handle different module export formats (CJS default vs namespace).
+const smartcropModule = SmartCrop as unknown as SmartCropApi & {
+  default?: SmartCropApi;
+};
+const smartcrop: SmartCropApi = smartcropModule.default ?? smartcropModule;
 
 interface ImageCropperProps {
   isOpen: boolean;

@@ -20,6 +20,9 @@ import Divider from "../common-components/Divider";
 import titleMobile from "../assets/title_mobile.webp";
 import titleDesktop from "../assets/title_desktop.webp";
 
+// Module-scoped so it's a stable reference (no need to list as an effect dep).
+const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
+
 const PageMain: React.FC = () => {
   const { isSafeModeEnabled } = useSafeMode();
   const favourites = [
@@ -30,7 +33,6 @@ const PageMain: React.FC = () => {
     { slug: "non-li", name: "Non", avatar: nonAvatar },
     { slug: "naame", name: "Naame", avatar: naameAvatar },
   ];
-  const protagonists = ["sammy-sa", "rilor", "liv", "leeo", "bush", "naame"];
   const [protagonistOcs, setProtagonistOcs] = useState<FullOC[]>([]);
   const [allOcs, setAllOcs] = useState<FullOC[]>([]);
   const [sidebarAds, setSidebarAds] = useState<AdItem[]>([]);

@@ -6,6 +6,7 @@ import blinkies from "../data/guestbook-blinkies.json";
 import buttonSendNote from "../assets/button_send_note.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 import { notifyNewGuestBookEntry } from "../helpers/discord-notify";
+import { SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
 
 interface GuestBookNoteFormProps {
   onSubmit: (
@@ -109,8 +110,8 @@ const GuestBookNoteForm = ({
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
-      }, 3000); // Hide after 3 seconds
-    } catch (error) {
+      }, SUCCESS_MESSAGE_DURATION_MS);
+    } catch {
       // Error is already handled by the parent component
       // We don't show success message on error
     }

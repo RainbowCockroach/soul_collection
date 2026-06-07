@@ -1,4 +1,10 @@
-import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import type { Message } from "./types";
 import GuestBookNote from "./GuestBookNote";
 import EditMessageLightbox from "./EditMessageLightbox";
@@ -50,37 +56,46 @@ const GuestBookNoteSection = forwardRef<
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
-  // Fetch notes for the current page
-  const fetchNotes = async (page: number) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${apiBaseUrl}/messages?type=note&page=${page}&limit=${notesPerPage}`
-      );
+  // Fetch notes for the current page. An optional AbortSignal lets the
+  // effect cancel an in-flight request when the page changes or the
+  // component unmounts, avoiding state updates on an unmounted component.
+  const fetchNotes = useCallback(
+    async (page: number, signal?: AbortSignal) => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `${apiBaseUrl}/messages?type=note&page=${page}&limit=${notesPerPage}`,
+          { signal }
+        );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch notes");
+        if (!response.ok) {
+          throw new Error("Failed to fetch notes");
+        }
+
+        const responseData = await response.json();
+        setData(responseData);
+        setError(null);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setData(null);
+      } finally {
+        if (!signal?.aborted) setLoading(false);
       }
-
-      const responseData = await response.json();
-      setData(responseData);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setData(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [notesPerPage]
+  );
 
   // Expose refresh function to parent component
   useImperativeHandle(ref, () => ({
     refresh: () => fetchNotes(currentPage),
-  }));
+  }), [fetchNotes, currentPage]);
 
   useEffect(() => {
-    fetchNotes(currentPage);
-  }, [currentPage, notesPerPage]);
+    const controller = new AbortController();
+    fetchNotes(currentPage, controller.signal);
+    return () => controller.abort();
+  }, [currentPage, fetchNotes]);
 
   const [loadingDirection, setLoadingDirection] = useState<
     "left" | "right" | null

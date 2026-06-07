@@ -3,7 +3,7 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import ImageCropper from "../common-components/ImageCropper";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
-import { apiBaseUrl } from "../helpers/constants";
+import { apiBaseUrl, SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
 import buttonSendArt from "../assets/button_send_art.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 import { notifyNewGuestBookEntry } from "../helpers/discord-notify";
@@ -192,8 +192,8 @@ const GuestBookFanArtForm = ({
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
-      }, 3000); // Hide after 3 seconds
-    } catch (error) {
+      }, SUCCESS_MESSAGE_DURATION_MS);
+    } catch {
       // Error is already handled by the parent component
       // We don't show success message on error
     }
