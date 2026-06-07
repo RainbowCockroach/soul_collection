@@ -104,7 +104,20 @@ const StarryTrail: React.FC = () => {
       }
     }
 
+    // Throttle to ~60Hz so fast mouse movement can't spawn hundreds of
+    // stars per second (each star is drawn every animation frame).
+    let lastStarTime = 0;
+    const STAR_THROTTLE_MS = 16;
+
     const addStar = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastStarTime < STAR_THROTTLE_MS) {
+        lastMouseRef.current.x = e.clientX;
+        lastMouseRef.current.y = e.clientY;
+        return;
+      }
+      lastStarTime = now;
+
       const mouseVelocityX = e.clientX - lastMouseRef.current.x;
       const mouseVelocityY = e.clientY - lastMouseRef.current.y;
       lastMouseRef.current.x = e.clientX;

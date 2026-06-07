@@ -36,7 +36,10 @@ function App() {
   const pageContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    startContinuousSparkles();
+    // Keep the returned cleanup so Strict Mode remounts (and any future
+    // unmount) tear down the interval + animation frame instead of stacking.
+    const stopSparkles = startContinuousSparkles();
+    return stopSparkles;
   }, []);
 
   // Update background height after Routes render

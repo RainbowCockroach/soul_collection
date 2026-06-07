@@ -86,36 +86,32 @@ const PageOcList: React.FC = () => {
     load();
   }, []);
 
-  const getShipColorsForOc = (ocSlug: string): string[] => {
-    if (selectedShips.length > 0) {
-      return selectedShips
-        .map((shipName) => {
-          const ship = allShips.find(
-            (s) => s.name === shipName && s.oc.includes(ocSlug),
-          );
-          return ship ? ship.color : null;
-        })
-        .filter((c): c is string => c !== null);
-    }
-    return allShips.filter((s) => s.oc.includes(ocSlug)).map((s) => s.color);
-  };
+  // Precompute ship colors/texts per OC once, instead of running nested
+  // find/filter for every OC on every render (was O(n*ships) per render).
+  const shipInfoByOc = useMemo(() => {
+    const map = new Map<string, { colors: string[]; texts: string[] }>();
+    const useSelection = selectedShips.length > 0;
 
-  const getShipTextsForOc = (ocSlug: string): string[] => {
-    if (selectedShips.length > 0) {
-      return selectedShips
-        .map((shipName) => {
-          const ship = allShips.find(
-            (s) => s.name === shipName && s.oc.includes(ocSlug),
-          );
-          return ship ? ship.shipText?.[ocSlug] : null;
-        })
-        .filter((t): t is string => !!t);
+    for (const oc of filteredOcs) {
+      const relevantShips = useSelection
+        ? selectedShips
+            .map((shipName) =>
+              allShips.find(
+                (s) => s.name === shipName && s.oc.includes(oc.slug),
+              ),
+            )
+            .filter((s): s is Ship => s !== undefined)
+        : allShips.filter((s) => s.oc.includes(oc.slug));
+
+      map.set(oc.slug, {
+        colors: relevantShips.map((s) => s.color),
+        texts: relevantShips
+          .map((s) => s.shipText?.[oc.slug])
+          .filter((t): t is string => !!t),
+      });
     }
-    return allShips
-      .filter((s) => s.oc.includes(ocSlug))
-      .map((s) => s.shipText?.[ocSlug])
-      .filter((t): t is string => !!t);
-  };
+    return map;
+  }, [filteredOcs, allShips, selectedShips]);
 
   const getColoursForOc = (oc: OC): { frame: string; text: string } => {
     const firstGroup = oc.group.map((g) => groupBySlug.get(g)).find(Boolean);
@@ -156,6 +152,9 @@ const PageOcList: React.FC = () => {
           <img
             src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
             className="oc-list-intro-image"
+            alt=""
+            loading="lazy"
+            decoding="async"
           />
           <p>These are characters grouped by their stories.</p>
         </div>
@@ -190,6 +189,9 @@ const PageOcList: React.FC = () => {
           <img
             src="https://64.media.tumblr.com/cc2a05163e112a77aa67ec907194af6a/5455e7c46f224202-6f/s250x400/547152a78bf26fd886933e2b88be9d20fdf05261.webp"
             className="oc-list-intro-image"
+            alt=""
+            loading="lazy"
+            decoding="async"
           />
           <p>These are all of them. Wall of OCs warning.</p>
         </div>
@@ -224,14 +226,15 @@ const PageOcList: React.FC = () => {
           <div className="oc-group-grid">
             {filteredOcs.map((oc) => {
               const colours = getColoursForOc(oc);
+              const shipInfo = shipInfoByOc.get(oc.slug);
               return (
                 <OcSlot
                   key={oc.slug}
-                  oc={{ slug: oc.slug, name: oc.name, avatar: oc.avatar }}
+                  oc={oc}
                   frameColour={colours.frame}
                   textColour={colours.text}
-                  shipColors={getShipColorsForOc(oc.slug)}
-                  shipTexts={getShipTextsForOc(oc.slug)}
+                  shipColors={shipInfo?.colors}
+                  shipTexts={shipInfo?.texts}
                   disabled={restrictedSlugs.has(oc.slug)}
                 />
               );

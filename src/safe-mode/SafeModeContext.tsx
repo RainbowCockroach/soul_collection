@@ -38,6 +38,10 @@ export function SafeModeProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// This hook is co-located with its provider by design; the file is small and
+// has 9 import sites, so splitting it out isn't worth the churn. Fast refresh
+// of this file falls back to a full reload, which is fine for a context module.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useSafeMode(): SafeModeContextType {
   const context = useContext(SafeModeContext);
   if (context === undefined) {

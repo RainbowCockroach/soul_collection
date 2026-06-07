@@ -55,7 +55,11 @@ const GuestBookFanArtSection = forwardRef<
 
   // Fetch fan art for the current page
   const fetchFanArt = useCallback(
-    async (page: number, isInitialLoad: boolean = false) => {
+    async (
+      page: number,
+      isInitialLoad: boolean = false,
+      signal?: AbortSignal,
+    ) => {
       try {
         if (isInitialLoad) {
           setLoading(true);
@@ -65,6 +69,7 @@ const GuestBookFanArtSection = forwardRef<
 
         const response = await fetch(
           `${apiBaseUrl}/messages?type=fan%20art&page=${page}&limit=${fanArtPerPage}`,
+          { signal },
         );
 
         if (!response.ok) {
@@ -79,13 +84,16 @@ const GuestBookFanArtSection = forwardRef<
           hasInitiallyLoaded.current = true;
         }
       } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "An error occurred");
         setData(null);
       } finally {
-        if (isInitialLoad) {
-          setLoading(false);
-        } else {
-          setIsPaginating(false);
+        if (!signal?.aborted) {
+          if (isInitialLoad) {
+            setLoading(false);
+          } else {
+            setIsPaginating(false);
+          }
         }
       }
     },
@@ -98,8 +106,10 @@ const GuestBookFanArtSection = forwardRef<
   }));
 
   useEffect(() => {
+    const controller = new AbortController();
     const isInitialLoad = !hasInitiallyLoaded.current;
-    fetchFanArt(currentPage, isInitialLoad);
+    fetchFanArt(currentPage, isInitialLoad, controller.signal);
+    return () => controller.abort();
   }, [currentPage, fetchFanArt]);
 
   const handlePrevPage = useCallback(() => {

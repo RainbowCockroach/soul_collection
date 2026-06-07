@@ -24,6 +24,8 @@ const OcGroupCover: React.FC<OcGroupCoverProps> = ({ groupInfo }) => {
           src={groupInfo.headerImage}
           alt={groupInfo.name}
           className="oc-group-cover-image"
+          loading="lazy"
+          decoding="async"
         />
       </div>
     </div>

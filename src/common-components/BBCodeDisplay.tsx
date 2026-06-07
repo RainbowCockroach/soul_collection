@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import DOMPurify from "dompurify";
 import "./BBCodeDisplay.css";
 
 // Interface for the BBCodeDisplay component props
@@ -72,8 +73,11 @@ const parseBBCode = (text: string): string => {
 // BBCodeDisplay component that renders BBCode as HTML
 // Based on the GitHub BBCode Live Editor reference implementation
 const BBCodeDisplay: React.FC<BBCodeDisplayProps> = ({ bbcode }) => {
-  // Parse the BBCode text to HTML
-  const htmlContent = parseBBCode(bbcode);
+  // Parse the BBCode text to HTML, then sanitize before rendering.
+  // The regex parser does not escape user input, so a guest could craft
+  // payloads like [url=javascript:...] or [img] with event handlers.
+  // DOMPurify strips dangerous tags/attributes and unsafe URL schemes.
+  const htmlContent = DOMPurify.sanitize(parseBBCode(bbcode));
 
   return (
     <div
