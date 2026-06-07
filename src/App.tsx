@@ -130,7 +130,7 @@ function App() {
       <MusicPlayerProvider>
         <div>
           {/* Front elements */}
-          <div ref={frontElementsRef}>
+          <div ref={frontElementsRef} className="front-elements">
             <a href="#page-container" className="skip-to-content">
               Skip to content
             </a>

@@ -1,3 +1,106 @@
+/* Guest book layout
+   Phone & portrait/narrow tablet (default, < 1024px): single vertical stack
+   with dividers — same as the phone layout.
+   Desktop / landscape tablet (>= 1024px): two columns —
+   submission on the left, note + fan art sections stacked on the right. */
+.guest-book-sections-col {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .guest-book-layout {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) auto 3fr;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  /* min-width: 0 lets the sections track stay within its 3fr track instead
+     of being stretched wider by its (viewport-sized) note/fan-art content */
+  .guest-book-sections-col {
+    min-width: 0;
+    gap: 1.5rem;
+  }
+
+  /* Vertical divider between the columns — reuse the horizontal divider gif
+     rotated 90deg, clipped to the column height */
+  .guest-book-col-divider {
+    position: relative;
+    width: 19px;
+    overflow: hidden;
+  }
+
+  .guest-book-col-divider .divider {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9999px; /* longer than the column; excess is clipped */
+    height: 19px;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  /* Notes use viewport-based widths; inside the narrower column let them
+     shrink to share the available space instead of overflowing. Tighten
+     the gap, margins and text so they read well at this width. */
+  .guest-book-sections-col .notes-display {
+    /* Notes flex to fit the column, so no horizontal overflow to clip;
+       keep it visible so note bottoms (rounded corner + shadow) aren't cut off */
+    overflow: visible;
+    gap: 10px;
+  }
+
+  .guest-book-sections-col .guest-book-note {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 0;
+    margin: 6px;
+  }
+
+  .guest-book-sections-col .note-name {
+    font-size: 16px;
+  }
+
+  .guest-book-sections-col .note-date {
+    font-size: 12px;
+  }
+
+  .guest-book-sections-col .note-content {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  /* Let fan art items shrink below their 200px min-width when the column is narrow */
+  .guest-book-sections-col
+    .fanart-display
+    > *:not(.pagination-nav-left):not(.pagination-nav-right) {
+    min-width: 0;
+  }
+
+  /* Stack the "Send note" / "Send art" buttons vertically in the
+     narrow left column instead of side by side */
+  .guest-book-submission-col .forms-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .guest-book-submission-col .form-container {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  /* Keep the decorative button images inside the narrow column */
+  .guest-book-submission-col .form-toggle-button {
+    width: 100%;
+  }
+
+  .guest-book-submission-col .form-toggle-button img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
 /* Edit Mode Toggle Button */
 .edit-mode-button {
   background-color: var(--color-green);

@@ -187,8 +187,6 @@ const PageMain: React.FC = () => {
           </div>
         )}
       </div>
-
-      <Divider />
     </div>
   );
 };
