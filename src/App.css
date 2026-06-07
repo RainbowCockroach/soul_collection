@@ -5,10 +5,21 @@
   padding: 0;
 }
 
+.front-elements {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 #page-container {
   margin: 0 auto;
   width: 100%;
   text-align: center;
+  flex: 1 0 auto;
+}
+
+.site-footer {
+  flex-shrink: 0;
 }
 
 .page-padded {
