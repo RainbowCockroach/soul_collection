@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { baseUrl } from "../helpers/constants";
@@ -25,16 +25,25 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
+  const logoMobileRef = useRef<HTMLDivElement>(null);
+  const navbarRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Always show navbar when at top
-      if (currentScrollY < 10) {
+      // Only start hiding once the user has scrolled past the logo + navbar.
+      // The mobile logo is non-sticky (scrolls away), so its height plus the
+      // navbar height is the distance you must scroll before the bar hides.
+      const logoHeight = logoMobileRef.current?.offsetHeight ?? 0;
+      const navbarHeight = navbarRef.current?.offsetHeight ?? 0;
+      const hideThreshold = logoHeight + navbarHeight;
+
+      if (currentScrollY < hideThreshold) {
+        // Still within the logo/navbar region - keep navbar visible
         setIsHidden(false);
       } else if (currentScrollY > lastScrollY) {
-        // Scrolling down - hide navbar
+        // Scrolled past them and going down - hide navbar
         setIsHidden(true);
       } else {
         // Scrolling up - show navbar
@@ -142,7 +151,7 @@ const Navbar = () => {
   return (
     <>
       {/* Mobile-only logo at top (non-sticky) */}
-      <div className="nav-bar-logo-mobile">
+      <div className="nav-bar-logo-mobile" ref={logoMobileRef}>
         <ButtonWrapper
           onClick={() => (window.location.href = "https://itssammmm.carrd.co/")}
           hoverSoundFile={buttonSoundHover}
@@ -152,7 +161,7 @@ const Navbar = () => {
       </div>
 
       <div className={`navbar-wrapper ${isHidden ? "navbar-hidden" : ""}`}>
-        <nav className="navbar">
+        <nav className="navbar" ref={navbarRef}>
           {/* Desktop-only logo inside navbar */}
           <div className="nav-bar-logo nav-bar-logo-desktop">
             <ButtonWrapper
