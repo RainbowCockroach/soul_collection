@@ -19,6 +19,10 @@ const socialLinks: SocialLink[] = [
 ];
 
 const Footer: React.FC = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className="site-footer">
       <nav className="social-links" aria-label="Social media">
@@ -36,6 +40,20 @@ const Footer: React.FC = () => {
           </a>
         ))}
       </nav>
+      <span
+        className="back-to-top"
+        role="button"
+        tabIndex={0}
+        onClick={scrollToTop}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            scrollToTop();
+          }
+        }}
+      >
+        Back to top
+      </span>
     </footer>
   );
 };
