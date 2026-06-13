@@ -23,7 +23,8 @@
 }
 
 .page-padded {
-  padding: 1vw;
+  /* No bottom padding: the global Footer's 40px margin-top owns the gap to the footer */
+  padding: 1vw 1vw 0;
   width: 96%;
   margin: 0 auto;
 }

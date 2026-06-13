@@ -38,10 +38,6 @@
   text-align: left;
 }
 
-.oc-list-page {
-  padding-bottom: 40px;
-}
-
 @media (max-width: 768px) {
   .oc-list-page {
     padding-top: 24px;

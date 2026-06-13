@@ -124,7 +124,8 @@
    =================================== */
 @media (max-width: 767px) {
   .page-detail {
-    padding: 10px;
+    /* No bottom padding: the global Footer's 40px margin-top owns the gap to the footer */
+    padding: 10px 10px 0;
   }
 
   .detail-block-gallery,
