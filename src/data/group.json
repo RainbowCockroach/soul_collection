@@ -70,7 +70,11 @@
     "groupHeaderTextColour": "#a86ad3",
     "headerImage": "https://i.pinimg.com/originals/f2/7f/77/f27f77a83df87392587021a752543f1d.png",
     "description": "Begone into Mur's mind. Fun adventure!",
-    "order": 6
+    "order": 6,
+    "descriptionTextColour": "#f3e9ff",
+    "descriptionBgColour": "#637a3b",
+    "descriptionBgOpacity": 0.7,
+    "backgroundImage": "https://bettysgraphics.neocities.org/images/backgrounds/pattern%20180.gif"
   },
   "other": {
     "name": "✦ Other ✦",
