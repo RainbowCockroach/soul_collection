@@ -50,7 +50,11 @@
     "groupHeaderTextColour": "#a00000",
     "headerImage": "https://i.pinimg.com/originals/a7/d5/19/a7d519a9466bf0ae80ffef1e0b516ff6.png",
     "description": "Just 3 vrevs living happy together...",
-    "order": 5
+    "order": 5,
+    "descriptionTextColour": "#f3e9ff",
+    "descriptionBgColour": "#4a0000",
+    "descriptionBgOpacity": 0.7,
+    "backgroundImage": "https://bettysgraphics.neocities.org/images/backgrounds/pattern%20163.gif"
   },
   "lost-in-murs-mind": {
     "name": "Lost in Mur’s mind",
