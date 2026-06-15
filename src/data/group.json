@@ -78,6 +78,10 @@
     "groupHeaderTextColour": "#176501",
     "order": 7,
     "headerImage": "https://i.pinimg.com/originals/51/d2/31/51d231fc9864e43365734ba1dac820fd.png",
-    "description": "These are all my \"just here\" characters. They just exist because they are cool, have no story tie to them whatsoever."
+    "description": "These are all my \"just here\" characters. They just exist because they are cool, have no story tie to them whatsoever.",
+    "descriptionTextColour": "#f3e9ff",
+    "descriptionBgColour": "#7a56b8",
+    "descriptionBgOpacity": 0.7,
+    "backgroundImage": "https://bettysgraphics.neocities.org/images/backgrounds/pattern%20328.gif"
   }
 }
