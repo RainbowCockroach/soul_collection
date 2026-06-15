@@ -168,6 +168,15 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
                     {displayedText}
                     {isTyping && <span className="vn-typing-cursor">▌</span>}
                   </div>
+                  {!isTyping && activeDialog.text.length > 1 && (
+                    <div
+                      className="vn-dialog-next"
+                      aria-hidden="true"
+                      title="Next"
+                    >
+                      <span className="vn-dialog-next-arrow">▶</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
