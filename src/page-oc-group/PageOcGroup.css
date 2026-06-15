@@ -1,3 +1,12 @@
+.page-oc-group {
+  background-repeat: repeat; /* loop/tile the background image at its natural size */
+  background-position: top center;
+  /* Bleed the background down over the footer's 40px margin-top so the body's
+     purple background doesn't show in the gap between content and footer. */
+  padding-bottom: 40px;
+  margin-bottom: -40px;
+}
+
 .page-oc-group-header {
   position: relative;
   display: grid;

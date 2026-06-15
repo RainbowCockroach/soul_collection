@@ -6,6 +6,10 @@ export interface Group {
   headerImage: string; // Image URL for the group cover
   order?: number; // Display order
   description?: string; // BBCode description shown on the group page
+  descriptionTextColour?: string; // Hex code for description text, defaults to white
+  descriptionBgColour?: string; // Hex code for description box background, defaults to #2a1242
+  descriptionBgOpacity?: number; // 0–1 opacity for the description box background, defaults to 0.7
+  backgroundImage?: string; // URL tiled (repeated at natural size) across the whole group page
 }
 
 export interface Spieces {
