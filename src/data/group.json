@@ -5,7 +5,11 @@
     "groupHeaderTextColour": "#0091a1",
     "order": 0,
     "headerImage": "https://i.pinimg.com/originals/ca/85/a2/ca85a25934fa7c60d0c733f6e58b9b1e.png",
-    "description": "Sammy was sent to the Li mansion on a secret mission. Things were going smoothly until the Thkk disaster struck, disrupting everything."
+    "description": "Sammy was sent to the Li mansion on a secret mission. Things were going smoothly until the Thkk disaster struck, disrupting everything.",
+    "descriptionTextColour": "#f3e9ff",
+    "descriptionBgColour": "#42001f",
+    "descriptionBgOpacity": 0.7,
+    "backgroundImage": "https://bettysgraphics.neocities.org/images/backgrounds/pattern%20439.jpg"
   },
   "oboet": {
     "name": "Oboet",
