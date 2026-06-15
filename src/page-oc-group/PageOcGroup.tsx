@@ -16,6 +16,12 @@ import "./PageOcGroup.css";
 const DEFAULT_FRAME_COLOUR = "#ffffff";
 const DEFAULT_TEXT_COLOUR = "#000000";
 
+const hexToRgba = (hex: string, alpha: number): string => {
+  const n = parseInt(hex.replace("#", ""), 16);
+  if (Number.isNaN(n)) return hex;
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+};
+
 const PageOcGroup: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { isSafeModeEnabled } = useSafeMode();
@@ -56,6 +62,24 @@ const PageOcGroup: React.FC = () => {
   const frameColour = group?.frameColour ?? DEFAULT_FRAME_COLOUR;
   const textColour = group?.groupHeaderTextColour ?? DEFAULT_TEXT_COLOUR;
 
+  const pageStyle: React.CSSProperties | undefined = group?.backgroundImage
+    ? { backgroundImage: `url("${group.backgroundImage}")` }
+    : undefined;
+
+  const headerStyle: React.CSSProperties | undefined = group?.descriptionBgColour
+    ? { boxShadow: `0 12px 24px -4px ${hexToRgba(group.descriptionBgColour, 0.7)}` }
+    : undefined;
+
+  const descriptionStyle: React.CSSProperties = {
+    ...(group?.descriptionBgColour && {
+      background: hexToRgba(
+        group.descriptionBgColour,
+        group.descriptionBgOpacity ?? 0.7,
+      ),
+    }),
+    ...(group?.descriptionTextColour && { color: group.descriptionTextColour }),
+  };
+
   if (isLoading) {
     return <LoadingSpinner message="Loading group..." />;
   }
@@ -65,8 +89,8 @@ const PageOcGroup: React.FC = () => {
   }
 
   return (
-    <div className="page-oc-group">
-      <div className="page-oc-group-header">
+    <div className="page-oc-group" style={pageStyle}>
+      <div className="page-oc-group-header" style={headerStyle}>
         <div className="page-oc-group-cover">
           <OcGroupCover
             groupInfo={{
@@ -79,7 +103,7 @@ const PageOcGroup: React.FC = () => {
           />
         </div>
         {group.description && (
-          <div className="page-oc-group-description">
+          <div className="page-oc-group-description" style={descriptionStyle}>
             <BBCodeDisplay bbcode={group.description} />
           </div>
         )}

@@ -14,6 +14,12 @@ import "./EditorCommon.css";
 
 const BBCODE_TOOLBAR = "bold,italic,underline,strike|color|image,link|source";
 
+const hexToRgba = (hex: string, alpha: number): string => {
+  const n = parseInt(hex.replace("#", ""), 16);
+  if (Number.isNaN(n)) return hex;
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+};
+
 interface GroupJsonData {
   [key: string]: Omit<Group, "slug">;
 }
@@ -100,6 +106,10 @@ export const EditorGroup: React.FC = () => {
       groupHeaderTextColour: group.groupHeaderTextColour || "#000000",
       headerImage: group.headerImage || "",
       description: group.description || "",
+      descriptionTextColour: group.descriptionTextColour || "#f3e9ff",
+      descriptionBgColour: group.descriptionBgColour || "#2a1242",
+      descriptionBgOpacity: group.descriptionBgOpacity ?? 0.7,
+      backgroundImage: group.backgroundImage || "",
     });
     setIsEditing(true);
   };
@@ -167,6 +177,10 @@ export const EditorGroup: React.FC = () => {
           groupHeaderTextColour: "#000000",
           headerImage: "",
           description: "",
+          descriptionTextColour: "#f3e9ff",
+          descriptionBgColour: "#2a1242",
+          descriptionBgOpacity: 0.7,
+          backgroundImage: "",
           order: groupsArray.length,
         });
         setSelectedSlug(newSlug);
@@ -383,6 +397,103 @@ export const EditorGroup: React.FC = () => {
                   }
                   height={300}
                 />
+              </div>
+
+              <div className="editor-field">
+                <label className="editor-label">Description Text Colour:</label>
+                <div className="editor-color-group">
+                  <input
+                    type="color"
+                    value={editingItem.descriptionTextColour ?? "#f3e9ff"}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        descriptionTextColour: e.target.value,
+                      })
+                    }
+                    className="editor-color-picker"
+                  />
+                  <div className="editor-color-preview-container">
+                    <span className="editor-color-preview-label">Preview:</span>
+                    <div
+                      className="editor-color-preview-swatch"
+                      style={{
+                        backgroundColor:
+                          editingItem.descriptionTextColour ?? "#f3e9ff",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="editor-field">
+                <label className="editor-label">
+                  Description Background Colour:
+                </label>
+                <div className="editor-color-group">
+                  <input
+                    type="color"
+                    value={editingItem.descriptionBgColour ?? "#2a1242"}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        descriptionBgColour: e.target.value,
+                      })
+                    }
+                    className="editor-color-picker"
+                  />
+                  <div className="editor-color-preview-container">
+                    <span className="editor-color-preview-label">Preview:</span>
+                    <div
+                      className="editor-color-preview-swatch"
+                      style={{
+                        background: hexToRgba(
+                          editingItem.descriptionBgColour ?? "#2a1242",
+                          editingItem.descriptionBgOpacity ?? 0.7,
+                        ),
+                      }}
+                    />
+                  </div>
+                </div>
+                <label className="editor-label">
+                  Background Opacity:{" "}
+                  {(editingItem.descriptionBgOpacity ?? 0.7).toFixed(2)}
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  value={editingItem.descriptionBgOpacity ?? 0.7}
+                  onChange={(e) =>
+                    setEditingItem({
+                      ...editingItem,
+                      descriptionBgOpacity: parseFloat(e.target.value),
+                    })
+                  }
+                  className="editor-input"
+                />
+              </div>
+
+              <div className="editor-field">
+                <label className="editor-label">
+                  Background Image URL (tiled):
+                </label>
+                <input
+                  type="text"
+                  value={editingItem.backgroundImage ?? ""}
+                  onChange={(e) =>
+                    setEditingItem({
+                      ...editingItem,
+                      backgroundImage: e.target.value,
+                    })
+                  }
+                  className="editor-input"
+                  placeholder="https://example.com/tile.png"
+                />
+                {editingItem.backgroundImage && (
+                  <ImagePreview urls={[editingItem.backgroundImage]} />
+                )}
               </div>
 
               <div className="editor-button-group">
