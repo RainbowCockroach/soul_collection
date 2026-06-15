@@ -66,3 +66,8 @@
 .back-to-top:hover {
   color: rgb(106, 255, 168);
 }
+
+.last-updated {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}

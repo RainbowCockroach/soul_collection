@@ -5,6 +5,11 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: "/soul_collection/",
+  define: {
+    // Stamped at build time. In GitHub Actions this is the deploy time,
+    // which we surface as "Last updated" in the footer.
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+  },
   build: {
     rollupOptions: {
       output: {
