@@ -41,6 +41,7 @@ function createParticle(): Particle {
 }
 
 function spawnBatch() {
+  if (document.hidden) return;
   const count = Math.round(randomBetween(50, 100));
   for (let i = 0; i < count; i++) {
     particles.push(createParticle());
@@ -53,7 +54,7 @@ function drawStar(
   cx: number,
   cy: number,
   size: number,
-  opacity: number
+  opacity: number,
 ) {
   const half = size / 2;
   // Original clip-path inner points are at 40%/60% of bounding box
