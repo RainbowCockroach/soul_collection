@@ -2584,7 +2584,8 @@
       "white",
       "pink"
     ],
-    "order": 35
+    "order": 35,
+    "workInProgress": true
   },
   "yttu": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/l5kuzb.gif[/img] Yttu [img]https://poempuppy.neocities.org/resources/pixels/l5kuzb.gif[/img]",
@@ -2625,7 +2626,8 @@
       "yellow",
       "purple"
     ],
-    "order": 36
+    "order": 36,
+    "workInProgress": true
   },
   "wsst": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/fmmonz.gif[/img]Wsst[img]https://poempuppy.neocities.org/resources/pixels/fmmonz.gif[/img]",
@@ -2752,7 +2754,8 @@
       "side-character",
       "long-hair"
     ],
-    "order": 39
+    "order": 39,
+    "workInProgress": true
   },
   "ruuyp": {
     "name": "Ruuyp",
@@ -2779,7 +2782,8 @@
       "white",
       "orange"
     ],
-    "order": 40
+    "order": 40,
+    "workInProgress": true
   },
   "innki": {
     "name": "Innki",
@@ -2806,7 +2810,8 @@
       "yellow",
       "white"
     ],
-    "order": 41
+    "order": 41,
+    "workInProgress": true
   },
   "miimi": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat14.gif[/img] Miimi [img]https://poempuppy.neocities.org/resources/pixels/Cat10.gif[/img]",
@@ -2838,7 +2843,8 @@
       "pink",
       "side-character"
     ],
-    "order": 42
+    "order": 42,
+    "workInProgress": true
   },
   "joon": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
@@ -2870,7 +2876,8 @@
       "green",
       "side-character"
     ],
-    "order": 43
+    "order": 43,
+    "workInProgress": true
   },
   "xooni": {
     "name": "Xooni",
@@ -2897,7 +2904,8 @@
       "orange",
       "green"
     ],
-    "order": 44
+    "order": 44,
+    "workInProgress": true
   },
   "foole": {
     "name": "Foole",
@@ -2925,7 +2933,8 @@
       "pink",
       "green"
     ],
-    "order": 45
+    "order": 45,
+    "workInProgress": true
   },
   "ann": {
     "name": "Ann",
@@ -2950,7 +2959,8 @@
       "white",
       "yellow"
     ],
-    "order": 46
+    "order": 46,
+    "workInProgress": true
   },
   "utta": {
     "name": "Utta",
@@ -2979,7 +2989,8 @@
       "white",
       "yellow"
     ],
-    "order": 47
+    "order": 47,
+    "workInProgress": true
   },
   "petunia": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/s43rsm.webp[/img] Petunia [img]https://poempuppy.neocities.org/resources/pixels/qr2ahq.gif[/img]",
