@@ -2843,8 +2843,7 @@
       "pink",
       "side-character"
     ],
-    "order": 42,
-    "workInProgress": true
+    "order": 42
   },
   "joon": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
@@ -2876,8 +2875,7 @@
       "green",
       "side-character"
     ],
-    "order": 43,
-    "workInProgress": true
+    "order": 43
   },
   "xooni": {
     "name": "Xooni",
@@ -3725,7 +3723,8 @@
       "hacker"
     ],
     "order": 62,
-    "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626941403-wvzkko.mp3"
+    "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626941403-wvzkko.mp3",
+    "workInProgress": true
   },
   "xanthe": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/qo00od.gif[/img] Xanthe [img]https://poempuppy.neocities.org/resources/pixels/js3kjf.gif[/img]",
