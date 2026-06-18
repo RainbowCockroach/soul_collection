@@ -2714,7 +2714,8 @@
       "side-character",
       "long-hair"
     ],
-    "order": 38
+    "order": 38,
+    "workInProgress": true
   },
   "giio": {
     "name": "Giio",
