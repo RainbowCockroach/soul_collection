@@ -114,7 +114,12 @@ const PageOcGroup: React.FC = () => {
           {groupOcs.map((oc) => (
             <OcSlot
               key={oc.slug}
-              oc={{ slug: oc.slug, name: oc.name, avatar: oc.avatar }}
+              oc={{
+                slug: oc.slug,
+                name: oc.name,
+                avatar: oc.avatar,
+                workInProgress: oc.workInProgress,
+              }}
               frameColour={frameColour}
               textColour={textColour}
               shipColors={ships
