@@ -3466,7 +3466,8 @@
     "gallery": [
       {
         "image": "https://i.pinimg.com/736x/1a/6c/57/1a6c5730539269efe175e9182b3776f9.jpg",
-        "thumbnail": "https://i.pinimg.com/736x/1a/6c/57/1a6c5730539269efe175e9182b3776f9.jpg"
+        "thumbnail": "https://i.pinimg.com/736x/1a/6c/57/1a6c5730539269efe175e9182b3776f9.jpg",
+        "caption": ""
       }
     ],
     "breadcrumbs": [],
@@ -3482,7 +3483,8 @@
       "side-character"
     ],
     "order": 56,
-    "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626839433-sh3g2j.mp3"
+    "voiceSample": "https://09176645.xyz/soul-collection-guest-book/uploads/audio/1765626839433-sh3g2j.mp3",
+    "workInProgress": true
   },
   "raki-chan": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/rthg6b.gif[/img] Raki chan~",
