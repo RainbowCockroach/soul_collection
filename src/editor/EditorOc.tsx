@@ -596,6 +596,26 @@ export const EditorOc: React.FC = () => {
               </div>
 
               <div className="editor-field">
+                <label className="editor-checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={editingItem.workInProgress || false}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        workInProgress: e.target.checked || undefined,
+                      })
+                    }
+                  />
+                  Work in Progress
+                </label>
+                <small className="editor-text-muted">
+                  When checked, this OC won't appear from the Random button and
+                  shows an "under construction" icon in OC lists.
+                </small>
+              </div>
+
+              <div className="editor-field">
                 <label className="editor-label">Groups:</label>
                 <div className="editor-checkbox-group">
                   {Object.entries(groupData).map(([slug, group]) => (

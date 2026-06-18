@@ -37,11 +37,29 @@
   align-items: center;
 }
 
+.oc-avatar-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .oc-avatar {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 8px;
+}
+
+/* "Under construction" overlay for work-in-progress OCs */
+.oc-slot-wip-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 110px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .oc-slot-name-box {
