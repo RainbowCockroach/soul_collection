@@ -12,7 +12,6 @@
   .guest-book-layout {
     display: grid;
     grid-template-columns: minmax(200px, 1fr) auto 3fr;
-    gap: 1.5rem;
     align-items: stretch;
   }
 
@@ -20,7 +19,6 @@
      of being stretched wider by its (viewport-sized) note/fan-art content */
   .guest-book-sections-col {
     min-width: 0;
-    gap: 1.5rem;
   }
 
   /* Vertical divider between the columns — reuse the horizontal divider gif
@@ -47,14 +45,26 @@
     /* Notes flex to fit the column, so no horizontal overflow to clip;
        keep it visible so note bottoms (rounded corner + shadow) aren't cut off */
     overflow: visible;
-    gap: 10px;
+    gap: 3px; /* gap between notes */
+    margin-bottom: 8px; /* gap between notes and the count pagination */
+    height: 170px; /* shorter notes — less empty space at the bottom */
+  }
+
+  /* Shrink the arrow containers so the notes sit closer to the arrows */
+  .guest-book-sections-col .notes-display .pagination-nav-left,
+  .guest-book-sections-col .notes-display .pagination-nav-right {
+    min-width: 24px;
+  }
+
+  .guest-book-sections-col .notes-display .nav-spacer {
+    width: 20px;
   }
 
   .guest-book-sections-col .guest-book-note {
     width: auto;
     min-width: 0;
     flex: 1 1 0;
-    margin: 6px;
+    margin: 2px;
   }
 
   .guest-book-sections-col .note-name {
