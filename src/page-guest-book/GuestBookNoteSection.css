@@ -10,7 +10,7 @@
 /* Main section container */
 .guest-book-note-section {
   margin: 0;
-  padding: 0 20px;
+  padding: 0;
   overflow-x: hidden; /* Prevent horizontal scroll only */
 }
 
@@ -157,7 +157,18 @@
 /* Tablet portrait (iPad Air etc) - tighter layout */
 @media (min-width: 769px) and (max-width: 1024px) {
   .notes-display {
-    gap: 5px;
+    gap: 3px; /* gap between notes */
+    margin-bottom: 8px; /* gap between notes and the count pagination */
+  }
+
+  /* Shrink the arrow containers so the notes sit closer to the arrows */
+  .notes-display .pagination-nav-left,
+  .notes-display .pagination-nav-right {
+    min-width: 24px;
+  }
+
+  .notes-display .nav-spacer {
+    width: 20px;
   }
 }
 
