@@ -17,6 +17,18 @@
   text-align: center;
 }
 
+/* Prevent Safari's Data Detectors from styling names as blue links */
+.favourite-name a[x-apple-data-detectors],
+.favourite-name a[x-apple-data-detectors="true"] {
+  color: inherit !important;
+  text-decoration: none !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  pointer-events: none;
+}
+
 /* Tablet and Desktop: adjust name font size */
 @media (min-width: 768px) {
   .favourite-name {
