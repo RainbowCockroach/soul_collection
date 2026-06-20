@@ -261,16 +261,22 @@
     "thumbnail": "https://i.pinimg.com/originals/93/e1/1f/93e11fd67e64e66306037491fc3872ab.png",
     "variants": [
       {
-        "id": "non-modern",
+        "id": "non-li-1",
         "url": "https://i.pinimg.com/originals/89/75/80/897580bc83cadc6353f3c03a32005720.png",
         "thumbnail": "https://i.pinimg.com/originals/6b/5c/89/6b5c89af45f2952095ab71deb035518f.png",
         "height": "168cm (without heels)"
       },
       {
-        "id": "non-dreamweed",
+        "id": "non-li-2",
         "url": "https://i.pinimg.com/originals/45/77/6e/45776ec8d5e2280505c6d2cb4228bb50.png",
         "thumbnail": "https://i.pinimg.com/originals/66/2c/d2/662cd29a9738496aef668bd0ec80233e.png",
         "height": "168cm (without heels)"
+      },
+      {
+        "id": "non-li-3",
+        "url": "https://i.pinimg.com/originals/76/47/02/7647022a45897219dc35cfb5a61050fd.png",
+        "thumbnail": "https://i.pinimg.com/originals/8e/e2/a7/8ee2a769bb74ef4b86279d7b74f85d34.png",
+        "height": "168cm"
       }
     ],
     "order": 14
