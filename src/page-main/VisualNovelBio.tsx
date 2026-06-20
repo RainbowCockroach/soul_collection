@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import type { VNBioData, VNBioDialog } from "../helpers/objects";
 import { loadVNBio } from "../helpers/data-load";
 import { playBlip } from "../helpers/dialogBlip";
@@ -30,7 +32,9 @@ interface Props {
 const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
   const [bioData, setBioData] = useState<VNBioData | null>(null);
   const [activeCharacterId, setActiveCharacterId] = useState("");
-  const [dialogIndexes, setDialogIndexes] = useState<Record<string, number>>({});
+  const [dialogIndexes, setDialogIndexes] = useState<Record<string, number>>(
+    {},
+  );
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
@@ -123,8 +127,7 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
           {/* Character Sprites */}
           {dialogs.map((dialog) => {
             const isActive = dialog.speakerId === activeCharacterId;
-            const position =
-              CHARACTER_POSITIONS[dialog.speakerId] ?? "left";
+            const position = CHARACTER_POSITIONS[dialog.speakerId] ?? "left";
             return (
               <div
                 key={dialog.speakerId}
@@ -154,7 +157,9 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
               tabIndex={0}
               aria-label="Advance dialogue"
               onClick={() => handleCharacterClick(activeCharacterId)}
-              onKeyDown={(e) => handleCharacterActivateKey(e, activeCharacterId)}
+              onKeyDown={(e) =>
+                handleCharacterActivateKey(e, activeCharacterId)
+              }
             >
               <div className="vn-dialog-border">
                 <div className="vn-dialog-content">
@@ -174,7 +179,10 @@ const VisualNovelBio: React.FC<Props> = ({ speed = 25 }) => {
                       aria-hidden="true"
                       title="Next"
                     >
-                      <span className="vn-dialog-next-arrow">▶</span>
+                      <FontAwesomeIcon
+                        icon={faCaretRight}
+                        className="vn-dialog-next-arrow"
+                      />
                     </div>
                   )}
                 </div>

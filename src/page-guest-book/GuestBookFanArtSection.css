@@ -20,8 +20,8 @@
   overflow-x: hidden;
   /* Hug the actual content; no fixed minimum so partial pages
      (e.g. only 1-2 images) don't reserve blank space for a full set */
-  margin-bottom: 8px;
-  padding: 5px;
+  margin-bottom: 2px;
+  padding: 5px 5px 0;
 }
 
 /* Individual fan art items */
