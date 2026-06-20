@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import Lightbox from "../common-components/Lightbox";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import { apiBaseUrl } from "../helpers/constants";
 import "./BugReportDialog.css";
 
 interface BugReportDialogProps {
@@ -27,9 +29,6 @@ interface PersistedState {
   images: PersistedImage[];
 }
 
-const DISCORD_WEBHOOK_URL =
-  "https://discord.com/api/webhooks/1463345410352611461/vqxXzAKmRQe1xp8jMot5lUOrGi3EejPRLBorAjOk0qVbRo_24Egx5canPWYQXDmKWbLc";
-
 const STORAGE_KEY = "bug-report-draft";
 const MAX_ATTACHMENTS = 10; // Discord webhook limit
 
@@ -42,7 +41,9 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const captchaRef = useRef<TurnstileInstance>(null);
   const isInitialized = useRef(false);
 
   const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -280,29 +281,28 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
       return;
     }
 
+    if (!captchaToken) {
+      setSubmitError("Please complete the CAPTCHA before sending.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError("");
 
     try {
       const formData = new FormData();
 
-      // Add text content with [BUG REPORT] prefix and browser info
-      const userDescription = description.trim() || "(No description provided)";
-      const browserInfo = getBrowserInfo();
-      const messageContent = `${userDescription}\n\n---\n${browserInfo}`;
+      // Send raw fields; the backend composes the Discord message so the
+      // webhook URL is never exposed.
+      formData.append("captchaToken", captchaToken);
+      formData.append("description", description.trim());
+      formData.append("browserInfo", getBrowserInfo());
 
-      const payload = {
-        content: messageContent,
-        username: "BUG REPORT",
-      };
-      formData.append("payload_json", JSON.stringify(payload));
-
-      // Add images as file attachments
-      attachments.forEach((attachment, index) => {
-        formData.append(`file${index}`, attachment.blob, attachment.name);
+      attachments.forEach((attachment) => {
+        formData.append("attachments", attachment.blob, attachment.name);
       });
 
-      const response = await fetch(DISCORD_WEBHOOK_URL, {
+      const response = await fetch(`${apiBaseUrl}/bug-report`, {
         method: "POST",
         body: formData,
       });
@@ -324,6 +324,9 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
     } catch (error) {
       console.error("Submit failed:", error);
       setSubmitError("Failed to send bug report. Please try again.");
+      // Turnstile tokens are single-use; reset for a fresh challenge.
+      setCaptchaToken(null);
+      captchaRef.current?.reset();
     } finally {
       setIsSubmitting(false);
     }
@@ -337,6 +340,8 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
     setAttachments([]);
     setSubmitError("");
     setSubmitSuccess(false);
+    setCaptchaToken(null);
+    captchaRef.current?.reset();
   };
 
   const handleClose = () => {
@@ -484,11 +489,21 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
                 <div className="error-message">{submitError}</div>
               )}
 
+              <div className="bug-report-captcha">
+                <Turnstile
+                  ref={captchaRef}
+                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                  onSuccess={setCaptchaToken}
+                  onError={() => setCaptchaToken(null)}
+                  onExpire={() => setCaptchaToken(null)}
+                />
+              </div>
+
               <div className="form-actions">
                 <ButtonWrapper
                   onClick={handleSubmit}
                   className="submit-button send-button"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !captchaToken}
                 >
                   {isSubmitting ? "Sending..." : "Send"}
                 </ButtonWrapper>

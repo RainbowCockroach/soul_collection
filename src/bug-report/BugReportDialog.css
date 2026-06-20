@@ -150,6 +150,12 @@
   font-weight: bold;
 }
 
+.bug-report-captcha {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
