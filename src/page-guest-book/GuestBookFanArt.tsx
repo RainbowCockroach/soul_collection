@@ -1,8 +1,9 @@
-import { useMemo, useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import ActionMenu from "./ActionMenu";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { Message } from "./types";
 import { useBlurImage } from "../hooks/usePixelatedImage";
+import { useHoldToReveal } from "../hooks/useHoldToReveal";
 import "./GuestBookFanArt.css";
 
 interface GuestBookFanArtProps {
@@ -12,8 +13,6 @@ interface GuestBookFanArtProps {
   onOpenFullscreenViewer?: (message: Message) => void;
 }
 
-const HOLD_DURATION = 300; // ms to hold before showing menu
-
 const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
   message,
   onEdit,
@@ -21,15 +20,10 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
   onOpenFullscreenViewer,
 }) => {
   const [isImageUncensored, setIsImageUncensored] = useState(false);
-  const [showActionMenu, setShowActionMenu] = useState(false);
-  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { showMenu: showActionMenu, touchHandlers } = useHoldToReveal();
 
-  // Generate unique ID for this component instance
-  const clipId = useMemo(
-    () =>
-      `arch-clip-${message.id || Math.random().toString(36).slice(2, 11)}`,
-    [message.id]
-  );
+  // Stable unique ID for the SVG clip path (message.id is unique per card).
+  const clipId = `arch-clip-${message.id}`;
 
   const handleOpenFullscreen = () => {
     onOpenFullscreenViewer?.(message);
@@ -59,38 +53,10 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
     setIsImageUncensored(false);
   }, [message.content.content_warning]);
 
-  // Touch handlers for showing action menu on hold
-  const handleTouchStart = useCallback(() => {
-    holdTimerRef.current = setTimeout(() => {
-      setShowActionMenu(true);
-    }, HOLD_DURATION);
-  }, []);
-
-  const handleTouchEnd = useCallback(() => {
-    if (holdTimerRef.current) {
-      clearTimeout(holdTimerRef.current);
-      holdTimerRef.current = null;
-    }
-    // Keep menu visible for a bit after touch ends so user can interact with it
-    setTimeout(() => {
-      setShowActionMenu(false);
-    }, 3000);
-  }, []);
-
-  const handleTouchCancel = useCallback(() => {
-    if (holdTimerRef.current) {
-      clearTimeout(holdTimerRef.current);
-      holdTimerRef.current = null;
-    }
-    setShowActionMenu(false);
-  }, []);
-
   return (
     <div
       className={`guest-book-fanart ${showActionMenu ? "show-action-menu" : ""}`}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchCancel}
+      {...touchHandlers}
     >
       {/* SVG Clip Path Definition - Responsive with objectBoundingBox */}
       <svg width="0" height="0" style={{ position: "absolute" }}>

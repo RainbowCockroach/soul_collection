@@ -1,6 +1,7 @@
 import {
   useState,
   useEffect,
+  useRef,
   useCallback,
   useImperativeHandle,
   forwardRef,
@@ -13,13 +14,6 @@ import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookNoteSection.css";
 import LoadingSpinner from "../common-components/LoadingSpinner";
-
-// Hook to get responsive notes per page - keeping 4 notes for both desktop and mobile
-const useResponsiveNotesPerPage = (defaultNotesPerPage: number) => {
-  // Always use the default number of notes per page (4) for consistency
-  // Mobile will display them in a 2x2 grid layout instead of reducing the count
-  return defaultNotesPerPage;
-};
 
 interface PaginatedResponse {
   messages: Message[];
@@ -44,23 +38,27 @@ export interface GuestBookNoteSectionRef {
 const GuestBookNoteSection = forwardRef<
   GuestBookNoteSectionRef,
   GuestBookNoteSectionProps
->(({ notesPerPage: defaultNotesPerPage = 4 }, ref) => {
-  const notesPerPage = useResponsiveNotesPerPage(defaultNotesPerPage);
+>(({ notesPerPage = 4 }, ref) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  // Single in-flight controller so fetches can't race and overwrite each other.
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Modal state
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
-  // Fetch notes for the current page. An optional AbortSignal lets the
-  // effect cancel an in-flight request when the page changes or the
-  // component unmounts, avoiding state updates on an unmounted component.
+  // Fetch notes for the current page; aborts any prior in-flight request.
   const fetchNotes = useCallback(
-    async (page: number, signal?: AbortSignal) => {
+    async (page: number) => {
+      abortControllerRef.current?.abort();
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+      const { signal } = controller;
+
       try {
         setLoading(true);
         const response = await fetch(
@@ -80,7 +78,7 @@ const GuestBookNoteSection = forwardRef<
         setError(err instanceof Error ? err.message : "An error occurred");
         setData(null);
       } finally {
-        if (!signal?.aborted) setLoading(false);
+        if (!signal.aborted) setLoading(false);
       }
     },
     [notesPerPage]
@@ -92,9 +90,8 @@ const GuestBookNoteSection = forwardRef<
   }), [fetchNotes, currentPage]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetchNotes(currentPage, controller.signal);
-    return () => controller.abort();
+    fetchNotes(currentPage);
+    return () => abortControllerRef.current?.abort();
   }, [currentPage, fetchNotes]);
 
   const [loadingDirection, setLoadingDirection] = useState<

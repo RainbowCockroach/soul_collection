@@ -3,6 +3,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import type { MusicPlayerState, MusicPlayerContextType } from "./types";
@@ -25,68 +26,72 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
   const hasAutoPlayedRef = useRef<boolean>(false);
   const fadeAnimationRef = useRef<number | null>(null);
 
-  const playTrack = useCallback(
-    (index: number) => {
-      if (index < 0 || index >= state.tracks.length) return;
+  // Latest state for the audio-event listeners and interaction handlers, so
+  // they bind once instead of re-attaching on every state change.
+  const stateRef = useRef(state);
+  stateRef.current = state;
 
-      setState((prev) => ({
-        ...prev,
-        currentTrackIndex: index,
-        isLoading: true,
-      }));
-    },
-    [state.tracks.length]
-  );
+  const playTrack = useCallback((index: number) => {
+    if (index < 0 || index >= stateRef.current.tracks.length) return;
 
-  const togglePlayPause = () => {
-    if (!audioRef.current) return;
+    setState((prev) => ({
+      ...prev,
+      currentTrackIndex: index,
+      isLoading: true,
+    }));
+  }, []);
 
-    if (state.isPlaying) {
+  const togglePlayPause = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const { isPlaying, currentTrackIndex, tracks } = stateRef.current;
+    if (isPlaying) {
       // User is pausing - remember this preference
       localStorage.setItem(MUSIC_PAUSED_KEY, "true");
-      audioRef.current.pause();
+      audio.pause();
     } else {
       // User is playing - clear the paused flag
       localStorage.removeItem(MUSIC_PAUSED_KEY);
-      if (state.currentTrackIndex === null && state.tracks.length > 0) {
+      if (currentTrackIndex === null && tracks.length > 0) {
         // If no track is selected, start with the first track
         playTrack(0);
         return;
       }
-      audioRef.current.play().catch(console.error);
+      audio.play().catch(console.error);
     }
-  };
+  }, [playTrack]);
 
   const nextTrack = useCallback(() => {
-    if (state.currentTrackIndex === null) return;
-    const nextIndex = (state.currentTrackIndex + 1) % state.tracks.length;
+    const { currentTrackIndex, tracks } = stateRef.current;
+    if (currentTrackIndex === null) return;
+    const nextIndex = (currentTrackIndex + 1) % tracks.length;
     playTrack(nextIndex);
-  }, [state.currentTrackIndex, state.tracks.length, playTrack]);
+  }, [playTrack]);
 
   const previousTrack = useCallback(() => {
-    if (state.currentTrackIndex === null) return;
+    const { currentTrackIndex, tracks } = stateRef.current;
+    if (currentTrackIndex === null) return;
     const prevIndex =
-      state.currentTrackIndex === 0
-        ? state.tracks.length - 1
-        : state.currentTrackIndex - 1;
+      currentTrackIndex === 0 ? tracks.length - 1 : currentTrackIndex - 1;
     playTrack(prevIndex);
-  }, [state.currentTrackIndex, state.tracks.length, playTrack]);
+  }, [playTrack]);
 
-  const setVolume = (volume: number) => {
+  const setVolume = useCallback((volume: number) => {
     if (!audioRef.current) return;
     const clampedVolume = Math.max(0, Math.min(1, volume));
     audioRef.current.volume = clampedVolume;
     setState((prev) => ({ ...prev, volume: clampedVolume }));
-  };
+  }, []);
 
-  const toggleLoop = () => {
+  const toggleLoop = useCallback(() => {
     setState((prev) => ({ ...prev, isLooping: !prev.isLooping }));
-  };
+  }, []);
 
-  const seekTo = (time: number) => {
+  const seekTo = useCallback((time: number) => {
     if (!audioRef.current) return;
     audioRef.current.currentTime = time;
-  };
+  }, []);
 
   const fadeInAudio = useCallback(
     (targetVolume: number, duration: number = 120000) => {
@@ -140,7 +145,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 
     const handleCanPlay = () => {
       setState((prev) => ({ ...prev, isLoading: false }));
-      if (state.currentTrackIndex !== null) {
+      if (stateRef.current.currentTrackIndex !== null) {
         // Check if user explicitly paused the music - respect this preference
         const userPausedMusic = localStorage.getItem(MUSIC_PAUSED_KEY) === "true";
         if (userPausedMusic) return;
@@ -164,7 +169,8 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     };
 
     const handleEnded = () => {
-      if (state.isLooping && state.currentTrackIndex !== null) {
+      const { isLooping, currentTrackIndex } = stateRef.current;
+      if (isLooping && currentTrackIndex !== null) {
         audio.currentTime = 0;
         audio.play().catch(console.error);
       } else {
@@ -193,7 +199,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     audio.addEventListener("volumechange", handleVolumeChange);
 
     // Set initial volume
-    audio.volume = state.volume;
+    audio.volume = stateRef.current.volume;
 
     return () => {
       audio.removeEventListener("loadstart", handleLoadStart);
@@ -204,7 +210,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("volumechange", handleVolumeChange);
     };
-  }, [state.currentTrackIndex, state.isLooping, nextTrack, state.volume]);
+  }, [nextTrack]);
 
   // Update audio source when track changes
   useEffect(() => {
@@ -250,7 +256,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 
       // Start playing the first track
       const audio = audioRef.current;
-      if (audio && state.currentTrackIndex !== null) {
+      if (audio && stateRef.current.currentTrackIndex !== null) {
         audio
           .play()
           .then(() => {
@@ -263,7 +269,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
               fadeInAudio(initialState.volume, 3000);
             } else {
               // For subsequent visits, play at normal volume immediately
-              audio.volume = state.volume;
+              audio.volume = stateRef.current.volume;
             }
           })
           .catch((error) => {
@@ -289,7 +295,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
       window.removeEventListener("touchstart", handleFirstInteraction);
       window.removeEventListener("keydown", handleFirstInteraction);
     };
-  }, [state.currentTrackIndex, state.volume, fadeInAudio]);
+  }, [fadeInAudio]);
 
   // Listen for SamPopUp close event to start music for first-time visitors
   useEffect(() => {
@@ -303,7 +309,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 
       // Start playing with fade-in for first-time visitors
       const audio = audioRef.current;
-      if (audio && state.currentTrackIndex !== null) {
+      if (audio && stateRef.current.currentTrackIndex !== null) {
         audio
           .play()
           .then(() => {
@@ -325,7 +331,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     return () => {
       window.removeEventListener("samPopupClosed", handleSamPopupClose);
     };
-  }, [state.currentTrackIndex, fadeInAudio]);
+  }, [fadeInAudio]);
 
   // Cleanup fade animation on unmount
   useEffect(() => {
@@ -336,17 +342,29 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     };
   }, []);
 
-  const contextValue: MusicPlayerContextType = {
-    state,
-    audioRef,
-    playTrack,
-    togglePlayPause,
-    nextTrack,
-    previousTrack,
-    setVolume,
-    toggleLoop,
-    seekTo,
-  };
+  const contextValue = useMemo<MusicPlayerContextType>(
+    () => ({
+      state,
+      audioRef,
+      playTrack,
+      togglePlayPause,
+      nextTrack,
+      previousTrack,
+      setVolume,
+      toggleLoop,
+      seekTo,
+    }),
+    [
+      state,
+      playTrack,
+      togglePlayPause,
+      nextTrack,
+      previousTrack,
+      setVolume,
+      toggleLoop,
+      seekTo,
+    ]
+  );
 
   return (
     <MusicPlayerContext.Provider value={contextValue}>

@@ -1,4 +1,4 @@
-import { useState, useRef, type DragEvent } from "react";
+import { useState, useRef, useEffect, type DragEvent } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { apiBaseUrl } from "../helpers/constants";
 
@@ -25,6 +25,24 @@ const ImageUploadInput = ({
   const [isDragging, setIsDragging] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Revoke the previous object URL when replaced/cleared to avoid leaks.
+  const previewUrlRef = useRef<string | null>(null);
+
+  const setPreviewUrl = (url: string | null) => {
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+    }
+    previewUrlRef.current = url;
+    setPreview(url);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+    };
+  }, []);
 
   // Internal CAPTCHA management
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -73,7 +91,7 @@ const ImageUploadInput = ({
 
       // Create preview
       const previewUrl = URL.createObjectURL(file);
-      setPreview(previewUrl);
+      setPreviewUrl(previewUrl);
 
       // Upload to server
       const formData = new FormData();
@@ -112,7 +130,7 @@ const ImageUploadInput = ({
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to upload image");
-      setPreview(null);
+      setPreviewUrl(null);
     } finally {
       setUploading(false);
     }
@@ -164,7 +182,7 @@ const ImageUploadInput = ({
   };
 
   const handleClear = () => {
-    setPreview(null);
+    setPreviewUrl(null);
     setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";

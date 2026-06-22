@@ -41,41 +41,61 @@ function getOcData(): Promise<Record<string, Omit<OC, "slug">>> {
   return ocDataPromise;
 }
 
+// Cache the transformed/sorted results; the JSON datasets are immutable at runtime.
+let ocsCache: OC[] | null = null;
+let ocsBySlugCache: Map<string, OC> | null = null;
+let groupsCache: Group[] | null = null;
+let speciesCache: Spieces[] | null = null;
+let tagsCache: Tag[] | null = null;
+
 export async function loadOCs(): Promise<OC[]> {
-  const ocData = await getOcData();
-  return Object.entries(ocData)
-    .map(([slug, oc]) => ({
-      slug,
-      ...oc,
-    }))
-    .sort(
-      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
-    );
+  if (!ocsCache) {
+    const ocData = await getOcData();
+    ocsCache = Object.entries(ocData)
+      .map(([slug, oc]) => ({
+        slug,
+        ...oc,
+      }))
+      .sort(
+        (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
+      );
+    ocsBySlugCache = new Map(ocsCache.map((oc) => [oc.slug, oc]));
+  }
+  return ocsCache;
 }
 
 export async function loadGroups(): Promise<Group[]> {
-  return Object.entries(groupData)
-    .map(([slug, group]) => ({
-      slug,
-      ...(group as Omit<Group, "slug">),
-    }))
-    .sort(
-      (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
-    );
+  if (!groupsCache) {
+    groupsCache = Object.entries(groupData)
+      .map(([slug, group]) => ({
+        slug,
+        ...(group as Omit<Group, "slug">),
+      }))
+      .sort(
+        (a, b) => (a.order ?? Number.MAX_VALUE) - (b.order ?? Number.MAX_VALUE),
+      );
+  }
+  return groupsCache;
 }
 
 export async function loadSpecies(): Promise<Spieces[]> {
-  return Object.entries(speciesData).map(([slug, species]) => ({
-    slug,
-    ...(species as Omit<Spieces, "slug">),
-  }));
+  if (!speciesCache) {
+    speciesCache = Object.entries(speciesData).map(([slug, species]) => ({
+      slug,
+      ...(species as Omit<Spieces, "slug">),
+    }));
+  }
+  return speciesCache;
 }
 
 export async function loadTags(): Promise<Tag[]> {
-  return Object.entries(tagData).map(([slug, tag]) => ({
-    slug,
-    ...(tag as Omit<Tag, "slug">),
-  }));
+  if (!tagsCache) {
+    tagsCache = Object.entries(tagData).map(([slug, tag]) => ({
+      slug,
+      ...(tag as Omit<Tag, "slug">),
+    }));
+  }
+  return tagsCache;
 }
 
 export async function loadShips(): Promise<Ship[]> {
@@ -91,14 +111,14 @@ export interface OcWithDetails extends OC {
 export async function loadOcBySlug(
   slug: string,
 ): Promise<OcWithDetails | null> {
-  const [ocs, groups, species, tags] = await Promise.all([
+  const [, groups, species, tags] = await Promise.all([
     loadOCs(),
     loadGroups(),
     loadSpecies(),
     loadTags(),
   ]);
 
-  const oc = ocs.find((oc) => oc.slug === slug);
+  const oc = ocsBySlugCache?.get(slug);
   if (!oc) {
     return null;
   }
