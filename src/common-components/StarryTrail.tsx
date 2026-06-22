@@ -134,9 +134,12 @@ const StarryTrail: React.FC = () => {
           mouseVelocityY + randomOffsetY
         )
       );
+
+      startLoop();
     };
 
     let lastTime = 0;
+    let running = false;
 
     const update = (time: number = 0) => {
       const deltaTime = time - lastTime;
@@ -155,11 +158,22 @@ const StarryTrail: React.FC = () => {
           star.x < canvas.width
       );
 
+      // Idle when there are no stars; addStar restarts the loop.
+      if (starsRef.current.length > 0) {
+        animationIdRef.current = requestAnimationFrame(update);
+      } else {
+        running = false;
+      }
+    };
+
+    const startLoop = () => {
+      if (running) return;
+      running = true;
+      lastTime = performance.now();
       animationIdRef.current = requestAnimationFrame(update);
     };
 
     document.addEventListener("mousemove", addStar);
-    update();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);

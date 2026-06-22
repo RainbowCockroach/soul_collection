@@ -1,6 +1,7 @@
-import React, { useState, useRef, useCallback } from "react";
+import React from "react";
 import ActionMenu from "./ActionMenu";
 import type { Message } from "./types";
+import { useHoldToReveal } from "../hooks/useHoldToReveal";
 import "./GuestBookNote.css";
 
 interface GuestBookNoteProps {
@@ -9,15 +10,12 @@ interface GuestBookNoteProps {
   onDelete?: (message: Message) => void;
 }
 
-const HOLD_DURATION = 300; // ms to hold before showing menu
-
 const GuestBookNote: React.FC<GuestBookNoteProps> = ({
   message,
   onEdit,
   onDelete,
 }) => {
-  const [showActionMenu, setShowActionMenu] = useState(false);
-  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { showMenu: showActionMenu, touchHandlers } = useHoldToReveal();
 
   const handleEdit = () => {
     onEdit?.(message);
@@ -27,37 +25,10 @@ const GuestBookNote: React.FC<GuestBookNoteProps> = ({
     onDelete?.(message);
   };
 
-  const handleTouchStart = useCallback(() => {
-    holdTimerRef.current = setTimeout(() => {
-      setShowActionMenu(true);
-    }, HOLD_DURATION);
-  }, []);
-
-  const handleTouchEnd = useCallback(() => {
-    if (holdTimerRef.current) {
-      clearTimeout(holdTimerRef.current);
-      holdTimerRef.current = null;
-    }
-    // Keep menu visible for a bit after touch ends so user can interact with it
-    setTimeout(() => {
-      setShowActionMenu(false);
-    }, 3000);
-  }, []);
-
-  const handleTouchCancel = useCallback(() => {
-    if (holdTimerRef.current) {
-      clearTimeout(holdTimerRef.current);
-      holdTimerRef.current = null;
-    }
-    setShowActionMenu(false);
-  }, []);
-
   return (
     <div
       className={`guest-book-note ${showActionMenu ? "show-action-menu" : ""}`}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchCancel}
+      {...touchHandlers}
     >
       {/* Blinkies on top of the note */}
       {message.content.blinkies && message.content.blinkies.length > 0 && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { AdItem } from '../helpers/objects';
 import './AdSlideshow.css';
 
@@ -24,21 +24,29 @@ const AdSlideshow: React.FC<AdSlideshowProps> = ({ ads, className, interval }) =
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Filter out ads without imageUrl
-  const validAds = ads.filter(ad => ad.imageUrl);
+  // Memoized so the slideshow effect doesn't restart on every parent render.
+  const validAds = useMemo(() => ads.filter((ad) => ad.imageUrl), [ads]);
+
+  // Keep the index in range when the ad list shrinks.
+  useEffect(() => {
+    if (validAds.length > 0 && currentIndex >= validAds.length) {
+      setCurrentIndex(0);
+    }
+  }, [validAds.length, currentIndex]);
 
   useEffect(() => {
     if (validAds.length <= 1) return;
 
-    let timeoutId: number;
+    let scheduleTimeoutId: number;
+    let fadeTimeoutId: number;
 
     const scheduleNextTransition = () => {
       const randomInterval = getRandomInterval(interval);
 
-      timeoutId = window.setTimeout(() => {
+      scheduleTimeoutId = window.setTimeout(() => {
         setIsTransitioning(true);
 
-        setTimeout(() => {
+        fadeTimeoutId = window.setTimeout(() => {
           setCurrentIndex((prevIndex) => (prevIndex + 1) % validAds.length);
           setIsTransitioning(false);
           scheduleNextTransition(); // Schedule the next random transition
@@ -49,9 +57,8 @@ const AdSlideshow: React.FC<AdSlideshowProps> = ({ ads, className, interval }) =
     scheduleNextTransition();
 
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      clearTimeout(scheduleTimeoutId);
+      clearTimeout(fadeTimeoutId);
     };
   }, [validAds.length, interval]);
 
@@ -59,7 +66,7 @@ const AdSlideshow: React.FC<AdSlideshowProps> = ({ ads, className, interval }) =
     return null;
   }
 
-  const currentAd = validAds[currentIndex];
+  const currentAd = validAds[currentIndex] ?? validAds[0];
 
   const handleClick = () => {
     if (currentAd.redirectUrl) {

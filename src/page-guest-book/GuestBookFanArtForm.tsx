@@ -59,6 +59,13 @@ const GuestBookFanArtForm = ({
 
   // Success message state
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    };
+  }, []);
 
   // Update form when initialData changes (for edit mode)
   useEffect(() => {
@@ -182,7 +189,8 @@ const GuestBookFanArtForm = ({
 
       // Show success message
       setShowSuccessMessage(true);
-      setTimeout(() => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => {
         setShowSuccessMessage(false);
       }, SUCCESS_MESSAGE_DURATION_MS);
     } catch {
