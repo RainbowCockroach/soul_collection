@@ -257,6 +257,11 @@ const GuestBookFanArtForm = ({
   const handleCaptchaError = () => {
     setCaptchaToken(null);
     setUploadError("CAPTCHA verification failed. Please try again.");
+    // Reset the widget so a transient failure can recover without
+    // forcing the user to restart the whole pick/crop flow.
+    if (captchaRef.current?.reset) {
+      captchaRef.current.reset();
+    }
   };
 
   // Upload both cropped thumbnail and original full image
@@ -805,6 +810,7 @@ const GuestBookFanArtForm = ({
               onSuccess={handleCaptchaSuccess}
               onError={handleCaptchaError}
               onExpire={handleCaptchaError}
+              options={{ retry: "auto", refreshExpired: "auto" }}
             />
             <button
               type="button"
