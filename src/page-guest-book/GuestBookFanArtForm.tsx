@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import ReCAPTCHA from "react-google-recaptcha";
 import ImageCropper from "../common-components/ImageCropper";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
@@ -115,7 +115,7 @@ const GuestBookFanArtForm = ({
   // CAPTCHA state
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [showCaptcha, setShowCaptcha] = useState(false);
-  const captchaRef = useRef<TurnstileInstance>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
   // Content warning multi-select state
   const [selectedContentWarnings, setSelectedContentWarnings] = useState<
@@ -243,8 +243,13 @@ const GuestBookFanArtForm = ({
     setCroppedBlob(null);
   };
 
-  // Handle CAPTCHA success
-  const handleCaptchaSuccess = (token: string) => {
+  // Handle CAPTCHA change (token on success, null on expiry/clear)
+  const handleCaptchaChange = (token: string | null) => {
+    if (!token) {
+      handleCaptchaError();
+      return;
+    }
+
     setCaptchaToken(token);
     setShowCaptcha(false);
 
@@ -804,13 +809,12 @@ const GuestBookFanArtForm = ({
             }}
           >
             <h3>Complete CAPTCHA to upload</h3>
-            <Turnstile
+            <ReCAPTCHA
               ref={captchaRef}
-              siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-              onSuccess={handleCaptchaSuccess}
-              onError={handleCaptchaError}
-              onExpire={handleCaptchaError}
-              options={{ retry: "auto", refreshExpired: "auto" }}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+              onChange={handleCaptchaChange}
+              onErrored={handleCaptchaError}
+              onExpired={handleCaptchaError}
             />
             <button
               type="button"
