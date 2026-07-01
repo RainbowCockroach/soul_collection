@@ -112,6 +112,28 @@ const GuestBookFanArtForm = ({
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Preview of the cropped image that is pending upload. Kept on screen even
+  // after a CAPTCHA/upload failure so the user can see their image is saved and
+  // just retry the CAPTCHA (via the "Retry CAPTCHA" button) without re-cropping.
+  const [pendingPreview, setPendingPreview] = useState<string | null>(null);
+  const pendingPreviewUrlRef = useRef<string | null>(null);
+
+  const setPendingPreviewUrl = (url: string | null) => {
+    if (pendingPreviewUrlRef.current) {
+      URL.revokeObjectURL(pendingPreviewUrlRef.current);
+    }
+    pendingPreviewUrlRef.current = url;
+    setPendingPreview(url);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (pendingPreviewUrlRef.current) {
+        URL.revokeObjectURL(pendingPreviewUrlRef.current);
+      }
+    };
+  }, []);
+
   // CAPTCHA state. The token itself is passed directly to uploadBothImages
   // rather than kept in state, so we never read a stale (single-use) token.
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -228,27 +250,34 @@ const GuestBookFanArtForm = ({
     setCroppedBlob(croppedImage);
     setShowCropper(false);
 
+    // Keep a preview of the cropped image on screen so the user can see it even
+    // if the upload/CAPTCHA later fails.
+    setPendingPreviewUrl(URL.createObjectURL(croppedImage));
+
     // Always show CAPTCHA before upload (both guest and edit mode)
     setShowCaptcha(true);
   };
 
-  // Handle crop cancel
+  // Handle crop cancel — discards the pending image entirely.
   const handleCropCancel = () => {
     if (imageSrc) {
       URL.revokeObjectURL(imageSrc);
     }
     setImageSrc(null);
     setShowCropper(false);
+    setShowCaptcha(false);
     setSelectedFile(null);
     setCroppedBlob(null);
+    setPendingPreviewUrl(null);
+    setUploadError(null);
   };
 
-  // Handle CAPTCHA change (token on success, null on expiry/clear)
+  // Fires when the user solves the CAPTCHA (token) or when a solved token is
+  // cleared/expired by the widget (null). On null we just wait for a re-solve —
+  // we must NOT reset() here: a widget that fails to load (missing/invalid site
+  // key, network) would loop error → reset → error → … indefinitely.
   const handleCaptchaChange = (token: string | null) => {
-    if (!token) {
-      handleCaptchaError();
-      return;
-    }
+    if (!token) return;
 
     setShowCaptcha(false);
 
@@ -260,12 +289,27 @@ const GuestBookFanArtForm = ({
     }
   };
 
-  const handleCaptchaError = () => {
-    setUploadError("CAPTCHA verification failed. Please try again.");
-    // Always reset so a fresh, single-use token is issued on the next attempt.
-    // reCAPTCHA tokens are single-use and expire after ~2 minutes; reusing a
-    // stale/consumed token makes the server reject it as "timeout-or-duplicate".
+  // The solved token expired before we used it. Reset for a clean re-solve —
+  // safe because onExpired only fires after a successful solve, so it can't loop.
+  const handleCaptchaExpired = () => {
     captchaRef.current?.reset();
+  };
+
+  // The widget itself failed to load/run (network down, invalid site key, …).
+  // Do NOT reset() here — that retries the same failing load endlessly.
+  const handleCaptchaErrored = () => {
+    setUploadError(
+      "Couldn't load the CAPTCHA. Check your connection and try again."
+    );
+  };
+
+  // Re-open the CAPTCHA to retry uploading the already-cropped image. This is a
+  // one-shot user action, so a single reset() to get a fresh checkbox is safe.
+  const handleRetryCaptcha = () => {
+    if (!croppedBlob || !selectedFile) return;
+    setUploadError(null);
+    captchaRef.current?.reset();
+    setShowCaptcha(true);
   };
 
   // Upload both cropped thumbnail and original full image
@@ -309,27 +353,76 @@ const GuestBookFanArtForm = ({
         full_image: data.fullImageUrl,
       }));
 
-      // Clean up
+      // Clean up — the uploaded image now shows via fanArtForm.full_image.
       if (imageSrc) {
         URL.revokeObjectURL(imageSrc);
       }
       setImageSrc(null);
       setSelectedFile(null);
       setCroppedBlob(null);
+      setPendingPreviewUrl(null);
     } catch (err) {
       setUploadError(
         err instanceof Error ? err.message : "Failed to upload images"
       );
+      // Keep the cropped image + selected file (they're only cleared on success)
+      // so the pending preview stays on screen. The user retries via the
+      // "Retry CAPTCHA" button — no re-upload or re-crop needed.
     } finally {
       setUploading(false);
-      // Always reset the CAPTCHA after an attempt (success or failure) so the
-      // consumed/expired token is never resubmitted → avoids timeout-or-duplicate.
-      captchaRef.current?.reset();
+      // No reset() needed: the modal is closed on submit, so the widget unmounts
+      // and remounts fresh (new single-use token) on the next open / retry.
     }
   };
 
   const handleUploadButtonClick = () => {
     fileInputRef.current?.click();
+  };
+
+  // Shows the cropped image that is still pending upload (before it succeeds).
+  // Stays on screen through CAPTCHA/upload failures with a "Retry CAPTCHA"
+  // button, so a failed attempt never forces the user to re-upload or re-crop.
+  const renderPendingUpload = () => {
+    if (!pendingPreview || fanArtForm.full_image) return null;
+    return (
+      <div style={{ marginBottom: "10px" }}>
+        <img
+          src={pendingPreview}
+          alt="Your image (pending upload)"
+          style={{
+            maxWidth: "100%",
+            maxHeight: "300px",
+            display: "block",
+            marginBottom: "8px",
+            border: "2px solid #ddd",
+            borderRadius: "4px",
+          }}
+        />
+        {uploading ? (
+          <p style={{ fontSize: "14px", margin: 0 }}>Uploading…</p>
+        ) : (
+          <>
+            {uploadError && (
+              <p style={{ color: "red", fontSize: "14px", margin: "0 0 6px" }}>
+                {uploadError}
+              </p>
+            )}
+            <p style={{ fontSize: "13px", color: "#555", margin: "0 0 8px" }}>
+              Your image is saved — solve the CAPTCHA to finish uploading.
+            </p>
+            <button
+              type="button"
+              onClick={handleRetryCaptcha}
+              className="upload-trigger-button"
+              disabled={submitting}
+              style={{ fontSize: "14px" }}
+            >
+              Retry CAPTCHA
+            </button>
+          </>
+        )}
+      </div>
+    );
   };
 
   const handleContentWarningChange = (
@@ -416,8 +509,11 @@ const GuestBookFanArtForm = ({
             </div>
           )}
 
-          {/* Show upload button only if no image uploaded */}
-          {!fanArtForm.full_image && (
+          {/* Cropped image pending upload (persists through failures) */}
+          {renderPendingUpload()}
+
+          {/* Show upload button only if no image uploaded or pending */}
+          {!fanArtForm.full_image && !pendingPreview && (
             <button
               type="button"
               onClick={handleUploadButtonClick}
@@ -433,8 +529,8 @@ const GuestBookFanArtForm = ({
             </button>
           )}
 
-          {/* Upload error */}
-          {uploadError && (
+          {/* Upload error (pre-crop errors; pending-upload errors show above) */}
+          {uploadError && !pendingPreview && (
             <p style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
               {uploadError}
             </p>
@@ -632,8 +728,11 @@ const GuestBookFanArtForm = ({
               </div>
             )}
 
-            {/* Show upload button only if no image uploaded */}
-            {!fanArtForm.full_image && (
+            {/* Cropped image pending upload (persists through failures) */}
+            {renderPendingUpload()}
+
+            {/* Show upload button only if no image uploaded or pending */}
+            {!fanArtForm.full_image && !pendingPreview && (
               <button
                 type="button"
                 onClick={handleUploadButtonClick}
@@ -644,8 +743,8 @@ const GuestBookFanArtForm = ({
               </button>
             )}
 
-            {/* Upload error */}
-            {uploadError && (
+            {/* Upload error (pre-crop errors; pending-upload errors show above) */}
+            {uploadError && !pendingPreview && (
               <p style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
                 {uploadError}
               </p>
@@ -784,7 +883,8 @@ const GuestBookFanArtForm = ({
         />
       )}
 
-      {/* CAPTCHA Modal - required for both guest and edit mode */}
+      {/* CAPTCHA Modal - only mounted while needed. onErrored is handled WITHOUT
+          reset() so a failing load (e.g. missing site key) can't loop. */}
       {showCaptcha && (
         <div
           style={{
@@ -813,8 +913,8 @@ const GuestBookFanArtForm = ({
               ref={captchaRef}
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
               onChange={handleCaptchaChange}
-              onErrored={handleCaptchaError}
-              onExpired={handleCaptchaError}
+              onErrored={handleCaptchaErrored}
+              onExpired={handleCaptchaExpired}
             />
             <button
               type="button"
