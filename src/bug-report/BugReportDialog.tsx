@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import ReCAPTCHA from "react-google-recaptcha";
 import Lightbox from "../common-components/Lightbox";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import { apiBaseUrl } from "../helpers/constants";
@@ -43,7 +43,7 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const captchaRef = useRef<TurnstileInstance>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
   const isInitialized = useRef(false);
 
   const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -324,7 +324,7 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
     } catch (error) {
       console.error("Submit failed:", error);
       setSubmitError("Failed to send bug report. Please try again.");
-      // Turnstile tokens are single-use; reset for a fresh challenge.
+      // reCAPTCHA tokens are single-use; reset for a fresh challenge.
       setCaptchaToken(null);
       captchaRef.current?.reset();
     } finally {
@@ -490,12 +490,12 @@ const BugReportDialog: React.FC<BugReportDialogProps> = ({
               )}
 
               <div className="bug-report-captcha">
-                <Turnstile
+                <ReCAPTCHA
                   ref={captchaRef}
-                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                  onSuccess={setCaptchaToken}
-                  onError={() => setCaptchaToken(null)}
-                  onExpire={() => setCaptchaToken(null)}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  onChange={setCaptchaToken}
+                  onErrored={() => setCaptchaToken(null)}
+                  onExpired={() => setCaptchaToken(null)}
                 />
               </div>
 

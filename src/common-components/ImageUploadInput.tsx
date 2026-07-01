@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type DragEvent } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import ReCAPTCHA from "react-google-recaptcha";
 import { apiBaseUrl } from "../helpers/constants";
 
 interface ImageUploadInputProps {
@@ -48,12 +48,16 @@ const ImageUploadInput = ({
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
-  const captchaRef = useRef<TurnstileInstance>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
-  const handleCaptchaSuccess = (token: string) => {
-    setCaptchaToken(token);
-    setCaptchaVerified(true);
-    setShowCaptcha(false);
+  const handleCaptchaChange = (token: string | null) => {
+    if (token) {
+      setCaptchaToken(token);
+      setCaptchaVerified(true);
+      setShowCaptcha(false);
+    } else {
+      handleCaptchaError();
+    }
   };
 
   const handleCaptchaError = () => {
@@ -212,12 +216,12 @@ const ImageUploadInput = ({
       {showCaptcha ? (
         <div style={{ marginBottom: "16px" }}>
           <p>Complete CAPTCHA to upload image:</p>
-          <Turnstile
+          <ReCAPTCHA
             ref={captchaRef}
-            siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-            onSuccess={handleCaptchaSuccess}
-            onError={handleCaptchaError}
-            onExpire={handleCaptchaError}
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={handleCaptchaChange}
+            onErrored={handleCaptchaError}
+            onExpired={handleCaptchaError}
           />
         </div>
       ) : (
