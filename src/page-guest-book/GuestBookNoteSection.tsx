@@ -118,6 +118,17 @@ const GuestBookNoteSection = forwardRef<
     return () => abortControllerRef.current?.abort();
   }, [currentPage, fetchNotes]);
 
+  // Auto-advance pages like a carousel when there is more than one page.
+  // Wraps back to the first page after the last. Paused while a modal is open.
+  const totalPages = data?.pagination.totalPages ?? 1;
+  useEffect(() => {
+    if (totalPages <= 1 || editModalOpen || deleteModalOpen) return;
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev >= totalPages ? 1 : prev + 1));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [totalPages, editModalOpen, deleteModalOpen]);
+
   const handlePrevPage = useCallback(() => {
     if (data?.pagination.hasPrev && !isPaginating) {
       setCurrentPage((prev) => prev - 1);
