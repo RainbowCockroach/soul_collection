@@ -246,10 +246,12 @@ const GuestBookFanArtForm = ({
   // Handle CAPTCHA change (token on success, null on expiry/clear)
   const handleCaptchaChange = (token: string | null) => {
     if (!token) {
-      handleCaptchaError();
+      console.warn("[captcha-debug] onChange fired with NULL token (cleared/expired)");
+      handleCaptchaError("onChange→null token");
       return;
     }
 
+    console.log("[captcha-debug] onChange SUCCESS, token length:", token.length);
     setCaptchaToken(token);
     setShowCaptcha(false);
 
@@ -259,14 +261,22 @@ const GuestBookFanArtForm = ({
     }
   };
 
-  const handleCaptchaError = () => {
+  // reason lets us tell WHICH callback fired (onErrored vs onExpired vs null token)
+  const handleCaptchaError = (reason: string = "unknown") => {
+    const siteKey = (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined) || "MISSING";
+    console.error(
+      `[captcha-debug] error path. reason=${reason}; sitekey=${siteKey}; origin=${window.location.origin}`
+    );
     setCaptchaToken(null);
-    setUploadError("CAPTCHA verification failed. Please try again.");
-    // Reset the widget so a transient failure can recover without
-    // forcing the user to restart the whole pick/crop flow.
-    if (captchaRef.current?.reset) {
-      captchaRef.current.reset();
-    }
+    // Surface the reason ON SCREEN so it's visible on mobile without DevTools.
+    setUploadError(
+      `CAPTCHA debug — reason: ${reason} | sitekey: ${siteKey.slice(0, 12)}… | origin: ${window.location.origin}`
+    );
+    // DEBUG: auto-reset temporarily disabled so reCAPTCHA's own error text
+    // (e.g. "Invalid domain for site key") stays visible instead of being wiped.
+    // if (captchaRef.current?.reset) {
+    //   captchaRef.current.reset();
+    // }
   };
 
   // Upload both cropped thumbnail and original full image
@@ -813,8 +823,8 @@ const GuestBookFanArtForm = ({
               ref={captchaRef}
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
               onChange={handleCaptchaChange}
-              onErrored={handleCaptchaError}
-              onExpired={handleCaptchaError}
+              onErrored={() => handleCaptchaError("onErrored (reCAPTCHA network/config error)")}
+              onExpired={() => handleCaptchaError("onExpired (token expired)")}
             />
             <button
               type="button"
