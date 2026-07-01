@@ -112,8 +112,8 @@ const GuestBookFanArtForm = ({
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // CAPTCHA state
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // CAPTCHA state. The token itself is passed directly to uploadBothImages
+  // rather than kept in state, so we never read a stale (single-use) token.
   const [showCaptcha, setShowCaptcha] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
 
@@ -246,47 +246,40 @@ const GuestBookFanArtForm = ({
   // Handle CAPTCHA change (token on success, null on expiry/clear)
   const handleCaptchaChange = (token: string | null) => {
     if (!token) {
-      console.warn("[captcha-debug] onChange fired with NULL token (cleared/expired)");
-      handleCaptchaError("onChange→null token");
+      handleCaptchaError();
       return;
     }
 
-    console.log("[captcha-debug] onChange SUCCESS, token length:", token.length);
-    setCaptchaToken(token);
     setShowCaptcha(false);
 
-    // Upload both images after CAPTCHA verification
+    // Upload both images after CAPTCHA verification. Pass the token explicitly
+    // so we never rely on async state that isn't updated yet inside this same
+    // event handler (which previously sent a stale/undefined token).
     if (croppedBlob && selectedFile) {
-      uploadBothImages(croppedBlob, selectedFile);
+      uploadBothImages(croppedBlob, selectedFile, token);
     }
   };
 
-  // reason lets us tell WHICH callback fired (onErrored vs onExpired vs null token)
-  const handleCaptchaError = (reason: string = "unknown") => {
-    const siteKey = (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined) || "MISSING";
-    console.error(
-      `[captcha-debug] error path. reason=${reason}; sitekey=${siteKey}; origin=${window.location.origin}`
-    );
-    setCaptchaToken(null);
-    // Surface the reason ON SCREEN so it's visible on mobile without DevTools.
-    setUploadError(
-      `CAPTCHA debug — reason: ${reason} | sitekey: ${siteKey.slice(0, 12)}… | origin: ${window.location.origin}`
-    );
-    // DEBUG: auto-reset temporarily disabled so reCAPTCHA's own error text
-    // (e.g. "Invalid domain for site key") stays visible instead of being wiped.
-    // if (captchaRef.current?.reset) {
-    //   captchaRef.current.reset();
-    // }
+  const handleCaptchaError = () => {
+    setUploadError("CAPTCHA verification failed. Please try again.");
+    // Always reset so a fresh, single-use token is issued on the next attempt.
+    // reCAPTCHA tokens are single-use and expire after ~2 minutes; reusing a
+    // stale/consumed token makes the server reject it as "timeout-or-duplicate".
+    captchaRef.current?.reset();
   };
 
   // Upload both cropped thumbnail and original full image
-  const uploadBothImages = async (thumbnailBlob: Blob, fullImageFile: File) => {
+  const uploadBothImages = async (
+    thumbnailBlob: Blob,
+    fullImageFile: File,
+    token: string
+  ) => {
     setUploading(true);
     setUploadError(null);
 
     try {
       // CAPTCHA is always required (both guest and edit mode use guest endpoint)
-      if (!captchaToken) {
+      if (!token) {
         throw new Error("CAPTCHA verification required");
       }
 
@@ -294,7 +287,7 @@ const GuestBookFanArtForm = ({
       const formData = new FormData();
       formData.append("thumbnail", thumbnailBlob, "thumbnail.jpg");
       formData.append("fullImage", fullImageFile);
-      formData.append("captchaToken", captchaToken);
+      formData.append("captchaToken", token);
 
       // Single upload request for both images
       const response = await fetch(`${apiBaseUrl}/upload/images-guest`, {
@@ -323,18 +316,15 @@ const GuestBookFanArtForm = ({
       setImageSrc(null);
       setSelectedFile(null);
       setCroppedBlob(null);
-
-      // Reset CAPTCHA
-      setCaptchaToken(null);
-      if (captchaRef.current?.reset) {
-        captchaRef.current.reset();
-      }
     } catch (err) {
       setUploadError(
         err instanceof Error ? err.message : "Failed to upload images"
       );
     } finally {
       setUploading(false);
+      // Always reset the CAPTCHA after an attempt (success or failure) so the
+      // consumed/expired token is never resubmitted → avoids timeout-or-duplicate.
+      captchaRef.current?.reset();
     }
   };
 
@@ -823,8 +813,8 @@ const GuestBookFanArtForm = ({
               ref={captchaRef}
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
               onChange={handleCaptchaChange}
-              onErrored={() => handleCaptchaError("onErrored (reCAPTCHA network/config error)")}
-              onExpired={() => handleCaptchaError("onExpired (token expired)")}
+              onErrored={handleCaptchaError}
+              onExpired={handleCaptchaError}
             />
             <button
               type="button"
