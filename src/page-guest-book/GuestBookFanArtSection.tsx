@@ -125,7 +125,7 @@ const GuestBookFanArtSection = forwardRef<
     if (totalPages <= 1 || editModalOpen || deleteModalOpen) return;
     const interval = setInterval(() => {
       setCurrentPage((prev) => (prev >= totalPages ? 1 : prev + 1));
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [totalPages, editModalOpen, deleteModalOpen]);
 
