@@ -2694,7 +2694,8 @@
       "blue",
       "silver"
     ],
-    "order": 37
+    "order": 37,
+    "workInProgress": true
   },
   "qrrt": {
     "name": "Qrrt",
@@ -2860,7 +2861,8 @@
       "pink",
       "side-character"
     ],
-    "order": 42
+    "order": 42,
+    "workInProgress": true
   },
   "joon": {
     "name": "[img]https://poempuppy.neocities.org/resources/pixels/Cat16.gif[/img] Joon [img]https://poempuppy.neocities.org/resources/pixels/Cat01.gif[/img]",
@@ -2892,7 +2894,8 @@
       "green",
       "side-character"
     ],
-    "order": 43
+    "order": 43,
+    "workInProgress": true
   },
   "xooni": {
     "name": "Xooni",
