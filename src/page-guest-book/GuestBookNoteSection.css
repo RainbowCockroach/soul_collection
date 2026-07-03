@@ -182,7 +182,11 @@
   .notes-display {
     display: grid;
     grid-template-columns: 1fr 1fr; /* 2 columns */
-    grid-template-rows: 1fr 1fr; /* Equal height rows */
+    /* minmax(0, 1fr) keeps rows at a fixed height even when a note's content is
+       tall. A bare 1fr is minmax(auto, 1fr), whose auto minimum lets a long note
+       blow the row (and the whole grid) past the fixed height, which then gets
+       clipped by the container and crops the bottom row. */
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); /* Equal height rows */
     gap: 6px;
     justify-items: stretch;
     align-items: stretch;
