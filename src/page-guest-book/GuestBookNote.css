@@ -260,6 +260,7 @@
     min-width: unset !important;
     margin: 0 !important;
     height: 100%;
+    min-height: 0; /* Allow the note to shrink into its grid cell so a long note scrolls internally instead of overflowing (and being clipped) */
     display: flex;
     flex-direction: column;
   }
@@ -301,6 +302,7 @@
     min-width: unset !important;
     margin: 0 !important;
     height: 100%;
+    min-height: 0; /* Allow the note to shrink into its grid cell so a long note scrolls internally instead of overflowing (and being clipped) */
     display: flex;
     flex-direction: column;
   }
