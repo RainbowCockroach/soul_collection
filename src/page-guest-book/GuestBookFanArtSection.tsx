@@ -14,6 +14,32 @@ import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
 import LoadingSpinner from "../common-components/LoadingSpinner";
+import guestbookArtPlaceholder from "../assets/guestbook_art_placeholder.webp";
+import guestbookArtPlaceholderDetail from "../assets/guestbook_art_placeholder_detail.webp";
+
+// Placeholder ("dummy") fan art shown when a page has fewer than `fanArtPerPage`
+// real submissions, or when there are no submissions at all. Negative ids keep
+// them from colliding with real message ids and mark them as non-interactive
+// (no edit/delete actions). See `isPlaceholderMessage`.
+const makePlaceholderMessage = (index: number): Message => ({
+  id: -1 - index,
+  content: {
+    name: null,
+    content: null,
+    thumbnail: guestbookArtPlaceholder,
+    full_image: guestbookArtPlaceholderDetail,
+    caption: null,
+    content_warning: null,
+  },
+  created_at: "",
+  updated_at: "",
+  expire_at: "",
+  type: "fan art",
+  password: null,
+  uploaded_path: null,
+});
+
+const isPlaceholderMessage = (message: Message): boolean => message.id < 0;
 
 interface PaginatedResponse {
   messages: Message[];
@@ -118,17 +144,6 @@ const GuestBookFanArtSection = forwardRef<
     return () => abortControllerRef.current?.abort();
   }, [currentPage, fetchFanArt]);
 
-  // Auto-advance pages like a carousel when there is more than one page.
-  // Wraps back to the first page after the last. Paused while a modal is open.
-  const totalPages = data?.pagination.totalPages ?? 1;
-  useEffect(() => {
-    if (totalPages <= 1 || editModalOpen || deleteModalOpen) return;
-    const interval = setInterval(() => {
-      setCurrentPage((prev) => (prev >= totalPages ? 1 : prev + 1));
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [totalPages, editModalOpen, deleteModalOpen]);
-
   const handlePrevPage = useCallback(() => {
     if (data?.pagination.hasPrev && !isPaginating) {
       setCurrentPage((prev) => prev - 1);
@@ -177,13 +192,18 @@ const GuestBookFanArtSection = forwardRef<
     );
   }
 
-  if (!data || data.messages.length === 0) {
-    return (
-      <div>
-        <p>No art? Put your art here!</p>
-      </div>
-    );
-  }
+  // Real submissions on the current page, padded with placeholder cards so the
+  // page always shows `fanArtPerPage` arches. When there are no submissions at
+  // all we still render a full dummy page rather than an empty-state message.
+  const realMessages = data?.messages ?? [];
+  const hasRealArt = realMessages.length > 0;
+  const placeholderCount = Math.max(0, fanArtPerPage - realMessages.length);
+  const displayMessages: Message[] = [
+    ...realMessages,
+    ...Array.from({ length: placeholderCount }, (_, i) =>
+      makePlaceholderMessage(i),
+    ),
+  ];
 
   return (
     <div className="guest-book-fanart-section" ref={sectionRef}>
@@ -196,7 +216,7 @@ const GuestBookFanArtSection = forwardRef<
         }}
       >
         <div className="pagination-nav-left pagination-nav-desktop">
-          {data.pagination.hasPrev ? (
+          {data?.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
               className="section-nav-button"
@@ -206,17 +226,20 @@ const GuestBookFanArtSection = forwardRef<
             <div className="nav-spacer"></div>
           )}
         </div>
-        {data.messages.map((message) => (
-          <GuestBookFanArt
-            key={message.id}
-            message={message}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onOpenFullscreenViewer={onOpenFullscreenViewer}
-          />
-        ))}
+        {displayMessages.map((message) => {
+          const placeholder = isPlaceholderMessage(message);
+          return (
+            <GuestBookFanArt
+              key={message.id}
+              message={message}
+              onEdit={placeholder ? undefined : handleEdit}
+              onDelete={placeholder ? undefined : handleDelete}
+              onOpenFullscreenViewer={onOpenFullscreenViewer}
+            />
+          );
+        })}
         <div className="pagination-nav-right pagination-nav-desktop">
-          {data.pagination.hasNext ? (
+          {data?.pagination.hasNext ? (
             <ArrowButton
               direction="right"
               className="section-nav-button"
@@ -228,41 +251,43 @@ const GuestBookFanArtSection = forwardRef<
         </div>
       </div>
 
-      {/* Pagination navigation bar */}
-      <div className="pagination-nav">
-        {/* Left navigation arrow */}
-        <div className="pagination-nav-left pagination-nav-mobile">
-          {data.pagination.hasPrev ? (
-            <ArrowButton
-              direction="left"
-              className="section-nav-button"
-              onClick={handlePrevPage}
-            />
-          ) : (
-            <div className="nav-spacer"></div>
-          )}
-        </div>
+      {/* Pagination navigation bar - only shown when real art exists */}
+      {hasRealArt && (
+        <div className="pagination-nav">
+          {/* Left navigation arrow */}
+          <div className="pagination-nav-left pagination-nav-mobile">
+            {data?.pagination.hasPrev ? (
+              <ArrowButton
+                direction="left"
+                className="section-nav-button"
+                onClick={handlePrevPage}
+              />
+            ) : (
+              <div className="nav-spacer"></div>
+            )}
+          </div>
 
-        {/* Pagination info */}
-        <div className="pagination-info">
-          {isPaginating
-            ? "Loading..."
-            : `${data.pagination.page} / ${data.pagination.totalPages}`}
-        </div>
+          {/* Pagination info */}
+          <div className="pagination-info">
+            {isPaginating
+              ? "Loading..."
+              : `${data?.pagination.page} / ${data?.pagination.totalPages}`}
+          </div>
 
-        {/* Right navigation arrow */}
-        <div className="pagination-nav-right pagination-nav-mobile">
-          {data.pagination.hasNext ? (
-            <ArrowButton
-              direction="right"
-              className="section-nav-button"
-              onClick={handleNextPage}
-            />
-          ) : (
-            <div className="nav-spacer"></div>
-          )}
+          {/* Right navigation arrow */}
+          <div className="pagination-nav-right pagination-nav-mobile">
+            {data?.pagination.hasNext ? (
+              <ArrowButton
+                direction="right"
+                className="section-nav-button"
+                onClick={handleNextPage}
+              />
+            ) : (
+              <div className="nav-spacer"></div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Modals */}
       {selectedMessage && (

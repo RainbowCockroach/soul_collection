@@ -26,10 +26,12 @@
 
 /* Individual fan art items */
 .fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
-  /* 4 items per row with a 8px gap → 25% - 6px each (largest that fits) */
-  flex: 0 0 calc(25% - 6px);
-  max-width: calc(25% - 6px);
-  min-width: 200px;
+  /* 4 items share the row with two nav columns (50px each) plus 5 gaps (8px).
+     Reserve that ~140px so the desktop arrows never overflow and get clipped by
+     overflow-x: hidden when a full page of 4 images is shown. */
+  flex: 0 0 calc(25% - 35px);
+  max-width: calc(25% - 35px);
+  min-width: 180px;
   box-sizing: border-box;
 }
 
@@ -132,8 +134,8 @@
   }
 
   .fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
-    flex: 0 0 calc(25% - 6px);
-    max-width: calc(25% - 6px);
+    flex: 0 0 calc(25% - 35px);
+    max-width: calc(25% - 35px);
   }
 }
 
