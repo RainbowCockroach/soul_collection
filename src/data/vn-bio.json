@@ -14,7 +14,10 @@
     },
     {
       "speaker": "Pink Truck V",
-      "text": ["Cooking convoluted lore and spaghetti code."],
+      "text": [
+        "Cooking convoluted lore and spaghetti code.",
+        "Thing is tab-able"
+      ],
       "speakerId": "pink-truck-v",
       "nameBadgeColor": "#1745ff",
       "spriteUrl": ""
