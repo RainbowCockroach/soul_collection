@@ -22,6 +22,7 @@ const RandomOcButton: React.FC<RandomOcButtonProps> = ({ className }) => {
     setIsLoading(true);
     try {
       let ocs = await loadOCs();
+      ocs = ocs.filter((oc) => !oc.workInProgress);
       if (isSafeModeEnabled) {
         ocs = ocs.filter((oc) => !isOcCensored(oc.slug));
       }

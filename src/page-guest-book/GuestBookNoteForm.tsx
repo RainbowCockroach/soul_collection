@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import GifSelector from "./GifSelector";
 import type { MessageContent } from "./types";
 import blinkies from "../data/guestbook-blinkies.json";
 import buttonSendNote from "../assets/button_send_note.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
-import { notifyNewGuestBookEntry } from "../helpers/discord-notify";
 import { SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
 
 interface GuestBookNoteFormProps {
@@ -51,6 +50,7 @@ const GuestBookNoteForm = ({
 
   // Success message state
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Update form when initialData changes (for edit mode)
   useEffect(() => {
@@ -63,6 +63,12 @@ const GuestBookNoteForm = ({
       });
     }
   }, [isEditMode, initialData]);
+
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    };
+  }, []);
 
 
   const handleNoteInputChange = (
@@ -89,14 +95,7 @@ const GuestBookNoteForm = ({
     try {
       await onSubmit(messageContent, "note", noteForm.password || null);
 
-      // Send Discord notification for new submissions (not edits)
-      if (!isEditMode) {
-        notifyNewGuestBookEntry("note", noteForm.name || "Anonymous").catch(
-          (err) => {
-            console.error("Discord notification failed:", err);
-          }
-        );
-      }
+      // Discord notification is sent server-side on message creation.
 
       // Reset form on successful submission
       setNoteForm({
@@ -108,7 +107,8 @@ const GuestBookNoteForm = ({
 
       // Show success message
       setShowSuccessMessage(true);
-      setTimeout(() => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => {
         setShowSuccessMessage(false);
       }, SUCCESS_MESSAGE_DURATION_MS);
     } catch {

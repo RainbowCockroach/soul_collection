@@ -1,5 +1,5 @@
-import { useState, useRef, type DragEvent } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { useState, useRef, useEffect, type DragEvent } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { apiBaseUrl } from "../helpers/constants";
 
 interface ImageUploadInputProps {
@@ -25,17 +25,39 @@ const ImageUploadInput = ({
   const [isDragging, setIsDragging] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Revoke the previous object URL when replaced/cleared to avoid leaks.
+  const previewUrlRef = useRef<string | null>(null);
+
+  const setPreviewUrl = (url: string | null) => {
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+    }
+    previewUrlRef.current = url;
+    setPreview(url);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+    };
+  }, []);
 
   // Internal CAPTCHA management
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
-  const captchaRef = useRef<TurnstileInstance>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
-  const handleCaptchaSuccess = (token: string) => {
-    setCaptchaToken(token);
-    setCaptchaVerified(true);
-    setShowCaptcha(false);
+  const handleCaptchaChange = (token: string | null) => {
+    if (token) {
+      setCaptchaToken(token);
+      setCaptchaVerified(true);
+      setShowCaptcha(false);
+    } else {
+      handleCaptchaError();
+    }
   };
 
   const handleCaptchaError = () => {
@@ -73,7 +95,7 @@ const ImageUploadInput = ({
 
       // Create preview
       const previewUrl = URL.createObjectURL(file);
-      setPreview(previewUrl);
+      setPreviewUrl(previewUrl);
 
       // Upload to server
       const formData = new FormData();
@@ -112,7 +134,7 @@ const ImageUploadInput = ({
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to upload image");
-      setPreview(null);
+      setPreviewUrl(null);
     } finally {
       setUploading(false);
     }
@@ -164,7 +186,7 @@ const ImageUploadInput = ({
   };
 
   const handleClear = () => {
-    setPreview(null);
+    setPreviewUrl(null);
     setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -194,12 +216,12 @@ const ImageUploadInput = ({
       {showCaptcha ? (
         <div style={{ marginBottom: "16px" }}>
           <p>Complete CAPTCHA to upload image:</p>
-          <Turnstile
+          <ReCAPTCHA
             ref={captchaRef}
-            siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-            onSuccess={handleCaptchaSuccess}
-            onError={handleCaptchaError}
-            onExpire={handleCaptchaError}
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={handleCaptchaChange}
+            onErrored={handleCaptchaError}
+            onExpired={handleCaptchaError}
           />
         </div>
       ) : (

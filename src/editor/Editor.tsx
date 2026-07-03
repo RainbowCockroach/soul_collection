@@ -7,6 +7,7 @@ import EditorTag from "./EditorTag";
 import EditorShip from "./EditorShip";
 import EditorDialog from "./EditorDialog";
 import EditorAd from "./EditorAd";
+import EditorBlinkies from "./EditorBlinkies";
 import EditorSafeModeCensor from "./EditorSafeModeCensor";
 import EditorBio from "./EditorBio";
 import EditorBackstory from "./EditorBackstory";
@@ -28,6 +29,7 @@ type EditorTab =
   | "dialogs"
   | "bio"
   | "ads"
+  | "blinkies"
   | "safe-mode-censor"
   | "backstory"
   | "height-chart"
@@ -56,6 +58,11 @@ export const Editor: React.FC = () => {
       component: EditorBackstory,
     },
     { id: "ads" as const, label: "Ads", component: EditorAd },
+    {
+      id: "blinkies" as const,
+      label: "Guestbook Blinkies",
+      component: EditorBlinkies,
+    },
     {
       id: "safe-mode-censor" as const,
       label: "Safe Mode Censor",

@@ -127,7 +127,7 @@ const PageMain: React.FC = () => {
 
       <Divider />
 
-      <div style={{ marginTop: "20px" }}>
+      <div>
         {/* For mobile and vertical tablet */}
         <div className="random-oc-button-section random-button-mobile">
           <p className="small-text-shadow">Click button for random character</p>

@@ -9,11 +9,13 @@ import Tooltip from "../common-components/Tooltip";
 import ShipHeartIcon from "../common-components/ShipHeartIcon";
 import buttonSoundOcSlot from "/sound-effect/button_oc_slot.mp3";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
+import underConstructionIcon from "../assets/under_construction.gif";
 
 export interface OC {
   slug: string;
   name: string;
   avatar: string[];
+  workInProgress?: boolean;
 }
 
 interface OcSlotProps {
@@ -74,11 +76,20 @@ const OcSlot: React.FC<OcSlotProps> = ({
             border: `5px solid ${frameColour}`,
           }}
         >
-          <AvatarSlideshow
-            images={oc.avatar}
-            alt={oc.name}
-            className="oc-avatar"
-          />
+          <div className="oc-avatar-wrapper">
+            <AvatarSlideshow
+              images={oc.avatar}
+              alt={oc.name}
+              className="oc-avatar"
+            />
+            {oc.workInProgress && (
+              <img
+                src={underConstructionIcon}
+                alt="Under construction"
+                className="oc-slot-wip-icon"
+              />
+            )}
+          </div>
           <div className="oc-slot-name-box">
             <h3 className="oc-name" style={{ color: textColour }}>
               <Marquee pauseOnHover={true} play={true}>

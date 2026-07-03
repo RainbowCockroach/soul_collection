@@ -42,6 +42,12 @@ function App() {
     return stopSparkles;
   }, []);
 
+  // Scroll back to the top whenever the route changes so a new page does not
+  // inherit the scroll position of the previous one.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   // Update background height after Routes render
   useEffect(() => {
     const backgroundEls = [

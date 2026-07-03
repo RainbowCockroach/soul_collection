@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useMusicPlayer } from "./useMusicPlayer";
+import { useMusicPlayer, useMusicPlayerProgress } from "./useMusicPlayer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretDown,
@@ -15,6 +15,54 @@ import {
 import VolumeIcon from "../common-components/VolumeIcon";
 import "./MusicPlayer.css";
 
+const formatTime = (seconds: number): string => {
+  if (isNaN(seconds)) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+};
+
+// Reads the high-frequency progress context so only this readout re-renders on
+// each audio time tick, not the whole control bar.
+const PlaybackTime: React.FC<{ hasTrack: boolean }> = ({ hasTrack }) => {
+  const { currentTime, duration } = useMusicPlayerProgress();
+  if (!hasTrack || duration <= 0) return null;
+
+  return (
+    <div className="time-display">
+      <span className="time-current">{formatTime(currentTime)}</span>
+      <span className="time-separator">/</span>
+      <span className="time-total">{formatTime(duration)}</span>
+    </div>
+  );
+};
+
+// Subscribes to progress for `volume`; volume changes ~60x/sec during fade-in,
+// so isolating it keeps the rest of the bar still.
+const VolumeSlider: React.FC = () => {
+  const { volume } = useMusicPlayerProgress();
+  const { setVolume } = useMusicPlayer();
+
+  return (
+    <div className="volume-slider-container">
+      <div className="volume-slider-wrapper">
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value={volume}
+          onChange={(e) => setVolume(parseFloat(e.target.value))}
+          className="volume-slider"
+          aria-label="Volume"
+          aria-valuetext={`${Math.round(volume * 100)}%`}
+        />
+      </div>
+      <span className="volume-value">{Math.round(volume * 100)}%</span>
+    </div>
+  );
+};
+
 export const MusicPlayerControls: React.FC = () => {
   const {
     state,
@@ -22,7 +70,6 @@ export const MusicPlayerControls: React.FC = () => {
     nextTrack,
     previousTrack,
     playTrack,
-    setVolume,
     toggleLoop,
   } = useMusicPlayer();
   const [showTrackList, setShowTrackList] = useState(false);
@@ -38,18 +85,6 @@ export const MusicPlayerControls: React.FC = () => {
   const handleTrackSelect = (trackIndex: number) => {
     playTrack(trackIndex);
     setShowTrackList(false);
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-  };
-
-  const formatTime = (seconds: number): string => {
-    if (isNaN(seconds)) return "0:00";
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   // Handle click outside volume control to hide slider
@@ -197,36 +232,11 @@ export const MusicPlayerControls: React.FC = () => {
             <VolumeIcon fill="white" />
           </button>
 
-          {showVolumeSlider && (
-            <div className="volume-slider-container">
-              <div className="volume-slider-wrapper">
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.05"
-                  value={state.volume}
-                  onChange={handleVolumeChange}
-                  className="volume-slider"
-                  aria-label="Volume"
-                  aria-valuetext={`${Math.round(state.volume * 100)}%`}
-                />
-              </div>
-              <span className="volume-value">
-                {Math.round(state.volume * 100)}%
-              </span>
-            </div>
-          )}
+          {showVolumeSlider && <VolumeSlider />}
         </div>
 
         {/* Time Display */}
-        {currentTrack && state.duration > 0 && (
-          <div className="time-display">
-            <span className="time-current">{formatTime(state.currentTime)}</span>
-            <span className="time-separator">/</span>
-            <span className="time-total">{formatTime(state.duration)}</span>
-          </div>
-        )}
+        <PlaybackTime hasTrack={currentTrack !== null} />
 
         {/* Minimize Button */}
         <button

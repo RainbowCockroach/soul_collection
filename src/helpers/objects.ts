@@ -47,6 +47,7 @@ export interface OC {
   breadcrumbs: BreadcrumbItem[]; // Array of breadcrumb items
   tags: string[];
   order?: number; // Display order
+  workInProgress?: boolean; // When true, OC is hidden from the random button and shows an "under construction" overlay in lists
 }
 
 // index 0 = birth form slug (empty string if none), index 1 = god form slug (empty string if none)

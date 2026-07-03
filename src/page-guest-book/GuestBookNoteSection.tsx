@@ -1,6 +1,7 @@
 import {
   useState,
   useEffect,
+  useRef,
   useCallback,
   useImperativeHandle,
   forwardRef,
@@ -13,13 +14,6 @@ import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookNoteSection.css";
 import LoadingSpinner from "../common-components/LoadingSpinner";
-
-// Hook to get responsive notes per page - keeping 4 notes for both desktop and mobile
-const useResponsiveNotesPerPage = (defaultNotesPerPage: number) => {
-  // Always use the default number of notes per page (4) for consistency
-  // Mobile will display them in a 2x2 grid layout instead of reducing the count
-  return defaultNotesPerPage;
-};
 
 interface PaginatedResponse {
   messages: Message[];
@@ -44,25 +38,38 @@ export interface GuestBookNoteSectionRef {
 const GuestBookNoteSection = forwardRef<
   GuestBookNoteSectionRef,
   GuestBookNoteSectionProps
->(({ notesPerPage: defaultNotesPerPage = 4 }, ref) => {
-  const notesPerPage = useResponsiveNotesPerPage(defaultNotesPerPage);
+>(({ notesPerPage = 4 }, ref) => {
   const [data, setData] = useState<PaginatedResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isPaginating, setIsPaginating] = useState(false);
+  const hasInitiallyLoaded = useRef(false);
+  // Single in-flight controller so fetches can't race and overwrite each other.
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Modal state
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
-  // Fetch notes for the current page. An optional AbortSignal lets the
-  // effect cancel an in-flight request when the page changes or the
-  // component unmounts, avoiding state updates on an unmounted component.
+  // Fetch notes for the current page; aborts any prior in-flight request.
+  // The first load shows the full-section spinner; later page changes dim the
+  // existing notes in place via isPaginating instead of unmounting them.
   const fetchNotes = useCallback(
-    async (page: number, signal?: AbortSignal) => {
+    async (page: number, isInitialLoad: boolean = false) => {
+      abortControllerRef.current?.abort();
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+      const { signal } = controller;
+
       try {
-        setLoading(true);
+        if (isInitialLoad) {
+          setLoading(true);
+        } else {
+          setIsPaginating(true);
+        }
+
         const response = await fetch(
           `${apiBaseUrl}/messages?type=note&page=${page}&limit=${notesPerPage}`,
           { signal }
@@ -75,49 +82,55 @@ const GuestBookNoteSection = forwardRef<
         const responseData = await response.json();
         setData(responseData);
         setError(null);
+
+        if (isInitialLoad) {
+          hasInitiallyLoaded.current = true;
+        }
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "An error occurred");
         setData(null);
       } finally {
-        if (!signal?.aborted) setLoading(false);
+        if (!signal.aborted) {
+          if (isInitialLoad) {
+            setLoading(false);
+          } else {
+            setIsPaginating(false);
+          }
+        }
       }
     },
     [notesPerPage]
   );
 
   // Expose refresh function to parent component
-  useImperativeHandle(ref, () => ({
-    refresh: () => fetchNotes(currentPage),
-  }), [fetchNotes, currentPage]);
+  useImperativeHandle(
+    ref,
+    () => ({
+      refresh: () => fetchNotes(currentPage, false),
+    }),
+    [fetchNotes, currentPage]
+  );
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetchNotes(currentPage, controller.signal);
-    return () => controller.abort();
+    const isInitialLoad = !hasInitiallyLoaded.current;
+    fetchNotes(currentPage, isInitialLoad);
+    return () => abortControllerRef.current?.abort();
   }, [currentPage, fetchNotes]);
 
-  const [loadingDirection, setLoadingDirection] = useState<
-    "left" | "right" | null
-  >(null);
+  // The note section does not auto-advance; readers turn pages manually.
 
-  useEffect(() => {
-    if (!loading) setLoadingDirection(null);
-  }, [loading]);
-
-  const handlePrevPage = () => {
-    if (data?.pagination.hasPrev && !loading) {
-      setLoadingDirection("left");
+  const handlePrevPage = useCallback(() => {
+    if (data?.pagination.hasPrev && !isPaginating) {
       setCurrentPage((prev) => prev - 1);
     }
-  };
+  }, [data?.pagination.hasPrev, isPaginating]);
 
-  const handleNextPage = () => {
-    if (data?.pagination.hasNext && !loading) {
-      setLoadingDirection("right");
+  const handleNextPage = useCallback(() => {
+    if (data?.pagination.hasNext && !isPaginating) {
       setCurrentPage((prev) => prev + 1);
     }
-  };
+  }, [data?.pagination.hasNext, isPaginating]);
 
   // Modal handlers
   const handleEdit = (message: Message) => {
@@ -138,14 +151,12 @@ const GuestBookNoteSection = forwardRef<
 
   const handleModalSuccess = () => {
     // Refresh the current page to show updated data
-    fetchNotes(currentPage);
+    fetchNotes(currentPage, false);
     handleModalClose();
   };
 
-  if (loading && !data) {
-    return (
-      <LoadingSpinner message="Loading notes..." />
-    );
+  if (loading) {
+    return <LoadingSpinner message="Loading notes..." />;
   }
 
   if (error) {
@@ -167,11 +178,15 @@ const GuestBookNoteSection = forwardRef<
   return (
     <div className="guest-book-note-section">
       {/* Notes display */}
-      <div className="notes-display">
+      <div
+        className="notes-display"
+        style={{
+          opacity: isPaginating ? 0.6 : 1,
+          transition: "opacity 0.2s ease",
+        }}
+      >
         <div className="pagination-nav-left pagination-nav-desktop">
-          {loadingDirection === "left" ? (
-            <LoadingSpinner size="small" message="" />
-          ) : data.pagination.hasPrev ? (
+          {data.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
               className="section-nav-button"
@@ -190,9 +205,7 @@ const GuestBookNoteSection = forwardRef<
           />
         ))}
         <div className="pagination-nav-right pagination-nav-desktop">
-          {loadingDirection === "right" ? (
-            <LoadingSpinner size="small" message="" />
-          ) : data.pagination.hasNext ? (
+          {data.pagination.hasNext ? (
             <ArrowButton
               direction="right"
               className="section-nav-button"
@@ -208,9 +221,7 @@ const GuestBookNoteSection = forwardRef<
       <div className="pagination-nav">
         {/* Left navigation arrow */}
         <div className="pagination-nav-left pagination-nav-mobile">
-          {loadingDirection === "left" ? (
-            <LoadingSpinner size="small" message="" />
-          ) : data.pagination.hasPrev ? (
+          {data.pagination.hasPrev ? (
             <ArrowButton
               direction="left"
               className="section-nav-button"
@@ -223,14 +234,14 @@ const GuestBookNoteSection = forwardRef<
 
         {/* Pagination info */}
         <div className="pagination-info">
-          {data.pagination.page} / {data.pagination.totalPages}
+          {isPaginating
+            ? "Loading..."
+            : `${data.pagination.page} / ${data.pagination.totalPages}`}
         </div>
 
         {/* Right navigation arrow */}
         <div className="pagination-nav-right pagination-nav-mobile">
-          {loadingDirection === "right" ? (
-            <LoadingSpinner size="small" message="" />
-          ) : data.pagination.hasNext ? (
+          {data.pagination.hasNext ? (
             <ArrowButton
               direction="right"
               className="section-nav-button"

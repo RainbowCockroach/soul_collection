@@ -2,12 +2,12 @@
 .guest-book-fanart-section {
   --container-height: 320px;
   --border-radius: 15px;
-  --gap-desktop: 15px;
-  --gap-tablet: 10px;
+  --gap-desktop: 8px;
+  --gap-tablet: 8px;
   --gap-mobile: 8px;
 
   margin: 0;
-  padding: 0 20px;
+  padding: 0;
 }
 
 /* Fan art display area */
@@ -20,14 +20,15 @@
   overflow-x: hidden;
   /* Hug the actual content; no fixed minimum so partial pages
      (e.g. only 1-2 images) don't reserve blank space for a full set */
-  margin-bottom: 20px;
-  padding: 5px;
+  margin-bottom: 2px;
+  padding: 5px 5px 0;
 }
 
 /* Individual fan art items */
 .fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
-  flex: 0 0 calc(22% - 11.25px);
-  max-width: calc(22% - 11.25px);
+  /* 4 items per row with a 8px gap → 25% - 6px each (largest that fits) */
+  flex: 0 0 calc(25% - 6px);
+  max-width: calc(25% - 6px);
   min-width: 200px;
   box-sizing: border-box;
 }
@@ -131,8 +132,8 @@
   }
 
   .fanart-display > *:not(.pagination-nav-left):not(.pagination-nav-right) {
-    flex: 0 0 calc(22% - 7.5px);
-    max-width: calc(22% - 7.5px);
+    flex: 0 0 calc(25% - 6px);
+    max-width: calc(25% - 6px);
   }
 }
 

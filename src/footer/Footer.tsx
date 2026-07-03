@@ -23,6 +23,14 @@ const Footer: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // __BUILD_DATE__ is stamped at build time (see vite.config.ts). In CI this
+  // is the deploy time, so it reflects when the site was last updated.
+  const lastUpdated = new Date(__BUILD_DATE__).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <footer className="site-footer">
       <nav className="social-links" aria-label="Social media">
@@ -54,6 +62,7 @@ const Footer: React.FC = () => {
       >
         Back to top
       </span>
+      <span className="last-updated">Last updated on {lastUpdated}</span>
     </footer>
   );
 };

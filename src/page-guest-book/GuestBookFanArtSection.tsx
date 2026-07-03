@@ -47,6 +47,8 @@ const GuestBookFanArtSection = forwardRef<
   const [isPaginating, setIsPaginating] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const hasInitiallyLoaded = useRef(false);
+  // Single in-flight controller so fetches can't race and overwrite each other.
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Modal state
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -55,11 +57,12 @@ const GuestBookFanArtSection = forwardRef<
 
   // Fetch fan art for the current page
   const fetchFanArt = useCallback(
-    async (
-      page: number,
-      isInitialLoad: boolean = false,
-      signal?: AbortSignal,
-    ) => {
+    async (page: number, isInitialLoad: boolean = false) => {
+      abortControllerRef.current?.abort();
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+      const { signal } = controller;
+
       try {
         if (isInitialLoad) {
           setLoading(true);
@@ -88,7 +91,7 @@ const GuestBookFanArtSection = forwardRef<
         setError(err instanceof Error ? err.message : "An error occurred");
         setData(null);
       } finally {
-        if (!signal?.aborted) {
+        if (!signal.aborted) {
           if (isInitialLoad) {
             setLoading(false);
           } else {
@@ -101,16 +104,30 @@ const GuestBookFanArtSection = forwardRef<
   );
 
   // Expose refresh function to parent component
-  useImperativeHandle(ref, () => ({
-    refresh: () => fetchFanArt(currentPage, false),
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      refresh: () => fetchFanArt(currentPage, false),
+    }),
+    [fetchFanArt, currentPage],
+  );
 
   useEffect(() => {
-    const controller = new AbortController();
     const isInitialLoad = !hasInitiallyLoaded.current;
-    fetchFanArt(currentPage, isInitialLoad, controller.signal);
-    return () => controller.abort();
+    fetchFanArt(currentPage, isInitialLoad);
+    return () => abortControllerRef.current?.abort();
   }, [currentPage, fetchFanArt]);
+
+  // Auto-advance pages like a carousel when there is more than one page.
+  // Wraps back to the first page after the last. Paused while a modal is open.
+  const totalPages = data?.pagination.totalPages ?? 1;
+  useEffect(() => {
+    if (totalPages <= 1 || editModalOpen || deleteModalOpen) return;
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev >= totalPages ? 1 : prev + 1));
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [totalPages, editModalOpen, deleteModalOpen]);
 
   const handlePrevPage = useCallback(() => {
     if (data?.pagination.hasPrev && !isPaginating) {

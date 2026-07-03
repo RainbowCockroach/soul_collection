@@ -13,6 +13,7 @@ import {
   faBars,
   faEyeLowVision,
   faPepperHot,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSafeMode } from "../safe-mode/SafeModeContext";
 import buttonSoundHover from "/sound-effect/button_hover.mp3";
@@ -103,6 +104,7 @@ const Navbar = () => {
       name: "Main",
       href: `${baseUrl}/`,
       disabled: false,
+      icon: faHouse,
     },
     {
       name: "All",
@@ -190,8 +192,13 @@ const Navbar = () => {
                     opacity: item.disabled ? 0.5 : 1,
                     cursor: item.disabled ? "not-allowed" : "pointer",
                   }}
+                  title={item.name}
                 >
-                  {item.name}
+                  {item.icon ? (
+                    <FontAwesomeIcon icon={item.icon} aria-label={item.name} />
+                  ) : (
+                    item.name
+                  )}
                 </div>
               </ButtonWrapper>
             ))}

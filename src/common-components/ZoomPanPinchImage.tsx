@@ -118,9 +118,13 @@ const ZoomPanPinchImage = forwardRef<
     }
   };
 
-  useImperativeHandle(ref, () => ({
-    resetTransform,
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      resetTransform,
+    }),
+    [resetTransform]
+  );
 
   const handleImageLoad = () => {
     setIsLoading(false);
