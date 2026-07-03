@@ -448,9 +448,81 @@ const GuestBookFanArtForm = ({
     setOtherContentWarning(e.target.value);
   };
 
+  // Cropper + CAPTCHA modals. Shared between edit and normal mode so changing
+  // the image works in both — both use fixed positioning, so their place in the
+  // tree doesn't matter. onErrored is handled WITHOUT reset() so a failing load
+  // (e.g. missing site key) can't loop.
+  const uploadModals = (
+    <>
+      {/* Image Cropper Modal */}
+      {imageSrc && (
+        <ImageCropper
+          isOpen={showCropper}
+          imageSrc={imageSrc}
+          aspectRatio={1 / 1.618}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+          maxWidth={300}
+          maxHeight={485}
+        />
+      )}
+
+      {/* CAPTCHA Modal - only mounted while needed. */}
+      {showCaptcha && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "30px",
+              borderRadius: "8px",
+              maxWidth: "400px",
+            }}
+          >
+            <h3>Complete CAPTCHA to upload</h3>
+            <ReCAPTCHA
+              ref={captchaRef}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+              onChange={handleCaptchaChange}
+              onErrored={handleCaptchaErrored}
+              onExpired={handleCaptchaExpired}
+            />
+            <button
+              type="button"
+              onClick={handleCropCancel}
+              style={{
+                marginTop: "16px",
+                padding: "8px 16px",
+                backgroundColor: "#ccc",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+
   // In edit mode, render form directly without container
   if (isEditMode) {
     return (
+      <>
       <form
         onSubmit={handleFanArtSubmit}
         className="div-3d-with-shadow guest-book-form"
@@ -660,6 +732,8 @@ const GuestBookFanArtForm = ({
           </div>
         )}
       </form>
+      {uploadModals}
+      </>
     );
   }
 
@@ -870,69 +944,7 @@ const GuestBookFanArtForm = ({
         </form>
       )}
 
-      {/* Image Cropper Modal */}
-      {imageSrc && (
-        <ImageCropper
-          isOpen={showCropper}
-          imageSrc={imageSrc}
-          aspectRatio={1 / 1.618}
-          onCropComplete={handleCropComplete}
-          onCancel={handleCropCancel}
-          maxWidth={300}
-          maxHeight={485}
-        />
-      )}
-
-      {/* CAPTCHA Modal - only mounted while needed. onErrored is handled WITHOUT
-          reset() so a failing load (e.g. missing site key) can't loop. */}
-      {showCaptcha && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "30px",
-              borderRadius: "8px",
-              maxWidth: "400px",
-            }}
-          >
-            <h3>Complete CAPTCHA to upload</h3>
-            <ReCAPTCHA
-              ref={captchaRef}
-              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-              onChange={handleCaptchaChange}
-              onErrored={handleCaptchaErrored}
-              onExpired={handleCaptchaExpired}
-            />
-            <button
-              type="button"
-              onClick={handleCropCancel}
-              style={{
-                marginTop: "16px",
-                padding: "8px 16px",
-                backgroundColor: "#ccc",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+      {uploadModals}
     </div>
   );
 };
