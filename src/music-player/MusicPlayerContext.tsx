@@ -6,9 +6,13 @@ import {
   useMemo,
   type ReactNode,
 } from "react";
-import type { MusicPlayerState, MusicPlayerContextType } from "./types";
-import { initialState } from "./constants";
-import { MusicPlayerContext } from "./context";
+import type {
+  MusicPlayerState,
+  MusicPlayerProgress,
+  MusicPlayerContextType,
+} from "./types";
+import { initialState, initialProgress } from "./constants";
+import { MusicPlayerContext, MusicPlayerProgressContext } from "./context";
 
 const MUSIC_PAUSED_KEY = "soul_collection_music_paused";
 const FIRST_VISIT_KEY = "soul_collection_first_visit_completed";
@@ -22,6 +26,8 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
   children,
 }) => {
   const [state, setState] = useState<MusicPlayerState>(initialState);
+  const [progress, setProgress] =
+    useState<MusicPlayerProgress>(initialProgress);
   const audioRef = useRef<HTMLAudioElement>(null);
   const hasAutoPlayedRef = useRef<boolean>(false);
   const fadeAnimationRef = useRef<number | null>(null);
@@ -30,6 +36,8 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
   // they bind once instead of re-attaching on every state change.
   const stateRef = useRef(state);
   stateRef.current = state;
+  const progressRef = useRef(progress);
+  progressRef.current = progress;
 
   const playTrack = useCallback((index: number) => {
     if (index < 0 || index >= stateRef.current.tracks.length) return;
@@ -81,7 +89,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     if (!audioRef.current) return;
     const clampedVolume = Math.max(0, Math.min(1, volume));
     audioRef.current.volume = clampedVolume;
-    setState((prev) => ({ ...prev, volume: clampedVolume }));
+    setProgress((prev) => ({ ...prev, volume: clampedVolume }));
   }, []);
 
   const toggleLoop = useCallback(() => {
@@ -108,7 +116,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 
       // Set initial volume to 0
       audio.volume = startVolume;
-      setState((prev) => ({ ...prev, volume: startVolume }));
+      setProgress((prev) => ({ ...prev, volume: startVolume }));
 
       const animate = () => {
         const elapsed = Date.now() - startTime;
@@ -120,7 +128,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
           startVolume + (targetVolume - startVolume) * easeOut;
 
         audio.volume = currentVolume;
-        setState((prev) => ({ ...prev, volume: currentVolume }));
+        setProgress((prev) => ({ ...prev, volume: currentVolume }));
 
         if (progress < 1) {
           fadeAnimationRef.current = requestAnimationFrame(animate);
@@ -179,7 +187,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     };
 
     const handleTimeUpdate = () => {
-      setState((prev) => ({
+      setProgress((prev) => ({
         ...prev,
         currentTime: audio.currentTime,
         duration: audio.duration || 0,
@@ -187,7 +195,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     };
 
     const handleVolumeChange = () => {
-      setState((prev) => ({ ...prev, volume: audio.volume }));
+      setProgress((prev) => ({ ...prev, volume: audio.volume }));
     };
 
     audio.addEventListener("loadstart", handleLoadStart);
@@ -199,7 +207,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     audio.addEventListener("volumechange", handleVolumeChange);
 
     // Set initial volume
-    audio.volume = stateRef.current.volume;
+    audio.volume = progressRef.current.volume;
 
     return () => {
       audio.removeEventListener("loadstart", handleLoadStart);
@@ -266,10 +274,10 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
               // Mark first visit as completed
               localStorage.setItem(FIRST_VISIT_KEY, "true");
               // Fade in from 0 to default volume (0.2) over 3 seconds
-              fadeInAudio(initialState.volume, 3000);
+              fadeInAudio(initialProgress.volume, 3000);
             } else {
               // For subsequent visits, play at normal volume immediately
-              audio.volume = stateRef.current.volume;
+              audio.volume = progressRef.current.volume;
             }
           })
           .catch((error) => {
@@ -318,7 +326,7 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
             // Mark first visit as completed
             localStorage.setItem(FIRST_VISIT_KEY, "true");
             // Fade in from 0 to default volume (0.2) over 3 seconds
-            fadeInAudio(initialState.volume, 3000);
+            fadeInAudio(initialProgress.volume, 3000);
           })
           .catch((error) => {
             console.error("Failed to auto-play music after popup close:", error);
@@ -368,8 +376,10 @@ export const MusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
 
   return (
     <MusicPlayerContext.Provider value={contextValue}>
-      {children}
-      <audio ref={audioRef} preload="metadata" />
+      <MusicPlayerProgressContext.Provider value={progress}>
+        {children}
+        <audio ref={audioRef} preload="metadata" />
+      </MusicPlayerProgressContext.Provider>
     </MusicPlayerContext.Provider>
   );
 };

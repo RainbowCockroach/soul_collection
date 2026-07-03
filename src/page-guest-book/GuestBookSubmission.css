@@ -55,6 +55,7 @@
 
 .form-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 15px;
   margin-bottom: 15px;
 }
@@ -63,12 +64,13 @@
   margin-bottom: 15px;
 }
 
-.name-group {
-  flex: 1;
-}
-
+/* Sit side by side while there's room; once the form gets too narrow (e.g. the
+   sidebar on a landscape iPad, where the viewport is wide but this column
+   isn't) the min-width forces them onto separate rows instead of cramming. */
+.name-group,
 .blinkie-group {
-  flex: 1;
+  flex: 1 1 160px;
+  min-width: 160px;
 }
 
 .character-counter {

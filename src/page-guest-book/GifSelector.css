@@ -169,16 +169,26 @@
 /* Grid */
 .gif-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-  gap: 12px;
-  padding: 12px;
+  /* Small, tightly-packed cells like an emoji/sticker picker so the little
+     blinkies sit close together instead of floating in large cells. */
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  grid-auto-rows: 42px;
+  gap: 4px;
+  padding: 8px;
   overflow-y: auto;
   max-height: 240px;
 }
 
 .gif-grid-item {
   position: relative;
-  aspect-ratio: 1;
+  /* A <button> grid item defaults to justify-self/align-self: normal, which
+     for form controls resolves to fit-content rather than stretch. Without an
+     explicit size it collapses around its (circularly-sized) <img> to ~12px
+     and the blinkie never shows. Fill the grid cell explicitly; the cell's
+     height comes from grid-auto-rows on .gif-grid (aspect-ratio does not feed
+     back into auto row-track sizing here, so we can't rely on it). */
+  width: 100%;
+  height: 100%;
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
@@ -188,7 +198,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 2px;
   /* Reset native button styling */
   font: inherit;
   color: inherit;
@@ -259,9 +269,10 @@
   }
 
   .gif-grid {
-    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-    gap: 8px;
-    padding: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    grid-auto-rows: 40px;
+    gap: 4px;
+    padding: 6px;
   }
 
   .gif-grid-container {
