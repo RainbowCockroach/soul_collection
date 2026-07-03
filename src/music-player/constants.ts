@@ -1,4 +1,4 @@
-import type { Track, MusicPlayerState } from "./types";
+import type { Track, MusicPlayerState, MusicPlayerProgress } from "./types";
 import { baseUrl } from "../helpers/constants";
 
 export const initialTracks: Track[] = [
@@ -45,8 +45,11 @@ export const initialState: MusicPlayerState = {
   currentTrackIndex: 0,
   isPlaying: false,
   isLoading: false,
-  volume: 0.2,
   isLooping: true,
+};
+
+export const initialProgress: MusicPlayerProgress = {
   duration: 0,
   currentTime: 0,
+  volume: 0.2,
 };
