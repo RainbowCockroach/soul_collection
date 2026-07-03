@@ -40,6 +40,19 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
   const displayImage =
     message.content.thumbnail || message.content.full_image;
 
+  // Only show the date when `created_at` parses to a real date. Placeholder
+  // ("dummy") cards carry an empty created_at and must not render "Invalid Date".
+  const createdDate = message.created_at
+    ? new Date(message.created_at)
+    : null;
+  const dateLabel =
+    createdDate && !isNaN(createdDate.getTime())
+      ? createdDate.toLocaleDateString()
+      : null;
+  const hasInfo = Boolean(
+    message.content.name || dateLabel || message.content.caption,
+  );
+
   // Apply pixelation if content warning exists and image is not uncensored
   const { url: processedImage, useCssFilter, displayWarning } = useBlurImage(
     displayImage || "",
@@ -99,22 +112,26 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
             )}
 
             {/* Artist info and caption - overlay on image */}
-            <div className="fanart-info">
-              <div className="fanart-header">
-                <span className="fanart-artist text-shadow-dark">
-                  {message.content.name}
-                </span>
-                <span className="fanart-date text-shadow-dark">
-                  {new Date(message.created_at).toLocaleDateString()}
-                </span>
-              </div>
-
-              {message.content.caption && (
-                <div className="fanart-caption text-shadow-dark">
-                  {message.content.caption}
+            {hasInfo && (
+              <div className="fanart-info">
+                <div className="fanart-header">
+                  <span className="fanart-artist text-shadow-dark">
+                    {message.content.name}
+                  </span>
+                  {dateLabel && (
+                    <span className="fanart-date text-shadow-dark">
+                      {dateLabel}
+                    </span>
+                  )}
                 </div>
-              )}
-            </div>
+
+                {message.content.caption && (
+                  <div className="fanart-caption text-shadow-dark">
+                    {message.content.caption}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
