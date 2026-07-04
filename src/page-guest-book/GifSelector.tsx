@@ -51,28 +51,32 @@ const GifSelector = ({
     };
   }, [isExpanded]);
 
-  const handleTrayClick = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const canSelectMore = selectedGifs.length < maxSelection;
 
-  // Toggle a GIF in the grid: remove it if already selected, otherwise add it
-  // (when under the max). This keeps every action reachable by keyboard.
-  const handleGifToggle = (gifUrl: string) => {
-    const index = selectedGifs.indexOf(gifUrl);
-    if (index !== -1) {
-      const newSelection = [...selectedGifs];
-      newSelection.splice(index, 1);
-      onSelectionChange(newSelection);
-    } else if (selectedGifs.length < maxSelection) {
+  // Grid clicks add a copy. The same blinkie may be picked more than once, so
+  // adding is one-directional (up to the max) — removal happens in the tray.
+  const handleAdd = (gifUrl: string) => {
+    if (canSelectMore) {
       onSelectionChange([...selectedGifs, gifUrl]);
     }
+  };
+
+  // Remove a single picked instance by its position in the tray, so removing
+  // one copy of a duplicated blinkie leaves the others in place.
+  const handleRemoveAt = (index: number) => {
+    const newSelection = [...selectedGifs];
+    newSelection.splice(index, 1);
+    onSelectionChange(newSelection);
   };
 
   const handleClearAll = () => {
     onSelectionChange([]);
   };
 
-  const canSelectMore = selectedGifs.length < maxSelection;
+  const countOf = (gifUrl: string) =>
+    selectedGifs.reduce((total, gif) => (gif === gifUrl ? total + 1 : total), 0);
+
+  const remaining = maxSelection - selectedGifs.length;
 
   return (
     <div className="gif-selector" ref={containerRef}>
@@ -82,36 +86,65 @@ const GifSelector = ({
         </span>
       )}
 
-      {/* Tray (toggle) */}
-      <button
-        type="button"
-        ref={trayRef}
+      {/* Tray: previews double as remove buttons; the arrow toggles the grid */}
+      <div
         className={`gif-tray ${isExpanded ? "expanded" : "collapsed"}`}
-        onClick={handleTrayClick}
-        aria-expanded={isExpanded}
-        aria-controls={gridId}
         aria-labelledby={label ? `${gridId}-label` : undefined}
       >
         {selectedGifs.length > 0 ? (
           <span className="gif-tray-items">
             {selectedGifs.map((gifUrl, index) => (
-              <span key={index} className="gif-tray-item">
-                <img src={gifUrl} alt={`Selected GIF ${index + 1}`} />
-              </span>
+              <button
+                type="button"
+                key={index}
+                className="gif-tray-item"
+                onClick={() => handleRemoveAt(index)}
+                aria-label={`Remove blinkie ${index + 1}`}
+              >
+                <img src={gifUrl} alt="" />
+                <span className="gif-remove-indicator" aria-hidden="true">
+                  ×
+                </span>
+              </button>
             ))}
-            {selectedGifs.length < maxSelection && (
-              <span className="gif-tray-placeholder">
-                {maxSelection - selectedGifs.length} more
-              </span>
+            {canSelectMore && (
+              <button
+                type="button"
+                className="gif-tray-add"
+                onClick={() => setIsExpanded(true)}
+                aria-expanded={isExpanded}
+                aria-controls={gridId}
+                aria-label={`Add more blinkies (${remaining} left)`}
+              >
+                + {remaining} more
+              </button>
             )}
           </span>
         ) : (
-          <span className="gif-tray-empty">Can pick {maxSelection}!</span>
+          <button
+            type="button"
+            className="gif-tray-empty-toggle"
+            onClick={() => setIsExpanded(!isExpanded)}
+            aria-expanded={isExpanded}
+            aria-controls={gridId}
+          >
+            <span className="gif-tray-empty">Can pick {maxSelection}!</span>
+          </button>
         )}
-        <span className={`gif-tray-arrow ${isExpanded ? "up" : "down"}`}>
-          ▼
-        </span>
-      </button>
+        <button
+          type="button"
+          ref={trayRef}
+          className="gif-tray-arrow-button"
+          onClick={() => setIsExpanded(!isExpanded)}
+          aria-expanded={isExpanded}
+          aria-controls={gridId}
+          aria-label={isExpanded ? "Hide blinkie picker" : "Show blinkie picker"}
+        >
+          <span className={`gif-tray-arrow ${isExpanded ? "up" : "down"}`}>
+            ▼
+          </span>
+        </button>
+      </div>
 
       {/* Grid */}
       {isExpanded && (
@@ -132,27 +165,31 @@ const GifSelector = ({
           </div>
           <div className="gif-grid">
             {availableGifs.map((gifUrl, index) => {
-              const isSelected = selectedGifs.includes(gifUrl);
-              const isDisabled = !isSelected && !canSelectMore;
+              const count = countOf(gifUrl);
+              const isDisabled = !canSelectMore;
               return (
                 <button
                   type="button"
                   key={index}
-                  className={`gif-grid-item ${isSelected ? "selected" : ""} ${
+                  className={`gif-grid-item ${count > 0 ? "selected" : ""} ${
                     isDisabled ? "disabled" : ""
                   }`}
-                  onClick={() => handleGifToggle(gifUrl)}
+                  onClick={() => handleAdd(gifUrl)}
                   disabled={isDisabled}
-                  aria-pressed={isSelected}
                   aria-label={
-                    isSelected
-                      ? `Remove GIF ${index + 1}`
-                      : isDisabled
-                        ? `GIF ${index + 1} (maximum ${maxSelection} selected)`
-                        : `Select GIF ${index + 1}`
+                    isDisabled
+                      ? `Blinkie ${index + 1} (maximum ${maxSelection} picked)`
+                      : count > 0
+                        ? `Add another blinkie ${index + 1} (${count} picked)`
+                        : `Add blinkie ${index + 1}`
                   }
                 >
                   <img src={gifUrl} alt="" />
+                  {count > 0 && (
+                    <span className="gif-count-badge" aria-hidden="true">
+                      ×{count}
+                    </span>
+                  )}
                   {isDisabled && <div className="gif-disabled-overlay" />}
                 </button>
               );

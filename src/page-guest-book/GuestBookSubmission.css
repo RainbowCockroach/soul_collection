@@ -53,24 +53,20 @@
   border-color: var(--color-green);
 }
 
+/* Name and blinkie inputs each get their own full-width row, so the layout is
+   identical on desktop and mobile. The wrapper is transparent to layout so its
+   two children flow as regular stacked form-groups. */
 .form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 15px;
+  display: contents;
 }
 
 .form-group {
   margin-bottom: 15px;
 }
 
-/* Sit side by side while there's room; once the form gets too narrow (e.g. the
-   sidebar on a landscape iPad, where the viewport is wide but this column
-   isn't) the min-width forces them onto separate rows instead of cramming. */
 .name-group,
 .blinkie-group {
-  flex: 1 1 160px;
-  min-width: 160px;
+  width: 100%;
 }
 
 .character-counter {
@@ -228,11 +224,6 @@
   .fanart-form-container > .guest-book-form {
     grid-column: 1 / -1;
     grid-row: 2;
-  }
-
-  .form-row {
-    flex-direction: column;
-    gap: 10px;
   }
 
   .guest-book-submission {
