@@ -20,54 +20,93 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fafafa;
-  cursor: pointer;
   transition: border-color 0.2s ease;
   gap: 8px;
-  /* Reset native button styling */
-  font: inherit;
-  color: inherit;
-  text-align: left;
 }
 
 .gif-tray:hover,
+.gif-tray:focus-within,
 .gif-tray.expanded {
   border-color: var(--color-green);
+}
+
+/* Buttons living inside the tray: strip native chrome so they inherit the
+   tray's look (the tray is a plain container now, not one big button). */
+.gif-tray-empty-toggle,
+.gif-tray-arrow-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.gif-tray-empty-toggle {
+  flex: 1;
+  text-align: left;
+}
+
+.gif-tray-arrow-button {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin: -4px;
+  border-radius: 4px;
 }
 
 .gif-tray-items {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   flex-wrap: wrap;
   flex: 1;
+}
+
+/* The guest-book form ships a global `.form-container button { margin-right:
+   auto }`. On our flex tray that auto-margin eats all the free space and flings
+   the previews across the row, so neutralise it for the tray's own buttons
+   (specificity here beats `.form-container button`). */
+.gif-tray .gif-tray-item,
+.gif-tray .gif-tray-add,
+.gif-tray .gif-tray-empty-toggle {
+  margin: 0;
+}
+
+.gif-tray .gif-tray-arrow-button {
+  margin: -4px;
 }
 
 .gif-tray-item {
   position: relative;
   height: 32px;
-  width: 32px;
+  /* Hug the blinkie's real width instead of a fixed square, so non-square
+     blinkies don't leave letterboxed dead space that reads as extra spacing. */
+  width: auto;
   border-radius: 4px;
   overflow: visible;
   transition: transform 0.1s ease, opacity 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.gif-tray.expanded .gif-tray-item {
+  /* Reset native button styling — each preview doubles as a remove button */
+  padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
 }
 
-.gif-tray.expanded .gif-tray-item:hover {
+.gif-tray-item:hover,
+.gif-tray-item:focus-visible {
   transform: scale(0.95);
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .gif-tray-item img {
-  max-width: 100%;
-  max-height: 100%;
+  height: 100%;
   width: auto;
-  height: auto;
+  max-width: none;
+  max-height: 100%;
   object-fit: contain;
   display: block;
 }
@@ -88,19 +127,41 @@
   font-weight: bold;
   line-height: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Hidden until the preview is hovered/focused, so the row stays calm but
+     every picked blinkie clearly advertises that it can be removed. */
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
 }
 
-.gif-tray-placeholder {
+.gif-tray-item:hover .gif-remove-indicator,
+.gif-tray-item:focus-visible .gif-remove-indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gif-tray-add {
   height: 32px;
   min-width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #ddd;
+  border: 2px dashed #ccc;
   border-radius: 4px;
   font-size: 11px;
   color: #999;
-  padding: 0 6px;
+  padding: 0 8px;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.gif-tray-add:hover,
+.gif-tray-add:focus-visible {
+  border-color: var(--color-green);
+  color: var(--color-green);
 }
 
 .gif-tray-empty {
@@ -228,6 +289,28 @@
   display: block;
 }
 
+/* Count pill: how many copies of this blinkie are currently picked. Inset in
+   the corner because the cell clips overflow to keep the rounded thumbnail. */
+.gif-count-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  box-sizing: border-box;
+  background-color: var(--color-green);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  pointer-events: none;
+}
+
 .gif-disabled-overlay {
   position: absolute;
   top: 0;
@@ -265,7 +348,7 @@
 
   .gif-tray-item {
     height: 26px;
-    width: 26px;
+    width: auto;
   }
 
   .gif-grid {
