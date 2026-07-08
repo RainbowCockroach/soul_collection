@@ -27,9 +27,10 @@
 }
 
 .guest-book-form {
-  margin-top: 1vh;
-  padding: 1rem;
-  background-color: var(--color-white-sparkle);
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  text-align: left;
 }
 .guest-book-submission input[type="text"],
 .guest-book-submission textarea {
@@ -61,7 +62,16 @@
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.form-group > label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: rgb(52, 11, 86);
 }
 
 .name-group,
@@ -165,6 +175,21 @@
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.content-warning-checkboxes input[type="checkbox"],
+.checkbox-label input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--color-purple);
+  cursor: pointer;
+}
+
+.content-warning-checkboxes label,
+.checkbox-label label {
+  cursor: pointer;
+  font-size: 0.85rem;
 }
 
 .disclaimer {

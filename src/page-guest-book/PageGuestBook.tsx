@@ -212,8 +212,11 @@ const PageGuestBook = () => {
         onClose={() => setNoteDialogOpen(false)}
         ariaLabel="Leave a note"
       >
-        <div className="guest-book-submission gb-dialog div-3d-with-shadow">
+        <div className="guest-book-submission gb-dialog">
           <h2 className="gb-dialog-title">Leave a note</h2>
+          <div className="gb-dialog-divider">
+            <Divider />
+          </div>
           <GuestBookNoteForm
             onSubmit={handleFormSubmit}
             submitting={submitting}
@@ -229,8 +232,11 @@ const PageGuestBook = () => {
         onClose={closeArtDialog}
         ariaLabel="Send your art"
       >
-        <div className="guest-book-submission gb-dialog div-3d-with-shadow">
+        <div className="guest-book-submission gb-dialog">
           <h2 className="gb-dialog-title">Send your art</h2>
+          <div className="gb-dialog-divider">
+            <Divider />
+          </div>
           <GuestBookFanArtForm
             onSubmit={handleFormSubmit}
             submitting={submitting}
