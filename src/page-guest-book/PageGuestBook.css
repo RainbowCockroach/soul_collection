@@ -112,31 +112,53 @@
    ----------------------------------------------------------------------------- */
 
 /* Lightbox children render on the .guest-book-submission scope so the shared
-   form styles apply. Constrain and scroll long forms inside the dialog. */
+   form styles apply. Constrain and scroll long forms inside the dialog.
+   Lightbox.css forces `width: 100%; height: auto` on every direct child div
+   (so free-form content like images can fill the frame) via a selector that
+   out-specifies a plain `.gb-dialog` rule. Re-declare those three properties
+   through the fuller `.lightbox-content > .gb-dialog` selector so the dialog
+   keeps its own compact size instead of stretching to fill the viewport. */
+.lightbox-content > .gb-dialog {
+  width: min(92vw, 480px);
+  height: auto;
+  max-height: 88vh;
+}
+
 .gb-dialog {
   margin: 0;
-  padding: 16px;
-  width: min(92vw, 560px);
-  max-height: 88vh;
+  padding: 18px 20px 20px;
   overflow-y: auto;
   background-color: var(--color-white-sparkle);
-  border-radius: 10px;
+  border: 1px solid rgb(106, 255, 168);
+  border-radius: 14px;
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
+    0 0 20px rgba(52, 11, 86, 0.6);
+  text-align: left;
 }
 
 .gb-dialog-title {
-  margin: 0 0 12px;
+  margin: 0 0 4px;
   text-align: center;
+  color: var(--color-purple);
+  font-size: 1.5em;
+}
+
+.gb-dialog-divider {
+  margin: 0 0 14px;
+  transform: scaleY(0.7);
 }
 
 /* Preview of the exported doodle inside the art dialog */
 .fanart-doodle-preview {
   display: block;
   width: 100%;
-  max-width: 260px;
+  max-width: 220px;
   aspect-ratio: 1 / 1;
   object-fit: contain;
   margin: 0 auto;
-  border: 2px solid #ddd;
+  border: 2px solid rgb(52, 11, 86);
   border-radius: 6px;
   background: #fff;
 }
@@ -145,12 +167,93 @@
 .guest-book-form .form-actions {
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
+  justify-content: center;
   flex-wrap: wrap;
+  margin-top: 6px;
 }
 
-.guest-book-form .cancel-button {
-  background-color: #e0e0e0;
+/* Higher specificity than EditMessageLightbox.css's `.form-actions
+   .submit-button` (a global, un-namespaced Bootstrap-blue rule that would
+   otherwise win ties on load order) so the dialog buttons reliably render in
+   the site's own palette. Shadow matches the doodle toolbar's flat, single
+   offset (DoodleCanvas.css `.doodle__tool`) rather than the heavier
+   glow+double-offset `.div-3d-with-shadow` card treatment, which reads as
+   too heavy at button scale. */
+.gb-dialog .guest-book-form .submit-button,
+.gb-dialog .guest-book-form .cancel-button {
+  font-family: var(--font-primary);
+  font-weight: bold;
+  padding: 8px 22px;
+  border: 1px solid rgb(52, 11, 86);
+  border-radius: 6px;
+  color: rgb(52, 11, 86);
+  box-shadow: 0 2px 0 rgb(52, 11, 86);
+}
+
+.gb-dialog .guest-book-form .submit-button {
+  background-color: var(--color-green);
+}
+
+.gb-dialog .guest-book-form .cancel-button {
+  background-color: #fff;
+}
+
+/* Success confirmation banner shown after a note/art submission */
+.gb-success-banner {
+  margin-top: 12px;
+  padding: 8px 10px;
+  background-color: var(--color-green);
+  color: rgb(52, 11, 86);
+  border: 1.5px solid rgb(52, 11, 86);
+  border-radius: 8px;
+  text-align: center;
+  font-family: var(--font-primary);
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+/* CAPTCHA gate shown between "Send!" and the doodle upload */
+.gb-captcha-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(52, 11, 86, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.gb-captcha-card {
+  background-color: var(--color-white-sparkle);
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid rgb(106, 255, 168);
+  box-shadow:
+    0px 4px 0px rgb(52, 11, 86),
+    4px 4px 0px rgb(52, 11, 86),
+    0 0 20px rgba(52, 11, 86, 0.6);
+  max-width: 340px;
+  text-align: center;
+}
+
+.gb-captcha-card h3 {
+  margin: 0 0 16px;
+  color: var(--color-purple);
+  font-size: 1.2em;
+}
+
+.gb-captcha-cancel {
+  margin-top: 16px;
+  font-family: var(--font-primary);
+  font-weight: bold;
+  padding: 6px 18px;
+  border: 1.5px solid rgb(52, 11, 86);
+  border-radius: 4px;
+  background-color: #fff;
+  color: rgb(52, 11, 86);
+  cursor: pointer;
 }
 
 /* =============================================================================

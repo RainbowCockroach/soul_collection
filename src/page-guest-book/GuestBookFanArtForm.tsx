@@ -384,28 +384,8 @@ const GuestBookFanArtForm = ({
   // is handled WITHOUT reset() so a failing load (e.g. missing site key) can't
   // loop.
   const captchaModal = showCaptcha && (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1100,
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "white",
-          padding: "30px",
-          borderRadius: "8px",
-          maxWidth: "400px",
-        }}
-      >
+    <div className="gb-captcha-overlay">
+      <div className="gb-captcha-card">
         <h3>Complete CAPTCHA to send</h3>
         <ReCAPTCHA
           ref={captchaRef}
@@ -417,14 +397,7 @@ const GuestBookFanArtForm = ({
         <button
           type="button"
           onClick={() => setShowCaptcha(false)}
-          style={{
-            marginTop: "16px",
-            padding: "8px 16px",
-            backgroundColor: "#ccc",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          className="gb-captcha-cancel"
         >
           Cancel
         </button>
@@ -573,19 +546,7 @@ const GuestBookFanArtForm = ({
   );
 
   const successBanner = showSuccessMessage && (
-    <div
-      className="success-message"
-      style={{
-        marginTop: "10px",
-        padding: "10px",
-        backgroundColor: "#d4edda",
-        color: "#155724",
-        border: "1px solid #c3e6cb",
-        borderRadius: "4px",
-        textAlign: "center",
-        fontSize: "14px",
-      }}
-    >
+    <div className="gb-success-banner">
       ✓ {isEditMode ? "Art updated!" : "Art sent!"}
     </div>
   );
@@ -593,10 +554,7 @@ const GuestBookFanArtForm = ({
   // Edit mode: art shown read-only, other fields editable.
   if (isEditMode) {
     return (
-      <form
-        onSubmit={handleEditSubmit}
-        className="div-3d-with-shadow guest-book-form"
-      >
+      <form onSubmit={handleEditSubmit} className="guest-book-form">
         <div className="form-group">
           <label htmlFor="fanart-name">Display name (optional)</label>
           <input
@@ -640,10 +598,7 @@ const GuestBookFanArtForm = ({
   // New submission (dialog): preview the doodle, fill in details, then send.
   return (
     <>
-      <form
-        onSubmit={handleFanArtSubmit}
-        className="div-3d-with-shadow guest-book-form"
-      >
+      <form onSubmit={handleFanArtSubmit} className="guest-book-form">
         <div className="form-group">
           <label htmlFor="fanart-name">Display name (optional)</label>
           <input

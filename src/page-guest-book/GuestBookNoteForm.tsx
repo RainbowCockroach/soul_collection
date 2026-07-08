@@ -124,10 +124,7 @@ const GuestBookNoteForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleNoteSubmit}
-      className="div-3d-with-shadow guest-book-form"
-    >
+    <form onSubmit={handleNoteSubmit} className="guest-book-form">
       <div className="form-row">
         <div className="form-group name-group">
           <label htmlFor="note-name">Display name (optional)</label>
@@ -210,19 +207,7 @@ const GuestBookNoteForm = ({
 
       {/* Success message */}
       {showSuccessMessage && (
-        <div
-          className="success-message"
-          style={{
-            marginTop: "10px",
-            padding: "10px",
-            backgroundColor: "#d4edda",
-            color: "#155724",
-            border: "1px solid #c3e6cb",
-            borderRadius: "4px",
-            textAlign: "center",
-            fontSize: "14px",
-          }}
-        >
+        <div className="gb-success-banner">
           ✓{" "}
           {isEditMode
             ? "Note updated successfully!"
