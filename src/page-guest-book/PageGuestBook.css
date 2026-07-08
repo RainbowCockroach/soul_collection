@@ -1,164 +1,181 @@
-/* Guest book layout
-   Phone & portrait/narrow tablet (default, < 1024px): single vertical stack
-   with dividers — same as the phone layout.
-   Desktop / landscape tablet (>= 1024px): two columns —
-   submission on the left, note + fan art sections stacked on the right. */
-.guest-book-sections-col {
+/* =============================================================================
+   GUEST BOOK PAGE LAYOUT
+   Mobile (< 1024px): a single vertical stack —
+     title, send-note button, notes, divider, canvas, send-art button, art.
+   Desktop (>= 1024px): three columns —
+     left  : send-note button -> arrows -> notes (vertical)
+     center: title -> divider -> canvas
+     right : send-art button -> arrows -> fan art (vertical)
+   ============================================================================= */
+
+.gb-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 24px;
+  grid-template-areas:
+    "title"
+    "noteBtn"
+    "notes"
+    "divider"
+    "canvas"
+    "artBtn"
+    "art";
+}
+
+.gb-title {
+  grid-area: title;
+  text-align: center;
+  margin: 0;
+}
+
+.gb-note-button {
+  grid-area: noteBtn;
+}
+.gb-notes {
+  grid-area: notes;
+  min-width: 0;
+}
+.gb-divider {
+  grid-area: divider;
+}
+.gb-canvas {
+  grid-area: canvas;
+}
+.gb-art-button {
+  grid-area: artBtn;
+}
+.gb-art {
+  grid-area: art;
+  min-width: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   SEND NOTE / SEND ART BUTTONS
+   ----------------------------------------------------------------------------- */
+
+.gb-send-button {
   display: flex;
   flex-direction: column;
-}
-
-@media (min-width: 1024px) {
-  .guest-book-layout {
-    display: grid;
-    grid-template-columns: minmax(200px, 1fr) auto 3fr;
-    align-items: stretch;
-  }
-
-  /* min-width: 0 lets the sections track stay within its 3fr track instead
-     of being stretched wider by its (viewport-sized) note/fan-art content */
-  .guest-book-sections-col {
-    min-width: 0;
-  }
-
-  /* Vertical divider between the columns — reuse the horizontal divider gif
-     rotated 90deg, clipped to the column height */
-  .guest-book-col-divider {
-    position: relative;
-    width: 19px;
-    overflow: hidden;
-  }
-
-  .guest-book-col-divider .divider {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 9999px; /* longer than the column; excess is clipped */
-    height: 19px;
-    transform: translate(-50%, -50%) rotate(90deg);
-  }
-
-  /* Notes use viewport-based widths; inside the narrower column let them
-     shrink to share the available space instead of overflowing. Tighten
-     the gap, margins and text so they read well at this width. */
-  .guest-book-sections-col .notes-display {
-    /* Notes flex to fit the column, so no horizontal overflow to clip;
-       keep it visible so note bottoms (rounded corner + shadow) aren't cut off */
-    overflow: visible;
-    gap: 3px; /* gap between notes */
-    margin-bottom: 8px; /* gap between notes and the count pagination */
-    height: 170px; /* shorter notes — less empty space at the bottom */
-  }
-
-  /* Shrink the arrow containers so the notes sit closer to the arrows */
-  .guest-book-sections-col .notes-display .pagination-nav-left,
-  .guest-book-sections-col .notes-display .pagination-nav-right {
-    min-width: 24px;
-  }
-
-  .guest-book-sections-col .notes-display .nav-spacer {
-    width: 20px;
-  }
-
-  .guest-book-sections-col .guest-book-note {
-    width: auto;
-    min-width: 0;
-    flex: 1 1 0;
-    margin: 2px;
-  }
-
-  .guest-book-sections-col .note-name {
-    font-size: 16px;
-  }
-
-  .guest-book-sections-col .note-date {
-    font-size: 12px;
-  }
-
-  .guest-book-sections-col .note-content {
-    font-size: 15px;
-    line-height: 1.35;
-  }
-
-  /* Let fan art items shrink below their 200px min-width when the column is narrow */
-  .guest-book-sections-col
-    .fanart-display
-    > *:not(.pagination-nav-left):not(.pagination-nav-right) {
-    min-width: 0;
-  }
-
-  /* Stack the "Send note" / "Send art" buttons vertically in the
-     narrow left column instead of side by side */
-  .guest-book-submission-col .forms-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .guest-book-submission-col .form-container {
-    flex: 0 0 auto;
-    max-width: none;
-  }
-
-  /* Keep the decorative button images inside the narrow column */
-  .guest-book-submission-col .form-toggle-button {
-    width: 100%;
-  }
-
-  .guest-book-submission-col .form-toggle-button img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-}
-
-/* Edit Mode Toggle Button */
-.edit-mode-button {
-  background-color: var(--color-green);
-  color: black;
-  margin: 20px auto;
-  display: inline-block;
-}
-
-.edit-mode-button.active {
-  background-color: #dd86e6;
-}
-
-.edit-button-content {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 16px;
-  line-height: 1;
+  gap: 6px;
 }
 
-.edit-icon {
+.gb-send-btn-wrapper {
+  padding: 0;
+  background: none;
+  border: none;
+  max-width: 260px;
+  width: 100%;
+}
+
+.gb-send-btn-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   display: block;
-  font-size: 18px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .edit-mode-button {
-    font-size: 1.1rem;
-    padding: 0.75rem 1.5rem;
+.gb-art-hint {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--color-white-sparkle);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
+   CANVAS
+   ----------------------------------------------------------------------------- */
+
+.gb-canvas .doodle {
+  max-width: 100%;
+}
+
+/* The canvas sits on the purple page background, where the doodle's default
+   dark-purple ink (and the purple palette name) blend in. Brighten the palette
+   label so it stays readable. */
+.gb-canvas .doodle__palette-label {
+  color: var(--color-white-sparkle);
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+.gb-canvas .doodle__palette-label strong {
+  color: #fff;
+}
+
+/* -----------------------------------------------------------------------------
+   SUBMISSION DIALOGS
+   ----------------------------------------------------------------------------- */
+
+/* Lightbox children render on the .guest-book-submission scope so the shared
+   form styles apply. Constrain and scroll long forms inside the dialog. */
+.gb-dialog {
+  margin: 0;
+  padding: 16px;
+  width: min(92vw, 560px);
+  max-height: 88vh;
+  overflow-y: auto;
+  background-color: var(--color-white-sparkle);
+  border-radius: 10px;
+}
+
+.gb-dialog-title {
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+/* Preview of the exported doodle inside the art dialog */
+.fanart-doodle-preview {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  margin: 0 auto;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* Cancel / submit button row shared by the dialog forms */
+.guest-book-form .form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.guest-book-form .cancel-button {
+  background-color: #e0e0e0;
+}
+
+/* =============================================================================
+   DESKTOP (>= 1024px): three-column layout
+   ============================================================================= */
+@media (min-width: 1024px) {
+  .gb-layout {
+    grid-template-columns: minmax(340px, 1fr) minmax(360px, 1.3fr) minmax(
+        340px,
+        1fr
+      );
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+    grid-template-areas:
+      "noteBtn title   artBtn"
+      "notes   divider art"
+      "notes   canvas  art";
   }
-}
 
-@media (max-width: 480px) {
-  .edit-mode-button {
-    font-size: 1.2rem;
-    padding: 1rem 2rem;
-    margin: 24px auto;
+  .gb-title {
+    align-self: center;
   }
-}
 
-/* Animation for mode transitions */
-.edit-mode-button .edit-icon {
-  transition: transform 0.2s ease;
-}
-
-.edit-mode-button:active .edit-icon {
-  transform: scale(0.9);
+  .gb-notes,
+  .gb-art {
+    align-self: start;
+  }
 }

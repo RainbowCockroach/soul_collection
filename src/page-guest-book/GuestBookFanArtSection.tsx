@@ -205,87 +205,66 @@ const GuestBookFanArtSection = forwardRef<
     ),
   ];
 
+  const prevArrow = data?.pagination.hasPrev ? (
+    <ArrowButton
+      direction="left"
+      className="section-nav-button"
+      onClick={handlePrevPage}
+    />
+  ) : (
+    <div className="nav-spacer"></div>
+  );
+
+  const nextArrow = data?.pagination.hasNext ? (
+    <ArrowButton
+      direction="right"
+      className="section-nav-button"
+      onClick={handleNextPage}
+    />
+  ) : (
+    <div className="nav-spacer"></div>
+  );
+
   return (
-    <div className="guest-book-fanart-section" ref={sectionRef}>
-      {/* Fan art display with navigation */}
-      <div
-        className="fanart-display"
-        style={{
-          opacity: isPaginating ? 0.6 : 1,
-          transition: "opacity 0.2s ease",
-        }}
-      >
-        <div className="pagination-nav-left pagination-nav-desktop">
-          {data?.pagination.hasPrev ? (
-            <ArrowButton
-              direction="left"
-              className="section-nav-button"
-              onClick={handlePrevPage}
-            />
-          ) : (
-            <div className="nav-spacer"></div>
-          )}
-        </div>
-        {displayMessages.map((message) => {
-          const placeholder = isPlaceholderMessage(message);
-          return (
-            <GuestBookFanArt
-              key={message.id}
-              message={message}
-              onEdit={placeholder ? undefined : handleEdit}
-              onDelete={placeholder ? undefined : handleDelete}
-              onOpenFullscreenViewer={onOpenFullscreenViewer}
-            />
-          );
-        })}
-        <div className="pagination-nav-right pagination-nav-desktop">
-          {data?.pagination.hasNext ? (
-            <ArrowButton
-              direction="right"
-              className="section-nav-button"
-              onClick={handleNextPage}
-            />
-          ) : (
-            <div className="nav-spacer"></div>
-          )}
-        </div>
+    <div className="guest-book-fanart-section gb-paginated" ref={sectionRef}>
+      {/* Top arrow pair — shown on desktop where the section is a narrow column */}
+      <div className="gb-nav-top">
+        {prevArrow}
+        {nextArrow}
       </div>
 
-      {/* Pagination navigation bar - only shown when real art exists */}
+      {/* Items row: side arrows (mobile) flank the fan art grid/list */}
+      <div className="gb-items-row">
+        <div className="gb-nav-side gb-nav-left">{prevArrow}</div>
+        <div
+          className="fanart-display"
+          style={{
+            opacity: isPaginating ? 0.6 : 1,
+            transition: "opacity 0.2s ease",
+          }}
+        >
+          {displayMessages.map((message) => {
+            const placeholder = isPlaceholderMessage(message);
+            return (
+              <GuestBookFanArt
+                key={message.id}
+                message={message}
+                onEdit={placeholder ? undefined : handleEdit}
+                onDelete={placeholder ? undefined : handleDelete}
+                onOpenFullscreenViewer={onOpenFullscreenViewer}
+              />
+            );
+          })}
+        </div>
+        <div className="gb-nav-side gb-nav-right">{nextArrow}</div>
+      </div>
+
+      {/* Pagination info - only shown when real art exists */}
       {hasRealArt && (
-        <div className="pagination-nav">
-          {/* Left navigation arrow */}
-          <div className="pagination-nav-left pagination-nav-mobile">
-            {data?.pagination.hasPrev ? (
-              <ArrowButton
-                direction="left"
-                className="section-nav-button"
-                onClick={handlePrevPage}
-              />
-            ) : (
-              <div className="nav-spacer"></div>
-            )}
-          </div>
-
-          {/* Pagination info */}
-          <div className="pagination-info">
-            {isPaginating
-              ? "Loading..."
-              : `${data?.pagination.page} / ${data?.pagination.totalPages}`}
-          </div>
-
-          {/* Right navigation arrow */}
-          <div className="pagination-nav-right pagination-nav-mobile">
-            {data?.pagination.hasNext ? (
-              <ArrowButton
-                direction="right"
-                className="section-nav-button"
-                onClick={handleNextPage}
-              />
-            ) : (
-              <div className="nav-spacer"></div>
-            )}
-          </div>
+        <div className="pagination-info">
+          {isPaginating
+            ? "Loading..."
+            : `${data?.pagination.page} / ${data?.pagination.totalPages}`}
         </div>
       )}
 

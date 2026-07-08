@@ -158,12 +158,18 @@
 }
 
 .fanart-caption {
-  font-size: 16px;
+  font-size: 13px;
   color: white;
   margin-bottom: 4px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.2;
   text-align: center;
+  /* Keep long captions from ballooning the info bar */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
     -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000,
     1px 1px 3px rgba(0, 0, 0, 0.8);
@@ -190,48 +196,66 @@
   }
 }
 
-/* Content Warning Overlay */
+/* Content Warning Overlay
+   Covers the whole card and lays out the warning text + Show button directly
+   over the blurred image (no separate box) so it can never overflow the card.
+   The text is line-clamped so the button always stays visible. */
 .fanart-content-warning-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
   pointer-events: none;
 }
 
+/* Dark cover box behind the warning. Capped to the card (max-height: 100% +
+   overflow hidden) so it can never spill past the square edges. */
 .fanart-content-warning-card {
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.82);
+  border-radius: 10px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 90%;
-  max-width: 300px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   pointer-events: auto;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .fanart-content-warning-text {
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.25;
+  color: #fff;
+  word-break: break-word;
+  /* Clamp long warnings so the Show button is never pushed out of the box */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .fanart-uncensor-button {
   background: var(--color-green);
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 6px 16px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   transition: all 0.2s ease;
-  min-width: 140px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .fanart-uncensor-button:hover {
@@ -244,41 +268,19 @@
 }
 
 /* Responsive adjustments for content warning */
-@media (max-width: 768px) {
-  .fanart-content-warning-card {
-    width: 85%;
-    max-width: 250px;
-    padding: 16px;
-    gap: 10px;
-  }
-
-  .fanart-content-warning-text {
-    font-size: 13px;
-  }
-
-  .fanart-uncensor-button {
-    padding: 8px 16px;
-    font-size: 13px;
-    min-width: 100px;
-  }
-}
-
 @media (max-width: 480px) {
   .fanart-content-warning-card {
-    width: 80%;
-    max-width: 200px;
-    padding: 12px;
-    gap: 8px;
+    padding: 8px 10px;
+    gap: 6px;
   }
 
   .fanart-content-warning-text {
-    font-size: 12px;
-    line-height: 1.3;
+    font-size: 11px;
+    -webkit-line-clamp: 3;
   }
 
   .fanart-uncensor-button {
-    padding: 6px 12px;
-    font-size: 12px;
-    min-width: 80px;
+    padding: 5px 12px;
+    font-size: 11px;
   }
 }
