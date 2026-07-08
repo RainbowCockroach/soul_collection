@@ -1,14 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import ButtonWrapper from "../common-components/ButtonWrapper";
-import {
-  DoodleCanvas,
-  type DoodleCanvasHandle,
-} from "./doodle-canvas/DoodleCanvas";
 import type { MessageContent } from "./types";
 import { apiBaseUrl, SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
-import buttonSendArt from "../assets/button_send_art.gif";
-import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 
 interface GuestBookFanArtFormProps {
   onSubmit: (
@@ -18,8 +12,12 @@ interface GuestBookFanArtFormProps {
     captchaToken?: string,
   ) => Promise<void>;
   submitting?: boolean;
-  showForm: boolean;
-  onToggle: () => void;
+  // Called after a successful (non-edit) submission — used to clear the canvas
+  // and close the dialog.
+  onSuccess?: () => void;
+  // New submissions: the PNG exported from the page's doodle canvas. Used for
+  // the preview and, on submit, as the source of the uploaded image.
+  imageDataUrl?: string;
   // Edit mode props
   isEditMode?: boolean;
   initialData?: {
@@ -87,8 +85,8 @@ async function makeSquareThumbnail(
 const GuestBookFanArtForm = ({
   onSubmit,
   submitting = false,
-  showForm,
-  onToggle,
+  onSuccess,
+  imageDataUrl,
   isEditMode = false,
   initialData,
   onCancel,
@@ -147,8 +145,7 @@ const GuestBookFanArtForm = ({
     }
   }, [isEditMode, initialData]);
 
-  // Doodle + upload state (new submissions only)
-  const doodleRef = useRef<DoodleCanvasHandle>(null);
+  // Upload state (new submissions only).
   // Exported doodle blobs held between "Send!" and CAPTCHA solve so a failed
   // CAPTCHA can be retried without re-exporting.
   const pendingImagesRef = useRef<{ full: File; thumb: Blob } | null>(null);
@@ -200,20 +197,6 @@ const GuestBookFanArtForm = ({
     return allContentWarnings.length > 0 ? allContentWarnings.join(", ") : null;
   };
 
-  const resetForm = () => {
-    setFanArtForm({
-      name: "",
-      thumbnail: "",
-      full_image: "",
-      caption: "",
-      password: "",
-    });
-    setSelectedContentWarnings([]);
-    setOtherContentWarning("");
-    pendingImagesRef.current = null;
-    doodleRef.current?.clear();
-  };
-
   const flashSuccess = () => {
     setShowSuccessMessage(true);
     if (successTimerRef.current) clearTimeout(successTimerRef.current);
@@ -242,28 +225,27 @@ const GuestBookFanArtForm = ({
     }
   };
 
-  // New submission: export the doodle, then require a CAPTCHA before uploading.
+  // New submission: prepare the exported PNG, then require a CAPTCHA before
+  // uploading. The PNG comes from the page's doodle canvas via imageDataUrl.
   const handleFanArtSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploadError(null);
 
-    const empty = await doodleRef.current?.isEmpty();
-    if (empty !== false) {
-      setUploadError("Please draw something before sending.");
+    if (!imageDataUrl) {
+      setUploadError("No drawing to send.");
       return;
     }
 
     try {
-      const dataUrl = await doodleRef.current!.exportPng();
-      const fullBlob = await dataUrlToBlob(dataUrl);
+      const fullBlob = await dataUrlToBlob(imageDataUrl);
       const fullFile = new File([fullBlob], "doodle.png", {
         type: "image/png",
       });
-      const thumbBlob = await makeSquareThumbnail(dataUrl);
+      const thumbBlob = await makeSquareThumbnail(imageDataUrl);
       pendingImagesRef.current = { full: fullFile, thumb: thumbBlob };
     } catch (err) {
       setUploadError(
-        err instanceof Error ? err.message : "Could not export your doodle",
+        err instanceof Error ? err.message : "Could not prepare your doodle",
       );
       return;
     }
@@ -351,8 +333,10 @@ const GuestBookFanArtForm = ({
       await onSubmit(messageContent, "fan art", fanArtForm.password || null);
 
       // Discord notification is sent server-side on message creation.
-      resetForm();
+      pendingImagesRef.current = null;
       flashSuccess();
+      // Let the parent clear the canvas and close the dialog.
+      onSuccess?.();
     } catch (err) {
       // Keep pendingImagesRef so the user can retry the CAPTCHA or download the
       // doodle — a failed attempt never loses their drawing.
@@ -365,16 +349,10 @@ const GuestBookFanArtForm = ({
   };
 
   // Let the user save their unsubmitted doodle (e.g. if the CAPTCHA fails).
-  const handleDownloadDoodle = async () => {
-    const empty = await doodleRef.current?.isEmpty();
-    if (empty !== false) {
-      setUploadError("Draw something first, then you can download it.");
-      return;
-    }
-    const dataUrl = await doodleRef.current?.exportPng();
-    if (!dataUrl) return;
+  const handleDownloadDoodle = () => {
+    if (!imageDataUrl) return;
     const link = document.createElement("a");
-    link.href = dataUrl;
+    link.href = imageDataUrl;
     link.download = "doodle.png";
     document.body.appendChild(link);
     link.click();
@@ -417,7 +395,7 @@ const GuestBookFanArtForm = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 1000,
+        zIndex: 1100,
       }}
     >
       <div
@@ -454,20 +432,27 @@ const GuestBookFanArtForm = ({
     </div>
   );
 
-  // The drawing area for new submissions: the doodle canvas plus a download
-  // escape hatch and any upload/CAPTCHA error + retry.
-  const doodleSection = (
+  // New submissions: preview the exported doodle plus a download escape hatch
+  // and any upload/CAPTCHA error + retry.
+  const doodlePreviewSection = (
     <div className="form-group">
-      <label>Doodle!</label>
-
-      <DoodleCanvas ref={doodleRef} showExportPreview={false} />
+      <label>Your doodle</label>
+      {imageDataUrl ? (
+        <img
+          src={imageDataUrl}
+          alt="Your doodle"
+          className="fanart-doodle-preview"
+        />
+      ) : (
+        <p style={{ fontSize: "14px", color: "#555" }}>No drawing.</p>
+      )}
 
       <div className="doodle__actions">
         <button
           type="button"
           onClick={handleDownloadDoodle}
           className="doodle__tool"
-          disabled={submitting || uploading}
+          disabled={submitting || uploading || !imageDataUrl}
         >
           Download doodle
         </button>
@@ -605,7 +590,7 @@ const GuestBookFanArtForm = ({
     </div>
   );
 
-  // In edit mode, render the form directly without the toggle container.
+  // Edit mode: art shown read-only, other fields editable.
   if (isEditMode) {
     return (
       <form
@@ -652,52 +637,53 @@ const GuestBookFanArtForm = ({
     );
   }
 
-  // Normal mode with toggle button and container.
+  // New submission (dialog): preview the doodle, fill in details, then send.
   return (
-    <div className="form-container fanart-form-container">
-      <ButtonWrapper
-        className="form-toggle-button"
-        onClick={onToggle}
-        soundFile={buttonSoundGallery}
+    <>
+      <form
+        onSubmit={handleFanArtSubmit}
+        className="div-3d-with-shadow guest-book-form"
       >
-        <img src={buttonSendArt} alt="Send" className="div-3d-with-shadow" />
-      </ButtonWrapper>
-      {showForm && (
-        <form
-          onSubmit={handleFanArtSubmit}
-          className="div-3d-with-shadow guest-book-form"
-        >
-          <div className="form-group">
-            <label htmlFor="fanart-name">Display name (optional)</label>
-            <input
-              type="text"
-              id="fanart-name"
-              name="name"
-              value={fanArtForm.name}
-              onChange={handleFanArtInputChange}
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="fanart-name">Display name (optional)</label>
+          <input
+            type="text"
+            id="fanart-name"
+            name="name"
+            value={fanArtForm.name}
+            onChange={handleFanArtInputChange}
+          />
+        </div>
 
-          {doodleSection}
-          {sharedFields}
+        {doodlePreviewSection}
+        {sharedFields}
 
-          <div>
+        <div className="form-actions">
+          {onCancel && (
             <ButtonWrapper
-              type="submit"
-              onClick={() => {}}
+              onClick={onCancel}
               disabled={submitting || uploading}
-              className="submit-button"
+              className="cancel-button"
+              type="button"
             >
-              {submitting || uploading ? "Sending..." : "Send!"}
+              Cancel
             </ButtonWrapper>
-          </div>
+          )}
+          <ButtonWrapper
+            type="submit"
+            onClick={() => {}}
+            disabled={submitting || uploading || !imageDataUrl}
+            className="submit-button"
+          >
+            {submitting || uploading ? "Sending..." : "Send!"}
+          </ButtonWrapper>
+        </div>
 
-          {successBanner}
-        </form>
-      )}
+        {successBanner}
+      </form>
 
       {captchaModal}
-    </div>
+    </>
   );
 };
 

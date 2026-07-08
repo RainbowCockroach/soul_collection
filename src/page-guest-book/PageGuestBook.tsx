@@ -1,16 +1,27 @@
 import { useState, useRef } from "react";
-import GuestBookSubmission from "./GuestBookSubmission";
 import GuestBookNoteSection, {
   type GuestBookNoteSectionRef,
 } from "./GuestBookNoteSection";
 import GuestBookFanArtSection, {
   type GuestBookFanArtSectionRef,
 } from "./GuestBookFanArtSection";
+import GuestBookNoteForm from "./GuestBookNoteForm";
+import GuestBookFanArtForm from "./GuestBookFanArtForm";
 import FullscreenImageViewer from "./FullscreenImageViewer";
+import Lightbox from "../common-components/Lightbox";
+import Divider from "../common-components/Divider";
+import ButtonWrapper from "../common-components/ButtonWrapper";
+import {
+  DoodleCanvas,
+  type DoodleCanvasHandle,
+} from "./doodle-canvas/DoodleCanvas";
 import type { MessageContent, Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
+import buttonSendNote from "../assets/button_send_note.gif";
+import buttonSendArt from "../assets/button_send_art.gif";
+import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
 import "./PageGuestBook.css";
-import Divider from "../common-components/Divider";
+import "./GuestBookSubmission.css";
 
 const PageGuestBook = () => {
   const [error, setError] = useState<string | null>(null);
@@ -20,11 +31,21 @@ const PageGuestBook = () => {
   const noteSectionRef = useRef<GuestBookNoteSectionRef>(null);
   const fanArtSectionRef = useRef<GuestBookFanArtSectionRef>(null);
 
+  // Persistent doodle canvas (drives the "Send art" flow)
+  const doodleRef = useRef<DoodleCanvasHandle>(null);
+
+  // Submission dialogs
+  const [noteDialogOpen, setNoteDialogOpen] = useState(false);
+  const [artDialogOpen, setArtDialogOpen] = useState(false);
+  // PNG exported from the canvas when "Send art" is pressed.
+  const [artImageDataUrl, setArtImageDataUrl] = useState<string | null>(null);
+  // Inline hint shown by the "Send art" button (e.g. empty canvas).
+  const [artHint, setArtHint] = useState<string | null>(null);
+
   // Fullscreen viewer state
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerMessage, setViewerMessage] = useState<Message | null>(null);
 
-  // Fullscreen viewer handlers
   const handleOpenFullscreenViewer = (message: Message) => {
     setViewerMessage(message);
     setViewerOpen(true);
@@ -35,7 +56,8 @@ const PageGuestBook = () => {
     setViewerMessage(null);
   };
 
-  // Handle submission from new GuestBookSubmission component
+  // Shared submit handler used by both dialogs. Posts the message and refreshes
+  // both sections so the new submission appears.
   const handleFormSubmit = async (
     messageContent: MessageContent,
     type: "note" | "fan art",
@@ -83,42 +105,99 @@ const PageGuestBook = () => {
       fanArtSectionRef.current?.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit message");
-      throw err; // Re-throw so the component can handle it
+      throw err; // Re-throw so the form can handle it
     } finally {
       setSubmitting(false);
     }
   };
 
+  // "Send note": open the note dialog.
+  const handleOpenNoteDialog = () => {
+    setNoteDialogOpen(true);
+  };
+
+  // "Send art": export the current drawing to PNG and open the art dialog. The
+  // exported PNG becomes the form's image input.
+  const handleSendArt = async () => {
+    setArtHint(null);
+    const empty = await doodleRef.current?.isEmpty();
+    if (empty !== false) {
+      setArtHint("Draw something on the canvas first!");
+      return;
+    }
+    try {
+      const dataUrl = await doodleRef.current!.exportPng();
+      setArtImageDataUrl(dataUrl);
+      setArtDialogOpen(true);
+    } catch {
+      setArtHint("Couldn't read your drawing. Please try again.");
+    }
+  };
+
+  const closeArtDialog = () => {
+    setArtDialogOpen(false);
+    setArtImageDataUrl(null);
+  };
+
+  // After art is successfully sent, wipe the canvas and close the dialog.
+  const handleArtSuccess = () => {
+    doodleRef.current?.clear();
+    closeArtDialog();
+  };
+
   return (
-    <div className="page-padded">
+    <div className="page-padded guest-book-page">
       {error && (
         <div style={{ color: "red", marginBottom: "10px" }}>Error: {error}</div>
       )}
 
-      <div className="guest-book-layout">
-        {/* Submission column (left on desktop / horizontal tablet) */}
-        <div className="guest-book-submission-col">
-          <GuestBookSubmission
-            onSubmit={handleFormSubmit}
-            submitting={submitting}
-          />
+      <div className="gb-layout">
+        <h2 className="gb-title big-text-shadow">Leave something here!</h2>
+
+        <div className="gb-note-button gb-send-button">
+          <ButtonWrapper
+            onClick={handleOpenNoteDialog}
+            soundFile={buttonSoundGallery}
+            className="gb-send-btn-wrapper"
+            ariaHasPopup="dialog"
+          >
+            <img
+              src={buttonSendNote}
+              alt="Send a note"
+              className="div-3d-with-shadow"
+            />
+          </ButtonWrapper>
         </div>
 
-        {/* Divider between the columns (vertical on desktop, horizontal on mobile) */}
-        <div className="guest-book-col-divider">
+        <div className="gb-notes">
+          <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} />
+        </div>
+
+        <div className="gb-divider">
           <Divider />
         </div>
 
-        {/* Sections column (right on desktop / horizontal tablet) */}
-        <div className="guest-book-sections-col">
-          {/* Notes Section */}
-          <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} />
+        <div className="gb-canvas">
+          <DoodleCanvas ref={doodleRef} showExportPreview={false} />
+        </div>
 
-          <div className="guest-book-section-divider">
-            <Divider />
-          </div>
+        <div className="gb-art-button gb-send-button">
+          <ButtonWrapper
+            onClick={handleSendArt}
+            soundFile={buttonSoundGallery}
+            className="gb-send-btn-wrapper"
+            ariaHasPopup="dialog"
+          >
+            <img
+              src={buttonSendArt}
+              alt="Send your art"
+              className="div-3d-with-shadow"
+            />
+          </ButtonWrapper>
+          {artHint && <p className="gb-art-hint">{artHint}</p>}
+        </div>
 
-          {/* Fan Art Section */}
+        <div className="gb-art">
           <GuestBookFanArtSection
             ref={fanArtSectionRef}
             fanArtPerPage={4}
@@ -126,6 +205,41 @@ const PageGuestBook = () => {
           />
         </div>
       </div>
+
+      {/* Note submission dialog */}
+      <Lightbox
+        isOpen={noteDialogOpen}
+        onClose={() => setNoteDialogOpen(false)}
+        ariaLabel="Leave a note"
+      >
+        <div className="guest-book-submission gb-dialog div-3d-with-shadow">
+          <h2 className="gb-dialog-title">Leave a note</h2>
+          <GuestBookNoteForm
+            onSubmit={handleFormSubmit}
+            submitting={submitting}
+            onCancel={() => setNoteDialogOpen(false)}
+            onSuccess={() => setNoteDialogOpen(false)}
+          />
+        </div>
+      </Lightbox>
+
+      {/* Fan art submission dialog */}
+      <Lightbox
+        isOpen={artDialogOpen}
+        onClose={closeArtDialog}
+        ariaLabel="Send your art"
+      >
+        <div className="guest-book-submission gb-dialog div-3d-with-shadow">
+          <h2 className="gb-dialog-title">Send your art</h2>
+          <GuestBookFanArtForm
+            onSubmit={handleFormSubmit}
+            submitting={submitting}
+            imageDataUrl={artImageDataUrl ?? undefined}
+            onCancel={closeArtDialog}
+            onSuccess={handleArtSuccess}
+          />
+        </div>
+      </Lightbox>
 
       {/* Fullscreen Image Viewer */}
       {viewerMessage && (

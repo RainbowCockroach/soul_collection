@@ -1,56 +1,72 @@
 /* =============================================================================
    GUEST BOOK NOTE SECTION STYLES
-   Handles the display and pagination of guest book notes
+   Layout:
+   - Desktop (>= 1024px): the section lives in a narrow column. Arrows are a
+     horizontal pair on top; notes stack vertically below.
+   - Mobile (< 1024px): full width. Notes are a 2x2 grid flanked by side arrows.
    ============================================================================= */
 
-/* -----------------------------------------------------------------------------
-   BASE STYLES
-   ----------------------------------------------------------------------------- */
-
-/* Main section container */
 .guest-book-note-section {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal scroll only */
+  min-width: 0;
 }
 
-/* Notes display area - flexbox on desktop, grid on mobile */
-.notes-display {
+/* Shared paginated section scaffold */
+.gb-paginated {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
-  flex-wrap: nowrap;
-  overflow: hidden; /* Prevent all overflow */
-  min-height: 200px;
-  margin-bottom: 20px;
+  gap: 10px;
+}
+
+/* Horizontal arrow pair shown on top (desktop columns) */
+.gb-nav-top {
+  display: none; /* desktop-only; enabled in the >= 1024 block */
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+/* Items row: [side arrow] [grid/list] [side arrow] */
+.gb-items-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Side arrows flank the grid on mobile only */
+.gb-nav-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
 }
 
 /* -----------------------------------------------------------------------------
-   PAGINATION NAVIGATION
+   NOTES CONTAINER
    ----------------------------------------------------------------------------- */
 
-.pagination-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.pagination-nav-left,
-.pagination-nav-right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 50px; /* Reserve space for buttons */
+/* Mobile default: 2x2 grid */
+.notes-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .nav-spacer {
-  width: 32px; /* Same as min-width of arrow button */
+  width: 32px;
   height: 32px;
 }
+
+/* -----------------------------------------------------------------------------
+   PAGINATION INFO
+   ----------------------------------------------------------------------------- */
 
 .pagination-info {
   text-align: center;
@@ -58,38 +74,12 @@
   font-size: 14px;
   color: var(--color-white-sparkle);
   font-weight: bold;
-  flex: 1;
-}
-
-.total-count {
-  font-weight: normal;
-  color: #888;
-  font-size: 12px;
 }
 
 /* -----------------------------------------------------------------------------
    STATE STYLES
    ----------------------------------------------------------------------------- */
 
-/* Loading state */
-.note-section-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 15px;
-  margin: 30px 0;
-}
-
-.loading-spinner {
-  font-family: var(--font-primary);
-  font-size: 16px;
-  color: #666;
-  text-align: center;
-}
-
-/* Error state */
 .note-section-error {
   display: flex;
   justify-content: center;
@@ -108,146 +98,22 @@
   font-weight: bold;
 }
 
-/* Empty state */
-.note-section-empty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-  border-radius: 15px;
-  margin: 30px 0;
-}
-
-.empty-message {
-  font-family: var(--font-primary);
-  font-size: 16px;
-  color: #7b1fa2;
-  text-align: center;
-  font-weight: bold;
-}
-
 /* =============================================================================
-   RESPONSIVE DESIGN
+   DESKTOP (>= 1024px): the section sits in a side column with room for two
+   columns of notes. Arrows move to a horizontal pair on top; the notes stay a
+   2-wide grid.
    ============================================================================= */
-
-/* Desktop - Large screens with horizontal note layout */
-@media (min-width: 769px) {
-  .guest-book-note-section {
-    padding: 0 max(20px, 1.5vw);
-    margin: 0;
-  }
-
-  .notes-display {
-    gap: max(15px, 1.5vw); /* Responsive gap that scales with viewport */
-    height: 220px; /* Fixed height keeps all notes evenly sized */
-    align-items: stretch; /* Make all notes same height */
-    justify-content: space-evenly; /* Better distribution of flexible-width notes */
-    overflow: visible;
-  }
-}
-
-/* Medium screens - Reduce gap */
-@media (max-width: 1200px) {
-  .notes-display {
-    gap: 10px;
-  }
-}
-
-/* Tablet portrait (iPad Air etc) - tighter layout */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .notes-display {
-    gap: 3px; /* gap between notes */
-    margin-bottom: 8px; /* gap between notes and the count pagination */
-  }
-
-  /* Shrink the arrow containers so the notes sit closer to the arrows */
-  .notes-display .pagination-nav-left,
-  .notes-display .pagination-nav-right {
-    min-width: 24px;
-  }
-
-  .notes-display .nav-spacer {
-    width: 20px;
-  }
-}
-
-/* Tablet/Mobile - Switch to 2x2 grid layout */
-@media (max-width: 768px) {
-  .guest-book-note-section {
-    padding: 0 8px;
-    margin: 0;
-  }
-
-  .notes-display {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 columns */
-    /* minmax(0, 1fr) keeps rows at a fixed height even when a note's content is
-       tall. A bare 1fr is minmax(auto, 1fr), whose auto minimum lets a long note
-       blow the row (and the whole grid) past the fixed height, which then gets
-       clipped by the container and crops the bottom row. */
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); /* Equal height rows */
-    gap: 6px;
-    justify-items: stretch;
-    align-items: stretch;
-    height: 350px;
-    margin-bottom: 15px;
-    overflow-x: hidden; /* Prevent horizontal scroll only */
-  }
-
-  .pagination-info {
-    font-size: 13px;
-  }
-
-  .total-count {
-    font-size: 11px;
-  }
-}
-
-/* Small mobile - Tighter spacing */
-@media (max-width: 480px) {
-  .guest-book-note-section {
-    padding: 0 6px;
-    margin: 0;
-  }
-
-  .notes-display {
-    gap: 4px;
-    height: 308px;
-    margin-bottom: 10px;
-  }
-
-  .pagination-info {
-    font-size: 12px;
-  }
-
-  .pagination-nav {
-    max-width: 300px;
-  }
-}
-
-/* -----------------------------------------------------------------------------
-   NAVIGATION VISIBILITY CONTROLS
-   ----------------------------------------------------------------------------- */
-
-/* Desktop: Show desktop nav, hide mobile nav */
-@media (min-width: 769px) {
-  .pagination-nav-desktop {
+@media (min-width: 1024px) {
+  .gb-nav-top {
     display: flex;
   }
 
-  .pagination-nav-mobile {
-    display: none !important;
-  }
-}
-
-/* Mobile: Hide desktop nav, show mobile nav */
-@media (max-width: 768px) {
-  .pagination-nav-desktop {
-    display: none !important;
+  .gb-nav-side {
+    display: none;
   }
 
-  .pagination-nav-mobile {
-    display: flex;
+  .notes-display {
+    gap: 14px;
+    width: 100%;
   }
 }
