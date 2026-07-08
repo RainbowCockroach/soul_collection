@@ -22,9 +22,6 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
   const [isImageUncensored, setIsImageUncensored] = useState(false);
   const { showMenu: showActionMenu, touchHandlers } = useHoldToReveal();
 
-  // Stable unique ID for the SVG clip path (message.id is unique per card).
-  const clipId = `arch-clip-${message.id}`;
-
   const handleOpenFullscreen = () => {
     onOpenFullscreenViewer?.(message);
   };
@@ -71,68 +68,51 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
       className={`guest-book-fanart ${showActionMenu ? "show-action-menu" : ""}`}
       {...touchHandlers}
     >
-      {/* SVG Clip Path Definition - Responsive with objectBoundingBox */}
-      <svg width="0" height="0" style={{ position: "absolute" }}>
-        <defs>
-          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-            <path d="M 0,1 L 0,0.375 A 0.5,0.375 0 0,1 1,0.375 L 1,1 Z" />
-          </clipPath>
-        </defs>
-      </svg>
-
       {/* Frame, fullscreen zone, content-warning overlay and action menu are
           siblings so the uncensor / action buttons are never nested inside the
           fullscreen <button> (invalid HTML). */}
       <div className="fanart-frame-wrapper">
-        <div className="fanart-window-frame effect-subtle-rise">
-          {/* Image display area */}
-          <div
-            className="fanart-image-container flex-center"
-            style={{
-              backgroundImage: displayImage
-                ? `url(${processedImage})`
-                : undefined,
-              clipPath: `url(#${clipId})`,
-              ...(useCssFilter
-                ? {
-                    filter: "blur(20px) brightness(0.8) contrast(1.1)",
-                  }
-                : {}),
-            }}
-          >
-            {!displayImage && (
-              <div
-                className="fanart-placeholder flex-center"
-                style={{
-                  clipPath: `url(#${clipId})`,
-                }}
-              >
-                <span>No Image</span>
-              </div>
-            )}
+        {/* Image display area */}
+        <div
+          className="fanart-image-container flex-center effect-subtle-rise"
+          style={{
+            backgroundImage: displayImage
+              ? `url(${processedImage})`
+              : undefined,
+            ...(useCssFilter
+              ? {
+                  filter: "blur(20px) brightness(0.8) contrast(1.1)",
+                }
+              : {}),
+          }}
+        >
+          {!displayImage && (
+            <div className="fanart-placeholder flex-center">
+              <span>No Image</span>
+            </div>
+          )}
 
-            {/* Artist info and caption - overlay on image */}
-            {hasInfo && (
-              <div className="fanart-info">
-                <div className="fanart-header">
-                  <span className="fanart-artist text-shadow-dark">
-                    {message.content.name}
+          {/* Artist info and caption - overlay on image */}
+          {hasInfo && (
+            <div className="fanart-info">
+              <div className="fanart-header">
+                <span className="fanart-artist text-shadow-dark">
+                  {message.content.name}
+                </span>
+                {dateLabel && (
+                  <span className="fanart-date text-shadow-dark">
+                    {dateLabel}
                   </span>
-                  {dateLabel && (
-                    <span className="fanart-date text-shadow-dark">
-                      {dateLabel}
-                    </span>
-                  )}
-                </div>
-
-                {message.content.caption && (
-                  <div className="fanart-caption text-shadow-dark">
-                    {message.content.caption}
-                  </div>
                 )}
               </div>
-            )}
-          </div>
+
+              {message.content.caption && (
+                <div className="fanart-caption text-shadow-dark">
+                  {message.content.caption}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Transparent overlay covering only the top of the image - clicking

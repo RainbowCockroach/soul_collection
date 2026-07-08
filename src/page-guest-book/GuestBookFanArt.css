@@ -84,34 +84,30 @@
   filter: none !important;
 }
 
-.fanart-window-frame {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
-}
-
-/* On touch devices the :hover state latches after a tap, leaving the rise
-   shadow stuck under the arches (which merge into a dark band on the mobile
-   2-column grid). Suppress the frame shadow/rise where hover isn't real. */
-@media (hover: none) {
-  .fanart-window-frame,
-  .fanart-window-frame:hover {
-    box-shadow: none;
-    transform: none;
-  }
-}
-
 .fanart-image-container {
   background: #ffffff;
   padding: 1px;
   margin-bottom: 0;
-  aspect-ratio: 1 / 1.618;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* On touch devices the :hover state latches after a tap, leaving the rise
+   shadow stuck under the image (which merges into a dark band on the mobile
+   2-column grid). Suppress the shadow/rise where hover isn't real. */
+@media (hover: none) {
+  .fanart-image-container,
+  .fanart-image-container:hover {
+    box-shadow: none;
+    transform: none;
+  }
 }
 
 .fanart-placeholder {
@@ -173,10 +169,6 @@
     max-width: 100%;
   }
 
-  .fanart-window-frame {
-    padding: 8px;
-  }
-
   .fanart-caption {
     font-size: 13px;
   }
@@ -187,10 +179,6 @@
     margin: 2px;
     min-width: 0;
     max-width: 100%;
-  }
-
-  .fanart-window-frame {
-    padding: 4px;
   }
 }
 
