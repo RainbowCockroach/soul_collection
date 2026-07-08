@@ -72,20 +72,25 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
           siblings so the uncensor / action buttons are never nested inside the
           fullscreen <button> (invalid HTML). */}
       <div className="fanart-frame-wrapper">
-        {/* Image display area */}
-        <div
-          className="fanart-image-container flex-center effect-subtle-rise"
-          style={{
-            backgroundImage: displayImage
-              ? `url(${processedImage})`
-              : undefined,
-            ...(useCssFilter
-              ? {
-                  filter: "blur(20px) brightness(0.8) contrast(1.1)",
-                }
-              : {}),
-          }}
-        >
+        {/* Image display area. The blurred image lives in its own inner layer
+            so the container's overflow:hidden clips the blur — a filter applied
+            to the container itself would bleed past the card edges. */}
+        <div className="fanart-image-container flex-center effect-subtle-rise">
+          {displayImage && (
+            <div
+              className="fanart-image-layer"
+              style={{
+                backgroundImage: `url(${processedImage})`,
+                ...(useCssFilter
+                  ? {
+                      filter: "blur(20px) brightness(0.8) contrast(1.1)",
+                      transform: "scale(1.15)",
+                    }
+                  : {}),
+              }}
+            />
+          )}
+
           {!displayImage && (
             <div className="fanart-placeholder flex-center">
               <span>No Image</span>
