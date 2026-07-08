@@ -1,0 +1,204 @@
+import {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { ReactSketchCanvas, type ReactSketchCanvasRef } from "react-sketch-canvas";
+import { getPaletteOfTheDay } from "../../helpers/palette-of-the-day";
+import "./DoodleCanvas.css";
+
+/**
+ * Imperative handle the parent (and later the fan-art form) can call.
+ * Kept small and future-proof: the fan-art integration will call `exportPng()`.
+ */
+export interface DoodleCanvasHandle {
+  /** Returns a base64 PNG data URL of the current drawing. */
+  exportPng: () => Promise<string>;
+  /** True when the canvas has no strokes (useful to disable submit). */
+  isEmpty: () => Promise<boolean>;
+  clear: () => void;
+}
+
+export interface DoodleCanvasProps {
+  /** Override the day (POC/testing). Defaults to today. */
+  date?: Date;
+  /** Canvas background color. Defaults to white so exported PNG isn't transparent. */
+  canvasColor?: string;
+  /** Fires whenever a stroke ends — handy for enabling/disabling a submit button. */
+  onChange?: () => void;
+  /**
+   * POC-only "Export PNG" button + inline preview. Defaults to true for the
+   * standalone demo. The fan-art form hides it and drives export via the ref.
+   */
+  showExportPreview?: boolean;
+}
+
+const STROKE_WIDTHS = [2, 4, 8, 16];
+
+export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
+  ({ date, canvasColor = "#ffffff", onChange, showExportPreview = true }, ref) => {
+    const canvasRef = useRef<ReactSketchCanvasRef>(null);
+
+    const palette = useMemo(() => getPaletteOfTheDay(date), [date]);
+
+    const [strokeColor, setStrokeColor] = useState<string>(palette.colors[0]);
+    const [strokeWidth, setStrokeWidth] = useState<number>(4);
+    const [isErasing, setIsErasing] = useState<boolean>(false);
+    // Last color picked from the custom color wheel (null until used).
+    const [customColor, setCustomColor] = useState<string | null>(null);
+
+    // POC-only: preview of the exported PNG.
+    const [exportedUrl, setExportedUrl] = useState<string | null>(null);
+
+    const selectPen = (color: string) => {
+      setStrokeColor(color);
+      setIsErasing(false);
+      canvasRef.current?.eraseMode(false);
+    };
+
+    const selectCustomColor = (color: string) => {
+      setCustomColor(color);
+      selectPen(color);
+    };
+
+    const toggleEraser = () => {
+      const next = !isErasing;
+      setIsErasing(next);
+      canvasRef.current?.eraseMode(next);
+    };
+
+    useImperativeHandle(ref, () => ({
+      exportPng: async () => {
+        const data = await canvasRef.current?.exportImage("png");
+        return data ?? "";
+      },
+      isEmpty: async () => {
+        const paths = await canvasRef.current?.exportPaths();
+        return !paths || paths.length === 0;
+      },
+      clear: () => canvasRef.current?.clearCanvas(),
+    }));
+
+    const handleExportPreview = async () => {
+      const url = await canvasRef.current?.exportImage("png");
+      setExportedUrl(url ?? null);
+    };
+
+    return (
+      <div className="doodle">
+        <div className="doodle__palette-label">
+          Palette of the day: <strong>{palette.name}</strong>
+        </div>
+
+        {/* Pen swatches */}
+        <div className="doodle__swatches" role="radiogroup" aria-label="Pen colors">
+          {palette.colors.map((color) => {
+            const active = !isErasing && color === strokeColor;
+            return (
+              <button
+                key={color}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                aria-label={`Pen ${color}`}
+                className={`doodle__swatch${active ? " doodle__swatch--active" : ""}`}
+                style={{ backgroundColor: color }}
+                onClick={() => selectPen(color)}
+              />
+            );
+          })}
+
+          {/* Custom color wheel — pick any color. */}
+          <label
+            className={`doodle__swatch doodle__swatch--custom${
+              !isErasing && customColor !== null && strokeColor === customColor
+                ? " doodle__swatch--active"
+                : ""
+            }`}
+            style={customColor ? { background: customColor } : undefined}
+            title="Custom color"
+          >
+            <span className="doodle__sr-only">Custom color</span>
+            <input
+              type="color"
+              className="doodle__color-input"
+              value={customColor ?? strokeColor}
+              onChange={(e) => selectCustomColor(e.target.value)}
+            />
+          </label>
+        </div>
+
+        {/* Square, responsive canvas */}
+        <div className="doodle__canvas-box">
+          <ReactSketchCanvas
+            ref={canvasRef}
+            width="100%"
+            height="100%"
+            canvasColor={canvasColor}
+            strokeColor={strokeColor}
+            strokeWidth={strokeWidth}
+            eraserWidth={strokeWidth * 2}
+            className="doodle__canvas"
+            onStroke={onChange}
+          />
+        </div>
+
+        {/* Tools */}
+        <div className="doodle__tools">
+          <button
+            type="button"
+            className={`doodle__tool${isErasing ? " doodle__tool--active" : ""}`}
+            onClick={toggleEraser}
+          >
+            {isErasing ? "Eraser (on)" : "Eraser"}
+          </button>
+
+          <div className="doodle__widths" aria-label="Stroke width">
+            {STROKE_WIDTHS.map((w) => (
+              <button
+                key={w}
+                type="button"
+                className={`doodle__width${w === strokeWidth ? " doodle__width--active" : ""}`}
+                onClick={() => setStrokeWidth(w)}
+              >
+                <span
+                  className="doodle__width-dot"
+                  style={{ width: w, height: w, backgroundColor: strokeColor }}
+                />
+              </button>
+            ))}
+          </div>
+
+          <button type="button" className="doodle__tool" onClick={() => canvasRef.current?.undo()}>
+            Undo
+          </button>
+          <button type="button" className="doodle__tool" onClick={() => canvasRef.current?.redo()}>
+            Redo
+          </button>
+          <button type="button" className="doodle__tool" onClick={() => canvasRef.current?.clearCanvas()}>
+            Clear
+          </button>
+        </div>
+
+        {/* POC-only export preview. Hidden when embedded in the fan-art form. */}
+        {showExportPreview && (
+          <div className="doodle__export">
+            <button type="button" className="doodle__tool doodle__tool--primary" onClick={handleExportPreview}>
+              Export PNG
+            </button>
+            {exportedUrl && (
+              <div className="doodle__preview">
+                <p>Exported result:</p>
+                <img src={exportedUrl} alt="Exported doodle" />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+DoodleCanvas.displayName = "DoodleCanvas";

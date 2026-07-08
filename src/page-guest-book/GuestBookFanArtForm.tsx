@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import ImageCropper from "../common-components/ImageCropper";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import {
+  DoodleCanvas,
+  type DoodleCanvasHandle,
+} from "./doodle-canvas/DoodleCanvas";
 import type { MessageContent } from "./types";
 import { apiBaseUrl, SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
 import buttonSendArt from "../assets/button_send_art.gif";
@@ -12,7 +15,7 @@ interface GuestBookFanArtFormProps {
     messageContent: MessageContent,
     type: "note" | "fan art",
     password?: string | null,
-    captchaToken?: string
+    captchaToken?: string,
   ) => Promise<void>;
   submitting?: boolean;
   showForm: boolean;
@@ -36,6 +39,50 @@ const CONTENT_WARNINGS = [
   "Drugs",
   "Eldritch horror beyond comprehension",
 ];
+
+// Square thumbnail size (px). Matches the old ~300px thumbnail width.
+const THUMBNAIL_SIZE = 300;
+
+/** Convert a base64 data URL into a Blob (used for the exported doodle PNG). */
+async function dataUrlToBlob(dataUrl: string): Promise<Blob> {
+  const res = await fetch(dataUrl);
+  return res.blob();
+}
+
+/**
+ * Downscale the square doodle PNG into a square thumbnail Blob. The doodle is
+ * already 1:1 with a white background, so a straight draw keeps it square and
+ * non-transparent.
+ */
+async function makeSquareThumbnail(
+  dataUrl: string,
+  size = THUMBNAIL_SIZE,
+): Promise<Blob> {
+  const img = new Image();
+  await new Promise<void>((resolve, reject) => {
+    img.onload = () => resolve();
+    img.onerror = () =>
+      reject(new Error("Could not load doodle for thumbnail"));
+    img.src = dataUrl;
+  });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas is not supported in this browser");
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, size, size);
+  ctx.drawImage(img, 0, 0, size, size);
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (blob) =>
+        blob ? resolve(blob) : reject(new Error("Thumbnail export failed")),
+      "image/png",
+    );
+  });
+}
 
 const GuestBookFanArtForm = ({
   onSubmit,
@@ -78,22 +125,19 @@ const GuestBookFanArtForm = ({
         password: "",
       });
 
-      // In edit mode, don't automatically set uploadVerified
-      // Let user choose whether to keep existing image or upload new one
-
       // Parse content warnings for edit mode
       if (initialData.content_warning) {
         const warnings = initialData.content_warning.split(", ");
         const knownWarnings = warnings.filter((w) =>
-          CONTENT_WARNINGS.includes(w)
+          CONTENT_WARNINGS.includes(w),
         );
         const unknownWarnings = warnings.filter(
-          (w) => !CONTENT_WARNINGS.includes(w)
+          (w) => !CONTENT_WARNINGS.includes(w),
         );
 
         setSelectedContentWarnings(knownWarnings);
         setOtherContentWarning(
-          unknownWarnings.length > 0 ? unknownWarnings[0] : ""
+          unknownWarnings.length > 0 ? unknownWarnings[0] : "",
         );
 
         if (unknownWarnings.length > 0) {
@@ -103,38 +147,15 @@ const GuestBookFanArtForm = ({
     }
   }, [isEditMode, initialData]);
 
-  // Image cropping and upload state
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [showCropper, setShowCropper] = useState(false);
-  const [croppedBlob, setCroppedBlob] = useState<Blob | null>(null);
+  // Doodle + upload state (new submissions only)
+  const doodleRef = useRef<DoodleCanvasHandle>(null);
+  // Exported doodle blobs held between "Send!" and CAPTCHA solve so a failed
+  // CAPTCHA can be retried without re-exporting.
+  const pendingImagesRef = useRef<{ full: File; thumb: Blob } | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Preview of the cropped image that is pending upload. Kept on screen even
-  // after a CAPTCHA/upload failure so the user can see their image is saved and
-  // just retry the CAPTCHA (via the "Retry CAPTCHA" button) without re-cropping.
-  const [pendingPreview, setPendingPreview] = useState<string | null>(null);
-  const pendingPreviewUrlRef = useRef<string | null>(null);
-
-  const setPendingPreviewUrl = (url: string | null) => {
-    if (pendingPreviewUrlRef.current) {
-      URL.revokeObjectURL(pendingPreviewUrlRef.current);
-    }
-    pendingPreviewUrlRef.current = url;
-    setPendingPreview(url);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (pendingPreviewUrlRef.current) {
-        URL.revokeObjectURL(pendingPreviewUrlRef.current);
-      }
-    };
-  }, []);
-
-  // CAPTCHA state. The token itself is passed directly to uploadBothImages
+  // CAPTCHA state. The token itself is passed directly to uploadAndSubmit
   // rather than kept in state, so we never read a stale (single-use) token.
   const [showCaptcha, setShowCaptcha] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
@@ -147,7 +168,7 @@ const GuestBookFanArtForm = ({
   const [otherContentWarning, setOtherContentWarning] = useState<string>("");
 
   const handleFanArtInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFanArtForm((prev) => ({
@@ -156,120 +177,99 @@ const GuestBookFanArtForm = ({
     }));
   };
 
-  const handleFanArtSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Build content warning string by combining selected warnings and custom "Other" text
+  // Combine selected warnings and the custom "Other" text into one string.
+  const buildContentWarning = (): string | null => {
     const allContentWarnings = [...selectedContentWarnings];
     if (
       selectedContentWarnings.includes("Other") &&
       otherContentWarning.trim()
     ) {
-      // Replace "Other" with the custom text
       const index = allContentWarnings.indexOf("Other");
       allContentWarnings[index] = otherContentWarning.trim();
     } else if (
       !selectedContentWarnings.includes("Other") &&
       otherContentWarning.trim()
     ) {
-      // If "Other" isn't checked but there's text, add it anyway
       allContentWarnings.push(otherContentWarning.trim());
     } else if (
       selectedContentWarnings.includes("Other") &&
       !otherContentWarning.trim()
     ) {
-      // If "Other" is checked but no custom text, remove "Other"
       allContentWarnings.splice(allContentWarnings.indexOf("Other"), 1);
     }
+    return allContentWarnings.length > 0 ? allContentWarnings.join(", ") : null;
+  };
 
+  const resetForm = () => {
+    setFanArtForm({
+      name: "",
+      thumbnail: "",
+      full_image: "",
+      caption: "",
+      password: "",
+    });
+    setSelectedContentWarnings([]);
+    setOtherContentWarning("");
+    pendingImagesRef.current = null;
+    doodleRef.current?.clear();
+  };
+
+  const flashSuccess = () => {
+    setShowSuccessMessage(true);
+    if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    successTimerRef.current = setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, SUCCESS_MESSAGE_DURATION_MS);
+  };
+
+  // Edit mode: the art itself can't change, only name/caption/warnings. Submit
+  // reuses the existing thumbnail/full_image and needs no upload or CAPTCHA.
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const messageContent: MessageContent = {
       name: fanArtForm.name || null,
       content: fanArtForm.caption || null,
       thumbnail: fanArtForm.thumbnail || null,
       full_image: fanArtForm.full_image || null,
       caption: fanArtForm.caption || null,
-      content_warning:
-        allContentWarnings.length > 0 ? allContentWarnings.join(", ") : null,
+      content_warning: buildContentWarning(),
     };
-
     try {
       await onSubmit(messageContent, "fan art", fanArtForm.password || null);
-
-      // Discord notification is sent server-side on message creation.
-
-      // Reset form on successful submission
-      setFanArtForm({
-        name: "",
-        thumbnail: "",
-        full_image: "",
-        caption: "",
-        password: "",
-      });
-      // Reset content warnings
-      setSelectedContentWarnings([]);
-      setOtherContentWarning("");
-
-      // Show success message
-      setShowSuccessMessage(true);
-      if (successTimerRef.current) clearTimeout(successTimerRef.current);
-      successTimerRef.current = setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, SUCCESS_MESSAGE_DURATION_MS);
+      flashSuccess();
     } catch {
-      // Error is already handled by the parent component
-      // We don't show success message on error
+      // Parent handles the error; don't show success.
     }
   };
 
-  // Handle file selection
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith("image/")) {
-        setUploadError("Please select an image file");
-        return;
-      }
-
-      // Validate file size (20MB)
-      if (file.size > 20 * 1024 * 1024) {
-        setUploadError("Image size must be less than 20MB");
-        return;
-      }
-
-      setSelectedFile(file);
-      const imageUrl = URL.createObjectURL(file);
-      setImageSrc(imageUrl);
-      setShowCropper(true);
-      setUploadError(null);
-    }
-  };
-
-  // Handle crop completion
-  const handleCropComplete = (croppedImage: Blob) => {
-    setCroppedBlob(croppedImage);
-    setShowCropper(false);
-
-    // Keep a preview of the cropped image on screen so the user can see it even
-    // if the upload/CAPTCHA later fails.
-    setPendingPreviewUrl(URL.createObjectURL(croppedImage));
-
-    // Always show CAPTCHA before upload (both guest and edit mode)
-    setShowCaptcha(true);
-  };
-
-  // Handle crop cancel — discards the pending image entirely.
-  const handleCropCancel = () => {
-    if (imageSrc) {
-      URL.revokeObjectURL(imageSrc);
-    }
-    setImageSrc(null);
-    setShowCropper(false);
-    setShowCaptcha(false);
-    setSelectedFile(null);
-    setCroppedBlob(null);
-    setPendingPreviewUrl(null);
+  // New submission: export the doodle, then require a CAPTCHA before uploading.
+  const handleFanArtSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setUploadError(null);
+
+    const empty = await doodleRef.current?.isEmpty();
+    if (empty !== false) {
+      setUploadError("Please draw something before sending.");
+      return;
+    }
+
+    try {
+      const dataUrl = await doodleRef.current!.exportPng();
+      const fullBlob = await dataUrlToBlob(dataUrl);
+      const fullFile = new File([fullBlob], "doodle.png", {
+        type: "image/png",
+      });
+      const thumbBlob = await makeSquareThumbnail(dataUrl);
+      pendingImagesRef.current = { full: fullFile, thumb: thumbBlob };
+    } catch (err) {
+      setUploadError(
+        err instanceof Error ? err.message : "Could not export your doodle",
+      );
+      return;
+    }
+
+    captchaRef.current?.reset();
+    setShowCaptcha(true);
   };
 
   // Fires when the user solves the CAPTCHA (token) or when a solved token is
@@ -278,14 +278,13 @@ const GuestBookFanArtForm = ({
   // key, network) would loop error → reset → error → … indefinitely.
   const handleCaptchaChange = (token: string | null) => {
     if (!token) return;
-
     setShowCaptcha(false);
-
-    // Upload both images after CAPTCHA verification. Pass the token explicitly
-    // so we never rely on async state that isn't updated yet inside this same
-    // event handler (which previously sent a stale/undefined token).
-    if (croppedBlob && selectedFile) {
-      uploadBothImages(croppedBlob, selectedFile, token);
+    if (pendingImagesRef.current) {
+      uploadAndSubmit(
+        pendingImagesRef.current.thumb,
+        pendingImagesRef.current.full,
+        token,
+      );
     }
   };
 
@@ -298,42 +297,36 @@ const GuestBookFanArtForm = ({
   // The widget itself failed to load/run (network down, invalid site key, …).
   // Do NOT reset() here — that retries the same failing load endlessly.
   const handleCaptchaErrored = () => {
+    setShowCaptcha(false);
     setUploadError(
-      "Couldn't load the CAPTCHA. Check your connection and try again."
+      "Couldn't load the CAPTCHA. You can download your doodle and try again.",
     );
   };
 
-  // Re-open the CAPTCHA to retry uploading the already-cropped image. This is a
-  // one-shot user action, so a single reset() to get a fresh checkbox is safe.
+  // Re-open the CAPTCHA to retry uploading the already-exported doodle.
   const handleRetryCaptcha = () => {
-    if (!croppedBlob || !selectedFile) return;
+    if (!pendingImagesRef.current) return;
     setUploadError(null);
     captchaRef.current?.reset();
     setShowCaptcha(true);
   };
 
-  // Upload both cropped thumbnail and original full image
-  const uploadBothImages = async (
-    thumbnailBlob: Blob,
-    fullImageFile: File,
-    token: string
+  // Upload the exported doodle (thumbnail + full image) then create the message.
+  // Reuses the existing guest image pipeline, which stores both files server-side.
+  const uploadAndSubmit = async (
+    thumbBlob: Blob,
+    fullFile: File,
+    token: string,
   ) => {
     setUploading(true);
     setUploadError(null);
 
     try {
-      // CAPTCHA is always required (both guest and edit mode use guest endpoint)
-      if (!token) {
-        throw new Error("CAPTCHA verification required");
-      }
-
-      // Create FormData with both files
       const formData = new FormData();
-      formData.append("thumbnail", thumbnailBlob, "thumbnail.jpg");
-      formData.append("fullImage", fullImageFile);
+      formData.append("thumbnail", thumbBlob, "thumbnail.png");
+      formData.append("fullImage", fullFile);
       formData.append("captchaToken", token);
 
-      // Single upload request for both images
       const response = await fetch(`${apiBaseUrl}/upload/images-guest`, {
         method: "POST",
         body: formData,
@@ -341,190 +334,282 @@ const GuestBookFanArtForm = ({
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to upload images");
+        throw new Error(errorData.error || "Failed to upload doodle");
       }
 
       const data = await response.json();
 
-      // Store both URLs
-      setFanArtForm((prev) => ({
-        ...prev,
+      const messageContent: MessageContent = {
+        name: fanArtForm.name || null,
+        content: fanArtForm.caption || null,
         thumbnail: data.thumbnailUrl,
         full_image: data.fullImageUrl,
-      }));
+        caption: fanArtForm.caption || null,
+        content_warning: buildContentWarning(),
+      };
 
-      // Clean up — the uploaded image now shows via fanArtForm.full_image.
-      if (imageSrc) {
-        URL.revokeObjectURL(imageSrc);
-      }
-      setImageSrc(null);
-      setSelectedFile(null);
-      setCroppedBlob(null);
-      setPendingPreviewUrl(null);
+      await onSubmit(messageContent, "fan art", fanArtForm.password || null);
+
+      // Discord notification is sent server-side on message creation.
+      resetForm();
+      flashSuccess();
     } catch (err) {
+      // Keep pendingImagesRef so the user can retry the CAPTCHA or download the
+      // doodle — a failed attempt never loses their drawing.
       setUploadError(
-        err instanceof Error ? err.message : "Failed to upload images"
+        err instanceof Error ? err.message : "Failed to upload doodle",
       );
-      // Keep the cropped image + selected file (they're only cleared on success)
-      // so the pending preview stays on screen. The user retries via the
-      // "Retry CAPTCHA" button — no re-upload or re-crop needed.
     } finally {
       setUploading(false);
-      // No reset() needed: the modal is closed on submit, so the widget unmounts
-      // and remounts fresh (new single-use token) on the next open / retry.
     }
   };
 
-  const handleUploadButtonClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  // Shows the cropped image that is still pending upload (before it succeeds).
-  // Stays on screen through CAPTCHA/upload failures with a "Retry CAPTCHA"
-  // button, so a failed attempt never forces the user to re-upload or re-crop.
-  const renderPendingUpload = () => {
-    if (!pendingPreview || fanArtForm.full_image) return null;
-    return (
-      <div style={{ marginBottom: "10px" }}>
-        <img
-          src={pendingPreview}
-          alt="Your image (pending upload)"
-          style={{
-            maxWidth: "100%",
-            maxHeight: "300px",
-            display: "block",
-            marginBottom: "8px",
-            border: "2px solid #ddd",
-            borderRadius: "4px",
-          }}
-        />
-        {uploading ? (
-          <p style={{ fontSize: "14px", margin: 0 }}>Uploading…</p>
-        ) : (
-          <>
-            {uploadError && (
-              <p style={{ color: "red", fontSize: "14px", margin: "0 0 6px" }}>
-                {uploadError}
-              </p>
-            )}
-            <p style={{ fontSize: "13px", color: "#555", margin: "0 0 8px" }}>
-              Your image is saved — solve the CAPTCHA to finish uploading.
-            </p>
-            <button
-              type="button"
-              onClick={handleRetryCaptcha}
-              className="upload-trigger-button"
-              disabled={submitting}
-              style={{ fontSize: "14px" }}
-            >
-              Retry CAPTCHA
-            </button>
-          </>
-        )}
-      </div>
-    );
+  // Let the user save their unsubmitted doodle (e.g. if the CAPTCHA fails).
+  const handleDownloadDoodle = async () => {
+    const empty = await doodleRef.current?.isEmpty();
+    if (empty !== false) {
+      setUploadError("Draw something first, then you can download it.");
+      return;
+    }
+    const dataUrl = await doodleRef.current?.exportPng();
+    if (!dataUrl) return;
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = "doodle.png";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
 
   const handleContentWarningChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const warning = e.target.value;
     const isChecked = e.target.checked;
 
     setSelectedContentWarnings((prev) => {
       if (isChecked) {
-        // Add warning if checked
         return [...prev, warning];
       } else {
-        // Remove warning if unchecked
         return prev.filter((w) => w !== warning);
       }
     });
   };
 
   const handleOtherContentWarningChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setOtherContentWarning(e.target.value);
   };
 
-  // Cropper + CAPTCHA modals. Shared between edit and normal mode so changing
-  // the image works in both — both use fixed positioning, so their place in the
-  // tree doesn't matter. onErrored is handled WITHOUT reset() so a failing load
-  // (e.g. missing site key) can't loop.
-  const uploadModals = (
-    <>
-      {/* Image Cropper Modal */}
-      {imageSrc && (
-        <ImageCropper
-          isOpen={showCropper}
-          imageSrc={imageSrc}
-          aspectRatio={1 / 1.618}
-          onCropComplete={handleCropComplete}
-          onCancel={handleCropCancel}
-          maxWidth={300}
-          maxHeight={485}
+  // CAPTCHA modal. Shown after "Send!" and before the doodle upload. onErrored
+  // is handled WITHOUT reset() so a failing load (e.g. missing site key) can't
+  // loop.
+  const captchaModal = showCaptcha && (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "30px",
+          borderRadius: "8px",
+          maxWidth: "400px",
+        }}
+      >
+        <h3>Complete CAPTCHA to send</h3>
+        <ReCAPTCHA
+          ref={captchaRef}
+          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          onChange={handleCaptchaChange}
+          onErrored={handleCaptchaErrored}
+          onExpired={handleCaptchaExpired}
         />
-      )}
-
-      {/* CAPTCHA Modal - only mounted while needed. */}
-      {showCaptcha && (
-        <div
+        <button
+          type="button"
+          onClick={() => setShowCaptcha(false)}
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
+            marginTop: "16px",
+            padding: "8px 16px",
+            backgroundColor: "#ccc",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
           }}
         >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "30px",
-              borderRadius: "8px",
-              maxWidth: "400px",
-            }}
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+
+  // The drawing area for new submissions: the doodle canvas plus a download
+  // escape hatch and any upload/CAPTCHA error + retry.
+  const doodleSection = (
+    <div className="form-group">
+      <label>Doodle!</label>
+
+      <DoodleCanvas ref={doodleRef} showExportPreview={false} />
+
+      <div className="doodle__actions">
+        <button
+          type="button"
+          onClick={handleDownloadDoodle}
+          className="doodle__tool"
+          disabled={submitting || uploading}
+        >
+          Download doodle
+        </button>
+        {uploadError && pendingImagesRef.current && !uploading && (
+          <button
+            type="button"
+            onClick={handleRetryCaptcha}
+            className="doodle__tool doodle__tool--primary"
+            disabled={submitting}
           >
-            <h3>Complete CAPTCHA to upload</h3>
-            <ReCAPTCHA
-              ref={captchaRef}
-              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-              onChange={handleCaptchaChange}
-              onErrored={handleCaptchaErrored}
-              onExpired={handleCaptchaExpired}
+            Retry CAPTCHA
+          </button>
+        )}
+      </div>
+
+      {uploading && <p className="doodle__status">Sending…</p>}
+      {uploadError && !uploading && (
+        <p className="doodle__status doodle__status--error">{uploadError}</p>
+      )}
+    </div>
+  );
+
+  // Edit mode: art shown read-only (can't be changed), other fields editable.
+  const readOnlyArtSection = (
+    <div className="form-group">
+      <label>Art (can't be changed)</label>
+      {fanArtForm.full_image ? (
+        <img
+          src={fanArtForm.full_image}
+          alt="Fan art"
+          style={{
+            maxWidth: "100%",
+            maxHeight: "300px",
+            display: "block",
+            border: "2px solid #ddd",
+            borderRadius: "4px",
+          }}
+        />
+      ) : (
+        <p style={{ fontSize: "14px", color: "#555" }}>No image.</p>
+      )}
+    </div>
+  );
+
+  // Shared fields (name, caption, content warning, password) rendered after the
+  // art section. `password` is only shown for new submissions.
+  const sharedFields = (
+    <>
+      <div className="form-group">
+        <label htmlFor="fanart-caption">Caption (optional)</label>
+        <input
+          type="text"
+          id="fanart-caption"
+          name="caption"
+          value={fanArtForm.caption}
+          onChange={handleFanArtInputChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Content warning (optional)</label>
+        <div className="content-warning-checkboxes">
+          {CONTENT_WARNINGS.map((warning, index) => {
+            const checkboxId = `content-warning-${index}`;
+            return (
+              <div key={index}>
+                <input
+                  id={checkboxId}
+                  type="checkbox"
+                  value={warning}
+                  checked={selectedContentWarnings.includes(warning)}
+                  onChange={handleContentWarningChange}
+                />
+                <label htmlFor={checkboxId}>{warning}</label>
+              </div>
+            );
+          })}
+          <div className="checkbox-label">
+            <input
+              id="content-warning-other"
+              type="checkbox"
+              value="Other"
+              checked={selectedContentWarnings.includes("Other")}
+              onChange={handleContentWarningChange}
             />
-            <button
-              type="button"
-              onClick={handleCropCancel}
-              style={{
-                marginTop: "16px",
-                padding: "8px 16px",
-                backgroundColor: "#ccc",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
+            <label htmlFor="content-warning-other">Other</label>
           </div>
+        </div>
+      </div>
+
+      <div className="form-group">
+        {selectedContentWarnings.includes("Other") && (
+          <input
+            type="text"
+            placeholder="Specify other content warning..."
+            value={otherContentWarning}
+            onChange={handleOtherContentWarningChange}
+          />
+        )}
+      </div>
+
+      {!isEditMode && (
+        <div className="form-group">
+          <label htmlFor="fanart-password">
+            Password (for edit/delete later, optional!)
+          </label>
+          <input
+            type="text"
+            id="fanart-password"
+            name="password"
+            value={fanArtForm.password}
+            onChange={handleFanArtInputChange}
+            placeholder="*don't set me as 123456 :)*"
+          />
         </div>
       )}
     </>
   );
 
-  // In edit mode, render form directly without container
+  const successBanner = showSuccessMessage && (
+    <div
+      className="success-message"
+      style={{
+        marginTop: "10px",
+        padding: "10px",
+        backgroundColor: "#d4edda",
+        color: "#155724",
+        border: "1px solid #c3e6cb",
+        borderRadius: "4px",
+        textAlign: "center",
+        fontSize: "14px",
+      }}
+    >
+      ✓ {isEditMode ? "Art updated!" : "Art sent!"}
+    </div>
+  );
+
+  // In edit mode, render the form directly without the toggle container.
   if (isEditMode) {
     return (
-      <>
       <form
-        onSubmit={handleFanArtSubmit}
+        onSubmit={handleEditSubmit}
         className="div-3d-with-shadow guest-book-form"
       >
         <div className="form-group">
@@ -538,148 +623,11 @@ const GuestBookFanArtForm = ({
           />
         </div>
 
-        <div className="form-group">
-          <label>
-            {initialData && (initialData.thumbnail || initialData.full_image)
-              ? "Art"
-              : "Upload your art"}
-          </label>
+        {readOnlyArtSection}
+        {sharedFields}
 
-          {/* Hidden file input */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileSelect}
-            style={{ display: "none" }}
-          />
-
-          {/* Show uploaded image if it exists */}
-          {fanArtForm.full_image && (
-            <div style={{ marginBottom: "10px" }}>
-              <img
-                src={fanArtForm.full_image}
-                alt="Uploaded art preview"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "300px",
-                  display: "block",
-                  marginBottom: "8px",
-                  border: "2px solid #ddd",
-                  borderRadius: "4px",
-                }}
-              />
-              <button
-                type="button"
-                onClick={handleUploadButtonClick}
-                className="upload-trigger-button"
-                disabled={submitting || uploading}
-                style={{ fontSize: "14px" }}
-              >
-                {uploading ? "Uploading..." : "Change image"}
-              </button>
-            </div>
-          )}
-
-          {/* Cropped image pending upload (persists through failures) */}
-          {renderPendingUpload()}
-
-          {/* Show upload button only if no image uploaded or pending */}
-          {!fanArtForm.full_image && !pendingPreview && (
-            <button
-              type="button"
-              onClick={handleUploadButtonClick}
-              className="upload-trigger-button"
-              disabled={submitting || uploading}
-            >
-              {uploading
-                ? "Uploading..."
-                : initialData &&
-                  (initialData.thumbnail || initialData.full_image)
-                ? "Upload new image"
-                : "Upload image"}
-            </button>
-          )}
-
-          {/* Upload error (pre-crop errors; pending-upload errors show above) */}
-          {uploadError && !pendingPreview && (
-            <p style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
-              {uploadError}
-            </p>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="fanart-caption">Caption (optional)</label>
-          <input
-            type="text"
-            id="fanart-caption"
-            name="caption"
-            value={fanArtForm.caption}
-            onChange={handleFanArtInputChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Content warning (optional)</label>
-          <div className="content-warning-checkboxes">
-            {CONTENT_WARNINGS.map((warning, index) => {
-              const checkboxId = `content-warning-${index}`;
-              return (
-                <div key={index}>
-                  <input
-                    id={checkboxId}
-                    type="checkbox"
-                    value={warning}
-                    checked={selectedContentWarnings.includes(warning)}
-                    onChange={handleContentWarningChange}
-                  />
-                  <label htmlFor={checkboxId}>{warning}</label>
-                </div>
-              );
-            })}
-            <div className="checkbox-label">
-              <input
-                id="content-warning-other"
-                type="checkbox"
-                value="Other"
-                checked={selectedContentWarnings.includes("Other")}
-                onChange={handleContentWarningChange}
-              />
-              <label htmlFor="content-warning-other">Other</label>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-group">
-          {selectedContentWarnings.includes("Other") && (
-            <input
-              type="text"
-              placeholder="Specify other content warning..."
-              value={otherContentWarning}
-              onChange={handleOtherContentWarningChange}
-            />
-          )}
-        </div>
-
-        {!isEditMode && (
-          <div className="form-group">
-            <label htmlFor="fanart-password">
-              Password (for edit/delete later, optional!)
-            </label>
-            <input
-              type="text"
-              id="fanart-password"
-              name="password"
-              value={fanArtForm.password}
-              onChange={handleFanArtInputChange}
-              placeholder="*don't set me as 123456 :)*"
-            />
-          </div>
-        )}
-
-        <div className={isEditMode ? "form-actions" : ""}>
-          {isEditMode && onCancel && (
+        <div className="form-actions">
+          {onCancel && (
             <ButtonWrapper
               onClick={onCancel}
               disabled={submitting}
@@ -692,52 +640,19 @@ const GuestBookFanArtForm = ({
           <ButtonWrapper
             type="submit"
             onClick={() => {}}
-            disabled={
-              submitting ||
-              (!fanArtForm.thumbnail &&
-                !fanArtForm.full_image &&
-                !(
-                  initialData &&
-                  (initialData.thumbnail || initialData.full_image)
-                ))
-            }
+            disabled={submitting}
             className="submit-button"
           >
-            {submitting
-              ? isEditMode
-                ? "Updating..."
-                : "Submitting..."
-              : isEditMode
-              ? "Update"
-              : "Send!"}
+            {submitting ? "Updating..." : "Update"}
           </ButtonWrapper>
         </div>
 
-        {/* Success message for edit mode */}
-        {showSuccessMessage && (
-          <div
-            className="success-message"
-            style={{
-              marginTop: "10px",
-              padding: "10px",
-              backgroundColor: "#d4edda",
-              color: "#155724",
-              border: "1px solid #c3e6cb",
-              borderRadius: "4px",
-              textAlign: "center",
-              fontSize: "14px",
-            }}
-          >
-            ✓ {isEditMode ? "Art updated!" : "Art sent!"}
-          </div>
-        )}
+        {successBanner}
       </form>
-      {uploadModals}
-      </>
     );
   }
 
-  // Normal mode with toggle button and container
+  // Normal mode with toggle button and container.
   return (
     <div className="form-container fanart-form-container">
       <ButtonWrapper
@@ -763,188 +678,25 @@ const GuestBookFanArtForm = ({
             />
           </div>
 
-          <div className="form-group">
-            <label>Upload your art</label>
+          {doodleSection}
+          {sharedFields}
 
-            {/* Hidden file input */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileSelect}
-              style={{ display: "none" }}
-            />
-
-            {/* Show uploaded image if it exists */}
-            {fanArtForm.full_image && (
-              <div style={{ marginBottom: "10px" }}>
-                <img
-                  src={fanArtForm.full_image}
-                  alt="Uploaded art preview"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "300px",
-                    display: "block",
-                    marginBottom: "8px",
-                    border: "2px solid #ddd",
-                    borderRadius: "4px",
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={handleUploadButtonClick}
-                  className="upload-trigger-button"
-                  disabled={submitting || uploading}
-                  style={{ fontSize: "14px" }}
-                >
-                  {uploading ? "Uploading..." : "Change image"}
-                </button>
-              </div>
-            )}
-
-            {/* Cropped image pending upload (persists through failures) */}
-            {renderPendingUpload()}
-
-            {/* Show upload button only if no image uploaded or pending */}
-            {!fanArtForm.full_image && !pendingPreview && (
-              <button
-                type="button"
-                onClick={handleUploadButtonClick}
-                className="upload-trigger-button"
-                disabled={submitting || uploading}
-              >
-                {uploading ? "Uploading..." : "Upload file"}
-              </button>
-            )}
-
-            {/* Upload error (pre-crop errors; pending-upload errors show above) */}
-            {uploadError && !pendingPreview && (
-              <p style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
-                {uploadError}
-              </p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="fanart-caption">Caption (optional)</label>
-            <input
-              type="text"
-              id="fanart-caption"
-              name="caption"
-              value={fanArtForm.caption}
-              onChange={handleFanArtInputChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Content warning (optional)</label>
-            <div className="content-warning-checkboxes">
-              {CONTENT_WARNINGS.map((warning, index) => {
-                const checkboxId = `content-warning-${index}`;
-                return (
-                  <div key={index}>
-                    <input
-                      id={checkboxId}
-                      type="checkbox"
-                      value={warning}
-                      checked={selectedContentWarnings.includes(warning)}
-                      onChange={handleContentWarningChange}
-                    />
-                    <label htmlFor={checkboxId}>{warning}</label>
-                  </div>
-                );
-              })}
-              <div className="checkbox-label">
-                <input
-                  id="content-warning-other"
-                  type="checkbox"
-                  value="Other"
-                  checked={selectedContentWarnings.includes("Other")}
-                  onChange={handleContentWarningChange}
-                />
-                <label htmlFor="content-warning-other">Other</label>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group">
-            {selectedContentWarnings.includes("Other") && (
-              <input
-                type="text"
-                placeholder="Specify other content warning..."
-                value={otherContentWarning}
-                onChange={handleOtherContentWarningChange}
-              />
-            )}
-          </div>
-
-          {!isEditMode && (
-            <div className="form-group">
-              <label htmlFor="fanart-password">
-                Password (for edit/delete later, optional!)
-              </label>
-              <input
-                type="text"
-                id="fanart-password"
-                name="password"
-                value={fanArtForm.password}
-                onChange={handleFanArtInputChange}
-                placeholder="*don't set me as 123456 :)*"
-              />
-            </div>
-          )}
-
-          <div className={isEditMode ? "form-actions" : ""}>
-            {isEditMode && onCancel && (
-              <ButtonWrapper
-                onClick={onCancel}
-                disabled={submitting}
-                className="cancel-button"
-                type="button"
-              >
-                Cancel
-              </ButtonWrapper>
-            )}
+          <div>
             <ButtonWrapper
               type="submit"
               onClick={() => {}}
-              disabled={
-                submitting || (!fanArtForm.thumbnail && !fanArtForm.full_image)
-              }
+              disabled={submitting || uploading}
               className="submit-button"
             >
-              {submitting
-                ? isEditMode
-                  ? "Updating..."
-                  : "Submitting..."
-                : isEditMode
-                ? "Update"
-                : "Send!"}
+              {submitting || uploading ? "Sending..." : "Send!"}
             </ButtonWrapper>
           </div>
 
-          {/* Success message */}
-          {showSuccessMessage && (
-            <div
-              className="success-message"
-              style={{
-                marginTop: "10px",
-                padding: "10px",
-                backgroundColor: "#d4edda",
-                color: "#155724",
-                border: "1px solid #c3e6cb",
-                borderRadius: "4px",
-                textAlign: "center",
-                fontSize: "14px",
-              }}
-            >
-              ✓ Art sent!
-            </div>
-          )}
+          {successBanner}
         </form>
       )}
 
-      {uploadModals}
+      {captchaModal}
     </div>
   );
 };
