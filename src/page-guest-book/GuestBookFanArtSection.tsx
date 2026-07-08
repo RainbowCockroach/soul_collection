@@ -193,7 +193,7 @@ const GuestBookFanArtSection = forwardRef<
   }
 
   // Real submissions on the current page, padded with placeholder cards so the
-  // page always shows `fanArtPerPage` arches. When there are no submissions at
+  // page always shows `fanArtPerPage` cards. When there are no submissions at
   // all we still render a full dummy page rather than an empty-state message.
   const realMessages = data?.messages ?? [];
   const hasRealArt = realMessages.length > 0;
