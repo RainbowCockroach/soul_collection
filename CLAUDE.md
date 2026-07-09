@@ -52,6 +52,7 @@ The application manages several main data types defined in `src/helpers/objects.
   - `dialog.json` - Dialog text content
   - `ads.json` - Advertisement data organized by location ID
   - `vanilla-mode-censor.json` - Vanilla mode censorship lists (censored OC slugs and tag slugs)
+  - `palette-of-the-day.json` - Array of curated pen/paper palettes for the doodle canvas (see Doodle Canvas below)
   - `settings.json` - Application settings
 
 - **Data Loading**: `src/helpers/data-load.ts` provides functions to load and transform data from JSON files into typed objects with automatic slug mapping
@@ -88,12 +89,15 @@ The application manages several main data types defined in `src/helpers/objects.
     - `LoadingSpinner.tsx` - Loading state component
   - `src/nav-bar/` - Navigation components
   - `src/music-player/` - Music player system with context and controls
+  - `src/helpers/useIsMobile.ts` - Hook returning whether the viewport is below the shared 1024px desktop breakpoint (`max-width: 1023px`); used to adapt guest-book behaviour (e.g. how many items to page in) to the responsive CSS
 
 ### Visual and Interactive Features
 
 The application includes various visual and interactive components:
 
 - **Background Effects**: Continuous sparkle animations (`src/background-sparkle/sparkles.ts`)
+- **Doodle Canvas** (`src/page-guest-book/doodle-canvas/`): In-browser drawing surface (`react-sketch-canvas`) that has replaced file upload as the primary way to submit guest-book fan art. `DoodleCanvas.tsx` exposes an imperative `DoodleCanvasHandle` (`exportPng()`, `isEmpty()`, `clear()`); `GuestBookFanArtForm.tsx` calls `exportPng()`, converts the base64 PNG to a Blob/File, and uploads it after the CAPTCHA solve (the exported PNG is held between "Send!" and CAPTCHA solve so a failed attempt never loses the drawing — with a download escape hatch)
+- **Palette of the Day** (`src/helpers/palette-of-the-day.ts`): Deterministic daily pen+paper palette. `getPaletteOfTheDay(date?)` indexes `palette-of-the-day.json` by local-day-since-epoch modulo palette count, so every visitor sees the same palette on a given day and the list cycles (~30+ entries ≈ a month before repeat). Consumed by the doodle canvas; editable via the Palette of the Day editor tab
 - **StarryTrail**: Mouse trail effect that follows cursor movement
 - **Music Player**: Context-based music system with controls and state management
 - **Image Zoom**: Interactive zoom/pan/pinch functionality for detailed image viewing
@@ -129,6 +133,8 @@ The editor provides separate interfaces for managing:
   - JSON export to clipboard
 - Form links (EditorFormLink.tsx)
 - Dialog text (EditorDialog.tsx)
+- Palette of the Day (EditorPaletteOfTheDay.tsx)
+  - Edit the curated doodle-canvas palettes (name, pen colors, paper color) with JSON export to clipboard
 
 Changes are written back to the JSON files and can be committed using the provided batch scripts.
 

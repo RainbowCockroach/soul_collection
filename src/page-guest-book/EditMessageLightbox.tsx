@@ -193,7 +193,6 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
                     thumbnail: message.content.thumbnail || "",
                     full_image: message.content.full_image || "",
                     caption: message.content.caption || "",
-                    content_warning: message.content.content_warning || "",
                   }}
                   onCancel={handleCancel}
                 />

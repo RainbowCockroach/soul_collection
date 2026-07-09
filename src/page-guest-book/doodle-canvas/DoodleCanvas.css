@@ -16,6 +16,7 @@
 .doodle__palette-label {
   font-size: 0.8rem;
   color: var(--doodle-ink);
+  margin-right: 4px;
 }
 
 .doodle__palette-label strong {
@@ -24,6 +25,7 @@
 
 .doodle__swatches {
   display: flex;
+  align-items: center;
   gap: 6px;
   flex-wrap: wrap;
 }
@@ -103,11 +105,11 @@
   border: 0;
 }
 
-/* Square + responsive: box is always 1:1, canvas fills it. */
+/* 4:3 + responsive: box keeps a 4:3 ratio, canvas fills it. */
 .doodle__canvas-box {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   border: 2px solid var(--doodle-ink);
   border-radius: 6px;
   overflow: hidden;
@@ -168,6 +170,22 @@
   box-shadow: 0 2px 0 var(--doodle-ink);
 }
 
+/* Icon-only tool buttons (eraser / undo / redo / download): square, centered. */
+.doodle__tool--icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+/* Clear sits alone at the far-right edge of the tools row. Out-specifies the
+   `.doodle .doodle__tool { margin: 0 }` reset above. */
+.doodle .doodle__tool--clear {
+  margin-left: auto;
+}
+
 .doodle__tool--active {
   background-color: var(--color-purple);
   color: var(--color-white-sparkle);
@@ -192,8 +210,8 @@
 }
 
 .doodle__width--active {
-  background-color: var(--color-purple);
-  border-color: var(--color-purple);
+  background-color: var(--color-green);
+  border-color: var(--doodle-ink);
 }
 
 .doodle__width-dot {

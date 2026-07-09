@@ -29,7 +29,6 @@ const makePlaceholderMessage = (index: number): Message => ({
     thumbnail: guestbookArtPlaceholder,
     full_image: guestbookArtPlaceholderDetail,
     caption: null,
-    content_warning: null,
   },
   created_at: "",
   updated_at: "",
@@ -227,15 +226,8 @@ const GuestBookFanArtSection = forwardRef<
 
   return (
     <div className="guest-book-fanart-section gb-paginated" ref={sectionRef}>
-      {/* Top arrow pair — shown on desktop where the section is a narrow column */}
-      <div className="gb-nav-top">
-        {prevArrow}
-        {nextArrow}
-      </div>
-
-      {/* Items row: side arrows (mobile) flank the fan art grid/list */}
+      {/* Fan art grid spans the full width; arrows live on the pagination line */}
       <div className="gb-items-row">
-        <div className="gb-nav-side gb-nav-left">{prevArrow}</div>
         <div
           className="fanart-display"
           style={{
@@ -256,15 +248,19 @@ const GuestBookFanArtSection = forwardRef<
             );
           })}
         </div>
-        <div className="gb-nav-side gb-nav-right">{nextArrow}</div>
       </div>
 
-      {/* Pagination info - only shown when real art exists */}
+      {/* Pagination line - only shown when real art exists. Arrows flank the
+          page index. */}
       {hasRealArt && (
-        <div className="pagination-info">
-          {isPaginating
-            ? "Loading..."
-            : `${data?.pagination.page} / ${data?.pagination.totalPages}`}
+        <div className="gb-nav-bottom">
+          <div className="gb-nav-inline gb-nav-left">{prevArrow}</div>
+          <div className="pagination-info">
+            {isPaginating
+              ? "Loading..."
+              : `${data?.pagination.page} / ${data?.pagination.totalPages}`}
+          </div>
+          <div className="gb-nav-inline gb-nav-right">{nextArrow}</div>
         </div>
       )}
 

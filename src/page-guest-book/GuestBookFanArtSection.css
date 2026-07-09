@@ -1,9 +1,9 @@
 /* =============================================================================
    GUEST BOOK FAN ART SECTION STYLES
    Layout mirrors the note section:
-   - Desktop (>= 1024px): narrow column. Arrows are a horizontal pair on top;
-     fan art stacks vertically below.
-   - Mobile (< 1024px): full width. Fan art is a 2x2 grid flanked by side arrows.
+   - Desktop (>= 1024px): narrow column with a 2-wide grid of fan art.
+   - Mobile (< 1024px): full width, single row of 3 cards.
+   - All breakpoints: pagination arrows flank the page index below the grid.
    ============================================================================= */
 
 .guest-book-fanart-section {
@@ -13,11 +13,11 @@
   min-width: 0;
 }
 
-/* Mobile default: 2x2 grid */
+/* Mobile default: single row of 3 fan art cards */
 .fanart-display {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -81,6 +81,7 @@
    ============================================================================= */
 @media (min-width: 1024px) {
   .fanart-display {
+    grid-template-columns: 1fr 1fr;
     gap: 14px;
     width: 100%;
   }

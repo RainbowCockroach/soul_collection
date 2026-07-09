@@ -154,44 +154,6 @@
   background-color: var(--color-green);
 }
 
-.content-warning-checkboxes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.content-warning-checkboxes > div {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.content-warning-checkboxes label {
-  display: inline;
-  margin-bottom: 0;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.content-warning-checkboxes input[type="checkbox"],
-.checkbox-label input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
-  margin: 0;
-  accent-color: var(--color-purple);
-  cursor: pointer;
-}
-
-.content-warning-checkboxes label,
-.checkbox-label label {
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
 .disclaimer {
   color: var(--color-white-sparkle);
 }

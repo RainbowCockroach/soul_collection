@@ -17,6 +17,7 @@ import {
 } from "./doodle-canvas/DoodleCanvas";
 import type { MessageContent, Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
+import { useIsMobile } from "../helpers/useIsMobile";
 import buttonSendNote from "../assets/button_send_note.gif";
 import buttonSendArt from "../assets/button_send_art.gif";
 import buttonSoundGallery from "/sound-effect/button_gallery_item.mp3";
@@ -26,6 +27,11 @@ import "./GuestBookSubmission.css";
 const PageGuestBook = () => {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  // Mobile lays notes/fan art out as a single row of 3; desktop keeps the 2x2
+  // grid, so page in the matching count of items per view.
+  const isMobile = useIsMobile();
+  const itemsPerPage = isMobile ? 3 : 4;
 
   // Refs for section components
   const noteSectionRef = useRef<GuestBookNoteSectionRef>(null);
@@ -170,7 +176,7 @@ const PageGuestBook = () => {
         </div>
 
         <div className="gb-notes">
-          <GuestBookNoteSection ref={noteSectionRef} notesPerPage={4} />
+          <GuestBookNoteSection ref={noteSectionRef} notesPerPage={itemsPerPage} />
         </div>
 
         <div className="gb-divider">
@@ -200,7 +206,7 @@ const PageGuestBook = () => {
         <div className="gb-art">
           <GuestBookFanArtSection
             ref={fanArtSectionRef}
-            fanArtPerPage={4}
+            fanArtPerPage={itemsPerPage}
             onOpenFullscreenViewer={handleOpenFullscreenViewer}
           />
         </div>

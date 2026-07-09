@@ -25,61 +25,14 @@ interface GuestBookFanArtFormProps {
     thumbnail?: string;
     full_image?: string;
     caption?: string;
-    content_warning?: string;
   };
   onCancel?: () => void;
 }
-
-const CONTENT_WARNINGS = [
-  "Genitals",
-  "Nipples",
-  "Gore",
-  "Drugs",
-  "Eldritch horror beyond comprehension",
-];
-
-// Square thumbnail size (px). Matches the old ~300px thumbnail width.
-const THUMBNAIL_SIZE = 300;
 
 /** Convert a base64 data URL into a Blob (used for the exported doodle PNG). */
 async function dataUrlToBlob(dataUrl: string): Promise<Blob> {
   const res = await fetch(dataUrl);
   return res.blob();
-}
-
-/**
- * Downscale the square doodle PNG into a square thumbnail Blob. The doodle is
- * already 1:1 with a white background, so a straight draw keeps it square and
- * non-transparent.
- */
-async function makeSquareThumbnail(
-  dataUrl: string,
-  size = THUMBNAIL_SIZE,
-): Promise<Blob> {
-  const img = new Image();
-  await new Promise<void>((resolve, reject) => {
-    img.onload = () => resolve();
-    img.onerror = () =>
-      reject(new Error("Could not load doodle for thumbnail"));
-    img.src = dataUrl;
-  });
-
-  const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Canvas is not supported in this browser");
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, size, size);
-  ctx.drawImage(img, 0, 0, size, size);
-
-  return new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob(
-      (blob) =>
-        blob ? resolve(blob) : reject(new Error("Thumbnail export failed")),
-      "image/png",
-    );
-  });
 }
 
 const GuestBookFanArtForm = ({
@@ -122,33 +75,13 @@ const GuestBookFanArtForm = ({
         caption: initialData.caption || "",
         password: "",
       });
-
-      // Parse content warnings for edit mode
-      if (initialData.content_warning) {
-        const warnings = initialData.content_warning.split(", ");
-        const knownWarnings = warnings.filter((w) =>
-          CONTENT_WARNINGS.includes(w),
-        );
-        const unknownWarnings = warnings.filter(
-          (w) => !CONTENT_WARNINGS.includes(w),
-        );
-
-        setSelectedContentWarnings(knownWarnings);
-        setOtherContentWarning(
-          unknownWarnings.length > 0 ? unknownWarnings[0] : "",
-        );
-
-        if (unknownWarnings.length > 0) {
-          setSelectedContentWarnings((prev) => [...prev, "Other"]);
-        }
-      }
     }
   }, [isEditMode, initialData]);
 
   // Upload state (new submissions only).
-  // Exported doodle blobs held between "Send!" and CAPTCHA solve so a failed
+  // Exported doodle file held between "Send!" and CAPTCHA solve so a failed
   // CAPTCHA can be retried without re-exporting.
-  const pendingImagesRef = useRef<{ full: File; thumb: Blob } | null>(null);
+  const pendingImageRef = useRef<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
@@ -156,13 +89,6 @@ const GuestBookFanArtForm = ({
   // rather than kept in state, so we never read a stale (single-use) token.
   const [showCaptcha, setShowCaptcha] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
-
-  // Content warning multi-select state
-  const [selectedContentWarnings, setSelectedContentWarnings] = useState<
-    string[]
-  >([]);
-  // Other content warning text
-  const [otherContentWarning, setOtherContentWarning] = useState<string>("");
 
   const handleFanArtInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -172,29 +98,6 @@ const GuestBookFanArtForm = ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  // Combine selected warnings and the custom "Other" text into one string.
-  const buildContentWarning = (): string | null => {
-    const allContentWarnings = [...selectedContentWarnings];
-    if (
-      selectedContentWarnings.includes("Other") &&
-      otherContentWarning.trim()
-    ) {
-      const index = allContentWarnings.indexOf("Other");
-      allContentWarnings[index] = otherContentWarning.trim();
-    } else if (
-      !selectedContentWarnings.includes("Other") &&
-      otherContentWarning.trim()
-    ) {
-      allContentWarnings.push(otherContentWarning.trim());
-    } else if (
-      selectedContentWarnings.includes("Other") &&
-      !otherContentWarning.trim()
-    ) {
-      allContentWarnings.splice(allContentWarnings.indexOf("Other"), 1);
-    }
-    return allContentWarnings.length > 0 ? allContentWarnings.join(", ") : null;
   };
 
   const flashSuccess = () => {
@@ -215,7 +118,6 @@ const GuestBookFanArtForm = ({
       thumbnail: fanArtForm.thumbnail || null,
       full_image: fanArtForm.full_image || null,
       caption: fanArtForm.caption || null,
-      content_warning: buildContentWarning(),
     };
     try {
       await onSubmit(messageContent, "fan art", fanArtForm.password || null);
@@ -241,8 +143,7 @@ const GuestBookFanArtForm = ({
       const fullFile = new File([fullBlob], "doodle.png", {
         type: "image/png",
       });
-      const thumbBlob = await makeSquareThumbnail(imageDataUrl);
-      pendingImagesRef.current = { full: fullFile, thumb: thumbBlob };
+      pendingImageRef.current = fullFile;
     } catch (err) {
       setUploadError(
         err instanceof Error ? err.message : "Could not prepare your doodle",
@@ -261,12 +162,8 @@ const GuestBookFanArtForm = ({
   const handleCaptchaChange = (token: string | null) => {
     if (!token) return;
     setShowCaptcha(false);
-    if (pendingImagesRef.current) {
-      uploadAndSubmit(
-        pendingImagesRef.current.thumb,
-        pendingImagesRef.current.full,
-        token,
-      );
+    if (pendingImageRef.current) {
+      uploadAndSubmit(pendingImageRef.current, token);
     }
   };
 
@@ -287,29 +184,25 @@ const GuestBookFanArtForm = ({
 
   // Re-open the CAPTCHA to retry uploading the already-exported doodle.
   const handleRetryCaptcha = () => {
-    if (!pendingImagesRef.current) return;
+    if (!pendingImageRef.current) return;
     setUploadError(null);
     captchaRef.current?.reset();
     setShowCaptcha(true);
   };
 
-  // Upload the exported doodle (thumbnail + full image) then create the message.
-  // Reuses the existing guest image pipeline, which stores both files server-side.
-  const uploadAndSubmit = async (
-    thumbBlob: Blob,
-    fullFile: File,
-    token: string,
-  ) => {
+  // Upload the exported doodle then create the message. The backend runs
+  // smartcrop on the full image to generate a square (1:1) thumbnail, so the
+  // frontend only needs to send the drawing as-is.
+  const uploadAndSubmit = async (fullFile: File, token: string) => {
     setUploading(true);
     setUploadError(null);
 
     try {
       const formData = new FormData();
-      formData.append("thumbnail", thumbBlob, "thumbnail.png");
-      formData.append("fullImage", fullFile);
+      formData.append("image", fullFile);
       formData.append("captchaToken", token);
 
-      const response = await fetch(`${apiBaseUrl}/upload/images-guest`, {
+      const response = await fetch(`${apiBaseUrl}/upload/image-guest`, {
         method: "POST",
         body: formData,
       });
@@ -327,18 +220,17 @@ const GuestBookFanArtForm = ({
         thumbnail: data.thumbnailUrl,
         full_image: data.fullImageUrl,
         caption: fanArtForm.caption || null,
-        content_warning: buildContentWarning(),
       };
 
       await onSubmit(messageContent, "fan art", fanArtForm.password || null);
 
       // Discord notification is sent server-side on message creation.
-      pendingImagesRef.current = null;
+      pendingImageRef.current = null;
       flashSuccess();
       // Let the parent clear the canvas and close the dialog.
       onSuccess?.();
     } catch (err) {
-      // Keep pendingImagesRef so the user can retry the CAPTCHA or download the
+      // Keep pendingImageRef so the user can retry the CAPTCHA or download the
       // doodle — a failed attempt never loses their drawing.
       setUploadError(
         err instanceof Error ? err.message : "Failed to upload doodle",
@@ -357,27 +249,6 @@ const GuestBookFanArtForm = ({
     document.body.appendChild(link);
     link.click();
     link.remove();
-  };
-
-  const handleContentWarningChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const warning = e.target.value;
-    const isChecked = e.target.checked;
-
-    setSelectedContentWarnings((prev) => {
-      if (isChecked) {
-        return [...prev, warning];
-      } else {
-        return prev.filter((w) => w !== warning);
-      }
-    });
-  };
-
-  const handleOtherContentWarningChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setOtherContentWarning(e.target.value);
   };
 
   // CAPTCHA modal. Shown after "Send!" and before the doodle upload. onErrored
@@ -429,7 +300,7 @@ const GuestBookFanArtForm = ({
         >
           Download doodle
         </button>
-        {uploadError && pendingImagesRef.current && !uploading && (
+        {uploadError && pendingImageRef.current && !uploading && (
           <button
             type="button"
             onClick={handleRetryCaptcha}
@@ -470,8 +341,8 @@ const GuestBookFanArtForm = ({
     </div>
   );
 
-  // Shared fields (name, caption, content warning, password) rendered after the
-  // art section. `password` is only shown for new submissions.
+  // Shared fields (name, caption, password) rendered after the art section.
+  // `password` is only shown for new submissions.
   const sharedFields = (
     <>
       <div className="form-group">
@@ -483,48 +354,6 @@ const GuestBookFanArtForm = ({
           value={fanArtForm.caption}
           onChange={handleFanArtInputChange}
         />
-      </div>
-
-      <div className="form-group">
-        <label>Content warning (optional)</label>
-        <div className="content-warning-checkboxes">
-          {CONTENT_WARNINGS.map((warning, index) => {
-            const checkboxId = `content-warning-${index}`;
-            return (
-              <div key={index}>
-                <input
-                  id={checkboxId}
-                  type="checkbox"
-                  value={warning}
-                  checked={selectedContentWarnings.includes(warning)}
-                  onChange={handleContentWarningChange}
-                />
-                <label htmlFor={checkboxId}>{warning}</label>
-              </div>
-            );
-          })}
-          <div className="checkbox-label">
-            <input
-              id="content-warning-other"
-              type="checkbox"
-              value="Other"
-              checked={selectedContentWarnings.includes("Other")}
-              onChange={handleContentWarningChange}
-            />
-            <label htmlFor="content-warning-other">Other</label>
-          </div>
-        </div>
-      </div>
-
-      <div className="form-group">
-        {selectedContentWarnings.includes("Other") && (
-          <input
-            type="text"
-            placeholder="Specify other content warning..."
-            value={otherContentWarning}
-            onChange={handleOtherContentWarningChange}
-          />
-        )}
       </div>
 
       {!isEditMode && (

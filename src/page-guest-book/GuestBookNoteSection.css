@@ -1,9 +1,10 @@
 /* =============================================================================
    GUEST BOOK NOTE SECTION STYLES
    Layout:
-   - Desktop (>= 1024px): the section lives in a narrow column. Arrows are a
-     horizontal pair on top; notes stack vertically below.
-   - Mobile (< 1024px): full width. Notes are a 2x2 grid flanked by side arrows.
+   - Desktop (>= 1024px): the section lives in a narrow column with a 2-wide
+     grid of notes.
+   - Mobile (< 1024px): full width, single row of 3 notes.
+   - All breakpoints: pagination arrows flank the page index below the grid.
    ============================================================================= */
 
 .guest-book-note-section {
@@ -20,41 +21,58 @@
   gap: 10px;
 }
 
-/* Horizontal arrow pair shown on top (desktop columns) */
-.gb-nav-top {
-  display: none; /* desktop-only; enabled in the >= 1024 block */
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-}
-
-/* Items row: [side arrow] [grid/list] [side arrow] */
+/* Items row: the grid spans the full width. The pagination arrows live on the
+   page-index line below (see .gb-nav-bottom) so the grid is never squeezed by
+   side arrows. */
 .gb-items-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   width: 100%;
   min-width: 0;
 }
 
-/* Side arrows flank the grid on mobile only */
-.gb-nav-side {
+/* Bottom pagination line: [arrow] [page index] [arrow] */
+.gb-nav-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Inline arrows flanking the page index */
+.gb-nav-inline {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
 }
 
+/* Keep the arrows and page index compact so they balance with the small
+   three-across notes rather than towering over them. */
+.gb-nav-bottom .arrow-button {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.gb-nav-bottom .arrow-button img {
+  width: 32px;
+  height: auto;
+}
+
+.gb-nav-bottom .pagination-info {
+  font-size: 13px;
+}
+
 /* -----------------------------------------------------------------------------
    NOTES CONTAINER
    ----------------------------------------------------------------------------- */
 
-/* Mobile default: 2x2 grid */
+/* Mobile default: single row of 3 notes */
 .notes-display {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -100,19 +118,11 @@
 
 /* =============================================================================
    DESKTOP (>= 1024px): the section sits in a side column with room for two
-   columns of notes. Arrows move to a horizontal pair on top; the notes stay a
-   2-wide grid.
+   columns of notes. The pagination line keeps its side arrows.
    ============================================================================= */
 @media (min-width: 1024px) {
-  .gb-nav-top {
-    display: flex;
-  }
-
-  .gb-nav-side {
-    display: none;
-  }
-
   .notes-display {
+    grid-template-columns: 1fr 1fr;
     gap: 14px;
     width: 100%;
   }

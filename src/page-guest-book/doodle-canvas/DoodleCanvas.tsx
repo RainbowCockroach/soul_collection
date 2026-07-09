@@ -6,7 +6,18 @@ import {
   useState,
 } from "react";
 import { ReactSketchCanvas, type ReactSketchCanvasRef } from "react-sketch-canvas";
-import { getPaletteOfTheDay } from "../../helpers/palette-of-the-day";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEraser,
+  faRotateLeft,
+  faRotateRight,
+  faDownload,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  getPaletteOfTheDay,
+  DEFAULT_PAPER_COLOR,
+} from "../../helpers/palette-of-the-day";
 import "./DoodleCanvas.css";
 
 /**
@@ -24,7 +35,10 @@ export interface DoodleCanvasHandle {
 export interface DoodleCanvasProps {
   /** Override the day (POC/testing). Defaults to today. */
   date?: Date;
-  /** Canvas background color. Defaults to white so exported PNG isn't transparent. */
+  /**
+   * Canvas background color. When omitted, defaults to the day's palette paper
+   * color (falling back to white) so the exported PNG isn't transparent.
+   */
   canvasColor?: string;
   /** Fires whenever a stroke ends — handy for enabling/disabling a submit button. */
   onChange?: () => void;
@@ -38,10 +52,12 @@ export interface DoodleCanvasProps {
 const STROKE_WIDTHS = [2, 4, 8, 16];
 
 export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
-  ({ date, canvasColor = "#ffffff", onChange, showExportPreview = true }, ref) => {
+  ({ date, canvasColor, onChange, showExportPreview = true }, ref) => {
     const canvasRef = useRef<ReactSketchCanvasRef>(null);
 
     const palette = useMemo(() => getPaletteOfTheDay(date), [date]);
+    const paperColor =
+      canvasColor ?? palette.paperColor ?? DEFAULT_PAPER_COLOR;
 
     const [strokeColor, setStrokeColor] = useState<string>(palette.colors[0]);
     const [strokeWidth, setStrokeWidth] = useState<number>(4);
@@ -86,14 +102,23 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
       setExportedUrl(url ?? null);
     };
 
+    const handleDownload = async () => {
+      const url = await canvasRef.current?.exportImage("png");
+      if (!url) return;
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "doodle.png";
+      link.click();
+    };
+
     return (
       <div className="doodle">
-        <div className="doodle__palette-label">
-          Palette of the day: <strong>{palette.name}</strong>
-        </div>
-
         {/* Pen swatches */}
         <div className="doodle__swatches" role="radiogroup" aria-label="Pen colors">
+          <span className="doodle__palette-label">
+            Palette of the day: <strong>{palette.name}</strong>
+          </span>
+
           {palette.colors.map((color) => {
             const active = !isErasing && color === strokeColor;
             return (
@@ -136,7 +161,7 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
             ref={canvasRef}
             width="100%"
             height="100%"
-            canvasColor={canvasColor}
+            canvasColor={paperColor}
             strokeColor={strokeColor}
             strokeWidth={strokeWidth}
             eraserWidth={strokeWidth * 2}
@@ -149,10 +174,13 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
         <div className="doodle__tools">
           <button
             type="button"
-            className={`doodle__tool${isErasing ? " doodle__tool--active" : ""}`}
+            className={`doodle__tool doodle__tool--icon${isErasing ? " doodle__tool--active" : ""}`}
             onClick={toggleEraser}
+            aria-pressed={isErasing}
+            aria-label="Eraser"
+            title={isErasing ? "Eraser (on)" : "Eraser"}
           >
-            {isErasing ? "Eraser (on)" : "Eraser"}
+            <FontAwesomeIcon icon={faEraser} />
           </button>
 
           <div className="doodle__widths" aria-label="Stroke width">
@@ -171,14 +199,41 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
             ))}
           </div>
 
-          <button type="button" className="doodle__tool" onClick={() => canvasRef.current?.undo()}>
-            Undo
+          <button
+            type="button"
+            className="doodle__tool doodle__tool--icon"
+            onClick={() => canvasRef.current?.undo()}
+            aria-label="Undo"
+            title="Undo"
+          >
+            <FontAwesomeIcon icon={faRotateLeft} />
           </button>
-          <button type="button" className="doodle__tool" onClick={() => canvasRef.current?.redo()}>
-            Redo
+          <button
+            type="button"
+            className="doodle__tool doodle__tool--icon"
+            onClick={() => canvasRef.current?.redo()}
+            aria-label="Redo"
+            title="Redo"
+          >
+            <FontAwesomeIcon icon={faRotateRight} />
           </button>
-          <button type="button" className="doodle__tool" onClick={() => canvasRef.current?.clearCanvas()}>
-            Clear
+          <button
+            type="button"
+            className="doodle__tool doodle__tool--icon"
+            onClick={handleDownload}
+            aria-label="Download"
+            title="Download"
+          >
+            <FontAwesomeIcon icon={faDownload} />
+          </button>
+          <button
+            type="button"
+            className="doodle__tool doodle__tool--icon doodle__tool--clear"
+            onClick={() => canvasRef.current?.clearCanvas()}
+            aria-label="Clear"
+            title="Clear"
+          >
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>
 

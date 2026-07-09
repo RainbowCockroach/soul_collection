@@ -9,7 +9,6 @@ interface FullscreenImageViewerProps {
   src: string;
   alt: string;
   caption?: string;
-  contentWarning?: string;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -18,7 +17,6 @@ const FullscreenImageViewer = ({
   src,
   alt,
   caption,
-  contentWarning,
   isOpen,
   onClose,
 }: FullscreenImageViewerProps) => {
@@ -43,7 +41,6 @@ const FullscreenImageViewer = ({
           src={src}
           alt={alt}
           caption={caption}
-          contentWarning={contentWarning}
         />
       </div>
     </Lightbox>
