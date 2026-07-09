@@ -37,9 +37,9 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* Positioning context for the fullscreen zone, content-warning overlay and
-   action menu, which are siblings of the frame (so those buttons aren't nested
-   inside the fullscreen button) */
+/* Positioning context for the fullscreen zone and action menu, which are
+   siblings of the frame (so those buttons aren't nested inside the fullscreen
+   button) */
 .fanart-frame-wrapper {
   position: relative;
   width: 100%;
@@ -84,205 +84,204 @@
   filter: none !important;
 }
 
-.fanart-window-frame {
+/* Scrapbook polaroid: a cream photo mat with a chunky dark-purple border and
+   the app's signature layered offset shadow + soft purple glow (matches the
+   note cards and the 3D button/frame treatment used across the app). */
+.fanart-image-container {
+  background: #fff4eb;
+  padding: 0;
+  margin-bottom: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
+  border: 2px solid #340b56;
+  border-radius: 15px;
+  box-shadow: 3px 3px 0 #340b56, 0 0 14px rgba(134, 78, 219, 0.4);
 }
 
-/* On touch devices the :hover state latches after a tap, leaving the rise
-   shadow stuck under the arches (which merge into a dark band on the mobile
-   2-column grid). Suppress the frame shadow/rise where hover isn't real. */
-@media (hover: none) {
-  .fanart-window-frame,
-  .fanart-window-frame:hover {
-    box-shadow: none;
-    transform: none;
-  }
-}
-
-.fanart-image-container {
-  background: #ffffff;
-  padding: 1px;
-  margin-bottom: 0;
-  aspect-ratio: 1 / 1.618;
-  overflow: hidden;
-  position: relative;
+/* Absolutely-positioned image fill, inset so the cream mat shows as a frame
+   and the photo gets softly rounded corners. */
+.fanart-image-layer {
+  position: absolute;
+  inset: 6px;
+  border-radius: 9px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
+/* Lift on hover (override the generic .effect-subtle-rise grey shadow so the
+   signature offset shadow is what grows). */
+.guest-book-fanart .fanart-image-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 6px 0 #340b56, 0 0 20px rgba(134, 78, 219, 0.6);
+}
+
+/* On touch devices the :hover state latches after a tap. Keep the base
+   sticker shadow but drop the hover lift so nothing stays stuck raised. */
+@media (hover: none) {
+  .guest-book-fanart .fanart-image-container:hover {
+    transform: none;
+    box-shadow: 3px 3px 0 #340b56, 0 0 14px rgba(134, 78, 219, 0.4);
+  }
+}
+
 .fanart-placeholder {
-  width: 100%;
-  height: 100%;
-  background: #f8f9fa;
-  color: #6c757d;
+  position: absolute;
+  inset: 6px;
+  border-radius: 9px;
+  background: #f3e9ff;
+  color: #864edb;
+  font-family: var(--font-primary);
   font-size: 14px;
 }
 
+/* Caption as a floating cream "taped label" instead of a hard dark gradient. */
 .fanart-info {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  padding: 8px;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  background: rgba(255, 244, 235, 0.94);
+  border: 1.5px solid #340b56;
+  border-radius: 10px;
+  box-shadow: 1.5px 1.5px 0 rgba(52, 11, 86, 0.55);
+  padding: 5px 8px 6px;
   box-sizing: border-box;
-  color: white;
+  color: #3a1a5c;
+  font-family: var(--font-primary);
+}
+
+/* Dark text sits on the cream label now, so cancel the white-on-photo shadow. */
+.fanart-info .text-shadow-dark {
+  text-shadow: none;
 }
 
 .fanart-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  gap: 6px;
+  margin-bottom: 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px dashed rgba(52, 11, 86, 0.35);
+}
+
+/* No caption below → the header is the last child, so drop the divider. */
+.fanart-header:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .fanart-artist {
   font-weight: bold;
   font-size: 13px;
-  color: white;
+  color: #340b56;
+  font-family: var(--font-primary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fanart-date {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #8a6d9c;
+  font-family: var(--font-primary);
+  flex-shrink: 0;
 }
 
 .fanart-caption {
-  font-size: 16px;
-  color: white;
-  margin-bottom: 4px;
+  font-size: 13px;
+  color: #4a2a6b;
+  margin-bottom: 0;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.2;
   text-align: center;
-  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
-    -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000,
-    1px 1px 3px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-primary);
+  /* Keep long captions from ballooning the label */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  text-shadow: none;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .guest-book-fanart {
-    margin: 4px;
-    min-width: 0;
-    max-width: 100%;
-  }
-
-  .fanart-window-frame {
-    padding: 8px;
-  }
-
-  .fanart-caption {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
+/* Responsive design — the mobile layout packs three cards into a single row,
+   so blinkies and the info bar text shrink moderately to fit the narrow cells. */
+@media (max-width: 1023px) {
   .guest-book-fanart {
     margin: 2px;
     min-width: 0;
     max-width: 100%;
   }
 
-  .fanart-window-frame {
-    padding: 4px;
-  }
-}
-
-/* Content Warning Overlay */
-.fanart-content-warning-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 15;
-  pointer-events: none;
-}
-
-.fanart-content-warning-card {
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  backdrop-filter: blur(15px);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 90%;
-  max-width: 300px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  pointer-events: auto;
-}
-
-.fanart-content-warning-text {
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.fanart-uncensor-button {
-  background: var(--color-green);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  min-width: 140px;
-}
-
-.fanart-uncensor-button:hover {
-  background: var(--color-green-dark);
-  transform: translateY(-1px);
-}
-
-.fanart-uncensor-button:active {
-  transform: translateY(0);
-}
-
-/* Responsive adjustments for content warning */
-@media (max-width: 768px) {
-  .fanart-content-warning-card {
-    width: 85%;
-    max-width: 250px;
-    padding: 16px;
-    gap: 10px;
+  .fanart-blinkies {
+    gap: 4px;
+    margin-bottom: -8px;
   }
 
-  .fanart-content-warning-text {
-    font-size: 13px;
+  .blinkie-image {
+    height: 24px;
+    max-width: 95px;
   }
 
-  .fanart-uncensor-button {
-    padding: 8px 16px;
-    font-size: 13px;
-    min-width: 100px;
+  .fanart-image-container {
+    border-radius: 11px;
+    box-shadow: 2px 2px 0 #340b56, 0 0 10px rgba(134, 78, 219, 0.35);
+  }
+
+  .fanart-image-layer,
+  .fanart-placeholder {
+    inset: 4px;
+    border-radius: 7px;
+  }
+
+  .fanart-info {
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    padding: 3px 5px 4px;
+    border-radius: 7px;
+  }
+
+  .fanart-header {
+    margin-bottom: 3px;
+    padding-bottom: 2px;
+  }
+
+  .fanart-artist {
+    font-size: 12px;
+  }
+
+  .fanart-date {
+    font-size: 9px;
+  }
+
+  .fanart-caption {
+    font-size: 11px;
   }
 }
 
 @media (max-width: 480px) {
-  .fanart-content-warning-card {
-    width: 80%;
-    max-width: 200px;
-    padding: 12px;
-    gap: 8px;
+  .blinkie-image {
+    height: 22px;
+    max-width: 85px;
   }
 
-  .fanart-content-warning-text {
-    font-size: 12px;
-    line-height: 1.3;
+  .fanart-artist {
+    font-size: 11px;
   }
 
-  .fanart-uncensor-button {
-    padding: 6px 12px;
-    font-size: 12px;
-    min-width: 80px;
+  .fanart-date {
+    font-size: 8px;
+  }
+
+  .fanart-caption {
+    font-size: 10px;
   }
 }

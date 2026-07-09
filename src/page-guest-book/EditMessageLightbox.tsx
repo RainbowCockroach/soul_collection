@@ -175,8 +175,6 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
                 <GuestBookNoteForm
                   onSubmit={handleFormSubmit}
                   submitting={submitting}
-                  showForm={true} // Always show in edit mode
-                  onToggle={() => {}} // Not used in edit mode
                   isEditMode={true}
                   initialData={{
                     name: message.content.name || "",
@@ -189,15 +187,12 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
                 <GuestBookFanArtForm
                   onSubmit={handleFormSubmit}
                   submitting={submitting}
-                  showForm={true} // Always show in edit mode
-                  onToggle={() => {}} // Not used in edit mode
                   isEditMode={true}
                   initialData={{
                     name: message.content.name || "",
                     thumbnail: message.content.thumbnail || "",
                     full_image: message.content.full_image || "",
                     caption: message.content.caption || "",
-                    content_warning: message.content.content_warning || "",
                   }}
                   onCancel={handleCancel}
                 />

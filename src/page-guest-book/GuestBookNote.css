@@ -1,24 +1,21 @@
 /* =============================================================================
    GUEST BOOK NOTE STYLES
-   Individual note component with paper styling and blinkies
+   Individual note component with paper styling and blinkies.
+   Notes are square (1:1) to match the fan art cards; long text scrolls inside.
    ============================================================================= */
 
-/* -----------------------------------------------------------------------------
-   BASE STYLES
-   ----------------------------------------------------------------------------- */
-
-/* Main note container */
+/* Main note container fills its grid cell / column slot */
 .guest-book-note {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  min-width: 200px;
-  max-width: 250px;
+  width: 100%;
+  min-width: 0;
   box-sizing: border-box;
 }
 
-/* Reserve space for blinkie area - consistent height */
+/* Reserve space for the blinkie strip above the paper */
 .guest-book-note::before {
   content: "";
   height: 31px; /* Same as blinkie image height */
@@ -31,7 +28,6 @@
    BLINKIE POSITIONING
    ----------------------------------------------------------------------------- */
 
-/* Blinkies container positioned above the note */
 .note-blinkies {
   position: absolute;
   top: 0;
@@ -57,7 +53,7 @@
 }
 
 /* -----------------------------------------------------------------------------
-   PAPER NOTE STYLING
+   PAPER NOTE STYLING — SQUARE
    ----------------------------------------------------------------------------- */
 
 .note-paper {
@@ -68,10 +64,12 @@
   box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
   position: relative;
   width: 100%;
+  aspect-ratio: 1 / 1; /* Square (1:1), matching the fan art cards */
   box-sizing: border-box;
-  min-height: 105px;
-  overflow-x: hidden; /* Prevent horizontal content overflow */
-  overflow-y: auto; /* Allow vertical scrolling if needed */
+  overflow-x: hidden;
+  overflow-y: auto; /* Long notes scroll inside the square */
+  display: flex;
+  flex-direction: column;
   /* Paper texture effect */
   background-image: linear-gradient(#eee 0.1em, transparent 0.1em);
   background-size: 100% 1.2em;
@@ -82,7 +80,6 @@
    NOTE CONTENT
    ----------------------------------------------------------------------------- */
 
-/* Note header with name and date */
 .note-header {
   display: flex;
   justify-content: space-between;
@@ -91,11 +88,12 @@
   padding-bottom: 6px;
   flex-wrap: wrap;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .note-name {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 17px;
   color: #333;
   font-family: var(--font-primary);
   word-wrap: break-word;
@@ -104,17 +102,15 @@
 }
 
 .note-date {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
   font-family: var(--font-primary);
 }
 
-/* Main note content */
 .note-content {
-  font-size: 13px;
+  font-size: 15px;
   color: #444;
   line-height: 1.4;
-  margin-bottom: 10px;
   font-family: var(--font-primary);
   word-wrap: break-word;
   overflow-wrap: anywhere;
@@ -122,9 +118,41 @@
   hyphens: auto;
   max-width: 100%;
   white-space: pre-wrap; /* Preserve line breaks but wrap text */
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-/* Optional image in note */
+/* Soft, paper-toned scrollbar so it blends with the note instead of the
+   default high-contrast grey bar. */
+.note-paper,
+.note-content {
+  scrollbar-width: thin;
+  scrollbar-color: #e3d7c6 transparent;
+}
+
+.note-paper::-webkit-scrollbar,
+.note-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.note-paper::-webkit-scrollbar-track,
+.note-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.note-paper::-webkit-scrollbar-thumb,
+.note-content::-webkit-scrollbar-thumb {
+  background-color: #e3d7c6;
+  border-radius: 3px;
+}
+
+.note-paper::-webkit-scrollbar-thumb:hover,
+.note-content::-webkit-scrollbar-thumb:hover {
+  background-color: #d6c6ae;
+}
+
+/* Optional thumbnail in a note */
 .note-image {
   margin-top: 10px;
   text-align: center;
@@ -146,198 +174,71 @@
   font-family: var(--font-primary);
 }
 
-/* -----------------------------------------------------------------------------
-   INTERACTIVE STATES
-   ----------------------------------------------------------------------------- */
-
-/* Hover effect delegated to .effect-subtle-rise utility class on .note-paper */
-
 /* =============================================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE — the mobile layout packs three notes into a single row, so text
+   and blinkies shrink moderately to fit the narrow cells.
    ============================================================================= */
-
-/* Extra large screens - prevent notes from becoming too wide */
-@media (min-width: 1400px) {
-  .guest-book-note {
-    width: clamp(320px, 18vw, 400px);
-  }
-}
-
-/* Desktop - larger notes with flexible width */
-@media (min-width: 769px) {
-  .guest-book-note {
-    width: clamp(280px, calc(20vw + 10px), 450px);
-    min-width: unset; /* Override base min-width */
-    max-width: unset; /* Override base max-width */
-    margin: 15px;
-    height: 100%; /* Fill the flex container height */
-    display: flex;
-    flex-direction: column;
-  }
-
+@media (max-width: 1023px) {
+  /* Reserve less space for the smaller blinkie strip */
   .guest-book-note::before {
-    height: 35px; /* Match the larger blinkie height */
+    height: 24px;
+    margin-bottom: -8px;
   }
 
-  .note-paper {
-    padding: 12px 14px;
-    height: 100%;
-    max-height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .note-header {
-    flex-shrink: 0; /* Ensure header doesn't get compressed */
-  }
-
-  .note-name {
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-
-  .note-date {
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-
-  .note-content {
-    font-size: 21px;
-    line-height: 1.4;
-    margin-bottom: 10px;
-    flex: 1; /* Allow content to expand within available space */
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .note-thumbnail {
-    max-height: 100px;
-  }
-
-  .note-caption {
-    font-size: 12px;
+  .note-blinkies {
+    gap: 4px;
   }
 
   .blinkie-image {
-    height: 35px;
-    max-width: 140px;
-  }
-}
-
-/* Tablet portrait (iPad Air etc) - smaller margins and text */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .guest-book-note {
-    margin: 2px;
-    width: auto;
-    flex: 1;
+    height: 24px;
+    max-width: 95px;
   }
 
   .note-paper {
-    padding: 8px;
-  }
-
-  .note-name {
-    font-size: 17px;
-  }
-
-  .note-date {
-    font-size: 13px;
-  }
-
-  .note-content {
-    font-size: 16px;
-    line-height: 1.4;
-  }
-}
-
-/* Tablet/Mobile - fill grid cells completely */
-@media (max-width: 768px) {
-  .guest-book-note {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: unset !important;
-    margin: 0 !important;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .note-paper {
-    padding: 8px;
-    height: 100%;
-    max-height: 161px;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .note-name {
-    font-size: 17px;
-  }
-
-  .note-date {
-    font-size: 13px;
-  }
-
-  .note-content {
-    font-size: 16px;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-}
-
-/* Small mobile - tighter spacing and smaller text */
-@media (max-width: 480px) {
-  .guest-book-note {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: unset !important;
-    margin: 0 !important;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .note-paper {
-    padding: 6px;
-    height: 100%;
-    max-height: 140px;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    padding: 7px;
   }
 
   .note-header {
-    margin-top: 6px;
+    margin-bottom: 6px;
+    padding-bottom: 5px;
   }
 
   .note-name {
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .note-date {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .note-content {
-    font-size: 14px;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+    font-size: 12px;
   }
 
   .note-caption {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blinkie-image {
+    height: 22px;
+    max-width: 85px;
+  }
+
+  .note-name {
+    font-size: 12px;
+  }
+
+  .note-date {
+    font-size: 10px;
+  }
+
+  .note-content {
+    font-size: 11px;
+  }
+
+  .note-caption {
+    font-size: 9px;
   }
 }

@@ -1,0 +1,248 @@
+/* Compact doodle toolbar. Lives on the lavender (--color-white-sparkle) form
+   background, so all text is dark-purple ink and controls use the site's
+   mint-green fill + chunky purple 3D shadow. */
+.doodle {
+  --doodle-ink: rgb(52, 11, 86);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--font-primary);
+  color: var(--doodle-ink);
+}
+
+.doodle__palette-label {
+  font-size: 0.8rem;
+  color: var(--doodle-ink);
+  margin-right: 4px;
+}
+
+.doodle__palette-label strong {
+  color: var(--color-purple);
+}
+
+.doodle__swatches {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* The fan-art form applies `.form-container button { margin-right: auto }`,
+   which would otherwise spread these buttons across the row. Reset it (the
+   double-class selector out-specifies that rule). */
+.doodle .doodle__swatch,
+.doodle .doodle__tool,
+.doodle .doodle__width,
+.doodle__actions .doodle__tool {
+  margin: 0;
+}
+
+.doodle__swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-white-sparkle);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 1px 2px rgba(52, 11, 86, 0.45);
+  transition: transform 0.1s ease;
+}
+
+.doodle__swatch:hover {
+  transform: scale(1.12);
+}
+
+/* Ring hugs the circle (outline follows border-radius), no offset gap. */
+.doodle__swatch--active {
+  transform: scale(1.12);
+  outline: 2.5px solid var(--color-purple);
+  outline-offset: 1px;
+}
+
+/* Custom color wheel: rainbow hint until a color is chosen (an inline
+   background-color then overrides it), with the native picker overlaid. */
+.doodle__swatch--custom {
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+  background: conic-gradient(
+    red,
+    #ff8000,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    magenta,
+    red
+  );
+}
+
+.doodle__color-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.doodle__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 4:3 + responsive: box keeps a 4:3 ratio, canvas fills it. */
+.doodle__canvas-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 2px solid var(--doodle-ink);
+  border-radius: 6px;
+  overflow: hidden;
+  touch-action: none; /* prevents page scroll while drawing on touch devices */
+}
+
+.doodle__canvas {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important; /* react-sketch-canvas adds its own border by default */
+}
+
+/* One tidy row for eraser / widths / undo / redo / clear. */
+.doodle__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.doodle__tool,
+.doodle__width {
+  font-family: var(--font-primary);
+  color: var(--doodle-ink);
+  border: 1px solid var(--doodle-ink);
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 2px 0 var(--doodle-ink);
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.doodle__tool {
+  padding: 2px 9px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.doodle__tool:hover,
+.doodle__width:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--doodle-ink);
+}
+
+.doodle__tool:active,
+.doodle__width:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.doodle__tool:disabled,
+.doodle__width:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 0 var(--doodle-ink);
+}
+
+/* Icon-only tool buttons (eraser / undo / redo / download): square, centered. */
+.doodle__tool--icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+/* Clear sits alone at the far-right edge of the tools row. Out-specifies the
+   `.doodle .doodle__tool { margin: 0 }` reset above. */
+.doodle .doodle__tool--clear {
+  margin-left: auto;
+}
+
+.doodle__tool--active {
+  background-color: var(--color-purple);
+  color: var(--color-white-sparkle);
+  border-color: var(--color-purple);
+}
+
+.doodle__tool--primary {
+  background-color: var(--color-green);
+}
+
+.doodle__widths {
+  display: flex;
+  gap: 6px;
+}
+
+.doodle__width {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.doodle__width--active {
+  background-color: var(--color-green);
+  border-color: var(--doodle-ink);
+}
+
+.doodle__width-dot {
+  display: block;
+  border-radius: 50%;
+}
+
+/* Download / retry row shown under the canvas inside the fan-art form. Reuses
+   .doodle__tool but resets the form's generic button margins. */
+.doodle__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.doodle__actions button {
+  margin: 0;
+}
+
+.doodle__status {
+  font-size: 0.8rem;
+  margin: 2px 0 0;
+}
+
+.doodle__status--error {
+  color: #c0392b;
+}
+
+.doodle__preview img {
+  max-width: 200px;
+  border: 1px solid rgb(106, 255, 168);
+  border-radius: 4px;
+}

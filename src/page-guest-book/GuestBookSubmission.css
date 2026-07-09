@@ -27,9 +27,10 @@
 }
 
 .guest-book-form {
-  margin-top: 1vh;
-  padding: 1rem;
-  background-color: var(--color-white-sparkle);
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  text-align: left;
 }
 .guest-book-submission input[type="text"],
 .guest-book-submission textarea {
@@ -53,24 +54,29 @@
   border-color: var(--color-green);
 }
 
+/* Name and blinkie inputs each get their own full-width row, so the layout is
+   identical on desktop and mobile. The wrapper is transparent to layout so its
+   two children flow as regular stacked form-groups. */
 .form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 15px;
+  display: contents;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 14px;
+  text-align: left;
 }
 
-/* Sit side by side while there's room; once the form gets too narrow (e.g. the
-   sidebar on a landscape iPad, where the viewport is wide but this column
-   isn't) the min-width forces them onto separate rows instead of cramming. */
+.form-group > label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: rgb(52, 11, 86);
+}
+
 .name-group,
 .blinkie-group {
-  flex: 1 1 160px;
-  min-width: 160px;
+  width: 100%;
 }
 
 .character-counter {
@@ -148,29 +154,6 @@
   background-color: var(--color-green);
 }
 
-.content-warning-checkboxes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.content-warning-checkboxes > div {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.content-warning-checkboxes label {
-  display: inline;
-  margin-bottom: 0;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .disclaimer {
   color: var(--color-white-sparkle);
 }
@@ -228,11 +211,6 @@
   .fanart-form-container > .guest-book-form {
     grid-column: 1 / -1;
     grid-row: 2;
-  }
-
-  .form-row {
-    flex-direction: column;
-    gap: 10px;
   }
 
   .guest-book-submission {

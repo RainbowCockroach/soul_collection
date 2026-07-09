@@ -26,6 +26,10 @@ const Editor = lazy(() =>
 const PageSetPassword = lazy(
   () => import("./page-set-password/PageSetPassword"),
 );
+// TEMP: Doodle canvas POC — remove after integration.
+const PaletteOfTheDayDemo = lazy(
+  () => import("./page-guest-book/doodle-canvas/PaletteOfTheDayDemo"),
+);
 
 function App() {
   const location = useLocation();
@@ -177,6 +181,11 @@ function App() {
                   <Route
                     path={`${baseUrl}/set-password`}
                     element={<PageSetPassword />}
+                  />
+                  {/* TEMP: Doodle canvas POC — remove after integration. */}
+                  <Route
+                    path={`${baseUrl}/doodle-poc`}
+                    element={<PaletteOfTheDayDemo />}
                   />
                 </Routes>
               </Suspense>

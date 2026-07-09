@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Sherbet",
+    "colors": ["#F7A072", "#F9C784", "#EDDEA4", "#B5E48C", "#76C893"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Dawn",
+    "colors": ["#FFCAD4", "#F4ACB7", "#9D8189", "#6D6875", "#355070"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Vaporwave",
+    "colors": ["#FF71CE", "#B967FF", "#01CDFE", "#05FFA1", "#FFFB96"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Forest",
+    "colors": ["#2D6A4F", "#40916C", "#74C69D", "#B7E4C7", "#1B4332"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Ink & Rose",
+    "colors": ["#22223B", "#4A4E69", "#9A8C98", "#C9ADA7", "#F2E9E4"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Citrus",
+    "colors": ["#F94144", "#F3722C", "#F8961E", "#F9C74F", "#90BE6D"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Blueberry",
+    "colors": ["#03045E", "#0077B6", "#00B4D8", "#90E0EF", "#CAF0F8"],
+    "paperColor": "#ffffff"
+  },
+  {
+    "name": "Bubblegum",
+    "colors": ["#FF5D8F", "#FF97B7", "#FFC2D1", "#845EC2", "#4B4453"],
+    "paperColor": "#ffffff"
+  }
+]
