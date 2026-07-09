@@ -86,5 +86,17 @@
       "#4B4453"
     ],
     "paperColor": "#ffffff"
+  },
+  {
+    "name": "Sam",
+    "colors": [
+      "#a5cdb3",
+      "#8fdec2",
+      "#a27ed1",
+      "#cf90fc",
+      "#efc5ff",
+      "#2c263c"
+    ],
+    "paperColor": "A5CDB3"
   }
 ]
