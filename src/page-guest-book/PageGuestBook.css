@@ -22,6 +22,16 @@
     "art";
 }
 
+/* Give the whole page a little breathing room from the screen edges on mobile,
+   on top of the global .page-padded 1vw. */
+@media (max-width: 1023px) {
+  .guest-book-page.page-padded {
+    padding-left: 14px;
+    padding-right: 14px;
+    box-sizing: border-box;
+  }
+}
+
 .gb-title {
   grid-area: title;
   text-align: center;
@@ -64,7 +74,10 @@
   padding: 0;
   background: none;
   border: none;
-  max-width: 130px;
+  /* Mobile: ~1.5x larger than the previous 130px so the send buttons are
+     comfortable tap targets. The desktop media query below shrinks the
+     relationship again for the three-column layout. */
+  max-width: 195px;
   width: 100%;
 }
 
@@ -89,22 +102,45 @@
    CANVAS
    ----------------------------------------------------------------------------- */
 
+/* Frame the whole doodle into one self-contained "module": a light panel with
+   the app's signature chunky purple border + layered offset/glow shadow (same
+   language as the fan-art cards and submission dialogs). The palette row and the
+   toolbar row get their own divider lines so the module reads as header / canvas
+   / footer — the requested upper and lower frames. */
 .gb-canvas .doodle {
   max-width: 100%;
+  background: var(--color-white-sparkle);
+  border: 2px solid #340b56;
+  border-radius: 16px;
+  box-shadow: 3px 3px 0 #340b56, 0 0 16px rgba(134, 78, 219, 0.45);
+  padding: 10px 12px 12px;
+  box-sizing: border-box;
 }
 
-/* The canvas sits on the purple page background, where the doodle's default
-   dark-purple ink (and the purple palette name) blend in. Brighten the palette
-   label so it stays readable. */
+/* Upper frame: palette header separated from the canvas. */
+.gb-canvas .doodle__swatches {
+  padding-bottom: 8px;
+  border-bottom: 2px solid #340b56;
+}
+
+/* Lower frame: toolbar footer separated from the canvas. */
+.gb-canvas .doodle__tools {
+  padding-top: 8px;
+  border-top: 2px solid #340b56;
+}
+
+/* The module panel is now light, so the doodle's dark-purple ink reads well —
+   drop the white/shadow treatment the label needed on the bare purple page. */
 .gb-canvas .doodle__palette-label {
-  color: var(--color-white-sparkle);
+  color: #340b56;
   font-weight: bold;
+  font-size: 1rem;
   text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.55);
+  text-shadow: none;
 }
 
 .gb-canvas .doodle__palette-label strong {
-  color: #fff;
+  color: var(--color-purple);
 }
 
 /* -----------------------------------------------------------------------------

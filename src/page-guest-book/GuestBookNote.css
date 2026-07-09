@@ -58,10 +58,12 @@
 
 .note-paper {
   background: #fff4eb;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  /* Match the fan art cards' chunky purple border + signature layered offset
+     shadow and soft purple glow (see GuestBookFanArt.css .fanart-image-container). */
+  border: 2px solid #340b56;
+  border-radius: 15px;
   padding: 10px;
-  box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 0 #340b56, 0 0 14px rgba(134, 78, 219, 0.4);
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1; /* Square (1:1), matching the fan art cards */
@@ -196,6 +198,9 @@
 
   .note-paper {
     padding: 7px;
+    /* Match the fan art cards' scaled-down mobile border/shadow. */
+    border-radius: 11px;
+    box-shadow: 2px 2px 0 #340b56, 0 0 10px rgba(134, 78, 219, 0.35);
   }
 
   .note-header {
