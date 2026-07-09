@@ -28,33 +28,58 @@
   gap: 24px;
 }
 
-/* Items row: [side arrow] [grid/list] [side arrow] */
+/* Items row: the grid spans the full width. On mobile the pagination arrows
+   live on the page-index line below (see .gb-nav-bottom) so the grid is no
+   longer squeezed by side arrows; on desktop they sit above (.gb-nav-top). */
 .gb-items-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   width: 100%;
   min-width: 0;
 }
 
-/* Side arrows flank the grid on mobile only */
-.gb-nav-side {
+/* Bottom pagination line: [arrow] [page index] [arrow] on mobile */
+.gb-nav-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Inline arrows flanking the page index (mobile only) */
+.gb-nav-inline {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
 }
 
+/* Keep the arrows and page index compact so they balance with the small
+   three-across notes rather than towering over them. */
+.gb-nav-bottom .arrow-button {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.gb-nav-bottom .arrow-button img {
+  width: 32px;
+  height: auto;
+}
+
+.gb-nav-bottom .pagination-info {
+  font-size: 13px;
+}
+
 /* -----------------------------------------------------------------------------
    NOTES CONTAINER
    ----------------------------------------------------------------------------- */
 
-/* Mobile default: 2x2 grid */
+/* Mobile default: single row of 3 notes */
 .notes-display {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -108,11 +133,13 @@
     display: flex;
   }
 
-  .gb-nav-side {
+  /* Desktop keeps the arrow pair on top; the page-index line has no arrows */
+  .gb-nav-inline {
     display: none;
   }
 
   .notes-display {
+    grid-template-columns: 1fr 1fr;
     gap: 14px;
     width: 100%;
   }

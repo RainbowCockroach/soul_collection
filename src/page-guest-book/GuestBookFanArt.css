@@ -37,9 +37,9 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* Positioning context for the fullscreen zone, content-warning overlay and
-   action menu, which are siblings of the frame (so those buttons aren't nested
-   inside the fullscreen button) */
+/* Positioning context for the fullscreen zone and action menu, which are
+   siblings of the frame (so those buttons aren't nested inside the fullscreen
+   button) */
 .fanart-frame-wrapper {
   position: relative;
   width: 100%;
@@ -96,9 +96,7 @@
   box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
 }
 
-/* Absolutely-positioned image fill. Carries the content-warning blur so the
-   parent's overflow:hidden clips it; scale(1.15) pushes the blur's feathered
-   edges out of view so the card corners stay solid. */
+/* Absolutely-positioned image fill. */
 .fanart-image-layer {
   position: absolute;
   inset: 0;
@@ -175,112 +173,62 @@
     1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .guest-book-fanart {
-    margin: 4px;
-    min-width: 0;
-    max-width: 100%;
-  }
-
-  .fanart-caption {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
+/* Responsive design — the mobile layout packs three cards into a single row,
+   so blinkies and the info bar text shrink moderately to fit the narrow cells. */
+@media (max-width: 1023px) {
   .guest-book-fanart {
     margin: 2px;
     min-width: 0;
     max-width: 100%;
   }
+
+  .fanart-blinkies {
+    gap: 4px;
+    margin-bottom: -8px;
+  }
+
+  .blinkie-image {
+    height: 24px;
+    max-width: 95px;
+  }
+
+  .fanart-info {
+    padding: 6px;
+  }
+
+  .fanart-header {
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+  }
+
+  .fanart-artist {
+    font-size: 12px;
+  }
+
+  .fanart-date {
+    font-size: 9px;
+  }
+
+  .fanart-caption {
+    font-size: 11px;
+  }
 }
 
-/* Content Warning Overlay
-   Covers the whole card and lays out the warning text + Show button directly
-   over the blurred image (no separate box) so it can never overflow the card.
-   The text is line-clamped so the button always stays visible. */
-.fanart-content-warning-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  box-sizing: border-box;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-/* Dark cover box behind the warning. Capped to the card (max-height: 100% +
-   overflow hidden) so it can never spill past the square edges. */
-.fanart-content-warning-card {
-  background: rgba(0, 0, 0, 0.82);
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
-  text-align: center;
-  pointer-events: auto;
-  box-sizing: border-box;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-}
-
-.fanart-content-warning-text {
-  font-size: 12px;
-  line-height: 1.25;
-  color: #fff;
-  word-break: break-word;
-  /* Clamp long warnings so the Show button is never pushed out of the box */
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.fanart-uncensor-button {
-  background: var(--color-green);
-  color: white;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.fanart-uncensor-button:hover {
-  background: var(--color-green-dark);
-  transform: translateY(-1px);
-}
-
-.fanart-uncensor-button:active {
-  transform: translateY(0);
-}
-
-/* Responsive adjustments for content warning */
 @media (max-width: 480px) {
-  .fanart-content-warning-card {
-    padding: 8px 10px;
-    gap: 6px;
+  .blinkie-image {
+    height: 22px;
+    max-width: 85px;
   }
 
-  .fanart-content-warning-text {
+  .fanart-artist {
     font-size: 11px;
-    -webkit-line-clamp: 3;
   }
 
-  .fanart-uncensor-button {
-    padding: 5px 12px;
-    font-size: 11px;
+  .fanart-date {
+    font-size: 8px;
+  }
+
+  .fanart-caption {
+    font-size: 10px;
   }
 }

@@ -13,11 +13,11 @@
   min-width: 0;
 }
 
-/* Mobile default: 2x2 grid */
+/* Mobile default: single row of 3 fan art cards */
 .fanart-display {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -81,6 +81,7 @@
    ============================================================================= */
 @media (min-width: 1024px) {
   .fanart-display {
+    grid-template-columns: 1fr 1fr;
     gap: 14px;
     width: 100%;
   }

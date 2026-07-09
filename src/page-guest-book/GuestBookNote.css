@@ -64,7 +64,7 @@
   box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.2);
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* Square, matching the fan art cards */
+  aspect-ratio: 1 / 1; /* Square (1:1), matching the fan art cards */
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: auto; /* Long notes scroll inside the square */
@@ -123,6 +123,35 @@
   overflow-x: hidden;
 }
 
+/* Soft, paper-toned scrollbar so it blends with the note instead of the
+   default high-contrast grey bar. */
+.note-paper,
+.note-content {
+  scrollbar-width: thin;
+  scrollbar-color: #e3d7c6 transparent;
+}
+
+.note-paper::-webkit-scrollbar,
+.note-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.note-paper::-webkit-scrollbar-track,
+.note-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.note-paper::-webkit-scrollbar-thumb,
+.note-content::-webkit-scrollbar-thumb {
+  background-color: #e3d7c6;
+  border-radius: 3px;
+}
+
+.note-paper::-webkit-scrollbar-thumb:hover,
+.note-content::-webkit-scrollbar-thumb:hover {
+  background-color: #d6c6ae;
+}
+
 /* Optional thumbnail in a note */
 .note-image {
   margin-top: 10px;
@@ -146,29 +175,36 @@
 }
 
 /* =============================================================================
-   RESPONSIVE — smaller text in the tighter mobile 2x2 grid
+   RESPONSIVE — the mobile layout packs three notes into a single row, so text
+   and blinkies shrink moderately to fit the narrow cells.
    ============================================================================= */
 @media (max-width: 1023px) {
+  /* Reserve less space for the smaller blinkie strip */
+  .guest-book-note::before {
+    height: 24px;
+    margin-bottom: -8px;
+  }
+
+  .note-blinkies {
+    gap: 4px;
+  }
+
+  .blinkie-image {
+    height: 24px;
+    max-width: 95px;
+  }
+
   .note-paper {
-    padding: 8px;
+    padding: 7px;
+  }
+
+  .note-header {
+    margin-bottom: 6px;
+    padding-bottom: 5px;
   }
 
   .note-name {
-    font-size: 15px;
-  }
-
-  .note-date {
-    font-size: 12px;
-  }
-
-  .note-content {
     font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .note-name {
-    font-size: 14px;
   }
 
   .note-date {
@@ -181,5 +217,28 @@
 
   .note-caption {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blinkie-image {
+    height: 22px;
+    max-width: 85px;
+  }
+
+  .note-name {
+    font-size: 12px;
+  }
+
+  .note-date {
+    font-size: 10px;
+  }
+
+  .note-content {
+    font-size: 11px;
+  }
+
+  .note-caption {
+    font-size: 9px;
   }
 }

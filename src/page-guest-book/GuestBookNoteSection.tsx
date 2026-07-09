@@ -203,9 +203,8 @@ const GuestBookNoteSection = forwardRef<
         {nextArrow}
       </div>
 
-      {/* Items row: side arrows (mobile) flank the notes grid/list */}
+      {/* Notes grid spans the full width; arrows live on the pagination line */}
       <div className="gb-items-row">
-        <div className="gb-nav-side gb-nav-left">{prevArrow}</div>
         <div
           className="notes-display"
           style={{
@@ -222,14 +221,17 @@ const GuestBookNoteSection = forwardRef<
             />
           ))}
         </div>
-        <div className="gb-nav-side gb-nav-right">{nextArrow}</div>
       </div>
 
-      {/* Pagination info */}
-      <div className="pagination-info">
-        {isPaginating
-          ? "Loading..."
-          : `${data.pagination.page} / ${data.pagination.totalPages}`}
+      {/* Pagination line: arrows flank the page index on mobile */}
+      <div className="gb-nav-bottom">
+        <div className="gb-nav-inline gb-nav-left">{prevArrow}</div>
+        <div className="pagination-info">
+          {isPaginating
+            ? "Loading..."
+            : `${data.pagination.page} / ${data.pagination.totalPages}`}
+        </div>
+        <div className="gb-nav-inline gb-nav-right">{nextArrow}</div>
       </div>
 
       {/* Modals */}

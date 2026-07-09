@@ -8,6 +8,7 @@ import EditorShip from "./EditorShip";
 import EditorDialog from "./EditorDialog";
 import EditorAd from "./EditorAd";
 import EditorBlinkies from "./EditorBlinkies";
+import EditorPaletteOfTheDay from "./EditorPaletteOfTheDay";
 import EditorSafeModeCensor from "./EditorSafeModeCensor";
 import EditorBio from "./EditorBio";
 import EditorBackstory from "./EditorBackstory";
@@ -30,6 +31,7 @@ type EditorTab =
   | "bio"
   | "ads"
   | "blinkies"
+  | "palette-of-the-day"
   | "safe-mode-censor"
   | "backstory"
   | "height-chart"
@@ -62,6 +64,11 @@ export const Editor: React.FC = () => {
       id: "blinkies" as const,
       label: "Guestbook Blinkies",
       component: EditorBlinkies,
+    },
+    {
+      id: "palette-of-the-day" as const,
+      label: "Palette of the Day",
+      component: EditorPaletteOfTheDay,
     },
     {
       id: "safe-mode-censor" as const,

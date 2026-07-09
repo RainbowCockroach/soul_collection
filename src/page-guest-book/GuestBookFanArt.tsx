@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ActionMenu from "./ActionMenu";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { Message } from "./types";
-import { useBlurImage } from "../hooks/usePixelatedImage";
 import { useHoldToReveal } from "../hooks/useHoldToReveal";
 import "./GuestBookFanArt.css";
 
@@ -19,7 +18,6 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
   onDelete,
   onOpenFullscreenViewer,
 }) => {
-  const [isImageUncensored, setIsImageUncensored] = useState(false);
   const { showMenu: showActionMenu, touchHandlers } = useHoldToReveal();
 
   const handleOpenFullscreen = () => {
@@ -50,44 +48,21 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
     message.content.name || dateLabel || message.content.caption,
   );
 
-  // Apply pixelation if content warning exists and image is not uncensored
-  const { url: processedImage, useCssFilter, displayWarning } = useBlurImage(
-    displayImage || "",
-    isImageUncensored
-      ? undefined
-      : message.content.content_warning || undefined
-  );
-
-  // Reset uncensor state when content warning changes
-  useEffect(() => {
-    setIsImageUncensored(false);
-  }, [message.content.content_warning]);
-
   return (
     <div
       className={`guest-book-fanart ${showActionMenu ? "show-action-menu" : ""}`}
       {...touchHandlers}
     >
-      {/* Frame, fullscreen zone, content-warning overlay and action menu are
-          siblings so the uncensor / action buttons are never nested inside the
-          fullscreen <button> (invalid HTML). */}
+      {/* Frame, fullscreen zone and action menu are siblings so the action
+          buttons are never nested inside the fullscreen <button> (invalid
+          HTML). */}
       <div className="fanart-frame-wrapper">
-        {/* Image display area. The blurred image lives in its own inner layer
-            so the container's overflow:hidden clips the blur — a filter applied
-            to the container itself would bleed past the card edges. */}
+        {/* Image display area. */}
         <div className="fanart-image-container flex-center effect-subtle-rise">
           {displayImage && (
             <div
               className="fanart-image-layer"
-              style={{
-                backgroundImage: `url(${processedImage})`,
-                ...(useCssFilter
-                  ? {
-                      filter: "blur(20px) brightness(0.8) contrast(1.1)",
-                      transform: "scale(1.15)",
-                    }
-                  : {}),
-              }}
+              style={{ backgroundImage: `url(${displayImage})` }}
             />
           )}
 
@@ -129,25 +104,6 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
         >
           <span className="sr-only">View full screen</span>
         </ButtonWrapper>
-
-        {/* Content Warning Overlay - sibling of the fullscreen button */}
-        {useCssFilter && !isImageUncensored && (
-          <div className="fanart-content-warning-overlay">
-            <div className="fanart-content-warning-card">
-              <div className="fanart-content-warning-text">
-                <strong>This contains:</strong> {displayWarning}
-              </div>
-              <button
-                type="button"
-                className="fanart-uncensor-button"
-                onClick={() => setIsImageUncensored(true)}
-                aria-label={`Reveal content warning: ${displayWarning}`}
-              >
-                Show!
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Action menu - lower right of the image, above the fullscreen zone */}
         {(onEdit || onDelete) && (
