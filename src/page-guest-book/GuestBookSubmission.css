@@ -33,6 +33,7 @@
   text-align: left;
 }
 .guest-book-submission input[type="text"],
+.guest-book-submission input[type="password"],
 .guest-book-submission textarea {
   width: 100%;
   box-sizing: border-box;
@@ -49,6 +50,7 @@
 }
 
 .guest-book-submission input[type="text"]:focus,
+.guest-book-submission input[type="password"]:focus,
 .guest-book-submission textarea:focus {
   outline: none;
   border-color: var(--color-green);

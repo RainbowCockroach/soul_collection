@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Lightbox from "../common-components/Lightbox";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import Divider from "../common-components/Divider";
 import GuestBookNoteForm from "./GuestBookNoteForm";
 import GuestBookFanArtForm from "./GuestBookFanArtForm";
 import type { Message, MessageContent } from "./types";
@@ -130,14 +131,20 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
       showCloseButton={step === "password"}
       ariaLabel={step === "password" ? "Verify password to edit" : "Edit message"}
     >
-      <div className="div-3d-with-shadow edit-message-lightbox">
+      <div className="guest-book-submission gb-dialog edit-message-lightbox">
+        <h2 className="gb-dialog-title">
+          Edit {message.type === "note" ? "note" : "drawing"}
+        </h2>
+        <div className="gb-dialog-divider">
+          <Divider />
+        </div>
+
         {step === "password" ? (
           <div className="password-step">
-            <div className="edit-header">
-              <h2>Edit {message.type}</h2>
-            </div>
-
-            <form onSubmit={handlePasswordSubmit} className="password-form">
+            <form
+              onSubmit={handlePasswordSubmit}
+              className="guest-book-form password-form"
+            >
               <div className="form-group">
                 <label htmlFor="edit-password">The password is:</label>
                 <input
@@ -153,22 +160,20 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
                   <div className="error-message">{passwordError}</div>
                 )}
               </div>
-              <ButtonWrapper
-                onClick={() => {}}
-                className="submit-button"
-                disabled={verifyingPassword}
-                type="submit"
-              >
-                {verifyingPassword ? "Verifying..." : "Verify Password"}
-              </ButtonWrapper>
+              <div className="form-actions">
+                <ButtonWrapper
+                  onClick={() => {}}
+                  className="submit-button"
+                  disabled={verifyingPassword}
+                  type="submit"
+                >
+                  {verifyingPassword ? "Verifying..." : "Verify password"}
+                </ButtonWrapper>
+              </div>
             </form>
           </div>
         ) : (
           <div className="edit-step">
-            <div className="edit-header">
-              <h2>Edit {message.type}</h2>
-            </div>
-
             <div className="edit-content">
               {/* Show appropriate form based on message type */}
               {message.type === "note" ? (

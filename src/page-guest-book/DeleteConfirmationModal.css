@@ -1,91 +1,10 @@
-.delete-confirmation-lightbox {
-  width: 100%;
+/* The delete dialog reuses the shared `.gb-dialog` + `.guest-book-submission`
+   styling (card, title, divider, input, buttons, error text — see
+   PageGuestBook.css and GuestBookSubmission.css) so it matches the Send-note /
+   Send-art and edit dialogs. The destructive "Delete forever" action uses the
+   shared `.delete-button` danger variant. Only delete-specific tweaks live
+   here. */
+
+.delete-confirmation-lightbox .password-form {
   margin: 0 auto;
-  overflow-y: auto;
-  max-height: 90vh;
-}
-
-.delete-header h2 {
-  margin: 0;
-  font-size: 24px;
-  color: #333;
-}
-
-.password-step {
-  padding: 20px;
-}
-
-.password-form {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.password-form .form-group {
-  margin-bottom: 20px;
-}
-
-.password-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #333;
-}
-
-.password-form input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.password-form input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
-.error-message {
-  color: #dc3545;
-  margin-top: 8px;
-  font-size: 14px;
-}
-
-.submit-button.delete-button {
-  background: #dc3545;
-  color: white;
-  border: 1px solid #dc3545;
-  width: 100%;
-  padding: 12px;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.submit-button.delete-button:hover:not(:disabled) {
-  background: #c82333;
-  border-color: #bd2130;
-}
-
-.submit-button.delete-button:disabled {
-  background: #6c757d;
-  border-color: #6c757d;
-  cursor: not-allowed;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .delete-confirmation-lightbox {
-    max-width: 95vw;
-    margin: 0 auto;
-  }
-
-  .delete-header,
-  .password-step {
-    padding: 15px;
-  }
-
-  .delete-header h2 {
-    font-size: 20px;
-  }
 }

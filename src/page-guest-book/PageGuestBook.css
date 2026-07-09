@@ -172,15 +172,18 @@
   margin-top: 6px;
 }
 
-/* Higher specificity than EditMessageLightbox.css's `.form-actions
-   .submit-button` (a global, un-namespaced Bootstrap-blue rule that would
-   otherwise win ties on load order) so the dialog buttons reliably render in
-   the site's own palette. Shadow matches the doodle toolbar's flat, single
-   offset (DoodleCanvas.css `.doodle__tool`) rather than the heavier
-   glow+double-offset `.div-3d-with-shadow` card treatment, which reads as
-   too heavy at button scale. */
-.gb-dialog .guest-book-form .submit-button,
-.gb-dialog .guest-book-form .cancel-button {
+/* Shared button treatment for every dialog built on `.gb-dialog` — the
+   note/art submission forms plus the edit and delete dialogs. Scoped to
+   `.gb-dialog` (not `.guest-book-form`) so the password-verify and delete
+   forms pick it up too, keeping all dialog actions visually identical.
+   Motion (hover-rise / active-press) comes from ButtonWrapper.css; this only
+   sets the flat look. Shadow matches the doodle toolbar's flat single offset
+   (DoodleCanvas.css `.doodle__tool`) rather than the heavier
+   glow+double-offset `.div-3d-with-shadow` card treatment, which reads as too
+   heavy at button scale. */
+.gb-dialog .submit-button,
+.gb-dialog .cancel-button,
+.gb-dialog .delete-button {
   font-family: var(--font-primary);
   font-weight: bold;
   padding: 8px 22px;
@@ -190,12 +193,27 @@
   box-shadow: 0 2px 0 rgb(52, 11, 86);
 }
 
-.gb-dialog .guest-book-form .submit-button {
+.gb-dialog .submit-button {
   background-color: var(--color-green);
 }
 
-.gb-dialog .guest-book-form .cancel-button {
+.gb-dialog .cancel-button {
   background-color: #fff;
+}
+
+/* Destructive action (delete). Danger red is the one non-purple accent
+   DESIGN.md permits, reserved for genuinely destructive buttons. */
+.gb-dialog .delete-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Inline validation / error text shared by the password-gated dialogs. */
+.gb-dialog .error-message {
+  margin-top: 6px;
+  color: #dc3545;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 /* Success confirmation banner shown after a note/art submission */

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Lightbox from "../common-components/Lightbox";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import Divider from "../common-components/Divider";
 import type { Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
 import "./DeleteConfirmationModal.css";
@@ -81,15 +82,23 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
       showCloseButton={true}
       ariaLabel="Confirm deletion"
     >
-      <div className="div-3d-with-shadow delete-confirmation-lightbox">
-        <div className="password-step">
-          <div className="delete-header">
-            <h2>Enter password to delete this {message.type}</h2>
-          </div>
+      <div className="guest-book-submission gb-dialog delete-confirmation-lightbox">
+        <h2 className="gb-dialog-title">
+          Delete this {message.type === "note" ? "note" : "drawing"}?
+        </h2>
+        <div className="gb-dialog-divider">
+          <Divider />
+        </div>
 
-          <form onSubmit={handlePasswordSubmit} className="password-form">
+        <div className="password-step">
+          <form
+            onSubmit={handlePasswordSubmit}
+            className="guest-book-form password-form"
+          >
             <div className="form-group">
-              <label htmlFor="delete-password">The password is:</label>
+              <label htmlFor="delete-password">
+                Enter the password to confirm:
+              </label>
               <input
                 type="password"
                 id="delete-password"
@@ -104,14 +113,24 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
               )}
             </div>
 
-            <ButtonWrapper
-              onClick={() => {}}
-              className="submit-button delete-button"
-              disabled={submitting}
-              type="submit"
-            >
-              {submitting ? "Deleting..." : "Delete Forever"}
-            </ButtonWrapper>
+            <div className="form-actions">
+              <ButtonWrapper
+                onClick={onClose}
+                className="cancel-button"
+                disabled={submitting}
+                type="button"
+              >
+                Cancel
+              </ButtonWrapper>
+              <ButtonWrapper
+                onClick={() => {}}
+                className="submit-button delete-button"
+                disabled={submitting}
+                type="submit"
+              >
+                {submitting ? "Deleting..." : "Delete forever"}
+              </ButtonWrapper>
+            </div>
           </form>
         </div>
       </div>

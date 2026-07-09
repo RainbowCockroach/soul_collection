@@ -34,7 +34,7 @@ const FullscreenImageViewer = ({
   }, [isOpen, src]);
 
   return (
-    <Lightbox isOpen={isOpen} onClose={onClose} ariaLabel="Fan art viewer">
+    <Lightbox isOpen={isOpen} onClose={onClose} ariaLabel="Drawing viewer">
       <div className="fullscreen-image-content">
         <ZoomPanPinchImage
           ref={zoomRef}

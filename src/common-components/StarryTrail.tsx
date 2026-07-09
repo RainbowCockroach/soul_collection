@@ -109,7 +109,12 @@ const StarryTrail: React.FC = () => {
     let lastStarTime = 0;
     const STAR_THROTTLE_MS = 16;
 
-    const addStar = (e: MouseEvent) => {
+    const addStar = (e: PointerEvent) => {
+      // Only a real mouse/trackpad should spawn the trail. On touch devices a
+      // stylus reports "pen" and a finger reports "touch"; both otherwise
+      // synthesize mouse events and flood the canvas, causing lag.
+      if (e.pointerType !== "mouse") return;
+
       const now = performance.now();
       if (now - lastStarTime < STAR_THROTTLE_MS) {
         lastMouseRef.current.x = e.clientX;
@@ -173,11 +178,11 @@ const StarryTrail: React.FC = () => {
       animationIdRef.current = requestAnimationFrame(update);
     };
 
-    document.addEventListener("mousemove", addStar);
+    document.addEventListener("pointermove", addStar);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      document.removeEventListener("mousemove", addStar);
+      document.removeEventListener("pointermove", addStar);
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current);
       }
