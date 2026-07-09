@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -54,6 +55,30 @@ const STROKE_WIDTHS = [2, 4, 8, 16];
 export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
   ({ date, canvasColor, onChange, showExportPreview = true }, ref) => {
     const canvasRef = useRef<ReactSketchCanvasRef>(null);
+    // True while the pointer is over the canvas, so undo/redo keyboard shortcuts
+    // only fire when the user is actually "in" the drawing surface (a ref, not
+    // state — this doesn't need to trigger re-renders).
+    const isHoveringCanvasRef = useRef(false);
+
+    // Ctrl/Cmd+Z = undo, Ctrl/Cmd+Y (or Ctrl/Cmd+Shift+Z, the common Mac redo)
+    // = redo — like standard art software. Scoped to when the mouse is over the
+    // canvas so it never hijacks the page's normal shortcuts elsewhere.
+    useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (!isHoveringCanvasRef.current) return;
+        if (!(e.ctrlKey || e.metaKey)) return;
+        const key = e.key.toLowerCase();
+        if (key === "y" || (key === "z" && e.shiftKey)) {
+          e.preventDefault();
+          canvasRef.current?.redo();
+        } else if (key === "z") {
+          e.preventDefault();
+          canvasRef.current?.undo();
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
 
     const palette = useMemo(() => getPaletteOfTheDay(date), [date]);
     const paperColor =
@@ -156,7 +181,11 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
         </div>
 
         {/* Square, responsive canvas */}
-        <div className="doodle__canvas-box">
+        <div
+          className="doodle__canvas-box"
+          onMouseEnter={() => (isHoveringCanvasRef.current = true)}
+          onMouseLeave={() => (isHoveringCanvasRef.current = false)}
+        >
           <ReactSketchCanvas
             ref={canvasRef}
             width="100%"
