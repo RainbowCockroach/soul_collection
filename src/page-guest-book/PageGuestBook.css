@@ -3,9 +3,9 @@
    Mobile (< 1024px): a single vertical stack —
      title, send-note button, notes, divider, canvas, send-art button, art.
    Desktop (>= 1024px): three columns —
-     left  : send-note button -> arrows -> notes (vertical)
+     left  : send-note button -> notes -> pagination
      center: title -> divider -> canvas
-     right : send-art button -> arrows -> fan art (vertical)
+     right : send-art button -> fan art -> pagination
    ============================================================================= */
 
 .gb-layout {
@@ -280,5 +280,11 @@
   .gb-notes,
   .gb-art {
     align-self: start;
+  }
+
+  /* The send buttons share their row with the page title; give them more
+     presence on the wide layout than the 130px mobile size. */
+  .gb-send-btn-wrapper {
+    max-width: 210px;
   }
 }

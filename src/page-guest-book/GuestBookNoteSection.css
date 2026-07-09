@@ -1,9 +1,10 @@
 /* =============================================================================
    GUEST BOOK NOTE SECTION STYLES
    Layout:
-   - Desktop (>= 1024px): the section lives in a narrow column. Arrows are a
-     horizontal pair on top; notes stack vertically below.
-   - Mobile (< 1024px): full width. Notes are a 2x2 grid flanked by side arrows.
+   - Desktop (>= 1024px): the section lives in a narrow column with a 2-wide
+     grid of notes.
+   - Mobile (< 1024px): full width, single row of 3 notes.
+   - All breakpoints: pagination arrows flank the page index below the grid.
    ============================================================================= */
 
 .guest-book-note-section {
@@ -20,17 +21,9 @@
   gap: 10px;
 }
 
-/* Horizontal arrow pair shown on top (desktop columns) */
-.gb-nav-top {
-  display: none; /* desktop-only; enabled in the >= 1024 block */
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-}
-
-/* Items row: the grid spans the full width. On mobile the pagination arrows
-   live on the page-index line below (see .gb-nav-bottom) so the grid is no
-   longer squeezed by side arrows; on desktop they sit above (.gb-nav-top). */
+/* Items row: the grid spans the full width. The pagination arrows live on the
+   page-index line below (see .gb-nav-bottom) so the grid is never squeezed by
+   side arrows. */
 .gb-items-row {
   display: flex;
   align-items: center;
@@ -39,7 +32,7 @@
   min-width: 0;
 }
 
-/* Bottom pagination line: [arrow] [page index] [arrow] on mobile */
+/* Bottom pagination line: [arrow] [page index] [arrow] */
 .gb-nav-bottom {
   display: flex;
   align-items: center;
@@ -47,7 +40,7 @@
   gap: 16px;
 }
 
-/* Inline arrows flanking the page index (mobile only) */
+/* Inline arrows flanking the page index */
 .gb-nav-inline {
   display: flex;
   align-items: center;
@@ -125,19 +118,9 @@
 
 /* =============================================================================
    DESKTOP (>= 1024px): the section sits in a side column with room for two
-   columns of notes. Arrows move to a horizontal pair on top; the notes stay a
-   2-wide grid.
+   columns of notes. The pagination line keeps its side arrows.
    ============================================================================= */
 @media (min-width: 1024px) {
-  .gb-nav-top {
-    display: flex;
-  }
-
-  /* Desktop keeps the arrow pair on top; the page-index line has no arrows */
-  .gb-nav-inline {
-    display: none;
-  }
-
   .notes-display {
     grid-template-columns: 1fr 1fr;
     gap: 14px;

@@ -226,12 +226,6 @@ const GuestBookFanArtSection = forwardRef<
 
   return (
     <div className="guest-book-fanart-section gb-paginated" ref={sectionRef}>
-      {/* Top arrow pair — shown on desktop where the section is a narrow column */}
-      <div className="gb-nav-top">
-        {prevArrow}
-        {nextArrow}
-      </div>
-
       {/* Fan art grid spans the full width; arrows live on the pagination line */}
       <div className="gb-items-row">
         <div
@@ -257,7 +251,7 @@ const GuestBookFanArtSection = forwardRef<
       </div>
 
       {/* Pagination line - only shown when real art exists. Arrows flank the
-          page index on mobile. */}
+          page index. */}
       {hasRealArt && (
         <div className="gb-nav-bottom">
           <div className="gb-nav-inline gb-nav-left">{prevArrow}</div>

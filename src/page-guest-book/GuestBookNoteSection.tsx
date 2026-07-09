@@ -197,12 +197,6 @@ const GuestBookNoteSection = forwardRef<
 
   return (
     <div className="guest-book-note-section gb-paginated">
-      {/* Top arrow pair — shown on desktop where the section is a narrow column */}
-      <div className="gb-nav-top">
-        {prevArrow}
-        {nextArrow}
-      </div>
-
       {/* Notes grid spans the full width; arrows live on the pagination line */}
       <div className="gb-items-row">
         <div
@@ -223,7 +217,7 @@ const GuestBookNoteSection = forwardRef<
         </div>
       </div>
 
-      {/* Pagination line: arrows flank the page index on mobile */}
+      {/* Pagination line: arrows flank the page index */}
       <div className="gb-nav-bottom">
         <div className="gb-nav-inline gb-nav-left">{prevArrow}</div>
         <div className="pagination-info">
