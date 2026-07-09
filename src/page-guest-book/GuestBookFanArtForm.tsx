@@ -326,7 +326,7 @@ const GuestBookFanArtForm = ({
       {fanArtForm.full_image ? (
         <img
           src={fanArtForm.full_image}
-          alt="Fan art"
+          alt="Drawing"
           style={{
             maxWidth: "100%",
             maxHeight: "300px",

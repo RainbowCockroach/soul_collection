@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Styling Guide
+
+**Before adding or restyling any UI (buttons, image displays, cards, modals, etc.), read [`DESIGN.md`](./DESIGN.md).** It is the single source of truth for colors, typography, spacing/radius/shadow scales, the signature 3D-button language, image-display and content-warning conventions, focus/accessibility rules, and CSS naming/file conventions — with an "adding a new element" checklist. Reuse the existing tokens and utility classes rather than hardcoding new values, so new elements stay visually consistent.
+
 ## Development Commands
 
 This project uses NPM as the package manager. Core commands:
