@@ -241,10 +241,16 @@
     border-radius: 7px;
   }
 
+  /* Mobile: drop the info out from under the art. Instead of overlaying the
+     bottom of the small card, it flows directly below the image so the drawing
+     stays fully visible. */
   .fanart-info {
-    left: 4px;
-    right: 4px;
-    bottom: 4px;
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-top: 4px;
+    width: 100%;
     padding: 3px 5px 4px;
     border-radius: 7px;
   }
