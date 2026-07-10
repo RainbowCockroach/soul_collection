@@ -71,29 +71,32 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
               <span>No Image</span>
             </div>
           )}
+        </div>
 
-          {/* Artist info and caption - overlay on image */}
-          {hasInfo && (
-            <div className="fanart-info">
-              <div className="fanart-header">
-                <span className="fanart-artist text-shadow-dark">
-                  {message.content.name}
+        {/* Artist info and caption. On desktop this overlays the bottom of the
+            image (absolute); on mobile it flows below the art so it never
+            covers the drawing. Kept as a sibling of the image container so the
+            mobile flow layout can push it out from under the picture. */}
+        {hasInfo && (
+          <div className="fanart-info">
+            <div className="fanart-header">
+              <span className="fanart-artist text-shadow-dark">
+                {message.content.name}
+              </span>
+              {dateLabel && (
+                <span className="fanart-date text-shadow-dark">
+                  {dateLabel}
                 </span>
-                {dateLabel && (
-                  <span className="fanart-date text-shadow-dark">
-                    {dateLabel}
-                  </span>
-                )}
-              </div>
-
-              {message.content.caption && (
-                <div className="fanart-caption text-shadow-dark">
-                  {message.content.caption}
-                </div>
               )}
             </div>
-          )}
-        </div>
+
+            {message.content.caption && (
+              <div className="fanart-caption text-shadow-dark">
+                {message.content.caption}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Transparent overlay covering only the top of the image - clicking
             opens fullscreen. Leaves the lower-right free for the action menu. */}
