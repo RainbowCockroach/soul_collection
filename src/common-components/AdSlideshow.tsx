@@ -9,8 +9,8 @@ interface AdSlideshowProps {
 }
 
 // Configuration: Base interval and randomization range (in milliseconds)
-const BASE_SLIDESHOW_INTERVAL = 5000; // 5 seconds base
-const RANDOM_RANGE = 2000; // +/- 2 seconds (total range: 3-7 seconds)
+const BASE_SLIDESHOW_INTERVAL = 10000; // 10 seconds base
+const RANDOM_RANGE = 3000; // +/- 3 seconds (total range: 7-13 seconds)
 
 // Helper function to get random interval
 const getRandomInterval = (customInterval?: number) => {
@@ -18,6 +18,13 @@ const getRandomInterval = (customInterval?: number) => {
     return customInterval;
   }
   return BASE_SLIDESHOW_INTERVAL + (Math.random() * RANDOM_RANGE * 2) - RANDOM_RANGE;
+};
+
+// Pick a random index different from the current one (avoids immediate repeats).
+const getRandomNextIndex = (length: number, currentIndex: number) => {
+  if (length <= 1) return 0;
+  const offset = 1 + Math.floor(Math.random() * (length - 1));
+  return (currentIndex + offset) % length;
 };
 
 const AdSlideshow: React.FC<AdSlideshowProps> = ({ ads, className, interval }) => {
@@ -47,7 +54,7 @@ const AdSlideshow: React.FC<AdSlideshowProps> = ({ ads, className, interval }) =
         setIsTransitioning(true);
 
         fadeTimeoutId = window.setTimeout(() => {
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % validAds.length);
+          setCurrentIndex((prevIndex) => getRandomNextIndex(validAds.length, prevIndex));
           setIsTransitioning(false);
           scheduleNextTransition(); // Schedule the next random transition
         }, 400); // Half of the CSS transition duration (0.8s)
