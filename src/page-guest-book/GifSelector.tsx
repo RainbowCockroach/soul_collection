@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect, useId } from "react";
+import useSound from "use-sound";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./GifSelector.css";
 
 interface GifSelectorProps {
@@ -20,6 +22,12 @@ const GifSelector = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const trayRef = useRef<HTMLButtonElement>(null);
   const gridId = useId();
+  const [playClick] = useSound(buttonSound, { volume: 0.5 });
+
+  const toggleExpanded = () => {
+    playClick();
+    setIsExpanded((expanded) => !expanded);
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -57,6 +65,7 @@ const GifSelector = ({
   // adding is one-directional (up to the max) — removal happens in the tray.
   const handleAdd = (gifUrl: string) => {
     if (canSelectMore) {
+      playClick();
       onSelectionChange([...selectedGifs, gifUrl]);
     }
   };
@@ -64,12 +73,14 @@ const GifSelector = ({
   // Remove a single picked instance by its position in the tray, so removing
   // one copy of a duplicated blinkie leaves the others in place.
   const handleRemoveAt = (index: number) => {
+    playClick();
     const newSelection = [...selectedGifs];
     newSelection.splice(index, 1);
     onSelectionChange(newSelection);
   };
 
   const handleClearAll = () => {
+    playClick();
     onSelectionChange([]);
   };
 
@@ -111,7 +122,10 @@ const GifSelector = ({
               <button
                 type="button"
                 className="gif-tray-add"
-                onClick={() => setIsExpanded(true)}
+                onClick={() => {
+                  playClick();
+                  setIsExpanded(true);
+                }}
                 aria-expanded={isExpanded}
                 aria-controls={gridId}
                 aria-label={`Add more blinkies (${remaining} left)`}
@@ -124,7 +138,7 @@ const GifSelector = ({
           <button
             type="button"
             className="gif-tray-empty-toggle"
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={toggleExpanded}
             aria-expanded={isExpanded}
             aria-controls={gridId}
           >
@@ -135,7 +149,7 @@ const GifSelector = ({
           type="button"
           ref={trayRef}
           className="gif-tray-arrow-button"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={toggleExpanded}
           aria-expanded={isExpanded}
           aria-controls={gridId}
           aria-label={isExpanded ? "Hide blinkie picker" : "Show blinkie picker"}

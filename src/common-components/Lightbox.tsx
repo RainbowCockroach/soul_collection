@@ -8,6 +8,7 @@ interface LightboxProps {
   children: React.ReactNode;
   showCloseButton?: boolean;
   ariaLabel?: string;
+  overlayClassName?: string;
 }
 
 const FOCUSABLE_SELECTOR =
@@ -19,6 +20,7 @@ const Lightbox = ({
   children,
   showCloseButton = true,
   ariaLabel = "Dialog",
+  overlayClassName,
 }: LightboxProps) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
@@ -94,7 +96,7 @@ const Lightbox = ({
   return (
     <div
       ref={overlayRef}
-      className="lightbox-overlay"
+      className={`lightbox-overlay${overlayClassName ? ` ${overlayClassName}` : ""}`}
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"

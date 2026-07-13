@@ -3,6 +3,7 @@ import ActionMenu from "./ActionMenu";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { Message } from "./types";
 import { useHoldToReveal } from "../hooks/useHoldToReveal";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./GuestBookFanArt.css";
 
 interface GuestBookFanArtProps {
@@ -102,6 +103,7 @@ const GuestBookFanArt: React.FC<GuestBookFanArtProps> = ({
             opens fullscreen. Leaves the lower-right free for the action menu. */}
         <ButtonWrapper
           onClick={handleOpenFullscreen}
+          soundFile={buttonSound}
           className="fanart-fullscreen-zone"
           tooltip="Click to expand"
         >

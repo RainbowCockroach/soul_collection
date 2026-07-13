@@ -14,31 +14,6 @@ import ArrowButton from "../common-components/ArrowButton";
 import { apiBaseUrl } from "../helpers/constants";
 import "./GuestBookFanArtSection.css";
 import LoadingSpinner from "../common-components/LoadingSpinner";
-import guestbookArtPlaceholder from "../assets/guestbook_art_placeholder.webp";
-import guestbookArtPlaceholderDetail from "../assets/guestbook_art_placeholder_detail.webp";
-
-// Placeholder ("dummy") fan art shown when a page has fewer than `fanArtPerPage`
-// real submissions, or when there are no submissions at all. Negative ids keep
-// them from colliding with real message ids and mark them as non-interactive
-// (no edit/delete actions). See `isPlaceholderMessage`.
-const makePlaceholderMessage = (index: number): Message => ({
-  id: -1 - index,
-  content: {
-    name: null,
-    content: null,
-    thumbnail: guestbookArtPlaceholder,
-    full_image: guestbookArtPlaceholderDetail,
-    caption: null,
-  },
-  created_at: "",
-  updated_at: "",
-  expire_at: "",
-  type: "fan art",
-  password: null,
-  uploaded_path: null,
-});
-
-const isPlaceholderMessage = (message: Message): boolean => message.id < 0;
 
 interface PaginatedResponse {
   messages: Message[];
@@ -191,18 +166,15 @@ const GuestBookFanArtSection = forwardRef<
     );
   }
 
-  // Real submissions on the current page, padded with placeholder cards so the
-  // page always shows `fanArtPerPage` cards. When there are no submissions at
-  // all we still render a full dummy page rather than an empty-state message.
-  const realMessages = data?.messages ?? [];
-  const hasRealArt = realMessages.length > 0;
-  const placeholderCount = Math.max(0, fanArtPerPage - realMessages.length);
-  const displayMessages: Message[] = [
-    ...realMessages,
-    ...Array.from({ length: placeholderCount }, (_, i) =>
-      makePlaceholderMessage(i),
-    ),
-  ];
+  if (!data || data.messages.length === 0) {
+    return (
+      <div>
+        <p>No art yet! Draw something?</p>
+      </div>
+    );
+  }
+
+  const displayMessages = data.messages;
 
   const prevArrow = data?.pagination.hasPrev ? (
     <ArrowButton
@@ -235,34 +207,28 @@ const GuestBookFanArtSection = forwardRef<
             transition: "opacity 0.2s ease",
           }}
         >
-          {displayMessages.map((message) => {
-            const placeholder = isPlaceholderMessage(message);
-            return (
-              <GuestBookFanArt
-                key={message.id}
-                message={message}
-                onEdit={placeholder ? undefined : handleEdit}
-                onDelete={placeholder ? undefined : handleDelete}
-                onOpenFullscreenViewer={onOpenFullscreenViewer}
-              />
-            );
-          })}
+          {displayMessages.map((message) => (
+            <GuestBookFanArt
+              key={message.id}
+              message={message}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onOpenFullscreenViewer={onOpenFullscreenViewer}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Pagination line - only shown when real art exists. Arrows flank the
-          page index. */}
-      {hasRealArt && (
-        <div className="gb-nav-bottom">
-          <div className="gb-nav-inline gb-nav-left">{prevArrow}</div>
-          <div className="pagination-info">
-            {isPaginating
-              ? "Loading..."
-              : `${data?.pagination.page} / ${data?.pagination.totalPages}`}
-          </div>
-          <div className="gb-nav-inline gb-nav-right">{nextArrow}</div>
+      {/* Pagination line - arrows flank the page index. */}
+      <div className="gb-nav-bottom">
+        <div className="gb-nav-inline gb-nav-left">{prevArrow}</div>
+        <div className="pagination-info">
+          {isPaginating
+            ? "Loading..."
+            : `${data.pagination.page} / ${data.pagination.totalPages}`}
         </div>
-      )}
+        <div className="gb-nav-inline gb-nav-right">{nextArrow}</div>
+      </div>
 
       {/* Modals */}
       {selectedMessage && (

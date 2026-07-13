@@ -9,7 +9,8 @@
       "Bash(yarn lint)",
       "Bash(npm run lint:*)",
       "Bash(npx tsc *)",
-      "Bash(npx eslint *)"
+      "Bash(npx eslint *)",
+      "WebSearch"
     ],
     "deny": []
   }

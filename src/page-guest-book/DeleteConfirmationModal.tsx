@@ -4,6 +4,8 @@ import ButtonWrapper from "../common-components/ButtonWrapper";
 import Divider from "../common-components/Divider";
 import type { Message } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import "./DeleteConfirmationModal.css";
 
 interface DeleteConfirmationModalProps {
@@ -116,6 +118,8 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
             <div className="form-actions">
               <ButtonWrapper
                 onClick={onClose}
+                soundFile={buttonSound}
+                hoverSoundFile={buttonSoundHover}
                 className="cancel-button"
                 disabled={submitting}
                 type="button"
@@ -124,6 +128,8 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
               </ButtonWrapper>
               <ButtonWrapper
                 onClick={() => {}}
+                soundFile={buttonSound}
+                hoverSoundFile={buttonSoundHover}
                 className="submit-button delete-button"
                 disabled={submitting}
                 type="submit"
