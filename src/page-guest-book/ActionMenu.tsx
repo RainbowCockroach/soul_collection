@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import ButtonWrapper from "../common-components/ButtonWrapper";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import "./ActionMenu.css";
 
 interface ActionMenuProps {
@@ -70,6 +72,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
       >
         <ButtonWrapper
           onClick={handleToggleMenu}
+          soundFile={buttonSound}
+          hoverSoundFile={buttonSoundHover}
           className="action-menu-trigger"
           tooltip="More actions"
           ariaHasPopup="menu"
@@ -92,6 +96,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
         >
           <ButtonWrapper
             onClick={handleEdit}
+            soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
             className="action-menu-item action-menu-edit"
           >
             <span className="action-icon">✏️</span>
@@ -99,6 +105,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ onEdit, onDelete, className = "
           </ButtonWrapper>
           <ButtonWrapper
             onClick={handleDelete}
+            soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
             className="action-menu-item action-menu-delete"
           >
             <span className="action-icon">🗑️</span>

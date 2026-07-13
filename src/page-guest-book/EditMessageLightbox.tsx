@@ -6,6 +6,8 @@ import GuestBookNoteForm from "./GuestBookNoteForm";
 import GuestBookFanArtForm from "./GuestBookFanArtForm";
 import type { Message, MessageContent } from "./types";
 import { apiBaseUrl } from "../helpers/constants";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 import "./EditMessageLightbox.css";
 
 interface EditMessageLightboxProps {
@@ -163,6 +165,8 @@ const EditMessageLightbox: React.FC<EditMessageLightboxProps> = ({
               <div className="form-actions">
                 <ButtonWrapper
                   onClick={() => {}}
+                  soundFile={buttonSound}
+                  hoverSoundFile={buttonSoundHover}
                   className="submit-button"
                   disabled={verifyingPassword}
                   type="submit"

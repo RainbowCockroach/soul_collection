@@ -4,6 +4,8 @@ import GifSelector from "./GifSelector";
 import type { MessageContent } from "./types";
 import blinkies from "../data/guestbook-blinkies.json";
 import { SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
 interface GuestBookNoteFormProps {
   onSubmit: (
@@ -182,6 +184,8 @@ const GuestBookNoteForm = ({
         {onCancel && (
           <ButtonWrapper
             onClick={onCancel}
+            soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
             disabled={submitting}
             className="cancel-button"
             type="button"
@@ -192,6 +196,8 @@ const GuestBookNoteForm = ({
         <ButtonWrapper
           type="submit"
           onClick={() => {}}
+          soundFile={buttonSound}
+          hoverSoundFile={buttonSoundHover}
           disabled={submitting || !noteForm.content.trim()}
           className="submit-button"
         >

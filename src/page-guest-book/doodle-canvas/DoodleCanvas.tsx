@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { ReactSketchCanvas, type ReactSketchCanvasRef } from "react-sketch-canvas";
+import useSound from "use-sound";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEraser,
@@ -19,6 +20,7 @@ import {
   getPaletteOfTheDay,
   DEFAULT_PAPER_COLOR,
 } from "../../helpers/palette-of-the-day";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
 import "./DoodleCanvas.css";
 
 /**
@@ -55,6 +57,7 @@ const STROKE_WIDTHS = [2, 4, 8, 16];
 export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
   ({ date, canvasColor, onChange, showExportPreview = true }, ref) => {
     const canvasRef = useRef<ReactSketchCanvasRef>(null);
+    const [playClick] = useSound(buttonSound, { volume: 0.5 });
     // True while the pointer is over the canvas, so undo/redo keyboard shortcuts
     // only fire when the user is actually "in" the drawing surface (a ref, not
     // state — this doesn't need to trigger re-renders).
@@ -94,6 +97,7 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
     const [exportedUrl, setExportedUrl] = useState<string | null>(null);
 
     const selectPen = (color: string) => {
+      playClick();
       setStrokeColor(color);
       setIsErasing(false);
       canvasRef.current?.eraseMode(false);
@@ -105,6 +109,7 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
     };
 
     const toggleEraser = () => {
+      playClick();
       const next = !isErasing;
       setIsErasing(next);
       canvasRef.current?.eraseMode(next);
@@ -123,11 +128,13 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
     }));
 
     const handleExportPreview = async () => {
+      playClick();
       const url = await canvasRef.current?.exportImage("png");
       setExportedUrl(url ?? null);
     };
 
     const handleDownload = async () => {
+      playClick();
       const url = await canvasRef.current?.exportImage("png");
       if (!url) return;
       const link = document.createElement("a");
@@ -218,7 +225,10 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
                 key={w}
                 type="button"
                 className={`doodle__width${w === strokeWidth ? " doodle__width--active" : ""}`}
-                onClick={() => setStrokeWidth(w)}
+                onClick={() => {
+                  playClick();
+                  setStrokeWidth(w);
+                }}
               >
                 <span
                   className="doodle__width-dot"
@@ -231,7 +241,10 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
           <button
             type="button"
             className="doodle__tool doodle__tool--icon"
-            onClick={() => canvasRef.current?.undo()}
+            onClick={() => {
+              playClick();
+              canvasRef.current?.undo();
+            }}
             aria-label="Undo"
             title="Undo"
           >
@@ -240,7 +253,10 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
           <button
             type="button"
             className="doodle__tool doodle__tool--icon"
-            onClick={() => canvasRef.current?.redo()}
+            onClick={() => {
+              playClick();
+              canvasRef.current?.redo();
+            }}
             aria-label="Redo"
             title="Redo"
           >
@@ -258,7 +274,10 @@ export const DoodleCanvas = forwardRef<DoodleCanvasHandle, DoodleCanvasProps>(
           <button
             type="button"
             className="doodle__tool doodle__tool--icon doodle__tool--clear"
-            onClick={() => canvasRef.current?.clearCanvas()}
+            onClick={() => {
+              playClick();
+              canvasRef.current?.clearCanvas();
+            }}
             aria-label="Clear"
             title="Clear"
           >

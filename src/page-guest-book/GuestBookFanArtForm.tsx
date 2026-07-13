@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import useSound from "use-sound";
 import ButtonWrapper from "../common-components/ButtonWrapper";
 import type { MessageContent } from "./types";
 import { apiBaseUrl, SUCCESS_MESSAGE_DURATION_MS } from "../helpers/constants";
+import buttonSound from "/sound-effect/button_gallery_item.mp3";
+import buttonSoundHover from "/sound-effect/button_hover.mp3";
 
 interface GuestBookFanArtFormProps {
   onSubmit: (
@@ -89,6 +92,8 @@ const GuestBookFanArtForm = ({
   // rather than kept in state, so we never read a stale (single-use) token.
   const [showCaptcha, setShowCaptcha] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
+
+  const [playClick] = useSound(buttonSound, { volume: 0.5 });
 
   const handleFanArtInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -185,6 +190,7 @@ const GuestBookFanArtForm = ({
   // Re-open the CAPTCHA to retry uploading the already-exported doodle.
   const handleRetryCaptcha = () => {
     if (!pendingImageRef.current) return;
+    playClick();
     setUploadError(null);
     captchaRef.current?.reset();
     setShowCaptcha(true);
@@ -243,6 +249,7 @@ const GuestBookFanArtForm = ({
   // Let the user save their unsubmitted doodle (e.g. if the CAPTCHA fails).
   const handleDownloadDoodle = () => {
     if (!imageDataUrl) return;
+    playClick();
     const link = document.createElement("a");
     link.href = imageDataUrl;
     link.download = "doodle.png";
@@ -267,7 +274,10 @@ const GuestBookFanArtForm = ({
         />
         <button
           type="button"
-          onClick={() => setShowCaptcha(false)}
+          onClick={() => {
+            playClick();
+            setShowCaptcha(false);
+          }}
           className="gb-captcha-cancel"
         >
           Cancel
@@ -402,6 +412,8 @@ const GuestBookFanArtForm = ({
           {onCancel && (
             <ButtonWrapper
               onClick={onCancel}
+              soundFile={buttonSound}
+              hoverSoundFile={buttonSoundHover}
               disabled={submitting}
               className="cancel-button"
               type="button"
@@ -412,6 +424,8 @@ const GuestBookFanArtForm = ({
           <ButtonWrapper
             type="submit"
             onClick={() => {}}
+            soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
             disabled={submitting}
             className="submit-button"
           >
@@ -446,6 +460,8 @@ const GuestBookFanArtForm = ({
           {onCancel && (
             <ButtonWrapper
               onClick={onCancel}
+              soundFile={buttonSound}
+              hoverSoundFile={buttonSoundHover}
               disabled={submitting || uploading}
               className="cancel-button"
               type="button"
@@ -456,6 +472,8 @@ const GuestBookFanArtForm = ({
           <ButtonWrapper
             type="submit"
             onClick={() => {}}
+            soundFile={buttonSound}
+            hoverSoundFile={buttonSoundHover}
             disabled={submitting || uploading || !imageDataUrl}
             className="submit-button"
           >
