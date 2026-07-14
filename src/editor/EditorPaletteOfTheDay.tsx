@@ -87,15 +87,38 @@ const EditorPaletteOfTheDay: React.FC = () => {
     (palettesData as DailyPalette[]).map(normalizePalette),
   );
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  // Working copy of the selected palette. Edits stay here until "Save" commits
+  // them into the palettes list, so the user can revise before saving.
+  const [draft, setDraft] = useState<Required<DailyPalette> | null>(null);
 
-  const selected = selectedIndex !== null ? palettes[selectedIndex] : null;
+  const selected = draft;
 
-  /** Apply a change to the currently selected palette. */
-  const updateSelected = (patch: Partial<Required<DailyPalette>>) => {
-    if (selectedIndex === null) return;
+  const handleSelectPalette = (index: number) => {
+    setSelectedIndex(index);
+    setDraft({ ...palettes[index], colors: [...palettes[index].colors] });
+  };
+
+  const handleCancelEdit = () => {
+    setSelectedIndex(null);
+    setDraft(null);
+  };
+
+  /** Commit the draft into the palettes list (does not push to file). */
+  const handleSavePalette = () => {
+    if (selectedIndex === null || !draft) return;
+    if (!draft.name.trim()) {
+      toast.error("Palette name cannot be empty");
+      return;
+    }
     setPalettes((prev) =>
-      prev.map((p, i) => (i === selectedIndex ? { ...p, ...patch } : p)),
+      prev.map((p, i) => (i === selectedIndex ? draft : p)),
     );
+    toast.success("Palette saved");
+  };
+
+  /** Apply a change to the draft of the currently selected palette. */
+  const updateSelected = (patch: Partial<Required<DailyPalette>>) => {
+    setDraft((prev) => (prev ? { ...prev, ...patch } : prev));
   };
 
   const handleAddPalette = () => {
@@ -104,8 +127,10 @@ const EditorPaletteOfTheDay: React.FC = () => {
       colors: ["#000000"],
       paperColor: DEFAULT_PAPER_COLOR,
     };
+    const newIndex = palettes.length;
     setPalettes((prev) => [...prev, newPalette]);
-    setSelectedIndex(palettes.length);
+    setSelectedIndex(newIndex);
+    setDraft({ ...newPalette, colors: [...newPalette.colors] });
     toast.success("Palette added");
   };
 
@@ -113,7 +138,7 @@ const EditorPaletteOfTheDay: React.FC = () => {
     if (!window.confirm("Are you sure you want to delete this palette?")) return;
     setPalettes((prev) => prev.filter((_, i) => i !== index));
     if (selectedIndex === index) {
-      setSelectedIndex(null);
+      handleCancelEdit();
     } else if (selectedIndex !== null && selectedIndex > index) {
       setSelectedIndex(selectedIndex - 1);
     }
@@ -127,7 +152,7 @@ const EditorPaletteOfTheDay: React.FC = () => {
     setSelectedIndex(trackMovedIndex(selectedIndex, from, to));
   };
 
-  // --- Color editing within the selected palette ---
+  // --- Color editing within the selected palette draft ---
 
   const handleColorChange = (colorIndex: number, value: string) => {
     if (!selected) return;
@@ -196,7 +221,7 @@ const EditorPaletteOfTheDay: React.FC = () => {
                   index={index}
                   total={palettes.length}
                   isSelected={selectedIndex === index}
-                  onSelect={setSelectedIndex}
+                  onSelect={handleSelectPalette}
                   onDelete={handleDeletePalette}
                   onMove={handleMovePalette}
                 />
@@ -320,6 +345,21 @@ const EditorPaletteOfTheDay: React.FC = () => {
                   style={{ marginTop: 8 }}
                 >
                   + Add Color
+                </button>
+              </div>
+
+              <div className="editor-button-group">
+                <button
+                  onClick={handleSavePalette}
+                  className="editor-button editor-button-success"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className="editor-button editor-button-secondary"
+                >
+                  Cancel
                 </button>
               </div>
             </div>
