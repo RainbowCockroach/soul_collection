@@ -8,6 +8,10 @@
   max-height: 220px;
   width: 95%;
   animation: bubble-appear 0.3s ease-out;
+  /* The bubble is click-to-advance, so clicks must never select the text */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes bubble-appear {
