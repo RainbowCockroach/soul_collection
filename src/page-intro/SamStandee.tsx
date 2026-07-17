@@ -64,6 +64,7 @@ const SamStandee: React.FC<SamStandeeProps> = ({
         src={getGifSrc()}
         alt="Sam Standee"
         className={`sam-gif ${isAnimating ? "animating" : ""}`}
+        draggable={false}
         onClick={() => {
           if (currentGif != "still") {
             handleTextChange();
